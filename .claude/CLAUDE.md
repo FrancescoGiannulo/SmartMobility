@@ -42,18 +42,48 @@ cd frontend && npm run dev
 
 ### Variabili d'ambiente
 
-`backend/.env` (non committato):
+`backend/.env` (non committato — copiare da `.env.example`):
 ```
 SUPABASE_URL=https://xxxx.supabase.co
 SUPABASE_KEY=<secret key>
 DATABASE_URL=postgresql://postgres:<password>@db.xxxx.supabase.co:5432/postgres
 ```
 
-`frontend/.env.local` (non committato):
+`frontend/.env.local` (non committato — copiare da `.env.example`):
 ```
 VITE_SUPABASE_URL=https://xxxx.supabase.co
 VITE_SUPABASE_ANON_KEY=<publishable key>
 ```
+
+### Struttura del progetto
+
+```
+frontend/src/
+├── views/
+│   ├── utente/           → VistaUtente (IF-UT.*)
+│   ├── operatore/        → VistaOperatore (IF-OP.*)
+│   └── amministrazione/  → VistaAmministrazionePubblica (IF-AP.*)
+└── services/
+    ├── ApiService.ts     → gateway HTTP centrale + interceptor JWT
+    ├── AuthService.ts    → login, registrazione [IF-UT.17, IF-UT.18]
+    ├── MapService.ts     → mezzi e zone [IF-UT.01, IF-AP.08, IF-OP.01]
+    ├── PaymentService.ts → metodi di pagamento [IF-UT.12, IF-UT.21]
+    ├── ZonaService.ts    → CRUD zone [IF-AP.02, IF-AP.03, IF-OP.03]
+    └── FlottaService.ts  → gestione flotta [IF-OP.04, IF-OP.12, IF-OP.13]
+
+backend/
+├── controllers/  → validazione HTTP (8 controller da SprintUno.md §7.3)
+├── bll/          → logica applicativa (6 servizi)
+├── model/        → entità di dominio + enum StatoMezzo, TipoZona
+└── dal/          → repository (6, uno per entità)
+```
+
+### Git workflow
+
+- Branch per feature: `feature/auth`, `feature/corsa`, `feature/pagamenti`, `feature/mappa-zone`
+- Nessun commit diretto su `main` — ogni item passa da PR con review
+- Un item del backlog = un PR
+- Vedere `docs/GitWorkflow.md` per il tutorial completo
 
 ---
 
