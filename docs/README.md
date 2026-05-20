@@ -38,7 +38,14 @@ Riavvia il terminale dopo l'installazione di `uv`.
 ### Windows
 
 **Node.js** (include npm):
-- Scarica e installa da [nodejs.org](https://nodejs.org) (versione LTS)
+
+Verifica se è già installato:
+```powershell
+node --version
+npm --version
+```
+
+Se i comandi non vengono riconosciuti, scarica e installa da [nodejs.org](https://nodejs.org) (versione LTS).
 
 **uv**:
 ```powershell
