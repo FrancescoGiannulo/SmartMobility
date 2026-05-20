@@ -26,5 +26,6 @@ frontend/.env.*
 !frontend/.env.example
 
 # Editor
+.vscode/settings.json
 *.swp
 *.swo
