@@ -22,16 +22,17 @@ Tre ruoli utente distinti:
 | Auth | Supabase Auth + PyJWT | Token JWT, blocco dopo 5 tentativi (IIN-2) |
 | HTTP Client (FE) | Axios + TanStack Query | Chiamate API e cache lato client |
 | Routing (FE) | React Router DOM | Navigazione SPA |
+| Gestore dipendenze Python | uv | Sostituisce pip+venv; gestisce `.venv` automaticamente |
 
 ### Chiavi Supabase
-- **Publishable key** (`anon`) → usata nel frontend React
-- **Secret key** (`service_role`) → usata solo nel backend FastAPI (mai esposta al client)
+- **Publishable key** (`anon`) → usata nel frontend React (`frontend/.env.local`)
+- **Secret key** (`service_role`) → usata solo nel backend FastAPI (`backend/.env`) — mai esposta al client
 
 ### Avvio locale
 
 ```bash
 # Backend (dalla root)
-cd backend && source venv/bin/activate && uvicorn main:app --reload
+cd backend && uv run uvicorn main:app --reload
 # → http://localhost:8000/docs
 
 # Frontend (dalla root)
