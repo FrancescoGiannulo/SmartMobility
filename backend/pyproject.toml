@@ -10,3 +10,7 @@ dependencies = [
     "python-dotenv>=1.2.2",
     "pydantic>=2.13.4",
 ]
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
