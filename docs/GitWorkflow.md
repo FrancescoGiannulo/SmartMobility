@@ -18,6 +18,18 @@ main                  ← codice stabile, sempre funzionante
 
 ---
 
+## Configurazione VS Code (una volta sola)
+
+Il file `.vscode/settings.json` configura l'interprete Python automaticamente su **macOS/Linux**.
+
+Su **Windows** il path del venv è diverso — dopo il clone vai su:
+`Ctrl+Shift+P` → **Python: Select Interpreter** → scegli:
+```
+backend\.venv\Scripts\python.exe
+```
+
+---
+
 ## Setup iniziale (una volta sola dopo il clone)
 
 ```bash
