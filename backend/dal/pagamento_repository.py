@@ -1,0 +1,2 @@
+class PagamentoRepository:
+    pass
