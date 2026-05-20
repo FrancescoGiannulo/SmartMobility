@@ -1,14 +1,30 @@
+# Sistema
 .DS_Store
+Thumbs.db
 
-# Backend
+# Backend — ambienti e dipendenze
+backend/.venv/
 backend/venv/
-backend/.env
 backend/__pycache__/
 backend/**/__pycache__/
 backend/**/*.pyc
+backend/**/*.pyo
 
-# Frontend
+# Backend — variabili d'ambiente (mai committare)
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# Frontend — dipendenze e build
 frontend/node_modules/
 frontend/dist/
+frontend/build/
+
+# Frontend — variabili d'ambiente (mai committare)
 frontend/.env
-frontend/.env.local
+frontend/.env.*
+!frontend/.env.example
+
+# Editor
+*.swp
+*.swo
