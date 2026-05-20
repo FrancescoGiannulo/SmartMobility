@@ -11,6 +11,51 @@ Tre ruoli utente distinti:
 
 ---
 
+## Stack Tecnologico
+
+| Layer | Tecnologia | Note |
+|---|---|---|
+| Frontend | React 19 + Vite + TypeScript | `frontend/` — SPA, no SSR |
+| Backend | FastAPI (Python) | `backend/` — REST API |
+| Database | Supabase (PostgreSQL) | Hosted, con Row Level Security |
+| ORM | SQLAlchemy 2.0 | Accesso DB solo dal DAL |
+| Auth | Supabase Auth + PyJWT | Token JWT, blocco dopo 5 tentativi (IIN-2) |
+| HTTP Client (FE) | Axios + TanStack Query | Chiamate API e cache lato client |
+| Routing (FE) | React Router DOM | Navigazione SPA |
+
+### Chiavi Supabase
+- **Publishable key** (`anon`) → usata nel frontend React
+- **Secret key** (`service_role`) → usata solo nel backend FastAPI (mai esposta al client)
+
+### Avvio locale
+
+```bash
+# Backend (dalla root)
+cd backend && source venv/bin/activate && uvicorn main:app --reload
+# → http://localhost:8000/docs
+
+# Frontend (dalla root)
+cd frontend && npm run dev
+# → http://localhost:5173
+```
+
+### Variabili d'ambiente
+
+`backend/.env` (non committato):
+```
+SUPABASE_URL=https://xxxx.supabase.co
+SUPABASE_KEY=<secret key>
+DATABASE_URL=postgresql://postgres:<password>@db.xxxx.supabase.co:5432/postgres
+```
+
+`frontend/.env.local` (non committato):
+```
+VITE_SUPABASE_URL=https://xxxx.supabase.co
+VITE_SUPABASE_ANON_KEY=<publishable key>
+```
+
+---
+
 ## Metodologia: Agile con Sprint
 
 Lo sviluppo segue il paradigma **Agile Software Engineering** basato su sprint. Ogni decisione di codifica deve essere motivata da un item del Product Backlog.
