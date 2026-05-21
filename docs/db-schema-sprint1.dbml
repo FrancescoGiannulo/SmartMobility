@@ -1,0 +1,161 @@
+// Smart Mobility — Schema DB Sprint 1
+// Incolla su https://dbdiagram.io per visualizzare il diagramma
+// Generato da: docs/superpowers/specs/2026-05-21-db-schema-sprint1-design.md
+
+// ============================================================
+// AUTH (Supabase built-in — non modificare)
+// ============================================================
+
+Table auth_users [note: 'Supabase Auth — gestita internamente'] {
+  id uuid [pk]
+  email text
+}
+
+// ============================================================
+// PROFILI UTENTE
+// ============================================================
+
+Table utenti [note: 'IF-UT.17/18/19 — profilo utente finale'] {
+  id uuid [pk, ref: - auth_users.id, note: 'FK → auth.users ON DELETE CASCADE']
+  nome text [not null]
+  cognome text [not null]
+  telefono text
+  sospeso boolean [not null, default: false, note: 'IIN-2 — sospensione account']
+  created_at timestamptz [not null, default: `now()`]
+}
+
+Table operatori [note: 'IF-OP.16 — profilo operatore + configurazione servizio'] {
+  id uuid [pk, ref: - auth_users.id, note: 'FK → auth.users ON DELETE CASCADE']
+  nome text [not null]
+  durata_max_prenotazione_min integer [not null, default: 15, note: 'IF-OP.09']
+  durata_periodo_grazia_min integer [not null, default: 5, note: 'IF-OP.10']
+  max_mezzi_per_utente integer [not null, default: 1, note: 'IF-OP.11']
+  created_at timestamptz [not null, default: `now()`]
+}
+
+Table amministratori [note: 'IF-AP.07 — profilo amministrazione pubblica'] {
+  id uuid [pk, ref: - auth_users.id, note: 'FK → auth.users ON DELETE CASCADE']
+  nome text [not null]
+  created_at timestamptz [not null, default: `now()`]
+}
+
+// ============================================================
+// FLOTTA
+// ============================================================
+
+Table mezzi [note: 'IF-OP.04/12/13 — veicoli della flotta'] {
+  id uuid [pk, default: `gen_random_uuid()`]
+  codice text [not null, unique, note: 'identificativo fisico del mezzo']
+  tipo tipo_mezzo [not null, note: 'monopattino | bicicletta | automobile']
+  stato stato_mezzo [not null, default: 'Disponibile', note: 'modificabile solo via ServizioMobilità']
+  lat double [note: 'posizione corrente']
+  lng double [note: 'posizione corrente']
+  batteria integer [note: 'CHECK 0-100; nullable per bici meccanica']
+  created_at timestamptz [not null, default: `now()`]
+}
+
+// ============================================================
+// ZONE GEOGRAFICHE
+// ============================================================
+
+Table zone [note: 'IF-OP.02 — zone geografiche (operativa/parcheggio/limitata/vietata)'] {
+  id uuid [pk, default: `gen_random_uuid()`]
+  nome text [not null]
+  tipo tipo_zona [not null, note: 'operativa | parcheggio | limitata | vietata']
+  perimetro geometry [not null, note: 'GEOMETRY(POLYGON, 4326) — indice GIST']
+  limite_velocita integer [note: 'CHECK > 0; solo tipo=limitata']
+  attiva boolean [not null, default: true]
+  created_at timestamptz [not null, default: `now()`]
+}
+
+// ============================================================
+// TARIFFE
+// ============================================================
+
+Table tariffe [note: 'IF-OP.07/08 — una riga per tipo mezzo'] {
+  id uuid [pk, default: `gen_random_uuid()`]
+  tipo_mezzo tipo_mezzo [not null, unique, note: 'UNIQUE — precondizione CS-14']
+  costo_al_minuto numeric [not null, note: 'CHECK > 0']
+  costo_al_km numeric [not null, note: 'CHECK > 0']
+  created_at timestamptz [not null, default: `now()`]
+  aggiornata_at timestamptz [not null, default: `now()`]
+}
+
+// ============================================================
+// PAGAMENTI
+// ============================================================
+
+Table metodi_pagamento [note: 'IF-UT.12/21 — metodi salvati; max 1 predefinito per utente'] {
+  id uuid [pk, default: `gen_random_uuid()`]
+  utente_id uuid [not null, ref: > utenti.id, note: 'ON DELETE CASCADE']
+  tipo tipo_metodo_pagamento [not null, note: 'google_pay | apple_pay | paypal | carta']
+  token_esterno text [not null, note: 'token mock ProviderPagamenti']
+  last_four text [note: 'nullable — solo tipo=carta']
+  predefinito boolean [not null, default: false, note: 'UNIQUE INDEX WHERE predefinito=true']
+  created_at timestamptz [not null, default: `now()`]
+}
+
+Table pagamenti [note: 'IF-UT.20 — transazione generata al termine corsa (CS-12)'] {
+  id uuid [pk, default: `gen_random_uuid()`]
+  corsa_id uuid [not null, ref: > corse.id, note: 'ON DELETE RESTRICT']
+  utente_id uuid [not null, ref: > utenti.id, note: 'ON DELETE RESTRICT']
+  metodo_pagamento_id uuid [ref: > metodi_pagamento.id, note: 'nullable — CS-12.1; ON DELETE SET NULL']
+  importo numeric [not null, note: 'CHECK >= 0']
+  stato stato_pagamento [not null, default: 'in_attesa', note: 'completato | rifiutato | in_attesa']
+  created_at timestamptz [not null, default: `now()`]
+}
+
+// ============================================================
+// CICLO DI VITA CORSA
+// ============================================================
+
+Table prenotazioni [note: 'IF-UT.02/03 — riserva temporanea mezzo'] {
+  id uuid [pk, default: `gen_random_uuid()`]
+  utente_id uuid [not null, ref: > utenti.id, note: 'ON DELETE CASCADE']
+  mezzo_id uuid [not null, ref: > mezzi.id, note: 'ON DELETE RESTRICT']
+  stato stato_prenotazione [not null, default: 'attiva', note: 'attiva | scaduta | annullata | convertita']
+  scade_at timestamptz [not null, note: 'calcolato da durata_max_prenotazione_min']
+  created_at timestamptz [not null, default: `now()`]
+}
+
+Table corse [note: 'IF-UT.04/06/07 — sessione di utilizzo mezzo'] {
+  id uuid [pk, default: `gen_random_uuid()`]
+  utente_id uuid [not null, ref: > utenti.id, note: 'ON DELETE RESTRICT']
+  mezzo_id uuid [not null, ref: > mezzi.id, note: 'ON DELETE RESTRICT']
+  prenotazione_id uuid [ref: > prenotazioni.id, note: 'nullable — CS-10: sblocco diretto senza prenotazione; ON DELETE SET NULL']
+  stato stato_corsa [not null, default: 'in_uso', note: 'in_uso | in_pausa | terminata']
+  inizio_at timestamptz [not null]
+  fine_at timestamptz [note: 'nullable — popolato al termine']
+  distanza_km numeric [note: 'nullable — popolato al termine']
+  inizio_lat double
+  inizio_lng double
+  fine_lat double
+  fine_lng double
+  created_at timestamptz [not null, default: `now()`]
+}
+
+// ============================================================
+// REGOLE FINE CORSA
+// ============================================================
+
+Table regole_fine_corsa [note: 'IF-OP.14 — sanzioni per rilascio fuori zona parcheggio'] {
+  id uuid [pk, default: `gen_random_uuid()`]
+  zona_parcheggio_id uuid [not null, ref: > zone.id, note: 'deve avere tipo=parcheggio — verificato in ServizioMobilità; ON DELETE CASCADE']
+  batteria_minima integer [note: 'nullable — CHECK 0-100']
+  penale_fuori_zona numeric [not null, default: 0]
+  tipo_vincolo tipo_vincolo_fine_corsa [not null, default: 'avviso', note: 'penale | divieto | avviso']
+  created_at timestamptz [not null, default: `now()`]
+}
+
+// ============================================================
+// ENUM (documentazione — dbdiagram non supporta CREATE TYPE)
+// ============================================================
+
+// tipo_mezzo:          monopattino, bicicletta, automobile
+// stato_mezzo:         Disponibile, Prenotato, In uso, In pausa, In manutenzione, Fuori servizio, Dismesso
+// tipo_zona:           operativa, parcheggio, limitata, vietata
+// stato_prenotazione:  attiva, scaduta, annullata, convertita
+// stato_corsa:         in_uso, in_pausa, terminata
+// stato_pagamento:     completato, rifiutato, in_attesa
+// tipo_metodo_pagamento: google_pay, apple_pay, paypal, carta
+// tipo_vincolo_fine_corsa: penale, divieto, avviso
