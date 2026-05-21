@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime
-from sqlalchemy import String, Boolean, ForeignKey, DateTime, text
+from sqlalchemy import String, Boolean, ForeignKey, DateTime, text, Integer
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from database import Base
@@ -33,12 +33,12 @@ class Operatore(Base):
     )
     nome: Mapped[str] = mapped_column(String, nullable=False)
     durata_max_prenotazione_min: Mapped[int] = mapped_column(
-        nullable=False, default=15
+        Integer, nullable=False, default=15
     )
     durata_periodo_grazia_min: Mapped[int] = mapped_column(
-        nullable=False, default=5
+        Integer, nullable=False, default=5
     )
-    max_mezzi_per_utente: Mapped[int] = mapped_column(nullable=False, default=1)
+    max_mezzi_per_utente: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=text("now()")
     )

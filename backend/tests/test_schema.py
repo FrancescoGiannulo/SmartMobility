@@ -1,7 +1,3 @@
-import uuid
-from sqlalchemy import inspect
-
-
 def test_utente_tablename():
     from model.utente import Utente
     assert Utente.__tablename__ == "utenti"
@@ -33,3 +29,9 @@ def test_operatore_columns():
 def test_amministratore_tablename():
     from model.utente import AmministrazionePubblica
     assert AmministrazionePubblica.__tablename__ == "amministratori"
+
+
+def test_amministratore_columns():
+    from model.utente import AmministrazionePubblica
+    cols = {c.name for c in AmministrazionePubblica.__table__.columns}
+    assert cols == {"id", "nome", "created_at"}
