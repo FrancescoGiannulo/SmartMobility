@@ -176,3 +176,38 @@ def test_regola_fine_corsa_columns():
 def test_tipo_vincolo_fine_corsa_values():
     from model.regola_fine_corsa import TipoVincoloFinecorsa
     assert set(e.value for e in TipoVincoloFinecorsa) == {"penale", "divieto", "avviso"}
+
+
+import pytest
+
+
+@pytest.mark.integration
+def test_all_tables_exist():
+    """Verifica che la migrazione SQL abbia creato tutte le tabelle attese."""
+    from sqlalchemy import inspect as sa_inspect
+    from database import engine
+
+    inspector = sa_inspect(engine)
+    existing = set(inspector.get_table_names(schema="public"))
+    expected = {
+        "utenti", "operatori", "amministratori",
+        "mezzi", "zone", "tariffe",
+        "metodi_pagamento", "prenotazioni",
+        "regole_fine_corsa", "corse", "pagamenti",
+    }
+    assert expected.issubset(existing), f"Tabelle mancanti: {expected - existing}"
+
+
+@pytest.mark.integration
+def test_zone_gist_index_exists():
+    """Verifica che l'indice GIST su zone.perimetro sia presente."""
+    from sqlalchemy import text
+    from database import engine
+
+    with engine.connect() as conn:
+        result = conn.execute(text(
+            "SELECT indexname FROM pg_indexes "
+            "WHERE tablename = 'zone' AND indexdef LIKE '%USING gist%'"
+        ))
+        indexes = [row[0] for row in result]
+    assert len(indexes) >= 1, "Indice GIST su zone.perimetro non trovato"
