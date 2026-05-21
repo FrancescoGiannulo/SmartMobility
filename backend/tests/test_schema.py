@@ -171,3 +171,8 @@ def test_regola_fine_corsa_columns():
         "id", "zona_parcheggio_id", "batteria_minima",
         "penale_fuori_zona", "tipo_vincolo", "created_at",
     }
+
+
+def test_tipo_vincolo_fine_corsa_values():
+    from model.regola_fine_corsa import TipoVincoloFinecorsa
+    assert set(e.value for e in TipoVincoloFinecorsa) == {"penale", "divieto", "avviso"}
