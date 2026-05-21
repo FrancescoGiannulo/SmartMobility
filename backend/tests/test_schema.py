@@ -148,3 +148,26 @@ def test_stato_pagamento_values():
     assert set(e.value for e in StatoPagamento) == {
         "completato", "rifiutato", "in_attesa"
     }
+
+
+def test_tariffa_columns():
+    from model.tariffa import Tariffa
+    cols = {c.name for c in Tariffa.__table__.columns}
+    assert cols == {
+        "id", "tipo_mezzo", "costo_al_minuto", "costo_al_km", "created_at", "aggiornata_at"
+    }
+
+
+def test_tariffa_tipo_mezzo_unique():
+    from model.tariffa import Tariffa
+    col = Tariffa.__table__.columns["tipo_mezzo"]
+    assert col.unique is True
+
+
+def test_regola_fine_corsa_columns():
+    from model.regola_fine_corsa import RegolaFinecorsa
+    cols = {c.name for c in RegolaFinecorsa.__table__.columns}
+    assert cols == {
+        "id", "zona_parcheggio_id", "batteria_minima",
+        "penale_fuori_zona", "tipo_vincolo", "created_at",
+    }
