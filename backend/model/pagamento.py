@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 from decimal import Decimal
 from enum import Enum
-from sqlalchemy import String, Boolean, Numeric, DateTime, text, ForeignKey
+from sqlalchemy import String, Boolean, Numeric, DateTime, text, ForeignKey, CheckConstraint
 from sqlalchemy import Enum as SAEnum
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
@@ -47,6 +47,7 @@ class MetodoPagamento(Base):
 
 class Pagamento(Base):
     __tablename__ = "pagamenti"
+    __table_args__ = (CheckConstraint("importo >= 0", name="pagamenti_importo_non_negativo"),)
 
     id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4

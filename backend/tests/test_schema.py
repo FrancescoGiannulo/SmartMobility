@@ -134,3 +134,17 @@ def test_pagamento_metodo_id_is_nullable():
     from model.pagamento import Pagamento
     col = Pagamento.__table__.columns["metodo_pagamento_id"]
     assert col.nullable is True
+
+
+def test_tipo_metodo_pagamento_values():
+    from model.pagamento import TipoMetodoPagamento
+    assert set(e.value for e in TipoMetodoPagamento) == {
+        "google_pay", "apple_pay", "paypal", "carta"
+    }
+
+
+def test_stato_pagamento_values():
+    from model.pagamento import StatoPagamento
+    assert set(e.value for e in StatoPagamento) == {
+        "completato", "rifiutato", "in_attesa"
+    }
