@@ -116,6 +116,11 @@ CREATE TABLE metodi_pagamento (
     created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+-- Al massimo un metodo predefinito per utente (invariante IF-UT.21)
+CREATE UNIQUE INDEX metodi_pagamento_predefinito_unico
+    ON metodi_pagamento (utente_id)
+    WHERE predefinito = true;
+
 -- ============================================================
 -- 8. Prenotazioni
 -- ============================================================
