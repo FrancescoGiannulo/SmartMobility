@@ -107,3 +107,8 @@ def test_corsa_prenotazione_id_is_nullable():
     from model.corsa import Corsa
     col = Corsa.__table__.columns["prenotazione_id"]
     assert col.nullable is True
+
+
+def test_stato_corsa_values():
+    from model.corsa import StatoCorsa
+    assert set(e.value for e in StatoCorsa) == {"in_uso", "in_pausa", "terminata"}
