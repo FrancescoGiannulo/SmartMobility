@@ -1,3 +1,6 @@
+import pytest
+
+
 def test_utente_tablename():
     from model.utente import Utente
     assert Utente.__tablename__ == "utenti"
@@ -176,9 +179,6 @@ def test_regola_fine_corsa_columns():
 def test_tipo_vincolo_fine_corsa_values():
     from model.regola_fine_corsa import TipoVincoloFinecorsa
     assert set(e.value for e in TipoVincoloFinecorsa) == {"penale", "divieto", "avviso"}
-
-
-import pytest
 
 
 @pytest.mark.integration
