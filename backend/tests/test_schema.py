@@ -78,3 +78,32 @@ def test_zona_perimetro_is_geometry():
     assert isinstance(col.type, Geometry)
     assert col.type.geometry_type == "POLYGON"
     assert col.type.srid == 4326
+
+
+def test_prenotazione_columns():
+    from model.prenotazione import Prenotazione
+    cols = {c.name for c in Prenotazione.__table__.columns}
+    assert cols == {"id", "utente_id", "mezzo_id", "stato", "scade_at", "created_at"}
+
+
+def test_stato_prenotazione_values():
+    from model.prenotazione import StatoPrenotazione
+    assert set(e.value for e in StatoPrenotazione) == {
+        "attiva", "scaduta", "annullata", "convertita"
+    }
+
+
+def test_corsa_columns():
+    from model.corsa import Corsa
+    cols = {c.name for c in Corsa.__table__.columns}
+    assert cols == {
+        "id", "utente_id", "mezzo_id", "prenotazione_id",
+        "stato", "inizio_at", "fine_at", "distanza_km",
+        "inizio_lat", "inizio_lng", "fine_lat", "fine_lng", "created_at",
+    }
+
+
+def test_corsa_prenotazione_id_is_nullable():
+    from model.corsa import Corsa
+    col = Corsa.__table__.columns["prenotazione_id"]
+    assert col.nullable is True
