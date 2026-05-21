@@ -58,3 +58,23 @@ def test_mezzo_columns():
     from model.mezzo import Mezzo
     cols = {c.name for c in Mezzo.__table__.columns}
     assert cols == {"id", "codice", "tipo", "stato", "lat", "lng", "batteria", "created_at"}
+
+
+def test_tipo_zona_values():
+    from model.zona import TipoZona
+    assert set(e.value for e in TipoZona) == {"operativa", "parcheggio", "limitata", "vietata"}
+
+
+def test_zona_columns():
+    from model.zona import Zona
+    cols = {c.name for c in Zona.__table__.columns}
+    assert cols == {"id", "nome", "tipo", "perimetro", "limite_velocita", "attiva", "created_at"}
+
+
+def test_zona_perimetro_is_geometry():
+    from model.zona import Zona
+    from geoalchemy2 import Geometry
+    col = Zona.__table__.columns["perimetro"]
+    assert isinstance(col.type, Geometry)
+    assert col.type.geometry_type == "POLYGON"
+    assert col.type.srid == 4326
