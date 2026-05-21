@@ -112,3 +112,25 @@ def test_corsa_prenotazione_id_is_nullable():
 def test_stato_corsa_values():
     from model.corsa import StatoCorsa
     assert set(e.value for e in StatoCorsa) == {"in_uso", "in_pausa", "terminata"}
+
+
+def test_metodo_pagamento_columns():
+    from model.pagamento import MetodoPagamento
+    cols = {c.name for c in MetodoPagamento.__table__.columns}
+    assert cols == {
+        "id", "utente_id", "tipo", "token_esterno", "last_four", "predefinito", "created_at"
+    }
+
+
+def test_pagamento_columns():
+    from model.pagamento import Pagamento
+    cols = {c.name for c in Pagamento.__table__.columns}
+    assert cols == {
+        "id", "corsa_id", "utente_id", "metodo_pagamento_id", "importo", "stato", "created_at"
+    }
+
+
+def test_pagamento_metodo_id_is_nullable():
+    from model.pagamento import Pagamento
+    col = Pagamento.__table__.columns["metodo_pagamento_id"]
+    assert col.nullable is True
