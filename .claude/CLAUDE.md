@@ -2,7 +2,11 @@
 
 ## Contesto del progetto
 
-**Smart Mobility** è un sistema software per il Comune di Zootropolis che integra servizi di bike, car e e-scooter sharing in un'unica piattaforma. Il documento di riferimento primario è [`docs/SprintZero.md`](docs/SprintZero.md), che contiene Product Backlog, architettura, glossario e mockup UI.
+**Smart Mobility** è un sistema software per il Comune di Zootropolis che integra servizi di bike, car e e-scooter sharing in un'unica piattaforma.
+
+Documenti di riferimento:
+- [`docs/SprintZero.md`](docs/SprintZero.md) — architettura, glossario, mockup UI
+- [`docs/SprintUno.md`](docs/SprintUno.md) — Sprint 1 Backlog, casi d'uso, schema DB (**documento primario per Sprint 1**)
 
 Tre ruoli utente distinti:
 - **UT** — Utente finale (cittadino)
@@ -19,6 +23,8 @@ Tre ruoli utente distinti:
 | Backend | FastAPI (Python) | `backend/` — REST API |
 | Database | Supabase (PostgreSQL) | Hosted, con Row Level Security |
 | ORM | SQLAlchemy 2.0 | Accesso DB solo dal DAL |
+| PostGIS | GeoAlchemy2 | Geometrie geografiche (zone, posizioni mezzi) |
+| Driver DB | psycopg2-binary | Connessione PostgreSQL |
 | Auth | Supabase Auth + PyJWT | Token JWT, blocco dopo 5 tentativi (IIN-2) |
 | HTTP Client (FE) | Axios + TanStack Query | Chiamate API e cache lato client |
 | Routing (FE) | React Router DOM | Navigazione SPA |
@@ -72,18 +78,34 @@ frontend/src/
     └── FlottaService.ts  → gestione flotta [IF-OP.04, IF-OP.12, IF-OP.13]
 
 backend/
-├── controllers/  → validazione HTTP (8 controller da SprintUno.md §7.3)
-├── bll/          → logica applicativa (6 servizi)
-├── model/        → entità di dominio + enum StatoMezzo, TipoZona
-└── dal/          → repository (6, uno per entità)
+├── database.py       → engine SQLAlchemy, SessionLocal, Base (DeclarativeBase), get_db()
+├── migrations/       → file SQL da eseguire su Supabase (001_init_schema.sql)
+├── model/            → ORM SQLAlchemy 2.0 (Mapped + mapped_column); importare Base da database.py
+├── controllers/      → validazione HTTP (8 controller da SprintUno.md §7.3)
+├── bll/              → logica applicativa (6 servizi)
+├── dal/              → repository (6, uno per entità)
+└── tests/            → test pytest; conftest.py imposta DATABASE_URL dummy per unit test
 ```
 
 ### Git workflow
 
-- Branch per feature: `feature/auth`, `feature/corsa`, `feature/pagamenti`, `feature/mappa-zone`
+- Branch per feature: `feature/auth`, `feature/corsa`, `feature/pagamenti`, `feature/mappa-zone`, `feature/db-schema`
 - Nessun commit diretto su `main` — ogni item passa da PR con review
 - Un item del backlog = un PR
 - Vedere `docs/GitWorkflow.md` per il tutorial completo
+
+### Test backend
+
+```bash
+# Unit test (nessun DB richiesto)
+cd backend && uv run pytest tests/ -v -m "not integration"
+
+# Test di integrazione (richiede DATABASE_URL in backend/.env)
+cd backend && uv run pytest tests/ -v -m integration
+
+# Installa dipendenze dev prima di eseguire i test
+cd backend && uv sync --extra dev
+```
 
 ---
 
@@ -138,7 +160,8 @@ Servizi Esterni
 - **BLL**: tutta la logica applicativa. Nessun accesso diretto al DB.
 - **DAL**: solo accesso ai dati. Nessuna logica di business.
 - **View/ApiService**: nessuna logica di business lato client.
-- Le **zone AP** (Vietate, Limitate) hanno sempre la precedenza sulle zone OP. Questa regola deve riflettersi in `ServizioGIS` e `ServizioMobilità`.
+- **model/**: ORM SQLAlchemy 2.0 puri — nessuna logica, nessun Pydantic. I `CheckConstraint` vanno in `__table_args__`, non come argomenti di `mapped_column`. Usare `create_type=False` su tutti i `SAEnum` (gli enum esistono già nella migrazione SQL).
+- La precedenza tra tipi di zona (`vietata > limitata > operativa`) è applicata a runtime in `ServizioGIS`, non tramite vincoli DB. In Sprint 1 tutte le zone sono create dall'Operatore (IF-OP.02).
 
 ---
 
@@ -191,7 +214,7 @@ I termini tecnici del dominio sono definiti in `docs/SprintZero.md § 4.2`. Usar
 - `Corsa` (non `Ride`, `Trip`, `Session`)
 - `Mezzo` (non `Vehicle`, `Bike`)
 - `Prenotazione` (non `Booking`, `Reservation`)
-- `Zona` con i sottotipi: `ZonaOperativa`, `ZonaParcheggio`, `ZonaLimitata`, `ZonaVietata`
+- `Zona` con i sottotipi: `ZonaOperativa`, `ZonaParcheggio`, `ZonaLimitata`, `ZonaVietata` — nel codice Python l'enum `TipoZona` usa valori lowercase (`"operativa"`, `"parcheggio"`, `"limitata"`, `"vietata"`) per allineamento con i tipi PostgreSQL
 - `Segnalazione` (non `Report`, `Issue`, `Ticket`)
 - `Flotta`, `Tariffa`, `Promozione`, `Abbonamento`, `Bonus`
 
