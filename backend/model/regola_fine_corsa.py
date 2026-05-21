@@ -17,6 +17,9 @@ class TipoVincoloFinecorsa(str, Enum):
 
 class RegolaFinecorsa(Base):
     __tablename__ = "regole_fine_corsa"
+    __table_args__ = (
+        CheckConstraint("batteria_minima BETWEEN 0 AND 100", name="batteria_minima_check"),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4
@@ -27,11 +30,7 @@ class RegolaFinecorsa(Base):
         ForeignKey("zone.id", ondelete="CASCADE"),
         nullable=False,
     )
-    batteria_minima: Mapped[int | None] = mapped_column(
-        Integer,
-        CheckConstraint("batteria_minima BETWEEN 0 AND 100", name="batteria_minima_check"),
-        nullable=True,
-    )
+    batteria_minima: Mapped[int | None] = mapped_column(Integer, nullable=True)
     penale_fuori_zona: Mapped[Decimal] = mapped_column(
         Numeric(10, 2), nullable=False, default=Decimal("0.00")
     )

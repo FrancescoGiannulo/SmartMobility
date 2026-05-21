@@ -19,6 +19,9 @@ class TipoZona(str, Enum):
 
 class Zona(Base):
     __tablename__ = "zone"
+    __table_args__ = (
+        CheckConstraint("limite_velocita > 0", name="limite_velocita_check"),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4
@@ -30,11 +33,7 @@ class Zona(Base):
     perimetro: Mapped[WKBElement] = mapped_column(
         Geometry("POLYGON", srid=4326), nullable=False
     )
-    limite_velocita: Mapped[int | None] = mapped_column(
-        Integer,
-        CheckConstraint("limite_velocita > 0", name="limite_velocita_check"),
-        nullable=True,
-    )
+    limite_velocita: Mapped[int | None] = mapped_column(Integer, nullable=True)
     attiva: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=text("now()")

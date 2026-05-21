@@ -81,7 +81,7 @@ CREATE TABLE zone (
     nome             TEXT NOT NULL,
     tipo             tipo_zona NOT NULL,
     perimetro        GEOMETRY(POLYGON, 4326) NOT NULL,
-    limite_velocita  INTEGER,
+    limite_velocita  INTEGER CHECK (limite_velocita > 0),
     attiva           BOOLEAN NOT NULL DEFAULT true,
     created_at       TIMESTAMPTZ NOT NULL DEFAULT now()
 );

@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 from decimal import Decimal
 from enum import Enum
-from sqlalchemy import String, Boolean, Numeric, DateTime, text, ForeignKey, CheckConstraint
+from sqlalchemy import String, Boolean, Numeric, DateTime, text, ForeignKey, CheckConstraint, Index
 from sqlalchemy import Enum as SAEnum
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
@@ -24,6 +24,14 @@ class StatoPagamento(str, Enum):
 
 class MetodoPagamento(Base):
     __tablename__ = "metodi_pagamento"
+    __table_args__ = (
+        Index(
+            "metodi_pagamento_predefinito_unico",
+            "utente_id",
+            unique=True,
+            postgresql_where=text("predefinito = true"),
+        ),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4

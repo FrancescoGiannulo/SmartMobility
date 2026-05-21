@@ -26,6 +26,9 @@ class StatoMezzo(str, Enum):
 
 class Mezzo(Base):
     __tablename__ = "mezzi"
+    __table_args__ = (
+        CheckConstraint("batteria BETWEEN 0 AND 100", name="batteria_check"),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4
@@ -41,11 +44,7 @@ class Mezzo(Base):
     )
     lat: Mapped[float | None] = mapped_column(Float, nullable=True)
     lng: Mapped[float | None] = mapped_column(Float, nullable=True)
-    batteria: Mapped[int | None] = mapped_column(
-        Integer,
-        CheckConstraint("batteria BETWEEN 0 AND 100", name="batteria_check"),
-        nullable=True,
-    )
+    batteria: Mapped[int | None] = mapped_column(Integer, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=text("now()")
     )
