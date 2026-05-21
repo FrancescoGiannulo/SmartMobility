@@ -48,7 +48,10 @@ def test_tipo_mezzo_values():
 
 def test_stato_mezzo_values():
     from model.mezzo import StatoMezzo
-    assert len(list(StatoMezzo)) == 7
+    assert set(e.value for e in StatoMezzo) == {
+        "Disponibile", "Prenotato", "In uso", "In pausa",
+        "In manutenzione", "Fuori servizio", "Dismesso",
+    }
 
 
 def test_mezzo_columns():

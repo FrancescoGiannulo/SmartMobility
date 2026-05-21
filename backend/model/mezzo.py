@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 from enum import Enum
-from sqlalchemy import String, Integer, Float, DateTime, text
+from sqlalchemy import String, Integer, Float, DateTime, text, CheckConstraint
 from sqlalchemy import Enum as SAEnum
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
@@ -41,7 +41,11 @@ class Mezzo(Base):
     )
     lat: Mapped[float | None] = mapped_column(Float, nullable=True)
     lng: Mapped[float | None] = mapped_column(Float, nullable=True)
-    batteria: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    batteria: Mapped[int | None] = mapped_column(
+        Integer,
+        CheckConstraint("batteria BETWEEN 0 AND 100", name="batteria_check"),
+        nullable=True,
+    )
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=text("now()")
     )
