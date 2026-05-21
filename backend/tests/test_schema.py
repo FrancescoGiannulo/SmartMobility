@@ -35,3 +35,23 @@ def test_amministratore_columns():
     from model.utente import AmministrazionePubblica
     cols = {c.name for c in AmministrazionePubblica.__table__.columns}
     assert cols == {"id", "nome", "created_at"}
+
+
+def test_tipo_mezzo_values():
+    from model.mezzo import TipoMezzo
+    assert set(TipoMezzo) == {
+        TipoMezzo.monopattino,
+        TipoMezzo.bicicletta,
+        TipoMezzo.automobile,
+    }
+
+
+def test_stato_mezzo_values():
+    from model.mezzo import StatoMezzo
+    assert len(list(StatoMezzo)) == 7
+
+
+def test_mezzo_columns():
+    from model.mezzo import Mezzo
+    cols = {c.name for c in Mezzo.__table__.columns}
+    assert cols == {"id", "codice", "tipo", "stato", "lat", "lng", "batteria", "created_at"}
