@@ -1,11 +1,12 @@
 import uuid
 from datetime import datetime
 from enum import Enum
-from sqlalchemy import String, Boolean, Integer, DateTime, text
+from sqlalchemy import String, Boolean, Integer, DateTime, text, CheckConstraint
 from sqlalchemy import Enum as SAEnum
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from geoalchemy2 import Geometry
+from geoalchemy2.elements import WKBElement
 from database import Base
 
 
@@ -26,10 +27,14 @@ class Zona(Base):
     tipo: Mapped[TipoZona] = mapped_column(
         SAEnum(TipoZona, name="tipo_zona", create_type=False), nullable=False
     )
-    perimetro: Mapped[bytes] = mapped_column(
+    perimetro: Mapped[WKBElement] = mapped_column(
         Geometry("POLYGON", srid=4326), nullable=False
     )
-    limite_velocita: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    limite_velocita: Mapped[int | None] = mapped_column(
+        Integer,
+        CheckConstraint("limite_velocita > 0", name="limite_velocita_check"),
+        nullable=True,
+    )
     attiva: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=text("now()")
