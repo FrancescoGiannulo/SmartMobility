@@ -36,8 +36,7 @@ class ServizioUtenti:
                 {"email": email, "password": password, "email_confirm": True}
             )
         except AuthApiError as e:
-            # Supabase admin API returns 403 "User not allowed" when the email already exists
-            if e.status == 403 or any(k in str(e).lower() for k in ("already", "registered", "exists", "taken")):
+            if e.status == 422 and any(k in str(e).lower() for k in ("already", "registered", "exists", "taken")):
                 raise EmailGiaRegistrataException("Email già registrata")
             raise ServizioAuthException(str(e))
         except Exception as e:
