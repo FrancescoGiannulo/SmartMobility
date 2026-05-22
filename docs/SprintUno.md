@@ -199,24 +199,15 @@ Gli item implementati nel presente sprint sono i seguenti:
 | UT.04 | Sblocca un mezzo | Sprint 1 |
 | UT.06 | Termina Corsa | Sprint 1 |
 | UT.12 | Salva metodi di pagamento | Sprint 1 |
-| UT.17 | Registra account | Sprint 1 |
-| UT.18 | Autentica account utente | Sprint 1 |
-| UT.19 | Modifica dati account | Sprint 1 |
 | UT.20 | Effettua Pagamento | Sprint 1 |
-| UT.21 | Imposta Metodo di Pagamento Predefinito | Sprint 1 |
-| AP.07 | Autentica Account AP | Sprint 1 |
-| AP.02 | Definisce zone vietate | Sprint 1 |
-| AP.03 | Definisce zone parcheggio | Sprint 1 |
-| AP.08 | Visualizza mappa Amministrazione Pubblica | Sprint 1 |
+| OP.02 | Definisce zone | Sprint 1 |
 | OP.01 | Visualizza Mappa Operatore | Sprint 1 |
-| OP.03 | Definisce zone operative | Sprint 1 |
 | OP.07 | Definisce tariffe | Sprint 1 |
 | OP.04 | Modifica stato mezzo | Sprint 1 |
-| OP.08 | Modifica tariffe | Sprint 1 |
-| OP.16 | Autentica account operatore | Sprint 1 |
 | OP.12 | Aggiungi un mezzo | Sprint 1 |
 | OP.13 | Dismetti un mezzo | Sprint 1 |
 | OP.14 | Definisci regole fine corsa | Sprint 1 |
+| AP.01 | Accedi Report | Sprint 1 |
 
 ---
 
