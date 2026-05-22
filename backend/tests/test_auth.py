@@ -8,6 +8,14 @@ from model.amministrazione_pubblica import AmministrazionePubblica
 from dal.attore_repository import AttoreRepository, AttoreNonTrovatoException
 from sqlalchemy import text
 from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session as DbSession
+from bll.servizio_utenti import (
+    ServizioUtenti,
+    CredenzialNonValideException,
+    AccountBloccatoException,
+    AccountSospesoException,
+    EmailGiaRegistrataException,
+)
 
 
 class TestModel:
@@ -59,3 +67,69 @@ class TestAttoreRepository:
                 {"e": utente_test["email"]},
             )
             s.commit()
+
+
+class TestServizioUtenti:
+
+    def test_registra_successo(self, supa, db):
+        email = "reg_nuovo@smartmobility.test"
+        result = ServizioUtenti().registra_account(email, "TestPass123!", "Nuovo", "Utente")
+        assert result["ruolo"] == "UT"
+        assert result["profilo"]["email"] == email
+        assert "access_token" in result
+        # cleanup
+        profilo, _ = AttoreRepository().trova_per_email(email)
+        with DbSession(db) as s:
+            s.execute(text("DELETE FROM utenti WHERE id = :id"), {"id": str(profilo.id)})
+            s.commit()
+        supa.auth.admin.delete_user(str(profilo.id))
+
+    def test_registra_email_duplicata(self, utente_test):
+        with pytest.raises(EmailGiaRegistrataException):
+            ServizioUtenti().registra_account(
+                utente_test["email"], "TestPass123!", "Dup", "Utente"
+            )
+
+    def test_login_successo_ut(self, utente_test):
+        result = ServizioUtenti().autentica_account(utente_test["email"], utente_test["password"])
+        assert result["ruolo"] == "UT"
+        assert "access_token" in result
+
+    def test_login_successo_op(self, operatore_test):
+        result = ServizioUtenti().autentica_account(
+            operatore_test["email"], operatore_test["password"]
+        )
+        assert result["ruolo"] == "OP"
+
+    def test_login_successo_ap(self, ap_test):
+        result = ServizioUtenti().autentica_account(ap_test["email"], ap_test["password"])
+        assert result["ruolo"] == "AP"
+
+    def test_login_credenziali_errate(self, utente_test, db):
+        with pytest.raises(CredenzialNonValideException):
+            ServizioUtenti().autentica_account(utente_test["email"], "WrongPass!")
+        with DbSession(db) as s:
+            s.execute(
+                text("DELETE FROM tentativi_login WHERE email = :e"),
+                {"e": utente_test["email"]},
+            )
+            s.commit()
+
+    def test_login_lockout(self, utente_test, db):
+        repo = AttoreRepository()
+        for _ in range(5):
+            repo.registra_tentativo(utente_test["email"], riuscito=False)
+        with pytest.raises(AccountBloccatoException):
+            ServizioUtenti().autentica_account(utente_test["email"], utente_test["password"])
+        with DbSession(db) as s:
+            s.execute(
+                text("DELETE FROM tentativi_login WHERE email = :e"),
+                {"e": utente_test["email"]},
+            )
+            s.commit()
+
+    def test_login_account_sospeso(self, utente_sospeso):
+        with pytest.raises(AccountSospesoException):
+            ServizioUtenti().autentica_account(
+                utente_sospeso["email"], utente_sospeso["password"]
+            )
