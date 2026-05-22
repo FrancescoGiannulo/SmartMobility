@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import VistaLogin from './views/auth/VistaLogin'
+import CallbackOAuth from './views/auth/CallbackOAuth'
 import RoutaProtetta from './components/RoutaProtetta'
 import { utenteCorrente } from './services/AuthService'
 
@@ -46,6 +47,7 @@ function App() {
             </RoutaProtetta>
           }
         />
+        <Route path="/auth/callback" element={<CallbackOAuth />} />
         <Route path="/non-autorizzato" element={<PlaceholderView titolo="Accesso non autorizzato" />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
