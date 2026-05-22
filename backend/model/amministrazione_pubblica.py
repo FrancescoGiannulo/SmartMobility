@@ -3,9 +3,7 @@ from .persona import Persona
 
 
 @dataclass
-class Utente(Persona):
-    cognome: str = ""
-    sospeso: bool = False
+class AmministrazionePubblica(Persona):
 
     def ruolo_atteso(self) -> str:
-        return "UT"
+        return "AP"

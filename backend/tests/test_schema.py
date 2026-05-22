@@ -2,23 +2,23 @@ import pytest
 
 
 def test_utente_tablename():
-    from model.utente import Utente
+    from model.orm import Utente
     assert Utente.__tablename__ == "utenti"
 
 
 def test_utente_columns():
-    from model.utente import Utente
+    from model.orm import Utente
     cols = {c.name for c in Utente.__table__.columns}
     assert cols == {"id", "nome", "cognome", "telefono", "sospeso", "created_at"}
 
 
 def test_operatore_tablename():
-    from model.utente import Operatore
+    from model.orm import Operatore
     assert Operatore.__tablename__ == "operatori"
 
 
 def test_operatore_columns():
-    from model.utente import Operatore
+    from model.orm import Operatore
     cols = {c.name for c in Operatore.__table__.columns}
     assert cols == {
         "id", "nome",
@@ -30,12 +30,12 @@ def test_operatore_columns():
 
 
 def test_amministratore_tablename():
-    from model.utente import AmministrazionePubblica
+    from model.orm import AmministrazionePubblica
     assert AmministrazionePubblica.__tablename__ == "amministratori"
 
 
 def test_amministratore_columns():
-    from model.utente import AmministrazionePubblica
+    from model.orm import AmministrazionePubblica
     cols = {c.name for c in AmministrazionePubblica.__table__.columns}
     assert cols == {"id", "nome", "created_at"}
 
