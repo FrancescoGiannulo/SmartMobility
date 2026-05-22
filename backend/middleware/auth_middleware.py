@@ -5,7 +5,14 @@ from fastapi import Request, HTTPException
 from config import SUPABASE_JWT_SECRET, SUPABASE_URL
 from dal.attore_repository import AttoreRepository, AttoreNonTrovatoException
 
-_jwks_client = PyJWKClient(f"{SUPABASE_URL}/auth/v1/.well-known/jwks.json")
+_jwks_client: PyJWKClient | None = None
+
+
+def _get_jwks_client() -> PyJWKClient:
+    global _jwks_client
+    if _jwks_client is None:
+        _jwks_client = PyJWKClient(f"{SUPABASE_URL}/auth/v1/.well-known/jwks.json")
+    return _jwks_client
 
 
 def _decode_token(token: str) -> dict:
@@ -27,7 +34,7 @@ def _decode_token(token: str) -> dict:
         )
     else:
         # ES256 (o altri algoritmi asimmetrici) — usa JWKS
-        signing_key = _jwks_client.get_signing_key_from_jwt(token)
+        signing_key = _get_jwks_client().get_signing_key_from_jwt(token)
         return jwt.decode(
             token,
             signing_key.key,
