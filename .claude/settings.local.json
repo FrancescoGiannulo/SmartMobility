@@ -9,7 +9,11 @@
       "Bash(npm run *)",
       "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\Users\\\\camil_53qael0\\\\SmartMobility\\\\frontend\\\\src\\\\views\\\\auth\")",
       "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\Users\\\\camil_53qael0\\\\SmartMobility\\\\frontend\\\\src\\\\components\")",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility add frontend/src/views/auth/VistaLogin.tsx frontend/src/components/RoutaProtetta.tsx)",
+      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility rebase --continue)",
+      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility diff --name-only --diff-filter=U)",
+      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility add -A)"
     ]
   }
 }
