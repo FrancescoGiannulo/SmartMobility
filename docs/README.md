@@ -69,7 +69,12 @@ uv sync
 
 # 3. Configura le variabili d'ambiente del backend
 cp .env.example .env
-# Apri .env e inserisci le credenziali Supabase
+# Apri .env e inserisci le credenziali Supabase:
+#   SUPABASE_URL      → Settings → API → Project URL
+#   SUPABASE_KEY      → Settings → API → service_role secret key
+#   SUPABASE_JWT_SECRET → Settings → API → JWT Settings → JWT Secret
+#   DATABASE_URL      → Settings → Database → Transaction Pooler → URI
+#                       (formato: postgresql://postgres.<ref>:<password>@aws-0-*.pooler.supabase.com:6543/postgres)
 
 # 4. Frontend — installa dipendenze Node
 cd ../frontend
