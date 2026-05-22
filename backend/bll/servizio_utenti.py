@@ -44,11 +44,21 @@ class ServizioUtenti:
             raise ServizioAuthException(str(e))
 
         user_id = UUID(resp.user.id)
-        self._repo.crea_utente(user_id, nome, cognome)
+        try:
+            self._repo.crea_utente(user_id, nome, cognome)
+        except Exception as exc:
+            try:
+                supabase.auth.admin.delete_user(str(user_id))
+            except Exception:
+                pass
+            raise ServizioAuthException(f"Errore durante la registrazione: {exc}") from exc
 
-        sign_in = supabase.auth.sign_in_with_password(
-            {"email": email, "password": password}
-        )
+        try:
+            sign_in = supabase.auth.sign_in_with_password(
+                {"email": email, "password": password}
+            )
+        except Exception as exc:
+            raise ServizioAuthException(f"Registrazione completata ma accesso fallito: {exc}") from exc
         return {
             "access_token": sign_in.session.access_token,
             "ruolo": "UT",
