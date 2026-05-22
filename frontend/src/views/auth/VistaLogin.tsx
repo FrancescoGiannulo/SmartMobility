@@ -110,8 +110,8 @@ export default function VistaLogin() {
           />
 
           {modalita === 'login' && (
-            <a className="link-recupero" href="/recupero-password">
-              Forgot Password?
+            <a className="link-recupero" href="#" onClick={e => e.preventDefault()}>
+              Password dimenticata?
             </a>
           )}
 

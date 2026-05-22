@@ -79,6 +79,14 @@ export const utenteCorrente = (): { ruolo: 'UT' | 'OP' | 'AP'; profilo: Profilo 
   const profiloStr = localStorage.getItem('profilo')
   if (!token || !ruolo || !profiloStr) return null
   try {
+    // Decode JWT exp without verification (client-side only)
+    const payload = JSON.parse(atob(token.split('.')[1]))
+    if (Date.now() / 1000 > payload.exp) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('ruolo')
+      localStorage.removeItem('profilo')
+      return null
+    }
     return { ruolo, profilo: JSON.parse(profiloStr) }
   } catch {
     return null
