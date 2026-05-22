@@ -40,8 +40,8 @@ export default function VistaLogin() {
         const result = await registra({ email, password, nome, cognome })
         redirectDopoLogin(result.ruolo)
       }
-    } catch (err: any) {
-      const status: number = err?.response?.status ?? 0
+    } catch (err: unknown) {
+      const status: number = (err as { response?: { status?: number } })?.response?.status ?? 0
       setErrore(ERRORI[status] ?? 'Servizio temporaneamente non disponibile')
     } finally {
       setCaricamento(false)
