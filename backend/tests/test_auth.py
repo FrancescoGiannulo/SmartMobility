@@ -20,6 +20,7 @@ import jwt as pyjwt
 from datetime import datetime, timedelta, timezone
 from fastapi import FastAPI, Depends
 from fastapi.testclient import TestClient
+from fastapi.testclient import TestClient as FTClient
 from middleware.auth_middleware import verify_token
 from config import SUPABASE_JWT_SECRET
 
@@ -192,3 +193,63 @@ class TestMiddleware:
         token = _crea_token(str(operatore_test["id"]), operatore_test["email"])
         resp = self._app_protetta().get("/solo-ut", headers={"Authorization": f"Bearer {token}"})
         assert resp.status_code == 403
+
+
+from main import app
+
+http = FTClient(app)
+
+
+class TestLoginController:
+
+    def test_login_200_ut(self, utente_test):
+        resp = http.post("/auth/login", json={"email": utente_test["email"], "password": utente_test["password"]})
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["ruolo"] == "UT"
+        assert "access_token" in data
+
+    def test_login_401_password_errata(self, utente_test, db):
+        resp = http.post("/auth/login", json={"email": utente_test["email"], "password": "WrongPass!"})
+        assert resp.status_code == 401
+        with DbSession(db) as s:
+            s.execute(text("DELETE FROM tentativi_login WHERE email = :e"), {"e": utente_test["email"]})
+            s.commit()
+
+    def test_get_me_200(self, utente_test):
+        token = http.post("/auth/login", json={"email": utente_test["email"], "password": utente_test["password"]}).json()["access_token"]
+        resp = http.get("/auth/me", headers={"Authorization": f"Bearer {token}"})
+        assert resp.status_code == 200
+        assert resp.json()["ruolo"] == "UT"
+
+    def test_get_me_401_senza_token(self):
+        resp = http.get("/auth/me")
+        assert resp.status_code == 401
+
+
+class TestUtenteController:
+
+    def test_registra_201(self, supa, db):
+        email = "ctrl_reg@smartmobility.test"
+        resp = http.post("/auth/registra", json={
+            "email": email,
+            "password": "TestPass123!",
+            "nome": "Ctrl",
+            "cognome": "Test",
+        })
+        assert resp.status_code == 201
+        assert resp.json()["ruolo"] == "UT"
+        profilo, _ = AttoreRepository().trova_per_email(email)
+        with DbSession(db) as s:
+            s.execute(text("DELETE FROM utenti WHERE id = :id"), {"id": str(profilo.id)})
+            s.commit()
+        supa.auth.admin.delete_user(str(profilo.id))
+
+    def test_registra_409_email_duplicata(self, utente_test):
+        resp = http.post("/auth/registra", json={
+            "email": utente_test["email"],
+            "password": "TestPass123!",
+            "nome": "Dup",
+            "cognome": "Utente",
+        })
+        assert resp.status_code == 409
