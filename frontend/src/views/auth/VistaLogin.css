@@ -1,0 +1,176 @@
+/* VistaLogin.css — IUI-1 (mobile) e IUI-10 (desktop) */
+
+.vista-login {
+  min-height: 100vh;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.login-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.login-logo img {
+  width: 80px;
+  height: 80px;
+}
+
+.login-logo h1 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #222;
+  margin: 0;
+}
+
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login-input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 24px;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.login-input:focus {
+  border-color: #4caf9a;
+}
+
+.link-recupero {
+  text-align: center;
+  font-size: 13px;
+  color: #777;
+  text-decoration: none;
+}
+
+.btn-primario {
+  width: 100%;
+  padding: 14px;
+  background: #4caf9a;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primario:hover:not(:disabled) {
+  background: #3d9e8a;
+}
+
+.btn-primario:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.signup-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.signup-section p {
+  font-size: 14px;
+  color: #555;
+  margin: 0;
+}
+
+.btn-secondario {
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  color: #4caf9a;
+  border: 2px solid #4caf9a;
+  border-radius: 24px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #4caf9a;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.social-login {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.btn-social {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid #e0e0e0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.btn-social:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.login-errore {
+  color: #d32f2f;
+  font-size: 13px;
+  text-align: center;
+  margin: 0;
+}
+
+/* ── Desktop (≥768px) — IUI-10: card centrata, no SIGN UP ── */
+@media (min-width: 768px) {
+  .vista-login {
+    background: #f5f5f5;
+  }
+
+  .login-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 48px 40px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    max-width: 480px;
+  }
+
+}

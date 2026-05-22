@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add *)",
+      "Bash(git commit -m 'docs\\(auth\\): piano di implementazione completo auth [IF-UT.17/18, IF-AP.07, IF-OP.16] *)",
+      "Bash(git commit *)",
+      "Bash(uv run *)",
+      "Bash(Remove-Item cleanup_test_users.py)",
+      "Bash(npm run *)",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\Users\\\\camil_53qael0\\\\SmartMobility\\\\frontend\\\\src\\\\views\\\\auth\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\Users\\\\camil_53qael0\\\\SmartMobility\\\\frontend\\\\src\\\\components\")",
+      "Bash(git push *)",
+      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility add frontend/src/views/auth/VistaLogin.tsx frontend/src/components/RoutaProtetta.tsx)",
+      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility rebase --continue)",
+      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility diff --name-only --diff-filter=U)",
+      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility add -A)",
+      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility push origin feature/auth)",
+      "Bash(gh issue create --repo FrancescoGiannulo/SmartMobility --title 'bug\\(auth\\): client Supabase singleton accumula stato corrotto sotto stress — richiede riavvio server' --body ' *)",
+      "Bash(pkill -f \"uvicorn main:app\")",
+      "Bash(curl -s -X POST http://localhost:8000/auth/registra -H 'Content-Type: application/json' -d '{\"email\":\"francesco@email.it\",\"password\":\"stringstring\",\"nome\":\"Test\",\"cognome\":\"Utente\"}' -w ' [%{http_code}]\\\\n')",
+      "Bash(curl -s -X POST http://localhost:8000/auth/registra -H 'Content-Type: application/json' -d '{\"email\":\"nuovoutente@test.it\",\"password\":\"stringstring\",\"nome\":\"Test\",\"cognome\":\"Utente\"}' -w ' [%{http_code}]\\\\n')",
+      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility add backend/bll/servizio_utenti.py)",
+      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility commit -m ' *)",
+      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility add frontend/src/App.tsx)",
+      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility add docs/SprintUno.md docs/README.md)",
+      "Bash(python -c \"import config; print\\('config OK'\\)\")",
+      "Bash(python -c \"from config import engine as e1; from database import engine as e2; print\\('same engine?', e1 is e2\\)\")",
+      "Bash(python -c ' *)",
+      "Bash(echo \"EXIT:$?\")",
+      "Skill(commit-commands:commit)",
+      "Skill(commit-commands:commit:*)",
+      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility add backend/bll/servizio_utenti.py backend/config.py backend/controllers/login_controller.py backend/model/orm.py)"
+    ]
+  }
+}

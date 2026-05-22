@@ -148,6 +148,17 @@ Table regole_fine_corsa [note: 'IF-OP.14 — sanzioni per rilascio fuori zona pa
 }
 
 // ============================================================
+// AUTH — LOCKOUT (IIN-2)
+// ============================================================
+
+Table tentativi_login [note: 'IIN-2 — traccia tentativi falliti per blocco account dopo 5 errori'] {
+  id           uuid [pk, default: `gen_random_uuid()`]
+  email        text [not null]
+  tentativo_at timestamptz [not null, default: `now()`]
+  riuscito     boolean [not null, note: 'false = tentativo fallito']
+}
+
+// ============================================================
 // ENUM (documentazione — dbdiagram non supporta CREATE TYPE)
 // ============================================================
 
