@@ -1,11 +1,40 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import VistaLogin from './views/auth/VistaLogin'
 import CallbackOAuth from './views/auth/CallbackOAuth'
 import RoutaProtetta from './components/RoutaProtetta'
-import { utenteCorrente } from './services/AuthService'
+import { utenteCorrente, logout } from './services/AuthService'
 
 function PlaceholderView({ titolo }: { titolo: string }) {
-  return <div style={{ padding: 32 }}><h1>{titolo}</h1></div>
+  const navigate = useNavigate()
+  const utente = utenteCorrente()
+  const handleLogout = async () => {
+    await logout()
+    navigate('/', { replace: true })
+  }
+  return (
+    <div style={{ padding: 32 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1>{titolo}</h1>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          {utente && <span style={{ fontSize: 14, color: '#555' }}>{utente.profilo.email}</span>}
+          <button
+            onClick={handleLogout}
+            style={{
+              padding: '8px 20px',
+              background: 'transparent',
+              color: '#4caf9a',
+              border: '2px solid #4caf9a',
+              borderRadius: 24,
+              fontWeight: 700,
+              cursor: 'pointer',
+            }}
+          >
+            LOGOUT
+          </button>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 function App() {
