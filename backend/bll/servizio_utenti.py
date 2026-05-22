@@ -57,10 +57,21 @@ class ServizioUtenti:
             sign_in = supabase.auth.sign_in_with_password(
                 {"email": email, "password": password}
             )
+            if sign_in.session is None:
+                raise ServizioAuthException("Sessione non ottenuta dopo la registrazione")
+            access_token = sign_in.session.access_token
+        except ServizioAuthException:
+            raise
         except Exception as exc:
             raise ServizioAuthException(f"Registrazione completata ma accesso fallito: {exc}") from exc
+        finally:
+            # Evita che la sessione utente sovrascriva il client service-role
+            try:
+                supabase.auth.sign_out()
+            except Exception:
+                pass
         return {
-            "access_token": sign_in.session.access_token,
+            "access_token": access_token,
             "ruolo": "UT",
             "profilo": {
                 "id": str(user_id),
@@ -80,11 +91,21 @@ class ServizioUtenti:
             resp = supabase.auth.sign_in_with_password(
                 {"email": email, "password": password}
             )
+            if resp.session is None or resp.user is None:
+                raise CredenzialNonValideException("Credenziali non valide")
+            access_token = resp.session.access_token
+            user_id = UUID(resp.user.id)
+        except CredenzialNonValideException:
+            raise
         except Exception:
             self._repo.registra_tentativo(email, riuscito=False)
             raise CredenzialNonValideException("Credenziali non valide")
-
-        user_id = UUID(resp.user.id)
+        finally:
+            # Evita che la sessione utente sovrascriva il client service-role
+            try:
+                supabase.auth.sign_out()
+            except Exception:
+                pass
 
         try:
             profilo, ruolo = self._repo.trova_per_id(user_id)
@@ -97,7 +118,7 @@ class ServizioUtenti:
         self._repo.registra_tentativo(email, riuscito=True)
 
         return {
-            "access_token": resp.session.access_token,
+            "access_token": access_token,
             "ruolo": ruolo,
             "profilo": self._build_profilo(profilo, ruolo, email),
         }

@@ -1,8 +1,39 @@
 from uuid import UUID
 import jwt
+from jwt import PyJWKClient
 from fastapi import Request, HTTPException
-from config import SUPABASE_JWT_SECRET
+from config import SUPABASE_JWT_SECRET, SUPABASE_URL
 from dal.attore_repository import AttoreRepository, AttoreNonTrovatoException
+
+_jwks_client = PyJWKClient(f"{SUPABASE_URL}/auth/v1/.well-known/jwks.json")
+
+
+def _decode_token(token: str) -> dict:
+    """Decodifica JWT Supabase: supporta HS256 (test) e ES256 (produzione)."""
+    # Inspect header to choose algorithm
+    try:
+        header = jwt.get_unverified_header(token)
+    except jwt.InvalidTokenError:
+        raise jwt.InvalidTokenError("Header non valido")
+
+    alg = header.get("alg", "HS256")
+
+    if alg == "HS256":
+        return jwt.decode(
+            token,
+            SUPABASE_JWT_SECRET,
+            algorithms=["HS256"],
+            options={"verify_aud": False},
+        )
+    else:
+        # ES256 (o altri algoritmi asimmetrici) — usa JWKS
+        signing_key = _jwks_client.get_signing_key_from_jwt(token)
+        return jwt.decode(
+            token,
+            signing_key.key,
+            algorithms=["ES256"],
+            options={"verify_aud": False},
+        )
 
 
 def verify_token(required_roles: list[str] | None = None):
@@ -16,15 +47,12 @@ def verify_token(required_roles: list[str] | None = None):
         token = auth.removeprefix("Bearer ")
 
         try:
-            payload = jwt.decode(
-                token,
-                SUPABASE_JWT_SECRET,
-                algorithms=["HS256"],
-                options={"verify_aud": False},
-            )
+            payload = _decode_token(token)
         except jwt.ExpiredSignatureError:
             raise HTTPException(status_code=401, detail="Token non valido o scaduto")
         except jwt.InvalidTokenError:
+            raise HTTPException(status_code=401, detail="Token non valido o scaduto")
+        except Exception:
             raise HTTPException(status_code=401, detail="Token non valido o scaduto")
 
         user_id = UUID(payload["sub"])
