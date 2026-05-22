@@ -133,3 +133,10 @@ class TestServizioUtenti:
             ServizioUtenti().autentica_account(
                 utente_sospeso["email"], utente_sospeso["password"]
             )
+
+    def test_login_op_non_bloccato_da_sospeso(self, operatore_test):
+        # [IIN-2] Operatori non hanno campo sospeso — non devono essere bloccati
+        result = ServizioUtenti().autentica_account(
+            operatore_test["email"], operatore_test["password"]
+        )
+        assert result["ruolo"] == "OP"
