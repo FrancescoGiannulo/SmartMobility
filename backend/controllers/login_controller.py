@@ -32,7 +32,7 @@ def login(body: LoginRequest):
 @router.get("/me")
 def me(utente_corrente: dict = Depends(verify_token())):
     """Restituisce profilo e ruolo dell'utente autenticato."""
-    return ServizioUtenti().profilo_corrente(
+    return _servizio.profilo_corrente(
         UUID(str(utente_corrente["id"])),
         utente_corrente["email"],
     )

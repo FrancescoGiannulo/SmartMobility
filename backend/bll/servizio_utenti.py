@@ -63,12 +63,6 @@ class ServizioUtenti:
             raise
         except Exception as exc:
             raise ServizioAuthException(f"Registrazione completata ma accesso fallito: {exc}") from exc
-        finally:
-            # Evita che la sessione utente sovrascriva il client service-role
-            try:
-                supabase.auth.sign_out()
-            except Exception:
-                pass
         return {
             "access_token": access_token,
             "ruolo": "UT",
@@ -99,12 +93,6 @@ class ServizioUtenti:
         except Exception:
             self._repo.registra_tentativo(email, riuscito=False)
             raise CredenzialNonValideException("Credenziali non valide")
-        finally:
-            # Evita che la sessione utente sovrascriva il client service-role
-            try:
-                supabase.auth.sign_out()
-            except Exception:
-                pass
 
         try:
             profilo, ruolo = self._repo.trova_per_id(user_id)
