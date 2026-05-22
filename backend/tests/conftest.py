@@ -20,6 +20,14 @@ def db():
 
 
 def _crea_auth_user(supa, email: str, password: str) -> UUID:
+    # Defensive cleanup in case a previous test run left this user behind
+    try:
+        with Session(create_engine(os.environ["DATABASE_URL"])) as s:
+            row = s.execute(text("SELECT id FROM auth.users WHERE email = :e"), {"e": email}).fetchone()
+            if row:
+                supa.auth.admin.delete_user(str(row.id))
+    except Exception:
+        pass
     resp = supa.auth.admin.create_user({
         "email": email,
         "password": password,
