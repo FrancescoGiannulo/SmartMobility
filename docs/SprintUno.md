@@ -194,6 +194,10 @@ Gli item implementati nel presente sprint sono i seguenti:
 
 | Codice Item | Nome | Note |
 |-------------|------|------|
+| UT.17 | Registra Account | Sprint 1 — **implementato** |
+| UT.18 | Autentica Account (UT) | Sprint 1 — **implementato** |
+| OP.16 | Autentica Account (OP) | Sprint 1 — **implementato** (stesso endpoint `/auth/login`) |
+| AP.07 | Autentica Account (AP) | Sprint 1 — **implementato** (stesso endpoint `/auth/login`) |
 | UT.01 | Visualizza Mappa Utente | Sprint 1 |
 | UT.02 | Prenota mezzo | Sprint 1 |
 | UT.04 | Sblocca un mezzo | Sprint 1 |
@@ -452,6 +456,54 @@ Gli item implementati nel presente sprint sono i seguenti:
   7. Il sistema notifica all'operatore l'avvenuta definizione delle regole.
 - **Post-condizioni**: Le nuove regole di fine corsa sono memorizzate e vengono applicate a tutte le corse successive.
 - **Sequenze alternative**: Nessuna.
+
+---
+
+## 7b. NOTE DI IMPLEMENTAZIONE — Sprint 1 (Auth)
+
+### IF-UT.17 / IF-UT.18 / IF-OP.16 / IF-AP.07 — Autenticazione e Registrazione
+
+**Stato**: implementato e testato su Supabase reale (branch `feature/auth`).
+
+#### Endpoint backend
+
+| Metodo | Path | Item | Descrizione |
+|--------|------|------|-------------|
+| `POST` | `/auth/registra` | IF-UT.17 | Registra nuovo utente (ruolo UT) |
+| `POST` | `/auth/login` | IF-UT.18 / IF-OP.16 / IF-AP.07 | Autentica qualsiasi attore; risponde con `ruolo` (`UT`/`OP`/`AP`) |
+| `GET` | `/auth/me` | — | Restituisce profilo e ruolo dall'access token |
+
+#### Layer backend
+
+- **Model**: `model/utente.py`, `model/operatore.py`, `model/amministrazione_pubblica.py` — dataclass che estendono `Persona`
+- **DAL**: `dal/attore_repository.py` — `AttoreRepository` con `crea_utente`, `trova_per_id`, `conta_tentativi_falliti`, `registra_tentativo`
+- **BLL**: `bll/servizio_utenti.py` — `ServizioUtenti` con `registra_account`, `autentica_account`, `profilo_corrente`
+- **Middleware**: `middleware/auth_middleware.py` — `verify_token(required_roles)` — decodifica JWT Supabase e controlla il ruolo
+- **Controller**: `controllers/utente_controller.py` (`POST /auth/registra`), `controllers/login_controller.py` (`POST /auth/login`, `GET /auth/me`)
+
+#### Sicurezza (IIN-2)
+
+- Blocco account dopo 5 tentativi falliti in 15 minuti (tabella `tentativi_login`)
+- JWT firmato da Supabase, verificato lato backend con `SUPABASE_JWT_SECRET`
+- Accesso alle risorse protette tramite `verify_token(required_roles=[...])` — ruoli isolati
+
+#### Frontend
+
+- **`AuthService.ts`**: `registra`, `autentica`, `autenticaGoogle`, `gestisciCallbackOAuth`, `logout`, `utenteCorrente`
+- **`views/auth/VistaLogin.tsx`**: form login + registrazione, pulsanti LOGIN / SIGN UP / REGISTRATI, social login Google (IUI-1 / IUI-10)
+- **`views/auth/CallbackOAuth.tsx`**: gestisce redirect OAuth Google → chiama `/auth/me` → redirect per ruolo
+- **`components/RoutaProtetta.tsx`**: guard HOC — redirect a `/` se non autenticato, a `/non-autorizzato` se ruolo errato
+- **`App.tsx`**: routing con `BrowserRouter`, rotte protette per UT/OP/AP, pulsante LOGOUT
+
+#### Dipendenze aggiuntive
+
+- Frontend: `@supabase/supabase-js` (installato via `npm install`)
+- Backend: `backend/.env` richiede `SUPABASE_JWT_SECRET` (trovare in Supabase Dashboard → Settings → API → JWT Secret)
+- Backend: `DATABASE_URL` deve usare il **Transaction Pooler** di Supabase (`aws-0-*.pooler.supabase.com:6543`), non il direct connection (`db.*.supabase.co`)
+
+#### Issue note
+
+- **Issue #2**: il client Supabase singleton può accumulare stato sotto stress. Fix applicato: catch `AuthApiError` ristretto a `status == 422` per distinguere email duplicata da altri errori.
 
 ---
 
