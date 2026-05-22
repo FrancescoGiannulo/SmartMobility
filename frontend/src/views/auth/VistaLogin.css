@@ -173,8 +173,4 @@ form {
     max-width: 480px;
   }
 
-  /* Operatori e AP non si registrano — nascondi SIGN UP su desktop */
-  .signup-section {
-    display: none;
-  }
 }
