@@ -79,7 +79,7 @@ class TestAttoreRepository:
 class TestServizioUtenti:
 
     def test_registra_successo(self, supa, db):
-        email = "reg_nuovo@smartmobility.test"
+        email = "reg_nuovo@example.com"
         result = ServizioUtenti().registra_account(email, "TestPass123!", "Nuovo", "Utente")
         assert result["ruolo"] == "UT"
         assert result["profilo"]["email"] == email
@@ -230,7 +230,7 @@ class TestLoginController:
 class TestUtenteController:
 
     def test_registra_201(self, supa, db):
-        email = "ctrl_reg@smartmobility.test"
+        email = "ctrl_reg@example.com"
         resp = http.post("/auth/registra", json={
             "email": email,
             "password": "TestPass123!",
