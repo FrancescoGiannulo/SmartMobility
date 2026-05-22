@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add *)",
+      "Bash(git commit -m 'docs\\(auth\\): piano di implementazione completo auth [IF-UT.17/18, IF-AP.07, IF-OP.16] *)",
+      "Bash(git commit *)",
+      "Bash(uv run *)",
+      "Bash(Remove-Item cleanup_test_users.py)",
+      "Bash(npm run *)",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\Users\\\\camil_53qael0\\\\SmartMobility\\\\frontend\\\\src\\\\views\\\\auth\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\Users\\\\camil_53qael0\\\\SmartMobility\\\\frontend\\\\src\\\\components\")",
+      "Bash(git push *)"
+    ]
+  }
+}
