@@ -51,7 +51,7 @@ def _pulisci_tentativi(db, email: str) -> None:
 
 @pytest.fixture
 def utente_test(supa, db):
-    email, password = "ut_test@smartmobility.test", "TestPass123!"
+    email, password = "ut_test@example.com", "TestPass123!"
     uid = _crea_auth_user(supa, email, password)
     with Session(db) as s:
         s.execute(
@@ -69,7 +69,7 @@ def utente_test(supa, db):
 
 @pytest.fixture
 def utente_sospeso(supa, db):
-    email, password = "ut_sospeso@smartmobility.test", "TestPass123!"
+    email, password = "ut_sospeso@example.com", "TestPass123!"
     uid = _crea_auth_user(supa, email, password)
     with Session(db) as s:
         s.execute(
@@ -87,7 +87,7 @@ def utente_sospeso(supa, db):
 
 @pytest.fixture
 def operatore_test(supa, db):
-    email, password = "op_test@smartmobility.test", "TestPass123!"
+    email, password = "op_test@example.com", "TestPass123!"
     uid = _crea_auth_user(supa, email, password)
     with Session(db) as s:
         s.execute(
@@ -105,7 +105,7 @@ def operatore_test(supa, db):
 
 @pytest.fixture
 def ap_test(supa, db):
-    email, password = "ap_test@smartmobility.test", "TestPass123!"
+    email, password = "ap_test@example.com", "TestPass123!"
     uid = _crea_auth_user(supa, email, password)
     with Session(db) as s:
         s.execute(
