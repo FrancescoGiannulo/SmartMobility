@@ -16,6 +16,12 @@ from bll.servizio_utenti import (
     AccountSospesoException,
     EmailGiaRegistrataException,
 )
+import jwt as pyjwt
+from datetime import datetime, timedelta, timezone
+from fastapi import FastAPI, Depends
+from fastapi.testclient import TestClient
+from middleware.auth_middleware import verify_token
+from config import SUPABASE_JWT_SECRET
 
 
 class TestModel:
@@ -140,3 +146,49 @@ class TestServizioUtenti:
             operatore_test["email"], operatore_test["password"]
         )
         assert result["ruolo"] == "OP"
+
+
+def _crea_token(sub: str, email: str, exp_delta_s: int = 3600) -> str:
+    payload = {
+        "sub": sub,
+        "email": email,
+        "aud": "authenticated",
+        "exp": datetime.now(timezone.utc) + timedelta(seconds=exp_delta_s),
+    }
+    return pyjwt.encode(payload, SUPABASE_JWT_SECRET, algorithm="HS256")
+
+
+class TestMiddleware:
+
+    def _app_protetta(self):
+        app = FastAPI()
+
+        @app.get("/protetta")
+        def protetta(u=Depends(verify_token())):
+            return {"ruolo": u["ruolo"]}
+
+        @app.get("/solo-ut")
+        def solo_ut(u=Depends(verify_token(["UT"]))):
+            return {"ok": True}
+
+        return TestClient(app)
+
+    def test_token_valido_restituisce_ruolo(self, utente_test):
+        token = _crea_token(str(utente_test["id"]), utente_test["email"])
+        resp = self._app_protetta().get("/protetta", headers={"Authorization": f"Bearer {token}"})
+        assert resp.status_code == 200
+        assert resp.json()["ruolo"] == "UT"
+
+    def test_token_mancante_restituisce_401(self):
+        resp = self._app_protetta().get("/protetta")
+        assert resp.status_code == 401
+
+    def test_token_scaduto_restituisce_401(self, utente_test):
+        token = _crea_token(str(utente_test["id"]), utente_test["email"], exp_delta_s=-1)
+        resp = self._app_protetta().get("/protetta", headers={"Authorization": f"Bearer {token}"})
+        assert resp.status_code == 401
+
+    def test_ruolo_errato_restituisce_403(self, operatore_test):
+        token = _crea_token(str(operatore_test["id"]), operatore_test["email"])
+        resp = self._app_protetta().get("/solo-ut", headers={"Authorization": f"Bearer {token}"})
+        assert resp.status_code == 403
