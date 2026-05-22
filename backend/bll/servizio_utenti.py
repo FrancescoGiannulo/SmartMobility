@@ -1,7 +1,13 @@
 from uuid import UUID
+from supabase import create_client
 from supabase_auth.errors import AuthApiError
-from config import supabase
+from config import supabase, SUPABASE_URL, SUPABASE_KEY
 from dal.attore_repository import AttoreRepository, AttoreNonTrovatoException
+
+
+def _client_per_richiesta():
+    """Client Supabase fresco per sign_in — isola la sessione utente dal singleton admin."""
+    return create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
 class CredenzialNonValideException(Exception):
@@ -53,7 +59,7 @@ class ServizioUtenti:
             raise ServizioAuthException(f"Errore durante la registrazione: {exc}") from exc
 
         try:
-            sign_in = supabase.auth.sign_in_with_password(
+            sign_in = _client_per_richiesta().auth.sign_in_with_password(
                 {"email": email, "password": password}
             )
             if sign_in.session is None:
@@ -81,7 +87,7 @@ class ServizioUtenti:
             raise AccountBloccatoException("Account bloccato per troppi tentativi falliti")
 
         try:
-            resp = supabase.auth.sign_in_with_password(
+            resp = _client_per_richiesta().auth.sign_in_with_password(
                 {"email": email, "password": password}
             )
             if resp.session is None or resp.user is None:
