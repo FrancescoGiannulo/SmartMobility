@@ -206,3 +206,31 @@ def test_crea_zona_poligono_invalido(operatore_test):
         headers={"Authorization": f"Bearer {token}"},
     )
     assert r.status_code == 422
+
+
+def test_repo_esiste_zona_operativa_contenente_true(db):
+    from dal.zona_repository import ZonaRepository
+    repo = ZonaRepository(db)
+    # Crea zona operativa grande
+    operativa = [
+        [16.84, 41.10], [16.88, 41.10],
+        [16.88, 41.14], [16.84, 41.14], [16.84, 41.10],
+    ]
+    repo.crea("test_op_outer", "operativa", operativa, None)
+    # Poligono piccolo interno
+    interno = [
+        [16.85, 41.11], [16.86, 41.11],
+        [16.86, 41.12], [16.85, 41.12], [16.85, 41.11],
+    ]
+    assert repo.esiste_zona_operativa_contenente(interno) is True
+
+
+def test_repo_esiste_zona_operativa_contenente_false(db):
+    from dal.zona_repository import ZonaRepository
+    repo = ZonaRepository(db)
+    # Nessuna zona operativa → False
+    esterno = [
+        [16.90, 41.15], [16.91, 41.15],
+        [16.91, 41.16], [16.90, 41.16], [16.90, 41.15],
+    ]
+    assert repo.esiste_zona_operativa_contenente(esterno) is False
