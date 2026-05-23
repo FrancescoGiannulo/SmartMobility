@@ -101,3 +101,21 @@ class ZonaRepository:
             s.commit()
         if rowcount == 0:
             raise ZonaNonTrovataException(f"Zona {zona_id} non trovata")
+
+    # [IF-OP.02] Verifica che il poligono ricada all'interno di una zona operativa attiva
+    def esiste_zona_operativa_contenente(self, coordinate: list[list[float]]) -> bool:
+        """True se esiste almeno una zona operativa attiva che contiene ST_Within il poligono dato."""
+        if coordinate[0] != coordinate[-1]:
+            coordinate = coordinate + [coordinate[0]]
+        geojson = json.dumps({"type": "Polygon", "coordinates": [coordinate]})
+        sql = text("""
+            SELECT EXISTS(
+                SELECT 1 FROM zone
+                WHERE tipo = 'operativa'
+                  AND attiva = true
+                  AND ST_Within(ST_GeomFromGeoJSON(:geojson), perimetro)
+            )
+        """)
+        with self._sessione() as s:
+            row = s.execute(sql, {"geojson": geojson}).fetchone()
+        return bool(row[0]) if row else False
