@@ -107,3 +107,36 @@ def test_lista_mezzi_tutti(db):
         with Session(db) as s:
             s.execute(text("DELETE FROM mezzi WHERE codice = 'TEST-M02'"))
             s.commit()
+
+
+def test_servizio_gis_crea_zona_valida(db):
+    from bll.servizio_gis import ServizioGIS
+    svc = ServizioGIS(db)
+    coordinate = [
+        [16.85, 41.11], [16.86, 41.11],
+        [16.86, 41.12], [16.85, 41.12], [16.85, 41.11],
+    ]
+    zona = svc.crea_zona("test_gis", "vietata", coordinate, None)
+    assert zona["nome"] == "test_gis"
+    assert zona["tipo"] == "vietata"
+    assert zona["perimetro"]["type"] == "Polygon"
+
+
+def test_servizio_gis_poligono_insufficiente(db):
+    from bll.servizio_gis import ServizioGIS, PoligonoNonValidoException
+    svc = ServizioGIS(db)
+    with pytest.raises(PoligonoNonValidoException):
+        svc.crea_zona("test_err", "vietata", [[16.85, 41.11], [16.86, 41.11]], None)
+
+
+def test_servizio_gis_lista_zone(db):
+    from bll.servizio_gis import ServizioGIS
+    svc = ServizioGIS(db)
+    coordinate = [
+        [16.85, 41.11], [16.86, 41.11],
+        [16.86, 41.12], [16.85, 41.12], [16.85, 41.11],
+    ]
+    svc.crea_zona("test_lista", "parcheggio", coordinate, None)
+    zone = svc.ottieni_zone()
+    nomi = [z["nome"] for z in zone]
+    assert "test_lista" in nomi
