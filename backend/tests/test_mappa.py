@@ -229,6 +229,8 @@ def test_repo_esiste_zona_operativa_contenente_false(db):
     from dal.zona_repository import ZonaRepository
     repo = ZonaRepository(db)
     # Nessuna zona operativa → False
+    # Il cleanup_zone fixture elimina tutte le zone con nome LIKE 'test_%',
+    # garantendo che non rimangano zone operative da test precedenti.
     esterno = [
         [16.90, 41.15], [16.91, 41.15],
         [16.91, 41.16], [16.90, 41.16], [16.90, 41.15],
