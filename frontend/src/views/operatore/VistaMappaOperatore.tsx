@@ -96,9 +96,7 @@ function DrawingManager({
     })
 
     managerRef.current = dm
-    return () => {
-      dm.setMap(null)
-    }
+    return () => { dm.setMap(null) }
   }, [mappa, tipoAttivo, onCompletato])
 
   return null

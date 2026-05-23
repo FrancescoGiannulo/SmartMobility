@@ -51,7 +51,7 @@ function App() {
     utente?.ruolo === 'AP' ? '/ap/dashboard' : '/'
 
   return (
-    <APIProvider apiKey={MAPS_API_KEY} libraries={['drawing']}>
+    <APIProvider apiKey={MAPS_API_KEY} version="quarterly" libraries={['drawing']}>
     <BrowserRouter>
       <Routes>
         <Route
