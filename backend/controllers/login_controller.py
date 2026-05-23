@@ -7,7 +7,7 @@ from bll.servizio_utenti import (
     AccountSospesoException,
     ServizioAuthException,
 )
-from middleware.auth_middleware import verify_token
+from middleware.auth_middleware import verify_token, decode_only
 from controllers.schemas import LoginRequest, AuthResponse
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -27,6 +27,20 @@ def login(body: LoginRequest):
         raise HTTPException(status_code=401, detail=str(e))
     except ServizioAuthException as e:
         raise HTTPException(status_code=502, detail=str(e))
+
+
+@router.post("/oauth-accedi")
+def oauth_accedi(decoded: dict = Depends(decode_only())):
+    """[IF-UT.18 — variante OAuth] Find-or-create per utenti autenticati via provider terzi."""
+    try:
+        return _servizio.accedi_oauth(
+            decoded["token"],
+            decoded["id"],
+            decoded["email"],
+            decoded["payload"],
+        )
+    except CredenzialNonValideException as e:
+        raise HTTPException(status_code=401, detail=str(e))
 
 
 @router.get("/me")

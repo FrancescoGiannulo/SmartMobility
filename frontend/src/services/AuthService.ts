@@ -51,19 +51,12 @@ export const autenticaGoogle = async (): Promise<void> => {
   })
 }
 
-// Callback OAuth: salva token e recupera profilo dal backend
-export const gestisciCallbackOAuth = async (): Promise<AuthResult | null> => {
-  const { data } = await supabase.auth.getSession()
-  if (!data.session) return null
-  localStorage.setItem('token', data.session.access_token)
-  const resp = await api.get<{ ruolo: string; profilo: Profilo }>('/auth/me')
-  const result: AuthResult = {
-    access_token: data.session.access_token,
-    ruolo: resp.data.ruolo as 'UT' | 'OP' | 'AP',
-    profilo: resp.data.profilo,
-  }
-  salvaSessione(result)
-  return result
+// [IF-UT.18 — variante OAuth] Callback OAuth: find-or-create sul backend, poi salva sessione
+export const gestisciCallbackOAuth = async (accessToken: string): Promise<AuthResult> => {
+  localStorage.setItem('token', accessToken)
+  const resp = await api.post<AuthResult>('/auth/oauth-accedi')
+  salvaSessione(resp.data)
+  return resp.data
 }
 
 export const logout = async (): Promise<void> => {

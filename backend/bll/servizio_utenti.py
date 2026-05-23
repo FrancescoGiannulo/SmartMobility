@@ -116,6 +116,30 @@ class ServizioUtenti:
             "profilo": self._build_profilo(profilo, ruolo, email),
         }
 
+    # [IF-UT.17 / IF-UT.18 — variante OAuth]
+    def accedi_oauth(self, token: str, user_id: UUID, email: str, payload: dict) -> dict:
+        """Find-or-create per utenti OAuth. Se non esiste in attori, crea come UT."""
+        try:
+            profilo, ruolo = self._repo.trova_per_id(user_id)
+        except AttoreNonTrovatoException:
+            user_meta = payload.get("user_metadata", {})
+            full_name = (
+                user_meta.get("full_name")
+                or user_meta.get("name")
+                or email.split("@")[0]
+            )
+            parts = full_name.strip().split(" ", 1)
+            nome = parts[0]
+            cognome = parts[1] if len(parts) > 1 else ""
+            self._repo.crea_utente(user_id, nome, cognome)
+            profilo, ruolo = self._repo.trova_per_id(user_id)
+
+        return {
+            "access_token": token,
+            "ruolo": ruolo,
+            "profilo": self._build_profilo(profilo, ruolo, email),
+        }
+
     def profilo_corrente(self, utente_id: UUID, email: str) -> dict:
         profilo, ruolo = self._repo.trova_per_id(utente_id)
         return {"ruolo": ruolo, "profilo": self._build_profilo(profilo, ruolo, email)}
