@@ -6,7 +6,7 @@
 
 Documenti di riferimento:
 - [`docs/SprintZero.md`](docs/SprintZero.md) — architettura, glossario, mockup UI
-- [`docs/SprintUno.md`](docs/SprintUno.md) — Sprint 1 Backlog, casi d'uso, schema DB (**documento primario per Sprint 1**)
+- [`docs/Sprint1_definitivo.md`](docs/Sprint1_definitivo.md) — Sprint 1 Backlog, casi d'uso, mockup UI (**documento primario per Sprint 1** — sostituisce SprintUno.md)
 
 Tre ruoli utente distinti:
 - **UT** — Utente finale (cittadino)
@@ -33,6 +33,9 @@ Tre ruoli utente distinti:
 ### Chiavi Supabase
 - **Publishable key** (`anon`) → usata nel frontend React (`frontend/.env.local`)
 - **Secret key** (`service_role`) → usata solo nel backend FastAPI (`backend/.env`) — mai esposta al client
+
+### Workaround SSL rete universitaria
+Alcuni membri del team lavorano su rete universitaria con SSL inspection che rifiuta il certificato CA di Supabase. Il workaround è già in `backend/middleware/auth_middleware.py`: il `PyJWKClient` (usato solo per token ES256) viene inizializzato con un `ssl_context` che disabilita `check_hostname` e `verify_mode`. **Non rimuovere questo workaround.** La verifica crittografica del JWT tramite PyJWT rimane attiva — viene saltato solo il chain check del certificato TLS per il JWKS endpoint. Assicurarsi che questo blocco sia presente ad ogni modifica di `auth_middleware.py`.
 
 ### Avvio locale
 
