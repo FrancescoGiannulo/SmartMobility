@@ -43,6 +43,30 @@ def _decode_token(token: str) -> dict:
         )
 
 
+def decode_only():
+    """Dependency: decodifica il JWT senza verificare la presenza in attori. Per OAuth find-or-create."""
+
+    def _inner(request: Request) -> dict:
+        auth = request.headers.get("Authorization", "")
+        if not auth.startswith("Bearer "):
+            raise HTTPException(status_code=401, detail="Token non valido o scaduto")
+        token = auth.removeprefix("Bearer ")
+        try:
+            payload = _decode_token(token)
+        except jwt.ExpiredSignatureError:
+            raise HTTPException(status_code=401, detail="Token non valido o scaduto")
+        except Exception:
+            raise HTTPException(status_code=401, detail="Token non valido o scaduto")
+        return {
+            "id": UUID(payload["sub"]),
+            "email": payload.get("email", ""),
+            "token": token,
+            "payload": payload,
+        }
+
+    return _inner
+
+
 def verify_token(required_roles: list[str] | None = None):
     """Dependency factory. Verifica JWT Supabase e ruolo. Inietta {id, ruolo, email} nella request."""
 
