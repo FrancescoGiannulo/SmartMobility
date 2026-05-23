@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
 from middleware.auth_middleware import verify_token
-from bll.servizio_gis import ServizioGIS, PoligonoNonValidoException
+from bll.servizio_gis import ServizioGIS, PoligonoNonValidoException, PoligonoFuoriZonaOperativaException
 from dal.zona_repository import ZonaNonTrovataException
 from controllers.schemas import ZonaOut, ZonaCreate
 
@@ -30,7 +30,7 @@ def crea_zona(
         return ServizioGIS(db).crea_zona(
             body.nome, body.tipo, body.coordinate, body.limite_velocita
         )
-    except PoligonoNonValidoException as e:
+    except (PoligonoNonValidoException, PoligonoFuoriZonaOperativaException) as e:
         raise HTTPException(status_code=422, detail=str(e))
 
 
