@@ -1,4 +1,5 @@
 import json
+from contextlib import contextmanager
 from uuid import UUID
 from sqlalchemy import Engine, text
 from sqlalchemy.orm import Session
@@ -16,19 +17,25 @@ class ZonaRepository:
         self._engine = db if isinstance(db, Engine) else None
         self._session = db if not isinstance(db, Engine) else None
 
-    def lista_zone(self, solo_attive: bool = True) -> list[dict]:
-        filtro = "WHERE attiva = true" if solo_attive else ""
-        sql = text(f"""
-            SELECT id, nome, tipo, limite_velocita, attiva,
-                   ST_AsGeoJSON(perimetro)::json AS perimetro
-            FROM zone {filtro}
-            ORDER BY created_at DESC
-        """)
+    @contextmanager
+    def _sessione(self):
+        """Context manager centralizzato: restituisce la session iniettata o ne apre una nuova dall'engine."""
         if self._session is not None:
-            rows = self._session.execute(sql).fetchall()
+            yield self._session
         else:
             with Session(self._engine) as s:
-                rows = s.execute(sql).fetchall()
+                yield s
+
+    def lista_zone(self, solo_attive: bool = True) -> list[dict]:
+        sql = text("""
+            SELECT id, nome, tipo, limite_velocita, attiva,
+                   ST_AsGeoJSON(perimetro)::json AS perimetro
+            FROM zone
+            WHERE (:solo_attive = false OR attiva = true)
+            ORDER BY created_at DESC
+        """)
+        with self._sessione() as s:
+            rows = s.execute(sql, {"solo_attive": solo_attive}).fetchall()
         return [
             {
                 "id": row.id,
@@ -41,20 +48,17 @@ class ZonaRepository:
             for row in rows
         ]
 
-    def trova_per_id(self, id: UUID) -> dict:
+    def trova_per_id(self, zona_id: UUID) -> dict:
         sql = text("""
             SELECT id, nome, tipo, limite_velocita, attiva,
                    ST_AsGeoJSON(perimetro)::json AS perimetro
-            FROM zone WHERE id = :id
+            FROM zone WHERE id = :zona_id
         """)
-        params = {"id": str(id)}
-        if self._session is not None:
-            row = self._session.execute(sql, params).fetchone()
-        else:
-            with Session(self._engine) as s:
-                row = s.execute(sql, params).fetchone()
+        params = {"zona_id": str(zona_id)}
+        with self._sessione() as s:
+            row = s.execute(sql, params).fetchone()
         if not row:
-            raise ZonaNonTrovataException(f"Zona {id} non trovata")
+            raise ZonaNonTrovataException(f"Zona {zona_id} non trovata")
         return {
             "id": row.id,
             "nome": row.nome,
@@ -75,13 +79,13 @@ class ZonaRepository:
             RETURNING id, nome, tipo, limite_velocita, attiva
         """)
         params = {"nome": nome, "tipo": tipo, "geojson": geojson, "limite": limite_velocita}
-        if self._session is not None:
-            row = self._session.execute(sql, params).fetchone()
-            self._session.commit()
-        else:
-            with Session(self._engine) as s:
-                row = s.execute(sql, params).fetchone()
+        with self._sessione() as s:
+            row = s.execute(sql, params).fetchone()
+            # Solo in engine mode: la session iniettata gestisce il proprio commit
+            if self._engine is not None:
                 s.commit()
+        if row is None:
+            raise RuntimeError(f"INSERT INTO zone non ha restituito righe per nome={nome!r}")
         zona = Zona()
         zona.id = row.id
         zona.nome = row.nome
@@ -90,17 +94,14 @@ class ZonaRepository:
         zona.attiva = row.attiva
         return zona
 
-    def elimina(self, id: UUID) -> None:
-        sql = text("DELETE FROM zone WHERE id = :id")
-        params = {"id": str(id)}
-        if self._session is not None:
-            result = self._session.execute(sql, params)
-            self._session.commit()
+    def elimina(self, zona_id: UUID) -> None:
+        sql = text("DELETE FROM zone WHERE id = :zona_id")
+        params = {"zona_id": str(zona_id)}
+        with self._sessione() as s:
+            result = s.execute(sql, params)
             rowcount = result.rowcount
-        else:
-            with Session(self._engine) as s:
-                result = s.execute(sql, params)
-                rowcount = result.rowcount
+            # Solo in engine mode: la session iniettata gestisce il proprio commit
+            if self._engine is not None:
                 s.commit()
         if rowcount == 0:
-            raise ZonaNonTrovataException(f"Zona {id} non trovata")
+            raise ZonaNonTrovataException(f"Zona {zona_id} non trovata")

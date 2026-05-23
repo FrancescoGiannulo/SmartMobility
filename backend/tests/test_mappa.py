@@ -1,5 +1,5 @@
 import pytest
-from uuid import UUID
+from uuid import UUID, uuid4
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
@@ -48,3 +48,24 @@ def test_elimina_zona(db):
     repo.elimina(zona.id)
     lista = repo.lista_zone(solo_attive=True)
     assert str(zona.id) not in [str(z["id"]) for z in lista]
+
+
+def test_trova_per_id(db):
+    from dal.zona_repository import ZonaRepository
+    repo = ZonaRepository(db)
+    coordinate = [
+        [16.85, 41.11], [16.86, 41.11],
+        [16.86, 41.12], [16.85, 41.12], [16.85, 41.11],
+    ]
+    zona = repo.crea("test_trova", "limitata", coordinate, 30)
+    risultato = repo.trova_per_id(zona.id)
+    assert str(risultato["id"]) == str(zona.id)
+    assert risultato["nome"] == "test_trova"
+    assert risultato["tipo"] == "limitata"
+
+
+def test_trova_per_id_non_trovata(db):
+    from dal.zona_repository import ZonaRepository, ZonaNonTrovataException
+    repo = ZonaRepository(db)
+    with pytest.raises(ZonaNonTrovataException):
+        repo.trova_per_id(uuid4())
