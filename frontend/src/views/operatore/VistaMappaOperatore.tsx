@@ -10,6 +10,7 @@ import { getMezziOperatore, getZoneOperatore, type MezzoMappa, type ZonaMappa } 
 import { creaZona, eliminaZona } from '../../services/ZonaService'
 import { logout } from '../../services/AuthService'
 import ZonaPoligono from '../../components/ZonaPoligono'
+import TooltipZona from '../../components/TooltipZona'
 import './VistaMappaOperatore.css'
 
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
@@ -50,25 +51,6 @@ function PinMezzo({ tipo, stato }: { tipo: string; stato: string }) {
   )
 }
 
-function TooltipZona({ zona }: { zona: ZonaMappa }) {
-  const colori = COLORI_ZONA[zona.tipo] ?? COLORI_ZONA.operativa
-  return (
-    <div style={{ padding: '4px 2px', minWidth: 120 }}>
-      <strong style={{ display: 'block', marginBottom: 4 }}>{zona.nome}</strong>
-      <span style={{
-        display: 'inline-block', padding: '2px 8px', borderRadius: 12, fontSize: 12,
-        background: colori.stroke, color: '#fff',
-      }}>
-        {zona.tipo}
-      </span>
-      {zona.limite_velocita && (
-        <span style={{ display: 'block', marginTop: 4, fontSize: 12 }}>
-          Max {zona.limite_velocita} km/h
-        </span>
-      )}
-    </div>
-  )
-}
 
 type TipoZona = 'vietata' | 'limitata' | 'parcheggio' | 'operativa'
 
@@ -141,6 +123,7 @@ export default function VistaMappaOperatore() {
   const [zonaHover, setZonaHover] = useState<ZonaHover | null>(null)
   const [zonaSelezionata, setZonaSelezionata] = useState<ZonaMappa | null>(null)
   const [eliminazione, setEliminazione] = useState(false)
+  const [erroreEliminazione, setErroreEliminazione] = useState('')
 
   const ricaricaDati = useCallback(() => {
     Promise.all([getMezziOperatore(), getZoneOperatore()])
@@ -199,12 +182,15 @@ export default function VistaMappaOperatore() {
   const handleEliminaZona = async () => {
     if (!zonaSelezionata) return
     setEliminazione(true)
+    setErroreEliminazione('')
     try {
       await eliminaZona(zonaSelezionata.id)
-    } finally {
       setZonaSelezionata(null)
-      setEliminazione(false)
       ricaricaDati()
+    } catch {
+      setErroreEliminazione('Impossibile eliminare la zona. Riprova.')
+    } finally {
+      setEliminazione(false)
     }
   }
 
@@ -344,6 +330,7 @@ export default function VistaMappaOperatore() {
             <p style={{ marginBottom: 16 }}>
               Vuoi eliminare la zona <strong>{zonaSelezionata.nome}</strong>?
             </p>
+            {erroreEliminazione && <p className="modal-errore">{erroreEliminazione}</p>}
             <button
               className="btn-pannello"
               style={{ background: '#f44336' }}
@@ -354,7 +341,7 @@ export default function VistaMappaOperatore() {
             </button>
             <button
               className="btn-pannello secondario"
-              onClick={() => setZonaSelezionata(null)}
+              onClick={() => { setZonaSelezionata(null); setErroreEliminazione('') }}
             >
               Annulla
             </button>
