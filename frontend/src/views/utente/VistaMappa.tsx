@@ -8,6 +8,7 @@ import {
 import { getMezziUtente, getZoneUtente, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
 import { logout } from '../../services/AuthService'
 import ZonaPoligono from '../../components/ZonaPoligono'
+import TooltipZona from '../../components/TooltipZona'
 import './VistaMappa.css'
 
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
@@ -128,22 +129,3 @@ export default function VistaMappa() {
   )
 }
 
-function TooltipZona({ zona }: { zona: ZonaMappa }) {
-  const colori = COLORI_ZONA[zona.tipo] ?? COLORI_ZONA.operativa
-  return (
-    <div style={{ padding: '4px 2px', minWidth: 120 }}>
-      <strong style={{ display: 'block', marginBottom: 4 }}>{zona.nome}</strong>
-      <span style={{
-        display: 'inline-block', padding: '2px 8px', borderRadius: 12, fontSize: 12,
-        background: colori.stroke, color: '#fff',
-      }}>
-        {zona.tipo}
-      </span>
-      {zona.limite_velocita && (
-        <span style={{ display: 'block', marginTop: 4, fontSize: 12 }}>
-          Max {zona.limite_velocita} km/h
-        </span>
-      )}
-    </div>
-  )
-}
