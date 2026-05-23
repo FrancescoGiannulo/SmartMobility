@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import {
   Map,
   AdvancedMarker,
-  Polygon,
+  InfoWindow,
   useMap,
 } from '@vis.gl/react-google-maps'
 import { getMezziOperatore, getZoneOperatore, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
-import { creaZona } from '../../services/ZonaService'
+import { creaZona, eliminaZona } from '../../services/ZonaService'
 import { logout } from '../../services/AuthService'
+import ZonaPoligono from '../../components/ZonaPoligono'
 import './VistaMappaOperatore.css'
 
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
@@ -49,11 +50,36 @@ function PinMezzo({ tipo, stato }: { tipo: string; stato: string }) {
   )
 }
 
+function TooltipZona({ zona }: { zona: ZonaMappa }) {
+  const colori = COLORI_ZONA[zona.tipo] ?? COLORI_ZONA.operativa
+  return (
+    <div style={{ padding: '4px 2px', minWidth: 120 }}>
+      <strong style={{ display: 'block', marginBottom: 4 }}>{zona.nome}</strong>
+      <span style={{
+        display: 'inline-block', padding: '2px 8px', borderRadius: 12, fontSize: 12,
+        background: colori.stroke, color: '#fff',
+      }}>
+        {zona.tipo}
+      </span>
+      {zona.limite_velocita && (
+        <span style={{ display: 'block', marginTop: 4, fontSize: 12 }}>
+          Max {zona.limite_velocita} km/h
+        </span>
+      )}
+    </div>
+  )
+}
+
 type TipoZona = 'vietata' | 'limitata' | 'parcheggio' | 'operativa'
 
 interface ModalZona {
   tipo: TipoZona
   coordinate: google.maps.LatLngLiteral[]
+}
+
+interface ZonaHover {
+  zona: ZonaMappa
+  pos: google.maps.LatLngLiteral
 }
 
 function DrawingManager({
@@ -112,6 +138,9 @@ export default function VistaMappaOperatore() {
   const [limiteVelocita, setLimiteVelocita] = useState('')
   const [erroreModal, setErroreModal] = useState('')
   const [caricamento, setCaricamento] = useState(false)
+  const [zonaHover, setZonaHover] = useState<ZonaHover | null>(null)
+  const [zonaSelezionata, setZonaSelezionata] = useState<ZonaMappa | null>(null)
+  const [eliminazione, setEliminazione] = useState(false)
 
   const ricaricaDati = useCallback(() => {
     Promise.all([getMezziOperatore(), getZoneOperatore()])
@@ -155,10 +184,27 @@ export default function VistaMappaOperatore() {
       })
       setModalZona(null)
       ricaricaDati()
-    } catch {
-      setErroreModal('Errore durante il salvataggio. Riprova.')
+    } catch (err: unknown) {
+      const status = (err as { response?: { status?: number } })?.response?.status
+      if (status === 422) {
+        setErroreModal("La zona deve essere disegnata all'interno del confine operativo.")
+      } else {
+        setErroreModal('Errore durante il salvataggio. Riprova.')
+      }
     } finally {
       setCaricamento(false)
+    }
+  }
+
+  const handleEliminaZona = async () => {
+    if (!zonaSelezionata) return
+    setEliminazione(true)
+    try {
+      await eliminaZona(zonaSelezionata.id)
+    } finally {
+      setZonaSelezionata(null)
+      setEliminazione(false)
+      ricaricaDati()
     }
   }
 
@@ -172,39 +218,50 @@ export default function VistaMappaOperatore() {
       <div className="mappa-op-body">
         <div className="mappa-op-mappa">
           <Map
-              style={{ width: '100%', height: '100%' }}
-              defaultCenter={CENTRO_DEFAULT}
-              defaultZoom={14}
-              mapId="mappa-operatore"
-              gestureHandling="greedy"
-            >
-              <DrawingManager
-                tipoAttivo={tipoDisegno}
-                onCompletato={handlePoligonoCompletato}
-              />
+            style={{ width: '100%', height: '100%' }}
+            defaultCenter={CENTRO_DEFAULT}
+            defaultZoom={14}
+            mapId="mappa-operatore"
+            gestureHandling="greedy"
+          >
+            <DrawingManager
+              tipoAttivo={tipoDisegno}
+              onCompletato={handlePoligonoCompletato}
+            />
 
-              {mezzi.map(m => (
-                <AdvancedMarker key={m.id} position={{ lat: m.lat, lng: m.lng }}>
-                  <PinMezzo tipo={m.tipo} stato={m.stato} />
-                </AdvancedMarker>
-              ))}
+            {mezzi.map(m => (
+              <AdvancedMarker key={m.id} position={{ lat: m.lat, lng: m.lng }}>
+                <PinMezzo tipo={m.tipo} stato={m.stato} />
+              </AdvancedMarker>
+            ))}
 
-              {zone.map(z => {
-                const colori = COLORI_ZONA[z.tipo] ?? COLORI_ZONA.operativa
-                const paths = z.perimetro.coordinates[0].map(([lng, lat]) => ({ lat, lng }))
-                return (
-                  <Polygon
-                    key={z.id}
-                    paths={paths}
-                    strokeColor={colori.stroke}
-                    strokeOpacity={1}
-                    strokeWeight={2}
-                    fillColor={colori.fill}
-                    fillOpacity={1}
-                  />
-                )
-              })}
-            </Map>
+            {zone.map(z => {
+              const colori = COLORI_ZONA[z.tipo] ?? COLORI_ZONA.operativa
+              return (
+                <ZonaPoligono
+                  key={z.id}
+                  zona={z}
+                  fillColor={colori.fill}
+                  strokeColor={colori.stroke}
+                  onHover={(zona, pos) => setZonaHover({ zona, pos })}
+                  onHoverEnd={() => setZonaHover(null)}
+                  onClick={zona => {
+                    setZonaHover(null)
+                    setZonaSelezionata(zona)
+                  }}
+                />
+              )
+            })}
+
+            {zonaHover && (
+              <InfoWindow
+                position={zonaHover.pos}
+                onCloseClick={() => setZonaHover(null)}
+              >
+                <TooltipZona zona={zonaHover.zona} />
+              </InfoWindow>
+            )}
+          </Map>
         </div>
 
         <div className="mappa-op-pannello">
@@ -274,6 +331,31 @@ export default function VistaMappaOperatore() {
               {caricamento ? '...' : 'SALVA ZONA'}
             </button>
             <button className="btn-pannello secondario" onClick={() => setModalZona(null)}>
+              Annulla
+            </button>
+          </div>
+        </div>
+      )}
+
+      {zonaSelezionata && (
+        <div className="modal-overlay">
+          <div className="modal-card">
+            <h3>Elimina zona</h3>
+            <p style={{ marginBottom: 16 }}>
+              Vuoi eliminare la zona <strong>{zonaSelezionata.nome}</strong>?
+            </p>
+            <button
+              className="btn-pannello"
+              style={{ background: '#f44336' }}
+              onClick={handleEliminaZona}
+              disabled={eliminazione}
+            >
+              {eliminazione ? '...' : 'ELIMINA'}
+            </button>
+            <button
+              className="btn-pannello secondario"
+              onClick={() => setZonaSelezionata(null)}
+            >
               Annulla
             </button>
           </div>
