@@ -1,10 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
+import { APIProvider } from '@vis.gl/react-google-maps'
 import VistaLogin from './views/auth/VistaLogin'
 import CallbackOAuth from './views/auth/CallbackOAuth'
 import RoutaProtetta from './components/RoutaProtetta'
 import VistaMappa from './views/utente/VistaMappa'
 import VistaMappaOperatore from './views/operatore/VistaMappaOperatore'
 import { utenteCorrente, logout } from './services/AuthService'
+
+const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string
 
 function PlaceholderView({ titolo }: { titolo: string }) {
   const navigate = useNavigate()
@@ -48,6 +51,7 @@ function App() {
     utente?.ruolo === 'AP' ? '/ap/dashboard' : '/'
 
   return (
+    <APIProvider apiKey={MAPS_API_KEY} libraries={['drawing']}>
     <BrowserRouter>
       <Routes>
         <Route
@@ -99,6 +103,7 @@ function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
+    </APIProvider>
   )
 }
 

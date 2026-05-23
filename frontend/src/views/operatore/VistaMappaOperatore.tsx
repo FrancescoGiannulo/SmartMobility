@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  APIProvider,
   Map,
   AdvancedMarker,
   Polygon,
@@ -12,7 +11,6 @@ import { creaZona } from '../../services/ZonaService'
 import { logout } from '../../services/AuthService'
 import './VistaMappaOperatore.css'
 
-const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
 
 const COLORI_ZONA: Record<string, { fill: string; stroke: string }> = {
@@ -175,11 +173,7 @@ export default function VistaMappaOperatore() {
 
       <div className="mappa-op-body">
         <div className="mappa-op-mappa">
-          <APIProvider
-            apiKey={API_KEY}
-            libraries={['drawing']}
-          >
-            <Map
+          <Map
               style={{ width: '100%', height: '100%' }}
               defaultCenter={CENTRO_DEFAULT}
               defaultZoom={14}
@@ -213,7 +207,6 @@ export default function VistaMappaOperatore() {
                 )
               })}
             </Map>
-          </APIProvider>
         </div>
 
         <div className="mappa-op-pannello">
