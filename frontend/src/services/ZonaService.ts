@@ -1,8 +1,18 @@
 import { api } from './ApiService'
+import type { ZonaMappa } from './MapService'
 
-// [IF-AP.02] Definisce Zone Vietate / [IF-AP.03] Zone Parcheggio / [IF-OP.03] Zone Operative
-export const creaZona = (zona: object) => api.post('/zone', zona)
+export interface ZonaCreate {
+  nome: string
+  tipo: string
+  coordinate: number[][]
+  limite_velocita: number | null
+}
 
-export const getZone = () => api.get('/zone')
+export const creaZona = async (dati: ZonaCreate): Promise<ZonaMappa> => {
+  const r = await api.post<ZonaMappa>('/operatore/zone', dati)
+  return r.data
+}
 
-export const modificaZona = (id: string, dati: object) => api.put(`/zone/${id}`, dati)
+export const eliminaZona = async (id: string): Promise<void> => {
+  await api.delete(`/operatore/zone/${id}`)
+}
