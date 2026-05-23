@@ -113,6 +113,12 @@ def test_lista_mezzi_tutti(db):
 def test_servizio_gis_crea_zona_valida(db):
     from bll.servizio_gis import ServizioGIS
     svc = ServizioGIS(db)
+    # Zona operativa contenitore
+    operativa = [
+        [16.84, 41.10], [16.88, 41.10],
+        [16.88, 41.14], [16.84, 41.14], [16.84, 41.10],
+    ]
+    svc.crea_zona("test_op_valida", "operativa", operativa, None)
     coordinate = [
         [16.85, 41.11], [16.86, 41.11],
         [16.86, 41.12], [16.85, 41.12], [16.85, 41.11],
@@ -133,6 +139,11 @@ def test_servizio_gis_poligono_insufficiente(db):
 def test_servizio_gis_lista_zone(db):
     from bll.servizio_gis import ServizioGIS
     svc = ServizioGIS(db)
+    operativa = [
+        [16.84, 41.10], [16.88, 41.10],
+        [16.88, 41.14], [16.84, 41.14], [16.84, 41.10],
+    ]
+    svc.crea_zona("test_op_lista", "operativa", operativa, None)
     coordinate = [
         [16.85, 41.11], [16.86, 41.11],
         [16.86, 41.12], [16.85, 41.12], [16.85, 41.11],
@@ -166,6 +177,23 @@ def test_mappa_mezzi_utente_non_autenticato():
 
 def test_crea_zona_via_http(operatore_test):
     token = _login(operatore_test["email"], operatore_test["password"])
+    # Crea zona operativa contenitore
+    r_op = httpx.post(
+        "http://localhost:8000/operatore/zone",
+        json={
+            "nome": "test_op_http",
+            "tipo": "operativa",
+            "coordinate": [
+                [16.84, 41.10], [16.88, 41.10],
+                [16.88, 41.14], [16.84, 41.14],
+            ],
+            "limite_velocita": None,
+        },
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    assert r_op.status_code == 201
+    op_id = r_op.json()["id"]
+
     payload = {
         "nome": "test_http_zona",
         "tipo": "vietata",
@@ -188,6 +216,10 @@ def test_crea_zona_via_http(operatore_test):
     zona_id = data["id"]
     httpx.delete(
         f"http://localhost:8000/operatore/zone/{zona_id}",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    httpx.delete(
+        f"http://localhost:8000/operatore/zone/{op_id}",
         headers={"Authorization": f"Bearer {token}"},
     )
 
@@ -236,3 +268,52 @@ def test_repo_esiste_zona_operativa_contenente_false(db):
         [16.91, 41.16], [16.90, 41.16], [16.90, 41.15],
     ]
     assert repo.esiste_zona_operativa_contenente(esterno) is False
+
+
+def test_servizio_gis_vincolo_zona_operativa_ok(db):
+    """Zona non-operativa dentro una zona operativa → crea correttamente."""
+    from bll.servizio_gis import ServizioGIS
+    svc = ServizioGIS(db)
+    operativa = [
+        [16.84, 41.10], [16.88, 41.10],
+        [16.88, 41.14], [16.84, 41.14], [16.84, 41.10],
+    ]
+    svc.crea_zona("test_op_vincolo", "operativa", operativa, None)
+    interno = [
+        [16.85, 41.11], [16.86, 41.11],
+        [16.86, 41.12], [16.85, 41.12], [16.85, 41.11],
+    ]
+    zona = svc.crea_zona("test_vietata_interna", "vietata", interno, None)
+    assert zona["nome"] == "test_vietata_interna"
+
+
+def test_servizio_gis_vincolo_zona_operativa_fuori(db):
+    """Zona non-operativa fuori da qualsiasi zona operativa → PoligonoFuoriZonaOperativaException."""
+    from bll.servizio_gis import ServizioGIS, PoligonoFuoriZonaOperativaException
+    svc = ServizioGIS(db)
+    esterno = [
+        [16.90, 41.15], [16.91, 41.15],
+        [16.91, 41.16], [16.90, 41.16], [16.90, 41.15],
+    ]
+    with pytest.raises(PoligonoFuoriZonaOperativaException):
+        svc.crea_zona("test_fuori", "vietata", esterno, None)
+
+
+def test_crea_zona_fuori_operativa_http(operatore_test):
+    """POST /operatore/zone con zona non-operativa fuori confine → 422."""
+    token = _login(operatore_test["email"], operatore_test["password"])
+    payload = {
+        "nome": "test_fuori_http",
+        "tipo": "limitata",
+        "coordinate": [
+            [16.90, 41.15], [16.91, 41.15],
+            [16.91, 41.16], [16.90, 41.16],
+        ],
+        "limite_velocita": 30,
+    }
+    r = httpx.post(
+        "http://localhost:8000/operatore/zone",
+        json=payload,
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    assert r.status_code == 422
