@@ -69,3 +69,41 @@ def test_trova_per_id_non_trovata(db):
     repo = ZonaRepository(db)
     with pytest.raises(ZonaNonTrovataException):
         repo.trova_per_id(uuid4())
+
+
+def test_lista_mezzi_disponibili(db):
+    from dal.mezzo_repository import MezzoRepository
+    with Session(db) as s:
+        s.execute(text("""
+            INSERT INTO mezzi (codice, tipo, stato, lat, lng, batteria)
+            VALUES ('TEST-M01', 'monopattino', 'Disponibile', 41.11, 16.85, 80)
+        """))
+        s.commit()
+    try:
+        repo = MezzoRepository(db)
+        mezzi = repo.lista_per_mappa(solo_disponibili=True)
+        assert "TEST-M01" in [m["codice"] for m in mezzi]
+    finally:
+        with Session(db) as s:
+            s.execute(text("DELETE FROM mezzi WHERE codice = 'TEST-M01'"))
+            s.commit()
+
+
+def test_lista_mezzi_tutti(db):
+    from dal.mezzo_repository import MezzoRepository
+    with Session(db) as s:
+        s.execute(text("""
+            INSERT INTO mezzi (codice, tipo, stato, lat, lng, batteria)
+            VALUES ('TEST-M02', 'bicicletta', 'In manutenzione', 41.12, 16.86, 20)
+        """))
+        s.commit()
+    try:
+        repo = MezzoRepository(db)
+        tutti = repo.lista_per_mappa(solo_disponibili=False)
+        assert "TEST-M02" in [m["codice"] for m in tutti]
+        disponibili = repo.lista_per_mappa(solo_disponibili=True)
+        assert "TEST-M02" not in [m["codice"] for m in disponibili]
+    finally:
+        with Session(db) as s:
+            s.execute(text("DELETE FROM mezzi WHERE codice = 'TEST-M02'"))
+            s.commit()
