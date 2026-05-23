@@ -231,7 +231,7 @@ export default function VistaMappaOperatore() {
                   strokeColor={colori.stroke}
                   onHover={(zona, pos) => setZonaHover({ zona, pos })}
                   onHoverEnd={() => setZonaHover(null)}
-                  onClick={zona => {
+                  onClick={tipoDisegno ? undefined : zona => {
                     setZonaHover(null)
                     setZonaSelezionata(zona)
                   }}
