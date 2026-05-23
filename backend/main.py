@@ -2,7 +2,9 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from controllers.login_controller import router as login_router
-from controllers.utente_controller import router as utente_router
+from controllers.utente_controller import router as auth_router, mappa_router
+from controllers.mezzo_operatore_controller import router as mezzo_op_router
+from controllers.zona_operatore_controller import router as zona_op_router
 
 app = FastAPI(title="SmartMobility API")
 
@@ -15,7 +17,10 @@ app.add_middleware(
 )
 
 app.include_router(login_router)
-app.include_router(utente_router)
+app.include_router(auth_router)
+app.include_router(mappa_router)
+app.include_router(mezzo_op_router)
+app.include_router(zona_op_router)
 
 
 @app.get("/")
