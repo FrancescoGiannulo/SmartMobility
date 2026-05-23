@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  APIProvider,
   Map,
   AdvancedMarker,
   Polygon,
@@ -9,8 +8,6 @@ import {
 import { getMezziUtente, getZoneUtente, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
 import { logout } from '../../services/AuthService'
 import './VistaMappa.css'
-
-const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string
 
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
 
@@ -77,8 +74,7 @@ export default function VistaMappa() {
         <button className="btn-logout-mappa" onClick={handleLogout}>LOGOUT</button>
       </div>
 
-      <APIProvider apiKey={API_KEY}>
-        <Map
+      <Map
           className="mappa-container"
           defaultCenter={centro}
           defaultZoom={14}
@@ -109,7 +105,6 @@ export default function VistaMappa() {
             )
           })}
         </Map>
-      </APIProvider>
 
       {errore && <div className="mappa-errore">{errore}</div>}
       {!errore && mezzi.length === 0 && (
