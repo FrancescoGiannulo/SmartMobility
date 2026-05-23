@@ -9,6 +9,10 @@ class PoligonoNonValidoException(Exception):
     pass
 
 
+class PoligonoFuoriZonaOperativaException(Exception):
+    pass
+
+
 class ServizioGIS:
     """Funzionalità geografiche: zone, posizioni, validazione perimetri."""
 
@@ -37,6 +41,12 @@ class ServizioGIS:
             raise PoligonoNonValidoException("Il poligono deve avere almeno 3 vertici distinti")
         if coordinate[0] != coordinate[-1]:
             coordinate = coordinate + [coordinate[0]]
+        # [IF-OP.02] Zone non-operative devono essere contenute in una zona operativa
+        if tipo != "operativa":
+            if not self._zone_repo.esiste_zona_operativa_contenente(coordinate):
+                raise PoligonoFuoriZonaOperativaException(
+                    "La zona deve essere disegnata all'interno del confine operativo"
+                )
         zona = self._zone_repo.crea(nome, tipo, coordinate, limite_velocita)
         return self._zone_repo.trova_per_id(zona.id)
 
