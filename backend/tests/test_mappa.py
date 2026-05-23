@@ -1,4 +1,5 @@
 import pytest
+import httpx
 from uuid import UUID, uuid4
 from sqlalchemy import text
 from sqlalchemy.orm import Session
@@ -140,3 +141,68 @@ def test_servizio_gis_lista_zone(db):
     zone = svc.ottieni_zone()
     nomi = [z["nome"] for z in zone]
     assert "test_lista" in nomi
+
+
+def _login(email: str, password: str) -> str:
+    r = httpx.post("http://localhost:8000/auth/login", json={"email": email, "password": password})
+    assert r.status_code == 200, f"Login failed: {r.text}"
+    return r.json()["access_token"]
+
+
+def test_mappa_mezzi_utente_autenticato(utente_test):
+    token = _login(utente_test["email"], utente_test["password"])
+    r = httpx.get(
+        "http://localhost:8000/utente/mappa/mezzi",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    assert r.status_code == 200
+    assert isinstance(r.json(), list)
+
+
+def test_mappa_mezzi_utente_non_autenticato():
+    r = httpx.get("http://localhost:8000/utente/mappa/mezzi")
+    assert r.status_code == 401
+
+
+def test_crea_zona_via_http(operatore_test):
+    token = _login(operatore_test["email"], operatore_test["password"])
+    payload = {
+        "nome": "test_http_zona",
+        "tipo": "vietata",
+        "coordinate": [
+            [16.85, 41.11], [16.86, 41.11],
+            [16.86, 41.12], [16.85, 41.12],
+        ],
+        "limite_velocita": None,
+    }
+    r = httpx.post(
+        "http://localhost:8000/operatore/zone",
+        json=payload,
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    assert r.status_code == 201
+    data = r.json()
+    assert data["nome"] == "test_http_zona"
+    assert data["tipo"] == "vietata"
+    assert data["perimetro"]["type"] == "Polygon"
+    zona_id = data["id"]
+    httpx.delete(
+        f"http://localhost:8000/operatore/zone/{zona_id}",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+
+def test_crea_zona_poligono_invalido(operatore_test):
+    token = _login(operatore_test["email"], operatore_test["password"])
+    payload = {
+        "nome": "test_invalido",
+        "tipo": "vietata",
+        "coordinate": [[16.85, 41.11], [16.86, 41.11]],
+        "limite_velocita": None,
+    }
+    r = httpx.post(
+        "http://localhost:8000/operatore/zone",
+        json=payload,
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    assert r.status_code == 422
