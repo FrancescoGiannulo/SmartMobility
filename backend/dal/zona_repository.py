@@ -81,9 +81,7 @@ class ZonaRepository:
         params = {"nome": nome, "tipo": tipo, "geojson": geojson, "limite": limite_velocita}
         with self._sessione() as s:
             row = s.execute(sql, params).fetchone()
-            # Solo in engine mode: la session iniettata gestisce il proprio commit
-            if self._engine is not None:
-                s.commit()
+            s.commit()
         if row is None:
             raise RuntimeError(f"INSERT INTO zone non ha restituito righe per nome={nome!r}")
         zona = Zona()
@@ -100,8 +98,6 @@ class ZonaRepository:
         with self._sessione() as s:
             result = s.execute(sql, params)
             rowcount = result.rowcount
-            # Solo in engine mode: la session iniettata gestisce il proprio commit
-            if self._engine is not None:
-                s.commit()
+            s.commit()
         if rowcount == 0:
             raise ZonaNonTrovataException(f"Zona {zona_id} non trovata")
