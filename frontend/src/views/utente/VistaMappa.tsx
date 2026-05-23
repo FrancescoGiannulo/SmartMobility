@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import {
   Map,
   AdvancedMarker,
-  Polygon,
+  InfoWindow,
 } from '@vis.gl/react-google-maps'
 import { getMezziUtente, getZoneUtente, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
 import { logout } from '../../services/AuthService'
+import ZonaPoligono from '../../components/ZonaPoligono'
 import './VistaMappa.css'
 
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
@@ -45,12 +46,18 @@ function PinMezzo({ tipo }: { tipo: string }) {
   )
 }
 
+interface ZonaHover {
+  zona: ZonaMappa
+  pos: google.maps.LatLngLiteral
+}
+
 export default function VistaMappa() {
   const navigate = useNavigate()
   const [mezzi, setMezzi] = useState<MezzoMappa[]>([])
   const [zone, setZone] = useState<ZonaMappa[]>([])
   const [centro, setCentro] = useState(CENTRO_DEFAULT)
   const [errore, setErrore] = useState('')
+  const [zonaHover, setZonaHover] = useState<ZonaHover | null>(null)
 
   useEffect(() => {
     navigator.geolocation?.getCurrentPosition(
@@ -75,40 +82,67 @@ export default function VistaMappa() {
       </div>
 
       <Map
-          className="mappa-container"
-          defaultCenter={centro}
-          defaultZoom={14}
-          mapId="mappa-utente"
-          gestureHandling="greedy"
-          disableDefaultUI={false}
-          style={{ paddingTop: 56 }}
-        >
-          {mezzi.map(m => (
-            <AdvancedMarker key={m.id} position={{ lat: m.lat, lng: m.lng }}>
-              <PinMezzo tipo={m.tipo} />
-            </AdvancedMarker>
-          ))}
+        className="mappa-container"
+        defaultCenter={centro}
+        defaultZoom={14}
+        mapId="mappa-utente"
+        gestureHandling="greedy"
+        disableDefaultUI={false}
+        style={{ paddingTop: 56 }}
+      >
+        {mezzi.map(m => (
+          <AdvancedMarker key={m.id} position={{ lat: m.lat, lng: m.lng }}>
+            <PinMezzo tipo={m.tipo} />
+          </AdvancedMarker>
+        ))}
 
-          {zone.map(z => {
-            const colori = COLORI_ZONA[z.tipo] ?? COLORI_ZONA.operativa
-            const paths = z.perimetro.coordinates[0].map(([lng, lat]) => ({ lat, lng }))
-            return (
-              <Polygon
-                key={z.id}
-                paths={paths}
-                strokeColor={colori.stroke}
-                strokeOpacity={1}
-                strokeWeight={2}
-                fillColor={colori.fill}
-                fillOpacity={1}
-              />
-            )
-          })}
-        </Map>
+        {zone.map(z => {
+          const colori = COLORI_ZONA[z.tipo] ?? COLORI_ZONA.operativa
+          return (
+            <ZonaPoligono
+              key={z.id}
+              zona={z}
+              fillColor={colori.fill}
+              strokeColor={colori.stroke}
+              onHover={(zona, pos) => setZonaHover({ zona, pos })}
+              onHoverEnd={() => setZonaHover(null)}
+            />
+          )
+        })}
+
+        {zonaHover && (
+          <InfoWindow
+            position={zonaHover.pos}
+            onCloseClick={() => setZonaHover(null)}
+          >
+            <TooltipZona zona={zonaHover.zona} />
+          </InfoWindow>
+        )}
+      </Map>
 
       {errore && <div className="mappa-errore">{errore}</div>}
       {!errore && mezzi.length === 0 && (
         <div className="mappa-nessun-mezzo">Nessun mezzo disponibile nelle vicinanze</div>
+      )}
+    </div>
+  )
+}
+
+function TooltipZona({ zona }: { zona: ZonaMappa }) {
+  const colori = COLORI_ZONA[zona.tipo] ?? COLORI_ZONA.operativa
+  return (
+    <div style={{ padding: '4px 2px', minWidth: 120 }}>
+      <strong style={{ display: 'block', marginBottom: 4 }}>{zona.nome}</strong>
+      <span style={{
+        display: 'inline-block', padding: '2px 8px', borderRadius: 12, fontSize: 12,
+        background: colori.stroke, color: '#fff',
+      }}>
+        {zona.tipo}
+      </span>
+      {zona.limite_velocita && (
+        <span style={{ display: 'block', marginTop: 4, fontSize: 12 }}>
+          Max {zona.limite_velocita} km/h
+        </span>
       )}
     </div>
   )
