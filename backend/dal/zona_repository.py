@@ -114,8 +114,8 @@ class ZonaRepository:
                 WHERE tipo = 'operativa'
                   AND attiva = true
                   AND ST_Within(ST_GeomFromGeoJSON(:geojson), perimetro)
-            )
+            ) AS esiste
         """)
         with self._sessione() as s:
             row = s.execute(sql, {"geojson": geojson}).fetchone()
-        return bool(row[0]) if row else False
+        return bool(row.esiste) if row else False
