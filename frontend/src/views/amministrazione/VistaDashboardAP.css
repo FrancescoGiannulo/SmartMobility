@@ -1,0 +1,87 @@
+.vista-dashboard-ap {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-ap-topbar {
+  height: 56px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 10;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.dashboard-ap-topbar h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+  flex: 1;
+}
+
+.dashboard-ap-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.dashboard-ap-mappa {
+  flex: 70%;
+  height: 100%;
+}
+
+.dashboard-ap-pannello {
+  flex: 30%;
+  background: #f9f9f9;
+  border-left: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.dashboard-ap-pannello .logo {
+  font-size: 13px;
+  font-weight: 700;
+  color: #4caf9a;
+  text-align: center;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.btn-pannello-ap {
+  width: 100%;
+  padding: 12px 16px;
+  background: #4caf9a;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-align: center;
+}
+
+.btn-pannello-ap:hover {
+  background: #3d9e8a;
+}
+
+.btn-logout-ap {
+  padding: 6px 16px;
+  background: transparent;
+  color: #4caf9a;
+  border: 2px solid #4caf9a;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
