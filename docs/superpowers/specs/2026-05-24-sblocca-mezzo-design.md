@@ -15,9 +15,25 @@ L'utente autenticato sblocca un mezzo dalla mappa. Il mezzo deve essere in stato
 
 ---
 
-## 2. Backend
+## 2. Model
 
-### 2.1 Endpoint
+I model necessari sono **già completi** — nessuna modifica richiesta:
+
+| Model | Campo rilevante | Note |
+|-------|----------------|------|
+| `Corsa` | `utente_id`, `mezzo_id`, `prenotazione_id` (nullable), `stato` (`in_uso`), `inizio_at` | Usato per la creazione della corsa |
+| `Mezzo` | `stato: StatoMezzo` — include `Disponibile`, `Prenotato`, `In uso` | Letto e aggiornato da `ServizioMobilita` |
+| `Prenotazione` | `stato: StatoPrenotazione` — include `convertita` | Aggiornato a `convertita` quando usata per sblocco |
+
+**Eccezioni di dominio** — definite in `bll/servizio_mobilita.py` (stesso pattern di `servizio_utenti.py`):
+- `MezzoNonTrovatoException` — mezzo non trovato nel DB
+- `MezzoNonDisponibileException` — mezzo in stato non consentito o prenotazione altrui
+
+---
+
+## 3. Backend
+
+### 3.1 Endpoint
 
 ```
 POST /utente/mezzi/{mezzo_id}/sblocca
@@ -39,23 +55,23 @@ Ruolo richiesto: UT
 **Risposta 409 Conflict:** mezzo non disponibile per l'utente  
 **Risposta 404 Not Found:** mezzo inesistente
 
-### 2.2 DAL — `MezzoRepository`
+### 3.2 DAL — `MezzoRepository`
 
 Aggiunge (se non già presenti):
 - `trova_per_id(id: UUID, db: Session) -> Mezzo | None`
 - `aggiorna_stato(mezzo: Mezzo, db: Session) -> None`
 
-### 2.3 DAL — `CorsaRepository`
+### 3.3 DAL — `CorsaRepository`
 
 Implementa:
 - `crea(corsa: Corsa, db: Session) -> Corsa` — persiste la corsa e ritorna l'oggetto con `id` assegnato
 
-### 2.4 DAL — `PrenotazioneRepository`
+### 3.4 DAL — `PrenotazioneRepository`
 
 Implementa:
 - `trova_attiva_per_utente_e_mezzo(utente_id: UUID, mezzo_id: UUID, db: Session) -> Prenotazione | None`
 
-### 2.5 BLL — `ServizioMobilita`
+### 3.5 BLL — `ServizioMobilita`
 
 Metodo: `sblocca_mezzo(mezzo_id: UUID, utente_id: UUID, db: Session) -> Corsa`
 
@@ -71,7 +87,7 @@ Logica (fedele al diagramma di sequenza):
 6. `mezzo.stato = In uso` → `MezzoRepository.aggiorna_stato(mezzo)`
 7. Ritorna `corsa`
 
-### 2.6 Controller — `PrenotazioneUtenteController`
+### 3.6 Controller — `PrenotazioneUtenteController`
 
 ```python
 # [IF-UT.04] Sblocca Mezzo
@@ -86,9 +102,9 @@ def sblocca_mezzo(mezzo_id: UUID, utente=Depends(verify_token(["UT"])), db=Depen
 
 ---
 
-## 3. Frontend
+## 4. Frontend
 
-### 3.1 `CorsaService.ts` (nuovo)
+### 4.1 `CorsaService.ts` (nuovo)
 
 ```typescript
 // [IF-UT.04] Sblocca Mezzo
@@ -96,11 +112,11 @@ export const sbloccaMezzo = (mezzoId: string) =>
   api.post(`/utente/mezzi/${mezzoId}/sblocca`)
 ```
 
-### 3.2 `VistaMappa.tsx` — modifica
+### 4.2 `VistaMappa.tsx` — modifica
 
 Aggiunge `onClick` su `AdvancedMarker`: naviga a `/utente/corsa/:idMezzo` passando i dati del mezzo via `state` React Router.
 
-### 3.3 `VistaCorsa.tsx` (nuovo, `views/utente/`)
+### 4.3 `VistaCorsa.tsx` (nuovo, `views/utente/`)
 
 Due stati interni (`pre_sblocco` | `attiva`):
 
@@ -114,7 +130,7 @@ Due stati interni (`pre_sblocco` | `attiva`):
 - Mostra: ID mezzo, batteria, timer elapsed, km (placeholder 0)
 - Pulsanti **PAUSA CORSA** e **TERMINA E PAGA** (placeholder per sprint successivi)
 
-### 3.4 `App.tsx` — modifica
+### 4.4 `App.tsx` — modifica
 
 ```tsx
 <Route path="/utente/corsa/:idMezzo"
@@ -124,7 +140,7 @@ Due stati interni (`pre_sblocco` | `attiva`):
 
 ---
 
-## 4. Test
+## 5. Test
 
 File: `backend/tests/test_sblocca_mezzo.py`  
 Pattern: `TestClient` FastAPI + fixture `supa`/`db` su Supabase reale (stesso pattern di `test_auth.py`).
@@ -141,7 +157,7 @@ Ogni test esegue teardown: elimina corse, prenotazioni e mezzi creati durante il
 
 ---
 
-## 5. Tracciabilità
+## 6. Tracciabilità
 
 | Componente | Item |
 |------------|------|
