@@ -38,7 +38,7 @@ export default function ZonaPoligono({
       strokeOpacity: 1,
       strokeWeight: 2,
       fillColor,
-      fillOpacity: 1,
+      fillOpacity: 0.25,
       map: mappa,
     })
     window.google.maps.event.addListener(
