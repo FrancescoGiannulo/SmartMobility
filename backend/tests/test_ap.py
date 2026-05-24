@@ -47,3 +47,19 @@ def test_ap_mappa_zone_autenticato(ap_test):
     )
     assert resp.status_code == 200
     assert isinstance(resp.json(), list)
+
+
+def test_ap_mappa_zone_non_autenticato():
+    """[IIN-2] Senza token su /ap/mappa/zone → 401."""
+    resp = http.get("/ap/mappa/zone")
+    assert resp.status_code == 401
+
+
+def test_ap_mappa_zone_ruolo_errato(utente_test):
+    """[IIN-2] Token UT su endpoint /ap/mappa/zone → 403."""
+    token = _login(utente_test["email"], utente_test["password"])
+    resp = http.get(
+        "/ap/mappa/zone",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    assert resp.status_code == 403

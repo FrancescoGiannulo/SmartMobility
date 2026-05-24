@@ -13,7 +13,7 @@ function esportaCsv(dati: DatoSettimanale[]): void {
   const intestazione = 'Giorno,Monopattino,Bicicletta,Automobile'
   const righe = dati.map(d => `${d.giorno},${d.monopattino},${d.bicicletta},${d.automobile}`)
   const contenuto = [intestazione, ...righe].join('\n')
-  const blob = new Blob([contenuto], { type: 'text/csv;charset=utf-8;' })
+  const blob = new Blob(['﻿' + contenuto], { type: 'text/csv;charset=utf-8;' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
