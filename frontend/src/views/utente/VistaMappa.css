@@ -1,0 +1,73 @@
+.vista-mappa {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+
+.mappa-container {
+  width: 100%;
+  height: 100%;
+}
+
+.mappa-errore {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  font-size: 14px;
+  color: #d32f2f;
+  text-align: center;
+  max-width: 300px;
+}
+
+.mappa-nessun-mezzo {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  font-size: 14px;
+  color: #555;
+  white-space: nowrap;
+}
+
+.mappa-topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 10;
+  gap: 12px;
+}
+
+.mappa-topbar h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+  flex: 1;
+}
+
+.btn-logout-mappa {
+  padding: 6px 16px;
+  background: transparent;
+  color: #4caf9a;
+  border: 2px solid #4caf9a;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
