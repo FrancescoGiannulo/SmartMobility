@@ -5,6 +5,7 @@ import CallbackOAuth from './views/auth/CallbackOAuth'
 import RoutaProtetta from './components/RoutaProtetta'
 import VistaMappa from './views/utente/VistaMappa'
 import VistaMappaOperatore from './views/operatore/VistaMappaOperatore'
+import VistaDashboardAP from './views/amministrazione/VistaDashboardAP'
 import { utenteCorrente, logout } from './services/AuthService'
 
 const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string
@@ -87,6 +88,14 @@ function App() {
           element={
             <RoutaProtetta ruoloRichiesto="OP">
               <PlaceholderView titolo="Operatore" />
+            </RoutaProtetta>
+          }
+        />
+        <Route
+          path="/ap/dashboard"
+          element={
+            <RoutaProtetta ruoloRichiesto="AP">
+              <VistaDashboardAP />
             </RoutaProtetta>
           }
         />
