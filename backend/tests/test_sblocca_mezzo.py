@@ -75,3 +75,24 @@ class TestMezzoRepository:
             assert mezzo["stato"] == "In uso"
         finally:
             _elimina_mezzo(db, mezzo_id)
+
+
+# ── TestCorsaRepository ────────────────────────────────────────────────────
+
+class TestCorsaRepository:
+
+    @pytest.mark.integration
+    def test_crea_corsa_diretta(self, db, utente_test):
+        from dal.corsa_repository import CorsaRepository
+        codice = f"TEST-CR-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice, "Disponibile")
+        try:
+            repo = CorsaRepository(db)
+            corsa = repo.crea(utente_test["id"], _uuid.UUID(mezzo_id), None)
+            assert corsa["stato"] == "in_uso"
+            assert str(corsa["utente_id"]) == str(utente_test["id"])
+            assert str(corsa["mezzo_id"]) == mezzo_id
+            assert corsa["prenotazione_id"] is None
+            assert "inizio_at" in corsa
+        finally:
+            _elimina_mezzo(db, mezzo_id)
