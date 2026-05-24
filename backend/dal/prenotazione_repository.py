@@ -39,7 +39,7 @@ class PrenotazioneRepository:
         if row is None:
             return None
         return {
-            "id": row.id,
+            "id": str(row.id),
             "utente_id": str(row.utente_id),
             "mezzo_id": str(row.mezzo_id),
             "stato": row.stato,
