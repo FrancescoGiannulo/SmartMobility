@@ -46,11 +46,12 @@ export default function VistaDashboardAP() {
   const [mezzi, setMezzi] = useState<MezzoMappa[]>([])
   const [zone, setZone] = useState<ZonaMappa[]>([])
   const [tooltipZona, setTooltipZona] = useState<{ zona: ZonaMappa; pos: google.maps.LatLngLiteral } | null>(null)
+  const [errore, setErrore] = useState('')
 
   useEffect(() => {
     Promise.all([getMezziAP(), getZoneAP()])
       .then(([m, z]) => { setMezzi(m); setZone(z) })
-      .catch(() => {})
+      .catch(() => setErrore('Impossibile caricare i dati della mappa. Riprova.'))
   }, [])
 
   const handleLogout = useCallback(async () => {
@@ -70,6 +71,23 @@ export default function VistaDashboardAP() {
       </div>
 
       <div className="dashboard-ap-body">
+        {errore && (
+          <div style={{
+            position: 'absolute',
+            top: 72,
+            left: '35%',
+            transform: 'translateX(-50%)',
+            background: '#fff',
+            borderRadius: 12,
+            padding: '12px 20px',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+            fontSize: 14,
+            color: '#d32f2f',
+            zIndex: 20,
+          }}>
+            {errore}
+          </div>
+        )}
         <div className="dashboard-ap-mappa">
           <Map
             style={{ width: '100%', height: '100%' }}
