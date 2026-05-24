@@ -96,8 +96,7 @@ class ZonaRepository:
         sql = text("DELETE FROM zone WHERE id = :zona_id")
         params = {"zona_id": str(zona_id)}
         with self._sessione() as s:
-            result = s.execute(sql, params)
-            rowcount = result.rowcount
+            rowcount = s.execute(sql, params).rowcount  # type: ignore[union-attr]
             s.commit()
         if rowcount == 0:
             raise ZonaNonTrovataException(f"Zona {zona_id} non trovata")
@@ -105,8 +104,6 @@ class ZonaRepository:
     # [IF-OP.02] Verifica che il poligono ricada all'interno di una zona operativa attiva
     def esiste_zona_operativa_contenente(self, coordinate: list[list[float]]) -> bool:
         """True se esiste almeno una zona operativa attiva che contiene ST_Within il poligono dato."""
-        if coordinate[0] != coordinate[-1]:
-            coordinate = coordinate + [coordinate[0]]
         geojson = json.dumps({"type": "Polygon", "coordinates": [coordinate]})
         sql = text("""
             SELECT EXISTS(

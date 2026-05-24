@@ -1,11 +1,5 @@
 import type { ZonaMappa } from '../services/MapService'
-
-const COLORI_ZONA: Record<string, { stroke: string }> = {
-  vietata:    { stroke: '#f44336' },
-  limitata:   { stroke: '#ff9800' },
-  parcheggio: { stroke: '#4caf50' },
-  operativa:  { stroke: '#2196f3' },
-}
+import { COLORI_ZONA } from '../utils/coloriZona'
 
 export default function TooltipZona({ zona }: { zona: ZonaMappa }) {
   const colori = COLORI_ZONA[zona.tipo] ?? COLORI_ZONA.operativa
