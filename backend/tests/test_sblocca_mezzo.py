@@ -96,3 +96,69 @@ class TestCorsaRepository:
             assert "inizio_at" in corsa
         finally:
             _elimina_mezzo(db, mezzo_id)
+
+
+# ── TestPrenotazioneRepository ─────────────────────────────────────────────
+
+class TestPrenotazioneRepository:
+
+    @pytest.mark.integration
+    def test_trova_attiva_trovata(self, db, utente_test):
+        from dal.prenotazione_repository import PrenotazioneRepository
+        codice = f"TEST-PR-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice, "Prenotato")
+        scade_at = datetime.now(timezone.utc) + timedelta(minutes=15)
+        with Session(db) as s:
+            s.execute(text("""
+                INSERT INTO prenotazioni (utente_id, mezzo_id, stato, scade_at)
+                VALUES (:uid, :mid, 'attiva', :scade)
+            """), {"uid": str(utente_test["id"]),
+                   "mid": mezzo_id, "scade": scade_at})
+            s.commit()
+        try:
+            repo = PrenotazioneRepository(db)
+            pren = repo.trova_attiva_per_utente_e_mezzo(
+                utente_test["id"], _uuid.UUID(mezzo_id)
+            )
+            assert pren is not None
+            assert str(pren["utente_id"]) == str(utente_test["id"])
+        finally:
+            _elimina_mezzo(db, mezzo_id)
+
+    @pytest.mark.integration
+    def test_trova_attiva_non_trovata(self, db, utente_test):
+        from dal.prenotazione_repository import PrenotazioneRepository
+        repo = PrenotazioneRepository(db)
+        risultato = repo.trova_attiva_per_utente_e_mezzo(
+            utente_test["id"], _uuid.uuid4()
+        )
+        assert risultato is None
+
+    @pytest.mark.integration
+    def test_aggiorna_stato_prenotazione(self, db, utente_test):
+        from dal.prenotazione_repository import PrenotazioneRepository
+        codice = f"TEST-APR-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice, "Prenotato")
+        scade_at = datetime.now(timezone.utc) + timedelta(minutes=15)
+        with Session(db) as s:
+            s.execute(text("""
+                INSERT INTO prenotazioni (utente_id, mezzo_id, stato, scade_at)
+                VALUES (:uid, :mid, 'attiva', :scade)
+            """), {"uid": str(utente_test["id"]),
+                   "mid": mezzo_id, "scade": scade_at})
+            s.commit()
+            pren_id = s.execute(text("""
+                SELECT id FROM prenotazioni
+                WHERE mezzo_id = :mid AND utente_id = :uid
+            """), {"mid": mezzo_id, "uid": str(utente_test["id"])}).fetchone().id
+        try:
+            repo = PrenotazioneRepository(db)
+            repo.aggiorna_stato(_uuid.UUID(str(pren_id)), "convertita")
+            with Session(db) as s:
+                row = s.execute(
+                    text("SELECT stato FROM prenotazioni WHERE id = :id"),
+                    {"id": str(pren_id)}
+                ).fetchone()
+            assert row.stato == "convertita"
+        finally:
+            _elimina_mezzo(db, mezzo_id)
