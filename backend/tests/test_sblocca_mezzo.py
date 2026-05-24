@@ -42,6 +42,7 @@ def _elimina_mezzo(db, mezzo_id: str) -> None:
 
 class TestMezzoRepository:
 
+    @pytest.mark.integration
     def test_trova_per_id_esistente(self, db):
         from dal.mezzo_repository import MezzoRepository
         codice = f"TEST-TR-{_uuid.uuid4().hex[:6]}"
@@ -55,12 +56,14 @@ class TestMezzoRepository:
         finally:
             _elimina_mezzo(db, mezzo_id)
 
+    @pytest.mark.integration
     def test_trova_per_id_non_esistente(self, db):
         from dal.mezzo_repository import MezzoRepository
         repo = MezzoRepository(db)
         risultato = repo.trova_per_id(_uuid.uuid4())
         assert risultato is None
 
+    @pytest.mark.integration
     def test_aggiorna_stato(self, db):
         from dal.mezzo_repository import MezzoRepository
         codice = f"TEST-AS-{_uuid.uuid4().hex[:6]}"
