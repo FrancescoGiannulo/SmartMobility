@@ -45,3 +45,7 @@ class ZonaCreate(BaseModel):
     tipo: str
     coordinate: list[list[float]]
     limite_velocita: int | None = None
+
+
+class PrenotazioneRequest(BaseModel):
+    mezzo_id: UUID

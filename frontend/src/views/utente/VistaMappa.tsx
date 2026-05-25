@@ -8,6 +8,7 @@ import {
 } from '@vis.gl/react-google-maps'
 import { getMezziUtente, getZoneUtente, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
 import { sbloccaMezzo } from '../../services/CorsaService'
+import { prenotaMezzo, type Prenotazione } from '../../services/PrenotazioneService'
 import { logout } from '../../services/AuthService'
 import ZonaPoligono from '../../components/ZonaPoligono'
 import TooltipZona from '../../components/TooltipZona'
@@ -81,6 +82,9 @@ export default function VistaMappa() {
   const [zonaHover, setZonaHover] = useState<ZonaHover | null>(null)
   const [mezzoSelezionato, setMezzoSelezionato] = useState<MezzoMappa | null>(null)
   const [sbloccoInCorso, setSbloccoInCorso] = useState(false)
+  const [prenotaInCorso, setPrenotaInCorso] = useState(false)
+  const [prenotazione, setPrenotazione] = useState<Prenotazione | null>(null)
+  const [tempoRimanente, setTempoRimanente] = useState(0)
   const [errorePanel, setErrorePanel] = useState('')
 
   useEffect(() => {
@@ -98,10 +102,42 @@ export default function VistaMappa() {
     navigate('/', { replace: true })
   }, [navigate])
 
+  useEffect(() => {
+    if (!prenotazione) return
+    const aggiorna = () => {
+      const diff = Math.max(0, Math.floor((new Date(prenotazione.scade_at).getTime() - Date.now()) / 1000))
+      setTempoRimanente(diff)
+    }
+    aggiorna()
+    const t = setInterval(aggiorna, 1000)
+    return () => clearInterval(t)
+  }, [prenotazione])
+
   const chiudiPanel = useCallback(() => {
     setMezzoSelezionato(null)
+    setPrenotazione(null)
     setErrorePanel('')
   }, [])
+
+  const handlePrenota = useCallback(async () => {
+    if (!mezzoSelezionato) return
+    setPrenotaInCorso(true)
+    setErrorePanel('')
+    try {
+      const pren = await prenotaMezzo(mezzoSelezionato.id)
+      setPrenotazione(pren)
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.status === 409) {
+        setErrorePanel('Mezzo non più disponibile.')
+      } else if (axios.isAxiosError(err) && err.response?.status === 404) {
+        setErrorePanel('Mezzo non trovato.')
+      } else {
+        setErrorePanel('Errore durante la prenotazione. Riprova.')
+      }
+    } finally {
+      setPrenotaInCorso(false)
+    }
+  }, [mezzoSelezionato])
 
   const handleSblocca = useCallback(async () => {
     if (!mezzoSelezionato) return
@@ -196,14 +232,23 @@ export default function VistaMappa() {
             <Batteria valore={mezzoSelezionato.batteria} />
           </div>
 
-          {errorePanel
-            ? <p className="pannello-errore">{errorePanel}</p>
-            : <p className="pannello-info">Premi <em>Sblocca</em> per iniziare subito, oppure <em>Prenota</em> per riservarlo.</p>
-          }
+          {errorePanel ? (
+            <p className="pannello-errore">{errorePanel}</p>
+          ) : prenotazione ? (
+            <p className="pannello-info pannello-prenotato">
+              ✅ Prenotato! Hai <strong>{Math.floor(tempoRimanente / 60)}:{String(tempoRimanente % 60).padStart(2, '0')}</strong> per raggiungere il mezzo.
+            </p>
+          ) : (
+            <p className="pannello-info">Premi <em>Sblocca</em> per iniziare subito, oppure <em>Prenota</em> per riservarlo.</p>
+          )}
 
           <div className="pannello-azioni">
-            <button className="btn-prenota" disabled title="Disponibile nel prossimo sprint">
-              Prenota
+            <button
+              className="btn-prenota"
+              onClick={handlePrenota}
+              disabled={prenotaInCorso || !!prenotazione}
+            >
+              {prenotaInCorso ? '...' : prenotazione ? 'Prenotato' : 'Prenota'}
             </button>
             <button className="btn-sblocca-panel" onClick={handleSblocca} disabled={sbloccoInCorso}>
               {sbloccoInCorso ? '...' : 'Sblocca'}
