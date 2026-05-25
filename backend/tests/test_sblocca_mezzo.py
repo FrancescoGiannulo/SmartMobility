@@ -244,3 +244,105 @@ class TestServizioMobilita:
                 svc.sblocca_mezzo(_uuid.UUID(mezzo_id), utente_test["id"])
         finally:
             _elimina_mezzo(db, mezzo_id)
+
+
+# ── TestSbloccaMezzoHTTP ───────────────────────────────────────────────────
+
+class TestSbloccaMezzoHTTP:
+
+    @pytest.mark.integration
+    def test_sblocca_disponibile_201(self, db, utente_test):
+        codice = f"TEST-HTTP-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice, "Disponibile")
+        try:
+            import httpx
+            token = _login(utente_test["email"], utente_test["password"])
+            r = httpx.post(
+                f"http://localhost:8000/utente/mezzi/{mezzo_id}/sblocca",
+                headers={"Authorization": f"Bearer {token}"},
+            )
+            assert r.status_code == 201, r.text
+            data = r.json()
+            assert data["stato"] == "in_uso"
+            assert str(data["mezzo_id"]) == mezzo_id
+        finally:
+            _elimina_mezzo(db, mezzo_id)
+
+    @pytest.mark.integration
+    def test_sblocca_da_prenotazione_201(self, db, utente_test):
+        codice = f"TEST-HTTP-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice, "Prenotato")
+        scade_at = datetime.now(timezone.utc) + timedelta(minutes=15)
+        with Session(db) as s:
+            s.execute(text("""
+                INSERT INTO prenotazioni (utente_id, mezzo_id, stato, scade_at)
+                VALUES (:uid, :mid, 'attiva', :scade)
+            """), {"uid": str(utente_test["id"]),
+                   "mid": mezzo_id, "scade": scade_at})
+            s.commit()
+        try:
+            import httpx
+            token = _login(utente_test["email"], utente_test["password"])
+            r = httpx.post(
+                f"http://localhost:8000/utente/mezzi/{mezzo_id}/sblocca",
+                headers={"Authorization": f"Bearer {token}"},
+            )
+            assert r.status_code == 201, r.text
+            data = r.json()
+            assert data["stato"] == "in_uso"
+            assert data["prenotazione_id"] is not None
+        finally:
+            _elimina_mezzo(db, mezzo_id)
+
+    @pytest.mark.integration
+    def test_sblocca_mezzo_in_uso_409(self, db, utente_test):
+        codice = f"TEST-HTTP-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice, "In uso")
+        try:
+            import httpx
+            token = _login(utente_test["email"], utente_test["password"])
+            r = httpx.post(
+                f"http://localhost:8000/utente/mezzi/{mezzo_id}/sblocca",
+                headers={"Authorization": f"Bearer {token}"},
+            )
+            assert r.status_code == 409
+        finally:
+            _elimina_mezzo(db, mezzo_id)
+
+    @pytest.mark.integration
+    def test_sblocca_mezzo_prenotato_da_altri_409(self, db, utente_test):
+        codice = f"TEST-HTTP-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice, "Prenotato")
+        try:
+            import httpx
+            token = _login(utente_test["email"], utente_test["password"])
+            r = httpx.post(
+                f"http://localhost:8000/utente/mezzi/{mezzo_id}/sblocca",
+                headers={"Authorization": f"Bearer {token}"},
+            )
+            assert r.status_code == 409
+        finally:
+            _elimina_mezzo(db, mezzo_id)
+
+    @pytest.mark.integration
+    def test_sblocca_mezzo_inesistente_404(self, utente_test):
+        import httpx
+        token = _login(utente_test["email"], utente_test["password"])
+        r = httpx.post(
+            f"http://localhost:8000/utente/mezzi/{_uuid.uuid4()}/sblocca",
+            headers={"Authorization": f"Bearer {token}"},
+        )
+        assert r.status_code == 404
+
+    @pytest.mark.integration
+    def test_sblocca_non_autenticato_401(self, db):
+        codice = f"TEST-HTTP-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice, "Disponibile")
+        try:
+            import httpx
+            r = httpx.post(
+                f"http://localhost:8000/utente/mezzi/{mezzo_id}/sblocca"
+            )
+            assert r.status_code == 401
+        finally:
+            _elimina_mezzo(db, mezzo_id)
