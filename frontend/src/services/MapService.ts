@@ -41,3 +41,13 @@ export const getZoneOperatore = async (): Promise<ZonaMappa[]> => {
   const r = await api.get<ZonaMappa[]>('/operatore/zone')
   return r.data
 }
+
+export const getMezziAP = async (): Promise<MezzoMappa[]> => {
+  const r = await api.get<MezzoMappa[]>('/ap/mappa/mezzi')
+  return r.data
+}
+
+export const getZoneAP = async (): Promise<ZonaMappa[]> => {
+  const r = await api.get<ZonaMappa[]>('/ap/mappa/zone')
+  return r.data
+}

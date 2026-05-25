@@ -1,139 +1,390 @@
+/* ============================================================
+   VistaMappaOperatore — dark sidebar + modern modal/buttons
+   Relies on design tokens defined in VistaMappa.css (:root)
+   ============================================================ */
+
 .vista-mappa-op {
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
+  font-family: var(--sm-font, 'Plus Jakarta Sans', system-ui, sans-serif);
+  background: #f1f5f9;
+  overflow: hidden;
 }
 
+/* ---------- Topbar (light) ---------- */
 .mappa-op-topbar {
-  height: 56px;
+  height: 64px;
   background: #fff;
   display: flex;
   align-items: center;
-  padding: 0 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 0 24px;
+  gap: 14px;
   z-index: 10;
-  gap: 12px;
   flex-shrink: 0;
+  border-bottom: 1px solid var(--sm-line, rgba(15, 23, 42, 0.08));
+  box-shadow: var(--sm-shadow-md, 0 4px 12px rgba(15,23,42,0.08));
 }
 
 .mappa-op-topbar h2 {
   margin: 0;
-  font-size: 16px;
-  font-weight: 700;
-  color: #222;
   flex: 1;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--sm-dark, #0f172a);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mappa-op-topbar h2::before {
+  content: "";
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  background:
+    radial-gradient(circle at 30% 30%, #7eecd6, transparent 60%),
+    linear-gradient(135deg, var(--sm-primary, #4caf9a), var(--sm-primary-700, #2a7a6a));
+  box-shadow: 0 6px 14px rgba(76, 175, 154, 0.35),
+              inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.mappa-op-topbar h2 .role-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--sm-primary, #4caf9a);
+  background: rgba(76, 175, 154, 0.1);
+  border: 1px solid rgba(76, 175, 154, 0.25);
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
 }
 
+.mappa-op-topbar .btn-logout-mappa {
+  padding: 9px 18px;
+  background: rgba(244, 63, 94, 0.06);
+  color: var(--sm-error, #f43f5e);
+  border: 1px solid rgba(244, 63, 94, 0.25);
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.mappa-op-topbar .btn-logout-mappa:hover {
+  background: var(--sm-error, #f43f5e);
+  color: #fff;
+  border-color: transparent;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(244, 63, 94, 0.35);
+}
+
+/* ---------- Body 70/30 ---------- */
 .mappa-op-body {
   flex: 1;
   display: flex;
   overflow: hidden;
+  background: #f1f5f9;
 }
 
 .mappa-op-mappa {
   flex: 70%;
   height: 100%;
+  position: relative;
 }
 
+/* ---------- Sidebar (light) ---------- */
 .mappa-op-pannello {
   flex: 30%;
-  background: #f9f9f9;
-  border-left: 1px solid #e0e0e0;
+  min-width: 300px;
+  background: #fff;
+  border-left: 1px solid var(--sm-line, rgba(15, 23, 42, 0.08));
   display: flex;
   flex-direction: column;
-  padding: 20px 16px;
+  padding: 22px 18px 24px;
   gap: 10px;
   overflow-y: auto;
+  color: var(--sm-dark, #0f172a);
+  box-shadow: -4px 0 20px rgba(15, 23, 42, 0.04);
 }
+
+.mappa-op-pannello::-webkit-scrollbar { width: 4px; }
+.mappa-op-pannello::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
 
 .mappa-op-pannello .logo {
-  font-size: 13px;
-  font-weight: 700;
-  color: #4caf9a;
-  text-align: center;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--sm-muted, #64748b);
+  text-align: left;
+  margin: 0 4px 4px;
+  text-transform: uppercase;
 }
 
+/* Section labels inside sidebar */
+.mappa-op-pannello .section-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--sm-muted, #64748b);
+  text-transform: uppercase;
+  padding: 10px 6px 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mappa-op-pannello .section-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, #e2e8f0, transparent);
+}
+
+/* ---------- Button system ---------- */
 .btn-pannello {
+  --btn-bg: var(--sm-primary, #4caf9a);
+  --btn-bg-hover: var(--sm-primary-600, #3a9a86);
+  --btn-fg: #fff;
+
   width: 100%;
   padding: 12px 16px;
-  background: #4caf9a;
-  color: #fff;
-  border: none;
-  border-radius: 24px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border: 1px solid transparent;
+  border-radius: 12px;
+  font-family: inherit;
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  transition: background 0.2s;
-  text-align: center;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.2) inset, 0 2px 8px rgba(0,0,0,0.1);
 }
-
+.btn-pannello::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  flex-shrink: 0;
+}
 .btn-pannello:hover {
-  background: #3d9e8a;
+  background: var(--btn-bg-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+.btn-pannello:active { transform: translateY(0); }
+.btn-pannello:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
 }
 
+.btn-pannello.danger   { --btn-bg: #ef4444; --btn-bg-hover: #dc2626; }
+.btn-pannello.warning  { --btn-bg: #f59e0b; --btn-bg-hover: #d97706; }
+.btn-pannello.success  { --btn-bg: #22c55e; --btn-bg-hover: #16a34a; }
+.btn-pannello.info     { --btn-bg: #3b82f6; --btn-bg-hover: #2563eb; }
+
+/* Secondary (ghost) — light mode */
 .btn-pannello.secondario {
-  background: transparent;
-  color: #4caf9a;
-  border: 2px solid #4caf9a;
+  background: #f8fafc;
+  color: var(--sm-muted, #64748b);
+  border: 1px solid #e2e8f0;
+  box-shadow: none;
 }
-
+.btn-pannello.secondario::before {
+  background: var(--sm-primary, #4caf9a);
+}
 .btn-pannello.secondario:hover {
-  background: #e8f5e9;
+  background: rgba(76, 175, 154, 0.06);
+  border-color: rgba(76, 175, 154, 0.35);
+  color: var(--sm-primary-700, #2a7a6a);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 154, 0.12);
 }
 
+/* ---------- Drawing-hint floating banner (light) ---------- */
+.mappa-op-hint {
+  position: fixed;
+  bottom: 28px;
+  left: 35%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--sm-dark, #0f172a);
+  border: 1px solid var(--sm-line, rgba(15,23,42,0.08));
+  border-radius: 999px;
+  padding: 12px 22px;
+  font-size: 13.5px;
+  font-weight: 600;
+  z-index: 50;
+  box-shadow: var(--sm-shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  animation: smFloatIn 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.mappa-op-hint button {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: var(--sm-muted, #64748b);
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 160ms ease;
+}
+.mappa-op-hint button:hover {
+  background: var(--sm-error, #f43f5e);
+  border-color: transparent;
+  color: #fff;
+}
+
+/* ---------- Modal ---------- */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 100;
+  animation: smFade 200ms ease;
 }
+@keyframes smFade { from { opacity: 0 } to { opacity: 1 } }
 
 .modal-card {
   background: #fff;
-  border-radius: 16px;
-  padding: 28px 24px;
-  width: 340px;
+  border-radius: 22px;
+  padding: 28px 26px 24px;
+  width: 380px;
   display: flex;
   flex-direction: column;
   gap: 14px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  box-shadow: 0 32px 80px -16px rgba(0, 0, 0, 0.4),
+              0 0 0 1px rgba(15, 23, 42, 0.06);
+  animation: smPop 240ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  color: var(--sm-dark, #0f172a);
 }
-
+@keyframes smPop {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
 .modal-card h3 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--sm-dark, #0f172a);
+  text-transform: capitalize;
+}
+.modal-card p {
   margin: 0;
-  font-size: 18px;
-  color: #222;
+  color: var(--sm-muted, #64748b);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.modal-card p strong {
+  color: var(--sm-dark, #0f172a);
+  font-weight: 700;
 }
 
 .modal-card input,
 .modal-card select {
   width: 100%;
-  padding: 10px 14px;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 10px;
+  padding: 12px 14px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
   font-size: 14px;
+  font-family: inherit;
+  font-weight: 500;
+  color: var(--sm-dark, #0f172a);
   box-sizing: border-box;
+  transition: all 150ms ease;
+  outline: none;
+}
+.modal-card input::placeholder { color: #94a3b8; }
+.modal-card input:focus,
+.modal-card select:focus {
+  border-color: var(--sm-primary, #4caf9a);
+  background: #fff;
+  box-shadow: var(--sm-shadow-glow, 0 0 0 4px rgba(76, 175, 154, 0.18));
 }
 
 .modal-errore {
-  color: #d32f2f;
+  margin: 0 !important;
+  padding: 10px 12px;
+  color: var(--sm-error, #f43f5e) !important;
+  background: rgba(244, 63, 94, 0.08);
+  border-left: 3px solid var(--sm-error, #f43f5e);
+  border-radius: 8px;
   font-size: 13px;
+  font-weight: 600;
 }
 
-.btn-logout-mappa {
-  padding: 6px 16px;
-  background: transparent;
-  color: #4caf9a;
-  border: 2px solid #4caf9a;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
+/* Modal action buttons keep the .btn-pannello base but render light-themed */
+.modal-card .btn-pannello {
+  text-align: center;
+  justify-content: center;
+  padding: 13px 18px;
 }
+.modal-card .btn-pannello::before { display: none; }
+.modal-card .btn-pannello.secondario {
+  background: #fff;
+  color: var(--sm-muted, #64748b);
+  border: 1.5px solid #e2e8f0;
+  box-shadow: none;
+}
+.modal-card .btn-pannello.secondario:hover {
+  background: #f1f5f9;
+  color: var(--sm-dark, #0f172a);
+  border-color: #cbd5e1;
+}
+
+/* ---------- Modern pin (mirror of utente, for operator) ---------- */
+.sm-pin {
+  position: relative;
+  width: 38px;
+  height: 46px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  filter: drop-shadow(0 4px 8px rgba(15, 23, 42, 0.4));
+  cursor: pointer;
+  transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.sm-pin:hover { transform: translateY(-3px) scale(1.06); }
+.sm-pin__body {
+  width: 38px;
+  height: 38px;
+  border-radius: 50% 50% 50% 10%;
+  transform: rotate(45deg);
+  background: linear-gradient(135deg, var(--sm-c1, #4caf9a), var(--sm-c2, #2a7a6a));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+.sm-pin__icon {
+  transform: rotate(-45deg);
+  font-size: 15px;
+  line-height: 1;
+  color: #fff;
+}
+.sm-pin--dim { opacity: 0.5; }
