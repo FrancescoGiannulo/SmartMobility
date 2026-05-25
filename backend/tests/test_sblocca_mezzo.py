@@ -162,3 +162,85 @@ class TestPrenotazioneRepository:
             assert row.stato == "convertita"
         finally:
             _elimina_mezzo(db, mezzo_id)
+
+
+# ── TestServizioMobilita ───────────────────────────────────────────────────
+
+class TestServizioMobilita:
+
+    @pytest.mark.integration
+    def test_sblocca_mezzo_disponibile(self, db, utente_test):
+        from bll.servizio_mobilita import ServizioMobilita
+        codice = f"TEST-SM-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice, "Disponibile")
+        try:
+            svc = ServizioMobilita(db)
+            corsa = svc.sblocca_mezzo(_uuid.UUID(mezzo_id), utente_test["id"])
+            assert corsa["stato"] == "in_uso"
+            assert corsa["prenotazione_id"] is None
+            with Session(db) as s:
+                row = s.execute(
+                    text("SELECT stato FROM mezzi WHERE id = :id"),
+                    {"id": mezzo_id}
+                ).fetchone()
+            assert row.stato == "In uso"
+        finally:
+            _elimina_mezzo(db, mezzo_id)
+
+    @pytest.mark.integration
+    def test_sblocca_mezzo_prenotato_da_utente(self, db, utente_test):
+        from bll.servizio_mobilita import ServizioMobilita
+        codice = f"TEST-SMP-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice, "Prenotato")
+        scade_at = datetime.now(timezone.utc) + timedelta(minutes=15)
+        with Session(db) as s:
+            s.execute(text("""
+                INSERT INTO prenotazioni (utente_id, mezzo_id, stato, scade_at)
+                VALUES (:uid, :mid, 'attiva', :scade)
+            """), {"uid": str(utente_test["id"]),
+                   "mid": mezzo_id, "scade": scade_at})
+            s.commit()
+        try:
+            svc = ServizioMobilita(db)
+            corsa = svc.sblocca_mezzo(_uuid.UUID(mezzo_id), utente_test["id"])
+            assert corsa["stato"] == "in_uso"
+            assert corsa["prenotazione_id"] is not None
+            with Session(db) as s:
+                row = s.execute(text("""
+                    SELECT stato FROM prenotazioni
+                    WHERE mezzo_id = :mid AND utente_id = :uid
+                """), {"mid": mezzo_id, "uid": str(utente_test["id"])}).fetchone()
+            assert row.stato == "convertita"
+        finally:
+            _elimina_mezzo(db, mezzo_id)
+
+    @pytest.mark.integration
+    def test_sblocca_mezzo_non_trovato(self, db, utente_test):
+        from bll.servizio_mobilita import ServizioMobilita, MezzoNonTrovatoException
+        svc = ServizioMobilita(db)
+        with pytest.raises(MezzoNonTrovatoException):
+            svc.sblocca_mezzo(_uuid.uuid4(), utente_test["id"])
+
+    @pytest.mark.integration
+    def test_sblocca_mezzo_non_disponibile(self, db, utente_test):
+        from bll.servizio_mobilita import ServizioMobilita, MezzoNonDisponibileException
+        codice = f"TEST-SMN-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice, "In uso")
+        try:
+            svc = ServizioMobilita(db)
+            with pytest.raises(MezzoNonDisponibileException):
+                svc.sblocca_mezzo(_uuid.UUID(mezzo_id), utente_test["id"])
+        finally:
+            _elimina_mezzo(db, mezzo_id)
+
+    @pytest.mark.integration
+    def test_sblocca_mezzo_prenotato_senza_prenotazione(self, db, utente_test):
+        from bll.servizio_mobilita import ServizioMobilita, MezzoNonDisponibileException
+        codice = f"TEST-SMX-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice, "Prenotato")
+        try:
+            svc = ServizioMobilita(db)
+            with pytest.raises(MezzoNonDisponibileException):
+                svc.sblocca_mezzo(_uuid.UUID(mezzo_id), utente_test["id"])
+        finally:
+            _elimina_mezzo(db, mezzo_id)
