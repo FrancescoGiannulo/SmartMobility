@@ -14,29 +14,29 @@ import './VistaMappa.css'
 
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
 
-const COLORI_MEZZO: Record<string, string> = {
-  monopattino: '#4caf9a',
-  bicicletta:  '#2196f3',
-  automobile:  '#e91e8c',
+const COLORI_MEZZO: Record<string, { c1: string; c2: string }> = {
+  monopattino: { c1: '#4caf9a', c2: '#2a7a6a' },
+  bicicletta:  { c1: '#3b82f6', c2: '#1d4ed8' },
+  automobile:  { c1: '#ec4899', c2: '#be185d' },
 }
 
-function PinMezzo({ tipo }: { tipo: string }) {
-  const colore = COLORI_MEZZO[tipo] ?? '#888'
-  const emoji = tipo === 'monopattino' ? '🛴' : tipo === 'bicicletta' ? '🚲' : '🚗'
+const GLYPH_MEZZO: Record<string, string> = {
+  monopattino: '🛴',
+  bicicletta: '🚲',
+  automobile: '🚗',
+}
+
+function PinMezzo({ tipo, dim }: { tipo: string; dim?: boolean }) {
+  const c = COLORI_MEZZO[tipo] ?? { c1: '#64748b', c2: '#334155' }
+  const glyph = GLYPH_MEZZO[tipo] ?? '●'
   return (
-    <div style={{
-      background: colore,
-      borderRadius: '50%',
-      width: 36,
-      height: 36,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: 18,
-      boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
-      border: '2px solid #fff',
-    }}>
-      {emoji}
+    <div
+      className={`sm-pin${dim ? ' sm-pin--dim' : ''}`}
+      style={{ ['--sm-c1' as string]: c.c1, ['--sm-c2' as string]: c.c2 }}
+    >
+      <div className="sm-pin__body">
+        <span className="sm-pin__icon">{glyph}</span>
+      </div>
     </div>
   )
 }
@@ -88,8 +88,8 @@ export default function VistaMappa() {
   return (
     <div className="vista-mappa">
       <div className="mappa-topbar">
-        <h2>🚲 SMART MOBILITY</h2>
-        <button className="btn-logout-mappa" onClick={handleLogout}>LOGOUT</button>
+        <h2>Smart Mobility</h2>
+        <button className="btn-logout-mappa" onClick={handleLogout}>Logout</button>
       </div>
 
       <GoogleMap
@@ -99,7 +99,7 @@ export default function VistaMappa() {
         mapId="mappa-utente"
         gestureHandling="greedy"
         disableDefaultUI={false}
-        style={{ paddingTop: 56 }}
+        style={{ paddingTop: 88 }}
       >
         {mezzi.map(m => (
           <AdvancedMarker key={m.id} position={{ lat: m.lat, lng: m.lng }}>
