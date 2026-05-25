@@ -92,9 +92,16 @@ export default function VistaMappa() {
       pos => setCentro({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
       () => {}
     )
-    Promise.all([getMezziUtente(), getZoneUtente()])
-      .then(([m, z]) => { setMezzi(m.length > 0 ? m : MEZZI_MOCK); setZone(z) })
-      .catch(() => setErrore('Impossibile caricare la mappa. Riprova.'))
+    getZoneUtente().then(setZone).catch(() => {})
+
+    const aggiornaMezzi = () =>
+      getMezziUtente()
+        .then(m => setMezzi(m.length > 0 ? m : MEZZI_MOCK))
+        .catch(() => setErrore('Impossibile caricare la mappa. Riprova.'))
+
+    aggiornaMezzi()
+    const t = setInterval(aggiornaMezzi, 10_000)
+    return () => clearInterval(t)
   }, [])
 
   const handleLogout = useCallback(async () => {
