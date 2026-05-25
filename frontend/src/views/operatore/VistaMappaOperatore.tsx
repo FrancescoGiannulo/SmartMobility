@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  Map,
+  Map as GoogleMap,
   AdvancedMarker,
   InfoWindow,
   useMap,
@@ -212,7 +212,7 @@ export default function VistaMappaOperatore() {
 
       <div className="mappa-op-body">
         <div className="mappa-op-mappa">
-          <Map
+          <GoogleMap
             style={{ width: '100%', height: '100%' }}
             defaultCenter={CENTRO_DEFAULT}
             defaultZoom={14}
@@ -262,7 +262,7 @@ export default function VistaMappaOperatore() {
                 <TooltipZona zona={zonaHover.zona} />
               </InfoWindow>
             )}
-          </Map>
+          </GoogleMap>
         </div>
 
         <div className="mappa-op-pannello">
