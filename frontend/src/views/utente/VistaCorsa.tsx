@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useParams, useLocation, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 import { sbloccaMezzo, type CorsaAttiva } from '../../services/CorsaService'
 import type { MezzoMappa } from '../../services/MapService'
 import './VistaCorsa.css'
@@ -46,10 +47,10 @@ export default function VistaCorsa() {
       const c = await sbloccaMezzo(idMezzo)
       setCorsa(c)
       setFase('attiva')
-    } catch (err: any) {
-      if (err?.response?.status === 409) {
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.status === 409) {
         setErrore('Mezzo non più disponibile. Torna alla mappa.')
-      } else if (err?.response?.status === 404) {
+      } else if (axios.isAxiosError(err) && err.response?.status === 404) {
         setErrore('Mezzo non trovato.')
       } else {
         setErrore('Errore durante lo sblocco. Riprova.')
