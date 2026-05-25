@@ -1,6 +1,7 @@
 // Smart Mobility — Schema DB Sprint 1
 // Incolla su https://dbdiagram.io per visualizzare il diagramma
 // Generato da: docs/superpowers/specs/2026-05-21-db-schema-sprint1-design.md
+// Aggiornato: 2026-05-24 — sincronizzato con migrations/001 e 002 e model/
 
 // ============================================================
 // AUTH (Supabase built-in — non modificare)
@@ -62,7 +63,7 @@ Table zone [note: 'IF-OP.02 — zone geografiche (operativa/parcheggio/limitata/
   id uuid [pk, default: `gen_random_uuid()`]
   nome text [not null]
   tipo tipo_zona [not null, note: 'operativa | parcheggio | limitata | vietata']
-  perimetro geometry [not null, note: 'GEOMETRY(POLYGON, 4326) — indice GIST']
+  perimetro geometry [not null, note: 'GEOMETRY(POLYGON, 4326) — indice GIST: zone_perimetro_gist USING GIST']
   limite_velocita integer [note: 'CHECK > 0; solo tipo=limitata']
   attiva boolean [not null, default: true]
   created_at timestamptz [not null, default: `now()`]
@@ -75,8 +76,8 @@ Table zone [note: 'IF-OP.02 — zone geografiche (operativa/parcheggio/limitata/
 Table tariffe [note: 'IF-OP.07/08 — una riga per tipo mezzo'] {
   id uuid [pk, default: `gen_random_uuid()`]
   tipo_mezzo tipo_mezzo [not null, unique, note: 'UNIQUE — precondizione CS-14']
-  costo_al_minuto numeric [not null, note: 'CHECK > 0']
-  costo_al_km numeric [not null, note: 'CHECK > 0']
+  costo_al_minuto numeric(10,4) [not null, note: 'CHECK > 0']
+  costo_al_km numeric(10,4) [not null, note: 'CHECK > 0']
   created_at timestamptz [not null, default: `now()`]
   aggiornata_at timestamptz [not null, default: `now()`]
 }
@@ -100,7 +101,7 @@ Table pagamenti [note: 'IF-UT.20 — transazione generata al termine corsa (CS-1
   corsa_id uuid [not null, ref: > corse.id, note: 'ON DELETE RESTRICT']
   utente_id uuid [not null, ref: > utenti.id, note: 'ON DELETE RESTRICT']
   metodo_pagamento_id uuid [ref: > metodi_pagamento.id, note: 'nullable — CS-12.1; ON DELETE SET NULL']
-  importo numeric [not null, note: 'CHECK >= 0']
+  importo numeric(10,2) [not null, note: 'CHECK >= 0']
   stato stato_pagamento [not null, default: 'in_attesa', note: 'completato | rifiutato | in_attesa']
   created_at timestamptz [not null, default: `now()`]
 }
@@ -126,7 +127,7 @@ Table corse [note: 'IF-UT.04/06/07 — sessione di utilizzo mezzo'] {
   stato stato_corsa [not null, default: 'in_uso', note: 'in_uso | in_pausa | terminata']
   inizio_at timestamptz [not null]
   fine_at timestamptz [note: 'nullable — popolato al termine']
-  distanza_km numeric [note: 'nullable — popolato al termine']
+  distanza_km numeric(10,3) [note: 'nullable — popolato al termine']
   inizio_lat double
   inizio_lng double
   fine_lat double
@@ -142,7 +143,7 @@ Table regole_fine_corsa [note: 'IF-OP.14 — sanzioni per rilascio fuori zona pa
   id uuid [pk, default: `gen_random_uuid()`]
   zona_parcheggio_id uuid [not null, ref: > zone.id, note: 'deve avere tipo=parcheggio — verificato in ServizioMobilità; ON DELETE CASCADE']
   batteria_minima integer [note: 'nullable — CHECK 0-100']
-  penale_fuori_zona numeric [not null, default: 0]
+  penale_fuori_zona numeric(10,2) [not null, default: 0]
   tipo_vincolo tipo_vincolo_fine_corsa [not null, default: 'avviso', note: 'penale | divieto | avviso']
   created_at timestamptz [not null, default: `now()`]
 }
@@ -156,6 +157,10 @@ Table tentativi_login [note: 'IIN-2 — traccia tentativi falliti per blocco acc
   email        text [not null]
   tentativo_at timestamptz [not null, default: `now()`]
   riuscito     boolean [not null, note: 'false = tentativo fallito']
+
+  indexes {
+    (email, tentativo_at) [name: 'tentativi_login_email_idx']
+  }
 }
 
 // ============================================================
