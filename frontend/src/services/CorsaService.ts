@@ -14,3 +14,8 @@ export const sbloccaMezzo = async (mezzoId: string): Promise<CorsaAttiva> => {
   const r = await api.post<CorsaAttiva>(`/utente/mezzi/${mezzoId}/sblocca`)
   return r.data
 }
+
+// [IF-UT.06] CS-11 Termina Corsa
+export const terminaCorsa = async (corsaId: string): Promise<void> => {
+  await api.post(`/utente/corse/${corsaId}/termina`)
+}

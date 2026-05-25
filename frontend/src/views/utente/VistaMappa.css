@@ -9,35 +9,6 @@
   height: 100%;
 }
 
-.mappa-errore {
-  position: absolute;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
-  border-radius: 12px;
-  padding: 12px 20px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-  font-size: 14px;
-  color: #d32f2f;
-  text-align: center;
-  max-width: 300px;
-}
-
-.mappa-nessun-mezzo {
-  position: absolute;
-  top: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
-  border-radius: 12px;
-  padding: 12px 20px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-  font-size: 14px;
-  color: #555;
-  white-space: nowrap;
-}
-
 .mappa-topbar {
   position: absolute;
   top: 0;
@@ -70,4 +41,171 @@
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
+}
+
+/* ── Pannello mezzo (stile mockup 5) ─────────────────────────────── */
+
+.pannello-mezzo {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 22px 22px 0 0;
+  padding: 20px 24px 32px;
+  box-shadow: 0 -6px 28px rgba(0, 0, 0, 0.18);
+  z-index: 20;
+  animation: slideUp 0.22s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.pannello-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.pannello-titolo {
+  font-size: 18px;
+  font-weight: 700;
+  font-style: italic;
+  color: #4caf9a;
+}
+
+.pannello-chiudi {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #4caf9a;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 4px;
+}
+
+.pannello-separatore {
+  height: 1px;
+  background: #e8e8e8;
+  margin-bottom: 16px;
+}
+
+.pannello-tipo {
+  font-size: 16px;
+  font-weight: 700;
+  font-style: italic;
+  color: #4caf9a;
+  margin: 0 0 10px;
+}
+
+.pannello-mezzo-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.pannello-emoji {
+  font-size: 36px;
+  line-height: 1;
+}
+
+.pannello-codice {
+  font-size: 17px;
+  font-weight: 700;
+  color: #222;
+  flex: 1;
+}
+
+/* Batteria */
+.batteria-barre {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.batteria-barra {
+  width: 7px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.batteria-nd {
+  color: #aaa;
+  font-size: 15px;
+}
+
+.pannello-info {
+  font-size: 13px;
+  color: #666;
+  font-style: italic;
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+.pannello-errore {
+  font-size: 13px;
+  color: #e53935;
+  margin: 0 0 20px;
+}
+
+.pannello-azioni {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-prenota,
+.btn-sblocca-panel {
+  flex: 1;
+  padding: 14px 0;
+  border-radius: 50px;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.btn-prenota {
+  background: #e0f2ee;
+  color: #4caf9a;
+}
+
+.btn-prenota:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-sblocca-panel {
+  background: #4caf9a;
+  color: #fff;
+}
+
+.btn-sblocca-panel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-sblocca-panel:hover:not(:disabled) {
+  opacity: 0.88;
+}
+
+/* Errore mappa */
+.mappa-errore {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  font-size: 14px;
+  color: #d32f2f;
+  text-align: center;
+  max-width: 300px;
 }

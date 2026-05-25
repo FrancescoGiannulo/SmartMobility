@@ -1,11 +1,13 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 import {
   Map,
   AdvancedMarker,
   InfoWindow,
 } from '@vis.gl/react-google-maps'
 import { getMezziUtente, getZoneUtente, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
+import { sbloccaMezzo } from '../../services/CorsaService'
 import { logout } from '../../services/AuthService'
 import ZonaPoligono from '../../components/ZonaPoligono'
 import TooltipZona from '../../components/TooltipZona'
@@ -13,6 +15,13 @@ import { COLORI_ZONA } from '../../utils/coloriZona'
 import './VistaMappa.css'
 
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
+
+const MEZZI_MOCK: MezzoMappa[] = [
+  { id: 'aaaaaaaa-0001-0001-0001-000000000001', codice: 'SM-001', tipo: 'monopattino', stato: 'Disponibile', lat: 41.1180, lng: 16.8720, batteria: 85 },
+  { id: 'aaaaaaaa-0002-0002-0002-000000000002', codice: 'BK-002', tipo: 'bicicletta',  stato: 'Disponibile', lat: 41.1165, lng: 16.8710, batteria: 60 },
+  { id: 'aaaaaaaa-0003-0003-0003-000000000003', codice: 'CAR-003', tipo: 'automobile', stato: 'Disponibile', lat: 41.1190, lng: 16.8740, batteria: 90 },
+  { id: 'aaaaaaaa-0004-0004-0004-000000000004', codice: 'SM-004', tipo: 'monopattino', stato: 'Disponibile', lat: 41.1155, lng: 16.8730, batteria: 30 },
+]
 
 const COLORI_MEZZO: Record<string, string> = {
   monopattino: '#4caf9a',
@@ -27,17 +36,34 @@ function PinMezzo({ tipo }: { tipo: string }) {
     <div style={{
       background: colore,
       borderRadius: '50%',
-      width: 36,
-      height: 36,
+      width: 40,
+      height: 40,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      fontSize: 18,
-      boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
-      border: '2px solid #fff',
+      fontSize: 20,
+      boxShadow: '0 2px 8px rgba(0,0,0,0.35)',
+      border: '3px solid #fff',
+      cursor: 'pointer',
     }}>
       {emoji}
     </div>
+  )
+}
+
+function Batteria({ valore }: { valore: number | null }) {
+  if (valore == null) return <span className="batteria-nd">—</span>
+  const barre = Math.min(4, Math.ceil(valore / 25))
+  const colore = valore > 50 ? '#4caf9a' : valore > 20 ? '#f59e0b' : '#ef4444'
+  return (
+    <span className="batteria-barre">
+      {[1, 2, 3, 4].map(i => (
+        <span key={i} className="batteria-barra" style={{
+          height: 6 + i * 4,
+          background: i <= barre ? colore : '#e0e0e0',
+        }} />
+      ))}
+    </span>
   )
 }
 
@@ -53,6 +79,9 @@ export default function VistaMappa() {
   const [centro, setCentro] = useState(CENTRO_DEFAULT)
   const [errore, setErrore] = useState('')
   const [zonaHover, setZonaHover] = useState<ZonaHover | null>(null)
+  const [mezzoSelezionato, setMezzoSelezionato] = useState<MezzoMappa | null>(null)
+  const [sbloccoInCorso, setSbloccoInCorso] = useState(false)
+  const [errorePanel, setErrorePanel] = useState('')
 
   useEffect(() => {
     navigator.geolocation?.getCurrentPosition(
@@ -60,7 +89,7 @@ export default function VistaMappa() {
       () => {}
     )
     Promise.all([getMezziUtente(), getZoneUtente()])
-      .then(([m, z]) => { setMezzi(m); setZone(z) })
+      .then(([m, z]) => { setMezzi(m.length > 0 ? m : MEZZI_MOCK); setZone(z) })
       .catch(() => setErrore('Impossibile caricare la mappa. Riprova.'))
   }, [])
 
@@ -68,6 +97,34 @@ export default function VistaMappa() {
     await logout()
     navigate('/', { replace: true })
   }, [navigate])
+
+  const chiudiPanel = useCallback(() => {
+    setMezzoSelezionato(null)
+    setErrorePanel('')
+  }, [])
+
+  const handleSblocca = useCallback(async () => {
+    if (!mezzoSelezionato) return
+    setSbloccoInCorso(true)
+    setErrorePanel('')
+    try {
+      const corsa = await sbloccaMezzo(mezzoSelezionato.id)
+      navigate(`/utente/corsa/${mezzoSelezionato.id}`, { state: { mezzo: mezzoSelezionato, corsa } })
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.status === 409) {
+        setErrorePanel('Mezzo non più disponibile.')
+      } else if (axios.isAxiosError(err) && err.response?.status === 404) {
+        setErrorePanel('Mezzo non trovato.')
+      } else {
+        setErrorePanel('Errore durante lo sblocco. Riprova.')
+      }
+    } finally {
+      setSbloccoInCorso(false)
+    }
+  }, [mezzoSelezionato, navigate])
+
+  const tipoLabel = (tipo: string) =>
+    tipo.charAt(0).toUpperCase() + tipo.slice(1)
 
   return (
     <div className="vista-mappa">
@@ -84,12 +141,13 @@ export default function VistaMappa() {
         gestureHandling="greedy"
         disableDefaultUI={false}
         style={{ paddingTop: 56 }}
+        onClick={chiudiPanel}
       >
         {mezzi.map(m => (
           <AdvancedMarker
             key={m.id}
             position={{ lat: m.lat, lng: m.lng }}
-            onClick={() => navigate(`/utente/corsa/${m.id}`, { state: { mezzo: m } })}
+            onClick={() => { setMezzoSelezionato(m); setErrorePanel('') }}
           >
             <PinMezzo tipo={m.tipo} />
           </AdvancedMarker>
@@ -119,11 +177,42 @@ export default function VistaMappa() {
         )}
       </Map>
 
-      {errore && <div className="mappa-errore">{errore}</div>}
-      {!errore && mezzi.length === 0 && (
-        <div className="mappa-nessun-mezzo">Nessun mezzo disponibile nelle vicinanze</div>
+      {/* Pannello mezzo — stile mockup 5 */}
+      {mezzoSelezionato && (
+        <div className="pannello-mezzo">
+          <div className="pannello-header">
+            <span className="pannello-titolo">Sblocca/Prenota mezzo</span>
+            <button className="pannello-chiudi" onClick={chiudiPanel}>✕</button>
+          </div>
+          <div className="pannello-separatore" />
+
+          <p className="pannello-tipo">{tipoLabel(mezzoSelezionato.tipo)}:</p>
+          <div className="pannello-mezzo-row">
+            <span className="pannello-emoji">
+              {mezzoSelezionato.tipo === 'monopattino' ? '🛴'
+               : mezzoSelezionato.tipo === 'bicicletta' ? '🚲' : '🚗'}
+            </span>
+            <span className="pannello-codice">{mezzoSelezionato.codice}</span>
+            <Batteria valore={mezzoSelezionato.batteria} />
+          </div>
+
+          {errorePanel
+            ? <p className="pannello-errore">{errorePanel}</p>
+            : <p className="pannello-info">Premi <em>Sblocca</em> per iniziare subito, oppure <em>Prenota</em> per riservarlo.</p>
+          }
+
+          <div className="pannello-azioni">
+            <button className="btn-prenota" disabled title="Disponibile nel prossimo sprint">
+              Prenota
+            </button>
+            <button className="btn-sblocca-panel" onClick={handleSblocca} disabled={sbloccoInCorso}>
+              {sbloccoInCorso ? '...' : 'Sblocca'}
+            </button>
+          </div>
+        </div>
       )}
+
+      {errore && <div className="mappa-errore">{errore}</div>}
     </div>
   )
 }
-

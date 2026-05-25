@@ -13,6 +13,10 @@ class MezzoNonDisponibileException(Exception):
     pass
 
 
+class CorsaNonTrovataException(Exception):
+    pass
+
+
 class ServizioMobilita:
 
     def __init__(self, db: Session) -> None:
@@ -53,3 +57,11 @@ class ServizioMobilita:
         self._mezzo_repo.aggiorna_stato(mezzo_id, "In uso")
 
         return corsa
+
+    # [IF-UT.06] CS-11 — Termina Corsa (minimale: aggiorna stati)
+    def termina_corsa(self, corsa_id: UUID, utente_id: UUID) -> None:
+        corsa = self._corsa_repo.trova_per_id(corsa_id)
+        if corsa is None:
+            raise CorsaNonTrovataException(f"Corsa {corsa_id} non trovata")
+        self._corsa_repo.aggiorna_stato(corsa_id, "terminata")
+        self._mezzo_repo.aggiorna_stato(UUID(corsa["mezzo_id"]), "Disponibile")

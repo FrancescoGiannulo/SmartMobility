@@ -20,6 +20,25 @@ class CorsaRepository:
             with Session(self._engine) as s:
                 yield s
 
+    def trova_per_id(self, corsa_id: UUID) -> dict | None:
+        sql = text("SELECT id, utente_id, mezzo_id, stato FROM corse WHERE id = :id")
+        with self._sessione() as s:
+            row = s.execute(sql, {"id": str(corsa_id)}).fetchone()
+        if row is None:
+            return None
+        return {
+            "id": str(row.id),
+            "utente_id": str(row.utente_id),
+            "mezzo_id": str(row.mezzo_id),
+            "stato": row.stato,
+        }
+
+    def aggiorna_stato(self, corsa_id: UUID, nuovo_stato: str) -> None:
+        sql = text("UPDATE corse SET stato = :stato WHERE id = :id")
+        with self._sessione() as s:
+            s.execute(sql, {"stato": nuovo_stato, "id": str(corsa_id)})
+            s.commit()
+
     # [IF-UT.04] CS-10 — crea corsa all'avvio del mezzo
     def crea(
         self,
