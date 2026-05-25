@@ -58,6 +58,20 @@ interface ZonaHover {
   pos: google.maps.LatLngLiteral
 }
 
+const PRIORITA_TIPO: Record<string, number> = {
+  operativa: 0, parcheggio: 1, limitata: 2, vietata: 3,
+}
+
+function zonaMiglioreDa(map: Map<string, ZonaHover>): ZonaHover | null {
+  let best: ZonaHover | null = null
+  for (const entry of map.values()) {
+    if (!best || (PRIORITA_TIPO[entry.zona.tipo] ?? 1) > (PRIORITA_TIPO[best.zona.tipo] ?? 1)) {
+      best = entry
+    }
+  }
+  return best
+}
+
 function DrawingManager({
   tipoAttivo,
   onCompletato,
@@ -116,6 +130,7 @@ export default function VistaMappaOperatore() {
   const [caricamento, setCaricamento] = useState(false)
   const [zonaHover, setZonaHover] = useState<ZonaHover | null>(null)
   const [zonaSelezionata, setZonaSelezionata] = useState<ZonaMappa | null>(null)
+  const zoneAttive = useRef(new Map<string, ZonaHover>())
   const [eliminazione, setEliminazione] = useState(false)
   const [erroreEliminazione, setErroreEliminazione] = useState('')
 
@@ -223,8 +238,14 @@ export default function VistaMappaOperatore() {
                   zona={z}
                   fillColor={colori.fill}
                   strokeColor={colori.stroke}
-                  onHover={(zona, pos) => setZonaHover({ zona, pos })}
-                  onHoverEnd={() => setZonaHover(null)}
+                  onHover={(zona, pos) => {
+                    zoneAttive.current.set(zona.id, { zona, pos })
+                    setZonaHover(zonaMiglioreDa(zoneAttive.current))
+                  }}
+                  onHoverEnd={() => {
+                    zoneAttive.current.delete(z.id)
+                    setZonaHover(zonaMiglioreDa(zoneAttive.current))
+                  }}
                   onClick={tipoDisegno ? undefined : zona => {
                     setZonaHover(null)
                     setZonaSelezionata(zona)
