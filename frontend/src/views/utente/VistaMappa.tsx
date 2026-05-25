@@ -86,7 +86,11 @@ export default function VistaMappa() {
         style={{ paddingTop: 56 }}
       >
         {mezzi.map(m => (
-          <AdvancedMarker key={m.id} position={{ lat: m.lat, lng: m.lng }}>
+          <AdvancedMarker
+            key={m.id}
+            position={{ lat: m.lat, lng: m.lng }}
+            onClick={() => navigate(`/utente/corsa/${m.id}`, { state: { mezzo: m } })}
+          >
             <PinMezzo tipo={m.tipo} />
           </AdvancedMarker>
         ))}
