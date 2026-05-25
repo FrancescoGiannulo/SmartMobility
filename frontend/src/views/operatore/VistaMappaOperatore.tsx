@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  Map,
+  Map as GoogleMap,
   AdvancedMarker,
   InfoWindow,
   useMap,
@@ -16,31 +16,31 @@ import './VistaMappaOperatore.css'
 
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
 
-const COLORI_MEZZO: Record<string, string> = {
-  monopattino: '#4caf9a',
-  bicicletta:  '#2196f3',
-  automobile:  '#e91e8c',
+const COLORI_MEZZO: Record<string, { c1: string; c2: string }> = {
+  monopattino: { c1: '#4caf9a', c2: '#2a7a6a' },
+  bicicletta:  { c1: '#3b82f6', c2: '#1d4ed8' },
+  automobile:  { c1: '#ec4899', c2: '#be185d' },
+}
+
+const GLYPH_MEZZO: Record<string, string> = {
+  monopattino: '🛴',
+  bicicletta: '🚲',
+  automobile: '🚗',
 }
 
 function PinMezzo({ tipo, stato }: { tipo: string; stato: string }) {
-  const colore = COLORI_MEZZO[tipo] ?? '#888'
-  const emoji = tipo === 'monopattino' ? '🛴' : tipo === 'bicicletta' ? '🚲' : '🚗'
-  const opacita = stato === 'Disponibile' ? 1 : 0.45
+  const c = COLORI_MEZZO[tipo] ?? { c1: '#64748b', c2: '#334155' }
+  const glyph = GLYPH_MEZZO[tipo] ?? '●'
+  const dim = stato !== 'Disponibile'
   return (
-    <div style={{
-      background: colore,
-      opacity: opacita,
-      borderRadius: '50%',
-      width: 32,
-      height: 32,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: 16,
-      boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
-      border: '2px solid #fff',
-    }}>
-      {emoji}
+    <div
+      className={`sm-pin${dim ? ' sm-pin--dim' : ''}`}
+      style={{ ['--sm-c1' as string]: c.c1, ['--sm-c2' as string]: c.c2 }}
+      title={`${tipo} — ${stato}`}
+    >
+      <div className="sm-pin__body">
+        <span className="sm-pin__icon">{glyph}</span>
+      </div>
     </div>
   )
 }
@@ -56,6 +56,20 @@ interface ModalZona {
 interface ZonaHover {
   zona: ZonaMappa
   pos: google.maps.LatLngLiteral
+}
+
+const PRIORITA_TIPO: Record<string, number> = {
+  operativa: 0, parcheggio: 1, limitata: 2, vietata: 3,
+}
+
+function zonaMiglioreDa(map: Map<string, ZonaHover>): ZonaHover | null {
+  let best: ZonaHover | null = null
+  for (const entry of map.values()) {
+    if (!best || (PRIORITA_TIPO[entry.zona.tipo] ?? 1) > (PRIORITA_TIPO[best.zona.tipo] ?? 1)) {
+      best = entry
+    }
+  }
+  return best
 }
 
 function DrawingManager({
@@ -116,6 +130,7 @@ export default function VistaMappaOperatore() {
   const [caricamento, setCaricamento] = useState(false)
   const [zonaHover, setZonaHover] = useState<ZonaHover | null>(null)
   const [zonaSelezionata, setZonaSelezionata] = useState<ZonaMappa | null>(null)
+  const zoneAttive = useRef(new Map<string, ZonaHover>())
   const [eliminazione, setEliminazione] = useState(false)
   const [erroreEliminazione, setErroreEliminazione] = useState('')
 
@@ -191,13 +206,16 @@ export default function VistaMappaOperatore() {
   return (
     <div className="vista-mappa-op">
       <div className="mappa-op-topbar">
-        <h2>🚲 SMART MOBILITY — Operatore</h2>
-        <button className="btn-logout-mappa" onClick={handleLogout}>LOGOUT</button>
+        <h2>
+          Smart Mobility
+          <span className="role-tag">Operatore</span>
+        </h2>
+        <button className="btn-logout-mappa" onClick={handleLogout}>Logout</button>
       </div>
 
       <div className="mappa-op-body">
         <div className="mappa-op-mappa">
-          <Map
+          <GoogleMap
             style={{ width: '100%', height: '100%' }}
             defaultCenter={CENTRO_DEFAULT}
             defaultZoom={14}
@@ -223,11 +241,13 @@ export default function VistaMappaOperatore() {
                   zona={z}
                   fillColor={colori.fill}
                   strokeColor={colori.stroke}
-                  onHover={(zona, pos) => setZonaHover({ zona, pos })}
-                  onHoverEnd={() => setZonaHover(null)}
-                  onClick={tipoDisegno ? undefined : zona => {
-                    setZonaHover(null)
-                    setZonaSelezionata(zona)
+                  onHover={(zona, pos) => {
+                    zoneAttive.current.set(zona.id, { zona, pos })
+                    setZonaHover(zonaMiglioreDa(zoneAttive.current))
+                  }}
+                  onHoverEnd={() => {
+                    zoneAttive.current.delete(z.id)
+                    setZonaHover(zonaMiglioreDa(zoneAttive.current))
                   }}
                 />
               )
@@ -238,52 +258,51 @@ export default function VistaMappaOperatore() {
                 position={zonaHover.pos}
                 onCloseClick={() => setZonaHover(null)}
               >
-                <TooltipZona zona={zonaHover.zona} />
+                <TooltipZona
+                  zona={zonaHover.zona}
+                  onElimina={() => {
+                    setZonaSelezionata(zonaHover.zona)
+                    setZonaHover(null)
+                  }}
+                />
               </InfoWindow>
             )}
-          </Map>
+          </GoogleMap>
         </div>
 
         <div className="mappa-op-pannello">
-          <div className="logo">SMART MOBILITY</div>
+          <div className="logo">Control Center</div>
 
-          <button className="btn-pannello" onClick={() => avviaDisegno('vietata')}>
-            DEFINISCI ZONA VIETATA
+          <div className="section-label">Definisci zone</div>
+
+          <button className="btn-pannello danger" onClick={() => avviaDisegno('vietata')}>
+            Zona vietata
           </button>
-          <button className="btn-pannello" style={{ background: '#ff9800' }} onClick={() => avviaDisegno('limitata')}>
-            DEFINISCI ZONA LIMITATA
+          <button className="btn-pannello warning" onClick={() => avviaDisegno('limitata')}>
+            Zona limitata
           </button>
-          <button className="btn-pannello" style={{ background: '#4caf50' }} onClick={() => avviaDisegno('parcheggio')}>
-            DEFINISCI ZONA PARCHEGGIO
+          <button className="btn-pannello success" onClick={() => avviaDisegno('parcheggio')}>
+            Zona parcheggio
           </button>
-          <button className="btn-pannello" style={{ background: '#2196f3' }} onClick={() => avviaDisegno('operativa')}>
-            DEFINISCI CONFINE OPERATIVO
+          <button className="btn-pannello info" onClick={() => avviaDisegno('operativa')}>
+            Confine operativo
           </button>
 
-          <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', margin: '4px 0' }} />
+          <div className="section-label">Gestione</div>
 
-          <button className="btn-pannello secondario">GESTISCI SEGNALAZIONI</button>
-          <button className="btn-pannello secondario">GESTISCI UTENTI</button>
-          <button className="btn-pannello secondario">IMPOSTAZIONI REGOLE</button>
-          <button className="btn-pannello secondario">TARIFFE E PROMOZIONI</button>
-          <button className="btn-pannello secondario">VISUALIZZA REPORT</button>
-          <button className="btn-pannello secondario">GESTISCI MEZZI</button>
+          <button className="btn-pannello secondario">Gestisci segnalazioni</button>
+          <button className="btn-pannello secondario">Gestisci utenti</button>
+          <button className="btn-pannello secondario">Impostazioni regole</button>
+          <button className="btn-pannello secondario">Tariffe e promozioni</button>
+          <button className="btn-pannello secondario">Visualizza report</button>
+          <button className="btn-pannello secondario">Gestisci mezzi</button>
         </div>
       </div>
 
       {tipoDisegno && (
-        <div style={{
-          position: 'fixed', bottom: 24, left: '35%', transform: 'translateX(-50%)',
-          background: '#333', color: '#fff', borderRadius: 12, padding: '12px 20px',
-          fontSize: 14, zIndex: 50, boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
-        }}>
-          Disegna il poligono sulla mappa — doppio click per chiudere
-          <button
-            onClick={() => setTipoDisegno(null)}
-            style={{ marginLeft: 12, background: 'transparent', border: '1px solid #fff', color: '#fff', borderRadius: 8, padding: '2px 10px', cursor: 'pointer' }}
-          >
-            Annulla
-          </button>
+        <div className="mappa-op-hint">
+          <span>Disegna il poligono sulla mappa — doppio click per chiudere</span>
+          <button onClick={() => setTipoDisegno(null)}>Annulla</button>
         </div>
       )}
 
@@ -308,7 +327,7 @@ export default function VistaMappaOperatore() {
             )}
             {erroreModal && <p className="modal-errore">{erroreModal}</p>}
             <button className="btn-pannello" onClick={handleConfermaZona} disabled={caricamento}>
-              {caricamento ? '...' : 'SALVA ZONA'}
+              {caricamento ? 'Salvataggio…' : 'Salva zona'}
             </button>
             <button className="btn-pannello secondario" onClick={() => setModalZona(null)}>
               Annulla
@@ -326,12 +345,11 @@ export default function VistaMappaOperatore() {
             </p>
             {erroreEliminazione && <p className="modal-errore">{erroreEliminazione}</p>}
             <button
-              className="btn-pannello"
-              style={{ background: '#f44336' }}
+              className="btn-pannello danger"
               onClick={handleEliminaZona}
               disabled={eliminazione}
             >
-              {eliminazione ? '...' : 'ELIMINA'}
+              {eliminazione ? 'Eliminazione…' : 'Elimina'}
             </button>
             <button
               className="btn-pannello secondario"
