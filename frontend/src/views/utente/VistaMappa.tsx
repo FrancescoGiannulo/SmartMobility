@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  Map,
+  Map as GoogleMap,
   AdvancedMarker,
   InfoWindow,
 } from '@vis.gl/react-google-maps'
@@ -92,7 +92,7 @@ export default function VistaMappa() {
         <button className="btn-logout-mappa" onClick={handleLogout}>LOGOUT</button>
       </div>
 
-      <Map
+      <GoogleMap
         className="mappa-container"
         defaultCenter={centro}
         defaultZoom={14}
@@ -135,7 +135,7 @@ export default function VistaMappa() {
             <TooltipZona zona={zonaHover.zona} />
           </InfoWindow>
         )}
-      </Map>
+      </GoogleMap>
 
       {errore && <div className="mappa-errore">{errore}</div>}
       {!errore && mezzi.length === 0 && (
