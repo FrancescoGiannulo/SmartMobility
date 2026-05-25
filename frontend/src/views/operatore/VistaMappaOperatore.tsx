@@ -254,6 +254,10 @@ export default function VistaMappaOperatore() {
                     zoneAttive.current.delete(z.id)
                     setZonaHover(zonaMiglioreDa(zoneAttive.current))
                   }}
+                  onClick={tipoDisegno ? undefined : zona => {
+                    setZonaSelezionata(zona)
+                    setMezzoSelezionato(null)
+                  }}
                 />
               )
             })}
@@ -263,13 +267,7 @@ export default function VistaMappaOperatore() {
                 position={zonaHover.pos}
                 onCloseClick={() => setZonaHover(null)}
               >
-                <TooltipZona
-                  zona={zonaHover.zona}
-                  onElimina={() => {
-                    setZonaSelezionata(zonaHover.zona)
-                    setZonaHover(null)
-                  }}
-                />
+                <TooltipZona zona={zonaHover.zona} />
               </InfoWindow>
             )}
           </GoogleMap>
@@ -306,6 +304,40 @@ export default function VistaMappaOperatore() {
                 <span className="mezzo-info-label">Posizione</span>
                 <span>{mezzoSelezionato.lat.toFixed(5)}, {mezzoSelezionato.lng.toFixed(5)}</span>
               </div>
+            </div>
+          )}
+
+          {zonaSelezionata && (
+            <div className="mezzo-info-card">
+              <div className="mezzo-info-header">
+                <span className="mezzo-info-titolo">
+                  {zonaSelezionata.tipo === 'vietata' ? '🚫'
+                    : zonaSelezionata.tipo === 'limitata' ? '⚠️'
+                    : zonaSelezionata.tipo === 'parcheggio' ? 'P'
+                    : '◉'}{' '}
+                  {zonaSelezionata.nome}
+                </span>
+                <button className="mezzo-info-chiudi" onClick={() => { setZonaSelezionata(null); setErroreEliminazione('') }}>✕</button>
+              </div>
+              <div className="mezzo-info-riga">
+                <span className="mezzo-info-label">Tipo</span>
+                <span>{zonaSelezionata.tipo.charAt(0).toUpperCase() + zonaSelezionata.tipo.slice(1)}</span>
+              </div>
+              {zonaSelezionata.limite_velocita && (
+                <div className="mezzo-info-riga">
+                  <span className="mezzo-info-label">Limite velocità</span>
+                  <span>{zonaSelezionata.limite_velocita} km/h</span>
+                </div>
+              )}
+              {erroreEliminazione && <p style={{ fontSize: 12, color: '#f43f5e', margin: 0 }}>{erroreEliminazione}</p>}
+              <button
+                className="btn-pannello danger"
+                style={{ marginTop: 4 }}
+                onClick={handleEliminaZona}
+                disabled={eliminazione}
+              >
+                {eliminazione ? 'Eliminazione…' : 'Elimina zona'}
+              </button>
             </div>
           )}
 
@@ -372,30 +404,6 @@ export default function VistaMappaOperatore() {
         </div>
       )}
 
-      {zonaSelezionata && (
-        <div className="modal-overlay">
-          <div className="modal-card">
-            <h3>Elimina zona</h3>
-            <p style={{ marginBottom: 16 }}>
-              Vuoi eliminare la zona <strong>{zonaSelezionata.nome}</strong>?
-            </p>
-            {erroreEliminazione && <p className="modal-errore">{erroreEliminazione}</p>}
-            <button
-              className="btn-pannello danger"
-              onClick={handleEliminaZona}
-              disabled={eliminazione}
-            >
-              {eliminazione ? 'Eliminazione…' : 'Elimina'}
-            </button>
-            <button
-              className="btn-pannello secondario"
-              onClick={() => { setZonaSelezionata(null); setErroreEliminazione('') }}
-            >
-              Annulla
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
