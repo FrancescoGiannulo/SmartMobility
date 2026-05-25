@@ -232,7 +232,7 @@ export default function VistaMappaOperatore() {
               <AdvancedMarker
                 key={m.id}
                 position={{ lat: m.lat, lng: m.lng }}
-                onClick={e => { e.stop(); setMezzoSelezionato(m) }}
+                onClick={e => { e.stop(); setMezzoSelezionato(m); setZonaHover(null); setZonaSelezionata(null) }}
               >
                 <PinMezzo tipo={m.tipo} stato={m.stato} />
               </AdvancedMarker>
