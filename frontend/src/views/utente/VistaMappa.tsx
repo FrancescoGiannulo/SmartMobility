@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Map,
@@ -46,6 +46,20 @@ interface ZonaHover {
   pos: google.maps.LatLngLiteral
 }
 
+const PRIORITA_TIPO: Record<string, number> = {
+  operativa: 0, parcheggio: 1, limitata: 2, vietata: 3,
+}
+
+function zonaMiglioreDa(map: Map<string, ZonaHover>): ZonaHover | null {
+  let best: ZonaHover | null = null
+  for (const entry of map.values()) {
+    if (!best || (PRIORITA_TIPO[entry.zona.tipo] ?? 1) > (PRIORITA_TIPO[best.zona.tipo] ?? 1)) {
+      best = entry
+    }
+  }
+  return best
+}
+
 export default function VistaMappa() {
   const navigate = useNavigate()
   const [mezzi, setMezzi] = useState<MezzoMappa[]>([])
@@ -53,6 +67,8 @@ export default function VistaMappa() {
   const [centro, setCentro] = useState(CENTRO_DEFAULT)
   const [errore, setErrore] = useState('')
   const [zonaHover, setZonaHover] = useState<ZonaHover | null>(null)
+  // [IF-UT.01] Priority queue: mantiene tutte le zone sotto il cursore, mostra quella più specifica
+  const zoneAttive = useRef(new Map<string, ZonaHover>())
 
   useEffect(() => {
     navigator.geolocation?.getCurrentPosition(
@@ -99,8 +115,14 @@ export default function VistaMappa() {
               zona={z}
               fillColor={colori.fill}
               strokeColor={colori.stroke}
-              onHover={(zona, pos) => setZonaHover({ zona, pos })}
-              onHoverEnd={() => setZonaHover(null)}
+              onHover={(zona, pos) => {
+                zoneAttive.current.set(zona.id, { zona, pos })
+                setZonaHover(zonaMiglioreDa(zoneAttive.current))
+              }}
+              onHoverEnd={() => {
+                zoneAttive.current.delete(z.id)
+                setZonaHover(zonaMiglioreDa(zoneAttive.current))
+              }}
             />
           )
         })}

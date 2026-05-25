@@ -32,6 +32,9 @@ export default function ZonaPoligono({
     const paths = zonaRef.current.perimetro.coordinates[0].map(
       ([lng, lat]) => ({ lat, lng })
     )
+    const ZINDEX_TIPO: Record<string, number> = {
+      operativa: 0, parcheggio: 1, limitata: 2, vietata: 3,
+    }
     const poly = new window.google.maps.Polygon({
       paths,
       strokeColor,
@@ -39,6 +42,7 @@ export default function ZonaPoligono({
       strokeWeight: 2,
       fillColor,
       fillOpacity: 0.25,
+      zIndex: ZINDEX_TIPO[zonaRef.current.tipo] ?? 1,
       map: mappa,
     })
     window.google.maps.event.addListener(
