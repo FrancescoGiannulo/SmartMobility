@@ -1,0 +1,195 @@
+.regole-wrap {
+  min-height: 100vh;
+  background: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 24px 48px;
+  position: relative;
+}
+
+.regole-chiudi {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: none;
+  border: none;
+  font-size: 26px;
+  color: #4caf9a;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.regole-titolo {
+  font-size: 22px;
+  font-weight: 700;
+  color: #4caf9a;
+  letter-spacing: 1px;
+  margin: 0 0 32px;
+}
+
+.regole-loading {
+  color: #888;
+  margin-top: 48px;
+}
+
+.regole-card {
+  width: 100%;
+  max-width: 760px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  padding: 8px 32px;
+  margin-bottom: 24px;
+}
+
+.regole-riga {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0;
+}
+
+.regole-riga-vincolo {
+  align-items: flex-start;
+  padding: 20px 0 28px;
+}
+
+.regole-separatore {
+  height: 1px;
+  background: #4caf9a;
+  margin: 0 -4px;
+  opacity: 0.35;
+}
+
+.regole-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #4caf9a;
+  flex: 1;
+}
+
+.regole-input-unit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.regole-input {
+  width: 72px;
+  padding: 6px 8px;
+  border: 1.5px solid #333;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  outline: none;
+}
+
+.regole-input:focus {
+  border-color: #4caf9a;
+}
+
+.regole-unit {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  min-width: 24px;
+}
+
+/* Dropdown vincolo */
+.regole-dropdown-wrap {
+  position: relative;
+  flex-shrink: 0;
+  min-width: 220px;
+}
+
+.regole-dropdown-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border: 1.5px solid #333;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  gap: 8px;
+}
+
+.regole-dropdown-arrow {
+  font-size: 18px;
+  color: #4caf9a;
+}
+
+.regole-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1.5px solid #ccc;
+  border-radius: 4px;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.regole-dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 11px 14px;
+  text-align: left;
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.regole-dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.regole-dropdown-item:hover,
+.regole-dropdown-item.attivo {
+  background: #f0faf7;
+  color: #4caf9a;
+  font-weight: 600;
+}
+
+.regole-errore {
+  color: #e53935;
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+
+.regole-successo {
+  color: #4caf9a;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+.regole-btn-salva {
+  width: 100%;
+  max-width: 760px;
+  padding: 16px 0;
+  background: #4caf9a;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.regole-btn-salva:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

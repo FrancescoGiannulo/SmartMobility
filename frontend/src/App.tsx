@@ -5,6 +5,7 @@ import CallbackOAuth from './views/auth/CallbackOAuth'
 import RoutaProtetta from './components/RoutaProtetta'
 import VistaMappa from './views/utente/VistaMappa'
 import VistaMappaOperatore from './views/operatore/VistaMappaOperatore'
+import VistaImpostazioniRegole from './views/operatore/VistaImpostazioniRegole'
 import VistaCorsa from './views/utente/VistaCorsa'
 import { utenteCorrente, logout } from './services/AuthService'
 
@@ -88,6 +89,14 @@ function App() {
           element={
             <RoutaProtetta ruoloRichiesto="OP">
               <VistaMappaOperatore />
+            </RoutaProtetta>
+          }
+        />
+        <Route
+          path="/operatore/impostazioni-regole"
+          element={
+            <RoutaProtetta ruoloRichiesto="OP">
+              <VistaImpostazioniRegole />
             </RoutaProtetta>
           }
         />

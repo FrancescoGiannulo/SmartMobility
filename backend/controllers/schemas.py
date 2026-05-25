@@ -49,3 +49,12 @@ class ZonaCreate(BaseModel):
 
 class PrenotazioneRequest(BaseModel):
     mezzo_id: UUID
+
+
+class ConfigurazioneFineCorsaRequest(BaseModel):
+    durata_max_prenotazione_min: int
+    durata_periodo_grazia_min: int
+    max_mezzi_per_utente: int
+    tipo_vincolo: str
+    batteria_minima: int | None = None
+    penale_fuori_zona: float = 0.0
