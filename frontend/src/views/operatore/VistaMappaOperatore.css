@@ -343,6 +343,67 @@
   justify-content: center;
   padding: 13px 18px;
 }
+
+/* ---------- Mezzo info card ---------- */
+.mezzo-info-card {
+  background: #f8fafc;
+  border: 1.5px solid rgba(76, 175, 154, 0.4);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mezzo-info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.mezzo-info-titolo {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sm-dark, #0f172a);
+}
+
+.mezzo-info-chiudi {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: var(--sm-muted, #64748b);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+.mezzo-info-riga {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--sm-dark, #0f172a);
+}
+
+.mezzo-info-label {
+  color: var(--sm-muted, #64748b);
+  font-weight: 600;
+}
+
+.mezzo-stato {
+  font-weight: 700;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.mezzo-stato--disponibile     { background: #dcfce7; color: #16a34a; }
+.mezzo-stato--prenotato       { background: #fef3c7; color: #d97706; }
+.mezzo-stato--in-uso          { background: #dbeafe; color: #2563eb; }
+.mezzo-stato--in-pausa        { background: #f3e8ff; color: #9333ea; }
+.mezzo-stato--in-manutenzione { background: #fce7f3; color: #db2777; }
+.mezzo-stato--fuori-servizio  { background: #f1f5f9; color: #64748b; }
 .modal-card .btn-pannello::before { display: none; }
 .modal-card .btn-pannello.secondario {
   background: #fff;

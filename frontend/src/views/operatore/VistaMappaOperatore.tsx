@@ -133,6 +133,7 @@ export default function VistaMappaOperatore() {
   const zoneAttive = useRef(new Map<string, ZonaHover>())
   const [eliminazione, setEliminazione] = useState(false)
   const [erroreEliminazione, setErroreEliminazione] = useState('')
+  const [mezzoSelezionato, setMezzoSelezionato] = useState<MezzoMappa | null>(null)
 
   const ricaricaDati = useCallback(() => {
     Promise.all([getMezziOperatore(), getZoneOperatore()])
@@ -228,7 +229,11 @@ export default function VistaMappaOperatore() {
             />
 
             {mezzi.map(m => (
-              <AdvancedMarker key={m.id} position={{ lat: m.lat, lng: m.lng }}>
+              <AdvancedMarker
+                key={m.id}
+                position={{ lat: m.lat, lng: m.lng }}
+                onClick={e => { e.stop(); setMezzoSelezionato(m) }}
+              >
                 <PinMezzo tipo={m.tipo} stato={m.stato} />
               </AdvancedMarker>
             ))}
@@ -272,6 +277,37 @@ export default function VistaMappaOperatore() {
 
         <div className="mappa-op-pannello">
           <div className="logo">Control Center</div>
+
+          {mezzoSelezionato && (
+            <div className="mezzo-info-card">
+              <div className="mezzo-info-header">
+                <span className="mezzo-info-titolo">
+                  {mezzoSelezionato.tipo === 'monopattino' ? '🛴'
+                    : mezzoSelezionato.tipo === 'bicicletta' ? '🚲' : '🚗'}{' '}
+                  {mezzoSelezionato.codice}
+                </span>
+                <button className="mezzo-info-chiudi" onClick={() => setMezzoSelezionato(null)}>✕</button>
+              </div>
+              <div className="mezzo-info-riga">
+                <span className="mezzo-info-label">Tipo</span>
+                <span>{mezzoSelezionato.tipo.charAt(0).toUpperCase() + mezzoSelezionato.tipo.slice(1)}</span>
+              </div>
+              <div className="mezzo-info-riga">
+                <span className="mezzo-info-label">Stato</span>
+                <span className={`mezzo-stato mezzo-stato--${mezzoSelezionato.stato.toLowerCase().replace(' ', '-')}`}>
+                  {mezzoSelezionato.stato}
+                </span>
+              </div>
+              <div className="mezzo-info-riga">
+                <span className="mezzo-info-label">Batteria</span>
+                <span>{mezzoSelezionato.batteria != null ? `${mezzoSelezionato.batteria}%` : '—'}</span>
+              </div>
+              <div className="mezzo-info-riga">
+                <span className="mezzo-info-label">Posizione</span>
+                <span>{mezzoSelezionato.lat.toFixed(5)}, {mezzoSelezionato.lng.toFixed(5)}</span>
+              </div>
+            </div>
+          )}
 
           <div className="section-label">Definisci zone</div>
 
