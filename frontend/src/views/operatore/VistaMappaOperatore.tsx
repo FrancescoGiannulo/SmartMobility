@@ -246,10 +246,6 @@ export default function VistaMappaOperatore() {
                     zoneAttive.current.delete(z.id)
                     setZonaHover(zonaMiglioreDa(zoneAttive.current))
                   }}
-                  onClick={tipoDisegno ? undefined : zona => {
-                    setZonaHover(null)
-                    setZonaSelezionata(zona)
-                  }}
                 />
               )
             })}
@@ -259,7 +255,13 @@ export default function VistaMappaOperatore() {
                 position={zonaHover.pos}
                 onCloseClick={() => setZonaHover(null)}
               >
-                <TooltipZona zona={zonaHover.zona} />
+                <TooltipZona
+                  zona={zonaHover.zona}
+                  onElimina={() => {
+                    setZonaSelezionata(zonaHover.zona)
+                    setZonaHover(null)
+                  }}
+                />
               </InfoWindow>
             )}
           </GoogleMap>
