@@ -9,22 +9,22 @@
   display: flex;
   flex-direction: column;
   font-family: var(--sm-font, 'Plus Jakarta Sans', system-ui, sans-serif);
-  background: var(--sm-dark, #0f172a);
+  background: #f1f5f9;
   overflow: hidden;
 }
 
-/* ---------- Topbar (dark) ---------- */
+/* ---------- Topbar (light) ---------- */
 .mappa-op-topbar {
   height: 64px;
-  background: linear-gradient(180deg, #0f172a, #111c33);
+  background: #fff;
   display: flex;
   align-items: center;
   padding: 0 24px;
   gap: 14px;
   z-index: 10;
   flex-shrink: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid var(--sm-line, rgba(15, 23, 42, 0.08));
+  box-shadow: var(--sm-shadow-md, 0 4px 12px rgba(15,23,42,0.08));
 }
 
 .mappa-op-topbar h2 {
@@ -33,7 +33,7 @@
   font-size: 16px;
   font-weight: 800;
   letter-spacing: -0.01em;
-  color: #fff;
+  color: var(--sm-dark, #0f172a);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -47,7 +47,7 @@
   background:
     radial-gradient(circle at 30% 30%, #7eecd6, transparent 60%),
     linear-gradient(135deg, var(--sm-primary, #4caf9a), var(--sm-primary-700, #2a7a6a));
-  box-shadow: 0 6px 14px rgba(76, 175, 154, 0.45),
+  box-shadow: 0 6px 14px rgba(76, 175, 154, 0.35),
               inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 .mappa-op-topbar h2 .role-tag {
@@ -55,8 +55,8 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--sm-primary, #4caf9a);
-  background: rgba(76, 175, 154, 0.12);
-  border: 1px solid rgba(76, 175, 154, 0.3);
+  background: rgba(76, 175, 154, 0.1);
+  border: 1px solid rgba(76, 175, 154, 0.25);
   padding: 4px 10px;
   border-radius: 999px;
   text-transform: uppercase;
@@ -64,9 +64,9 @@
 
 .mappa-op-topbar .btn-logout-mappa {
   padding: 9px 18px;
-  background: rgba(244, 63, 94, 0.14);
-  color: #fda4b4;
-  border: 1px solid rgba(244, 63, 94, 0.4);
+  background: rgba(244, 63, 94, 0.06);
+  color: var(--sm-error, #f43f5e);
+  border: 1px solid rgba(244, 63, 94, 0.25);
   border-radius: 999px;
   font-family: inherit;
   font-size: 12.5px;
@@ -80,7 +80,7 @@
   color: #fff;
   border-color: transparent;
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(244, 63, 94, 0.45);
+  box-shadow: 0 8px 20px rgba(244, 63, 94, 0.35);
 }
 
 /* ---------- Body 70/30 ---------- */
@@ -88,7 +88,7 @@
   flex: 1;
   display: flex;
   overflow: hidden;
-  background: var(--sm-dark, #0f172a);
+  background: #f1f5f9;
 }
 
 .mappa-op-mappa {
@@ -97,22 +97,23 @@
   position: relative;
 }
 
-/* ---------- Sidebar (dark) ---------- */
+/* ---------- Sidebar (light) ---------- */
 .mappa-op-pannello {
   flex: 30%;
-  min-width: 320px;
-  background: linear-gradient(180deg, #111c33 0%, #0f172a 100%);
-  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  min-width: 300px;
+  background: #fff;
+  border-left: 1px solid var(--sm-line, rgba(15, 23, 42, 0.08));
   display: flex;
   flex-direction: column;
   padding: 22px 18px 24px;
-  gap: 14px;
+  gap: 10px;
   overflow-y: auto;
-  color: #e2e8f0;
+  color: var(--sm-dark, #0f172a);
+  box-shadow: -4px 0 20px rgba(15, 23, 42, 0.04);
 }
 
-.mappa-op-pannello::-webkit-scrollbar { width: 6px; }
-.mappa-op-pannello::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 6px; }
+.mappa-op-pannello::-webkit-scrollbar { width: 4px; }
+.mappa-op-pannello::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
 
 .mappa-op-pannello .logo {
   font-size: 11px;
@@ -131,7 +132,7 @@
   letter-spacing: 0.14em;
   color: var(--sm-muted, #64748b);
   text-transform: uppercase;
-  padding: 14px 6px 2px;
+  padding: 10px 6px 2px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -140,7 +141,7 @@
   content: "";
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.08), transparent);
+  background: linear-gradient(90deg, #e2e8f0, transparent);
 }
 
 /* ---------- Button system ---------- */
@@ -150,7 +151,7 @@
   --btn-fg: #fff;
 
   width: 100%;
-  padding: 13px 18px;
+  padding: 12px 16px;
   background: var(--btn-bg);
   color: var(--btn-fg);
   border: 1px solid transparent;
@@ -166,7 +167,7 @@
   gap: 10px;
   position: relative;
   transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 4px 12px rgba(0,0,0,0.25);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.2) inset, 0 2px 8px rgba(0,0,0,0.1);
 }
 .btn-pannello::before {
   content: "";
@@ -174,13 +175,12 @@
   height: 6px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
   flex-shrink: 0;
 }
 .btn-pannello:hover {
   background: var(--btn-bg-hover);
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
 }
 .btn-pannello:active { transform: translateY(0); }
 .btn-pannello:disabled {
@@ -189,58 +189,55 @@
   transform: none;
 }
 
-/* Tinted primary buttons via inline style override remain functional;
-   add modifier classes for semantic colors used in the panel */
 .btn-pannello.danger   { --btn-bg: #ef4444; --btn-bg-hover: #dc2626; }
 .btn-pannello.warning  { --btn-bg: #f59e0b; --btn-bg-hover: #d97706; }
 .btn-pannello.success  { --btn-bg: #22c55e; --btn-bg-hover: #16a34a; }
 .btn-pannello.info     { --btn-bg: #3b82f6; --btn-bg-hover: #2563eb; }
 
-/* Secondary (ghost) inside dark sidebar */
+/* Secondary (ghost) — light mode */
 .btn-pannello.secondario {
-  background: rgba(255, 255, 255, 0.04);
-  color: #cbd5e1;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #f8fafc;
+  color: var(--sm-muted, #64748b);
+  border: 1px solid #e2e8f0;
   box-shadow: none;
 }
 .btn-pannello.secondario::before {
   background: var(--sm-primary, #4caf9a);
-  box-shadow: 0 0 8px rgba(76, 175, 154, 0.6);
 }
 .btn-pannello.secondario:hover {
-  background: rgba(76, 175, 154, 0.12);
-  border-color: rgba(76, 175, 154, 0.4);
-  color: #fff;
+  background: rgba(76, 175, 154, 0.06);
+  border-color: rgba(76, 175, 154, 0.35);
+  color: var(--sm-primary-700, #2a7a6a);
   transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 12px rgba(76, 175, 154, 0.12);
 }
 
-/* ---------- Drawing-hint floating banner ---------- */
+/* ---------- Drawing-hint floating banner (light) ---------- */
 .mappa-op-hint {
   position: fixed;
   bottom: 28px;
   left: 35%;
   transform: translateX(-50%);
-  background: rgba(15, 23, 42, 0.92);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--sm-dark, #0f172a);
+  border: 1px solid var(--sm-line, rgba(15,23,42,0.08));
   border-radius: 999px;
   padding: 12px 22px;
   font-size: 13.5px;
   font-weight: 600;
   z-index: 50;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--sm-shadow-lg);
   display: flex;
   align-items: center;
   gap: 14px;
   animation: smFloatIn 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .mappa-op-hint button {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: var(--sm-muted, #64748b);
   border-radius: 999px;
   padding: 5px 14px;
   font-size: 12px;
@@ -252,6 +249,7 @@
 .mappa-op-hint button:hover {
   background: var(--sm-error, #f43f5e);
   border-color: transparent;
+  color: #fff;
 }
 
 /* ---------- Modal ---------- */
