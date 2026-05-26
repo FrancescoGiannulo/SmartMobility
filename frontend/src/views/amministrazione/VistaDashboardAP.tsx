@@ -66,7 +66,7 @@ export default function VistaDashboardAP() {
   return (
     <div className="vista-dashboard-ap">
       <div className="dashboard-ap-topbar">
-        <h2>🚲 SMART MOBILITY — Amministrazione Pubblica</h2>
+        <h2>🚲 SMART MOBILITY: Amministrazione Pubblica</h2>
         <button type="button" className="btn-logout-ap" onClick={handleLogout}>LOGOUT</button>
       </div>
 

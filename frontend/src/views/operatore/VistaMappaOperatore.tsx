@@ -304,7 +304,7 @@ export default function VistaMappaOperatore() {
 
       {tipoDisegno && (
         <div className="mappa-op-hint">
-          <span>Disegna il poligono sulla mappa — doppio click per chiudere</span>
+          <span>Disegna il poligono sulla mappa: doppio click per chiudere</span>
           <button type="button" onClick={() => setTipoDisegno(null)}>Annulla</button>
         </div>
       )}
@@ -314,6 +314,7 @@ export default function VistaMappaOperatore() {
           <div className="modal-card">
             <h3>Nuova zona {modalZona.tipo}</h3>
             <input
+              aria-label="Nome zona"
               placeholder="Nome zona"
               value={nomeZona}
               onChange={e => setNomeZona(e.target.value)}
@@ -321,6 +322,7 @@ export default function VistaMappaOperatore() {
             {modalZona.tipo === 'limitata' && (
               <input
                 type="number"
+                aria-label="Limite velocità (km/h)"
                 placeholder="Limite velocità (km/h)"
                 value={limiteVelocita}
                 onChange={e => setLimiteVelocita(e.target.value)}

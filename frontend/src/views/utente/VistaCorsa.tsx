@@ -16,7 +16,7 @@ function IconaMezzo({ tipo }: { tipo?: string }) {
 }
 
 function Batteria({ valore }: { valore: number | null | undefined }) {
-  if (valore == null) return <span>—</span>
+  if (valore == null) return <span>N/D</span>
   const barre = Math.min(4, Math.ceil(valore / 25))
   const colore = valore > 50 ? '#4caf9a' : valore > 20 ? '#f59e0b' : '#ef4444'
   return (

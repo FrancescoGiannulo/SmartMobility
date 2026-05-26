@@ -59,7 +59,7 @@ export default function TooltipZona({ zona, onElimina }: TooltipZonaProps) {
         <div style={{ flex: 1, minWidth: 0 }}>
           <div
             style={{
-              fontSize: 10.5,
+              fontSize: 12,
               fontWeight: 700,
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
@@ -102,7 +102,7 @@ export default function TooltipZona({ zona, onElimina }: TooltipZonaProps) {
         >
           <span
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: '#64748b',
               letterSpacing: '0.05em',
@@ -119,7 +119,7 @@ export default function TooltipZona({ zona, onElimina }: TooltipZonaProps) {
               color: '#0f172a',
             }}
           >
-            {zona.limite_velocita} <span style={{ color: '#94a3b8', fontSize: 11 }}>km/h</span>
+            {zona.limite_velocita} <span style={{ color: '#94a3b8', fontSize: 12 }}>km/h</span>
           </span>
         </div>
       )}
@@ -145,7 +145,7 @@ export default function TooltipZona({ zona, onElimina }: TooltipZonaProps) {
             letterSpacing: '0.02em',
             cursor: 'pointer',
             fontFamily: 'inherit',
-            transition: 'all 160ms ease',
+            transition: 'background 160ms ease, color 160ms ease, border-color 160ms ease',
           }}
           onMouseEnter={e => {
             e.currentTarget.style.background = '#f43f5e'
