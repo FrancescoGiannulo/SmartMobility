@@ -180,16 +180,32 @@ git stash pop                # ripristina le modifiche
 
 ---
 
+## Deploy automatico su push a main
+
+Ogni push (o merge PR) su `main` trigge automaticamente:
+
+1. **Vercel** — rebuilda e rideploya il frontend (~30-60s)
+2. **Render** — rebuilda e rideploya il backend (~2-3 min)
+
+Non serve fare nulla di manuale. Per verificare lo stato del deploy:
+- Vercel: [vercel.com/dashboard](https://vercel.com) → progetto → Deployments
+- Render: [dashboard.render.com](https://dashboard.render.com) → servizio → Logs
+
+> **Attenzione:** se la build TypeScript fallisce (`npm run build`), Vercel non fa il deploy e mostra il build precedente. Eseguire sempre `npm run build` in locale prima di fare push su `main`.
+
+---
+
 ## Regole del team
 
 | Regola | Perché |
 |---|---|
-| Nessun commit diretto su `main` | Protegge la versione stabile |
+| Nessun commit diretto su `main` | Protegge la versione stabile + non trigga deploy accidentali |
 | PR obbligatoria per il merge | Almeno un collega rivede il codice |
 | Un item = un PR | Più facile da revisionare e da revertire |
 | Messaggi di commit con ID backlog | Tracciabilità requisiti → codice |
 | Test prima del PR | Non si merga codice non testato |
 | `git pull` prima di iniziare | Evita divergenze inutili |
+| `npm run build` prima del push su main | Evita build fallite su Vercel |
 
 ---
 
