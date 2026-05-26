@@ -6,6 +6,7 @@ from controllers.utente_controller import router as auth_router, mappa_router
 from controllers.mezzo_operatore_controller import router as mezzo_op_router
 from controllers.zona_operatore_controller import router as zona_op_router
 from controllers.prenotazione_utente_controller import router as corsa_router
+from controllers.ap_controller import router as ap_router
 
 app = FastAPI(title="SmartMobility API")
 
@@ -23,6 +24,7 @@ app.include_router(mappa_router)
 app.include_router(mezzo_op_router)
 app.include_router(zona_op_router)
 app.include_router(corsa_router)
+app.include_router(ap_router)
 
 
 @app.get("/")

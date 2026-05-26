@@ -1,8 +1,8 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {
-  Map,
+  Map as GoogleMap,
   AdvancedMarker,
   InfoWindow,
 } from '@vis.gl/react-google-maps'
@@ -17,37 +17,29 @@ import './VistaMappa.css'
 
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
 
-const MEZZI_MOCK: MezzoMappa[] = [
-  { id: 'aaaaaaaa-0001-0001-0001-000000000001', codice: 'SM-001', tipo: 'monopattino', stato: 'Disponibile', lat: 41.1180, lng: 16.8720, batteria: 85 },
-  { id: 'aaaaaaaa-0002-0002-0002-000000000002', codice: 'BK-002', tipo: 'bicicletta',  stato: 'Disponibile', lat: 41.1165, lng: 16.8710, batteria: 60 },
-  { id: 'aaaaaaaa-0003-0003-0003-000000000003', codice: 'CAR-003', tipo: 'automobile', stato: 'Disponibile', lat: 41.1190, lng: 16.8740, batteria: 90 },
-  { id: 'aaaaaaaa-0004-0004-0004-000000000004', codice: 'SM-004', tipo: 'monopattino', stato: 'Disponibile', lat: 41.1155, lng: 16.8730, batteria: 30 },
-]
-
-const COLORI_MEZZO: Record<string, string> = {
-  monopattino: '#4caf9a',
-  bicicletta:  '#2196f3',
-  automobile:  '#e91e8c',
+const COLORI_MEZZO: Record<string, { c1: string; c2: string }> = {
+  monopattino: { c1: '#4caf9a', c2: '#2a7a6a' },
+  bicicletta:  { c1: '#3b82f6', c2: '#1d4ed8' },
+  automobile:  { c1: '#ec4899', c2: '#be185d' },
 }
 
-function PinMezzo({ tipo }: { tipo: string }) {
-  const colore = COLORI_MEZZO[tipo] ?? '#888'
-  const emoji = tipo === 'monopattino' ? '🛴' : tipo === 'bicicletta' ? '🚲' : '🚗'
+const GLYPH_MEZZO: Record<string, string> = {
+  monopattino: '🛴',
+  bicicletta: '🚲',
+  automobile: '🚗',
+}
+
+function PinMezzo({ tipo, dim }: { tipo: string; dim?: boolean }) {
+  const c = COLORI_MEZZO[tipo] ?? { c1: '#64748b', c2: '#334155' }
+  const glyph = GLYPH_MEZZO[tipo] ?? '●'
   return (
-    <div style={{
-      background: colore,
-      borderRadius: '50%',
-      width: 40,
-      height: 40,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: 20,
-      boxShadow: '0 2px 8px rgba(0,0,0,0.35)',
-      border: '3px solid #fff',
-      cursor: 'pointer',
-    }}>
-      {emoji}
+    <div
+      className={`sm-pin${dim ? ' sm-pin--dim' : ''}`}
+      style={{ ['--sm-c1' as string]: c.c1, ['--sm-c2' as string]: c.c2 }}
+    >
+      <div className="sm-pin__body">
+        <span className="sm-pin__icon">{glyph}</span>
+      </div>
     </div>
   )
 }
@@ -73,6 +65,20 @@ interface ZonaHover {
   pos: google.maps.LatLngLiteral
 }
 
+const PRIORITA_TIPO: Record<string, number> = {
+  operativa: 0, parcheggio: 1, limitata: 2, vietata: 3,
+}
+
+function zonaMiglioreDa(map: Map<string, ZonaHover>): ZonaHover | null {
+  let best: ZonaHover | null = null
+  for (const entry of map.values()) {
+    if (!best || (PRIORITA_TIPO[entry.zona.tipo] ?? 1) > (PRIORITA_TIPO[best.zona.tipo] ?? 1)) {
+      best = entry
+    }
+  }
+  return best
+}
+
 export default function VistaMappa() {
   const navigate = useNavigate()
   const [mezzi, setMezzi] = useState<MezzoMappa[]>([])
@@ -86,6 +92,8 @@ export default function VistaMappa() {
   const [prenotazione, setPrenotazione] = useState<Prenotazione | null>(null)
   const [tempoRimanente, setTempoRimanente] = useState(0)
   const [errorePanel, setErrorePanel] = useState('')
+  // [IF-UT.01] Priority queue: mantiene tutte le zone sotto il cursore, mostra quella più specifica
+  const zoneAttive = useRef(new Map<string, ZonaHover>())
 
   useEffect(() => {
     navigator.geolocation?.getCurrentPosition(
@@ -96,7 +104,7 @@ export default function VistaMappa() {
 
     const aggiornaMezzi = () =>
       getMezziUtente()
-        .then(m => setMezzi(m.length > 0 ? m : MEZZI_MOCK))
+        .then(setMezzi)
         .catch(() => setErrore('Impossibile caricare la mappa. Riprova.'))
 
     aggiornaMezzi()
@@ -172,18 +180,18 @@ export default function VistaMappa() {
   return (
     <div className="vista-mappa">
       <div className="mappa-topbar">
-        <h2>🚲 SMART MOBILITY</h2>
-        <button className="btn-logout-mappa" onClick={handleLogout}>LOGOUT</button>
+        <h2>Smart Mobility</h2>
+        <button className="btn-logout-mappa" onClick={handleLogout}>Logout</button>
       </div>
 
-      <Map
+      <GoogleMap
         className="mappa-container"
         defaultCenter={centro}
         defaultZoom={14}
         mapId="mappa-utente"
         gestureHandling="greedy"
         disableDefaultUI={false}
-        style={{ paddingTop: 56 }}
+        style={{ paddingTop: 88 }}
         onClick={chiudiPanel}
       >
         {mezzi.map(m => (
@@ -204,8 +212,14 @@ export default function VistaMappa() {
               zona={z}
               fillColor={colori.fill}
               strokeColor={colori.stroke}
-              onHover={(zona, pos) => setZonaHover({ zona, pos })}
-              onHoverEnd={() => setZonaHover(null)}
+              onHover={(zona, pos) => {
+                zoneAttive.current.set(zona.id, { zona, pos })
+                setZonaHover(zonaMiglioreDa(zoneAttive.current))
+              }}
+              onHoverEnd={() => {
+                zoneAttive.current.delete(z.id)
+                setZonaHover(zonaMiglioreDa(zoneAttive.current))
+              }}
             />
           )
         })}
@@ -218,7 +232,7 @@ export default function VistaMappa() {
             <TooltipZona zona={zonaHover.zona} />
           </InfoWindow>
         )}
-      </Map>
+      </GoogleMap>
 
       {/* Pannello mezzo — stile mockup 5 */}
       {mezzoSelezionato && (

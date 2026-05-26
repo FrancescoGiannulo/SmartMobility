@@ -7,6 +7,7 @@ import VistaMappa from './views/utente/VistaMappa'
 import VistaMappaOperatore from './views/operatore/VistaMappaOperatore'
 import VistaImpostazioniRegole from './views/operatore/VistaImpostazioniRegole'
 import VistaCorsa from './views/utente/VistaCorsa'
+import VistaDashboardAP from './views/amministrazione/VistaDashboardAP'
 import { utenteCorrente, logout } from './services/AuthService'
 
 const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string
@@ -44,22 +45,23 @@ function PlaceholderView({ titolo }: { titolo: string }) {
   )
 }
 
-function App() {
+// Componente separato: chiama utenteCorrente() fresco ad ogni mount,
+// evitando stale closure quando App non si ri-renderizza dopo logout.
+function RoutaIniziale() {
   const utente = utenteCorrente()
-
   const homePerRuolo =
     utente?.ruolo === 'UT' ? '/utente/home' :
     utente?.ruolo === 'OP' ? '/operatore/dashboard' :
     utente?.ruolo === 'AP' ? '/ap/dashboard' : '/'
+  return utente ? <Navigate to={homePerRuolo} replace /> : <VistaLogin />
+}
 
+function App() {
   return (
     <APIProvider apiKey={MAPS_API_KEY} version="quarterly" libraries={['drawing']}>
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={utente ? <Navigate to={homePerRuolo} replace /> : <VistaLogin />}
-        />
+        <Route path="/" element={<RoutaIniziale />} />
         <Route
           path="/utente/home"
           element={
@@ -105,6 +107,14 @@ function App() {
           element={
             <RoutaProtetta ruoloRichiesto="OP">
               <PlaceholderView titolo="Operatore" />
+            </RoutaProtetta>
+          }
+        />
+        <Route
+          path="/ap/dashboard"
+          element={
+            <RoutaProtetta ruoloRichiesto="AP">
+              <VistaDashboardAP />
             </RoutaProtetta>
           }
         />
