@@ -66,8 +66,8 @@ export default function VistaDashboardAP() {
   return (
     <div className="vista-dashboard-ap">
       <div className="dashboard-ap-topbar">
-        <h2>🚲 SMART MOBILITY — Amministrazione Pubblica</h2>
-        <button className="btn-logout-ap" onClick={handleLogout}>LOGOUT</button>
+        <h2>🚲 SMART MOBILITY: Amministrazione Pubblica</h2>
+        <button type="button" className="btn-logout-ap" onClick={handleLogout}>LOGOUT</button>
       </div>
 
       <div className="dashboard-ap-body">
@@ -124,7 +124,7 @@ export default function VistaDashboardAP() {
 
         <div className="dashboard-ap-pannello">
           <div className="logo">SMART MOBILITY</div>
-          <button className="btn-pannello-ap" onClick={() => setVista('report')}>
+          <button type="button" className="btn-pannello-ap" onClick={() => setVista('report')}>
             📊 VISUALIZZA REPORT
           </button>
         </div>
