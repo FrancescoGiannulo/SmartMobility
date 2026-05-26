@@ -73,13 +73,13 @@ export default function VistaReportAP({ onIndietro }: VistaReportAPProps) {
                   outerRadius={90}
                   dataKey="value"
                   labelLine={false}
-                  label={(props) => <LabelTorta {...props} />}
+                  label={(props) => <LabelTorta {...(props as Parameters<typeof LabelTorta>[0])} />}
                 >
                   {DATI_TORTA.map((d: DatoTorta) => (
                     <Cell key={d.name} fill={d.colore} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(v: number) => `${v}%`} />
+                <Tooltip formatter={(v) => `${v}%`} />
               </PieChart>
             </ResponsiveContainer>
           </div>

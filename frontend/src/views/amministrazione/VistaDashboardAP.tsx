@@ -117,7 +117,7 @@ export default function VistaDashboardAP() {
             })}
 
             {tooltipZona && (
-              <TooltipZona zona={tooltipZona.zona} posizione={tooltipZona.pos} />
+              <TooltipZona zona={tooltipZona.zona} />
             )}
           </Map>
         </div>
