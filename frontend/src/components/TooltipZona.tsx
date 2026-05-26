@@ -127,6 +127,7 @@ export default function TooltipZona({ zona, onElimina }: TooltipZonaProps) {
       {/* Delete action (operator only) */}
       {onElimina && (
         <button
+          type="button"
           onClick={e => {
             e.stopPropagation()
             onElimina()

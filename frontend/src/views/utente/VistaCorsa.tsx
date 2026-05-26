@@ -73,7 +73,7 @@ export default function VistaCorsa() {
   if (!corsa) {
     return (
       <div className="vista-corsa-wrap">
-        <button className="btn-back-corsa" onClick={() => navigate(-1)}>← Torna alla mappa</button>
+        <button type="button" className="btn-back-corsa" onClick={() => navigate(-1)}>← Torna alla mappa</button>
         <p style={{ color: '#888', marginTop: 32, textAlign: 'center' }}>
           Nessuna corsa attiva. Torna alla mappa e clicca su un mezzo.
         </p>
@@ -117,13 +117,14 @@ export default function VistaCorsa() {
 
       <div className="corsa-bottoni">
         <button
+          type="button"
           className="btn-corsa btn-termina"
           onClick={handleTermina}
           disabled={terminaInCorso}
         >
           {terminaInCorso ? 'Chiusura...' : 'TERMINA E PAGA'}
         </button>
-        <button className="btn-corsa btn-pausa" disabled>PAUSA CORSA</button>
+        <button type="button" className="btn-corsa btn-pausa" disabled>PAUSA CORSA</button>
       </div>
     </div>
   )
