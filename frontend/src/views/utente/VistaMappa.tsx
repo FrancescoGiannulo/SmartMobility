@@ -8,7 +8,7 @@ import {
 } from '@vis.gl/react-google-maps'
 import { getMezziUtente, getZoneUtente, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
 import { sbloccaMezzo } from '../../services/CorsaService'
-import { prenotaMezzo, type Prenotazione } from '../../services/PrenotazioneService'
+import { prenotaMezzo, annullaPrenotazione, type Prenotazione } from '../../services/PrenotazioneService'
 import { logout } from '../../services/AuthService'
 import ZonaPoligono from '../../components/ZonaPoligono'
 import TooltipZona from '../../components/TooltipZona'
@@ -89,6 +89,7 @@ export default function VistaMappa() {
   const [mezzoSelezionato, setMezzoSelezionato] = useState<MezzoMappa | null>(null)
   const [sbloccoInCorso, setSbloccoInCorso] = useState(false)
   const [prenotaInCorso, setPrenotaInCorso] = useState(false)
+  const [annullaInCorso, setAnnullaInCorso] = useState(false)
   const [prenotazione, setPrenotazione] = useState<Prenotazione | null>(null)
   const [tempoRimanente, setTempoRimanente] = useState(0)
   const [errorePanel, setErrorePanel] = useState('')
@@ -153,6 +154,20 @@ export default function VistaMappa() {
       setPrenotaInCorso(false)
     }
   }, [mezzoSelezionato])
+
+  const handleAnnulla = useCallback(async () => {
+    if (!prenotazione) return
+    setAnnullaInCorso(true)
+    setErrorePanel('')
+    try {
+      await annullaPrenotazione(prenotazione.id)
+      setPrenotazione(null)
+    } catch {
+      setErrorePanel('Errore durante l\'annullamento. Riprova.')
+    } finally {
+      setAnnullaInCorso(false)
+    }
+  }, [prenotazione])
 
   const handleSblocca = useCallback(async () => {
     if (!mezzoSelezionato) return
@@ -264,13 +279,23 @@ export default function VistaMappa() {
           )}
 
           <div className="pannello-azioni">
-            <button
-              className="btn-prenota"
-              onClick={handlePrenota}
-              disabled={prenotaInCorso || !!prenotazione}
-            >
-              {prenotaInCorso ? '...' : prenotazione ? 'Prenotato' : 'Prenota'}
-            </button>
+            {prenotazione ? (
+              <button
+                className="btn-prenota btn-annulla"
+                onClick={handleAnnulla}
+                disabled={annullaInCorso}
+              >
+                {annullaInCorso ? '...' : 'Annulla prenotazione'}
+              </button>
+            ) : (
+              <button
+                className="btn-prenota"
+                onClick={handlePrenota}
+                disabled={prenotaInCorso}
+              >
+                {prenotaInCorso ? '...' : 'Prenota'}
+              </button>
+            )}
             <button className="btn-sblocca-panel" onClick={handleSblocca} disabled={sbloccoInCorso}>
               {sbloccoInCorso ? '...' : 'Sblocca'}
             </button>

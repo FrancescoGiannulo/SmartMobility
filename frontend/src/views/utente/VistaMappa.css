@@ -230,6 +230,16 @@ body {
   cursor: not-allowed;
 }
 
+.btn-annulla {
+  background: #fdecea;
+  color: #e53935;
+}
+
+.btn-annulla:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .btn-sblocca-panel {
   background: #4caf9a;
   color: #fff;

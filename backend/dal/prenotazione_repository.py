@@ -77,3 +77,22 @@ class PrenotazioneRepository:
                 "id": str(prenotazione_id),
             })
             s.commit()
+
+    # [IF-UT.02] CS-XX — trova prenotazione attiva per id e utente
+    def trova_attiva_per_id_e_utente(
+        self, prenotazione_id: UUID, utente_id: UUID
+    ) -> dict | None:
+        sql = text("""
+            SELECT id, mezzo_id, stato
+            FROM prenotazioni
+            WHERE id = :id AND utente_id = :utente_id AND stato = 'attiva'
+            LIMIT 1
+        """)
+        with self._sessione() as s:
+            row = s.execute(sql, {
+                "id": str(prenotazione_id),
+                "utente_id": str(utente_id),
+            }).fetchone()
+        if row is None:
+            return None
+        return {"id": str(row.id), "mezzo_id": str(row.mezzo_id), "stato": row.stato}

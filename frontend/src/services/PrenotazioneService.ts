@@ -14,3 +14,8 @@ export const prenotaMezzo = async (mezzoId: string): Promise<Prenotazione> => {
   const r = await api.post<Prenotazione>('/utente/prenotazioni', { mezzo_id: mezzoId })
   return r.data
 }
+
+// [IF-UT.02] CS-XX — Annulla prenotazione
+export const annullaPrenotazione = async (prenotazioneId: string): Promise<void> => {
+  await api.delete(`/utente/prenotazioni/${prenotazioneId}`)
+}

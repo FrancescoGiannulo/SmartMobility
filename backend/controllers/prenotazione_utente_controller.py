@@ -13,6 +13,7 @@ from bll.servizio_prenotazione import (
     ServizioPrenotazione,
     MezzoNonTrovatoException as PrenMezzoNonTrovato,
     MezzoNonDisponibileException as PrenMezzoNonDisponibile,
+    PrenotazioneNonTrovataException,
 )
 
 router = APIRouter(prefix="/utente", tags=["Utente - Corsa"])
@@ -31,6 +32,19 @@ def prenota_mezzo(
         raise HTTPException(status_code=404, detail="Mezzo non trovato")
     except PrenMezzoNonDisponibile as e:
         raise HTTPException(status_code=409, detail=str(e))
+
+
+# [IF-UT.02] CS-XX — Annulla prenotazione
+@router.delete("/prenotazioni/{prenotazione_id}", status_code=204)
+def annulla_prenotazione(
+    prenotazione_id: UUID,
+    utente=Depends(verify_token(["UT"])),
+    db=Depends(get_db),
+):
+    try:
+        ServizioPrenotazione(db).annulla_prenotazione(prenotazione_id, utente["id"])
+    except PrenotazioneNonTrovataException:
+        raise HTTPException(status_code=404, detail="Prenotazione non trovata")
 
 
 # [IF-UT.04] CS-10 Sblocca Mezzo

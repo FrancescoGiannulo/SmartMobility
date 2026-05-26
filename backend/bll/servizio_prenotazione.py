@@ -12,6 +12,10 @@ class MezzoNonDisponibileException(Exception):
     pass
 
 
+class PrenotazioneNonTrovataException(Exception):
+    pass
+
+
 class ServizioPrenotazione:
     """Ciclo di vita delle prenotazioni: creazione, scadenza, cancellazione."""
 
@@ -20,6 +24,14 @@ class ServizioPrenotazione:
     def __init__(self, db: Session) -> None:
         self._mezzo_repo = MezzoRepository(db)
         self._pren_repo = PrenotazioneRepository(db)
+
+    # [IF-UT.02] CS-XX — Annulla prenotazione attiva
+    def annulla_prenotazione(self, prenotazione_id: UUID, utente_id: UUID) -> None:
+        pren = self._pren_repo.trova_attiva_per_id_e_utente(prenotazione_id, utente_id)
+        if pren is None:
+            raise PrenotazioneNonTrovataException(f"Prenotazione {prenotazione_id} non trovata")
+        self._pren_repo.aggiorna_stato(prenotazione_id, "annullata")
+        self._mezzo_repo.aggiorna_stato(UUID(pren["mezzo_id"]), "Disponibile")
 
     # [IF-UT.02] CS-XX — Prenota Mezzo
     def crea_prenotazione(self, mezzo_id: UUID, utente_id: UUID) -> dict:
