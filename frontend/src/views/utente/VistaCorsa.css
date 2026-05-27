@@ -126,6 +126,53 @@
   cursor: not-allowed;
 }
 
+/* Esito pagamento */
+.corsa-esito {
+  width: 100%;
+  max-width: 340px;
+  border-radius: 16px;
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  text-align: center;
+  animation: smFloatIn 260ms ease;
+}
+
+@keyframes smFloatIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.corsa-esito--ok {
+  background: #e0f2ee;
+  border: 1.5px solid #4caf9a;
+}
+
+.corsa-esito--errore {
+  background: #fff0f0;
+  border: 1.5px solid #e53935;
+}
+
+.corsa-esito-icona {
+  font-size: 32px;
+}
+
+.corsa-esito-testo {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.corsa-esito-sub {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+}
+
 .corsa-errore {
   color: #e53935;
   font-size: 13px;
