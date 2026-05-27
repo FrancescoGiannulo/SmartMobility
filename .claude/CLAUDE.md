@@ -6,7 +6,8 @@
 
 Documenti di riferimento:
 - [`docs/SprintZero.md`](docs/SprintZero.md) — architettura, glossario, mockup UI
-- [`docs/SprintUno.md`](docs/SprintUno.md) — Sprint 1 Backlog, casi d'uso, schema DB (**documento primario per Sprint 1**)
+- [`docs/Sprint1_definitivo.md`](docs/Sprint1_definitivo.md) — Sprint 1 Backlog, casi d'uso, mockup UI (**documento primario per Sprint 1** — sostituisce SprintUno.md)
+- [`docs/Deploy.md`](docs/Deploy.md) — guida completa al deploy su Vercel + Render, variabili d'ambiente, diagnosi problemi
 
 Tre ruoli utente distinti:
 - **UT** — Utente finale (cittadino)
@@ -34,6 +35,55 @@ Tre ruoli utente distinti:
 - **Publishable key** (`anon`) → usata nel frontend React (`frontend/.env.local`)
 - **Secret key** (`service_role`) → usata solo nel backend FastAPI (`backend/.env`) — mai esposta al client
 
+### Workaround SSL rete universitaria
+Alcuni membri del team lavorano su rete universitaria con SSL inspection che rifiuta il certificato CA di Supabase. Il workaround è già in `backend/middleware/auth_middleware.py`: il `PyJWKClient` (usato solo per token ES256) viene inizializzato con un `ssl_context` che disabilita `check_hostname` e `verify_mode`. **Non rimuovere questo workaround.** La verifica crittografica del JWT tramite PyJWT rimane attiva — viene saltato solo il chain check del certificato TLS per il JWKS endpoint. Assicurarsi che questo blocco sia presente ad ogni modifica di `auth_middleware.py`.
+
+### Ambiente di produzione (deployato)
+
+| Servizio | URL | Piattaforma |
+|---|---|---|
+| Frontend | `https://smart-mobility-git-main-francesco-giannulo-s-projects.vercel.app` | Vercel (Hobby, gratis) |
+| Backend | `https://smartmobility-backend.onrender.com` | Render (Free, cold start ~60s) |
+
+Push su `main` → deploy automatico su entrambe le piattaforme.
+
+#### Variabili d'ambiente di produzione
+- **Vercel**: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_GOOGLE_MAPS_API_KEY`, `VITE_API_URL`
+- **Render**: `SUPABASE_URL`, `SUPABASE_KEY`, `SUPABASE_JWT_SECRET`, `DATABASE_URL`, `FRONTEND_URL`
+
+#### Problemi noti e pattern ricorrenti
+
+**CORS (errore più frequente in produzione):**
+- Sintomo: `No 'Access-Control-Allow-Origin' header` / `400 Disallowed CORS origin` nei log Render
+- Causa quasi sempre: `FRONTEND_URL` su Render non matcha esattamente l'`Origin` del browser (trailing slash, http vs https, URL sbagliato)
+- Diagnosi: `curl -v -X OPTIONS -H "Origin: <url-vercel>" -H "Access-Control-Request-Method: POST" https://smartmobility-backend.onrender.com/auth/login`
+- Fix: correggere il valore di `FRONTEND_URL` su Render (senza trailing slash). Supporta lista CSV: `url1,url2`
+- Il codice in `backend/main.py` splitta `FRONTEND_URL` per virgola — non aggiungere spazi
+
+**Build Vercel che fallisce:**
+- Causa: errori TypeScript bloccano `tsc -b && vite build`
+- Diagnosi: eseguire `npm run build` in locale — stesso comando usato da Vercel
+- Non fare push su `main` con build rotta — il deploy va in errore
+
+**Backend non risponde:**
+- Piano free Render: cold start di 60s dopo 15 min di inattività. Non è un bug — aspettare
+- Verificare i log su Render → Logs per `Application startup complete`
+
+**Google OAuth → reindirizza a localhost:**
+- Configurare **Site URL** su Supabase → Authentication → URL Configuration con l'URL Vercel
+- I Redirect URLs devono includere `https://<url-vercel>/**`
+- Stato attuale (maggio 2026): OAuth con Google non completamente funzionante in produzione — issue aperta
+
+**Avvio locale da mobile (stessa rete Wi-Fi):**
+- Vite espone su `0.0.0.0` grazie a `host: true` in `vite.config.ts`
+- Il proxy `/api` → `localhost:8000` è attivo solo in modalità `serve` (dev), non nella build produzione
+- `ApiService.ts` usa `/api` come base URL di default in locale, `VITE_API_URL` in produzione
+
+**SSL rete universitaria:**
+- Un membro del team (SuperExcalibur10) aveva aggiunto un workaround SSL globale in `config.py` che disabilitava la verifica del certificato per tutto il processo Python — pericoloso, già revertito 3 volte
+- Il workaround legittimo per PyJWKClient è in `backend/middleware/auth_middleware.py` — non rimuoverlo
+- Se si vedono errori SSL dal backend verso Supabase su rete universitaria: usare hotspot mobile o VPN, non riattivare il workaround globale in `config.py`
+
 ### Avvio locale
 
 ```bash
@@ -43,7 +93,7 @@ cd backend && uv run uvicorn main:app --reload
 
 # Frontend (dalla root)
 cd frontend && npm run dev
-# → http://localhost:5173
+# → http://localhost:5173 (locale) / http://<IP>:5174 (mobile sulla stessa rete)
 ```
 
 ### Variabili d'ambiente

@@ -1,4 +1,6 @@
 from pydantic import BaseModel, EmailStr
+from typing import Any
+from uuid import UUID
 
 
 class RegistrazioneRequest(BaseModel):
@@ -9,7 +11,7 @@ class RegistrazioneRequest(BaseModel):
 
 
 class LoginRequest(BaseModel):
-    email: EmailStr
+    email: str
     password: str
 
 
@@ -36,3 +38,33 @@ class MetodoPagamentoResponse(BaseModel):
     tipo: str
     last_four: str | None
     predefinito: bool
+
+
+class MezzoMappaOut(BaseModel):
+    id: UUID
+    codice: str
+    tipo: str
+    stato: str
+    lat: float
+    lng: float
+    batteria: int | None
+
+
+class ZonaOut(BaseModel):
+    id: UUID
+    nome: str
+    tipo: str
+    perimetro: dict[str, Any]
+    limite_velocita: int | None
+    attiva: bool
+
+
+class ZonaCreate(BaseModel):
+    nome: str
+    tipo: str
+    coordinate: list[list[float]]
+    limite_velocita: int | None = None
+
+
+class PrenotazioneRequest(BaseModel):
+    mezzo_id: UUID

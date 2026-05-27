@@ -28,5 +28,5 @@ export default function CallbackOAuth() {
   }, [navigate])
 
   if (errore) return <div style={{ padding: 32, textAlign: 'center', color: '#d32f2f' }}>{errore}</div>
-  return <div style={{ padding: 32, textAlign: 'center' }}>Accesso in corso...</div>
+  return <div style={{ padding: 32, textAlign: 'center' }}>Accesso in corso…</div>
 }

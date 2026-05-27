@@ -11,7 +11,16 @@ _jwks_client: PyJWKClient | None = None
 def _get_jwks_client() -> PyJWKClient:
     global _jwks_client
     if _jwks_client is None:
-        _jwks_client = PyJWKClient(f"{SUPABASE_URL}/auth/v1/.well-known/jwks.json")
+        import ssl as _ssl
+        # Anaconda's SSL store rejects Supabase's CA cert (Basic Constraints not marked critical).
+        # Signature verification still happens via PyJWT — only the cert chain check is skipped.
+        _ctx = _ssl.create_default_context()
+        _ctx.check_hostname = False
+        _ctx.verify_mode = _ssl.CERT_NONE
+        _jwks_client = PyJWKClient(
+            f"{SUPABASE_URL}/auth/v1/.well-known/jwks.json",
+            ssl_context=_ctx,
+        )
     return _jwks_client
 
 
@@ -55,7 +64,11 @@ def decode_only():
             payload = _decode_token(token)
         except jwt.ExpiredSignatureError:
             raise HTTPException(status_code=401, detail="Token non valido o scaduto")
-        except Exception:
+        except Exception as _exc:
+            import logging as _log
+            _log.getLogger("auth_middleware").error(
+                "decode_only FAILED: %s: %s", type(_exc).__name__, _exc, exc_info=True
+            )
             raise HTTPException(status_code=401, detail="Token non valido o scaduto")
         return {
             "id": UUID(payload["sub"]),

@@ -145,9 +145,45 @@ SmartMobility/
 
 ---
 
+## Ambiente di produzione
+
+L'applicazione è deployata e accessibile senza avviare nulla in locale:
+
+| Servizio | URL |
+|---|---|
+| **Frontend** | `https://smart-mobility-git-main-francesco-giannulo-s-projects.vercel.app` |
+| **Backend API** | `https://smartmobility-backend.onrender.com` |
+| **API Docs** | `https://smartmobility-backend.onrender.com/docs` |
+
+> Il piano free di Render ha un cold start di ~60 secondi dopo periodi di inattività. Il frontend su Vercel è sempre istantaneo.
+
+Ogni push su `main` aggiorna automaticamente sia frontend che backend. Per la guida completa al deploy: [Deploy.md](Deploy.md).
+
+---
+
+## Testing su mobile (rete locale)
+
+Per testare da smartphone sulla stessa rete Wi-Fi, avvia i server localmente:
+
+```bash
+# Terminale 1 — Backend
+cd backend && uv run uvicorn main:app --reload
+
+# Terminale 2 — Frontend
+cd frontend && npm run dev
+```
+
+Vite mostra l'IP della macchina nella riga `Network:` — aprilo dal browser del telefono. Il proxy Vite gestisce automaticamente le chiamate API senza configurazioni aggiuntive.
+
+> Per testare il login con Google usare l'URL Vercel di produzione, non l'IP locale.
+
+---
+
 ## Documentazione
 
 | Documento | Contenuto |
 |---|---|
 | [SprintZero.md](SprintZero.md) | Product Backlog, architettura, glossario, mockup UI |
-| [SprintUno.md](SprintUno.md) | Sprint 1 — backlog, casi d'uso, note implementazione |
+| [Sprint1_definitivo.md](Sprint1_definitivo.md) | Sprint 1 — backlog, casi d'uso, note implementazione |
+| [Deploy.md](Deploy.md) | Guida completa al deploy su Vercel e Render |
+| [GitWorkflow.md](GitWorkflow.md) | Flusso di lavoro Git per il team |
