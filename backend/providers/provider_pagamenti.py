@@ -22,7 +22,9 @@ class ProviderPagamentiStub:
         """Valida i dati del metodo e restituisce un token. CS-13 passo 15-16."""
         if self.deve_fallire:
             raise DatiNonValidiException("Dati di pagamento non validi")
-        return f"{tipo}-{uuid.uuid4()}"
+        # Token deterministico: stessi dati → stesso token → rilevamento duplicati
+        chiave = f"{tipo}-{dati.get('last_four', 'default')}"
+        return str(uuid.uuid5(uuid.NAMESPACE_DNS, chiave))
 
     def autorizza(self, token_metodo: str, importo: Decimal) -> RispostaPagamento:
         """Autorizza un addebito. CS-12 passo 9-10."""
