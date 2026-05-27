@@ -85,6 +85,6 @@ def effettua_pagamento(
     except NessunMetodoPredefinito as e:
         raise HTTPException(status_code=400, detail=str(e))
     except TariffaNonTrovata as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))
     except PagamentoRifiutato as e:
         raise HTTPException(status_code=402, detail=str(e))

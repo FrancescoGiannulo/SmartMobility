@@ -38,7 +38,6 @@ class MetodoPagamento(Base):
     )
     utente_id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True),
-        ForeignKey("utenti.id", ondelete="CASCADE"),
         nullable=False,
     )
     tipo: Mapped[TipoMetodoPagamento] = mapped_column(
@@ -62,12 +61,10 @@ class Pagamento(Base):
     )
     corsa_id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True),
-        ForeignKey("corse.id", ondelete="RESTRICT"),
         nullable=False,
     )
     utente_id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True),
-        ForeignKey("utenti.id", ondelete="RESTRICT"),
         nullable=False,
     )
     # [IF-UT.20] nullable: CS-12.1 il metodo potrebbe essere rimosso dopo un pagamento rifiutato

@@ -6,7 +6,7 @@ import type { MezzoMappa } from '../../services/MapService'
 import { effettuaPagamento } from '../../services/PaymentService'
 import './VistaCorsa.css'
 
-type FasePagamento = 'idle' | 'termina' | 'paga' | 'ok' | 'rifiutato' | 'no-metodo'
+type FasePagamento = 'idle' | 'termina' | 'paga' | 'ok' | 'rifiutato' | 'no-metodo' | 'errore'
 
 function formatTime(sec: number): string {
   const m = Math.floor(sec / 60).toString().padStart(2, '0')
@@ -52,6 +52,7 @@ export default function VistaCorsa() {
   const [fase, setFase] = useState<FasePagamento>('idle')
   const [importoPagato, setImportoPagato] = useState<number | null>(null)
   const [errore, setErrore] = useState('')
+  const [corsaTerminata, setCorsaTerminata] = useState(false)
 
   useEffect(() => {
     if (!corsa) return
@@ -67,13 +68,16 @@ export default function VistaCorsa() {
     if (!corsa) return
     setErrore('')
 
-    setFase('termina')
-    try {
-      await terminaCorsa(corsa.id)
-    } catch {
-      setErrore('Errore durante la chiusura della corsa. Riprova.')
-      setFase('idle')
-      return
+    if (!corsaTerminata) {
+      setFase('termina')
+      try {
+        await terminaCorsa(corsa.id)
+        setCorsaTerminata(true)
+      } catch {
+        setErrore('Errore durante la chiusura della corsa. Riprova.')
+        setFase('idle')
+        return
+      }
     }
 
     setFase('paga')
@@ -86,11 +90,13 @@ export default function VistaCorsa() {
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 400) {
         setFase('no-metodo')
-      } else {
+      } else if (axios.isAxiosError(err) && err.response?.status === 402) {
         setFase('rifiutato')
+      } else {
+        setFase('errore')
       }
     }
-  }, [corsa, mezzo, elapsed, navigate])
+  }, [corsa, corsaTerminata, mezzo, elapsed, navigate])
 
   if (!corsa) {
     return (
@@ -151,6 +157,7 @@ export default function VistaCorsa() {
         <div className="corsa-esito corsa-esito--errore">
           <span className="corsa-esito-icona">❌</span>
           <p className="corsa-esito-testo">Pagamento rifiutato.</p>
+          <p className="corsa-esito-sub">Il metodo di pagamento non è stato accettato.</p>
           <button type="button" className="btn-corsa btn-termina" onClick={() => navigate('/utente/pagamenti')}>
             Aggiorna metodo di pagamento
           </button>
@@ -161,8 +168,20 @@ export default function VistaCorsa() {
         <div className="corsa-esito corsa-esito--errore">
           <span className="corsa-esito-icona">⚠️</span>
           <p className="corsa-esito-testo">Nessun metodo di pagamento predefinito.</p>
+          <p className="corsa-esito-sub">Aggiungi un metodo e torna qui per completare il pagamento.</p>
           <button type="button" className="btn-corsa btn-termina" onClick={() => navigate('/utente/pagamenti')}>
             Aggiungi metodo di pagamento
+          </button>
+        </div>
+      )}
+
+      {fase === 'errore' && (
+        <div className="corsa-esito corsa-esito--errore">
+          <span className="corsa-esito-icona">⚠️</span>
+          <p className="corsa-esito-testo">Errore nel servizio di pagamento.</p>
+          <p className="corsa-esito-sub">Riprova tra qualche istante.</p>
+          <button type="button" className="btn-corsa btn-termina" onClick={() => setFase('idle')}>
+            Riprova
           </button>
         </div>
       )}
