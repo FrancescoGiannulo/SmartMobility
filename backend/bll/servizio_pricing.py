@@ -109,9 +109,16 @@ class ServizioPricing:
         durata_min: float,
         distanza_km: float,
     ) -> dict:
-        metodo = self._repo.trova_predefinito(utente_id)
-        if not metodo:
-            raise NessunMetodoPredefinito("Nessun metodo di pagamento predefinito")
+        metodi = self._repo.lista_metodi(utente_id)
+        if not metodi:
+            raise NessunMetodoPredefinito("Nessun metodo di pagamento salvato")
+        if len(metodi) == 1:
+            # unico metodo: usato automaticamente senza richiedere predefinito
+            metodo = self._repo.trova_metodo(metodi[0].id, utente_id)
+        else:
+            metodo = self._repo.trova_predefinito(utente_id)
+            if not metodo:
+                raise NessunMetodoPredefinito("Imposta un metodo di pagamento predefinito")
 
         importo = self.calcola_importo(tipo_mezzo, durata_min, distanza_km)
         risposta = self._provider.autorizza(metodo.token_esterno, importo)

@@ -74,6 +74,19 @@
   max-width: 340px;
 }
 
+.pag-avviso {
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  border-radius: 8px;
+  color: #7a5c00;
+  font-size: 13px;
+  padding: 10px 14px;
+  margin: 0 0 16px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+}
+
 /* ── Lista metodi ── */
 .pag-lista {
   width: 100%;
