@@ -18,7 +18,7 @@ export interface AuthResult {
 const salvaSessione = (result: AuthResult): void => {
   localStorage.setItem('token', result.access_token)
   localStorage.setItem('ruolo', result.ruolo)
-  localStorage.setItem('profilo', JSON.stringify(result.profilo))
+  localStorage.setItem('profilo:v1', JSON.stringify(result.profilo))
 }
 
 // [IF-UT.17] Registra Account
@@ -62,14 +62,14 @@ export const gestisciCallbackOAuth = async (accessToken: string): Promise<AuthRe
 export const logout = async (): Promise<void> => {
   localStorage.removeItem('token')
   localStorage.removeItem('ruolo')
-  localStorage.removeItem('profilo')
+  localStorage.removeItem('profilo:v1')
   await supabase.auth.signOut()
 }
 
 export const utenteCorrente = (): { ruolo: 'UT' | 'OP' | 'AP'; profilo: Profilo } | null => {
   const token = localStorage.getItem('token')
   const ruolo = localStorage.getItem('ruolo') as 'UT' | 'OP' | 'AP' | null
-  const profiloStr = localStorage.getItem('profilo')
+  const profiloStr = localStorage.getItem('profilo:v1')
   if (!token || !ruolo || !profiloStr) return null
   try {
     // Decode JWT exp without verification (client-side only)
@@ -77,7 +77,7 @@ export const utenteCorrente = (): { ruolo: 'UT' | 'OP' | 'AP'; profilo: Profilo 
     if (Date.now() / 1000 > payload.exp) {
       localStorage.removeItem('token')
       localStorage.removeItem('ruolo')
-      localStorage.removeItem('profilo')
+      localStorage.removeItem('profilo:v1')
       return null
     }
     return { ruolo, profilo: JSON.parse(profiloStr) }

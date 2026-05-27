@@ -5,7 +5,9 @@ import CallbackOAuth from './views/auth/CallbackOAuth'
 import RoutaProtetta from './components/RoutaProtetta'
 import VistaMappa from './views/utente/VistaMappa'
 import VistaMappaOperatore from './views/operatore/VistaMappaOperatore'
+import VistaCorsa from './views/utente/VistaCorsa'
 import VistaDashboardAP from './views/amministrazione/VistaDashboardAP'
+import VistaPagamenti from './views/utente/VistaPagamenti'
 import { utenteCorrente, logout } from './services/AuthService'
 
 const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string
@@ -24,6 +26,7 @@ function PlaceholderView({ titolo }: { titolo: string }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           {utente && <span style={{ fontSize: 14, color: '#555' }}>{utente.profilo.email}</span>}
           <button
+            type="button"
             onClick={handleLogout}
             style={{
               padding: '8px 20px',
@@ -65,6 +68,22 @@ function App() {
           element={
             <RoutaProtetta ruoloRichiesto="UT">
               <VistaMappa />
+            </RoutaProtetta>
+          }
+        />
+        <Route
+          path="/utente/corsa/:idMezzo"
+          element={
+            <RoutaProtetta ruoloRichiesto="UT">
+              <VistaCorsa />
+            </RoutaProtetta>
+          }
+        />
+        <Route
+          path="/utente/pagamenti"
+          element={
+            <RoutaProtetta ruoloRichiesto="UT">
+              <VistaPagamenti />
             </RoutaProtetta>
           }
         />

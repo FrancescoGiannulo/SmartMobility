@@ -40,7 +40,7 @@ export default function VistaReportAP({ onIndietro }: VistaReportAPProps) {
   return (
     <div className="vista-report-ap">
       <div className="report-topbar">
-        <button className="btn-indietro" onClick={onIndietro}>← Indietro</button>
+        <button type="button" className="btn-indietro" onClick={onIndietro}>← Indietro</button>
         <h2>REPORT</h2>
       </div>
 
@@ -73,23 +73,23 @@ export default function VistaReportAP({ onIndietro }: VistaReportAPProps) {
                   outerRadius={90}
                   dataKey="value"
                   labelLine={false}
-                  label={(props) => <LabelTorta {...props} />}
+                  label={(props) => <LabelTorta {...(props as Parameters<typeof LabelTorta>[0])} />}
                 >
                   {DATI_TORTA.map((d: DatoTorta) => (
                     <Cell key={d.name} fill={d.colore} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(v: number) => `${v}%`} />
+                <Tooltip formatter={(v) => `${v}%`} />
               </PieChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         <div className="report-azioni">
-          <button className="btn-export csv" onClick={() => esportaCsv(DATI_SETTIMANALI)}>
+          <button type="button" className="btn-export csv" onClick={() => esportaCsv(DATI_SETTIMANALI)}>
             ESPORTA CSV
           </button>
-          <button className="btn-export pdf" onClick={() => window.print()}>
+          <button type="button" className="btn-export pdf" onClick={() => window.print()}>
             ESPORTA PDF
           </button>
         </div>
