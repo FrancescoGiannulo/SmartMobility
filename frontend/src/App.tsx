@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-route
 import VistaLogin from './views/auth/VistaLogin'
 import CallbackOAuth from './views/auth/CallbackOAuth'
 import RoutaProtetta from './components/RoutaProtetta'
+import VistaPagamenti from './views/utente/VistaPagamenti'
 import { utenteCorrente, logout } from './services/AuthService'
 
 function PlaceholderView({ titolo }: { titolo: string }) {
@@ -51,6 +52,14 @@ function App() {
         <Route
           path="/"
           element={utente ? <Navigate to={homePerRuolo} replace /> : <VistaLogin />}
+        />
+        <Route
+          path="/utente/pagamenti"
+          element={
+            <RoutaProtetta ruoloRichiesto="UT">
+              <VistaPagamenti />
+            </RoutaProtetta>
+          }
         />
         <Route
           path="/utente/*"

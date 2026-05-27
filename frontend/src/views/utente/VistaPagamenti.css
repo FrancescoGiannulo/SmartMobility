@@ -1,0 +1,289 @@
+/* ============================================================
+   VistaPagamenti — Utente
+   Stile coerente con VistaCorsa (VistaCorsa.css come riferimento)
+   ============================================================ */
+
+.vista-pagamenti-wrap {
+  min-height: 100vh;
+  background: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 24px 48px;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ── Navigazione ── */
+.btn-back-pag {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: #4caf9a;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 20px;
+  font-family: inherit;
+}
+
+/* ── Titolo ── */
+.pag-titolo {
+  font-size: 24px;
+  font-weight: 700;
+  font-style: italic;
+  color: #4caf9a;
+  margin: 0 0 28px;
+  align-self: flex-start;
+}
+
+/* ── Feedback ── */
+.pag-messaggio {
+  width: 100%;
+  max-width: 380px;
+  background: #e0f2ee;
+  color: #2a7a6a;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  animation: smFloatIn 260ms ease;
+}
+
+@keyframes smFloatIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.pag-errore {
+  color: #e53935;
+  font-size: 13px;
+  text-align: center;
+  margin: 0 0 16px;
+  max-width: 380px;
+  width: 100%;
+}
+
+.pag-caricamento,
+.pag-vuoto {
+  color: #888;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 24px;
+  max-width: 340px;
+}
+
+/* ── Lista metodi ── */
+.pag-lista {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.pag-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.07);
+  border: 2px solid transparent;
+  transition: border-color 0.15s;
+}
+
+.pag-card--predefinito {
+  border-color: #4caf9a;
+}
+
+.pag-card-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.pag-card-emoji {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.pag-card-dettagli {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pag-card-tipo {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.pag-card-last-four {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.pag-badge-predefinito {
+  font-size: 12px;
+  font-weight: 700;
+  color: #4caf9a;
+  background: #e0f2ee;
+  border-radius: 20px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+.pag-card-azioni {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ── Bottoni ── */
+.btn-pag-primario {
+  width: 100%;
+  max-width: 380px;
+  padding: 15px 0;
+  border-radius: 50px;
+  border: none;
+  background: #4caf9a;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+  margin-bottom: 12px;
+}
+
+.btn-pag-primario:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-pag-secondario {
+  flex: 1;
+  padding: 9px 0;
+  border-radius: 50px;
+  border: 2px solid #4caf9a;
+  background: transparent;
+  color: #4caf9a;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+
+.btn-pag-secondario:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-pag-rimuovi {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #f43f5e;
+  background: transparent;
+  color: #f43f5e;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+
+.btn-pag-rimuovi:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── Form aggiungi ── */
+.pag-form {
+  width: 100%;
+  max-width: 380px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px 22px 28px;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.pag-form-titolo {
+  font-size: 17px;
+  font-weight: 700;
+  font-style: italic;
+  color: #4caf9a;
+  margin: 0 0 16px;
+}
+
+.pag-label {
+  font-size: 13px;
+  font-weight: 700;
+  font-style: italic;
+  color: #4caf9a;
+  margin-bottom: 4px;
+  margin-top: 8px;
+}
+
+.pag-select,
+.pag-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #0f172a;
+  background: #f8fafc;
+  outline: none;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+  margin-bottom: 4px;
+}
+
+.pag-select:focus,
+.pag-input:focus {
+  border-color: #4caf9a;
+}
+
+.pag-form-azioni {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.btn-pag-annulla {
+  width: 100%;
+  padding: 13px 0;
+  border-radius: 50px;
+  border: 2px solid #64748b;
+  background: transparent;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+
+.btn-pag-annulla:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
