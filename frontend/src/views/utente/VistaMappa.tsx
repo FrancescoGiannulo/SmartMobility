@@ -9,7 +9,7 @@ import {
 import { getMezziUtente, getZoneUtente, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
 import { sbloccaMezzo } from '../../services/CorsaService'
 import { prenotaMezzo, type Prenotazione } from '../../services/PrenotazioneService'
-import { logout } from '../../services/AuthService'
+import { logout, utenteCorrente } from '../../services/AuthService'
 import ZonaPoligono from '../../components/ZonaPoligono'
 import TooltipZona from '../../components/TooltipZona'
 import { COLORI_ZONA } from '../../utils/coloriZona'
@@ -181,7 +181,13 @@ export default function VistaMappa() {
     <div className="vista-mappa">
       <div className="mappa-topbar">
         <h2>Smart Mobility</h2>
-        <button type="button" className="btn-logout-mappa" onClick={handleLogout}>Logout</button>
+        <div className="topbar-azioni">
+          {utenteCorrente()?.profilo.nome && (
+            <span className="topbar-utente">👤 {utenteCorrente()!.profilo.nome}</span>
+          )}
+          <button type="button" className="btn-pagamenti-mappa" onClick={() => navigate('/utente/pagamenti')}>💳 Pagamenti</button>
+          <button type="button" className="btn-logout-mappa" onClick={handleLogout}>Logout</button>
+        </div>
       </div>
 
       <GoogleMap
