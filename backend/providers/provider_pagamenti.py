@@ -22,9 +22,13 @@ class ProviderPagamentiStub:
         """Valida i dati del metodo e restituisce un token. CS-13 passo 15-16."""
         if self.deve_fallire:
             raise DatiNonValidiException("Dati di pagamento non validi")
-        # Token deterministico: stessi dati → stesso token → rilevamento duplicati
-        chiave = f"{tipo}-{dati.get('last_four', 'default')}"
-        return str(uuid.uuid5(uuid.NAMESPACE_DNS, chiave))
+        if tipo == "carta":
+            # Le ultime 4 cifre non identificano univocamente la carta fisica;
+            # in produzione il provider riceverebbe il numero completo.
+            return f"carta-{uuid.uuid4()}"
+        # Per wallet digitali (paypal, google_pay, apple_pay) un utente ha un solo account:
+        # token deterministico per tipo → rileva duplicati correttamente.
+        return str(uuid.uuid5(uuid.NAMESPACE_DNS, tipo))
 
     def autorizza(self, token_metodo: str, importo: Decimal) -> RispostaPagamento:
         """Autorizza un addebito. CS-12 passo 9-10."""
