@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from database import get_db
 from middleware.auth_middleware import verify_token
 from bll.servizio_gis import ServizioGIS
-from bll.servizio_pricing import ServizioPricing, TariffaGiaEsistente
+from bll.servizio_pricing import ServizioPricing, TariffaGiaEsistente, TariffaNonTrovata
 from controllers.schemas import MezzoMappaOut, CreaTariffaRequest, TariffaResponse
 
 router = APIRouter(prefix="/operatore", tags=["Flotta Operatore"])
@@ -34,3 +34,15 @@ def crea_tariffa(
         return _pricing.crea_tariffa(body.tipo_mezzo, body.costo_al_minuto, body.costo_al_km)
     except TariffaGiaEsistente as e:
         raise HTTPException(status_code=409, detail=str(e))
+
+
+@router.put("/tariffe/{tipo_mezzo}", response_model=TariffaResponse)
+def aggiorna_tariffa(
+    tipo_mezzo: str,
+    body: CreaTariffaRequest,
+    _=Depends(verify_token(["OP"])),
+):
+    try:
+        return _pricing.aggiorna_tariffa(tipo_mezzo, body.costo_al_minuto, body.costo_al_km)
+    except TariffaNonTrovata as e:
+        raise HTTPException(status_code=404, detail=str(e))

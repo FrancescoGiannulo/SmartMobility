@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { getTariffe, creaTariffa, type Tariffa } from '../../services/FlottaService'
+import { getTariffe, creaTariffa, aggiornaTariffa, type Tariffa } from '../../services/FlottaService'
 import './VistaTariffePromozioni.css'
 
 const TIPI_MEZZO = ['monopattino', 'bicicletta', 'automobile'] as const
@@ -28,6 +28,12 @@ export default function VistaTariffePromozioni() {
   const [invioInCorso, setInvioInCorso] = useState(false)
   const [erroreForm, setErroreForm] = useState('')
 
+  const [modificaId, setModificaId] = useState<string | null>(null)
+  const [modMinuto, setModMinuto] = useState('')
+  const [modKm, setModKm] = useState('')
+  const [modInCorso, setModInCorso] = useState(false)
+  const [erroreModifica, setErroreModifica] = useState('')
+
   const caricaTariffe = useCallback(async () => {
     try {
       const res = await getTariffe()
@@ -40,6 +46,36 @@ export default function VistaTariffePromozioni() {
   }, [])
 
   useEffect(() => { caricaTariffe() }, [caricaTariffe])
+
+  const apriModifica = (t: Tariffa) => {
+    setModificaId(t.tipo_mezzo)
+    setModMinuto(t.costo_al_minuto.toFixed(4))
+    setModKm(t.costo_al_km.toFixed(4))
+    setErroreModifica('')
+  }
+
+  const handleModifica = async (e: React.FormEvent, tipo_mezzo: string) => {
+    e.preventDefault()
+    const minuto = parseFloat(modMinuto)
+    const km = parseFloat(modKm)
+    if (isNaN(minuto) || minuto <= 0 || isNaN(km) || km <= 0) {
+      setErroreModifica('I costi devono essere numeri maggiori di zero.')
+      return
+    }
+    setModInCorso(true)
+    setErroreModifica('')
+    try {
+      await aggiornaTariffa(tipo_mezzo, minuto, km)
+      setModificaId(null)
+      setMessaggio('Tariffa aggiornata.')
+      setTimeout(() => setMessaggio(''), 3000)
+      await caricaTariffe()
+    } catch {
+      setErroreModifica('Errore durante l\'aggiornamento. Riprova.')
+    } finally {
+      setModInCorso(false)
+    }
+  }
 
   const tipiDisponibili = TIPI_MEZZO.filter(
     t => !tariffe.some(ta => ta.tipo_mezzo === t)
@@ -93,13 +129,58 @@ export default function VistaTariffePromozioni() {
         <div className="tariffe-lista">
           {tariffe.map(t => (
             <div key={t.id} className="tariffa-card">
-              <span className="tariffa-emoji">{EMOJI_MEZZO[t.tipo_mezzo] ?? '🚌'}</span>
-              <div className="tariffa-info">
-                <span className="tariffa-tipo">{t.tipo_mezzo.charAt(0).toUpperCase() + t.tipo_mezzo.slice(1)}</span>
-                <span className="tariffa-costi">
-                  €{t.costo_al_minuto.toFixed(4)}/min · €{t.costo_al_km.toFixed(4)}/km
-                </span>
+              <div className="tariffa-card-header">
+                <span className="tariffa-emoji">{EMOJI_MEZZO[t.tipo_mezzo] ?? '🚌'}</span>
+                <div className="tariffa-info">
+                  <span className="tariffa-tipo">{t.tipo_mezzo.charAt(0).toUpperCase() + t.tipo_mezzo.slice(1)}</span>
+                  <span className="tariffa-costi">
+                    €{t.costo_al_minuto.toFixed(4)}/min · €{t.costo_al_km.toFixed(4)}/km
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  className="btn-modifica-tariffa"
+                  onClick={() => modificaId === t.tipo_mezzo ? setModificaId(null) : apriModifica(t)}
+                >
+                  {modificaId === t.tipo_mezzo ? 'Annulla' : 'Modifica'}
+                </button>
               </div>
+              {modificaId === t.tipo_mezzo && (
+                <form className="modifica-form" onSubmit={e => handleModifica(e, t.tipo_mezzo)}>
+                  <div className="modifica-row">
+                    <div className="modifica-campo">
+                      <label className="tariffe-label" htmlFor={`min-${t.tipo_mezzo}`}>€/min</label>
+                      <input
+                        id={`min-${t.tipo_mezzo}`}
+                        type="number"
+                        className="tariffe-input"
+                        step="0.0001"
+                        min="0.0001"
+                        value={modMinuto}
+                        onChange={e => setModMinuto(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="modifica-campo">
+                      <label className="tariffe-label" htmlFor={`km-${t.tipo_mezzo}`}>€/km</label>
+                      <input
+                        id={`km-${t.tipo_mezzo}`}
+                        type="number"
+                        className="tariffe-input"
+                        step="0.0001"
+                        min="0.0001"
+                        value={modKm}
+                        onChange={e => setModKm(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+                  {erroreModifica && <p className="tariffe-errore">{erroreModifica}</p>}
+                  <button type="submit" className="btn-tariffe-primario" disabled={modInCorso}>
+                    {modInCorso ? 'Salvataggio...' : 'SALVA'}
+                  </button>
+                </form>
+              )}
             </div>
           ))}
         </div>

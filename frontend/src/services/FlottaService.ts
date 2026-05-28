@@ -27,3 +27,10 @@ export const creaTariffa = (
   costo_al_km: number,
 ): Promise<{ data: Tariffa }> =>
   api.post('/operatore/tariffe', { tipo_mezzo, costo_al_minuto, costo_al_km })
+
+export const aggiornaTariffa = (
+  tipo_mezzo: string,
+  costo_al_minuto: number,
+  costo_al_km: number,
+): Promise<{ data: Tariffa }> =>
+  api.put(`/operatore/tariffe/${tipo_mezzo}`, { tipo_mezzo, costo_al_minuto, costo_al_km })

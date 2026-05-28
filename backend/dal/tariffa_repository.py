@@ -34,6 +34,24 @@ class TariffaRepository:
             ).fetchone()
         return result is not None
 
+    def aggiorna(self, tipo_mezzo: str, costo_al_minuto: Decimal, costo_al_km: Decimal) -> Tariffa | None:
+        with Session(engine) as session:
+            session.execute(
+                text(
+                    "UPDATE tariffe SET costo_al_minuto = :minuto, costo_al_km = :km "
+                    "WHERE tipo_mezzo = :tipo"
+                ),
+                {"minuto": str(costo_al_minuto), "km": str(costo_al_km), "tipo": tipo_mezzo},
+            )
+            session.commit()
+            row = session.execute(
+                text("SELECT id, tipo_mezzo, costo_al_minuto, costo_al_km FROM tariffe WHERE tipo_mezzo = :tipo"),
+                {"tipo": tipo_mezzo},
+            ).fetchone()
+        if not row:
+            return None
+        return Tariffa(id=row.id, tipo_mezzo=row.tipo_mezzo, costo_al_minuto=row.costo_al_minuto, costo_al_km=row.costo_al_km)
+
     def crea(self, tipo_mezzo: str, costo_al_minuto: Decimal, costo_al_km: Decimal) -> Tariffa:
         with Session(engine) as session:
             tariffa = Tariffa(
