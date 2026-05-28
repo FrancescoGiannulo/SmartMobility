@@ -66,5 +66,18 @@ class ZonaCreate(BaseModel):
     limite_velocita: int | None = None
 
 
+class CreaTariffaRequest(BaseModel):
+    tipo_mezzo: str
+    costo_al_minuto: float
+    costo_al_km: float
+
+
+class TariffaResponse(BaseModel):
+    id: str
+    tipo_mezzo: str
+    costo_al_minuto: float
+    costo_al_km: float
+
+
 class PrenotazioneRequest(BaseModel):
     mezzo_id: UUID

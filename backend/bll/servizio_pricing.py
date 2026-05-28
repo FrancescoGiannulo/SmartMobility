@@ -4,6 +4,7 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 from config import engine
 from dal.pagamento_repository import PagamentoRepository, MetodoNonTrovatoException
+from dal.tariffa_repository import TariffaRepository
 from model.pagamento import StatoPagamento
 from providers.provider_pagamenti import ProviderPagamentiStub, DatiNonValidiException
 
@@ -32,15 +33,21 @@ class TariffaNonTrovata(Exception):
     pass
 
 
+class TariffaGiaEsistente(Exception):
+    pass
+
+
 class ServizioPricing:
 
     def __init__(
         self,
         repo: PagamentoRepository | None = None,
         provider: ProviderPagamentiStub | None = None,
+        tariffa_repo: TariffaRepository | None = None,
     ):
         self._repo = repo or PagamentoRepository()
         self._provider = provider or ProviderPagamentiStub()
+        self._tariffa_repo = tariffa_repo or TariffaRepository()
 
     # [IF-UT.12] Salva Metodi di Pagamento
     def aggiungi_metodo(self, utente_id: uuid.UUID, tipo: str, dati: dict) -> dict:
@@ -87,6 +94,34 @@ class ServizioPricing:
         except MetodoNonTrovatoException as exc:
             raise MetodoNonTrovato(str(exc)) from exc
         self._repo.rimuovi_metodo(metodo_id, utente_id)
+
+    # [IF-OP.07] Definisce Tariffa
+    def get_tariffe(self) -> list[dict]:
+        tariffe = self._tariffa_repo.find_all()
+        return [
+            {
+                "id": str(t.id),
+                "tipo_mezzo": t.tipo_mezzo,
+                "costo_al_minuto": float(t.costo_al_minuto),
+                "costo_al_km": float(t.costo_al_km),
+            }
+            for t in tariffe
+        ]
+
+    def crea_tariffa(self, tipo_mezzo: str, costo_al_minuto: float, costo_al_km: float) -> dict:
+        if self._tariffa_repo.exists_by_tipologia(tipo_mezzo):
+            raise TariffaGiaEsistente(f"Tariffa per '{tipo_mezzo}' già esistente")
+        tariffa = self._tariffa_repo.crea(
+            tipo_mezzo,
+            Decimal(str(costo_al_minuto)),
+            Decimal(str(costo_al_km)),
+        )
+        return {
+            "id": str(tariffa.id),
+            "tipo_mezzo": tariffa.tipo_mezzo,
+            "costo_al_minuto": float(tariffa.costo_al_minuto),
+            "costo_al_km": float(tariffa.costo_al_km),
+        }
 
     def calcola_importo(self, tipo_mezzo: str, durata_min: float, distanza_km: float) -> Decimal:
         with Session(engine) as session:

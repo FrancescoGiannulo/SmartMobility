@@ -1,0 +1,188 @@
+.vista-tariffe-wrap {
+  min-height: 100vh;
+  background: #f5f6fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px 48px;
+}
+
+.btn-back-tariffe {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: #4caf9a;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.tariffe-titolo {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 20px;
+}
+
+.tariffe-messaggio {
+  background: #e8f5e9;
+  border: 1px solid #a5d6a7;
+  border-radius: 8px;
+  color: #2e7d32;
+  font-size: 13px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+}
+
+.tariffe-errore {
+  color: #e53935;
+  font-size: 13px;
+  text-align: center;
+  margin: 0 0 16px;
+  max-width: 420px;
+  width: 100%;
+}
+
+.tariffe-caricamento,
+.tariffe-vuoto,
+.tariffe-completo {
+  color: #888;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 24px;
+}
+
+/* ── Lista tariffe ── */
+.tariffe-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
+  margin-bottom: 24px;
+}
+
+.tariffa-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.tariffa-emoji {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.tariffa-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tariffa-tipo {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.tariffa-costi {
+  font-size: 13px;
+  color: #555;
+}
+
+/* ── Pulsanti ── */
+.btn-tariffe-primario {
+  background: #4caf9a;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 14px 32px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  max-width: 420px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.btn-tariffe-primario:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Form ── */
+.tariffe-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 24px 20px;
+  margin-top: 12px;
+}
+
+.tariffe-form-titolo {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 8px;
+}
+
+.tariffe-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+}
+
+.tariffe-select,
+.tariffe-input {
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #1a1a2e;
+  background: #fafafa;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tariffe-select:focus,
+.tariffe-input:focus {
+  border-color: #4caf9a;
+}
+
+.tariffe-form-azioni {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn-tariffe-annulla {
+  flex: 1;
+  background: #f0f0f0;
+  color: #444;
+  border: none;
+  border-radius: 24px;
+  padding: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-tariffe-annulla:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
