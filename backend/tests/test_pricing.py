@@ -116,3 +116,69 @@ class TestPromozioneRepository:
         result = repo.getAttive()
 
         assert result == []
+
+
+# ── Task 4: ServizioPricing ──────────────────────────────────────────────────
+
+class TestServizioPricing:
+
+    def test_getTariffe_delega_al_repository(self):
+        from bll.servizio_pricing import ServizioPricing
+
+        tariffa_dict = {
+            "id": str(uuid.uuid4()),
+            "tipo_mezzo": "monopattino",
+            "costo_al_minuto": "0.0500",
+            "costo_al_km": "0.1000",
+        }
+        db = MagicMock()
+
+        with patch("bll.servizio_pricing.TariffaRepository") as MockRepo:
+            MockRepo.return_value.findAll.return_value = [tariffa_dict]
+            svc = ServizioPricing(db)
+            result = svc.getTariffe()
+
+        MockRepo.assert_called_once_with(db)
+        MockRepo.return_value.findAll.assert_called_once()
+        assert result == [tariffa_dict]
+
+    def test_getTariffe_lista_vuota(self):
+        from bll.servizio_pricing import ServizioPricing
+
+        db = MagicMock()
+        with patch("bll.servizio_pricing.TariffaRepository") as MockRepo:
+            MockRepo.return_value.findAll.return_value = []
+            result = ServizioPricing(db).getTariffe()
+
+        assert result == []
+
+    def test_getPromozioniAttive_delega_al_repository(self):
+        from bll.servizio_pricing import ServizioPricing
+
+        promo_dict = {
+            "id": str(uuid.uuid4()),
+            "titolo": "Prima corsa gratis",
+            "descrizione": None,
+            "sconto_percentuale": "100.00",
+            "data_fine": (datetime.now(tz=timezone.utc) + timedelta(days=7)).isoformat(),
+        }
+        db = MagicMock()
+
+        with patch("bll.servizio_pricing.PromozioneRepository") as MockRepo:
+            MockRepo.return_value.getAttive.return_value = [promo_dict]
+            svc = ServizioPricing(db)
+            result = svc.getPromozioniAttive()
+
+        MockRepo.assert_called_once_with(db)
+        MockRepo.return_value.getAttive.assert_called_once()
+        assert result == [promo_dict]
+
+    def test_getPromozioniAttive_lista_vuota(self):
+        from bll.servizio_pricing import ServizioPricing
+
+        db = MagicMock()
+        with patch("bll.servizio_pricing.PromozioneRepository") as MockRepo:
+            MockRepo.return_value.getAttive.return_value = []
+            result = ServizioPricing(db).getPromozioniAttive()
+
+        assert result == []
