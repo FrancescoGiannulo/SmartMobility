@@ -81,7 +81,7 @@ class ServizioOfferte:
             if sconto_percentuale is None:
                 raise OffertaValidazioneException("Lo sconto percentuale è obbligatorio per una promozione")
             if sconto_percentuale <= 0 or sconto_percentuale > 100:
-                raise OffertaValidazioneException("Lo sconto deve essere compreso tra 0 e 100")
+                raise OffertaValidazioneException("Lo sconto deve essere compreso tra 1 e 100")
             if data_scadenza is None:
                 raise OffertaValidazioneException("La data di scadenza è obbligatoria per una promozione")
             if data_scadenza <= datetime.now(timezone.utc):
