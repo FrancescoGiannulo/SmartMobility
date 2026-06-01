@@ -167,10 +167,10 @@ export default function VistaCorsa() {
       {fase === 'no-metodo' && (
         <div className="corsa-esito corsa-esito--errore">
           <span className="corsa-esito-icona">⚠️</span>
-          <p className="corsa-esito-testo">Nessun metodo di pagamento predefinito.</p>
-          <p className="corsa-esito-sub">Aggiungi un metodo e torna qui per completare il pagamento.</p>
+          <p className="corsa-esito-testo">Metodo di pagamento non configurato.</p>
+          <p className="corsa-esito-sub">Aggiungi o imposta un metodo predefinito, poi torna qui per completare il pagamento.</p>
           <button type="button" className="btn-corsa btn-termina" onClick={() => navigate('/utente/pagamenti')}>
-            Aggiungi metodo di pagamento
+            Gestisci metodi di pagamento
           </button>
         </div>
       )}

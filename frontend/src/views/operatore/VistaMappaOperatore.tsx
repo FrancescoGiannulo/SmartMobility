@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+﻿import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Map as GoogleMap,
@@ -328,7 +328,7 @@ export default function VistaMappaOperatore() {
           <button type="button" className="btn-pannello secondario">Gestisci segnalazioni</button>
           <button type="button" className="btn-pannello secondario">Gestisci utenti</button>
           <button type="button" className="btn-pannello secondario">Impostazioni regole</button>
-          <button type="button" className="btn-pannello secondario">Tariffe e promozioni</button>
+          <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/tariffe')}>Tariffe e promozioni</button>
           <button type="button" className="btn-pannello secondario">Visualizza report</button>
           <button type="button" className="btn-pannello secondario">Gestisci mezzi</button>
         </div>
