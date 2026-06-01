@@ -395,3 +395,332 @@ body {
 }
 .gm-style .gm-style-iw-d { overflow: hidden !important; }
 .gm-style .gm-style-iw-tc::after { background: rgba(255, 255, 255, 0.98) !important; }
+
+/* ---------- Pin selezionato (CS-04) ---------- */
+.sm-pin--selected .sm-pin__body {
+  border-color: #fff;
+  box-shadow: 0 0 0 3px #4caf9a, inset 0 1px 0 rgba(255,255,255,0.35);
+}
+.sm-pin__badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 18px;
+  height: 18px;
+  background: #4caf9a;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+}
+
+/* ---------- Badge selezione nella topbar ---------- */
+.selezione-badge {
+  background: #4caf9a;
+  color: #fff;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+/* ---------- Sezione selezione nel pannello ---------- */
+.selezione-sezione {
+  margin-bottom: 14px;
+}
+.selezione-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 6px;
+}
+.selezione-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.chip-mezzo {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #e0f2ee;
+  color: #2a7a6a;
+  border-radius: 999px;
+  padding: 4px 10px 4px 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.chip-rimuovi {
+  background: none;
+  border: none;
+  color: #4caf9a;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0 0 2px;
+  font-weight: 700;
+}
+.selezione-hint {
+  font-size: 12px;
+  color: #94a3b8;
+  font-style: italic;
+  margin: 0;
+}
+
+/* ---------- Pannello prenotazioni confermate ---------- */
+.pannello-prenotazioni { padding-bottom: 4px; }
+.pannello-prenotati-titolo {
+  font-size: 15px;
+  font-weight: 700;
+  color: #2a7a6a;
+  margin: 0 0 6px;
+}
+.pannello-countdown-info {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0 0 12px;
+}
+.lista-prenotazioni {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.item-prenotazione {
+  background: #f0fdf9;
+  border: 1px solid #bbf0e3;
+  border-radius: var(--sm-radius-sm);
+  padding: 6px 10px;
+  font-size: 13px;
+  color: #1e293b;
+}
+
+/* ---------- Btn conferma prenota ---------- */
+.btn-conferma-prenota { flex: 2; }
+
+/* ---------- Hamburger button ---------- */
+.btn-hamburger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border-radius: var(--sm-radius-sm);
+  transition: background 150ms;
+}
+.btn-hamburger:hover { background: rgba(76,175,154,0.1); }
+.btn-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2.5px;
+  background: var(--sm-dark);
+  border-radius: 2px;
+}
+
+/* ---------- Sidebar overlay ---------- */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  z-index: 40;
+  backdrop-filter: blur(2px);
+  animation: fadeIn 200ms ease;
+}
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 78vw;
+  max-width: 340px;
+  background: #fff;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 320ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -8px 0 32px rgba(15,23,42,0.18);
+}
+.sidebar--aperta { transform: translateX(0); }
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 22px 18px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.sidebar-logo {
+  font-family: var(--sm-font);
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: var(--sm-dark);
+}
+.sidebar-logo-accent { color: var(--sm-primary); }
+.sidebar-chiudi {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--sm-primary);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: background 150ms;
+}
+.sidebar-chiudi:hover { background: rgba(76,175,154,0.1); }
+
+/* Profilo */
+.sidebar-profilo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 22px;
+}
+.sidebar-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--sm-primary);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.sidebar-nome {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sm-dark);
+  margin: 0 0 2px;
+}
+.sidebar-email {
+  font-size: 12px;
+  color: var(--sm-muted);
+  margin: 0;
+}
+
+.sidebar-divider { height: 1px; background: #f0f0f0; margin: 0 22px; }
+
+/* Voci menu */
+.sidebar-voci {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0;
+  flex: 1;
+}
+.sidebar-voce {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 26px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 150ms;
+}
+.sidebar-voce:hover { background: rgba(76,175,154,0.07); }
+.sidebar-voce__testo {
+  font-family: var(--sm-font);
+  font-size: 17px;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--sm-primary-700);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sidebar-voce__icona {
+  font-size: 20px;
+  opacity: 0.85;
+}
+.sidebar-voce--logout .sidebar-voce__testo { color: var(--sm-error); }
+
+.sidebar-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sm-primary);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  font-style: normal;
+  border-radius: 999px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+}
+
+.sidebar-footer {
+  border-top: 1px solid #f0f0f0;
+  padding: 8px 0;
+}
+
+/* Sezione prenotazioni nella sidebar */
+.sidebar-back-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 22px 12px;
+}
+.sidebar-back {
+  background: none;
+  border: none;
+  color: var(--sm-primary);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 0;
+}
+.sidebar-sezione-titolo {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sm-dark);
+}
+.sidebar-empty {
+  padding: 24px 22px;
+  font-size: 14px;
+  color: var(--sm-muted);
+  font-style: italic;
+}
+.sidebar-prenotazioni {
+  list-style: none;
+  padding: 8px 0;
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+.sidebar-pren-item {
+  padding: 14px 22px;
+  border-bottom: 1px solid #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sidebar-pren-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.sidebar-pren-mezzo { font-size: 14px; font-weight: 600; color: var(--sm-dark); }
+.sidebar-pren-timer { font-size: 13px; font-weight: 700; color: var(--sm-primary-700); }
+.btn-annulla-singola { padding: 7px 0; font-size: 13px; }

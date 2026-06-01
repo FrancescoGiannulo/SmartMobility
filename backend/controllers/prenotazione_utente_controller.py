@@ -2,7 +2,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 from database import get_db
 from middleware.auth_middleware import verify_token
-from controllers.schemas import PrenotazioneRequest
+from controllers.schemas import PrenotazioneRequest, MezzoMappaOut
 from bll.servizio_mobilita import (
     ServizioMobilita,
     MezzoNonTrovatoException,
@@ -12,26 +12,61 @@ from bll.servizio_mobilita import (
 from bll.servizio_prenotazione import (
     ServizioPrenotazione,
     MezzoNonTrovatoException as PrenMezzoNonTrovato,
-    MezzoNonDisponibileException as PrenMezzoNonDisponibile,
+    AlcuniMezziNonDisponibiliException,
+    LimiteMezziSuperatoException,
     PrenotazioneNonTrovataException,
 )
 
 router = APIRouter(prefix="/utente", tags=["Utente - Corsa"])
 
-# [IF-UT.02] CS-XX — Prenota Mezzo
+
+# [IF-UT.02] CS-04 — Prenotazioni attive utente (recupero dopo refresh)
+@router.get("/prenotazioni/attive")
+def get_prenotazioni_attive(
+    utente=Depends(verify_token(["UT"])),
+    db=Depends(get_db),
+):
+    return ServizioPrenotazione(db).get_prenotazioni_attive(utente["id"])
+
+
+# [IF-UT.02] CS-04 — Caratteristiche mezzo (msg3 del diagramma di sequenza)
+@router.get("/mezzi/{mezzo_id}", response_model=MezzoMappaOut)
+def get_caratteristiche_mezzo(
+    mezzo_id: UUID,
+    _=Depends(verify_token(["UT"])),
+    db=Depends(get_db),
+):
+    try:
+        return ServizioPrenotazione(db).get_caratteristiche(mezzo_id)
+    except PrenMezzoNonTrovato:
+        raise HTTPException(status_code=404, detail="Mezzo non trovato")
+
+
+# [IF-UT.02] CS-04 — Prenota uno o più mezzi
 @router.post("/prenotazioni", status_code=201)
-def prenota_mezzo(
+def prenota_mezzi(
     body: PrenotazioneRequest,
     utente=Depends(verify_token(["UT"])),
     db=Depends(get_db),
 ):
     try:
-        pren = ServizioPrenotazione(db).crea_prenotazione(body.mezzo_id, utente["id"])
-        return pren
+        prenotazioni = ServizioPrenotazione(db).crea_prenotazioni(
+            body.mezzo_ids, utente["id"]
+        )
+        return {"prenotazioni": prenotazioni}
     except PrenMezzoNonTrovato:
         raise HTTPException(status_code=404, detail="Mezzo non trovato")
-    except PrenMezzoNonDisponibile as e:
-        raise HTTPException(status_code=409, detail=str(e))
+    except LimiteMezziSuperatoException as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except AlcuniMezziNonDisponibiliException as e:
+        # [CS-04.01] alcuni mezzi non più disponibili — restituisce lista per il frontend
+        raise HTTPException(
+            status_code=409,
+            detail={
+                "messaggio": "Alcuni mezzi non sono più disponibili",
+                "non_disponibili": e.non_disponibili,
+            },
+        )
 
 
 # [IF-UT.02] CS-XX — Annulla prenotazione

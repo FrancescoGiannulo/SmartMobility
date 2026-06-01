@@ -80,7 +80,7 @@ class TariffaResponse(BaseModel):
 
 
 class PrenotazioneRequest(BaseModel):
-    mezzo_id: UUID
+    mezzo_ids: list[UUID]
 
 
 from datetime import datetime
