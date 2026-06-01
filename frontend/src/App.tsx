@@ -5,11 +5,11 @@ import CallbackOAuth from './views/auth/CallbackOAuth'
 import RoutaProtetta from './components/RoutaProtetta'
 import VistaMappa from './views/utente/VistaMappa'
 import VistaMappaOperatore from './views/operatore/VistaMappaOperatore'
+import VistaImpostazioniRegole from './views/operatore/VistaImpostazioniRegole'
 import VistaCorsa from './views/utente/VistaCorsa'
 import VistaDashboardAP from './views/amministrazione/VistaDashboardAP'
 import VistaPagamenti from './views/utente/VistaPagamenti'
 import VistaTariffePromozioni from './views/operatore/VistaTariffePromozioni'
-import VistaImpostazioniRegole from './views/operatore/VistaImpostazioniRegole'
 import { utenteCorrente, logout } from './services/AuthService'
 
 const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string

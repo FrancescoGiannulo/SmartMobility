@@ -136,6 +136,7 @@ export default function VistaMappaOperatore() {
   const zoneAttive = useRef(new Map<string, ZonaHover>())
   const [eliminazione, setEliminazione] = useState(false)
   const [erroreEliminazione, setErroreEliminazione] = useState('')
+  const [mezzoSelezionato, setMezzoSelezionato] = useState<MezzoMappa | null>(null)
 
   const ricaricaDati = useCallback(() => {
     Promise.all([getMezziOperatore(), getZoneOperatore()])
@@ -231,7 +232,11 @@ export default function VistaMappaOperatore() {
             />
 
             {mezzi.map(m => (
-              <AdvancedMarker key={m.id} position={{ lat: m.lat, lng: m.lng }} onClick={e => { e.stop(); setZonaHover(null) }}>
+              <AdvancedMarker
+                key={m.id}
+                position={{ lat: m.lat, lng: m.lng }}
+                onClick={e => { e.stop(); setMezzoSelezionato(m); setZonaHover(null); setZonaSelezionata(null) }}
+              >
                 <PinMezzo tipo={m.tipo} stato={m.stato} />
               </AdvancedMarker>
             ))}
@@ -254,7 +259,7 @@ export default function VistaMappaOperatore() {
                   }}
                   onClick={tipoDisegno ? undefined : zona => {
                     setZonaSelezionata(zona)
-                    setZonaHover(null)
+                    setMezzoSelezionato(null)
                   }}
                 />
               )
@@ -273,6 +278,37 @@ export default function VistaMappaOperatore() {
 
         <div className="mappa-op-pannello">
           <div className="logo">Control Center</div>
+
+          {mezzoSelezionato && (
+            <div className="mezzo-info-card">
+              <div className="mezzo-info-header">
+                <span className="mezzo-info-titolo">
+                  {mezzoSelezionato.tipo === 'monopattino' ? '🛴'
+                    : mezzoSelezionato.tipo === 'bicicletta' ? '🚲' : '🚗'}{' '}
+                  {mezzoSelezionato.codice}
+                </span>
+                <button className="mezzo-info-chiudi" onClick={() => setMezzoSelezionato(null)}>✕</button>
+              </div>
+              <div className="mezzo-info-riga">
+                <span className="mezzo-info-label">Tipo</span>
+                <span>{mezzoSelezionato.tipo.charAt(0).toUpperCase() + mezzoSelezionato.tipo.slice(1)}</span>
+              </div>
+              <div className="mezzo-info-riga">
+                <span className="mezzo-info-label">Stato</span>
+                <span className={`mezzo-stato mezzo-stato--${mezzoSelezionato.stato.toLowerCase().replace(' ', '-')}`}>
+                  {mezzoSelezionato.stato}
+                </span>
+              </div>
+              <div className="mezzo-info-riga">
+                <span className="mezzo-info-label">Batteria</span>
+                <span>{mezzoSelezionato.batteria != null ? `${mezzoSelezionato.batteria}%` : '—'}</span>
+              </div>
+              <div className="mezzo-info-riga">
+                <span className="mezzo-info-label">Posizione</span>
+                <span>{mezzoSelezionato.lat.toFixed(5)}, {mezzoSelezionato.lng.toFixed(5)}</span>
+              </div>
+            </div>
+          )}
 
           {zonaSelezionata && (
             <div className="mezzo-info-card">
@@ -372,6 +408,32 @@ export default function VistaMappaOperatore() {
         </div>
       )}
 
+      {zonaSelezionata && (
+        <div className="modal-overlay">
+          <div className="modal-card">
+            <h3>Elimina zona</h3>
+            <p style={{ marginBottom: 16 }}>
+              Vuoi eliminare la zona <strong>{zonaSelezionata.nome}</strong>?
+            </p>
+            {erroreEliminazione && <p className="modal-errore">{erroreEliminazione}</p>}
+            <button
+              type="button"
+              className="btn-pannello danger"
+              onClick={handleEliminaZona}
+              disabled={eliminazione}
+            >
+              {eliminazione ? 'Eliminazione…' : 'Elimina'}
+            </button>
+            <button
+              type="button"
+              className="btn-pannello secondario"
+              onClick={() => { setZonaSelezionata(null); setErroreEliminazione('') }}
+            >
+              Annulla
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

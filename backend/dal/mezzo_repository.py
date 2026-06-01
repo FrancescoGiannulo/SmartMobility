@@ -60,6 +60,31 @@ class MezzoRepository:
             "batteria": row.batteria,
         }
 
+    # [IF-UT.02] CS-04 — verifica disponibilità batch per prenotazione multipla
+    def trova_disponibili_da_lista(self, mezzo_ids: list[UUID]) -> list[dict]:
+        if not mezzo_ids:
+            return []
+        ids_str = [str(i) for i in mezzo_ids]
+        sql = text("""
+            SELECT id, codice, tipo, stato, lat, lng, batteria
+            FROM mezzi
+            WHERE id::text = ANY(:ids) AND stato = 'Disponibile'
+        """)
+        with self._sessione() as s:
+            rows = s.execute(sql, {"ids": ids_str}).fetchall()
+        return [
+            {
+                "id": str(row.id),
+                "codice": row.codice,
+                "tipo": row.tipo,
+                "stato": row.stato,
+                "lat": row.lat,
+                "lng": row.lng,
+                "batteria": row.batteria,
+            }
+            for row in rows
+        ]
+
     def aggiorna_stato(self, mezzo_id: UUID, nuovo_stato: str) -> None:
         sql = text("UPDATE mezzi SET stato = :stato WHERE id = :id")
         with self._sessione() as s:

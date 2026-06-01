@@ -1,0 +1,248 @@
+<mxfile host="65bd71144e">
+    <diagram name="SD - IF-OP.14 DefinisceRegoleFineCorsa" id="0">
+        <mxGraphModel dx="2545" dy="866" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1600" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="sd_frame" value="sd DefinisceRegoleFineCorsa" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=200;height=40;" parent="1" vertex="1">
+                    <mxGeometry x="20" y="20" width="1640" height="1340" as="geometry"/>
+                </mxCell>
+                <mxCell id="actor_cell" value=":Operatore" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="55" y="70" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="actor_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;strokeWidth=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="70" y="130" as="sourcePoint"/>
+                        <mxPoint x="70" y="1355" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ll_vista" value="&lt;b&gt;&lt;u&gt;:VistaImpostazioniRegole&lt;/u&gt;&lt;/b&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="140" y="70" width="150" height="1290" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_vista_1" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_vista" vertex="1">
+                    <mxGeometry x="70" y="100" width="10" height="390" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_vista_2" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_vista" vertex="1">
+                    <mxGeometry x="70" y="510" width="10" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_vista_3" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_vista" vertex="1">
+                    <mxGeometry x="70" y="550" width="10" height="700" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll_flotta" value="&lt;u&gt;&lt;b&gt;:FlottaService&lt;/b&gt;&lt;/u&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="330" y="70" width="140" height="1290" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_flotta_1" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_flotta" vertex="1">
+                    <mxGeometry x="65" y="140" width="10" height="360" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_flotta_3" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_flotta" vertex="1">
+                    <mxGeometry x="65" y="550" width="10" height="670" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll_ctrl" value="&lt;u&gt;&lt;b&gt;:MezzoOperatoreController&lt;/b&gt;&lt;/u&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="510" y="70" width="200" height="1290" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_ctrl_1" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_ctrl" vertex="1">
+                    <mxGeometry x="95" y="180" width="10" height="280" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_ctrl_3" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_ctrl" vertex="1">
+                    <mxGeometry x="95" y="590" width="10" height="630" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll_mob" value="&lt;u&gt;&lt;b&gt;:ServizioMobilità&lt;/b&gt;&lt;/u&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="760" y="70" width="160" height="1290" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_mob_1" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_mob" vertex="1">
+                    <mxGeometry x="75" y="220" width="10" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_mob_3" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_mob" vertex="1">
+                    <mxGeometry x="75" y="630" width="10" height="580" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll_zona_repo" value="&lt;u&gt;&lt;b&gt;:ZonaRepository&lt;/b&gt;&lt;/u&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="970" y="70" width="160" height="1290" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_zona" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_zona_repo" vertex="1">
+                    <mxGeometry x="75" y="260" width="10" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll_regola" value="&lt;u&gt;&lt;b&gt;regola:RegolaFineCorsa&lt;/b&gt;&lt;/u&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="1180" y="760" width="170" height="600" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_regola" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_regola" vertex="1">
+                    <mxGeometry x="80" y="50" width="10" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll_repo_regola" value="&lt;u&gt;&lt;b&gt;:RegolaFineCorsaRepository&lt;/b&gt;&lt;/u&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="1400" y="70" width="200" height="1290" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_repo_regola" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_repo_regola" vertex="1">
+                    <mxGeometry x="95" y="730" width="10" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="msg1" value="1: apriConfigurazioneRegoleFineCorsa()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="70" y="170" as="sourcePoint"/>
+                        <mxPoint x="215" y="170" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg2" value="2: getZoneParcheggioEConfigurazione()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="215" y="210" as="sourcePoint"/>
+                        <mxPoint x="400" y="210" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg3" value="3: GET /operatore/configurazione/fine-corsa" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="400" y="250" as="sourcePoint"/>
+                        <mxPoint x="610" y="250" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg4" value="4: getZoneParcheggioERegole()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="610" y="290" as="sourcePoint"/>
+                        <mxPoint x="840" y="290" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg5" value="5: findByTipo(&quot;parcheggio&quot;)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="840" y="330" as="sourcePoint"/>
+                        <mxPoint x="1050" y="330" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg6" value="6: :listaZoneParcheggio" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1050" y="370" as="sourcePoint"/>
+                        <mxPoint x="840" y="370" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg7" value="7: :configurazioneAttuale" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="840" y="410" as="sourcePoint"/>
+                        <mxPoint x="610" y="410" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg8" value="8: 200 OK :configurazioneAttuale" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="610" y="450" as="sourcePoint"/>
+                        <mxPoint x="400" y="450" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg9" value="9: :configurazioneAttuale" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="400" y="490" as="sourcePoint"/>
+                        <mxPoint x="215" y="490" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg10" value="10: mostraConfiguratoreRegoleFineCorsa(listaZoneParcheggio, params)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="215" y="530" as="sourcePoint"/>
+                        <mxPoint x="70" y="530" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg11" value="11: confermaRegoleFineCorsa(listaZoneValide, statoMezzo, batteriaMinima, posizionamentoCorretto)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="70" y="580" as="sourcePoint"/>
+                        <mxPoint x="215" y="580" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg12" value="12: salvaRegoleFineCorsa(listaZoneValide, vincoli)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                    <mxGeometry x="0.4595" y="10" relative="1" as="geometry">
+                        <mxPoint x="215" y="620" as="sourcePoint"/>
+                        <mxPoint x="400" y="620" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg13" value="13: POST /operatore/configurazione/fine-corsa" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="400" y="660" as="sourcePoint"/>
+                        <mxPoint x="610" y="660" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg14" value="14: salvaRegoleFineCorsa(listaZoneValide, vincoli)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="610" y="700" as="sourcePoint"/>
+                        <mxPoint x="840" y="700" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="alt_frame" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="730" width="1600" height="590" as="geometry"/>
+                </mxCell>
+                <mxCell id="alt_div" value="" style="line;strokeWidth=1;dashed=1;fillColor=none;strokeColor=#000000;" parent="alt_frame" vertex="1">
+                    <mxGeometry y="354" width="1600" height="9.833333333333334" as="geometry"/>
+                </mxCell>
+                <mxCell id="guard1" value="[parametri validi: valori negli intervalli ammessi]" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" parent="alt_frame" vertex="1">
+                    <mxGeometry y="39.99666666666666" width="330" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="guard2" value="[parametri non validi: valori fuori intervallo]" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" parent="alt_frame" vertex="1">
+                    <mxGeometry x="10" y="353.9166666666667" width="230" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="msg15" value="15: «crea»" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="840" y="760" as="sourcePoint"/>
+                        <mxPoint x="1265" y="760" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg16" value="16: save(this)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1265" y="800" as="sourcePoint"/>
+                        <mxPoint x="1500" y="800" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg17" value="17: :ok" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1500" y="840" as="sourcePoint"/>
+                        <mxPoint x="1265" y="840" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg18" value="18: :ok" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1265" y="880" as="sourcePoint"/>
+                        <mxPoint x="840" y="880" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg19" value="19: :ok" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="840" y="920" as="sourcePoint"/>
+                        <mxPoint x="610" y="920" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg20" value="20: 201 Created" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="610" y="960" as="sourcePoint"/>
+                        <mxPoint x="400" y="960" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg21" value="21: :ok" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="400" y="1000" as="sourcePoint"/>
+                        <mxPoint x="215" y="1000" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg22" value="22: mostraConfermaRegoleSalvate()" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="215" y="1040" as="sourcePoint"/>
+                        <mxPoint x="70" y="1040" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg23" value="23: :erroreParametriNonValidi" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="840" y="1100" as="sourcePoint"/>
+                        <mxPoint x="610" y="1100" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg24" value="24: 422 Unprocessable Entity" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="610" y="1140" as="sourcePoint"/>
+                        <mxPoint x="400" y="1140" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg25" value="25: :errore" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="400" y="1180" as="sourcePoint"/>
+                        <mxPoint x="215" y="1180" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg26" value="26: mostraErrore(&quot;Parametri fuori dai valori ammessi&quot;)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="215" y="1220" as="sourcePoint"/>
+                        <mxPoint x="70" y="1220" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

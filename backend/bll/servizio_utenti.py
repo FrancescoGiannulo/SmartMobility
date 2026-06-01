@@ -1,13 +1,16 @@
 from uuid import UUID
+import httpx
 from supabase import create_client
+from supabase.lib.client_options import SyncClientOptions
 from supabase_auth.errors import AuthApiError
-from config import supabase, SUPABASE_URL, SUPABASE_KEY
+from config import supabase, SUPABASE_URL, SUPABASE_KEY, _verify
 from dal.attore_repository import AttoreRepository, AttoreNonTrovatoException
 
 
 def _client_per_richiesta():
     """Client Supabase fresco per sign_in — isola la sessione utente dal singleton admin."""
-    return create_client(SUPABASE_URL, SUPABASE_KEY)
+    opts = None if _verify else SyncClientOptions(httpx_client=httpx.Client(verify=False))
+    return create_client(SUPABASE_URL, SUPABASE_KEY, options=opts)
 
 
 class CredenzialNonValideException(Exception):

@@ -1,8 +1,9 @@
 from uuid import UUID
+import ssl as _ssl
 import jwt
 from jwt import PyJWKClient
 from fastapi import Request, HTTPException
-from config import SUPABASE_JWT_SECRET, SUPABASE_URL
+from config import SUPABASE_JWT_SECRET, SUPABASE_URL, _verify
 from dal.attore_repository import AttoreRepository, AttoreNonTrovatoException
 
 _jwks_client: PyJWKClient | None = None
@@ -11,16 +12,18 @@ _jwks_client: PyJWKClient | None = None
 def _get_jwks_client() -> PyJWKClient:
     global _jwks_client
     if _jwks_client is None:
-        import ssl as _ssl
-        # Anaconda's SSL store rejects Supabase's CA cert (Basic Constraints not marked critical).
-        # Signature verification still happens via PyJWT — only the cert chain check is skipped.
-        _ctx = _ssl.create_default_context()
-        _ctx.check_hostname = False
-        _ctx.verify_mode = _ssl.CERT_NONE
-        _jwks_client = PyJWKClient(
-            f"{SUPABASE_URL}/auth/v1/.well-known/jwks.json",
-            ssl_context=_ctx,
-        )
+        if _verify:
+            _jwks_client = PyJWKClient(f"{SUPABASE_URL}/auth/v1/.well-known/jwks.json")
+        else:
+            # Rete universitaria: SSL inspection rifiuta il CA di Supabase.
+            # La verifica crittografica del JWT rimane attiva tramite PyJWT.
+            _ctx = _ssl.create_default_context()
+            _ctx.check_hostname = False
+            _ctx.verify_mode = _ssl.CERT_NONE
+            _jwks_client = PyJWKClient(
+                f"{SUPABASE_URL}/auth/v1/.well-known/jwks.json",
+                ssl_context=_ctx,
+            )
     return _jwks_client
 
 
