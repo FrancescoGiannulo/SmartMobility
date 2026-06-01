@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime
 from decimal import Decimal
 from enum import Enum
+from typing import Optional
 from sqlalchemy import Integer, Numeric, DateTime, text, ForeignKey, CheckConstraint
 from sqlalchemy import Enum as SAEnum
 from sqlalchemy.orm import Mapped, mapped_column
@@ -19,18 +20,25 @@ class RegolaFinecorsa(Base):
     __tablename__ = "regole_fine_corsa"
     __table_args__ = (
         CheckConstraint("batteria_minima BETWEEN 0 AND 100", name="batteria_minima_check"),
+        CheckConstraint(
+            "bonus_parcheggi_corretti IS NULL OR bonus_parcheggi_corretti > 0",
+            name="bonus_parcheggi_check",
+        ),
+        CheckConstraint(
+            "bonus_valore IS NULL OR bonus_valore > 0",
+            name="bonus_valore_check",
+        ),
     )
 
     id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4
     )
-    # zona referenziata deve avere tipo='parcheggio' — verificato in ServizioMobilità
-    zona_parcheggio_id: Mapped[uuid.UUID] = mapped_column(
+    zona_parcheggio_id: Mapped[Optional[uuid.UUID]] = mapped_column(
         PGUUID(as_uuid=True),
         ForeignKey("zone.id", ondelete="CASCADE"),
-        nullable=False,
+        nullable=True,
     )
-    batteria_minima: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    batteria_minima: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     penale_fuori_zona: Mapped[Decimal] = mapped_column(
         Numeric(10, 2), nullable=False, default=Decimal("0.00")
     )
@@ -39,6 +47,8 @@ class RegolaFinecorsa(Base):
         nullable=False,
         default=TipoVincoloFinecorsa.avviso,
     )
+    bonus_parcheggi_corretti: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    bonus_valore: Mapped[Optional[Decimal]] = mapped_column(Numeric(10, 2), nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=text("now()")
     )
