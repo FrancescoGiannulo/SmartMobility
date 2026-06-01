@@ -388,3 +388,45 @@
   color: #fff;
 }
 .sm-pin--dim { opacity: 0.5; }
+
+/* ---------- Zona/Mezzo info card nel pannello ---------- */
+.mezzo-info-card {
+  background: #f8fafc;
+  border: 1.5px solid rgba(76, 175, 154, 0.4);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mezzo-info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.mezzo-info-titolo {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sm-dark, #0f172a);
+}
+.mezzo-info-chiudi {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: var(--sm-muted, #64748b);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 2px;
+}
+.mezzo-info-riga {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--sm-dark, #0f172a);
+}
+.mezzo-info-label {
+  color: var(--sm-muted, #64748b);
+  font-weight: 600;
+}
