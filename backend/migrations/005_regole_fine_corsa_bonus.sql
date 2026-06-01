@@ -8,7 +8,7 @@ ALTER TABLE regole_fine_corsa
   ADD COLUMN IF NOT EXISTS bonus_valore NUMERIC(10, 2);
 
 ALTER TABLE regole_fine_corsa
-  ADD CONSTRAINT IF NOT EXISTS bonus_parcheggi_check
+  ADD CONSTRAINT bonus_parcheggi_check
     CHECK (bonus_parcheggi_corretti IS NULL OR bonus_parcheggi_corretti > 0),
-  ADD CONSTRAINT IF NOT EXISTS bonus_valore_check
+  ADD CONSTRAINT bonus_valore_check
     CHECK (bonus_valore IS NULL OR bonus_valore > 0);
