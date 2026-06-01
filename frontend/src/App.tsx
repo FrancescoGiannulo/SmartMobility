@@ -26,6 +26,7 @@ function PlaceholderView({ titolo }: { titolo: string }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           {utente && <span style={{ fontSize: 14, color: '#555' }}>{utente.profilo.email}</span>}
           <button
+            type="button"
             onClick={handleLogout}
             style={{
               padding: '8px 20px',

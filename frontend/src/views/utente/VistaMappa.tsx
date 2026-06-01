@@ -45,7 +45,7 @@ function PinMezzo({ tipo, dim }: { tipo: string; dim?: boolean }) {
 }
 
 function Batteria({ valore }: { valore: number | null }) {
-  if (valore == null) return <span className="batteria-nd">—</span>
+  if (valore == null) return <span className="batteria-nd">N/D</span>
   const barre = Math.min(4, Math.ceil(valore / 25))
   const colore = valore > 50 ? '#4caf9a' : valore > 20 ? '#f59e0b' : '#ef4444'
   return (
@@ -196,7 +196,7 @@ export default function VistaMappa() {
     <div className="vista-mappa">
       <div className="mappa-topbar">
         <h2>Smart Mobility</h2>
-        <button className="btn-logout-mappa" onClick={handleLogout}>Logout</button>
+        <button type="button" className="btn-logout-mappa" onClick={handleLogout}>Logout</button>
       </div>
 
       <GoogleMap
@@ -254,7 +254,7 @@ export default function VistaMappa() {
         <div className="pannello-mezzo">
           <div className="pannello-header">
             <span className="pannello-titolo">Sblocca/Prenota mezzo</span>
-            <button className="pannello-chiudi" onClick={chiudiPanel}>✕</button>
+            <button type="button" className="pannello-chiudi" onClick={chiudiPanel}>✕</button>
           </div>
           <div className="pannello-separatore" />
 
@@ -279,24 +279,15 @@ export default function VistaMappa() {
           )}
 
           <div className="pannello-azioni">
-            {prenotazione ? (
-              <button
-                className="btn-prenota btn-annulla"
-                onClick={handleAnnulla}
-                disabled={annullaInCorso}
-              >
-                {annullaInCorso ? '...' : 'Annulla prenotazione'}
-              </button>
-            ) : (
-              <button
-                className="btn-prenota"
-                onClick={handlePrenota}
-                disabled={prenotaInCorso}
-              >
-                {prenotaInCorso ? '...' : 'Prenota'}
-              </button>
-            )}
-            <button className="btn-sblocca-panel" onClick={handleSblocca} disabled={sbloccoInCorso}>
+            <button
+              type="button"
+              className="btn-prenota"
+              onClick={handlePrenota}
+              disabled={prenotaInCorso || !!prenotazione}
+            >
+              {prenotaInCorso ? '...' : prenotazione ? 'Prenotato' : 'Prenota'}
+            </button>
+            <button type="button" className="btn-sblocca-panel" onClick={handleSblocca} disabled={sbloccoInCorso}>
               {sbloccoInCorso ? '...' : 'Sblocca'}
             </button>
           </div>

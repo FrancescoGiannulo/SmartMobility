@@ -16,7 +16,7 @@ function IconaMezzo({ tipo }: { tipo?: string }) {
 }
 
 function Batteria({ valore }: { valore: number | null | undefined }) {
-  if (valore == null) return <span>—</span>
+  if (valore == null) return <span>N/D</span>
   const barre = Math.min(4, Math.ceil(valore / 25))
   const colore = valore > 50 ? '#4caf9a' : valore > 20 ? '#f59e0b' : '#ef4444'
   return (
@@ -73,7 +73,7 @@ export default function VistaCorsa() {
   if (!corsa) {
     return (
       <div className="vista-corsa-wrap">
-        <button className="btn-back-corsa" onClick={() => navigate(-1)}>← Torna alla mappa</button>
+        <button type="button" className="btn-back-corsa" onClick={() => navigate(-1)}>← Torna alla mappa</button>
         <p style={{ color: '#888', marginTop: 32, textAlign: 'center' }}>
           Nessuna corsa attiva. Torna alla mappa e clicca su un mezzo.
         </p>
@@ -117,13 +117,14 @@ export default function VistaCorsa() {
 
       <div className="corsa-bottoni">
         <button
+          type="button"
           className="btn-corsa btn-termina"
           onClick={handleTermina}
           disabled={terminaInCorso}
         >
           {terminaInCorso ? 'Chiusura...' : 'TERMINA E PAGA'}
         </button>
-        <button className="btn-corsa btn-pausa" disabled>PAUSA CORSA</button>
+        <button type="button" className="btn-corsa btn-pausa" disabled>PAUSA CORSA</button>
       </div>
     </div>
   )

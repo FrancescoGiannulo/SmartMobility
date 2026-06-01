@@ -112,7 +112,10 @@ function DrawingManager({
     })
 
     managerRef.current = dm
-    return () => { dm.setMap(null) }
+    return () => {
+      window.google.maps.event.clearInstanceListeners(dm)
+      dm.setMap(null)
+    }
   }, [mappa, tipoAttivo, onCompletato])
 
   return null
@@ -211,7 +214,7 @@ export default function VistaMappaOperatore() {
           Smart Mobility
           <span className="role-tag">Operatore</span>
         </h2>
-        <button className="btn-logout-mappa" onClick={handleLogout}>Logout</button>
+        <button type="button" className="btn-logout-mappa" onClick={handleLogout}>Logout</button>
       </div>
 
       <div className="mappa-op-body">
@@ -343,34 +346,34 @@ export default function VistaMappaOperatore() {
 
           <div className="section-label">Definisci zone</div>
 
-          <button className="btn-pannello danger" onClick={() => avviaDisegno('vietata')}>
+          <button type="button" className="btn-pannello danger" onClick={() => avviaDisegno('vietata')}>
             Zona vietata
           </button>
-          <button className="btn-pannello warning" onClick={() => avviaDisegno('limitata')}>
+          <button type="button" className="btn-pannello warning" onClick={() => avviaDisegno('limitata')}>
             Zona limitata
           </button>
-          <button className="btn-pannello success" onClick={() => avviaDisegno('parcheggio')}>
+          <button type="button" className="btn-pannello success" onClick={() => avviaDisegno('parcheggio')}>
             Zona parcheggio
           </button>
-          <button className="btn-pannello info" onClick={() => avviaDisegno('operativa')}>
+          <button type="button" className="btn-pannello info" onClick={() => avviaDisegno('operativa')}>
             Confine operativo
           </button>
 
           <div className="section-label">Gestione</div>
 
-          <button className="btn-pannello secondario">Gestisci segnalazioni</button>
-          <button className="btn-pannello secondario">Gestisci utenti</button>
-          <button className="btn-pannello secondario">Impostazioni regole</button>
-          <button className="btn-pannello secondario">Tariffe e promozioni</button>
-          <button className="btn-pannello secondario">Visualizza report</button>
-          <button className="btn-pannello secondario">Gestisci mezzi</button>
+          <button type="button" className="btn-pannello secondario">Gestisci segnalazioni</button>
+          <button type="button" className="btn-pannello secondario">Gestisci utenti</button>
+          <button type="button" className="btn-pannello secondario">Impostazioni regole</button>
+          <button type="button" className="btn-pannello secondario">Tariffe e promozioni</button>
+          <button type="button" className="btn-pannello secondario">Visualizza report</button>
+          <button type="button" className="btn-pannello secondario">Gestisci mezzi</button>
         </div>
       </div>
 
       {tipoDisegno && (
         <div className="mappa-op-hint">
-          <span>Disegna il poligono sulla mappa — doppio click per chiudere</span>
-          <button onClick={() => setTipoDisegno(null)}>Annulla</button>
+          <span>Disegna il poligono sulla mappa: doppio click per chiudere</span>
+          <button type="button" onClick={() => setTipoDisegno(null)}>Annulla</button>
         </div>
       )}
 
@@ -379,14 +382,15 @@ export default function VistaMappaOperatore() {
           <div className="modal-card">
             <h3>Nuova zona {modalZona.tipo}</h3>
             <input
+              aria-label="Nome zona"
               placeholder="Nome zona"
               value={nomeZona}
               onChange={e => setNomeZona(e.target.value)}
-              autoFocus
             />
             {modalZona.tipo === 'limitata' && (
               <input
                 type="number"
+                aria-label="Limite velocità (km/h)"
                 placeholder="Limite velocità (km/h)"
                 value={limiteVelocita}
                 onChange={e => setLimiteVelocita(e.target.value)}
@@ -394,16 +398,42 @@ export default function VistaMappaOperatore() {
               />
             )}
             {erroreModal && <p className="modal-errore">{erroreModal}</p>}
-            <button className="btn-pannello" onClick={handleConfermaZona} disabled={caricamento}>
+            <button type="button" className="btn-pannello" onClick={handleConfermaZona} disabled={caricamento}>
               {caricamento ? 'Salvataggio…' : 'Salva zona'}
             </button>
-            <button className="btn-pannello secondario" onClick={() => setModalZona(null)}>
+            <button type="button" className="btn-pannello secondario" onClick={() => setModalZona(null)}>
               Annulla
             </button>
           </div>
         </div>
       )}
 
+      {zonaSelezionata && (
+        <div className="modal-overlay">
+          <div className="modal-card">
+            <h3>Elimina zona</h3>
+            <p style={{ marginBottom: 16 }}>
+              Vuoi eliminare la zona <strong>{zonaSelezionata.nome}</strong>?
+            </p>
+            {erroreEliminazione && <p className="modal-errore">{erroreEliminazione}</p>}
+            <button
+              type="button"
+              className="btn-pannello danger"
+              onClick={handleEliminaZona}
+              disabled={eliminazione}
+            >
+              {eliminazione ? 'Eliminazione…' : 'Elimina'}
+            </button>
+            <button
+              type="button"
+              className="btn-pannello secondario"
+              onClick={() => { setZonaSelezionata(null); setErroreEliminazione('') }}
+            >
+              Annulla
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
