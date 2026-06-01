@@ -105,7 +105,7 @@ function App() {
           }
         />
         <Route
-          path="/operatore/tariffe"
+          path="/operatore/tariffe-promozioni"
           element={
             <RoutaProtetta ruoloRichiesto="OP">
               <VistaTariffePromozioni />
