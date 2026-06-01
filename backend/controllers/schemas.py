@@ -68,3 +68,34 @@ class ZonaCreate(BaseModel):
 
 class PrenotazioneRequest(BaseModel):
     mezzo_id: UUID
+
+
+from datetime import datetime
+from decimal import Decimal
+
+
+class CreaOffertaRequest(BaseModel):
+    nome: str
+    tipo: str  # 'promozione' | 'abbonamento'
+    descrizione: str | None = None
+    sconto_percentuale: Decimal | None = None
+    prezzo: Decimal | None = None
+    durata_giorni: int | None = None
+    data_inizio: datetime | None = None
+    data_scadenza: datetime | None = None
+
+
+class OffertaOut(BaseModel):
+    id: UUID
+    nome: str
+    tipo: str
+    stato: str
+    descrizione: str | None
+    sconto_percentuale: Decimal | None
+    prezzo: Decimal | None
+    durata_giorni: int | None
+    data_inizio: datetime | None
+    data_scadenza: datetime | None
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
