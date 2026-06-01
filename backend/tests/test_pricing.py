@@ -182,3 +182,97 @@ class TestServizioPricing:
             result = ServizioPricing(db).getPromozioniAttive()
 
         assert result == []
+
+
+# ── Task 5: PricingController ────────────────────────────────────────────────
+
+class TestPricingController:
+
+    def test_get_tariffe_200(self):
+        from controllers.pricing_controller import router, _auth_utente
+        from fastapi import FastAPI
+        from fastapi.testclient import TestClient
+        from database import get_db
+
+        tariffa = {
+            "id": str(uuid.uuid4()),
+            "tipo_mezzo": "monopattino",
+            "costo_al_minuto": "0.0500",
+            "costo_al_km": "0.1000",
+        }
+
+        app = FastAPI()
+        app.dependency_overrides[get_db] = lambda: MagicMock()
+        app.dependency_overrides[_auth_utente] = lambda: {"id": str(uuid.uuid4()), "ruolo": "UT"}
+        app.include_router(router)
+
+        with patch("controllers.pricing_controller.ServizioPricing") as MockSvc:
+            MockSvc.return_value.getTariffe.return_value = [tariffa]
+            r = TestClient(app).get("/tariffe")
+
+        assert r.status_code == 200
+        body = r.json()
+        assert len(body) == 1
+        assert body[0]["tipo_mezzo"] == "monopattino"
+
+    def test_get_tariffe_404_quando_vuoto(self):
+        from controllers.pricing_controller import router, _auth_utente
+        from fastapi import FastAPI
+        from fastapi.testclient import TestClient
+        from database import get_db
+
+        app = FastAPI()
+        app.dependency_overrides[get_db] = lambda: MagicMock()
+        app.dependency_overrides[_auth_utente] = lambda: {"id": str(uuid.uuid4()), "ruolo": "UT"}
+        app.include_router(router)
+
+        with patch("controllers.pricing_controller.ServizioPricing") as MockSvc:
+            MockSvc.return_value.getTariffe.return_value = []
+            r = TestClient(app).get("/tariffe")
+
+        assert r.status_code == 404
+
+    def test_get_promozioni_200(self):
+        from controllers.pricing_controller import router, _auth_utente
+        from fastapi import FastAPI
+        from fastapi.testclient import TestClient
+        from database import get_db
+
+        promo = {
+            "id": str(uuid.uuid4()),
+            "titolo": "Prova gratis",
+            "descrizione": "Prima corsa gratis",
+            "sconto_percentuale": "100.00",
+            "data_fine": (datetime.now(tz=timezone.utc) + timedelta(days=30)).isoformat(),
+        }
+
+        app = FastAPI()
+        app.dependency_overrides[get_db] = lambda: MagicMock()
+        app.dependency_overrides[_auth_utente] = lambda: {"id": str(uuid.uuid4()), "ruolo": "UT"}
+        app.include_router(router)
+
+        with patch("controllers.pricing_controller.ServizioPricing") as MockSvc:
+            MockSvc.return_value.getPromozioniAttive.return_value = [promo]
+            r = TestClient(app).get("/promozioni")
+
+        assert r.status_code == 200
+        body = r.json()
+        assert len(body) == 1
+        assert body[0]["titolo"] == "Prova gratis"
+
+    def test_get_promozioni_204_quando_vuoto(self):
+        from controllers.pricing_controller import router, _auth_utente
+        from fastapi import FastAPI
+        from fastapi.testclient import TestClient
+        from database import get_db
+
+        app = FastAPI()
+        app.dependency_overrides[get_db] = lambda: MagicMock()
+        app.dependency_overrides[_auth_utente] = lambda: {"id": str(uuid.uuid4()), "ruolo": "UT"}
+        app.include_router(router)
+
+        with patch("controllers.pricing_controller.ServizioPricing") as MockSvc:
+            MockSvc.return_value.getPromozioniAttive.return_value = []
+            r = TestClient(app).get("/promozioni")
+
+        assert r.status_code == 204

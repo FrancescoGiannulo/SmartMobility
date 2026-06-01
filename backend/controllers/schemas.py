@@ -49,3 +49,18 @@ class ZonaCreate(BaseModel):
 
 class PrenotazioneRequest(BaseModel):
     mezzo_id: UUID
+
+
+class TariffaOut(BaseModel):
+    id: UUID
+    tipo_mezzo: str
+    costo_al_minuto: str
+    costo_al_km: str
+
+
+class PromozioneOut(BaseModel):
+    id: UUID
+    titolo: str
+    descrizione: str | None
+    sconto_percentuale: str
+    data_fine: str
