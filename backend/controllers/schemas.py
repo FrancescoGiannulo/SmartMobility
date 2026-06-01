@@ -99,3 +99,23 @@ class OffertaOut(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+
+class RegolaFinecorsaRequest(BaseModel):
+    tipo_vincolo: str  # 'penale' | 'divieto' | 'avviso'
+    penale_fuori_zona: Decimal = Decimal("0.00")
+    batteria_minima: int | None = None
+    bonus_parcheggi_corretti: int | None = None
+    bonus_valore: Decimal | None = None
+
+
+class RegolaFinecorsaOut(BaseModel):
+    id: UUID
+    tipo_vincolo: str
+    penale_fuori_zona: Decimal
+    batteria_minima: int | None
+    bonus_parcheggi_corretti: int | None
+    bonus_valore: Decimal | None
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
