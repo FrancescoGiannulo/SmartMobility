@@ -72,3 +72,47 @@ class TestTariffaRepository:
         result = repo.findAll()
 
         assert result == []
+
+
+# ── Task 3: PromozioneRepository ─────────────────────────────────────────────
+
+class TestPromozioneRepository:
+
+    def test_getAttive_importabile(self):
+        from dal.promozione_repository import PromozioneRepository
+        assert hasattr(PromozioneRepository, "getAttive")
+
+    def test_getAttive_restituisce_lista_di_dict(self):
+        from dal.promozione_repository import PromozioneRepository
+        from model.promozione import Promozione
+
+        scadenza = datetime.now(tz=timezone.utc) + timedelta(days=7)
+
+        row = MagicMock(spec=Promozione)
+        row.id = uuid.uuid4()
+        row.titolo = "Prima corsa gratis"
+        row.descrizione = "Solo nuovi utenti"
+        row.sconto_percentuale = Decimal("100")
+        row.data_fine = scadenza
+
+        db = MagicMock()
+        db.query.return_value.filter.return_value.all.return_value = [row]
+
+        repo = PromozioneRepository(db)
+        result = repo.getAttive()
+
+        assert isinstance(result, list)
+        assert len(result) == 1
+        assert result[0]["titolo"] == "Prima corsa gratis"
+        assert result[0]["sconto_percentuale"] == "100.00"
+
+    def test_getAttive_lista_vuota(self):
+        from dal.promozione_repository import PromozioneRepository
+
+        db = MagicMock()
+        db.query.return_value.filter.return_value.all.return_value = []
+
+        repo = PromozioneRepository(db)
+        result = repo.getAttive()
+
+        assert result == []
