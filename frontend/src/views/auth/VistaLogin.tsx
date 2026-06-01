@@ -5,6 +5,7 @@ import './VistaLogin.css'
 
 const ERRORI: Record<number, string> = {
   401: 'Email o password non corretti',
+  422: 'Password non valida. Deve contenere almeno 8 caratteri',
   423: 'Account bloccato. Riprova tra 15 minuti',
   403: 'Account sospeso. Contatta il supporto',
   409: 'Email già registrata',
@@ -31,6 +32,10 @@ export default function VistaLogin() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setErrore('')
+    if (modalita === 'registrazione' && password.length < 8) {
+      setErrore('Password non idonea: deve contenere almeno 8 caratteri')
+      return
+    }
     setCaricamento(true)
     try {
       if (modalita === 'login') {

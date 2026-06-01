@@ -83,6 +83,10 @@ class PrenotazioneRequest(BaseModel):
     mezzo_id: UUID
 
 
+from datetime import datetime
+from decimal import Decimal
+
+
 class ConfigurazioneFineCorsaRequest(BaseModel):
     durata_max_prenotazione_min: int
     durata_periodo_grazia_min: int
@@ -90,3 +94,50 @@ class ConfigurazioneFineCorsaRequest(BaseModel):
     tipo_vincolo: str
     batteria_minima: int | None = None
     penale_fuori_zona: float = 0.0
+
+
+class CreaOffertaRequest(BaseModel):
+    nome: str
+    tipo: str  # 'promozione' | 'abbonamento'
+    descrizione: str | None = None
+    sconto_percentuale: Decimal | None = None
+    prezzo: Decimal | None = None
+    durata_giorni: int | None = None
+    data_inizio: datetime | None = None
+    data_scadenza: datetime | None = None
+
+
+class OffertaOut(BaseModel):
+    id: UUID
+    nome: str
+    tipo: str
+    stato: str
+    descrizione: str | None
+    sconto_percentuale: Decimal | None
+    prezzo: Decimal | None
+    durata_giorni: int | None
+    data_inizio: datetime | None
+    data_scadenza: datetime | None
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class RegolaFinecorsaRequest(BaseModel):
+    tipo_vincolo: str  # 'penale' | 'divieto' | 'avviso'
+    penale_fuori_zona: Decimal = Decimal("0.00")
+    batteria_minima: int | None = None
+    bonus_parcheggi_corretti: int | None = None
+    bonus_valore: Decimal | None = None
+
+
+class RegolaFinecorsaOut(BaseModel):
+    id: UUID
+    tipo_vincolo: str
+    penale_fuori_zona: Decimal
+    batteria_minima: int | None
+    bonus_parcheggi_corretti: int | None
+    bonus_valore: Decimal | None
+    created_at: datetime
+
+    model_config = {"from_attributes": True}

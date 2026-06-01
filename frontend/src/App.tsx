@@ -106,18 +106,18 @@ function App() {
           }
         />
         <Route
-          path="/operatore/impostazioni-regole"
+          path="/operatore/tariffe-promozioni"
           element={
             <RoutaProtetta ruoloRichiesto="OP">
-              <VistaImpostazioniRegole />
+              <VistaTariffePromozioni />
             </RoutaProtetta>
           }
         />
         <Route
-          path="/operatore/tariffe"
+          path="/operatore/impostazioni-regole"
           element={
             <RoutaProtetta ruoloRichiesto="OP">
-              <VistaTariffePromozioni />
+              <VistaImpostazioniRegole />
             </RoutaProtetta>
           }
         />

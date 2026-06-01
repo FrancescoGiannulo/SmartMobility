@@ -1,265 +1,223 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { getTariffe, creaTariffa, aggiornaTariffa, type Tariffa } from '../../services/FlottaService'
+import {
+  getOfferte,
+  creaOfferta,
+  eliminaOfferta,
+  type Offerta,
+  type CreaOffertaPayload,
+} from '../../services/OffertaService'
 import './VistaTariffePromozioni.css'
 
-const TIPI_MEZZO = ['monopattino', 'bicicletta', 'automobile'] as const
-
-const EMOJI_MEZZO: Record<string, string> = {
-  monopattino: '🛴',
-  bicicletta: '🚲',
-  automobile: '🚗',
+const STATO_LABEL: Record<string, string> = {
+  attiva: 'Attiva',
+  scaduta: 'Scaduta',
+  bozza: 'Bozza',
 }
 
-// [IF-OP.07] Definisce Tariffa
+const TIPO_EMOJI: Record<string, string> = {
+  promozione: '🏷️',
+  abbonamento: '📅',
+}
+
+interface FormState {
+  nome: string
+  tipo: 'promozione' | 'abbonamento'
+  descrizione: string
+  sconto_percentuale: string
+  prezzo: string
+  durata_giorni: string
+  data_inizio: string
+  data_scadenza: string
+}
+
+const FORM_VUOTO: FormState = {
+  nome: '',
+  tipo: 'promozione',
+  descrizione: '',
+  sconto_percentuale: '',
+  prezzo: '',
+  durata_giorni: '',
+  data_inizio: '',
+  data_scadenza: '',
+}
+
 export default function VistaTariffePromozioni() {
   const navigate = useNavigate()
-
-  const [tariffe, setTariffe] = useState<Tariffa[]>([])
-  const [caricamento, setCaricamento] = useState(true)
+  const [offerte, setOfferte] = useState<Offerta[]>([])
+  const [mostraModal, setMostraModal] = useState(false)
+  const [form, setForm] = useState<FormState>(FORM_VUOTO)
   const [errore, setErrore] = useState('')
-  const [messaggio, setMessaggio] = useState('')
+  const [caricamento, setCaricamento] = useState(false)
 
-  const [mostraForm, setMostraForm] = useState(false)
-  const [tipoMezzo, setTipoMezzo] = useState<string>('monopattino')
-  const [costoMinuto, setCostoMinuto] = useState('')
-  const [costoKm, setCostoKm] = useState('')
-  const [invioInCorso, setInvioInCorso] = useState(false)
-  const [erroreForm, setErroreForm] = useState('')
+  const ricarica = useCallback(() => {
+    getOfferte().then(setOfferte).catch(() => {})
+  }, [])
 
-  const [modificaId, setModificaId] = useState<string | null>(null)
-  const [modMinuto, setModMinuto] = useState('')
-  const [modKm, setModKm] = useState('')
-  const [modInCorso, setModInCorso] = useState(false)
-  const [erroreModifica, setErroreModifica] = useState('')
+  useEffect(() => { ricarica() }, [ricarica])
 
-  const caricaTariffe = useCallback(async () => {
+  const apriModal = () => {
+    setForm(FORM_VUOTO)
+    setErrore('')
+    setMostraModal(true)
+  }
+
+  const chiudiModal = () => {
+    setMostraModal(false)
+    setErrore('')
+  }
+
+  const handleConferma = async () => {
+    setErrore('')
+    setCaricamento(true)
     try {
-      const res = await getTariffe()
-      setTariffe(res.data)
-    } catch {
-      setErrore('Impossibile caricare le tariffe.')
+      const payload: CreaOffertaPayload = {
+        nome: form.nome.trim(),
+        tipo: form.tipo,
+        descrizione: form.descrizione.trim() || undefined,
+        sconto_percentuale: form.sconto_percentuale ? parseFloat(form.sconto_percentuale) : undefined,
+        prezzo: form.prezzo ? parseFloat(form.prezzo) : undefined,
+        durata_giorni: form.durata_giorni ? parseInt(form.durata_giorni) : undefined,
+        data_inizio: form.data_inizio || undefined,
+        data_scadenza: form.data_scadenza || undefined,
+      }
+      await creaOfferta(payload)
+      chiudiModal()
+      ricarica()
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const status = err.response?.status
+        const detail = err.response?.data?.detail
+        if (status === 409) setErrore("Esiste già un'offerta con questo nome.")
+        else if (status === 422) setErrore(typeof detail === 'string' ? detail : 'Dati non validi. Controlla i campi.')
+        else setErrore('Errore durante il salvataggio. Riprova.')
+      } else {
+        setErrore('Errore di rete. Riprova.')
+      }
     } finally {
       setCaricamento(false)
     }
-  }, [])
-
-  useEffect(() => { caricaTariffe() }, [caricaTariffe])
-
-  const apriModifica = (t: Tariffa) => {
-    setModificaId(t.tipo_mezzo)
-    setModMinuto(t.costo_al_minuto.toFixed(4))
-    setModKm(t.costo_al_km.toFixed(4))
-    setErroreModifica('')
   }
 
-  const handleModifica = async (e: React.FormEvent, tipo_mezzo: string) => {
-    e.preventDefault()
-    const minuto = parseFloat(modMinuto)
-    const km = parseFloat(modKm)
-    if (isNaN(minuto) || minuto <= 0 || isNaN(km) || km <= 0) {
-      setErroreModifica('I costi devono essere numeri maggiori di zero.')
-      return
-    }
-    setModInCorso(true)
-    setErroreModifica('')
-    try {
-      await aggiornaTariffa(tipo_mezzo, minuto, km)
-      setModificaId(null)
-      setMessaggio('Tariffa aggiornata.')
-      setTimeout(() => setMessaggio(''), 3000)
-      await caricaTariffe()
-    } catch {
-      setErroreModifica('Errore durante l\'aggiornamento. Riprova.')
-    } finally {
-      setModInCorso(false)
-    }
+  const handleElimina = async (id: string) => {
+    if (!confirm('Eliminare questa offerta?')) return
+    await eliminaOfferta(id).catch(() => {})
+    ricarica()
   }
 
-  const tipiDisponibili = TIPI_MEZZO.filter(
-    t => !tariffe.some(ta => ta.tipo_mezzo === t)
-  )
-
-  const handleCrea = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const minuto = parseFloat(costoMinuto)
-    const km = parseFloat(costoKm)
-    if (isNaN(minuto) || minuto <= 0 || isNaN(km) || km <= 0) {
-      setErroreForm('I costi devono essere numeri maggiori di zero.')
-      return
-    }
-    setInvioInCorso(true)
-    setErroreForm('')
-    try {
-      await creaTariffa(tipoMezzo, minuto, km)
-      setMostraForm(false)
-      setCostoMinuto('')
-      setCostoKm('')
-      setMessaggio('Tariffa creata con successo.')
-      setTimeout(() => setMessaggio(''), 3000)
-      await caricaTariffe()
-    } catch (err) {
-      if (axios.isAxiosError(err) && err.response?.status === 409) {
-        setErroreForm('Tariffa già esistente. Usa Modifica Tariffa (IF-OP.08).')
-      } else {
-        setErroreForm('Errore durante la creazione. Riprova.')
-      }
-    } finally {
-      setInvioInCorso(false)
-    }
-  }
+  const set = (field: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+    setForm(prev => ({ ...prev, [field]: e.target.value }))
 
   return (
-    <div className="vista-tariffe-wrap">
-      <button type="button" className="btn-back-tariffe" onClick={() => navigate(-1)}>
-        ← Torna alla mappa
-      </button>
+    <div className="vista-tariffe">
+      <div className="tariffe-topbar">
+        <h2>Tariffe e Promozioni</h2>
+        <button className="btn-indietro" onClick={() => navigate('/operatore/dashboard')}>
+          ← Torna alla mappa
+        </button>
+      </div>
 
-      <h1 className="tariffe-titolo">Tariffe</h1>
-
-      {messaggio && <div className="tariffe-messaggio">{messaggio}</div>}
-      {errore && <p className="tariffe-errore">{errore}</p>}
-
-      {caricamento ? (
-        <p className="tariffe-caricamento">Caricamento...</p>
-      ) : tariffe.length === 0 ? (
-        <p className="tariffe-vuoto">Nessuna tariffa definita.</p>
-      ) : (
-        <div className="tariffe-lista">
-          {tariffe.map(t => (
-            <div key={t.id} className="tariffa-card">
-              <div className="tariffa-card-header">
-                <span className="tariffa-emoji">{EMOJI_MEZZO[t.tipo_mezzo] ?? '🚌'}</span>
-                <div className="tariffa-info">
-                  <span className="tariffa-tipo">{t.tipo_mezzo.charAt(0).toUpperCase() + t.tipo_mezzo.slice(1)}</span>
-                  <span className="tariffa-costi">
-                    €{t.costo_al_minuto.toFixed(4)}/min · €{t.costo_al_km.toFixed(4)}/km
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  className="btn-modifica-tariffa"
-                  onClick={() => modificaId === t.tipo_mezzo ? setModificaId(null) : apriModifica(t)}
-                >
-                  {modificaId === t.tipo_mezzo ? 'Annulla' : 'Modifica'}
-                </button>
-              </div>
-              {modificaId === t.tipo_mezzo && (
-                <form className="modifica-form" onSubmit={e => handleModifica(e, t.tipo_mezzo)}>
-                  <div className="modifica-row">
-                    <div className="modifica-campo">
-                      <label className="tariffe-label" htmlFor={`min-${t.tipo_mezzo}`}>€/min</label>
-                      <input
-                        id={`min-${t.tipo_mezzo}`}
-                        type="number"
-                        className="tariffe-input"
-                        step="0.0001"
-                        min="0.0001"
-                        value={modMinuto}
-                        onChange={e => setModMinuto(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div className="modifica-campo">
-                      <label className="tariffe-label" htmlFor={`km-${t.tipo_mezzo}`}>€/km</label>
-                      <input
-                        id={`km-${t.tipo_mezzo}`}
-                        type="number"
-                        className="tariffe-input"
-                        step="0.0001"
-                        min="0.0001"
-                        value={modKm}
-                        onChange={e => setModKm(e.target.value)}
-                        required
-                      />
-                    </div>
-                  </div>
-                  {erroreModifica && <p className="tariffe-errore">{erroreModifica}</p>}
-                  <button type="submit" className="btn-tariffe-primario" disabled={modInCorso}>
-                    {modInCorso ? 'Salvataggio...' : 'SALVA'}
-                  </button>
-                </form>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {!mostraForm ? (
-        tipiDisponibili.length > 0 ? (
-          <button
-            type="button"
-            className="btn-tariffe-primario"
-            onClick={() => {
-              setTipoMezzo(tipiDisponibili[0])
-              setMostraForm(true)
-              setErroreForm('')
-            }}
-          >
-            + Aggiungi tariffa
+      <div className="tariffe-body">
+        <div className="tariffe-header-row">
+          <h3>Offerte commerciali</h3>
+          <button className="btn-nuova-offerta" onClick={apriModal}>
+            + Nuova offerta
           </button>
-        ) : (
-          <p className="tariffe-completo">Tutte le tipologie di mezzo hanno una tariffa definita.</p>
-        )
-      ) : (
-        <form className="tariffe-form" onSubmit={handleCrea}>
-          <h2 className="tariffe-form-titolo">Nuova tariffa</h2>
+        </div>
 
-          <label className="tariffe-label" htmlFor="tipo-mezzo">Tipologia mezzo</label>
-          <select
-            id="tipo-mezzo"
-            className="tariffe-select"
-            value={tipoMezzo}
-            onChange={e => setTipoMezzo(e.target.value)}
-          >
-            {tipiDisponibili.map(t => (
-              <option key={t} value={t}>{EMOJI_MEZZO[t]} {t.charAt(0).toUpperCase() + t.slice(1)}</option>
-            ))}
-          </select>
+        <div className="offerte-lista">
+          {offerte.length === 0 ? (
+            <div className="offerte-vuote">Nessuna offerta definita. Crea la prima!</div>
+          ) : (
+            offerte.map(o => (
+              <div className="offerta-card" key={o.id}>
+                <div className={`offerta-tipo-badge ${o.tipo}`}>
+                  {TIPO_EMOJI[o.tipo]}
+                </div>
+                <div className="offerta-info">
+                  <div className="offerta-nome">{o.nome}</div>
+                  <div className="offerta-dettaglio">
+                    {o.tipo === 'promozione'
+                      ? `Sconto ${o.sconto_percentuale}% — scade ${o.data_scadenza ? new Date(o.data_scadenza).toLocaleDateString('it-IT') : '—'}`
+                      : `€${o.prezzo} · ${o.durata_giorni} giorni`}
+                  </div>
+                </div>
+                <span className={`offerta-stato ${o.stato}`}>{STATO_LABEL[o.stato]}</span>
+                <button className="btn-elimina-offerta" onClick={() => handleElimina(o.id)} title="Elimina">🗑</button>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
 
-          <label className="tariffe-label" htmlFor="costo-minuto">Costo al minuto (€)</label>
-          <input
-            id="costo-minuto"
-            type="number"
-            className="tariffe-input"
-            placeholder="es. 0.05"
-            step="0.0001"
-            min="0.0001"
-            value={costoMinuto}
-            onChange={e => setCostoMinuto(e.target.value)}
-            required
-          />
+      {mostraModal && (
+        <div className="modal-overlay-offerta" onClick={chiudiModal}>
+          <div className="modal-offerta" onClick={e => e.stopPropagation()}>
+            <h3>Nuova offerta</h3>
 
-          <label className="tariffe-label" htmlFor="costo-km">Costo al km (€)</label>
-          <input
-            id="costo-km"
-            type="number"
-            className="tariffe-input"
-            placeholder="es. 0.10"
-            step="0.0001"
-            min="0.0001"
-            value={costoKm}
-            onChange={e => setCostoKm(e.target.value)}
-            required
-          />
+            <label>
+              Nome *
+              <input value={form.nome} onChange={set('nome')} placeholder="es. Estate 2026" />
+            </label>
 
-          {erroreForm && <p className="tariffe-errore">{erroreForm}</p>}
+            <label>
+              Tipo *
+              <select value={form.tipo} onChange={set('tipo')}>
+                <option value="promozione">Promozione</option>
+                <option value="abbonamento">Abbonamento</option>
+              </select>
+            </label>
 
-          <div className="tariffe-form-azioni">
-            <button type="submit" className="btn-tariffe-primario" disabled={invioInCorso}>
-              {invioInCorso ? 'Salvataggio...' : 'SALVA'}
-            </button>
-            <button
-              type="button"
-              className="btn-tariffe-annulla"
-              onClick={() => { setMostraForm(false); setErroreForm('') }}
-              disabled={invioInCorso}
-            >
-              Annulla
-            </button>
+            <label>
+              Descrizione
+              <input value={form.descrizione} onChange={set('descrizione')} placeholder="Descrizione opzionale" />
+            </label>
+
+            {form.tipo === 'promozione' && (
+              <>
+                <label>
+                  Sconto (%) *
+                  <input type="number" min="1" max="100" value={form.sconto_percentuale} onChange={set('sconto_percentuale')} placeholder="es. 20" />
+                </label>
+                <label>
+                  Data scadenza *
+                  <input type="datetime-local" value={form.data_scadenza} onChange={set('data_scadenza')} />
+                </label>
+              </>
+            )}
+
+            {form.tipo === 'abbonamento' && (
+              <>
+                <label>
+                  Prezzo (€) *
+                  <input type="number" min="0.01" step="0.01" value={form.prezzo} onChange={set('prezzo')} placeholder="es. 29.99" />
+                </label>
+                <label>
+                  Durata (giorni) *
+                  <input type="number" min="1" value={form.durata_giorni} onChange={set('durata_giorni')} placeholder="es. 30" />
+                </label>
+                <label>
+                  Data inizio
+                  <input type="datetime-local" value={form.data_inizio} onChange={set('data_inizio')} />
+                </label>
+                <label>
+                  Data scadenza
+                  <input type="datetime-local" value={form.data_scadenza} onChange={set('data_scadenza')} />
+                </label>
+              </>
+            )}
+
+            {errore && <p className="modal-errore-offerta">{errore}</p>}
+
+            <div className="modal-azioni-offerta">
+              <button className="btn-annulla-offerta" onClick={chiudiModal}>Annulla</button>
+              <button className="btn-conferma-offerta" onClick={handleConferma} disabled={caricamento}>
+                {caricamento ? '...' : 'Salva offerta'}
+              </button>
+            </div>
           </div>
-        </form>
+        </div>
       )}
     </div>
   )

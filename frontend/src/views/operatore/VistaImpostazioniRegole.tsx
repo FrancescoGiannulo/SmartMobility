@@ -1,197 +1,161 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {
-  getConfigurazioneFinecorsa,
-  salvaConfigurazioneFinecorsa,
-  type ConfigurazioneFinecorsa,
-} from '../../services/FlottaService'
+  getRegolaFinecorsa,
+  salvaRegolaFinecorsa,
+  type SalvaRegolaPayload,
+} from '../../services/RegolaFinecorsaService'
 import './VistaImpostazioniRegole.css'
 
-type TipoVincolo = 'penale' | 'divieto' | 'avviso'
-
-const LABEL_VINCOLO: Record<TipoVincolo, string> = {
-  penale: 'Penale',
-  divieto: 'Divieto di parcheggio',
-  avviso: 'Semplice avviso',
+const LABEL_VINCOLO: Record<string, string> = {
+  penale: 'Penale (addebito importo)',
+  divieto: 'Blocco fine corsa',
+  avviso: 'Avviso (nessun addebito)',
 }
 
-// [IF-OP.13] CS-XX — Schermata impostazioni regole fine corsa
 export default function VistaImpostazioniRegole() {
   const navigate = useNavigate()
-
-  const [durataPren, setDurataPren] = useState(30)
-  const [durataGrazia, setDurataGrazia] = useState(10)
-  const [maxMezzi, setMaxMezzi] = useState(1)
-  const [tipoVincolo, setTipoVincolo] = useState<TipoVincolo>('avviso')
-  const [batteriaMinima, setBatteriaMinima] = useState<string>('')
-  const [penaleFuoriZona, setPenaleFuoriZona] = useState(0)
-  const [dropdownAperto, setDropdownAperto] = useState(false)
-
-  const [caricamento, setCaricamento] = useState(true)
-  const [salvataggio, setSalvataggio] = useState(false)
+  const [tipoVincolo, setTipoVincolo] = useState<'penale' | 'divieto' | 'avviso'>('avviso')
+  const [penale, setPenale] = useState('')
+  const [batteria, setBatteria] = useState('')
+  const [bonusAttivo, setBonusAttivo] = useState(false)
+  const [bonusParcheggi, setBonusParcheggi] = useState('')
+  const [bonusValore, setBonusValore] = useState('')
   const [errore, setErrore] = useState('')
-  const [successo, setSuccesso] = useState(false)
+  const [conferma, setConferma] = useState('')
+  const [caricamento, setCaricamento] = useState(false)
 
   useEffect(() => {
-    getConfigurazioneFinecorsa()
-      .then((cfg: ConfigurazioneFinecorsa) => {
-        setDurataPren(cfg.durata_max_prenotazione_min)
-        setDurataGrazia(cfg.durata_periodo_grazia_min)
-        setMaxMezzi(cfg.max_mezzi_per_utente)
-        setTipoVincolo(cfg.tipo_vincolo)
-        setBatteriaMinima(cfg.batteria_minima != null ? String(cfg.batteria_minima) : '')
-        setPenaleFuoriZona(cfg.penale_fuori_zona)
-      })
-      .catch(() => setErrore('Impossibile caricare la configurazione.'))
-      .finally(() => setCaricamento(false))
+    getRegolaFinecorsa().then(regola => {
+      if (!regola) return
+      setTipoVincolo(regola.tipo_vincolo)
+      setPenale(regola.penale_fuori_zona > 0 ? String(regola.penale_fuori_zona) : '')
+      setBatteria(regola.batteria_minima != null ? String(regola.batteria_minima) : '')
+      if (regola.bonus_parcheggi_corretti != null) {
+        setBonusAttivo(true)
+        setBonusParcheggi(String(regola.bonus_parcheggi_corretti))
+        setBonusValore(regola.bonus_valore != null ? String(regola.bonus_valore) : '')
+      }
+    }).catch(() => {})
   }, [])
 
-  const handleSalva = useCallback(async () => {
+  const handleSalva = async () => {
     setErrore('')
-    setSuccesso(false)
-    setSalvataggio(true)
+    setConferma('')
+    setCaricamento(true)
     try {
-      await salvaConfigurazioneFinecorsa({
-        durata_max_prenotazione_min: durataPren,
-        durata_periodo_grazia_min: durataGrazia,
-        max_mezzi_per_utente: maxMezzi,
+      const payload: SalvaRegolaPayload = {
         tipo_vincolo: tipoVincolo,
-        batteria_minima: batteriaMinima !== '' ? Number(batteriaMinima) : null,
-        penale_fuori_zona: penaleFuoriZona,
-      })
-      setSuccesso(true)
+        penale_fuori_zona: penale ? parseFloat(penale) : 0,
+        batteria_minima: batteria ? parseInt(batteria) : undefined,
+        bonus_parcheggi_corretti: bonusAttivo && bonusParcheggi ? parseInt(bonusParcheggi) : undefined,
+        bonus_valore: bonusAttivo && bonusValore ? parseFloat(bonusValore) : undefined,
+      }
+      await salvaRegolaFinecorsa(payload)
+      setConferma('✅ Regole di fine corsa salvate correttamente.')
     } catch (err) {
-      if (axios.isAxiosError(err) && err.response?.status === 422) {
-        setErrore(err.response.data?.detail ?? 'Parametri fuori dai valori ammessi.')
+      if (axios.isAxiosError(err)) {
+        const detail = err.response?.data?.detail
+        setErrore(typeof detail === 'string' ? detail : 'Dati non validi. Controlla i campi.')
       } else {
-        setErrore('Errore durante il salvataggio. Riprova.')
+        setErrore('Errore di rete. Riprova.')
       }
     } finally {
-      setSalvataggio(false)
+      setCaricamento(false)
     }
-  }, [durataPren, durataGrazia, maxMezzi, tipoVincolo, batteriaMinima, penaleFuoriZona])
-
-  if (caricamento) {
-    return <div className="regole-wrap"><p className="regole-loading">Caricamento...</p></div>
   }
 
   return (
-    <div className="regole-wrap">
-      <button className="regole-chiudi" onClick={() => navigate(-1)}>✕</button>
-      <h1 className="regole-titolo">IMPOSTAZIONI REGOLE</h1>
-
-      <div className="regole-card">
-        <div className="regole-riga">
-          <span className="regole-label">Durata massima prenotazione:</span>
-          <div className="regole-input-unit">
-            <input
-              className="regole-input"
-              type="number"
-              min={1}
-              value={durataPren}
-              onChange={e => setDurataPren(Number(e.target.value))}
-            />
-            <span className="regole-unit">min</span>
-          </div>
-        </div>
-        <div className="regole-separatore" />
-
-        <div className="regole-riga">
-          <span className="regole-label">Durata del periodo di grazia per la pausa corsa:</span>
-          <div className="regole-input-unit">
-            <input
-              className="regole-input"
-              type="number"
-              min={0}
-              value={durataGrazia}
-              onChange={e => setDurataGrazia(Number(e.target.value))}
-            />
-            <span className="regole-unit">min</span>
-          </div>
-        </div>
-        <div className="regole-separatore" />
-
-        <div className="regole-riga">
-          <span className="regole-label">Numero massimo di prenotazioni contemporanee per singolo utente:</span>
-          <div className="regole-input-unit">
-            <input
-              className="regole-input"
-              type="number"
-              min={1}
-              value={maxMezzi}
-              onChange={e => setMaxMezzi(Number(e.target.value))}
-            />
-          </div>
-        </div>
-        <div className="regole-separatore" />
-
-        <div className="regole-riga">
-          <span className="regole-label">Batteria minima per fine corsa:</span>
-          <div className="regole-input-unit">
-            <input
-              className="regole-input"
-              type="number"
-              min={0}
-              max={100}
-              placeholder="—"
-              value={batteriaMinima}
-              onChange={e => setBatteriaMinima(e.target.value)}
-            />
-            <span className="regole-unit">%</span>
-          </div>
-        </div>
-        <div className="regole-separatore" />
-
-        <div className="regole-riga">
-          <span className="regole-label">Penale fuori zona (€):</span>
-          <div className="regole-input-unit">
-            <input
-              className="regole-input"
-              type="number"
-              min={0}
-              step={0.5}
-              value={penaleFuoriZona}
-              onChange={e => setPenaleFuoriZona(Number(e.target.value))}
-            />
-            <span className="regole-unit">€</span>
-          </div>
-        </div>
-        <div className="regole-separatore" />
-
-        <div className="regole-riga regole-riga-vincolo">
-          <span className="regole-label">Regola di business al termine corsa fuori da una zona di parcheggio:</span>
-          <div className="regole-dropdown-wrap">
-            <button
-              className="regole-dropdown-btn"
-              onClick={() => setDropdownAperto(v => !v)}
-            >
-              <span>{LABEL_VINCOLO[tipoVincolo]}</span>
-              <span className="regole-dropdown-arrow">▾</span>
-            </button>
-            {dropdownAperto && (
-              <div className="regole-dropdown-menu">
-                {(Object.keys(LABEL_VINCOLO) as TipoVincolo[]).map(k => (
-                  <button
-                    key={k}
-                    className={`regole-dropdown-item${tipoVincolo === k ? ' attivo' : ''}`}
-                    onClick={() => { setTipoVincolo(k); setDropdownAperto(false) }}
-                  >
-                    {LABEL_VINCOLO[k]}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
+    <div className="vista-regole">
+      <div className="regole-topbar">
+        <h2>Impostazioni Regole Fine Corsa</h2>
+        <button className="btn-indietro" onClick={() => navigate('/operatore/dashboard')}>
+          ← Torna alla mappa
+        </button>
       </div>
 
-      {errore && <p className="regole-errore">{errore}</p>}
-      {successo && <p className="regole-successo">Regole salvate con successo.</p>}
+      <div className="regole-body">
+        <div className="regole-card">
+          <h3>Politica sanzionatoria</h3>
+          <div className="regole-campo">
+            <label>Vincolo rilascio fuori zona parcheggio</label>
+            <select value={tipoVincolo} onChange={e => setTipoVincolo(e.target.value as typeof tipoVincolo)}>
+              {Object.entries(LABEL_VINCOLO).map(([val, label]) => (
+                <option key={val} value={val}>{label}</option>
+              ))}
+            </select>
+          </div>
+          {tipoVincolo === 'penale' && (
+            <div className="regole-campo">
+              <label>Importo penale (€)</label>
+              <input
+                type="number"
+                min="0.01"
+                step="0.01"
+                value={penale}
+                onChange={e => setPenale(e.target.value)}
+                placeholder="es. 5.00"
+              />
+            </div>
+          )}
+        </div>
 
-      <button className="regole-btn-salva" onClick={handleSalva} disabled={salvataggio}>
-        {salvataggio ? 'Salvataggio...' : 'SALVA'}
-      </button>
+        <div className="regole-card">
+          <h3>Vincoli aggiuntivi</h3>
+          <div className="regole-campo">
+            <label>Batteria minima richiesta (%)</label>
+            <input
+              type="number"
+              min="0"
+              max="100"
+              value={batteria}
+              onChange={e => setBatteria(e.target.value)}
+              placeholder="Lascia vuoto per nessun vincolo"
+            />
+          </div>
+        </div>
+
+        <div className="regole-card">
+          <h3>Incentivo parcheggio corretto</h3>
+          <label className="bonus-toggle">
+            <input type="checkbox" checked={bonusAttivo} onChange={e => setBonusAttivo(e.target.checked)} />
+            Attiva bonus per parcheggi corretti
+          </label>
+          {bonusAttivo && (
+            <>
+              <div className="regole-campo">
+                <label>Numero parcheggi corretti necessari</label>
+                <input
+                  type="number"
+                  min="1"
+                  value={bonusParcheggi}
+                  onChange={e => setBonusParcheggi(e.target.value)}
+                  placeholder="es. 5"
+                />
+              </div>
+              <div className="regole-campo">
+                <label>Valore bonus (€)</label>
+                <input
+                  type="number"
+                  min="0.01"
+                  step="0.01"
+                  value={bonusValore}
+                  onChange={e => setBonusValore(e.target.value)}
+                  placeholder="es. 2.50"
+                />
+              </div>
+            </>
+          )}
+        </div>
+
+        {errore && <p className="regole-errore">{errore}</p>}
+        {conferma && <p className="regole-conferma">{conferma}</p>}
+
+        <button className="btn-salva-regole" onClick={handleSalva} disabled={caricamento}>
+          {caricamento ? '...' : 'Salva regole'}
+        </button>
+      </div>
     </div>
   )
 }
