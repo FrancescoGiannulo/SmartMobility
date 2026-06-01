@@ -7,6 +7,7 @@ import {
   InfoWindow,
 } from '@vis.gl/react-google-maps'
 import { getMezziUtente, getZoneUtente, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
+import { getTariffe, getPromozioni, type Tariffa, type Promozione } from '../../services/PaymentService'
 import { sbloccaMezzo } from '../../services/CorsaService'
 import { prenotaMezzo, type Prenotazione } from '../../services/PrenotazioneService'
 import { logout } from '../../services/AuthService'
@@ -95,6 +96,13 @@ export default function VistaMappa() {
   // [IF-UT.01] Priority queue: mantiene tutte le zone sotto il cursore, mostra quella più specifica
   const zoneAttive = useRef(new Map<string, ZonaHover>())
 
+  // [IF-UT.05] [IF-UT.13] Stato drawer tariffe/promozioni
+  const [drawerAperto, setDrawerAperto] = useState<'tariffe' | 'promozioni' | null>(null)
+  const [tariffe, setTariffe] = useState<Tariffa[] | null>(null)
+  const [promozioni, setPromozioni] = useState<Promozione[] | null>(null)
+  const [loadingDrawer, setLoadingDrawer] = useState(false)
+  const [erroreDrawer, setErroreDrawer] = useState('')
+
   useEffect(() => {
     navigator.geolocation?.getCurrentPosition(
       pos => setCentro({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
@@ -116,6 +124,51 @@ export default function VistaMappa() {
     await logout()
     navigate('/', { replace: true })
   }, [navigate])
+
+  // [IF-UT.05] — fetch lazy, apre drawer tariffe
+  const apriTariffe = useCallback(async () => {
+    setDrawerAperto('tariffe')
+    if (tariffe !== null) return
+    setLoadingDrawer(true)
+    setErroreDrawer('')
+    try {
+      const r = await getTariffe()
+      setTariffe(r.data)
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.status === 404) {
+        setTariffe([])
+      } else {
+        setErroreDrawer('Impossibile caricare le tariffe.')
+      }
+    } finally {
+      setLoadingDrawer(false)
+    }
+  }, [tariffe])
+
+  // [IF-UT.13] — fetch lazy, apre drawer promozioni
+  const apriPromozioni = useCallback(async () => {
+    setDrawerAperto('promozioni')
+    if (promozioni !== null) return
+    setLoadingDrawer(true)
+    setErroreDrawer('')
+    try {
+      const r = await getPromozioni()
+      setPromozioni(r.data ?? [])
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.status === 204) {
+        setPromozioni([])
+      } else {
+        setErroreDrawer('Impossibile caricare le promozioni.')
+      }
+    } finally {
+      setLoadingDrawer(false)
+    }
+  }, [promozioni])
+
+  const chiudiDrawer = useCallback(() => {
+    setDrawerAperto(null)
+    setErroreDrawer('')
+  }, [])
 
   useEffect(() => {
     if (!prenotazione) return
@@ -275,6 +328,87 @@ export default function VistaMappa() {
             <button type="button" className="btn-sblocca-panel" onClick={handleSblocca} disabled={sbloccoInCorso}>
               {sbloccoInCorso ? '...' : 'Sblocca'}
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* [IF-UT.05][IF-UT.13] Bottoni flottanti tariffe/promozioni */}
+      <div className="pricing-fab-gruppo">
+        <button type="button" className="pricing-fab" onClick={apriTariffe}>
+          Tariffe
+        </button>
+        <button type="button" className="pricing-fab pricing-fab--promo" onClick={apriPromozioni}>
+          Promo
+        </button>
+      </div>
+
+      {/* Drawer laterale tariffe/promozioni */}
+      {drawerAperto && (
+        <div className="pricing-drawer" role="dialog" aria-modal="true">
+          <div className="pricing-drawer__header">
+            <span className="pricing-drawer__titolo">
+              {drawerAperto === 'tariffe' ? 'Tariffe del servizio' : 'Promozioni attive'}
+            </span>
+            <button
+              type="button"
+              className="pricing-drawer__chiudi"
+              onClick={chiudiDrawer}
+              aria-label="Chiudi pannello"
+            >
+              ✕
+            </button>
+          </div>
+
+          <div className="pricing-drawer__body">
+            {loadingDrawer && <p className="pricing-stato">Caricamento...</p>}
+            {erroreDrawer && <p className="pricing-stato pricing-stato--errore">{erroreDrawer}</p>}
+
+            {!loadingDrawer && !erroreDrawer && drawerAperto === 'tariffe' && (
+              tariffe && tariffe.length > 0 ? (
+                <ul className="pricing-lista">
+                  {tariffe.map(t => (
+                    <li key={t.id} className="pricing-card">
+                      <span className="pricing-card__tipo">
+                        {t.tipo_mezzo === 'monopattino' ? '🛴'
+                          : t.tipo_mezzo === 'bicicletta' ? '🚲' : '🚗'}{' '}
+                        {t.tipo_mezzo.charAt(0).toUpperCase() + t.tipo_mezzo.slice(1)}
+                      </span>
+                      <span className="pricing-card__riga">
+                        {parseFloat(t.costo_al_minuto).toFixed(2)} €/min
+                      </span>
+                      <span className="pricing-card__riga">
+                        {parseFloat(t.costo_al_km).toFixed(2)} €/km
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="pricing-stato">Nessuna tariffa disponibile.</p>
+              )
+            )}
+
+            {!loadingDrawer && !erroreDrawer && drawerAperto === 'promozioni' && (
+              promozioni && promozioni.length > 0 ? (
+                <ul className="pricing-lista">
+                  {promozioni.map(p => (
+                    <li key={p.id} className="pricing-card pricing-card--promo">
+                      <span className="pricing-card__tipo">{p.titolo}</span>
+                      {p.descrizione && (
+                        <span className="pricing-card__riga">{p.descrizione}</span>
+                      )}
+                      <span className="pricing-card__riga pricing-card__sconto">
+                        -{parseFloat(p.sconto_percentuale).toFixed(0)}%
+                      </span>
+                      <span className="pricing-card__riga pricing-card__scadenza">
+                        Fino al {new Date(p.data_fine).toLocaleDateString('it-IT')}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="pricing-stato">Nessuna promozione attiva al momento.</p>
+              )
+            )}
           </div>
         </div>
       )}

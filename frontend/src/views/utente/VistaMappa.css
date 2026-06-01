@@ -348,3 +348,148 @@ body {
 }
 .gm-style .gm-style-iw-d { overflow: hidden !important; }
 .gm-style .gm-style-iw-tc::after { background: rgba(255, 255, 255, 0.98) !important; }
+
+/* ---------- [IF-UT.05][IF-UT.13] Pricing FAB (bottoni flottanti) ---------- */
+.pricing-fab-gruppo {
+  position: absolute;
+  bottom: 32px;
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 10;
+}
+
+.pricing-fab {
+  padding: 10px 20px;
+  background: white;
+  color: var(--sm-primary);
+  border: 2px solid var(--sm-primary);
+  border-radius: var(--sm-radius);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: var(--sm-shadow-md);
+  transition: background 0.15s, color 0.15s;
+}
+
+.pricing-fab:hover {
+  background: var(--sm-primary);
+  color: white;
+}
+
+.pricing-fab--promo {
+  border-color: var(--sm-accent);
+  color: var(--sm-primary-700);
+}
+
+.pricing-fab--promo:hover {
+  background: var(--sm-accent);
+  color: white;
+  border-color: var(--sm-accent);
+}
+
+/* ---------- Pricing Drawer ---------- */
+.pricing-drawer {
+  position: absolute;
+  top: 88px;
+  left: 0;
+  bottom: 0;
+  width: 320px;
+  max-width: 90vw;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--sm-shadow-lg);
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+  border-right: 1px solid var(--sm-line);
+}
+
+.pricing-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--sm-line);
+}
+
+.pricing-drawer__titolo {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--sm-dark);
+}
+
+.pricing-drawer__chiudi {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--sm-muted);
+  line-height: 1;
+  padding: 0 4px;
+}
+
+.pricing-drawer__chiudi:hover { color: var(--sm-dark); }
+
+.pricing-drawer__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+/* ---------- Pricing Lista card ---------- */
+.pricing-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pricing-card {
+  background: #f8fafc;
+  border: 1px solid var(--sm-line);
+  border-radius: var(--sm-radius);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pricing-card--promo {
+  border-color: rgba(6, 214, 160, 0.4);
+  background: rgba(6, 214, 160, 0.05);
+}
+
+.pricing-card__tipo {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--sm-dark);
+}
+
+.pricing-card__riga {
+  font-size: 13px;
+  color: var(--sm-muted);
+}
+
+.pricing-card__sconto {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--sm-primary);
+}
+
+.pricing-card__scadenza {
+  font-size: 12px;
+  color: var(--sm-muted);
+}
+
+/* ---------- Stato (loading / errore / vuoto) ---------- */
+.pricing-stato {
+  font-size: 14px;
+  color: var(--sm-muted);
+  padding: 8px 0;
+}
+
+.pricing-stato--errore { color: var(--sm-error); }
