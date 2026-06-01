@@ -23,7 +23,7 @@ def get_tariffe(
 
 
 # [IF-UT.13] Visualizza Promozioni
-@router.get("/promozioni", status_code=200)
+@router.get("/promozioni", response_model=list[PromozioneOut] | None, status_code=200)
 def get_promozioni(
     response: Response,
     utente=Depends(_auth_utente),
