@@ -4,7 +4,7 @@ CREATE TABLE promozioni (
     titolo              TEXT NOT NULL,
     descrizione         TEXT,
     sconto_percentuale  NUMERIC(5,2) NOT NULL
-                            CHECK (sconto_percentuale > 0 AND sconto_percentuale <= 100),
+                            CONSTRAINT promozione_sconto_valido CHECK (sconto_percentuale > 0 AND sconto_percentuale <= 100),
     data_inizio         TIMESTAMPTZ NOT NULL DEFAULT now(),
     data_fine           TIMESTAMPTZ NOT NULL,
     attiva              BOOLEAN NOT NULL DEFAULT true,
