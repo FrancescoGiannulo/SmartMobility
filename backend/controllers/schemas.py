@@ -141,3 +141,18 @@ class RegolaFinecorsaOut(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+
+class TariffaOut(BaseModel):
+    id: UUID
+    tipo_mezzo: str
+    costo_al_minuto: str
+    costo_al_km: str
+
+
+class PromozioneOut(BaseModel):
+    id: UUID
+    titolo: str
+    descrizione: str | None
+    sconto_percentuale: str
+    data_fine: str

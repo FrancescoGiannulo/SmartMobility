@@ -7,7 +7,25 @@ from model.tariffa import Tariffa
 
 class TariffaRepository:
 
-    # [IF-OP.07] Definisce Tariffa
+    def __init__(self, db: Session | None = None) -> None:
+        self._db = db
+
+    # [IF-UT.05] — db injection pattern (pricing_controller)
+    def findAll(self) -> list[dict]:
+        if self._db is None:
+            raise RuntimeError("TariffaRepository.findAll richiede db iniettato")
+        rows = self._db.query(Tariffa).all()
+        return [
+            {
+                "id": str(r.id),
+                "tipo_mezzo": r.tipo_mezzo.value,
+                "costo_al_minuto": f"{r.costo_al_minuto:.4f}",
+                "costo_al_km": f"{r.costo_al_km:.4f}",
+            }
+            for r in rows
+        ]
+
+    # [IF-OP.07] — engine pattern (ServizioPricing pagamenti)
     def find_all(self) -> list[Tariffa]:
         with Session(engine) as session:
             rows = session.execute(

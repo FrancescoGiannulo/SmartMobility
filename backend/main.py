@@ -10,6 +10,7 @@ from controllers.ap_controller import router as ap_router
 from controllers.pagamenti_controller import router as pagamenti_router
 from controllers.offerta_controller import router as offerta_router
 from controllers.regola_fine_corsa_controller import router as regola_fine_corsa_router
+from controllers.pricing_controller import router as pricing_router
 
 app = FastAPI(title="SmartMobility API")
 
@@ -34,6 +35,7 @@ app.include_router(ap_router)
 app.include_router(pagamenti_router)
 app.include_router(offerta_router)
 app.include_router(regola_fine_corsa_router)
+app.include_router(pricing_router)
 
 
 @app.get("/")

@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from config import engine
 from dal.pagamento_repository import PagamentoRepository, MetodoNonTrovatoException
 from dal.tariffa_repository import TariffaRepository
+from dal.promozione_repository import PromozioneRepository
 from model.pagamento import StatoPagamento
 from providers.provider_pagamenti import ProviderPagamentiStub, DatiNonValidiException
 
@@ -41,61 +42,26 @@ class ServizioPricing:
 
     def __init__(
         self,
+        db: Session | None = None,
         repo: PagamentoRepository | None = None,
         provider: ProviderPagamentiStub | None = None,
         tariffa_repo: TariffaRepository | None = None,
     ):
+        self._db = db
         self._repo = repo or PagamentoRepository()
         self._provider = provider or ProviderPagamentiStub()
-        self._tariffa_repo = tariffa_repo or TariffaRepository()
+        self._tariffa_repo = tariffa_repo or TariffaRepository(db)
+        self._promozione_repo = PromozioneRepository(db)
 
-    # [IF-UT.12] Salva Metodi di Pagamento
-    def aggiungi_metodo(self, utente_id: uuid.UUID, tipo: str, dati: dict) -> dict:
-        try:
-            token = self._provider.valida_dati_pagamento(tipo, dati)
-        except DatiNonValidiException as exc:
-            raise DatiNonValidi(str(exc)) from exc
+    # [IF-UT.05] — db injection pattern
+    def getTariffe(self) -> list[dict]:
+        return self._tariffa_repo.findAll()
 
-        if self._repo.exists_by_token(token):
-            raise MetodoDuplicato("Metodo di pagamento già presente")
+    # [IF-UT.13] — db injection pattern
+    def getPromozioniAttive(self) -> list[dict]:
+        return self._promozione_repo.getAttive()
 
-        last_four = dati.get("last_four")
-        metodo = self._repo.aggiungi_metodo(utente_id, tipo, token, last_four)
-        return {
-            "id": str(metodo.id),
-            "tipo": metodo.tipo,
-            "last_four": metodo.last_four,
-            "predefinito": metodo.predefinito,
-        }
-
-    def lista_metodi(self, utente_id: uuid.UUID) -> list[dict]:
-        metodi = self._repo.lista_metodi(utente_id)
-        return [
-            {
-                "id": str(m.id),
-                "tipo": m.tipo,
-                "last_four": m.last_four,
-                "predefinito": m.predefinito,
-            }
-            for m in metodi
-        ]
-
-    # [IF-UT.21] Imposta Metodo di Pagamento predefinito
-    def imposta_predefinito(self, metodo_id: uuid.UUID, utente_id: uuid.UUID) -> None:
-        try:
-            self._repo.trova_metodo(metodo_id, utente_id)
-        except MetodoNonTrovatoException as exc:
-            raise MetodoNonTrovato(str(exc)) from exc
-        self._repo.imposta_predefinito(metodo_id, utente_id)
-
-    def rimuovi_metodo(self, metodo_id: uuid.UUID, utente_id: uuid.UUID) -> None:
-        try:
-            self._repo.trova_metodo(metodo_id, utente_id)
-        except MetodoNonTrovatoException as exc:
-            raise MetodoNonTrovato(str(exc)) from exc
-        self._repo.rimuovi_metodo(metodo_id, utente_id)
-
-    # [IF-OP.07] Definisce Tariffa
+    # [IF-OP.07] — engine pattern
     def get_tariffe(self) -> list[dict]:
         tariffe = self._tariffa_repo.find_all()
         return [
@@ -150,6 +116,52 @@ class ServizioPricing:
             raise TariffaNonTrovata(f"Nessuna tariffa per {tipo_mezzo}")
         return Decimal(str(durata_min)) * row.costo_al_minuto + Decimal(str(distanza_km)) * row.costo_al_km
 
+    # [IF-UT.12] Salva Metodi di Pagamento
+    def aggiungi_metodo(self, utente_id: uuid.UUID, tipo: str, dati: dict) -> dict:
+        try:
+            token = self._provider.valida_dati_pagamento(tipo, dati)
+        except DatiNonValidiException as exc:
+            raise DatiNonValidi(str(exc)) from exc
+
+        if self._repo.exists_by_token(token):
+            raise MetodoDuplicato("Metodo di pagamento già presente")
+
+        last_four = dati.get("last_four")
+        metodo = self._repo.aggiungi_metodo(utente_id, tipo, token, last_four)
+        return {
+            "id": str(metodo.id),
+            "tipo": metodo.tipo,
+            "last_four": metodo.last_four,
+            "predefinito": metodo.predefinito,
+        }
+
+    def lista_metodi(self, utente_id: uuid.UUID) -> list[dict]:
+        metodi = self._repo.lista_metodi(utente_id)
+        return [
+            {
+                "id": str(m.id),
+                "tipo": m.tipo,
+                "last_four": m.last_four,
+                "predefinito": m.predefinito,
+            }
+            for m in metodi
+        ]
+
+    # [IF-UT.21] Imposta Metodo di Pagamento predefinito
+    def imposta_predefinito(self, metodo_id: uuid.UUID, utente_id: uuid.UUID) -> None:
+        try:
+            self._repo.trova_metodo(metodo_id, utente_id)
+        except MetodoNonTrovatoException as exc:
+            raise MetodoNonTrovato(str(exc)) from exc
+        self._repo.imposta_predefinito(metodo_id, utente_id)
+
+    def rimuovi_metodo(self, metodo_id: uuid.UUID, utente_id: uuid.UUID) -> None:
+        try:
+            self._repo.trova_metodo(metodo_id, utente_id)
+        except MetodoNonTrovatoException as exc:
+            raise MetodoNonTrovato(str(exc)) from exc
+        self._repo.rimuovi_metodo(metodo_id, utente_id)
+
     # [IF-UT.20] Effettua Pagamento
     def effettua_pagamento(
         self,
@@ -163,7 +175,6 @@ class ServizioPricing:
         if not metodi:
             raise NessunMetodoPredefinito("Nessun metodo di pagamento salvato")
         if len(metodi) == 1:
-            # unico metodo: usato automaticamente senza richiedere predefinito
             metodo = self._repo.trova_metodo(metodi[0].id, utente_id)
         else:
             metodo = self._repo.trova_predefinito(utente_id)
