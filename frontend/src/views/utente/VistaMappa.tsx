@@ -8,8 +8,8 @@ import {
 } from '@vis.gl/react-google-maps'
 import { getMezziUtente, getZoneUtente, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
 import { sbloccaMezzo } from '../../services/CorsaService'
-import { prenotaMezzo, annullaPrenotazione, type Prenotazione } from '../../services/PrenotazioneService'
-import { logout } from '../../services/AuthService'
+import { prenotaMezzo, type Prenotazione } from '../../services/PrenotazioneService'
+import { logout, utenteCorrente } from '../../services/AuthService'
 import ZonaPoligono from '../../components/ZonaPoligono'
 import TooltipZona from '../../components/TooltipZona'
 import { COLORI_ZONA } from '../../utils/coloriZona'
@@ -89,7 +89,6 @@ export default function VistaMappa() {
   const [mezzoSelezionato, setMezzoSelezionato] = useState<MezzoMappa | null>(null)
   const [sbloccoInCorso, setSbloccoInCorso] = useState(false)
   const [prenotaInCorso, setPrenotaInCorso] = useState(false)
-  const [annullaInCorso, setAnnullaInCorso] = useState(false)
   const [prenotazione, setPrenotazione] = useState<Prenotazione | null>(null)
   const [tempoRimanente, setTempoRimanente] = useState(0)
   const [errorePanel, setErrorePanel] = useState('')
@@ -155,20 +154,6 @@ export default function VistaMappa() {
     }
   }, [mezzoSelezionato])
 
-  const handleAnnulla = useCallback(async () => {
-    if (!prenotazione) return
-    setAnnullaInCorso(true)
-    setErrorePanel('')
-    try {
-      await annullaPrenotazione(prenotazione.id)
-      setPrenotazione(null)
-    } catch {
-      setErrorePanel('Errore durante l\'annullamento. Riprova.')
-    } finally {
-      setAnnullaInCorso(false)
-    }
-  }, [prenotazione])
-
   const handleSblocca = useCallback(async () => {
     if (!mezzoSelezionato) return
     setSbloccoInCorso(true)
@@ -196,7 +181,13 @@ export default function VistaMappa() {
     <div className="vista-mappa">
       <div className="mappa-topbar">
         <h2>Smart Mobility</h2>
-        <button type="button" className="btn-logout-mappa" onClick={handleLogout}>Logout</button>
+        <div className="topbar-azioni">
+          {utenteCorrente()?.profilo.nome && (
+            <span className="topbar-utente">👤 {utenteCorrente()!.profilo.nome}</span>
+          )}
+          <button type="button" className="btn-pagamenti-mappa" onClick={() => navigate('/utente/pagamenti')}>💳 Pagamenti</button>
+          <button type="button" className="btn-logout-mappa" onClick={handleLogout}>Logout</button>
+        </div>
       </div>
 
       <GoogleMap

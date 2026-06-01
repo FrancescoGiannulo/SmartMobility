@@ -21,6 +21,25 @@ class AuthResponse(BaseModel):
     profilo: dict
 
 
+class AggiungiMetodoRequest(BaseModel):
+    tipo: str
+    last_four: str | None = None
+
+
+class EffettuaPagamentoRequest(BaseModel):
+    corsa_id: str
+    tipo_mezzo: str
+    durata_min: float
+    distanza_km: float
+
+
+class MetodoPagamentoResponse(BaseModel):
+    id: str
+    tipo: str
+    last_four: str | None
+    predefinito: bool
+
+
 class MezzoMappaOut(BaseModel):
     id: UUID
     codice: str
@@ -45,6 +64,19 @@ class ZonaCreate(BaseModel):
     tipo: str
     coordinate: list[list[float]]
     limite_velocita: int | None = None
+
+
+class CreaTariffaRequest(BaseModel):
+    tipo_mezzo: str
+    costo_al_minuto: float
+    costo_al_km: float
+
+
+class TariffaResponse(BaseModel):
+    id: str
+    tipo_mezzo: str
+    costo_al_minuto: float
+    costo_al_km: float
 
 
 class PrenotazioneRequest(BaseModel):

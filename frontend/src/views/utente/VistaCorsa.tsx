@@ -1,8 +1,12 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useParams, useLocation, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 import { terminaCorsa, type CorsaAttiva } from '../../services/CorsaService'
 import type { MezzoMappa } from '../../services/MapService'
+import { effettuaPagamento } from '../../services/PaymentService'
 import './VistaCorsa.css'
+
+type FasePagamento = 'idle' | 'termina' | 'paga' | 'ok' | 'rifiutato' | 'no-metodo' | 'errore'
 
 function formatTime(sec: number): string {
   const m = Math.floor(sec / 60).toString().padStart(2, '0')
@@ -45,8 +49,10 @@ export default function VistaCorsa() {
 
   const [corsa] = useState<CorsaAttiva | null>(corsaPassata ?? null)
   const [elapsed, setElapsed] = useState(0)
-  const [terminaInCorso, setTerminaInCorso] = useState(false)
+  const [fase, setFase] = useState<FasePagamento>('idle')
+  const [importoPagato, setImportoPagato] = useState<number | null>(null)
   const [errore, setErrore] = useState('')
+  const [corsaTerminata, setCorsaTerminata] = useState(false)
 
   useEffect(() => {
     if (!corsa) return
@@ -57,18 +63,40 @@ export default function VistaCorsa() {
     return () => clearInterval(t)
   }, [corsa])
 
+  // [IF-UT.06 + IF-UT.17] CS-06 termina corsa → CS-07 effettua pagamento
   const handleTermina = useCallback(async () => {
     if (!corsa) return
-    setTerminaInCorso(true)
     setErrore('')
-    try {
-      await terminaCorsa(corsa.id)
-      navigate('/utente/home', { replace: true })
-    } catch {
-      setErrore('Errore durante la chiusura della corsa. Riprova.')
-      setTerminaInCorso(false)
+
+    if (!corsaTerminata) {
+      setFase('termina')
+      try {
+        await terminaCorsa(corsa.id)
+        setCorsaTerminata(true)
+      } catch {
+        setErrore('Errore durante la chiusura della corsa. Riprova.')
+        setFase('idle')
+        return
+      }
     }
-  }, [corsa, navigate])
+
+    setFase('paga')
+    try {
+      const durata_min = elapsed / 60
+      const risultato = await effettuaPagamento(corsa.id, mezzo?.tipo ?? '', durata_min, 0)
+      setImportoPagato(risultato.importo)
+      setFase('ok')
+      setTimeout(() => navigate('/utente/home', { replace: true }), 3000)
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.status === 400) {
+        setFase('no-metodo')
+      } else if (axios.isAxiosError(err) && err.response?.status === 402) {
+        setFase('rifiutato')
+      } else {
+        setFase('errore')
+      }
+    }
+  }, [corsa, corsaTerminata, mezzo, elapsed, navigate])
 
   if (!corsa) {
     return (
@@ -115,17 +143,62 @@ export default function VistaCorsa() {
 
       {errore && <p className="corsa-errore">{errore}</p>}
 
-      <div className="corsa-bottoni">
-        <button
-          type="button"
-          className="btn-corsa btn-termina"
-          onClick={handleTermina}
-          disabled={terminaInCorso}
-        >
-          {terminaInCorso ? 'Chiusura...' : 'TERMINA E PAGA'}
-        </button>
-        <button type="button" className="btn-corsa btn-pausa" disabled>PAUSA CORSA</button>
-      </div>
+      {fase === 'ok' && (
+        <div className="corsa-esito corsa-esito--ok">
+          <span className="corsa-esito-icona">✅</span>
+          <p className="corsa-esito-testo">
+            Pagamento di <strong>€{importoPagato?.toFixed(2)}</strong> completato.
+          </p>
+          <p className="corsa-esito-sub">Torno alla mappa...</p>
+        </div>
+      )}
+
+      {fase === 'rifiutato' && (
+        <div className="corsa-esito corsa-esito--errore">
+          <span className="corsa-esito-icona">❌</span>
+          <p className="corsa-esito-testo">Pagamento rifiutato.</p>
+          <p className="corsa-esito-sub">Il metodo di pagamento non è stato accettato.</p>
+          <button type="button" className="btn-corsa btn-termina" onClick={() => navigate('/utente/pagamenti')}>
+            Aggiorna metodo di pagamento
+          </button>
+        </div>
+      )}
+
+      {fase === 'no-metodo' && (
+        <div className="corsa-esito corsa-esito--errore">
+          <span className="corsa-esito-icona">⚠️</span>
+          <p className="corsa-esito-testo">Metodo di pagamento non configurato.</p>
+          <p className="corsa-esito-sub">Aggiungi o imposta un metodo predefinito, poi torna qui per completare il pagamento.</p>
+          <button type="button" className="btn-corsa btn-termina" onClick={() => navigate('/utente/pagamenti')}>
+            Gestisci metodi di pagamento
+          </button>
+        </div>
+      )}
+
+      {fase === 'errore' && (
+        <div className="corsa-esito corsa-esito--errore">
+          <span className="corsa-esito-icona">⚠️</span>
+          <p className="corsa-esito-testo">Errore nel servizio di pagamento.</p>
+          <p className="corsa-esito-sub">Riprova tra qualche istante.</p>
+          <button type="button" className="btn-corsa btn-termina" onClick={() => setFase('idle')}>
+            Riprova
+          </button>
+        </div>
+      )}
+
+      {(fase === 'idle' || fase === 'termina' || fase === 'paga') && (
+        <div className="corsa-bottoni">
+          <button
+            type="button"
+            className="btn-corsa btn-termina"
+            onClick={handleTermina}
+            disabled={fase !== 'idle'}
+          >
+            {fase === 'termina' ? 'Chiusura...' : fase === 'paga' ? 'Addebito...' : 'TERMINA E PAGA'}
+          </button>
+          <button type="button" className="btn-corsa btn-pausa" disabled>PAUSA CORSA</button>
+        </div>
+      )}
     </div>
   )
 }
