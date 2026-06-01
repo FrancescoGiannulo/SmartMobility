@@ -231,7 +231,7 @@ export default function VistaMappaOperatore() {
             />
 
             {mezzi.map(m => (
-              <AdvancedMarker key={m.id} position={{ lat: m.lat, lng: m.lng }}>
+              <AdvancedMarker key={m.id} position={{ lat: m.lat, lng: m.lng }} onClick={e => { e.stop(); setZonaHover(null) }}>
                 <PinMezzo tipo={m.tipo} stato={m.stato} />
               </AdvancedMarker>
             ))}
