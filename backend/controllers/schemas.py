@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from typing import Any
 from uuid import UUID
+from decimal import Decimal
 
 
 class RegistrazioneRequest(BaseModel):
@@ -117,5 +118,22 @@ class RegolaFinecorsaOut(BaseModel):
     bonus_parcheggi_corretti: int | None
     bonus_valore: Decimal | None
     created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+# [CS-15] Parametri Numerici di Sistema
+class ParametriSistemaRequest(BaseModel):
+    durata_max_prenotazione_min: int
+    durata_periodo_grazia_min: int
+    max_mezzi_per_utente: int
+    addebito_pausa_min: Decimal = Decimal("0.0000")
+
+
+class ParametriSistemaOut(BaseModel):
+    durata_max_prenotazione_min: int
+    durata_periodo_grazia_min: int
+    max_mezzi_per_utente: int
+    addebito_pausa_min: Decimal
 
     model_config = {"from_attributes": True}
