@@ -83,6 +83,27 @@ class PrenotazioneRequest(BaseModel):
     mezzo_ids: list[UUID]
 
 
+class SbloccoRequest(BaseModel):
+    mezzo_ids: list[UUID]
+    lat: float | None = None
+    lng: float | None = None
+
+
+class MezzoSbloccabileOut(MezzoMappaOut):
+    prenotato: bool
+    prenotazione_id: str | None
+
+
+class RisultatoSbloccoItem(BaseModel):
+    mezzo_id: str
+    corsa_id: str
+
+
+class RisultatoSblocco(BaseModel):
+    sbloccati: list[RisultatoSbloccoItem]
+    falliti: list[str]
+
+
 from datetime import datetime
 from decimal import Decimal
 

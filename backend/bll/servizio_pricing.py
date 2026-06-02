@@ -193,6 +193,6 @@ class ServizioPricing:
         return {
             "id": str(pagamento.id),
             "importo": float(pagamento.importo),
-            "stato": pagamento.stato,
+            "stato": pagamento.stato.value if hasattr(pagamento.stato, "value") else str(pagamento.stato),
             "transazione_id": risposta.transazione_id,
         }

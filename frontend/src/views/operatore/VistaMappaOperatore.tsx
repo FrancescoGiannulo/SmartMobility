@@ -3,14 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import {
   Map as GoogleMap,
   AdvancedMarker,
-  InfoWindow,
   useMap,
 } from '@vis.gl/react-google-maps'
 import { getMezziOperatore, getZoneOperatore, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
 import { creaZona, eliminaZona } from '../../services/ZonaService'
 import { logout } from '../../services/AuthService'
 import ZonaPoligono from '../../components/ZonaPoligono'
-import TooltipZona from '../../components/TooltipZona'
 import { COLORI_ZONA } from '../../utils/coloriZona'
 import './VistaMappaOperatore.css'
 
@@ -131,9 +129,7 @@ export default function VistaMappaOperatore() {
   const [limiteVelocita, setLimiteVelocita] = useState('')
   const [erroreModal, setErroreModal] = useState('')
   const [caricamento, setCaricamento] = useState(false)
-  const [zonaHover, setZonaHover] = useState<ZonaHover | null>(null)
   const [zonaSelezionata, setZonaSelezionata] = useState<ZonaMappa | null>(null)
-  const zoneAttive = useRef(new Map<string, ZonaHover>())
   const [eliminazione, setEliminazione] = useState(false)
   const [erroreEliminazione, setErroreEliminazione] = useState('')
   const [mezzoSelezionato, setMezzoSelezionato] = useState<MezzoMappa | null>(null)
@@ -249,14 +245,6 @@ export default function VistaMappaOperatore() {
                   zona={z}
                   fillColor={colori.fill}
                   strokeColor={colori.stroke}
-                  onHover={(zona, pos) => {
-                    zoneAttive.current.set(zona.id, { zona, pos })
-                    setZonaHover(zonaMiglioreDa(zoneAttive.current))
-                  }}
-                  onHoverEnd={() => {
-                    zoneAttive.current.delete(z.id)
-                    setZonaHover(zonaMiglioreDa(zoneAttive.current))
-                  }}
                   onClick={tipoDisegno ? undefined : zona => {
                     setZonaSelezionata(zona)
                     setMezzoSelezionato(null)
@@ -264,15 +252,6 @@ export default function VistaMappaOperatore() {
                 />
               )
             })}
-
-            {zonaHover && (
-              <InfoWindow
-                position={zonaHover.pos}
-                onCloseClick={() => setZonaHover(null)}
-              >
-                <TooltipZona zona={zonaHover.zona} />
-              </InfoWindow>
-            )}
           </GoogleMap>
         </div>
 

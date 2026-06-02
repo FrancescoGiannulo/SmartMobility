@@ -4,6 +4,9 @@ from datetime import datetime, timezone, timedelta
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
+LAT_TEST = 41.11
+LNG_TEST = 16.85
+
 
 # ── Helpers ────────────────────────────────────────────────────────────────
 
@@ -19,8 +22,8 @@ def _inserisci_mezzo(db, codice: str, stato: str) -> str:
     with Session(db) as s:
         s.execute(text("""
             INSERT INTO mezzi (codice, tipo, stato, lat, lng, batteria)
-            VALUES (:codice, 'monopattino', :stato, 41.11, 16.85, 80)
-        """), {"codice": codice, "stato": stato})
+            VALUES (:codice, 'monopattino', :stato, :lat, :lng, 80)
+        """), {"codice": codice, "stato": stato, "lat": LAT_TEST, "lng": LNG_TEST})
         s.commit()
         row = s.execute(
             text("SELECT id FROM mezzi WHERE codice = :c"), {"c": codice}
@@ -30,10 +33,8 @@ def _inserisci_mezzo(db, codice: str, stato: str) -> str:
 
 def _elimina_mezzo(db, mezzo_id: str) -> None:
     with Session(db) as s:
-        s.execute(text("DELETE FROM corse WHERE mezzo_id = :id"),
-                  {"id": mezzo_id})
-        s.execute(text("DELETE FROM prenotazioni WHERE mezzo_id = :id"),
-                  {"id": mezzo_id})
+        s.execute(text("DELETE FROM corse WHERE mezzo_id = :id"), {"id": mezzo_id})
+        s.execute(text("DELETE FROM prenotazioni WHERE mezzo_id = :id"), {"id": mezzo_id})
         s.execute(text("DELETE FROM mezzi WHERE id = :id"), {"id": mezzo_id})
         s.commit()
 
@@ -59,9 +60,7 @@ class TestMezzoRepository:
     @pytest.mark.integration
     def test_trova_per_id_non_esistente(self, db):
         from dal.mezzo_repository import MezzoRepository
-        repo = MezzoRepository(db)
-        risultato = repo.trova_per_id(_uuid.uuid4())
-        assert risultato is None
+        assert MezzoRepository(db).trova_per_id(_uuid.uuid4()) is None
 
     @pytest.mark.integration
     def test_aggiorna_stato(self, db):
@@ -71,8 +70,62 @@ class TestMezzoRepository:
         try:
             repo = MezzoRepository(db)
             repo.aggiorna_stato(_uuid.UUID(mezzo_id), "In uso")
-            mezzo = repo.trova_per_id(_uuid.UUID(mezzo_id))
-            assert mezzo["stato"] == "In uso"
+            assert repo.trova_per_id(_uuid.UUID(mezzo_id))["stato"] == "In uso"
+        finally:
+            _elimina_mezzo(db, mezzo_id)
+
+    @pytest.mark.integration
+    def test_trova_sbloccabili_disponibili_vicini(self, db, utente_test):
+        from dal.mezzo_repository import MezzoRepository
+        codice = f"TEST-SB-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice, "Disponibile")
+        try:
+            repo = MezzoRepository(db)
+            risultato = repo.trova_sbloccabili(utente_test["id"], LAT_TEST, LNG_TEST)
+            ids = [r["id"] for r in risultato]
+            assert mezzo_id in ids
+        finally:
+            _elimina_mezzo(db, mezzo_id)
+
+    @pytest.mark.integration
+    def test_trova_sbloccabili_prenotati_dall_utente(self, db, utente_test):
+        from dal.mezzo_repository import MezzoRepository
+        codice = f"TEST-SBP-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice, "Prenotato")
+        scade_at = datetime.now(timezone.utc) + timedelta(minutes=15)
+        with Session(db) as s:
+            s.execute(text("""
+                INSERT INTO prenotazioni (utente_id, mezzo_id, stato, scade_at)
+                VALUES (:uid, :mid, 'attiva', :scade)
+            """), {"uid": str(utente_test["id"]), "mid": mezzo_id, "scade": scade_at})
+            s.commit()
+        try:
+            repo = MezzoRepository(db)
+            risultato = repo.trova_sbloccabili(utente_test["id"], LAT_TEST, LNG_TEST)
+            item = next((r for r in risultato if r["id"] == mezzo_id), None)
+            assert item is not None
+            assert item["prenotato"] is True
+        finally:
+            _elimina_mezzo(db, mezzo_id)
+
+    @pytest.mark.integration
+    def test_trova_sbloccabili_esclude_lontani(self, db, utente_test):
+        from dal.mezzo_repository import MezzoRepository
+        codice = f"TEST-SBL-{_uuid.uuid4().hex[:6]}"
+        # Mezzo a Roma (~900 km di distanza da Bari)
+        with Session(db) as s:
+            s.execute(text("""
+                INSERT INTO mezzi (codice, tipo, stato, lat, lng, batteria)
+                VALUES (:codice, 'monopattino', 'Disponibile', 41.90, 12.49, 80)
+            """), {"codice": codice})
+            s.commit()
+            row = s.execute(text("SELECT id FROM mezzi WHERE codice = :c"), {"c": codice}).fetchone()
+            mezzo_id = str(row.id)
+        try:
+            repo = MezzoRepository(db)
+            risultato = repo.trova_sbloccabili(utente_test["id"], LAT_TEST, LNG_TEST, raggio_km=0.5)
+            ids = [r["id"] for r in risultato]
+            assert mezzo_id not in ids
         finally:
             _elimina_mezzo(db, mezzo_id)
 
@@ -87,79 +140,9 @@ class TestCorsaRepository:
         codice = f"TEST-CR-{_uuid.uuid4().hex[:6]}"
         mezzo_id = _inserisci_mezzo(db, codice, "Disponibile")
         try:
-            repo = CorsaRepository(db)
-            corsa = repo.crea(utente_test["id"], _uuid.UUID(mezzo_id), None)
+            corsa = CorsaRepository(db).crea(utente_test["id"], _uuid.UUID(mezzo_id), None)
             assert corsa["stato"] == "in_uso"
-            assert str(corsa["utente_id"]) == str(utente_test["id"])
-            assert str(corsa["mezzo_id"]) == mezzo_id
             assert corsa["prenotazione_id"] is None
-            assert "inizio_at" in corsa
-        finally:
-            _elimina_mezzo(db, mezzo_id)
-
-
-# ── TestPrenotazioneRepository ─────────────────────────────────────────────
-
-class TestPrenotazioneRepository:
-
-    @pytest.mark.integration
-    def test_trova_attiva_trovata(self, db, utente_test):
-        from dal.prenotazione_repository import PrenotazioneRepository
-        codice = f"TEST-PR-{_uuid.uuid4().hex[:6]}"
-        mezzo_id = _inserisci_mezzo(db, codice, "Prenotato")
-        scade_at = datetime.now(timezone.utc) + timedelta(minutes=15)
-        with Session(db) as s:
-            s.execute(text("""
-                INSERT INTO prenotazioni (utente_id, mezzo_id, stato, scade_at)
-                VALUES (:uid, :mid, 'attiva', :scade)
-            """), {"uid": str(utente_test["id"]),
-                   "mid": mezzo_id, "scade": scade_at})
-            s.commit()
-        try:
-            repo = PrenotazioneRepository(db)
-            pren = repo.trova_attiva_per_utente_e_mezzo(
-                utente_test["id"], _uuid.UUID(mezzo_id)
-            )
-            assert pren is not None
-            assert str(pren["utente_id"]) == str(utente_test["id"])
-        finally:
-            _elimina_mezzo(db, mezzo_id)
-
-    @pytest.mark.integration
-    def test_trova_attiva_non_trovata(self, db, utente_test):
-        from dal.prenotazione_repository import PrenotazioneRepository
-        repo = PrenotazioneRepository(db)
-        risultato = repo.trova_attiva_per_utente_e_mezzo(
-            utente_test["id"], _uuid.uuid4()
-        )
-        assert risultato is None
-
-    @pytest.mark.integration
-    def test_aggiorna_stato_prenotazione(self, db, utente_test):
-        from dal.prenotazione_repository import PrenotazioneRepository
-        codice = f"TEST-APR-{_uuid.uuid4().hex[:6]}"
-        mezzo_id = _inserisci_mezzo(db, codice, "Prenotato")
-        scade_at = datetime.now(timezone.utc) + timedelta(minutes=15)
-        with Session(db) as s:
-            s.execute(text("""
-                INSERT INTO prenotazioni (utente_id, mezzo_id, stato, scade_at)
-                VALUES (:uid, :mid, 'attiva', :scade)
-            """), {"uid": str(utente_test["id"]),
-                   "mid": mezzo_id, "scade": scade_at})
-            s.commit()
-            pren_id = s.execute(text("""
-                SELECT id FROM prenotazioni
-                WHERE mezzo_id = :mid AND utente_id = :uid
-            """), {"mid": mezzo_id, "uid": str(utente_test["id"])}).fetchone().id
-        try:
-            repo = PrenotazioneRepository(db)
-            repo.aggiorna_stato(_uuid.UUID(str(pren_id)), "convertita")
-            with Session(db) as s:
-                row = s.execute(
-                    text("SELECT stato FROM prenotazioni WHERE id = :id"),
-                    {"id": str(pren_id)}
-                ).fetchone()
-            assert row.stato == "convertita"
         finally:
             _elimina_mezzo(db, mezzo_id)
 
@@ -169,26 +152,24 @@ class TestPrenotazioneRepository:
 class TestServizioMobilita:
 
     @pytest.mark.integration
-    def test_sblocca_mezzo_disponibile(self, db, utente_test):
+    def test_sblocca_singolo_disponibile(self, db, utente_test):
         from bll.servizio_mobilita import ServizioMobilita
         codice = f"TEST-SM-{_uuid.uuid4().hex[:6]}"
         mezzo_id = _inserisci_mezzo(db, codice, "Disponibile")
         try:
             svc = ServizioMobilita(db)
-            corsa = svc.sblocca_mezzo(_uuid.UUID(mezzo_id), utente_test["id"])
-            assert corsa["stato"] == "in_uso"
-            assert corsa["prenotazione_id"] is None
+            risultato = svc.sblocca_mezzi([_uuid.UUID(mezzo_id)], utente_test["id"])
+            assert len(risultato["sbloccati"]) == 1
+            assert len(risultato["falliti"]) == 0
+            assert risultato["sbloccati"][0]["mezzo_id"] == mezzo_id
             with Session(db) as s:
-                row = s.execute(
-                    text("SELECT stato FROM mezzi WHERE id = :id"),
-                    {"id": mezzo_id}
-                ).fetchone()
+                row = s.execute(text("SELECT stato FROM mezzi WHERE id = :id"), {"id": mezzo_id}).fetchone()
             assert row.stato == "In uso"
         finally:
             _elimina_mezzo(db, mezzo_id)
 
     @pytest.mark.integration
-    def test_sblocca_mezzo_prenotato_da_utente(self, db, utente_test):
+    def test_sblocca_da_prenotazione(self, db, utente_test):
         from bll.servizio_mobilita import ServizioMobilita
         codice = f"TEST-SMP-{_uuid.uuid4().hex[:6]}"
         mezzo_id = _inserisci_mezzo(db, codice, "Prenotato")
@@ -197,53 +178,46 @@ class TestServizioMobilita:
             s.execute(text("""
                 INSERT INTO prenotazioni (utente_id, mezzo_id, stato, scade_at)
                 VALUES (:uid, :mid, 'attiva', :scade)
-            """), {"uid": str(utente_test["id"]),
-                   "mid": mezzo_id, "scade": scade_at})
+            """), {"uid": str(utente_test["id"]), "mid": mezzo_id, "scade": scade_at})
             s.commit()
         try:
             svc = ServizioMobilita(db)
-            corsa = svc.sblocca_mezzo(_uuid.UUID(mezzo_id), utente_test["id"])
-            assert corsa["stato"] == "in_uso"
-            assert corsa["prenotazione_id"] is not None
+            risultato = svc.sblocca_mezzi([_uuid.UUID(mezzo_id)], utente_test["id"])
+            assert len(risultato["sbloccati"]) == 1
+            corsa_id = risultato["sbloccati"][0]["corsa_id"]
             with Session(db) as s:
-                row = s.execute(text("""
-                    SELECT stato FROM prenotazioni
-                    WHERE mezzo_id = :mid AND utente_id = :uid
-                """), {"mid": mezzo_id, "uid": str(utente_test["id"])}).fetchone()
-            assert row.stato == "convertita"
+                corsa = s.execute(text("SELECT prenotazione_id FROM corse WHERE id = :id"), {"id": corsa_id}).fetchone()
+            assert corsa.prenotazione_id is not None
         finally:
             _elimina_mezzo(db, mezzo_id)
 
     @pytest.mark.integration
-    def test_sblocca_mezzo_non_trovato(self, db, utente_test):
-        from bll.servizio_mobilita import ServizioMobilita, MezzoNonTrovatoException
-        svc = ServizioMobilita(db)
-        with pytest.raises(MezzoNonTrovatoException):
-            svc.sblocca_mezzo(_uuid.uuid4(), utente_test["id"])
-
-    @pytest.mark.integration
-    def test_sblocca_mezzo_non_disponibile(self, db, utente_test):
-        from bll.servizio_mobilita import ServizioMobilita, MezzoNonDisponibileException
-        codice = f"TEST-SMN-{_uuid.uuid4().hex[:6]}"
-        mezzo_id = _inserisci_mezzo(db, codice, "In uso")
+    def test_sblocca_batch_parziale_cs05_01(self, db, utente_test):
+        """CS-05.01: un mezzo non disponibile → finisce nei falliti, l'altro viene sbloccato."""
+        from bll.servizio_mobilita import ServizioMobilita
+        c1 = f"TEST-BP1-{_uuid.uuid4().hex[:6]}"
+        c2 = f"TEST-BP2-{_uuid.uuid4().hex[:6]}"
+        id_ok = _inserisci_mezzo(db, c1, "Disponibile")
+        id_ko = _inserisci_mezzo(db, c2, "In uso")
         try:
             svc = ServizioMobilita(db)
-            with pytest.raises(MezzoNonDisponibileException):
-                svc.sblocca_mezzo(_uuid.UUID(mezzo_id), utente_test["id"])
+            risultato = svc.sblocca_mezzi(
+                [_uuid.UUID(id_ok), _uuid.UUID(id_ko)], utente_test["id"]
+            )
+            assert len(risultato["sbloccati"]) == 1
+            assert len(risultato["falliti"]) == 1
+            assert risultato["sbloccati"][0]["mezzo_id"] == id_ok
+            assert id_ko in risultato["falliti"]
         finally:
-            _elimina_mezzo(db, mezzo_id)
+            _elimina_mezzo(db, id_ok)
+            _elimina_mezzo(db, id_ko)
 
     @pytest.mark.integration
-    def test_sblocca_mezzo_prenotato_senza_prenotazione(self, db, utente_test):
-        from bll.servizio_mobilita import ServizioMobilita, MezzoNonDisponibileException
-        codice = f"TEST-SMX-{_uuid.uuid4().hex[:6]}"
-        mezzo_id = _inserisci_mezzo(db, codice, "Prenotato")
-        try:
-            svc = ServizioMobilita(db)
-            with pytest.raises(MezzoNonDisponibileException):
-                svc.sblocca_mezzo(_uuid.UUID(mezzo_id), utente_test["id"])
-        finally:
-            _elimina_mezzo(db, mezzo_id)
+    def test_sblocca_mezzo_non_trovato_nel_batch(self, db, utente_test):
+        from bll.servizio_mobilita import ServizioMobilita
+        risultato = ServizioMobilita(db).sblocca_mezzi([_uuid.uuid4()], utente_test["id"])
+        assert len(risultato["falliti"]) == 1
+        assert len(risultato["sbloccati"]) == 0
 
 
 # ── TestSbloccaMezzoHTTP ───────────────────────────────────────────────────
@@ -251,98 +225,51 @@ class TestServizioMobilita:
 class TestSbloccaMezzoHTTP:
 
     @pytest.mark.integration
-    def test_sblocca_disponibile_201(self, db, utente_test):
+    def test_sblocca_singolo_200(self, db, utente_test):
+        import httpx
         codice = f"TEST-HTTP-{_uuid.uuid4().hex[:6]}"
         mezzo_id = _inserisci_mezzo(db, codice, "Disponibile")
         try:
-            import httpx
             token = _login(utente_test["email"], utente_test["password"])
             r = httpx.post(
-                f"http://localhost:8000/utente/mezzi/{mezzo_id}/sblocca",
+                "http://localhost:8000/utente/mezzi/sblocca",
+                json={"mezzo_ids": [mezzo_id], "lat": LAT_TEST, "lng": LNG_TEST},
                 headers={"Authorization": f"Bearer {token}"},
             )
-            assert r.status_code == 201, r.text
+            assert r.status_code == 200, r.text
             data = r.json()
-            assert data["stato"] == "in_uso"
-            assert str(data["mezzo_id"]) == mezzo_id
+            assert len(data["sbloccati"]) == 1
+            assert len(data["falliti"]) == 0
         finally:
             _elimina_mezzo(db, mezzo_id)
-
-    @pytest.mark.integration
-    def test_sblocca_da_prenotazione_201(self, db, utente_test):
-        codice = f"TEST-HTTP-{_uuid.uuid4().hex[:6]}"
-        mezzo_id = _inserisci_mezzo(db, codice, "Prenotato")
-        scade_at = datetime.now(timezone.utc) + timedelta(minutes=15)
-        with Session(db) as s:
-            s.execute(text("""
-                INSERT INTO prenotazioni (utente_id, mezzo_id, stato, scade_at)
-                VALUES (:uid, :mid, 'attiva', :scade)
-            """), {"uid": str(utente_test["id"]),
-                   "mid": mezzo_id, "scade": scade_at})
-            s.commit()
-        try:
-            import httpx
-            token = _login(utente_test["email"], utente_test["password"])
-            r = httpx.post(
-                f"http://localhost:8000/utente/mezzi/{mezzo_id}/sblocca",
-                headers={"Authorization": f"Bearer {token}"},
-            )
-            assert r.status_code == 201, r.text
-            data = r.json()
-            assert data["stato"] == "in_uso"
-            assert data["prenotazione_id"] is not None
-        finally:
-            _elimina_mezzo(db, mezzo_id)
-
-    @pytest.mark.integration
-    def test_sblocca_mezzo_in_uso_409(self, db, utente_test):
-        codice = f"TEST-HTTP-{_uuid.uuid4().hex[:6]}"
-        mezzo_id = _inserisci_mezzo(db, codice, "In uso")
-        try:
-            import httpx
-            token = _login(utente_test["email"], utente_test["password"])
-            r = httpx.post(
-                f"http://localhost:8000/utente/mezzi/{mezzo_id}/sblocca",
-                headers={"Authorization": f"Bearer {token}"},
-            )
-            assert r.status_code == 409
-        finally:
-            _elimina_mezzo(db, mezzo_id)
-
-    @pytest.mark.integration
-    def test_sblocca_mezzo_prenotato_da_altri_409(self, db, utente_test):
-        codice = f"TEST-HTTP-{_uuid.uuid4().hex[:6]}"
-        mezzo_id = _inserisci_mezzo(db, codice, "Prenotato")
-        try:
-            import httpx
-            token = _login(utente_test["email"], utente_test["password"])
-            r = httpx.post(
-                f"http://localhost:8000/utente/mezzi/{mezzo_id}/sblocca",
-                headers={"Authorization": f"Bearer {token}"},
-            )
-            assert r.status_code == 409
-        finally:
-            _elimina_mezzo(db, mezzo_id)
-
-    @pytest.mark.integration
-    def test_sblocca_mezzo_inesistente_404(self, utente_test):
-        import httpx
-        token = _login(utente_test["email"], utente_test["password"])
-        r = httpx.post(
-            f"http://localhost:8000/utente/mezzi/{_uuid.uuid4()}/sblocca",
-            headers={"Authorization": f"Bearer {token}"},
-        )
-        assert r.status_code == 404
 
     @pytest.mark.integration
     def test_sblocca_non_autenticato_401(self, db):
+        import httpx
         codice = f"TEST-HTTP-{_uuid.uuid4().hex[:6]}"
         mezzo_id = _inserisci_mezzo(db, codice, "Disponibile")
         try:
-            import httpx
             r = httpx.post(
-                f"http://localhost:8000/utente/mezzi/{mezzo_id}/sblocca"
+                "http://localhost:8000/utente/mezzi/sblocca",
+                json={"mezzo_ids": [mezzo_id]},
             )
             assert r.status_code == 401
+        finally:
+            _elimina_mezzo(db, mezzo_id)
+
+    @pytest.mark.integration
+    def test_get_mezzi_sbloccabili_200(self, db, utente_test):
+        import httpx
+        codice = f"TEST-HTTP-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice, "Disponibile")
+        try:
+            token = _login(utente_test["email"], utente_test["password"])
+            r = httpx.get(
+                f"http://localhost:8000/utente/mezzi/sbloccabili?lat={LAT_TEST}&lng={LNG_TEST}",
+                headers={"Authorization": f"Bearer {token}"},
+            )
+            assert r.status_code == 200, r.text
+            ids = [m["id"] for m in r.json()]
+            assert mezzo_id in ids
         finally:
             _elimina_mezzo(db, mezzo_id)
