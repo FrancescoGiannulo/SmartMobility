@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { terminaCorsa } from '../../services/CorsaService'
 import type { MezzoMappa } from '../../services/MapService'
-import { effettuaPagamento } from '../../services/PaymentService'
+import { effettuaPagamento, getPromozioni, type Promozione } from '../../services/PaymentService'
 import './VistaCorsa.css'
 
 interface DatiCorsa {
@@ -12,7 +12,7 @@ interface DatiCorsa {
   inizio_at: string
 }
 
-type FasePagamento = 'idle' | 'termina' | 'paga' | 'ok' | 'rifiutato' | 'no-metodo' | 'errore'
+type FasePagamento = 'idle' | 'termina' | 'scegli-promo' | 'paga' | 'ok' | 'rifiutato' | 'no-metodo' | 'errore'
 
 function formatTime(sec: number): string {
   const m = Math.floor(sec / 60).toString().padStart(2, '0')
@@ -74,6 +74,8 @@ export default function VistaCorsa() {
   const [daTerminare, setDaTerminare] = useState<Set<string>>(() => new Set(corseInit.map(c => c.corsa_id)))
   const [importoPagato, setImportoPagato] = useState<number | null>(null)
   const [errore, setErrore] = useState('')
+  const [promozioniDisp, setPromozioniDisp] = useState<Promozione[]>([])
+  const [corsePerPagamento, setCorsePerPagamento] = useState<DatiCorsa[]>([])
 
   const selCorsa = corse.find(c => c.mezzo.id === selId) ?? corse[0]
 
@@ -95,31 +97,16 @@ export default function VistaCorsa() {
     })
   }
 
-  const handleTermina = useCallback(async () => {
-    const da = corse.filter(c => daTerminare.has(c.corsa_id))
-    if (da.length === 0) return
-    setFase('termina')
-    setErrore('')
-    try {
-      for (const c of da) await terminaCorsa(c.corsa_id)
-    } catch {
-      setErrore('Errore durante la chiusura. Riprova.')
-      setFase('idle')
-      return
-    }
+  const handlePaga = useCallback(async (da: DatiCorsa[], offertaId?: string) => {
     setFase('paga')
     try {
-      const res = await effettuaPagamento(da[0].corsa_id, da[0].mezzo?.tipo ?? '', elapsed / 60, 0)
+      const res = await effettuaPagamento(da[0].corsa_id, da[0].mezzo?.tipo ?? '', elapsed / 60, 0, offertaId)
       setImportoPagato(res.importo)
       setFase('ok')
-
-      // Rimuovi i mezzi terminati — rimangono solo quelli non selezionati
       const idTerminati = new Set(da.map(c => c.corsa_id))
       const rimanenti = corse.filter(c => !idTerminati.has(c.corsa_id))
-
       setTimeout(() => {
         if (rimanenti.length > 0) {
-          // Torna all'Info Corsa con i mezzi rimasti attivi
           setCorse(rimanenti)
           setDaTerminare(new Set(rimanenti.map(c => c.corsa_id)))
           setSelId(rimanenti[0].mezzo.id)
@@ -135,7 +122,33 @@ export default function VistaCorsa() {
       else if (axios.isAxiosError(err) && err.response?.status === 402) setFase('rifiutato')
       else setFase('errore')
     }
-  }, [corse, daTerminare, elapsed, navigate])
+  }, [corse, elapsed, navigate])
+
+  const handleTermina = useCallback(async () => {
+    const da = corse.filter(c => daTerminare.has(c.corsa_id))
+    if (da.length === 0) return
+    setFase('termina')
+    setErrore('')
+    try {
+      for (const c of da) await terminaCorsa(c.corsa_id)
+    } catch {
+      setErrore('Errore durante la chiusura. Riprova.')
+      setFase('idle')
+      return
+    }
+    // Dopo la chiusura controlla promozioni disponibili
+    try {
+      const r = await getPromozioni()
+      const lista = Array.isArray(r.data) ? r.data : []
+      if (lista.length > 0) {
+        setPromozioniDisp(lista)
+        setCorsePerPagamento(da)
+        setFase('scegli-promo')
+        return
+      }
+    } catch { /* nessuna promo o errore rete: prosegui senza */ }
+    await handlePaga(da)
+  }, [corse, daTerminare, handlePaga])
 
   if (!corse.length) return (
     <div className="vista-corsa-wrap">
@@ -237,8 +250,41 @@ export default function VistaCorsa() {
         </div>
       )}
 
+      {/* ── Modal scegli promozione ── */}
+      {schermataTermina && fase === 'scegli-promo' && (
+        <div className="termina-overlay">
+          <div className="termina-card">
+            <p className="termina-titolo-promo">Vuoi applicare una promozione?</p>
+            <ul className="promo-lista">
+              {promozioniDisp.map(p => (
+                <li key={p.id} className="promo-item">
+                  <div className="promo-info">
+                    <span className="promo-nome">{p.titolo}</span>
+                    <span className="promo-sconto">-{parseFloat(p.sconto_percentuale).toFixed(0)}%</span>
+                  </div>
+                  <button
+                    type="button"
+                    className="btn-corsa btn-termina btn-applica-promo"
+                    onClick={() => handlePaga(corsePerPagamento, p.id)}
+                  >
+                    Applica
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <button
+              type="button"
+              className="btn-corsa btn-annulla-termina"
+              onClick={() => handlePaga(corsePerPagamento)}
+            >
+              Salta, paga prezzo pieno
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* ── Modal Termina Corsa — overlay sfocato ── */}
-      {schermataTermina && (
+      {schermataTermina && fase !== 'scegli-promo' && (
         <div className="termina-overlay">
           <div className="termina-card">
             <p className="termina-counter">{daTerminare.size}/{corse.length}</p>

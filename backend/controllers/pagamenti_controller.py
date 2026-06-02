@@ -81,6 +81,7 @@ def effettua_pagamento(
             tipo_mezzo=body.tipo_mezzo,
             durata_min=body.durata_min,
             distanza_km=body.distanza_km,
+            offerta_id=UUID(body.offerta_id) if body.offerta_id else None,
         )
     except NessunMetodoPredefinito as e:
         raise HTTPException(status_code=400, detail=str(e))

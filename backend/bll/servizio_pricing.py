@@ -6,6 +6,7 @@ from config import engine
 from dal.pagamento_repository import PagamentoRepository, MetodoNonTrovatoException
 from dal.tariffa_repository import TariffaRepository
 from dal.promozione_repository import PromozioneRepository
+from model.offerta import Offerta
 from model.pagamento import StatoPagamento
 from providers.provider_pagamenti import ProviderPagamentiStub, DatiNonValidiException
 
@@ -170,6 +171,7 @@ class ServizioPricing:
         tipo_mezzo: str,
         durata_min: float,
         distanza_km: float,
+        offerta_id: uuid.UUID | None = None,
     ) -> dict:
         metodi = self._repo.lista_metodi(utente_id)
         if not metodi:
@@ -182,6 +184,13 @@ class ServizioPricing:
                 raise NessunMetodoPredefinito("Imposta un metodo di pagamento predefinito")
 
         importo = self.calcola_importo(tipo_mezzo, durata_min, distanza_km)
+
+        if offerta_id is not None:
+            with Session(engine) as s:
+                offerta = s.get(Offerta, offerta_id)
+            if offerta and offerta.tipo == "promozione" and offerta.stato == "attiva":
+                importo = importo * (1 - offerta.sconto_percentuale / 100)
+
         risposta = self._provider.autorizza(metodo.token_esterno, importo)
 
         stato = StatoPagamento.completato if risposta.autorizzato else StatoPagamento.rifiutato

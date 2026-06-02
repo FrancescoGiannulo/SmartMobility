@@ -322,3 +322,57 @@
   color: #fff;
   box-shadow: 0 4px 14px rgba(229,57,53,0.35);
 }
+/* ── Selezione promozione ── */
+.termina-titolo-promo {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a2e2a;
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+.promo-lista {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.promo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f0faf7;
+  border: 1px solid #b2dfdb;
+  border-radius: 12px;
+  padding: 10px 14px;
+  gap: 12px;
+}
+
+.promo-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.promo-nome {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a2e2a;
+}
+
+.promo-sconto {
+  font-size: 13px;
+  font-weight: 700;
+  color: #4caf9a;
+}
+
+.btn-applica-promo {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  font-size: 13px;
+  border-radius: 20px;
+}
