@@ -40,10 +40,10 @@ const GLYPH: Record<string, string> = {
   monopattino: '🛴', bicicletta: '🚲', automobile: '🚗',
 }
 
-// Posizione dei satelliti: n=4 → posizioni diagonali come nel mockup
+// Posizioni sempre sfalsate/diagonali (offset -π/4 fisso)
+// n=1 → top-right; n=2 → top-left + bottom-right; n=4 → angoli
 function posSatellite(i: number, n: number, cx: number, cy: number, raggio: number, w: number, h: number) {
-  const offset = n === 4 ? -Math.PI / 4 : 0
-  const angolo = (i * 2 * Math.PI / n) - Math.PI / 2 + offset
+  const angolo = (i * 2 * Math.PI / n) - Math.PI / 2 - Math.PI / 4
   return {
     left: cx + raggio * Math.cos(angolo) - w / 2,
     top:  cy + raggio * Math.sin(angolo) - h / 2,
@@ -145,13 +145,13 @@ export default function VistaCorsa() {
   )
 
   // Costanti geometria cerchi
-  const CONTAINER = 300
+  const CONTAINER = 330
   const CX = CONTAINER / 2
   const CY = CONTAINER / 2
-  const CENT = 124
-  const SAT = 76
-  const SAT_H = 90   // cerchio + testo codice
-  const RAG = 104
+  const CENT = 126
+  const SAT = 72
+  const SAT_H = 86   // cerchio + testo codice
+  const RAG = 122    // gap visibile ≈ 63-36=27px tra i bordi
 
   const satellites = corse.filter(c => c.mezzo.id !== selId)
 
@@ -169,7 +169,7 @@ export default function VistaCorsa() {
             <button
               key={c.corsa_id}
               className="cerchio-sat-wrap"
-              style={{ left: pos.left, top: pos.top }}
+              style={{ left: pos.left, top: pos.top, animationDelay: `${i * 0.55}s` }}
               onClick={() => setSelId(c.mezzo.id)}
             >
               <div className="cerchio cerchio--satellite" style={{ width: SAT, height: SAT }}>

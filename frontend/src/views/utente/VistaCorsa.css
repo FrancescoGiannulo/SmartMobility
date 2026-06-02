@@ -42,6 +42,18 @@
   flex-shrink: 0;
 }
 
+/* Animazione floating satellite */
+@keyframes floatSat {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-7px) scale(1.04); }
+}
+
+/* Animazione pulse cerchio centrale */
+@keyframes pulseCent {
+  0%, 100% { box-shadow: 0 10px 30px rgba(76,175,154,0.55), 0 0 0 10px rgba(76,175,154,0.12); }
+  50%       { box-shadow: 0 12px 36px rgba(76,175,154,0.72), 0 0 0 18px rgba(76,175,154,0.20); }
+}
+
 /* Satellite: div assoluto che contiene cerchio + etichetta */
 .cerchio-sat-wrap {
   position: absolute;
@@ -53,6 +65,7 @@
   border: none;
   cursor: pointer;
   padding: 0;
+  animation: floatSat 2.8s ease-in-out infinite;
 }
 
 .cerchio {
@@ -76,6 +89,7 @@
     0 0 0 10px rgba(76,175,154,0.12);
   cursor: default;
   z-index: 2;
+  animation: pulseCent 3s ease-in-out infinite;
 }
 
 /* Cerchi satelliti */
@@ -84,8 +98,7 @@
   box-shadow: 0 4px 14px rgba(76,175,154,0.35);
 }
 .cerchio-sat-wrap:hover .cerchio--satellite {
-  transform: scale(1.08);
-  box-shadow: 0 6px 20px rgba(76,175,154,0.5);
+  box-shadow: 0 6px 20px rgba(76,175,154,0.55);
 }
 
 .cerchio-glyph {
