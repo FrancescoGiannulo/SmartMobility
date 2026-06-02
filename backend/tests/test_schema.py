@@ -173,6 +173,7 @@ def test_regola_fine_corsa_columns():
     assert cols == {
         "id", "zona_parcheggio_id", "batteria_minima",
         "penale_fuori_zona", "tipo_vincolo", "created_at",
+        "bonus_parcheggi_corretti", "bonus_valore",
     }
 
 
