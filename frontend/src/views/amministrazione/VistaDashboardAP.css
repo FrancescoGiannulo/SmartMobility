@@ -86,3 +86,167 @@
   font-weight: 700;
   cursor: pointer;
 }
+
+/* ── KPI bar ─────────────────────────────────────────────── */
+.dashboard-ap-kpi {
+  height: 52px;
+  background: #fff;
+  border-bottom: 1px solid #e8ecef;
+  display: flex;
+  align-items: stretch;
+  flex-shrink: 0;
+  z-index: 5;
+}
+
+.kpi-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #e8ecef;
+  padding: 0 8px;
+}
+
+.kpi-card:last-child {
+  border-right: none;
+}
+
+.kpi-valore {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.kpi-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+/* ── Gauge ───────────────────────────────────────────────── */
+.gauge-container {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0 8px;
+}
+
+/* ── Pannello sezioni ────────────────────────────────────── */
+.pannello-sezione {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pannello-sezione-titolo {
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ── Toggle vista (Pin / Cluster / Heatmap) ──────────────── */
+.vista-toggle {
+  display: flex;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.btn-vista {
+  flex: 1;
+  padding: 7px 4px;
+  background: transparent;
+  border: none;
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.btn-vista.attivo {
+  background: #4caf9a;
+  color: #fff;
+}
+
+.btn-vista:not(.attivo):hover {
+  background: #f1f5f9;
+}
+
+/* ── Chips tipo mezzo ────────────────────────────────────── */
+.chips-tipo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chip-tipo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 20px;
+  background: #f8fafc;
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s, background 0.15s, border-color 0.15s, color 0.15s;
+  width: 100%;
+  text-align: left;
+}
+
+.chip-tipo.attivo {
+  color: #fff;
+}
+
+.chip-tipo:not(.attivo) {
+  opacity: 0.65;
+}
+
+.chip-emoji {
+  font-size: 15px;
+}
+
+.chip-label {
+  flex: 1;
+  text-transform: capitalize;
+}
+
+.chip-badge {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-weight: 800;
+  min-width: 22px;
+  text-align: center;
+}
+
+.chip-tipo:not(.attivo) .chip-badge {
+  background: #e0e0e0;
+  color: #64748b;
+}
+
+/* ── Banner errore ───────────────────────────────────────── */
+.dashboard-ap-errore {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  font-size: 14px;
+  color: #d32f2f;
+  z-index: 20;
+  white-space: nowrap;
+}
