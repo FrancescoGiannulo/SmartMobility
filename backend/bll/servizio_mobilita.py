@@ -30,38 +30,53 @@ class ServizioMobilita:
         self._regola_repo = RegolaFineCorsaRepository(db)
         self._op_repo = OperatoreRepository(db)
 
-    # [IF-UT.04] CS-10 — Sblocca Mezzo
-    def sblocca_mezzo(self, mezzo_id: UUID, utente_id: UUID) -> dict:
+    # [IF-UT.04] CS-05 — lista mezzi sbloccabili (msg4 diagramma di sequenza)
+    def get_mezzi_sbloccabili(
+        self,
+        utente_id: UUID,
+        lat: float | None = None,
+        lng: float | None = None,
+    ) -> list[dict]:
+        return self._mezzo_repo.trova_sbloccabili(utente_id, lat, lng)
+
+    # [IF-UT.04] CS-05 — sblocca uno o più mezzi in batch
+    def sblocca_mezzi(
+        self,
+        mezzo_ids: list[UUID],
+        utente_id: UUID,
+        lat: float | None = None,
+        lng: float | None = None,
+    ) -> dict:
+        sbloccati = []
+        falliti = []
+        for mezzo_id in mezzo_ids:
+            try:
+                corsa = self._sblocca_singolo(mezzo_id, utente_id)
+                sbloccati.append({"mezzo_id": str(mezzo_id), "corsa_id": corsa["id"]})
+            except Exception:
+                # [CS-05.01] mezzo non sbloccabile — segnaFallito
+                falliti.append(str(mezzo_id))
+        return {"sbloccati": sbloccati, "falliti": falliti}
+
+    def _sblocca_singolo(self, mezzo_id: UUID, utente_id: UUID) -> dict:
         mezzo = self._mezzo_repo.trova_per_id(mezzo_id)
         if mezzo is None:
             raise MezzoNonTrovatoException(f"Mezzo {mezzo_id} non trovato")
-
         stato = mezzo["stato"]
         prenotazione_id = None
-
         if stato == "Disponibile":
-            pass  # sblocco diretto — CS-10 scenario base
+            pass
         elif stato == "Prenotato":
-            pren = self._pren_repo.trova_attiva_per_utente_e_mezzo(
-                utente_id, mezzo_id
-            )
+            pren = self._pren_repo.trova_attiva_per_utente_e_mezzo(utente_id, mezzo_id)
             if pren is None:
-                raise MezzoNonDisponibileException(
-                    "Mezzo prenotato da un altro utente"
-                )
+                raise MezzoNonDisponibileException("Mezzo prenotato da un altro utente")
             prenotazione_id = pren["id"]
         else:
-            raise MezzoNonDisponibileException(
-                f"Mezzo non disponibile (stato: {stato})"
-            )
-
+            raise MezzoNonDisponibileException(f"Mezzo non disponibile (stato: {stato})")
         corsa = self._corsa_repo.crea(utente_id, mezzo_id, prenotazione_id)
-
         if prenotazione_id:
             self._pren_repo.aggiorna_stato(UUID(prenotazione_id), "convertita")
-
         self._mezzo_repo.aggiorna_stato(mezzo_id, "In uso")
-
         return corsa
 
     # [IF-OP.13] — Ottieni zone parcheggio e configurazione attuale

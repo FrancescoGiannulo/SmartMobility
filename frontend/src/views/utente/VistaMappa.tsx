@@ -4,11 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import {
   Map as GoogleMap,
   AdvancedMarker,
-  InfoWindow,
 } from '@vis.gl/react-google-maps'
 import { getMezziUtente, getZoneUtente, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
 import { getTariffe, getPromozioni, type Tariffa, type Promozione } from '../../services/PaymentService'
-import { sbloccaMezzo } from '../../services/CorsaService'
+import { sbloccaMezzi } from '../../services/CorsaService'
 import {
   prenotaMezzi,
   annullaPrenotazione,
@@ -19,7 +18,6 @@ import {
 } from '../../services/PrenotazioneService'
 import { logout, utenteCorrente } from '../../services/AuthService'
 import ZonaPoligono from '../../components/ZonaPoligono'
-import TooltipZona from '../../components/TooltipZona'
 import { COLORI_ZONA } from '../../utils/coloriZona'
 import './VistaMappa.css'
 
@@ -93,7 +91,7 @@ function formatTempoRimanente(sec: number): string {
   return `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`
 }
 
-type SidebarSezione = 'menu' | 'prenotazioni'
+type SidebarSezione = 'menu' | 'prenotazioni' | 'tariffe' | 'promozioni'
 
 export default function VistaMappa() {
   const navigate = useNavigate()
@@ -101,14 +99,14 @@ export default function VistaMappa() {
   const [zone, setZone] = useState<ZonaMappa[]>([])
   const [centro, setCentro] = useState(CENTRO_DEFAULT)
   const [errore, setErrore] = useState('')
-  const [zonaHover, setZonaHover] = useState<ZonaHover | null>(null)
 
   // Sidebar
   const [sidebarAperta, setSidebarAperta] = useState(false)
   const [sidebarSezione, setSidebarSezione] = useState<SidebarSezione>('menu')
 
-  // Mezzo attivo e selezione multipla
+  // Mezzo attivo, modalità panel e selezione
   const [mezzoAttivo, setMezzoAttivo] = useState<MezzoMappa | null>(null)
+  const [modalita, setModalita] = useState<'prenota' | 'sblocca' | null>(null)
   const [selezione, setSelezione] = useState<MezzoMappa[]>([])
 
   // Prenotazioni
@@ -124,10 +122,8 @@ export default function VistaMappa() {
   const [annullaInCorso, setAnnullaInCorso] = useState(false)
   const [errorePanel, setErrorePanel] = useState('')
 
-  const zoneAttive = useRef(new Map<string, ZonaHover>())
 
-  // [IF-UT.05] [IF-UT.13] Stato drawer tariffe/promozioni
-  const [drawerAperto, setDrawerAperto] = useState<'tariffe' | 'promozioni' | null>(null)
+  // [IF-UT.05] [IF-UT.13] Stato tariffe/promozioni (sidebar)
   const [tariffe, setTariffe] = useState<Tariffa[] | null>(null)
   const [promozioni, setPromozioni] = useState<Promozione[] | null>(null)
   const [loadingDrawer, setLoadingDrawer] = useState(false)
@@ -158,7 +154,7 @@ export default function VistaMappa() {
 
   // [IF-UT.05] — fetch lazy, apre drawer tariffe
   const apriTariffe = useCallback(async () => {
-    setDrawerAperto('tariffe')
+    setSidebarSezione('tariffe')
     if (tariffe !== null) return
     setLoadingDrawer(true)
     setErroreDrawer('')
@@ -178,7 +174,7 @@ export default function VistaMappa() {
 
   // [IF-UT.13] — fetch lazy, apre drawer promozioni
   const apriPromozioni = useCallback(async () => {
-    setDrawerAperto('promozioni')
+    setSidebarSezione('promozioni')
     if (promozioni !== null) return
     setLoadingDrawer(true)
     setErroreDrawer('')
@@ -196,10 +192,6 @@ export default function VistaMappa() {
     }
   }, [promozioni])
 
-  const chiudiDrawer = useCallback(() => {
-    setDrawerAperto(null)
-    setErroreDrawer('')
-  }, [])
 
   useEffect(() => {
     if (prenotazioni.length === 0) return
@@ -217,12 +209,15 @@ export default function VistaMappa() {
 
   const chiudiPanel = useCallback(() => {
     setMezzoAttivo(null)
+    setModalita(null)
+    setSelezione([])
     setErrorePanel('')
     setNonDisponibili([])
   }, [])
 
   const resettaSelezione = useCallback(() => {
     setSelezione([])
+    setModalita(null)
     setMezzoAttivo(null)
     setErrorePanel('')
     setNonDisponibili([])
@@ -250,6 +245,7 @@ export default function VistaMappa() {
       setMezziPrenotati([...selezione])
       setPrenotazioni(prens)
       setSelezione([])
+      setModalita(null)
       setMezzoAttivo(null)
       getPrenotazioniAttive().then(setPrenotazioniAttive).catch(() => {})
     } catch (err) {
@@ -282,24 +278,54 @@ export default function VistaMappa() {
     }
   }, [prenotazioni])
 
+  // [IF-UT.04] CS-05 — sblocca uno o più mezzi (selezione o mezzo attivo singolo)
   const handleSblocca = useCallback(async () => {
-    if (!mezzoAttivo) return
+    const targets = selezione.length > 0
+      ? selezione
+      : mezzoAttivo ? [mezzoAttivo] : []
+    if (targets.length === 0) return
     setSbloccoInCorso(true)
     setErrorePanel('')
     try {
-      const corsa = await sbloccaMezzo(mezzoAttivo.id)
-      navigate(`/utente/corsa/${mezzoAttivo.id}`, { state: { mezzo: mezzoAttivo, corsa } })
+      const risultato = await sbloccaMezzi(
+        targets.map(m => m.id),
+        centro.lat,
+        centro.lng,
+      )
+      if (risultato.sbloccati.length === 0) {
+        // CS-05.01: tutti falliti
+        setErrorePanel(`Sblocco non riuscito per ${risultato.falliti.length} mezzo/i. Riprova.`)
+        return
+      }
+      if (risultato.falliti.length > 0) {
+        // CS-05.01 parziale — avvisa ma procedi con i sbloccati
+        setErrorePanel(`${risultato.falliti.length} mezzo/i non sbloccato/i. Gli altri sono pronti.`)
+      }
+      // naviga alla corsa — passa la lista completa per il multi-mezzo
+      const primo = risultato.sbloccati[0]
+      const inizio_at = new Date().toISOString()
+      setSelezione([])
+      setModalita(null)
+      navigate(`/utente/corsa/${primo.mezzo_id}`, {
+        state: {
+          corse: risultato.sbloccati.map(s => ({
+            corsa_id: s.corsa_id,
+            mezzo: targets.find(m => m.id === s.mezzo_id) ?? targets[0],
+            inizio_at,
+          })),
+        },
+      })
     } catch {
       setErrorePanel('Errore durante lo sblocco. Riprova.')
     } finally {
       setSbloccoInCorso(false)
     }
-  }, [mezzoAttivo, navigate])
+  }, [mezzoAttivo, selezione, centro, navigate])
 
   const tipoLabel = (tipo: string) => tipo.charAt(0).toUpperCase() + tipo.slice(1)
   const isInSelezione = (m: MezzoMappa) => selezione.some(s => s.id === m.id)
   const isNonDisponibile = (m: MezzoMappa) => nonDisponibili.includes(m.id)
-  const panelAperto = mezzoAttivo !== null || selezione.length > 0 || prenotazioni.length > 0
+  const panelAperto = mezzoAttivo !== null || modalita !== null || selezione.length > 0 || prenotazioni.length > 0
   const utente = utenteCorrente()
 
   const apriSidebar = (sezione: SidebarSezione = 'menu') => {
@@ -354,23 +380,9 @@ export default function VistaMappa() {
               zona={z}
               fillColor={colori.fill}
               strokeColor={colori.stroke}
-              onHover={(zona, pos) => {
-                zoneAttive.current.set(zona.id, { zona, pos })
-                setZonaHover(zonaMiglioreDa(zoneAttive.current))
-              }}
-              onHoverEnd={() => {
-                zoneAttive.current.delete(z.id)
-                setZonaHover(zonaMiglioreDa(zoneAttive.current))
-              }}
             />
           )
         })}
-
-        {zonaHover && (
-          <InfoWindow position={zonaHover.pos} onCloseClick={() => setZonaHover(null)}>
-            <TooltipZona zona={zonaHover.zona} />
-          </InfoWindow>
-        )}
       </GoogleMap>
 
       {/* ── Bottom sheet: prenota / selezione ── */}
@@ -414,6 +426,7 @@ export default function VistaMappa() {
             </div>
           ) : (
             <>
+              {/* Info mezzo correntemente visualizzato */}
               {mezzoAttivo && (
                 <>
                   <p className="pannello-tipo">{tipoLabel(mezzoAttivo.tipo)}:</p>
@@ -427,9 +440,12 @@ export default function VistaMappa() {
 
               {errorePanel && <p className="pannello-errore">{errorePanel}</p>}
 
-              {selezione.length > 0 && (
+              {/* Selezione — visibile solo quando si è già in una modalità */}
+              {modalita !== null && selezione.length > 0 && (
                 <div className="selezione-sezione">
-                  <p className="selezione-label">Selezione ({selezione.length}/{N_MAX}):</p>
+                  <p className="selezione-label">
+                    {modalita === 'prenota' ? 'Da prenotare' : 'Da sbloccare'} ({selezione.length}/{N_MAX}):
+                  </p>
                   <div className="selezione-chips">
                     {selezione.map(m => (
                       <span key={m.id} className="chip-mezzo">
@@ -439,40 +455,77 @@ export default function VistaMappa() {
                     ))}
                   </div>
                   {selezione.length < N_MAX && !errorePanel && (
-                    <p className="selezione-hint">
-                      Puoi aggiungere ancora {N_MAX - selezione.length} mezzo/i — selezionalo/i sulla mappa.
-                    </p>
+                    <p className="selezione-hint">Tocca altri mezzi sulla mappa per aggiungerli.</p>
                   )}
                 </div>
               )}
 
               <div className="pannello-azioni">
-                {mezzoAttivo && (
+                {modalita === null ? (
+                  /* ── Stato iniziale: scegli l'azione ── */
+                  mezzoAttivo && (
+                    <>
+                      <button
+                        className="btn-prenota"
+                        onClick={() => {
+                          setModalita('prenota')
+                          toggleSelezione(mezzoAttivo)
+                        }}
+                      >
+                        Prenota
+                      </button>
+                      <button
+                        className="btn-sblocca-panel"
+                        onClick={() => {
+                          setModalita('sblocca')
+                          toggleSelezione(mezzoAttivo)
+                        }}
+                        disabled={sbloccoInCorso}
+                      >
+                        Sblocca
+                      </button>
+                    </>
+                  )
+                ) : (
+                  /* ── Modalità attiva: Aggiungi/Rimuovi + Conferma ── */
                   <>
-                    {isInSelezione(mezzoAttivo) ? (
-                      <button className="btn-prenota btn-annulla" onClick={() => toggleSelezione(mezzoAttivo)}>
-                        – Rimuovi
+                    {mezzoAttivo && (
+                      isInSelezione(mezzoAttivo) ? (
+                        <button className="btn-prenota btn-annulla" onClick={() => toggleSelezione(mezzoAttivo)}>
+                          – Rimuovi
+                        </button>
+                      ) : (
+                        <button
+                          className="btn-prenota"
+                          onClick={() => toggleSelezione(mezzoAttivo)}
+                          disabled={selezione.length >= N_MAX}
+                        >
+                          + Aggiungi
+                        </button>
+                      )
+                    )}
+                    {modalita === 'prenota' ? (
+                      <button
+                        className="btn-sblocca-panel btn-conferma-prenota"
+                        onClick={handleConfermaPrenotazione}
+                        disabled={prenotaInCorso || selezione.length === 0}
+                      >
+                        {prenotaInCorso ? '...' : `Prenota (${selezione.length})`}
                       </button>
                     ) : (
-                      <button className="btn-prenota" onClick={() => toggleSelezione(mezzoAttivo)} disabled={selezione.length >= N_MAX}>
-                        + Aggiungi
-                      </button>
-                    )}
-                    {selezione.length === 0 && (
-                      <button className="btn-sblocca-panel" onClick={handleSblocca} disabled={sbloccoInCorso}>
-                        {sbloccoInCorso ? '...' : 'Sblocca'}
+                      <button
+                        className="btn-sblocca-panel btn-conferma-prenota"
+                        onClick={handleSblocca}
+                        disabled={sbloccoInCorso || selezione.length === 0}
+                      >
+                        {sbloccoInCorso ? '...' : `Sblocca (${selezione.length})`}
                       </button>
                     )}
                   </>
                 )}
-                {selezione.length > 0 && (
-                  <button className="btn-sblocca-panel btn-conferma-prenota" onClick={handleConfermaPrenotazione} disabled={prenotaInCorso}>
-                    {prenotaInCorso ? '...' : `Prenota (${selezione.length})`}
-                  </button>
-                )}
               </div>
 
-              {!mezzoAttivo && selezione.length === 0 && (
+              {!mezzoAttivo && modalita === null && (
                 <p className="pannello-info">Seleziona un mezzo sulla mappa.</p>
               )}
             </>
@@ -530,6 +583,22 @@ export default function VistaMappa() {
 
               <button
                 className="sidebar-voce"
+                onClick={() => { apriTariffe(); setSidebarSezione('tariffe') }}
+              >
+                <span className="sidebar-voce__testo">Piano Tariffario</span>
+                <span className="sidebar-voce__icona">€</span>
+              </button>
+
+              <button
+                className="sidebar-voce"
+                onClick={() => { apriPromozioni(); setSidebarSezione('promozioni') }}
+              >
+                <span className="sidebar-voce__testo">Bonus e Promozioni</span>
+                <span className="sidebar-voce__icona">🎁</span>
+              </button>
+
+              <button
+                className="sidebar-voce"
                 onClick={() => { setSidebarAperta(false); navigate('/utente/pagamenti') }}
               >
                 <span className="sidebar-voce__testo">Portafoglio</span>
@@ -545,7 +614,7 @@ export default function VistaMappa() {
               </button>
             </div>
           </>
-        ) : (
+        ) : sidebarSezione === 'prenotazioni' ? (
           /* Sezione prenotazioni */
           <>
             <div className="sidebar-back-header">
@@ -553,7 +622,6 @@ export default function VistaMappa() {
               <span className="sidebar-sezione-titolo">Le mie prenotazioni</span>
             </div>
             <div className="sidebar-divider" />
-
             {prenotazioniAttive.length === 0 ? (
               <p className="sidebar-empty">Nessuna prenotazione attiva.</p>
             ) : (
@@ -583,89 +651,58 @@ export default function VistaMappa() {
               </ul>
             )}
           </>
-        )}
+        ) : (sidebarSezione === 'tariffe' || sidebarSezione === 'promozioni') ? (
+          /* Sezione tariffe / promozioni */
+          <>
+            <div className="sidebar-back-header">
+              <button className="sidebar-back" onClick={() => setSidebarSezione('menu')}>← Indietro</button>
+              <span className="sidebar-sezione-titolo">
+                {sidebarSezione === 'tariffe' ? 'Piano Tariffario' : 'Bonus e Promozioni'}
+              </span>
+            </div>
+            <div className="sidebar-divider" />
+            <div className="sidebar-pricing-body">
+              {loadingDrawer && <p className="sidebar-empty">Caricamento...</p>}
+              {erroreDrawer && <p className="sidebar-empty" style={{ color: '#e53935' }}>{erroreDrawer}</p>}
+              {!loadingDrawer && !erroreDrawer && sidebarSezione === 'tariffe' && (
+                tariffe && tariffe.length > 0 ? (
+                  <ul className="pricing-lista">
+                    {tariffe.map(t => (
+                      <li key={t.id} className="pricing-card">
+                        <span className="pricing-card__tipo">
+                          {t.tipo_mezzo === 'monopattino' ? '🛴' : t.tipo_mezzo === 'bicicletta' ? '🚲' : '🚗'}{' '}
+                          {t.tipo_mezzo.charAt(0).toUpperCase() + t.tipo_mezzo.slice(1)}
+                        </span>
+                        <span className="pricing-card__riga">{parseFloat(t.costo_al_minuto).toFixed(2)} €/min</span>
+                        <span className="pricing-card__riga">{parseFloat(t.costo_al_km).toFixed(2)} €/km</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : <p className="sidebar-empty">Nessuna tariffa disponibile.</p>
+              )}
+              {!loadingDrawer && !erroreDrawer && sidebarSezione === 'promozioni' && (
+                promozioni && promozioni.length > 0 ? (
+                  <ul className="pricing-lista">
+                    {promozioni.map(p => (
+                      <li key={p.id} className="pricing-card pricing-card--promo">
+                        <span className="pricing-card__tipo">{p.titolo}</span>
+                        {p.descrizione && <span className="pricing-card__riga">{p.descrizione}</span>}
+                        <span className="pricing-card__riga pricing-card__sconto">
+                          -{parseFloat(p.sconto_percentuale).toFixed(0)}%
+                        </span>
+                        <span className="pricing-card__riga pricing-card__scadenza">
+                          Fino al {new Date(p.data_fine).toLocaleDateString('it-IT')}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : <p className="sidebar-empty">Nessuna promozione attiva al momento.</p>
+              )}
+            </div>
+          </>
+        ) : null}
       </div>
 
-      {/* [IF-UT.05][IF-UT.13] Bottoni flottanti tariffe/promozioni */}
-      <div className="pricing-fab-gruppo">
-        <button type="button" className="pricing-fab" onClick={apriTariffe}>
-          Tariffe
-        </button>
-        <button type="button" className="pricing-fab pricing-fab--promo" onClick={apriPromozioni}>
-          Promo
-        </button>
-      </div>
-
-      {/* Drawer laterale tariffe/promozioni */}
-      {drawerAperto && (
-        <div className="pricing-drawer" role="dialog" aria-modal="true">
-          <div className="pricing-drawer__header">
-            <span className="pricing-drawer__titolo">
-              {drawerAperto === 'tariffe' ? 'Tariffe del servizio' : 'Promozioni attive'}
-            </span>
-            <button
-              type="button"
-              className="pricing-drawer__chiudi"
-              onClick={chiudiDrawer}
-              aria-label="Chiudi pannello"
-            >
-              ✕
-            </button>
-          </div>
-
-          <div className="pricing-drawer__body">
-            {loadingDrawer && <p className="pricing-stato">Caricamento...</p>}
-            {erroreDrawer && <p className="pricing-stato pricing-stato--errore">{erroreDrawer}</p>}
-
-            {!loadingDrawer && !erroreDrawer && drawerAperto === 'tariffe' && (
-              tariffe && tariffe.length > 0 ? (
-                <ul className="pricing-lista">
-                  {tariffe.map(t => (
-                    <li key={t.id} className="pricing-card">
-                      <span className="pricing-card__tipo">
-                        {t.tipo_mezzo === 'monopattino' ? '🛴'
-                          : t.tipo_mezzo === 'bicicletta' ? '🚲' : '🚗'}{' '}
-                        {t.tipo_mezzo.charAt(0).toUpperCase() + t.tipo_mezzo.slice(1)}
-                      </span>
-                      <span className="pricing-card__riga">
-                        {parseFloat(t.costo_al_minuto).toFixed(2)} €/min
-                      </span>
-                      <span className="pricing-card__riga">
-                        {parseFloat(t.costo_al_km).toFixed(2)} €/km
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="pricing-stato">Nessuna tariffa disponibile.</p>
-              )
-            )}
-
-            {!loadingDrawer && !erroreDrawer && drawerAperto === 'promozioni' && (
-              promozioni && promozioni.length > 0 ? (
-                <ul className="pricing-lista">
-                  {promozioni.map(p => (
-                    <li key={p.id} className="pricing-card pricing-card--promo">
-                      <span className="pricing-card__tipo">{p.titolo}</span>
-                      {p.descrizione && (
-                        <span className="pricing-card__riga">{p.descrizione}</span>
-                      )}
-                      <span className="pricing-card__riga pricing-card__sconto">
-                        -{parseFloat(p.sconto_percentuale).toFixed(0)}%
-                      </span>
-                      <span className="pricing-card__riga pricing-card__scadenza">
-                        Fino al {new Date(p.data_fine).toLocaleDateString('it-IT')}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="pricing-stato">Nessuna promozione attiva al momento.</p>
-              )
-            )}
-          </div>
-        </div>
-      )}
 
 
       {errore && <div className="mappa-errore">{errore}</div>}

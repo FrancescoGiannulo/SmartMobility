@@ -9,9 +9,49 @@ export interface CorsaAttiva {
   inizio_at: string
 }
 
-// [IF-UT.04] CS-10 Sblocca Mezzo
-export const sbloccaMezzo = async (mezzoId: string): Promise<CorsaAttiva> => {
-  const r = await api.post<CorsaAttiva>(`/utente/mezzi/${mezzoId}/sblocca`)
+export interface MezzoSbloccabile {
+  id: string
+  codice: string
+  tipo: 'monopattino' | 'bicicletta' | 'automobile'
+  stato: string
+  lat: number
+  lng: number
+  batteria: number | null
+  prenotato: boolean
+  prenotazione_id: string | null
+}
+
+export interface RisultatoSbloccoItem {
+  mezzo_id: string
+  corsa_id: string
+}
+
+export interface RisultatoSblocco {
+  sbloccati: RisultatoSbloccoItem[]
+  falliti: string[]
+}
+
+// [IF-UT.04] CS-05 — lista mezzi sbloccabili (prenotati + disponibili vicini)
+export const getMezziSbloccabili = async (
+  lat?: number,
+  lng?: number,
+): Promise<MezzoSbloccabile[]> => {
+  const params = lat != null && lng != null ? `?lat=${lat}&lng=${lng}` : ''
+  const r = await api.get<MezzoSbloccabile[]>(`/utente/mezzi/sbloccabili${params}`)
+  return r.data
+}
+
+// [IF-UT.04] CS-05 — sblocca uno o più mezzi in batch
+export const sbloccaMezzi = async (
+  mezzoIds: string[],
+  lat?: number,
+  lng?: number,
+): Promise<RisultatoSblocco> => {
+  const r = await api.post<RisultatoSblocco>('/utente/mezzi/sblocca', {
+    mezzo_ids: mezzoIds,
+    lat: lat ?? null,
+    lng: lng ?? null,
+  })
   return r.data
 }
 

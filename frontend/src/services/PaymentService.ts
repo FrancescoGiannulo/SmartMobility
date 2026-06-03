@@ -64,12 +64,14 @@ export const effettuaPagamento = async (
   tipo_mezzo: string,
   durata_min: number,
   distanza_km: number,
+  offerta_id?: string,
 ): Promise<RispostaPagamento> => {
   const r = await api.post<RispostaPagamento>('/utente/pagamenti/', {
     corsa_id,
     tipo_mezzo,
     durata_min,
     distanza_km,
+    offerta_id: offerta_id ?? null,
   })
   return r.data
 }

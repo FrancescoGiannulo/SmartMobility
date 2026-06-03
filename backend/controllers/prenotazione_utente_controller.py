@@ -1,8 +1,15 @@
 from uuid import UUID
-from fastapi import APIRouter, Depends, HTTPException
+from typing import Optional
+from fastapi import APIRouter, Depends, HTTPException, Query
 from database import get_db
 from middleware.auth_middleware import verify_token
-from controllers.schemas import PrenotazioneRequest, MezzoMappaOut
+from controllers.schemas import (
+    PrenotazioneRequest,
+    MezzoMappaOut,
+    SbloccoRequest,
+    MezzoSbloccabileOut,
+    RisultatoSblocco,
+)
 from bll.servizio_mobilita import (
     ServizioMobilita,
     MezzoNonTrovatoException,
@@ -27,6 +34,17 @@ def get_prenotazioni_attive(
     db=Depends(get_db),
 ):
     return ServizioPrenotazione(db).get_prenotazioni_attive(utente["id"])
+
+
+# [IF-UT.04] CS-05 — Lista mezzi sbloccabili (msg3 diagramma di sequenza)
+@router.get("/mezzi/sbloccabili", response_model=list[MezzoSbloccabileOut])
+def get_mezzi_sbloccabili(
+    lat: Optional[float] = Query(None),
+    lng: Optional[float] = Query(None),
+    utente=Depends(verify_token(["UT"])),
+    db=Depends(get_db),
+):
+    return ServizioMobilita(db).get_mezzi_sbloccabili(utente["id"], lat, lng)
 
 
 # [IF-UT.02] CS-04 — Caratteristiche mezzo (msg3 del diagramma di sequenza)
@@ -59,7 +77,6 @@ def prenota_mezzi(
     except LimiteMezziSuperatoException as e:
         raise HTTPException(status_code=422, detail=str(e))
     except AlcuniMezziNonDisponibiliException as e:
-        # [CS-04.01] alcuni mezzi non più disponibili — restituisce lista per il frontend
         raise HTTPException(
             status_code=409,
             detail={
@@ -82,20 +99,16 @@ def annulla_prenotazione(
         raise HTTPException(status_code=404, detail="Prenotazione non trovata")
 
 
-# [IF-UT.04] CS-10 Sblocca Mezzo
-@router.post("/mezzi/{mezzo_id}/sblocca", status_code=201)
-def sblocca_mezzo(
-    mezzo_id: UUID,
+# [IF-UT.04] CS-05 — Sblocca uno o più mezzi in batch (msg15 diagramma di sequenza)
+@router.post("/mezzi/sblocca", status_code=200, response_model=RisultatoSblocco)
+def sblocca_mezzi(
+    body: SbloccoRequest,
     utente=Depends(verify_token(["UT"])),
     db=Depends(get_db),
 ):
-    try:
-        corsa = ServizioMobilita(db).sblocca_mezzo(mezzo_id, utente["id"])
-        return corsa
-    except MezzoNonTrovatoException:
-        raise HTTPException(status_code=404, detail="Mezzo non trovato")
-    except MezzoNonDisponibileException as e:
-        raise HTTPException(status_code=409, detail=str(e))
+    return ServizioMobilita(db).sblocca_mezzi(
+        body.mezzo_ids, utente["id"], body.lat, body.lng
+    )
 
 
 # [IF-UT.06] CS-11 Termina Corsa (minimale)

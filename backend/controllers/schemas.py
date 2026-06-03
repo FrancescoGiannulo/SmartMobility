@@ -31,6 +31,7 @@ class EffettuaPagamentoRequest(BaseModel):
     tipo_mezzo: str
     durata_min: float
     distanza_km: float
+    offerta_id: str | None = None
 
 
 class MetodoPagamentoResponse(BaseModel):
@@ -81,6 +82,27 @@ class TariffaResponse(BaseModel):
 
 class PrenotazioneRequest(BaseModel):
     mezzo_ids: list[UUID]
+
+
+class SbloccoRequest(BaseModel):
+    mezzo_ids: list[UUID]
+    lat: float | None = None
+    lng: float | None = None
+
+
+class MezzoSbloccabileOut(MezzoMappaOut):
+    prenotato: bool
+    prenotazione_id: str | None
+
+
+class RisultatoSbloccoItem(BaseModel):
+    mezzo_id: str
+    corsa_id: str
+
+
+class RisultatoSblocco(BaseModel):
+    sbloccati: list[RisultatoSbloccoItem]
+    falliti: list[str]
 
 
 from datetime import datetime

@@ -1,7 +1,16 @@
 from contextlib import contextmanager
+from math import radians, cos, sin, asin, sqrt
 from uuid import UUID
 from sqlalchemy import Engine, text
 from sqlalchemy.orm import Session
+
+
+def _haversine_km(lat1: float, lng1: float, lat2: float, lng2: float) -> float:
+    R = 6371.0
+    dlat = radians(lat2 - lat1)
+    dlng = radians(lng2 - lng1)
+    a = sin(dlat / 2) ** 2 + cos(radians(lat1)) * cos(radians(lat2)) * sin(dlng / 2) ** 2
+    return R * 2 * asin(sqrt(a))
 
 
 class MezzoRepository:
@@ -84,6 +93,50 @@ class MezzoRepository:
             }
             for row in rows
         ]
+
+    # [IF-UT.04] CS-05 — mezzi sbloccabili: prenotati dall'utente + disponibili nelle vicinanze
+    def trova_sbloccabili(
+        self,
+        utente_id: UUID,
+        lat: float | None = None,
+        lng: float | None = None,
+        raggio_km: float = 0.5,
+    ) -> list[dict]:
+        sql = text("""
+            SELECT m.id, m.codice, m.tipo, m.stato, m.lat, m.lng, m.batteria,
+                   (p.id IS NOT NULL) AS prenotato,
+                   p.id AS prenotazione_id
+            FROM mezzi m
+            LEFT JOIN prenotazioni p
+                ON p.mezzo_id = m.id
+               AND p.utente_id = :utente_id
+               AND p.stato = 'attiva'
+               AND p.scade_at > now()
+            WHERE (m.stato = 'Prenotato' AND p.id IS NOT NULL)
+               OR  m.stato = 'Disponibile'
+        """)
+        with self._sessione() as s:
+            rows = s.execute(sql, {"utente_id": str(utente_id)}).fetchall()
+
+        risultato = []
+        for row in rows:
+            if row.stato == "Disponibile" and lat is not None and lng is not None:
+                if row.lat is None or row.lng is None:
+                    continue
+                if _haversine_km(lat, lng, row.lat, row.lng) > raggio_km:
+                    continue
+            risultato.append({
+                "id": str(row.id),
+                "codice": row.codice,
+                "tipo": row.tipo,
+                "stato": row.stato,
+                "lat": row.lat,
+                "lng": row.lng,
+                "batteria": row.batteria,
+                "prenotato": bool(row.prenotato),
+                "prenotazione_id": str(row.prenotazione_id) if row.prenotazione_id else None,
+            })
+        return risultato
 
     def aggiorna_stato(self, mezzo_id: UUID, nuovo_stato: str) -> None:
         sql = text("UPDATE mezzi SET stato = :stato WHERE id = :id")
