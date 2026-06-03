@@ -2,25 +2,8 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   PieChart, Pie, Cell, ResponsiveContainer,
 } from 'recharts'
-import { DATI_SETTIMANALI, DATI_TORTA, type DatoSettimanale, type DatoTorta } from './datiReportMock'
+import { DATI_SETTIMANALI, DATI_TORTA, type DatoTorta } from './datiReportMock'
 import './VistaReportAP.css'
-
-interface VistaReportAPProps {
-  onIndietro: () => void
-}
-
-function esportaCsv(dati: DatoSettimanale[]): void {
-  const intestazione = 'Giorno,Monopattino,Bicicletta,Automobile'
-  const righe = dati.map(d => `${d.giorno},${d.monopattino},${d.bicicletta},${d.automobile}`)
-  const contenuto = [intestazione, ...righe].join('\n')
-  const blob = new Blob(['﻿' + contenuto], { type: 'text/csv;charset=utf-8;' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = 'report_smartmobility.csv'
-  a.click()
-  URL.revokeObjectURL(url)
-}
 
 function LabelTorta({ cx, cy, midAngle, outerRadius, name, value }: {
   cx: number; cy: number; midAngle: number; outerRadius: number; name: string; value: number
@@ -36,19 +19,44 @@ function LabelTorta({ cx, cy, midAngle, outerRadius, name, value }: {
   )
 }
 
-export default function VistaReportAP({ onIndietro }: VistaReportAPProps) {
+const corseTotali = DATI_SETTIMANALI.reduce(
+  (acc, d) => acc + d.monopattino + d.bicicletta + d.automobile,
+  0
+)
+
+const quotaDominante = DATI_TORTA.reduce(
+  (max, d) => d.value > max.value ? d : max,
+  DATI_TORTA[0]
+)
+
+export default function VistaReportAP() {
   return (
     <div className="vista-report-ap">
-      <div className="report-topbar">
-        <button type="button" className="btn-indietro" onClick={onIndietro}>← Indietro</button>
-        <h2>REPORT</h2>
-      </div>
-
       <div className="report-body">
-        <div className="report-grafici">
-          <div className="report-card">
-            <h3>Corse settimanali per tipologia</h3>
-            <ResponsiveContainer width={480} height={260}>
+
+        <div className="report-kpi-row">
+          <div className="report-kpi-card">
+            <span className="report-kpi-valore" style={{ color: '#4caf9a' }}>{corseTotali}</span>
+            <span className="report-kpi-label">Corse totali</span>
+          </div>
+          <div className="report-kpi-card">
+            <span className="report-kpi-valore" style={{ color: '#3b82f6' }}>26.4h</span>
+            <span className="report-kpi-label">Durata media</span>
+          </div>
+          <div className="report-kpi-card">
+            <span className="report-kpi-valore" style={{ color: '#8b5cf6' }}>142 km</span>
+            <span className="report-kpi-label">Distanza totale</span>
+          </div>
+          <div className="report-kpi-card">
+            <span className="report-kpi-valore" style={{ color: '#f59e0b' }}>{quotaDominante.value}%</span>
+            <span className="report-kpi-label">{quotaDominante.name}</span>
+          </div>
+        </div>
+
+        <div className="report-charts-row">
+          <div className="report-chart-card grande">
+            <div className="report-chart-titolo">Corse settimanali per tipologia</div>
+            <ResponsiveContainer width="100%" height={240}>
               <BarChart data={DATI_SETTIMANALI} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="giorno" tick={{ fontSize: 12 }} />
@@ -62,15 +70,15 @@ export default function VistaReportAP({ onIndietro }: VistaReportAPProps) {
             </ResponsiveContainer>
           </div>
 
-          <div className="report-card">
-            <h3>Quota per tipologia</h3>
-            <ResponsiveContainer width={340} height={260}>
+          <div className="report-chart-card piccola">
+            <div className="report-chart-titolo">Quota per tipologia</div>
+            <ResponsiveContainer width="100%" height={240}>
               <PieChart>
                 <Pie
                   data={DATI_TORTA}
                   cx="50%"
                   cy="50%"
-                  outerRadius={90}
+                  outerRadius={80}
                   dataKey="value"
                   labelLine={false}
                   label={(props) => <LabelTorta {...(props as Parameters<typeof LabelTorta>[0])} />}
@@ -85,14 +93,6 @@ export default function VistaReportAP({ onIndietro }: VistaReportAPProps) {
           </div>
         </div>
 
-        <div className="report-azioni">
-          <button type="button" className="btn-export csv" onClick={() => esportaCsv(DATI_SETTIMANALI)}>
-            ESPORTA CSV
-          </button>
-          <button type="button" className="btn-export pdf" onClick={() => window.print()}>
-            ESPORTA PDF
-          </button>
-        </div>
       </div>
     </div>
   )
