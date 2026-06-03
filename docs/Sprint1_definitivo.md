@@ -798,6 +798,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 | UT.12 | Sprint 1 | Salva metodi di pagamento |
 | UT.17 | Sprint 1 | Effettua Pagamento |
 | AP.01 | Sprint 1 | Accede report |
+| AP.03 | Sprint 1 | Visualizza Mappa AP |
 | OP.01 | Sprint 1 | Visualizza Mappa Operatore |
 | OP.03 | Sprint 1 | Definisce confine operativo |
 | OP.04 | Sprint 1 | Modifica stato mezzo |
@@ -827,6 +828,20 @@ Visualizza Mappa utente
 | **Sequenza principale degli eventi** | * Il caso d'uso inizia quando l'Utente accede alla schermata principale della piattaforma. * Il sistema rileva la posizione geografica corrente dell'Utente tramite il dispositivo. * Il sistema interroga il ServizioGIS per recuperare i dati geografici. * Il sistema recupera le zone con restrizioni e le zone di parcheggio. * Il sistema visualizza la mappa con i soli mezzi disponibili per tipologia, le aree con restrizioni, le zone di parcheggio e il marker della posizione corrente. |
 | **Post-condizioni** | La mappa è visualizzata con i dati aggiornati; l'Utente può procedere con la prenotazione o lo sblocco di un mezzo. |
 | **Sequenza alternativa degli eventi** | Nessuna |
+
+Visualizza Mappa Amministrazione Pubblica
+
+|  |  |
+| --- | --- |
+| **Nome** | **Visualizza Mappa Amministrazione Pubblica** |
+| **ID** | CS-02bis (AP.03) |
+| **Breve descrizione** | Il sistema mostra all'Amministratore autenticato la mappa interattiva con tutti i mezzi della flotta, le zone attive e funzionalità analitiche avanzate (heatmap densità, clustering, KPI flotta, statistiche per zona), così da monitorare il servizio sul territorio. |
+| **Attori Primari** | Amministrazione Pubblica |
+| **Attori Secondari** | ServizioGIS |
+| **Precondizioni** | L'AP è autenticata alla piattaforma con ruolo AP |
+| **Sequenza principale degli eventi** | 1. Il caso d'uso inizia quando l'AP accede alla schermata `/ap/dashboard`. 2. Il sistema carica mezzi e zone tramite `GET /ap/mappa/mezzi` e `GET /ap/mappa/zone`. 3. Il sistema visualizza la KPI bar (Totale / Disponibili / In uso / Non disponibili) e il gauge di disponibilità flotta. 4. Il sistema visualizza la mappa in modalità Pin con tutti i mezzi e le zone. 5. L'AP può filtrare i mezzi per tipo (monopattino / bicicletta / automobile) tramite i chip nel pannello. 6. L'AP può cambiare la modalità di visualizzazione: Pin, Cluster (raggruppamento geografico), Heatmap (densità). 7. L'AP può cliccare una zona per visualizzare il popup statistiche con numero di mezzi interni, breakdown per tipo e stato. |
+| **Post-condizioni** | La mappa è visualizzata con i dati aggiornati; l'AP può monitorare distribuzione, densità e copertura della flotta sul territorio. |
+| **Sequenza alternativa degli eventi** | **SA-1 (Errore GIS):** Se il backend restituisce un errore, il sistema mostra il banner "Impossibile caricare i dati della mappa. Riprova." La KPI bar mostra "—" e la gauge rimane vuota. |
 
 Visualizza Mappa Operatore
 

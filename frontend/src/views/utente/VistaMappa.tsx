@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Map as GoogleMap,
@@ -68,24 +68,7 @@ function Batteria({ valore }: { valore: number | null }) {
   )
 }
 
-interface ZonaHover {
-  zona: ZonaMappa
-  pos: google.maps.LatLngLiteral
-}
 
-const PRIORITA_TIPO: Record<string, number> = {
-  operativa: 0, parcheggio: 1, limitata: 2, vietata: 3,
-}
-
-function zonaMiglioreDa(map: Map<string, ZonaHover>): ZonaHover | null {
-  let best: ZonaHover | null = null
-  for (const entry of map.values()) {
-    if (!best || (PRIORITA_TIPO[entry.zona.tipo] ?? 1) > (PRIORITA_TIPO[best.zona.tipo] ?? 1)) {
-      best = entry
-    }
-  }
-  return best
-}
 
 function formatTempoRimanente(sec: number): string {
   return `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`

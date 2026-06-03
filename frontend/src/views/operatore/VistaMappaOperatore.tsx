@@ -51,24 +51,7 @@ interface ModalZona {
   coordinate: google.maps.LatLngLiteral[]
 }
 
-interface ZonaHover {
-  zona: ZonaMappa
-  pos: google.maps.LatLngLiteral
-}
 
-const PRIORITA_TIPO: Record<string, number> = {
-  operativa: 0, parcheggio: 1, limitata: 2, vietata: 3,
-}
-
-function zonaMiglioreDa(map: Map<string, ZonaHover>): ZonaHover | null {
-  let best: ZonaHover | null = null
-  for (const entry of map.values()) {
-    if (!best || (PRIORITA_TIPO[entry.zona.tipo] ?? 1) > (PRIORITA_TIPO[best.zona.tipo] ?? 1)) {
-      best = entry
-    }
-  }
-  return best
-}
 
 function DrawingManager({
   tipoAttivo,
@@ -231,7 +214,7 @@ export default function VistaMappaOperatore() {
               <AdvancedMarker
                 key={m.id}
                 position={{ lat: m.lat, lng: m.lng }}
-                onClick={e => { e.stop(); setMezzoSelezionato(m); setZonaHover(null); setZonaSelezionata(null) }}
+                onClick={e => { e.stop(); setMezzoSelezionato(m); setZonaSelezionata(null) }}
               >
                 <PinMezzo tipo={m.tipo} stato={m.stato} />
               </AdvancedMarker>
