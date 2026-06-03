@@ -1,242 +1,290 @@
+/* ── Shell ───────────────────────────────────────────────── */
 .vista-dashboard-ap {
   width: 100%;
   height: 100vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  overflow: hidden;
 }
 
-.dashboard-ap-topbar {
-  height: 56px;
-  background: #fff;
+/* ── Left sidebar ────────────────────────────────────────── */
+.ap-sidebar {
+  width: 52px;
+  background: #ffffff;
+  border-right: 1px solid #f1f5f9;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0 12px;
+  gap: 8px;
+  flex-shrink: 0;
+  z-index: 5;
+}
+
+.ap-sidebar-logo {
+  width: 28px;
+  height: 28px;
+  background: #4caf9a;
+  border-radius: 8px;
   display: flex;
   align-items: center;
-  padding: 0 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  z-index: 10;
-  gap: 12px;
+  justify-content: center;
+  font-size: 16px;
+  margin-bottom: 4px;
   flex-shrink: 0;
 }
 
-.dashboard-ap-topbar h2 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 700;
-  color: #222;
-  flex: 1;
+.ap-nav-item {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1.5px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
 }
 
-.dashboard-ap-body {
+.ap-nav-item .ap-nav-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.ap-nav-item .ap-nav-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-top: 1px;
+  line-height: 1;
+}
+
+.ap-nav-item.attivo {
+  background: #ecfdf5;
+  border-color: #4caf9a;
+}
+
+.ap-nav-item.attivo .ap-nav-label {
+  color: #4caf9a;
+}
+
+.ap-nav-item:not(.attivo):hover {
+  background: #f1f5f9;
+}
+
+.ap-nav-bottom {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.ap-nav-badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+
+.ap-nav-logout {
+  background: transparent;
+  border: none;
+  font-size: 9px;
+  font-weight: 600;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0;
+}
+
+.ap-nav-logout:hover {
+  color: #4caf9a;
+}
+
+/* ── Main area ───────────────────────────────────────────── */
+.ap-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Topbar ──────────────────────────────────────────────── */
+.ap-topbar {
+  height: 40px;
+  background: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.ap-topbar-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.ap-kpi-pills {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ap-kpi-pill {
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.ap-kpi-pill span {
+  font-size: 9px;
+  font-weight: 500;
+  color: #94a3b8;
+  margin-left: 2px;
+}
+
+.ap-kpi-divider {
+  color: #e2e8f0;
+  font-size: 11px;
+}
+
+.ap-topbar-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 6px;
+}
+
+.btn-export-csv,
+.btn-export-pdf {
+  border: none;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+
+.btn-export-csv {
+  background: #4caf9a;
+  color: #fff;
+}
+
+.btn-export-pdf {
+  background: #3b82f6;
+  color: #fff;
+}
+
+/* ── Body (mappa + pannello) ─────────────────────────────── */
+.ap-body {
   flex: 1;
   display: flex;
   overflow: hidden;
   position: relative;
 }
 
-.dashboard-ap-mappa {
-  flex: 70%;
+.ap-mappa {
+  flex: 1;
   height: 100%;
 }
 
-.dashboard-ap-pannello {
-  flex: 30%;
-  background: #f9f9f9;
-  border-left: 1px solid #e0e0e0;
+.ap-pannello {
+  width: 180px;
+  background: #ffffff;
+  border-left: 1px solid #f1f5f9;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
-  padding: 20px 16px;
+  padding: 12px 10px;
   gap: 10px;
   overflow-y: auto;
-}
-
-.dashboard-ap-pannello .logo {
-  font-size: 13px;
-  font-weight: 700;
-  color: #4caf9a;
-  text-align: center;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
-}
-
-.btn-pannello-ap {
-  width: 100%;
-  padding: 12px 16px;
-  background: #4caf9a;
-  color: #fff;
-  border: none;
-  border-radius: 24px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: background 0.2s;
-  text-align: center;
-}
-
-.btn-pannello-ap:hover {
-  background: #3d9e8a;
-}
-
-.btn-logout-ap {
-  padding: 6px 16px;
-  background: transparent;
-  color: #4caf9a;
-  border: 2px solid #4caf9a;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-/* ── KPI bar ─────────────────────────────────────────────── */
-.dashboard-ap-kpi {
-  height: 52px;
-  background: #fff;
-  border-bottom: 1px solid #e8ecef;
-  display: flex;
-  align-items: stretch;
   flex-shrink: 0;
-  z-index: 5;
-}
-
-.kpi-card {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-right: 1px solid #e8ecef;
-  padding: 0 8px;
-}
-
-.kpi-card:last-child {
-  border-right: none;
-}
-
-.kpi-valore {
-  font-size: 18px;
-  font-weight: 800;
-  line-height: 1;
-}
-
-.kpi-label {
-  font-size: 10px;
-  font-weight: 600;
-  color: #94a3b8;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-top: 2px;
 }
 
 /* ── Gauge ───────────────────────────────────────────────── */
-.gauge-container {
+.ap-gauge-container {
   display: flex;
   justify-content: center;
-  padding: 4px 0 8px;
 }
 
-/* ── Pannello sezioni ────────────────────────────────────── */
-.pannello-sezione {
+/* ── Panel sections ──────────────────────────────────────── */
+.ap-pannello-sezione {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
 }
 
-.pannello-sezione-titolo {
-  font-size: 10px;
+.ap-pannello-label {
+  font-size: 9px;
   font-weight: 700;
   color: #94a3b8;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.5px;
 }
 
-/* ── Toggle vista (Pin / Cluster / Heatmap) ──────────────── */
-.vista-toggle {
-  display: flex;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.btn-vista {
-  flex: 1;
-  padding: 7px 4px;
-  background: transparent;
+/* ── Vista toggle ────────────────────────────────────────── */
+.ap-vista-btn {
+  width: 100%;
+  padding: 5px 8px;
   border: none;
-  font-size: 11px;
-  font-weight: 600;
-  color: #64748b;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-  white-space: nowrap;
-}
-
-.btn-vista.attivo {
-  background: #4caf9a;
-  color: #fff;
-}
-
-.btn-vista:not(.attivo):hover {
-  background: #f1f5f9;
-}
-
-/* ── Chips tipo mezzo ────────────────────────────────────── */
-.chips-tipo {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.chip-tipo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border: 2px solid #e0e0e0;
-  border-radius: 20px;
-  background: #f8fafc;
-  color: #94a3b8;
-  font-size: 12px;
+  border-radius: 6px;
+  font-size: 10px;
   font-weight: 700;
   cursor: pointer;
-  transition: opacity 0.15s, background 0.15s, border-color 0.15s, color 0.15s;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+}
+
+.ap-vista-btn.attivo {
+  background: #4caf9a;
+  color: #ffffff;
+}
+
+.ap-vista-btn:not(.attivo) {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.ap-vista-btn:not(.attivo):hover {
+  background: #e2e8f0;
+}
+
+/* ── Vehicle chips ───────────────────────────────────────── */
+.ap-chip-mezzo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s, background 0.15s, border-color 0.15s;
   width: 100%;
   text-align: left;
 }
 
-.chip-tipo.attivo {
-  color: #fff;
+.ap-chip-mezzo:not(.attivo) {
+  background: #f1f5f9;
+  color: #94a3b8;
+  opacity: 0.55;
 }
 
-.chip-tipo:not(.attivo) {
-  opacity: 0.65;
-}
-
-.chip-emoji {
-  font-size: 15px;
-}
-
-.chip-label {
-  flex: 1;
-  text-transform: capitalize;
-}
-
-.chip-badge {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
-  padding: 2px 7px;
-  font-size: 11px;
+.ap-chip-mezzo-count {
+  margin-left: auto;
+  font-size: 10px;
   font-weight: 800;
-  min-width: 22px;
-  text-align: center;
 }
 
-.chip-tipo:not(.attivo) .chip-badge {
-  background: #e0e0e0;
-  color: #64748b;
-}
-
-/* ── Banner errore ───────────────────────────────────────── */
-.dashboard-ap-errore {
+/* ── Error banner ────────────────────────────────────────── */
+.ap-errore {
   position: absolute;
   top: 12px;
   left: 50%;
