@@ -59,7 +59,7 @@ function GaugeMezzi({ perc }: { perc: number }) {
   const colore = perc >= 60 ? '#4caf9a' : perc >= 30 ? '#ff9800' : '#f44336'
   return (
     <div className="ap-gauge-container">
-      <svg width={84} height={84} viewBox="0 0 96 96">
+      <svg width={140} height={140} viewBox="0 0 96 96">
         <circle cx={48} cy={48} r={RAGGIO} fill="none" stroke="#e8ecef" strokeWidth={STROKE} />
         <circle
           cx={48} cy={48} r={RAGGIO} fill="none"
