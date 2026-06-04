@@ -1,4 +1,4 @@
-import uuid
+from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 from database import get_db
 from middleware.auth_middleware import verify_token
@@ -29,19 +29,19 @@ def get_corrente(
     utente=Depends(verify_token(["UT"])),
     db=Depends(get_db),
 ):
-    return _servizio.get_abbonamento_attivo(utente["sub"], db)
+    return _servizio.get_abbonamento_attivo(utente["id"], db)
 
 
 # [IF-UT.16] — sottoscrivi piano
 @router.post("/abbonamenti/{offerta_id}", response_model=AbbonamentoOut, status_code=201)
 def sottoscrivi(
-    offerta_id: uuid.UUID,
+    offerta_id: UUID,
     utente=Depends(verify_token(["UT"])),
     db=Depends(get_db),
 ):
     try:
         return _servizio.sottoscrivi(
-            utente_id=uuid.UUID(utente["sub"]),
+            utente_id=utente["id"],
             offerta_id=offerta_id,
             db=db,
         )

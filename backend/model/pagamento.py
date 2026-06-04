@@ -66,7 +66,6 @@ class Pagamento(Base):
     )
     abbonamento_id: Mapped[uuid.UUID | None] = mapped_column(
         PGUUID(as_uuid=True),
-        ForeignKey("abbonamenti_utente.id", ondelete="SET NULL"),
         nullable=True,
     )
     utente_id: Mapped[uuid.UUID] = mapped_column(

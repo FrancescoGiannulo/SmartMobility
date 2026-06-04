@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime
-from sqlalchemy import CheckConstraint, DateTime, ForeignKey, Index, text
+from sqlalchemy import CheckConstraint, DateTime, Index, text
 from sqlalchemy import Enum as SAEnum
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
@@ -20,10 +20,10 @@ class AbbonamentoUtente(Base):
         PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4
     )
     utente_id: Mapped[uuid.UUID] = mapped_column(
-        PGUUID(as_uuid=True), ForeignKey("utenti.id", ondelete="CASCADE"), nullable=False
+        PGUUID(as_uuid=True), nullable=False
     )
     offerta_id: Mapped[uuid.UUID] = mapped_column(
-        PGUUID(as_uuid=True), ForeignKey("offerte.id", ondelete="RESTRICT"), nullable=False
+        PGUUID(as_uuid=True), nullable=False
     )
     data_inizio: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, server_default=text("now()")
