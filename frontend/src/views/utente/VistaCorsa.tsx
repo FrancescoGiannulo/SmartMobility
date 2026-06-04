@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { terminaCorsa } from '../../services/CorsaService'
 import type { MezzoMappa } from '../../services/MapService'
-import { effettuaPagamento, getPromozioni, type Promozione } from '../../services/PaymentService'
+import { effettuaPagamento, getMetodiPagamento, getPromozioni, type Promozione } from '../../services/PaymentService'
 import './VistaCorsa.css'
 
 interface DatiCorsa {
@@ -118,6 +118,7 @@ export default function VistaCorsa() {
         }
       }, 2000)
     } catch (err) {
+      setSchermataTermina(false)
       if (axios.isAxiosError(err) && err.response?.status === 400) setFase('no-metodo')
       else if (axios.isAxiosError(err) && err.response?.status === 402) setFase('rifiutato')
       else setFase('errore')
@@ -129,6 +130,16 @@ export default function VistaCorsa() {
     if (da.length === 0) return
     setFase('termina')
     setErrore('')
+    // [CS-07 precondition] Verifica metodo predefinito PRIMA di terminare la corsa.
+    // Se manca, la corsa rimane attiva e l'utente può aggiungere un metodo.
+    try {
+      const metodi = await getMetodiPagamento()
+      if (!metodi.some(m => m.predefinito)) {
+        setSchermataTermina(false)
+        setFase('no-metodo')
+        return
+      }
+    } catch { /* errore rete: il backend gestirà il 400 se necessario */ }
     try {
       for (const c of da) await terminaCorsa(c.corsa_id)
     } catch {
