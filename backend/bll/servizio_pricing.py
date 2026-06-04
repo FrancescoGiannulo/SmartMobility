@@ -163,38 +163,33 @@ class ServizioPricing:
             raise MetodoNonTrovato(str(exc)) from exc
         self._repo.rimuovi_metodo(metodo_id, utente_id)
 
-    # [IF-UT.20] Effettua Pagamento
-    def effettua_pagamento(
+    # [CS-07] Effettua Pagamento — metodo generico usato da corsa e abbonamento
+    def paga_importo(
         self,
-        corsa_id: uuid.UUID,
         utente_id: uuid.UUID,
-        tipo_mezzo: str,
-        durata_min: float,
-        distanza_km: float,
-        offerta_id: uuid.UUID | None = None,
+        importo: Decimal,
+        corsa_id: uuid.UUID | None = None,
+        abbonamento_id: uuid.UUID | None = None,
     ) -> dict:
+        """Addebita importo sul metodo predefinito. Registra il pagamento in DB."""
         metodi = self._repo.lista_metodi(utente_id)
         if not metodi:
             raise NessunMetodoPredefinito("Nessun metodo di pagamento salvato")
-        if len(metodi) == 1:
-            metodo = self._repo.trova_metodo(metodi[0].id, utente_id)
-        else:
-            metodo = self._repo.trova_predefinito(utente_id)
-            if not metodo:
-                raise NessunMetodoPredefinito("Imposta un metodo di pagamento predefinito")
-
-        importo = self.calcola_importo(tipo_mezzo, durata_min, distanza_km)
-
-        if offerta_id is not None:
-            with Session(engine) as s:
-                offerta = s.get(Offerta, offerta_id)
-            if offerta and offerta.tipo == "promozione" and offerta.stato == "attiva":
-                importo = importo * (1 - offerta.sconto_percentuale / 100)
+        metodo = self._repo.trova_predefinito(utente_id) if len(metodi) > 1 else self._repo.trova_metodo(metodi[0].id, utente_id)
+        if not metodo:
+            raise NessunMetodoPredefinito("Imposta un metodo di pagamento predefinito")
 
         risposta = self._provider.autorizza(metodo.token_esterno, importo)
-
         stato = StatoPagamento.completato if risposta.autorizzato else StatoPagamento.rifiutato
-        pagamento = self._repo.crea_pagamento(corsa_id, utente_id, metodo.id, importo, stato)
+
+        pagamento = self._repo.crea_pagamento(
+            utente_id=utente_id,
+            metodo_id=metodo.id,
+            importo=importo,
+            stato=stato,
+            corsa_id=corsa_id,
+            abbonamento_id=abbonamento_id,
+        )
 
         if not risposta.autorizzato:
             raise PagamentoRifiutato("Il provider ha rifiutato il pagamento")
@@ -205,3 +200,23 @@ class ServizioPricing:
             "stato": pagamento.stato.value if hasattr(pagamento.stato, "value") else str(pagamento.stato),
             "transazione_id": risposta.transazione_id,
         }
+
+    # [IF-UT.20] Effettua Pagamento a fine corsa
+    def effettua_pagamento(
+        self,
+        corsa_id: uuid.UUID,
+        utente_id: uuid.UUID,
+        tipo_mezzo: str,
+        durata_min: float,
+        distanza_km: float,
+        offerta_id: uuid.UUID | None = None,
+    ) -> dict:
+        importo = self.calcola_importo(tipo_mezzo, durata_min, distanza_km)
+
+        if offerta_id is not None:
+            with Session(engine) as s:
+                offerta = s.get(Offerta, offerta_id)
+            if offerta and offerta.tipo == "promozione" and offerta.stato == "attiva":
+                importo = importo * (1 - offerta.sconto_percentuale / 100)
+
+        return self.paga_importo(utente_id=utente_id, importo=importo, corsa_id=corsa_id)
