@@ -73,7 +73,7 @@ export default function PopupStatsZona({ zona, mezziVisibili, onChiudi }: Props)
         {/* Breakdown per tipo */}
         <div style={{ display: 'flex', gap: 5, marginBottom: 8 }}>
           {[
-            { emoji: '🛴', count: perTipo.monopattino, colore: '#4caf9a' },
+            { emoji: '🛴', count: perTipo.monopattino, colore: '#155e52' },
             { emoji: '🚲', count: perTipo.bicicletta, colore: '#2196f3' },
             { emoji: '🚗', count: perTipo.automobile, colore: '#e91e8c' },
           ].map(({ emoji, count, colore }) => (
@@ -90,7 +90,7 @@ export default function PopupStatsZona({ zona, mezziVisibili, onChiudi }: Props)
 
         {/* Stato */}
         <div style={{ fontSize: 11, color: '#64748b' }}>
-          <span style={{ color: '#4caf9a', fontWeight: 700 }}>{disponibili} disponibili</span>
+          <span style={{ color: '#155e52', fontWeight: 700 }}>{disponibili} disponibili</span>
           {' · '}
           <span>{mezziInterni.length - disponibili} non disponibili</span>
         </div>

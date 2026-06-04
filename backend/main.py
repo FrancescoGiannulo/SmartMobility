@@ -2,7 +2,7 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from controllers.login_controller import router as login_router
-from controllers.utente_controller import router as auth_router, mappa_router
+from controllers.utente_controller import router as auth_router, mappa_router, gdpr_router
 from controllers.mezzo_operatore_controller import router as mezzo_op_router
 from controllers.zona_operatore_controller import router as zona_op_router
 from controllers.prenotazione_utente_controller import router as corsa_router
@@ -11,6 +11,7 @@ from controllers.pagamenti_controller import router as pagamenti_router
 from controllers.offerta_controller import router as offerta_router
 from controllers.regola_fine_corsa_controller import router as regola_fine_corsa_router
 from controllers.pricing_controller import router as pricing_router
+from controllers.configurazione_controller import router as configurazione_router
 
 app = FastAPI(title="SmartMobility API")
 
@@ -28,6 +29,7 @@ app.add_middleware(
 app.include_router(login_router)
 app.include_router(auth_router)
 app.include_router(mappa_router)
+app.include_router(gdpr_router)
 app.include_router(mezzo_op_router)
 app.include_router(zona_op_router)
 app.include_router(corsa_router)
@@ -36,6 +38,7 @@ app.include_router(pagamenti_router)
 app.include_router(offerta_router)
 app.include_router(regola_fine_corsa_router)
 app.include_router(pricing_router)
+app.include_router(configurazione_router)
 
 
 @app.get("/")

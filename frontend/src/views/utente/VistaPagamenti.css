@@ -18,7 +18,7 @@
   align-self: flex-start;
   background: none;
   border: none;
-  color: #4caf9a;
+  color: #155e52;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -32,7 +32,7 @@
   font-size: 24px;
   font-weight: 700;
   font-style: italic;
-  color: #4caf9a;
+  color: #155e52;
   margin: 0 0 28px;
   align-self: flex-start;
 }
@@ -107,7 +107,7 @@
 }
 
 .pag-card--predefinito {
-  border-color: #4caf9a;
+  border-color: #155e52;
 }
 
 .pag-card-info {
@@ -145,7 +145,7 @@
 .pag-badge-predefinito {
   font-size: 12px;
   font-weight: 700;
-  color: #4caf9a;
+  color: #155e52;
   background: #e0f2ee;
   border-radius: 20px;
   padding: 3px 10px;
@@ -165,7 +165,7 @@
   padding: 15px 0;
   border-radius: 50px;
   border: none;
-  background: #4caf9a;
+  background: #155e52;
   color: #fff;
   font-size: 15px;
   font-weight: 700;
@@ -185,9 +185,9 @@
   flex: 1;
   padding: 9px 0;
   border-radius: 50px;
-  border: 2px solid #4caf9a;
+  border: 2px solid #155e52;
   background: transparent;
-  color: #4caf9a;
+  color: #155e52;
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
@@ -241,7 +241,7 @@
   font-size: 17px;
   font-weight: 700;
   font-style: italic;
-  color: #4caf9a;
+  color: #155e52;
   margin: 0 0 16px;
 }
 
@@ -249,7 +249,7 @@
   font-size: 13px;
   font-weight: 700;
   font-style: italic;
-  color: #4caf9a;
+  color: #155e52;
   margin-bottom: 4px;
   margin-top: 8px;
 }
@@ -272,7 +272,7 @@
 
 .pag-select:focus,
 .pag-input:focus {
-  border-color: #4caf9a;
+  border-color: #155e52;
 }
 
 .pag-form-azioni {

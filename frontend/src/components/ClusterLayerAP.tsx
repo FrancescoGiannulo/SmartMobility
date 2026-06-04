@@ -4,7 +4,7 @@ import { MarkerClusterer } from '@googlemaps/markerclusterer'
 import type { MezzoMappa } from '../services/MapService'
 
 const COLORI_MEZZO: Record<string, string> = {
-  monopattino: '#4caf9a',
+  monopattino: '#155e52',
   bicicletta: '#2196f3',
   automobile: '#e91e8c',
 }

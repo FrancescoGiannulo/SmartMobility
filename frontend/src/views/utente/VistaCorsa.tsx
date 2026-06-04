@@ -23,7 +23,7 @@ function formatTime(sec: number): string {
 function Batteria({ valore }: { valore: number | null | undefined }) {
   if (valore == null) return <span>N/D</span>
   const barre = Math.min(4, Math.ceil(valore / 25))
-  const colore = valore > 50 ? '#4caf9a' : valore > 20 ? '#f59e0b' : '#ef4444'
+  const colore = valore > 50 ? '#155e52' : valore > 20 ? '#f59e0b' : '#ef4444'
   return (
     <span style={{ display: 'inline-flex', alignItems: 'flex-end', gap: 3 }}>
       {[1, 2, 3, 4].map(i => (

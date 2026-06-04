@@ -1,5 +1,6 @@
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends
+from pydantic import BaseModel
 from bll.servizio_utenti import (
     ServizioUtenti,
     CredenzialNonValideException,
@@ -29,8 +30,13 @@ def login(body: LoginRequest):
         raise HTTPException(status_code=502, detail=str(e))
 
 
+class OAuthAccediRequest(BaseModel):
+    # [IIN-2 / GDPR art. 7] Consenso esplicito raccolto nel callback OAuth prima del find-or-create
+    consenso_privacy: bool = False
+
+
 @router.post("/oauth-accedi")
-def oauth_accedi(decoded: dict = Depends(decode_only())):
+def oauth_accedi(body: OAuthAccediRequest, decoded: dict = Depends(decode_only())):
     """[IF-UT.18 — variante OAuth] Find-or-create per utenti autenticati via provider terzi."""
     try:
         return _servizio.accedi_oauth(
@@ -38,6 +44,7 @@ def oauth_accedi(decoded: dict = Depends(decode_only())):
             decoded["id"],
             decoded["email"],
             decoded["payload"],
+            body.consenso_privacy,
         )
     except CredenzialNonValideException as e:
         raise HTTPException(status_code=401, detail=str(e))

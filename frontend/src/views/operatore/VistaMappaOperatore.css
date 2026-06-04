@@ -46,7 +46,7 @@
   border-radius: 11px;
   background:
     radial-gradient(circle at 30% 30%, #7eecd6, transparent 60%),
-    linear-gradient(135deg, var(--sm-primary, #4caf9a), var(--sm-primary-700, #2a7a6a));
+    linear-gradient(135deg, var(--sm-primary, #155e52), var(--sm-primary-700, #2a7a6a));
   box-shadow: 0 6px 14px rgba(76, 175, 154, 0.35),
               inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
@@ -54,7 +54,7 @@
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: var(--sm-primary, #4caf9a);
+  color: var(--sm-primary, #155e52);
   background: rgba(76, 175, 154, 0.1);
   border: 1px solid rgba(76, 175, 154, 0.25);
   padding: 4px 10px;
@@ -146,7 +146,7 @@
 
 /* ---------- Button system ---------- */
 .btn-pannello {
-  --btn-bg: var(--sm-primary, #4caf9a);
+  --btn-bg: var(--sm-primary, #155e52);
   --btn-bg-hover: var(--sm-primary-600, #3a9a86);
   --btn-fg: #fff;
 
@@ -202,7 +202,7 @@
   box-shadow: none;
 }
 .btn-pannello.secondario::before {
-  background: var(--sm-primary, #4caf9a);
+  background: var(--sm-primary, #155e52);
 }
 .btn-pannello.secondario:hover {
   background: rgba(76, 175, 154, 0.06);
@@ -321,7 +321,7 @@
 .modal-card input::placeholder { color: #94a3b8; }
 .modal-card input:focus,
 .modal-card select:focus {
-  border-color: var(--sm-primary, #4caf9a);
+  border-color: var(--sm-primary, #155e52);
   background: #fff;
   box-shadow: var(--sm-shadow-glow, 0 0 0 4px rgba(76, 175, 154, 0.18));
 }
@@ -435,7 +435,7 @@
   height: 38px;
   border-radius: 50% 50% 50% 10%;
   transform: rotate(45deg);
-  background: linear-gradient(135deg, var(--sm-c1, #4caf9a), var(--sm-c2, #2a7a6a));
+  background: linear-gradient(135deg, var(--sm-c1, #155e52), var(--sm-c2, #2a7a6a));
   display: flex;
   align-items: center;
   justify-content: center;

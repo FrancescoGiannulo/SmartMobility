@@ -11,6 +11,8 @@ import VistaDashboardAP from './views/amministrazione/VistaDashboardAP'
 import VistaPagamenti from './views/utente/VistaPagamenti'
 import VistaTariffePromozioni from './views/operatore/VistaTariffePromozioni'
 import { utenteCorrente, logout } from './services/AuthService'
+import VistaProfiloUtente from './views/utente/VistaProfiloUtente'
+import PrivacyPolicy from './views/PrivacyPolicy'
 
 const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string
 
@@ -33,8 +35,8 @@ function PlaceholderView({ titolo }: { titolo: string }) {
             style={{
               padding: '8px 20px',
               background: 'transparent',
-              color: '#4caf9a',
-              border: '2px solid #4caf9a',
+              color: '#155e52',
+              border: '2px solid #155e52',
               borderRadius: 24,
               fontWeight: 700,
               cursor: 'pointer',
@@ -62,7 +64,9 @@ function RoutaIniziale() {
 function App() {
   return (
     <APIProvider apiKey={MAPS_API_KEY} version="quarterly" libraries={['drawing']}>
+    {/* [IIN-3 / WCAG 1.3.1 + 2.4.1] Landmark main + destinazione skip-link */}
     <BrowserRouter>
+    <main id="main-content" tabIndex={-1} style={{ outline: 'none' }}>
       <Routes>
         <Route path="/" element={<RoutaIniziale />} />
         <Route
@@ -86,6 +90,14 @@ function App() {
           element={
             <RoutaProtetta ruoloRichiesto="UT">
               <VistaPagamenti />
+            </RoutaProtetta>
+          }
+        />
+        <Route
+          path="/utente/profilo"
+          element={
+            <RoutaProtetta ruoloRichiesto="UT">
+              <VistaProfiloUtente />
             </RoutaProtetta>
           }
         />
@@ -146,9 +158,11 @@ function App() {
           }
         />
         <Route path="/auth/callback" element={<CallbackOAuth />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/non-autorizzato" element={<PlaceholderView titolo="Accesso non autorizzato" />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+    </main>
     </BrowserRouter>
     </APIProvider>
   )

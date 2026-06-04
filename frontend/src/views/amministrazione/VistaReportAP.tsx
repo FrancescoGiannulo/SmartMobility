@@ -36,7 +36,7 @@ export default function VistaReportAP() {
 
         <div className="report-kpi-row">
           <div className="report-kpi-card">
-            <span className="report-kpi-valore" style={{ color: '#4caf9a' }}>{corseTotali}</span>
+            <span className="report-kpi-valore" style={{ color: '#155e52' }}>{corseTotali}</span>
             <span className="report-kpi-label">Corse totali</span>
           </div>
           <div className="report-kpi-card">
@@ -63,7 +63,7 @@ export default function VistaReportAP() {
                 <YAxis tick={{ fontSize: 12 }} />
                 <Tooltip />
                 <Legend iconType="circle" wrapperStyle={{ fontSize: 12 }} />
-                <Bar dataKey="monopattino" name="Monopattino" stackId="a" fill="#4caf9a" />
+                <Bar dataKey="monopattino" name="Monopattino" stackId="a" fill="#155e52" />
                 <Bar dataKey="bicicletta"  name="Bicicletta"  stackId="a" fill="#2196f3" />
                 <Bar dataKey="automobile"  name="Automobile"  stackId="a" fill="#e91e8c" radius={[4, 4, 0, 0]} />
               </BarChart>
