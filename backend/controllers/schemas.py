@@ -178,3 +178,16 @@ class PromozioneOut(BaseModel):
     descrizione: str | None
     sconto_percentuale: str
     data_fine: str
+
+
+# [IF-UT.16] Abbonamento Utente
+class AbbonamentoOut(BaseModel):
+    id: UUID
+    utente_id: UUID
+    offerta_id: UUID
+    data_inizio: datetime
+    data_fine: datetime
+    stato: str
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
