@@ -1,0 +1,226 @@
+.vista-abb {
+  min-height: 100vh;
+  background: #f1f5f9;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+.abb-topbar {
+  height: 64px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 14px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.abb-topbar h2 {
+  margin: 0;
+  flex: 1;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.btn-indietro-abb {
+  padding: 8px 16px;
+  background: transparent;
+  color: #4caf9a;
+  border: 2px solid #4caf9a;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.abb-body {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.abb-corrente {
+  background: linear-gradient(135deg, #4caf9a, #3a9a86);
+  border-radius: 18px;
+  padding: 20px 24px;
+  color: #fff;
+}
+
+.abb-corrente-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+  margin-bottom: 6px;
+}
+
+.abb-corrente-info {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.abb-sezione-titolo {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.abb-vuoti {
+  color: #64748b;
+  font-size: 14px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 14px;
+  text-align: center;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.abb-piani {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.abb-piano-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  border: 2px solid rgba(15, 23, 42, 0.06);
+  cursor: pointer;
+  transition: border-color 160ms, box-shadow 160ms;
+}
+
+.abb-piano-card:hover {
+  border-color: #4caf9a;
+  box-shadow: 0 2px 12px rgba(76, 175, 154, 0.15);
+}
+
+.abb-piano-card.selezionato {
+  border-color: #4caf9a;
+  box-shadow: 0 0 0 3px rgba(76, 175, 154, 0.15);
+}
+
+.abb-piano-nome {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.abb-piano-desc {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.abb-piano-dettagli {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.abb-piano-prezzo {
+  font-size: 20px;
+  font-weight: 800;
+  color: #4caf9a;
+}
+
+.abb-piano-durata {
+  font-size: 13px;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.abb-riepilogo {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.abb-riepilogo h4 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.abb-riepilogo p {
+  margin: 0;
+  font-size: 14px;
+  color: #334155;
+}
+
+.abb-riepilogo-nota {
+  font-size: 12px !important;
+  color: #64748b !important;
+  margin-top: 4px !important;
+}
+
+.abb-riepilogo-azioni {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.btn-annulla-abb {
+  flex: 1;
+  padding: 12px;
+  background: #f1f5f9;
+  color: #64748b;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.btn-conferma-abb {
+  flex: 2;
+  padding: 12px;
+  background: #4caf9a;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 160ms;
+}
+.btn-conferma-abb:hover { background: #3a9a86; }
+.btn-conferma-abb:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.abb-errore {
+  font-size: 13px;
+  color: #f43f5e;
+  margin: 0;
+  padding: 10px 14px;
+  background: rgba(244, 63, 94, 0.06);
+  border-radius: 10px;
+  border: 1px solid rgba(244, 63, 94, 0.2);
+}
+
+.abb-conferma {
+  font-size: 13px;
+  color: #16a34a;
+  margin: 0;
+  padding: 10px 14px;
+  background: rgba(22, 163, 74, 0.06);
+  border-radius: 10px;
+  border: 1px solid rgba(22, 163, 74, 0.2);
+}
