@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime, timezone
 from decimal import Decimal
 from sqlalchemy import text
 from sqlalchemy.orm import Session
@@ -6,6 +7,7 @@ from config import engine
 from dal.pagamento_repository import PagamentoRepository, MetodoNonTrovatoException
 from dal.tariffa_repository import TariffaRepository
 from dal.promozione_repository import PromozioneRepository
+from dal.abbonamento_repository import AbbonamentoRepository
 from model.offerta import Offerta
 from model.pagamento import StatoPagamento
 from providers.provider_pagamenti import ProviderPagamentiStub, DatiNonValidiException
@@ -170,6 +172,8 @@ class ServizioPricing:
         importo: Decimal,
         corsa_id: uuid.UUID | None = None,
         abbonamento_id: uuid.UUID | None = None,
+        importo_pieno: Decimal | None = None,
+        offerta_applicata_id: uuid.UUID | None = None,
     ) -> dict:
         """Addebita importo sul metodo predefinito. Registra il pagamento in DB."""
         metodi = self._repo.lista_metodi(utente_id)
@@ -189,6 +193,8 @@ class ServizioPricing:
             stato=stato,
             corsa_id=corsa_id,
             abbonamento_id=abbonamento_id,
+            importo_pieno=importo_pieno,
+            offerta_applicata_id=offerta_applicata_id,
         )
 
         if not risposta.autorizzato:
@@ -213,10 +219,28 @@ class ServizioPricing:
     ) -> dict:
         importo = self.calcola_importo(tipo_mezzo, durata_min, distanza_km)
 
-        if offerta_id is not None:
+        importo_pieno: Decimal | None = None
+        offerta_applicata_id: uuid.UUID | None = None
+
+        # [IF-UT.16] Abbonamento attivo → corsa gratuita
+        with Session(engine) as s:
+            abbonamento = AbbonamentoRepository().get_attivo(utente_id, s)
+            if abbonamento and abbonamento.data_fine > datetime.now(timezone.utc):
+                importo_pieno = importo
+                importo = Decimal("0.00")
+
+        if importo > 0 and offerta_id is not None:
             with Session(engine) as s:
                 offerta = s.get(Offerta, offerta_id)
             if offerta and offerta.tipo == "promozione" and offerta.stato == "attiva":
+                importo_pieno = importo
                 importo = importo * (1 - offerta.sconto_percentuale / 100)
+                offerta_applicata_id = offerta.id
 
-        return self.paga_importo(utente_id=utente_id, importo=importo, corsa_id=corsa_id)
+        return self.paga_importo(
+            utente_id=utente_id,
+            importo=importo,
+            corsa_id=corsa_id,
+            importo_pieno=importo_pieno,
+            offerta_applicata_id=offerta_applicata_id,
+        )

@@ -70,6 +70,9 @@ export interface CorsaStorico {
   durata_min: number | null
   distanza_km: number | null
   gruppo_corsa_id: string | null
+  importo: number | null
+  importo_pieno: number | null
+  nome_offerta_applicata: string | null
 }
 
 export const getStoricoCorsa = async (): Promise<CorsaStorico[]> => {

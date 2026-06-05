@@ -77,8 +77,15 @@ class ServizioMobilita:
         elif stato == "Prenotato":
             pren = self._pren_repo.trova_attiva_per_utente_e_mezzo(utente_id, mezzo_id)
             if pren is None:
-                raise MezzoNonDisponibileException("Mezzo prenotato da un altro utente")
-            prenotazione_id = pren["id"]
+                # Nessuna prenotazione attiva per questo utente: verifico se esiste per
+                # qualsiasi utente per distinguere "prenotato da altri" da "prenotazione scaduta"
+                any_active = self._pren_repo.trova_qualsiasi_attiva_per_mezzo(mezzo_id)
+                if any_active is not None:
+                    raise MezzoNonDisponibileException("Mezzo prenotato da un altro utente")
+                # Tutte le prenotazioni sono scadute: reset a Disponibile e procedi
+                self._mezzo_repo.aggiorna_stato(mezzo_id, "Disponibile")
+            else:
+                prenotazione_id = pren["id"]
         else:
             raise MezzoNonDisponibileException(f"Mezzo non disponibile (stato: {stato})")
         corsa = self._corsa_repo.crea(utente_id, mezzo_id, prenotazione_id, gruppo_corsa_id)

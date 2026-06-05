@@ -205,6 +205,9 @@ class CorsaStoricoOut(BaseModel):
     durata_min: float | None
     distanza_km: float | None
     gruppo_corsa_id: UUID | None
+    importo: float | None
+    importo_pieno: float | None
+    nome_offerta_applicata: str | None
 
 
 # [CS-15] Parametri Numerici di Sistema

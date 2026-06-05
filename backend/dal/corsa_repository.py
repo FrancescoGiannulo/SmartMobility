@@ -90,11 +90,16 @@ class CorsaRepository:
                 c.fine_at,
                 c.distanza_km,
                 c.gruppo_corsa_id,
-                m.tipo  AS tipo_mezzo,
+                m.tipo   AS tipo_mezzo,
                 m.codice AS codice_mezzo,
-                EXTRACT(EPOCH FROM (c.fine_at - c.inizio_at)) / 60 AS durata_min
+                EXTRACT(EPOCH FROM (c.fine_at - c.inizio_at)) / 60 AS durata_min,
+                p.importo,
+                p.importo_pieno,
+                o.nome AS nome_offerta_applicata
             FROM corse c
             JOIN mezzi m ON c.mezzo_id = m.id
+            LEFT JOIN pagamenti p ON p.corsa_id = c.id AND p.stato = 'completato'
+            LEFT JOIN offerte o ON o.id = p.offerta_applicata_id
             WHERE c.utente_id = :utente_id
               AND c.stato = 'terminata'
             ORDER BY c.inizio_at DESC
@@ -111,6 +116,9 @@ class CorsaRepository:
                 "durata_min": float(r.durata_min) if r.durata_min is not None else None,
                 "distanza_km": float(r.distanza_km) if r.distanza_km is not None else None,
                 "gruppo_corsa_id": str(r.gruppo_corsa_id) if r.gruppo_corsa_id else None,
+                "importo": float(r.importo) if r.importo is not None else None,
+                "importo_pieno": float(r.importo_pieno) if r.importo_pieno is not None else None,
+                "nome_offerta_applicata": r.nome_offerta_applicata,
             }
             for r in rows
         ]

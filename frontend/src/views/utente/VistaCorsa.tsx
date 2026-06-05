@@ -4,6 +4,7 @@ import axios from 'axios'
 import { terminaCorsa } from '../../services/CorsaService'
 import type { MezzoMappa } from '../../services/MapService'
 import { effettuaPagamento, getMetodiPagamento, getPromozioni, type Promozione } from '../../services/PaymentService'
+import { getAbbonamentoCorrente } from '../../services/AbbonamentoService'
 import './VistaCorsa.css'
 
 interface DatiCorsa {
@@ -147,6 +148,14 @@ export default function VistaCorsa() {
       setFase('idle')
       return
     }
+    // [IF-UT.16] Abbonamento attivo → corsa gratuita, salta selezione promozioni
+    try {
+      const abb = await getAbbonamentoCorrente()
+      if (abb && new Date(abb.data_fine) > new Date()) {
+        await handlePaga(da)
+        return
+      }
+    } catch { /* nessun abbonamento o errore rete: prosegui */ }
     // Dopo la chiusura controlla promozioni disponibili
     try {
       const r = await getPromozioni()

@@ -53,6 +53,11 @@ class ServizioAbbonamento:
         offerta_id: uuid.UUID,
         db: Session,
     ) -> AbbonamentoUtente:
+        # [IF-UT.16] Impedisce la sottoscrizione multipla con abbonamento ancora attivo
+        existing = self._repo.get_attivo(utente_id, db)
+        if existing and existing.data_fine > datetime.now(timezone.utc):
+            raise OffertaNonValida("Hai già un abbonamento attivo")
+
         offerta = db.query(Offerta).filter(Offerta.id == offerta_id).first()
         if offerta is None:
             raise OffertaNonValida(f"Offerta {offerta_id} non trovata")

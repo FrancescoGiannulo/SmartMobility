@@ -81,6 +81,16 @@ class Pagamento(Base):
     importo: Mapped[Decimal] = mapped_column(
         Numeric(10, 2), nullable=False
     )
+    # prezzo ante-sconto; None se non è stato applicato nessuno sconto
+    importo_pieno: Mapped[Decimal | None] = mapped_column(
+        Numeric(10, 2), nullable=True
+    )
+    # promozione applicata sulla corsa (None se abbonamento o nessuno sconto)
+    offerta_applicata_id: Mapped[uuid.UUID | None] = mapped_column(
+        PGUUID(as_uuid=True),
+        ForeignKey("offerte.id", ondelete="SET NULL"),
+        nullable=True,
+    )
     stato: Mapped[StatoPagamento] = mapped_column(
         SAEnum(StatoPagamento, name="stato_pagamento", create_type=False),
         nullable=False,

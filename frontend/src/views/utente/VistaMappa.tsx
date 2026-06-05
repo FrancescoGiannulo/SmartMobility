@@ -97,6 +97,7 @@ export default function VistaMappa() {
   const [prenotazioniAttive, setPrenotazioniAttive] = useState<PrenotazioneAttiva[]>([])
   const [mezziPrenotati, setMezziPrenotati] = useState<MezzoMappa[]>([])
   const [tempoRimanente, setTempoRimanente] = useState(0)
+  const [nowMs, setNowMs] = useState(Date.now)
 
   // Stati azioni
   const [nonDisponibili, setNonDisponibili] = useState<string[]>([])
@@ -175,6 +176,11 @@ export default function VistaMappa() {
     }
   }, [promozioni])
 
+
+  useEffect(() => {
+    const t = setInterval(() => setNowMs(Date.now()), 1000)
+    return () => clearInterval(t)
+  }, [])
 
   useEffect(() => {
     if (prenotazioni.length === 0) return
@@ -261,11 +267,11 @@ export default function VistaMappa() {
     }
   }, [prenotazioni])
 
-  // [IF-UT.04] CS-05 — sblocca uno o più mezzi (selezione o mezzo attivo singolo)
-  const handleSblocca = useCallback(async () => {
-    const targets = selezione.length > 0
+  // [IF-UT.04] CS-05 — sblocca uno o più mezzi (selezione, mezzo attivo, o targets espliciti)
+  const handleSblocca = useCallback(async (explicitTargets?: MezzoMappa[]) => {
+    const targets = explicitTargets ?? (selezione.length > 0
       ? selezione
-      : mezzoAttivo ? [mezzoAttivo] : []
+      : mezzoAttivo ? [mezzoAttivo] : [])
     if (targets.length === 0) return
     setSbloccoInCorso(true)
     setErrorePanel('')
@@ -403,9 +409,24 @@ export default function VistaMappa() {
                   )
                 })}
               </ul>
-              <button className="btn-prenota btn-annulla" onClick={handleAnnullaTutte} disabled={annullaInCorso}>
-                {annullaInCorso ? '...' : 'Annulla tutte le prenotazioni'}
-              </button>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button className="btn-prenota btn-annulla" onClick={handleAnnullaTutte} disabled={annullaInCorso} style={{ flex: 1 }}>
+                  {annullaInCorso ? '...' : 'Annulla tutte'}
+                </button>
+                <button
+                  className="btn-sblocca-panel"
+                  onClick={() => {
+                    const targets = mezziPrenotati.length > 0
+                      ? mezziPrenotati
+                      : prenotazioni.map(p => mezzi.find(m => m.id === p.mezzo_id)).filter(Boolean) as MezzoMappa[]
+                    handleSblocca(targets)
+                  }}
+                  disabled={sbloccoInCorso}
+                  style={{ flex: 1 }}
+                >
+                  {sbloccoInCorso ? '...' : `Sblocca (${prenotazioni.length})`}
+                </button>
+              </div>
             </div>
           ) : (
             <>
@@ -498,7 +519,7 @@ export default function VistaMappa() {
                     ) : (
                       <button
                         className="btn-sblocca-panel btn-conferma-prenota"
-                        onClick={handleSblocca}
+                        onClick={() => handleSblocca()}
                         disabled={sbloccoInCorso || selezione.length === 0}
                       >
                         {sbloccoInCorso ? '...' : `Sblocca (${selezione.length})`}
@@ -624,30 +645,59 @@ export default function VistaMappa() {
             {prenotazioniAttive.length === 0 ? (
               <p className="sidebar-empty">Nessuna prenotazione attiva.</p>
             ) : (
-              <ul className="sidebar-prenotazioni">
-                {prenotazioniAttive.map(p => {
-                  const secsLeft = Math.max(0, Math.floor((new Date(p.scade_at).getTime() - Date.now()) / 1000))
-                  return (
-                    <li key={p.id} className="sidebar-pren-item">
-                      <div className="sidebar-pren-row">
-                        <span className="sidebar-pren-mezzo">
-                          {GLYPH_MEZZO[p.tipo] ?? '●'} {tipoLabel(p.tipo)} · {p.codice}
-                        </span>
-                        <span className="sidebar-pren-timer">⏱ {formatTempoRimanente(secsLeft)}</span>
-                      </div>
-                      <button
-                        className="btn-prenota btn-annulla btn-annulla-singola"
-                        onClick={async () => {
-                          await annullaPrenotazione(p.id)
-                          setPrenotazioniAttive(prev => prev.filter(x => x.id !== p.id))
-                        }}
-                      >
-                        Annulla
-                      </button>
-                    </li>
-                  )
-                })}
-              </ul>
+              <>
+                <ul className="sidebar-prenotazioni">
+                  {prenotazioniAttive.map(p => {
+                    const secsLeft = Math.max(0, Math.floor((new Date(p.scade_at).getTime() - nowMs) / 1000))
+                    return (
+                      <li key={p.id} className="sidebar-pren-item">
+                        <div className="sidebar-pren-row">
+                          <span className="sidebar-pren-mezzo">
+                            {GLYPH_MEZZO[p.tipo] ?? '●'} {tipoLabel(p.tipo)} · {p.codice}
+                          </span>
+                          <span className="sidebar-pren-timer">⏱ {formatTempoRimanente(secsLeft)}</span>
+                        </div>
+                      </li>
+                    )
+                  })}
+                </ul>
+                <div className="sidebar-pren-azioni">
+                  <button
+                    className="btn-prenota btn-annulla"
+                    disabled={annullaInCorso}
+                    onClick={async () => {
+                      setAnnullaInCorso(true)
+                      try {
+                        await Promise.all(prenotazioniAttive.map(p => annullaPrenotazione(p.id)))
+                        setPrenotazioniAttive([])
+                        setPrenotazioni([])
+                        setMezziPrenotati([])
+                      } catch { /* ignore */ }
+                      finally { setAnnullaInCorso(false) }
+                    }}
+                  >
+                    {annullaInCorso ? '...' : 'Annulla tutti'}
+                  </button>
+                  <button
+                    className="btn-sblocca-panel"
+                    disabled={sbloccoInCorso}
+                    onClick={() => {
+                      setSidebarAperta(false)
+                      handleSblocca(prenotazioniAttive.map(p => ({
+                        id: p.mezzo_id,
+                        codice: p.codice,
+                        tipo: p.tipo as MezzoMappa['tipo'],
+                        stato: 'Prenotato',
+                        lat: 0,
+                        lng: 0,
+                        batteria: p.batteria,
+                      })))
+                    }}
+                  >
+                    {sbloccoInCorso ? '...' : `Sblocca (${prenotazioniAttive.length})`}
+                  </button>
+                </div>
+              </>
             )}
           </>
         ) : (sidebarSezione === 'tariffe' || sidebarSezione === 'promozioni') ? (

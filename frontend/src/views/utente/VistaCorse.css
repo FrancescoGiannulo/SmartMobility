@@ -131,6 +131,11 @@
   color: #64748b;
 }
 
+.corse-item-orari {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
 .corse-item-data {
   font-size: 12px;
   color: #94a3b8;
@@ -266,4 +271,41 @@
 .popup-item-dettagli {
   font-size: 12px;
   color: #64748b;
+}
+
+.popup-item-orari {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+/* ── Saldo / abbonamento / promo ── */
+.corse-tag-abbonamento {
+  background: #155e52;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 99px;
+  vertical-align: middle;
+}
+
+.corse-saldo-promo {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.corse-saldo-pieno {
+  color: #94a3b8;
+  text-decoration: line-through;
+}
+
+.corse-tag-promo {
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 99px;
 }

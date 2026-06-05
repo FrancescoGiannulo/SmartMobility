@@ -106,6 +106,21 @@ class PrenotazioneRepository:
             for row in rows
         ]
 
+    # [IF-UT.04] CS-05 — trova se esiste qualsiasi prenotazione attiva per il mezzo (da qualsiasi utente)
+    def trova_qualsiasi_attiva_per_mezzo(self, mezzo_id: UUID) -> dict | None:
+        sql = text("""
+            SELECT id FROM prenotazioni
+            WHERE mezzo_id = :mezzo_id
+              AND stato = 'attiva'
+              AND scade_at > now()
+            LIMIT 1
+        """)
+        with self._sessione() as s:
+            row = s.execute(sql, {"mezzo_id": str(mezzo_id)}).fetchone()
+        if row is None:
+            return None
+        return {"id": str(row.id)}
+
     # [IF-UT.02] CS-XX — trova prenotazione attiva per id e utente
     def trova_attiva_per_id_e_utente(
         self, prenotazione_id: UUID, utente_id: UUID

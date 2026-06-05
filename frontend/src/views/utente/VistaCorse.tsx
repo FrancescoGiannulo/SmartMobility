@@ -7,16 +7,37 @@ const GLYPH: Record<string, string> = {
   monopattino: '🛴', bicicletta: '🚲', automobile: '🚗',
 }
 
-function formatData(iso: string): string {
-  return new Date(iso).toLocaleDateString('it-IT', {
+function formatDataOra(iso: string): string {
+  return new Date(iso).toLocaleString('it-IT', {
     day: '2-digit', month: 'short', year: 'numeric',
+    hour: '2-digit', minute: '2-digit',
   })
+}
+
+function formatOra(iso: string): string {
+  return new Date(iso).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' })
 }
 
 function formatDurata(min: number | null): string {
   if (min == null) return '—'
-  const m = Math.round(min)
+  const totalSec = Math.round(min * 60)
+  if (totalSec < 60) return `${totalSec} sec`
+  const m = Math.floor(totalSec / 60)
   return m >= 60 ? `${Math.floor(m / 60)}h ${m % 60}m` : `${m} min`
+}
+
+function renderSaldo(c: CorsaStorico): React.ReactNode {
+  if (c.importo === 0) return <span className="corse-tag-abbonamento">Abbonamento</span>
+  if (c.nome_offerta_applicata && c.importo_pieno != null)
+    return (
+      <span className="corse-saldo-promo">
+        <s className="corse-saldo-pieno">€{c.importo_pieno.toFixed(2)}</s>
+        {' '}€{c.importo?.toFixed(2)}
+        <span className="corse-tag-promo">{c.nome_offerta_applicata}</span>
+      </span>
+    )
+  if (c.importo != null) return <span>€{c.importo.toFixed(2)}</span>
+  return null
 }
 
 type VoceStorico =
@@ -101,10 +122,14 @@ export default function VistaCorse() {
                       <span className="corse-item-codice">{v.corsa.codice_mezzo}</span>
                       <span className="corse-item-dettagli">
                         {formatDurata(v.corsa.durata_min)}
-                        {v.corsa.distanza_km != null && ` · ${v.corsa.distanza_km.toFixed(1)} km`}
+                        {' · '}{v.corsa.distanza_km != null ? `${v.corsa.distanza_km.toFixed(1)} km` : '— km'}
+                        {renderSaldo(v.corsa) && <> · {renderSaldo(v.corsa)}</>}
+                      </span>
+                      <span className="corse-item-orari">
+                        {formatDataOra(v.corsa.inizio_at)}
+                        {v.corsa.fine_at && ` → ${formatOra(v.corsa.fine_at)}`}
                       </span>
                     </div>
-                    <span className="corse-item-data">{formatData(v.corsa.inizio_at)}</span>
                   </div>
                 </li>
               ) : (
@@ -115,7 +140,7 @@ export default function VistaCorse() {
                     </span>
                     <div className="corse-gruppo-info">
                       <span className="corse-gruppo-badge">Gruppo ({v.corse.length} mezzi)</span>
-                      <span className="corse-gruppo-data">{formatData(v.corse[0].inizio_at)}</span>
+                      <span className="corse-gruppo-data">{formatDataOra(v.corse[0].inizio_at)}</span>
                     </div>
                     <button
                       type="button"
@@ -155,7 +180,12 @@ export default function VistaCorse() {
                     <span className="popup-item-codice">{c.codice_mezzo}</span>
                     <span className="popup-item-dettagli">
                       {formatDurata(c.durata_min)}
-                      {c.distanza_km != null && ` · ${c.distanza_km.toFixed(1)} km`}
+                      {' · '}{c.distanza_km != null ? `${c.distanza_km.toFixed(1)} km` : '— km'}
+                      {renderSaldo(c) && <> · {renderSaldo(c)}</>}
+                    </span>
+                    <span className="popup-item-orari">
+                      {formatDataOra(c.inizio_at)}
+                      {c.fine_at && ` → ${formatOra(c.fine_at)}`}
                     </span>
                   </div>
                 </li>

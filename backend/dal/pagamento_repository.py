@@ -141,6 +141,8 @@ class PagamentoRepository:
         stato: StatoPagamento,
         corsa_id: uuid.UUID | None = None,
         abbonamento_id: uuid.UUID | None = None,
+        importo_pieno: Decimal | None = None,
+        offerta_applicata_id: uuid.UUID | None = None,
     ) -> Pagamento:
         with Session(engine) as session:
             pagamento = Pagamento(
@@ -149,6 +151,8 @@ class PagamentoRepository:
                 utente_id=utente_id,
                 metodo_pagamento_id=metodo_id,
                 importo=importo,
+                importo_pieno=importo_pieno,
+                offerta_applicata_id=offerta_applicata_id,
                 stato=stato,
             )
             session.add(pagamento)
