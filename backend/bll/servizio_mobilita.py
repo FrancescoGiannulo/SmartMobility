@@ -1,3 +1,4 @@
+import uuid as _uuid
 from uuid import UUID
 from sqlalchemy.orm import Session
 from dal.mezzo_repository import MezzoRepository
@@ -49,16 +50,23 @@ class ServizioMobilita:
     ) -> dict:
         sbloccati = []
         falliti = []
+        # [IF-UT.14] gruppo_corsa_id condiviso se sblocco multiplo
+        gruppo_id = _uuid.uuid4() if len(mezzo_ids) > 1 else None
         for mezzo_id in mezzo_ids:
             try:
-                corsa = self._sblocca_singolo(mezzo_id, utente_id)
+                corsa = self._sblocca_singolo(mezzo_id, utente_id, gruppo_id)
                 sbloccati.append({"mezzo_id": str(mezzo_id), "corsa_id": corsa["id"]})
             except Exception:
                 # [CS-05.01] mezzo non sbloccabile — segnaFallito
                 falliti.append(str(mezzo_id))
         return {"sbloccati": sbloccati, "falliti": falliti}
 
-    def _sblocca_singolo(self, mezzo_id: UUID, utente_id: UUID) -> dict:
+    def _sblocca_singolo(
+        self,
+        mezzo_id: UUID,
+        utente_id: UUID,
+        gruppo_corsa_id: _uuid.UUID | None = None,
+    ) -> dict:
         mezzo = self._mezzo_repo.trova_per_id(mezzo_id)
         if mezzo is None:
             raise MezzoNonTrovatoException(f"Mezzo {mezzo_id} non trovato")
@@ -73,7 +81,7 @@ class ServizioMobilita:
             prenotazione_id = pren["id"]
         else:
             raise MezzoNonDisponibileException(f"Mezzo non disponibile (stato: {stato})")
-        corsa = self._corsa_repo.crea(utente_id, mezzo_id, prenotazione_id)
+        corsa = self._corsa_repo.crea(utente_id, mezzo_id, prenotazione_id, gruppo_corsa_id)
         if prenotazione_id:
             self._pren_repo.aggiorna_stato(UUID(prenotazione_id), "convertita")
         self._mezzo_repo.aggiorna_stato(mezzo_id, "In uso")
@@ -126,6 +134,10 @@ class ServizioMobilita:
                 penale_fuori_zona,
                 tipo_vincolo,
             )
+
+    # [IF-UT.14] CS-11 — Storico corse dell'utente
+    def get_storico(self, utente_id: UUID) -> list[dict]:
+        return self._corsa_repo.find_by_utente_order_by_data(utente_id)
 
     # [IF-UT.06] CS-11 — Termina Corsa (minimale: aggiorna stati)
     def termina_corsa(self, corsa_id: UUID, utente_id: UUID) -> None:

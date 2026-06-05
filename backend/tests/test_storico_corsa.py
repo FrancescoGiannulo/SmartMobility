@@ -107,3 +107,68 @@ class TestCorsaRepository:
             assert risultato[1]["codice_mezzo"] == codice1
         finally:
             _cleanup(db, utente_test["id"], [mezzo1, mezzo2])
+
+
+class TestServizioMobilita:
+
+    @pytest.mark.integration
+    def test_sblocca_gruppo_assegna_gruppo_corsa_id(self, db, utente_test):
+        from bll.servizio_mobilita import ServizioMobilita
+        from sqlalchemy.orm import Session as OrmSession
+        codice1 = f"TEST-SG1-{_uuid.uuid4().hex[:6]}"
+        codice2 = f"TEST-SG2-{_uuid.uuid4().hex[:6]}"
+        mezzo1 = _inserisci_mezzo(db, codice1)
+        mezzo2 = _inserisci_mezzo(db, codice2)
+        try:
+            with OrmSession(db) as s:
+                svc = ServizioMobilita(s)
+                ris = svc.sblocca_mezzi(
+                    [_uuid.UUID(mezzo1), _uuid.UUID(mezzo2)],
+                    utente_test["id"]
+                )
+            assert len(ris["sbloccati"]) == 2
+            with Session(db) as s:
+                corse = s.execute(
+                    text("SELECT gruppo_corsa_id FROM corse WHERE utente_id = :uid"),
+                    {"uid": str(utente_test["id"])}
+                ).fetchall()
+            gruppi = [str(c.gruppo_corsa_id) for c in corse if c.gruppo_corsa_id]
+            assert len(gruppi) == 2
+            assert gruppi[0] == gruppi[1]
+        finally:
+            _cleanup(db, utente_test["id"], [mezzo1, mezzo2])
+
+    @pytest.mark.integration
+    def test_sblocca_singolo_nessun_gruppo_corsa_id(self, db, utente_test):
+        from bll.servizio_mobilita import ServizioMobilita
+        from sqlalchemy.orm import Session as OrmSession
+        codice = f"TEST-SS-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice)
+        try:
+            with OrmSession(db) as s:
+                svc = ServizioMobilita(s)
+                svc.sblocca_mezzi([_uuid.UUID(mezzo_id)], utente_test["id"])
+            with Session(db) as s:
+                row = s.execute(
+                    text("SELECT gruppo_corsa_id FROM corse WHERE utente_id = :uid"),
+                    {"uid": str(utente_test["id"])}
+                ).fetchone()
+            assert row.gruppo_corsa_id is None
+        finally:
+            _cleanup(db, utente_test["id"], [mezzo_id])
+
+    @pytest.mark.integration
+    def test_get_storico_restituisce_corse(self, db, utente_test):
+        from bll.servizio_mobilita import ServizioMobilita
+        from sqlalchemy.orm import Session as OrmSession
+        codice = f"TEST-GS-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice)
+        try:
+            _inserisci_corsa(db, utente_test["id"], mezzo_id)
+            with OrmSession(db) as s:
+                svc = ServizioMobilita(s)
+                storico = svc.get_storico(utente_test["id"])
+            assert len(storico) == 1
+            assert storico[0]["codice_mezzo"] == codice
+        finally:
+            _cleanup(db, utente_test["id"], [mezzo_id])
