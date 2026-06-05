@@ -26,8 +26,8 @@
 .regole-topbar .btn-indietro {
   padding: 8px 16px;
   background: transparent;
-  color: #4caf9a;
-  border: 2px solid #4caf9a;
+  color: #155e52;
+  border: 2px solid #155e52;
   border-radius: 10px;
   font-size: 13px;
   font-weight: 700;
@@ -90,7 +90,7 @@
 }
 .regole-campo input:focus,
 .regole-campo select:focus {
-  border-color: #4caf9a;
+  border-color: #155e52;
   background: #fff;
 }
 
@@ -108,7 +108,7 @@
 .bonus-toggle input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  accent-color: #4caf9a;
+  accent-color: #155e52;
   cursor: pointer;
 }
 
@@ -135,7 +135,7 @@
 .btn-salva-regole {
   width: 100%;
   padding: 14px;
-  background: #4caf9a;
+  background: #155e52;
   color: #fff;
   border: none;
   border-radius: 14px;
@@ -145,5 +145,5 @@
   cursor: pointer;
   transition: background 160ms;
 }
-.btn-salva-regole:hover { background: #3a9a86; }
+.btn-salva-regole:hover { background: #0f4a3f; }
 .btn-salva-regole:disabled { opacity: 0.6; cursor: not-allowed; }

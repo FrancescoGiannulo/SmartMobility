@@ -1,17 +1,23 @@
+/* ============================================================
+   VistaCorsa — Info Corsa / Termina Corsa
+   Fedele ai mockup 8 e "Termina Corsa"
+   ============================================================ */
+
 .vista-corsa-wrap {
   min-height: 100vh;
-  background: #f7f7f7;
+  background: #f5f8f5;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 32px 24px 40px;
+  position: relative;
 }
 
 .btn-back-corsa {
   align-self: flex-start;
   background: none;
   border: none;
-  color: #4caf9a;
+  color: #155e52;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -19,84 +25,149 @@
   margin-bottom: 16px;
 }
 
-/* Titolo "Info corsa" */
+/* ── Titolo ──────────────────────────────────── */
 .corsa-titolo {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 26px;
+  font-weight: 800;
   font-style: italic;
-  color: #4caf9a;
-  margin: 0 0 28px;
+  color: #155e52;
+  margin: 0 0 20px;
+  text-align: center;
 }
 
-/* Icona mezzo circolare */
-.corsa-icona-mezzo {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  background: #fff;
-  border: 4px solid #4caf9a;
+/* ── Cerchi ──────────────────────────────────── */
+.cerchi-container {
+  position: relative;
+  margin: 0 auto 24px;
+  flex-shrink: 0;
+}
+
+/* Animazione floating satellite */
+@keyframes floatSat {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-7px) scale(1.04); }
+}
+
+/* Animazione pulse cerchio centrale */
+@keyframes pulseCent {
+  0%, 100% { box-shadow: 0 10px 30px rgba(76,175,154,0.55), 0 0 0 10px rgba(76,175,154,0.12); }
+  50%       { box-shadow: 0 12px 36px rgba(76,175,154,0.72), 0 0 0 18px rgba(76,175,154,0.20); }
+}
+
+/* Satellite: div assoluto che contiene cerchio + etichetta */
+.cerchio-sat-wrap {
+  position: absolute;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  animation: floatSat 2.8s ease-in-out infinite;
+}
+
+.cerchio {
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 52px;
-  box-shadow: 0 4px 18px rgba(76, 175, 154, 0.18);
-  margin-bottom: 28px;
+  gap: 2px;
+  border: 3px solid rgba(255,255,255,0.7);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+  flex-shrink: 0;
 }
 
-/* Tabella info */
+/* Cerchio centrale (mezzo selezionato) */
+.cerchio--centrale {
+  position: absolute;
+  background: linear-gradient(145deg, #3dba9a, #1f7a60);
+  box-shadow:
+    0 10px 30px rgba(76,175,154,0.55),
+    0 0 0 10px rgba(76,175,154,0.12);
+  cursor: default;
+  z-index: 2;
+  animation: pulseCent 3s ease-in-out infinite;
+}
+
+/* Cerchi satelliti */
+.cerchio--satellite {
+  background: linear-gradient(145deg, #6ecdb8, #43ab92);
+  box-shadow: 0 4px 14px rgba(76,175,154,0.35);
+}
+.cerchio-sat-wrap:hover .cerchio--satellite {
+  box-shadow: 0 6px 20px rgba(76,175,154,0.55);
+}
+
+.cerchio-glyph {
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Codice nel cerchio centrale */
+.cerchio-codice-cent {
+  font-size: 11px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 0.5px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Codice sotto il cerchio satellite */
+.cerchio-codice {
+  font-size: 10px;
+  font-weight: 700;
+  color: #2a7a6a;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+/* ── Tabella info ──────────────────────────── */
 .corsa-tabella {
   width: 100%;
   max-width: 340px;
   border-collapse: collapse;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .corsa-tabella td {
   padding: 12px 4px;
-  border-bottom: 1px solid #ececec;
+  border-bottom: 1px solid #e0ede8;
   font-size: 15px;
 }
-
 .corsa-tabella td:first-child {
   font-weight: 700;
   font-style: italic;
-  color: #4caf9a;
-  width: 55%;
+  color: #155e52;
+  width: 58%;
 }
-
 .corsa-tabella td:last-child {
   text-align: right;
   font-weight: 600;
-  color: #222;
+  color: #1e293b;
 }
 
-/* Logo Smart Mobility */
+/* ── Logo ──────────────────────────────────── */
 .corsa-logo {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
+.corsa-logo-icona { font-size: 36px; filter: hue-rotate(120deg); }
+.corsa-logo-testo { font-size: 13px; color: #155e52; letter-spacing: 1.5px; }
 
-.corsa-logo-icona {
-  font-size: 36px;
-  filter: hue-rotate(120deg);
-}
-
-.corsa-logo-testo {
-  font-size: 13px;
-  color: #4caf9a;
-  letter-spacing: 1px;
-}
-
-/* Bottoni */
+/* ── Bottoni ───────────────────────────────── */
 .corsa-bottoni {
   display: flex;
   flex-direction: column;
   gap: 12px;
   width: 100%;
-  max-width: 340px;
+  max-width: 300px;
 }
 
 .btn-corsa {
@@ -104,32 +175,32 @@
   padding: 15px 0;
   border-radius: 50px;
   border: none;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-size: 14px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 1.5px;
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: opacity 0.15s, transform 0.12s;
+  text-transform: uppercase;
 }
+.btn-corsa:active { transform: scale(0.97); }
+.btn-corsa:disabled { opacity: 0.45; cursor: not-allowed; }
 
 .btn-termina {
-  background: #4caf9a;
+  background: #155e52;
   color: #fff;
+  box-shadow: 0 4px 14px rgba(76,175,154,0.4);
 }
-
 .btn-pausa {
-  background: #4caf9a;
-  color: #fff;
+  background: transparent;
+  color: #155e52;
+  border: 2.5px solid #155e52;
 }
 
-.btn-corsa:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-/* Esito pagamento */
+/* ── Esito pagamento ────────────────────────── */
 .corsa-esito {
   width: 100%;
-  max-width: 340px;
+  max-width: 300px;
   border-radius: 16px;
   padding: 20px 18px;
   display: flex;
@@ -138,44 +209,170 @@
   gap: 8px;
   margin-bottom: 16px;
   text-align: center;
-  animation: smFloatIn 260ms ease;
+  animation: corsaFadeIn 260ms ease;
 }
-
-@keyframes smFloatIn {
+@keyframes corsaFadeIn {
   from { opacity: 0; transform: translateY(-6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+.corsa-esito--ok    { background: #e0f2ee; border: 1.5px solid #155e52; }
+.corsa-esito--errore{ background: #fff0f0; border: 1.5px solid #e53935; }
+.corsa-esito-icona  { font-size: 32px; }
+.corsa-esito-testo  { font-size: 15px; font-weight: 700; color: #0f172a; margin: 0; }
+.corsa-esito-sub    { font-size: 13px; color: #64748b; margin: 0; }
+.corsa-errore       { color: #e53935; font-size: 13px; text-align: center; margin: 4px 0 0; }
 
-.corsa-esito--ok {
-  background: #e0f2ee;
-  border: 1.5px solid #4caf9a;
+/* ── Overlay Termina Corsa ──────────────────── */
+.termina-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 15, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px;
+  animation: corsaFadeIn 220ms ease;
 }
 
-.corsa-esito--errore {
-  background: #fff0f0;
-  border: 1.5px solid #e53935;
+/* Card bianca sovrapposta */
+.termina-card {
+  background: #fff;
+  border-radius: 22px;
+  padding: 20px 16px 22px;
+  width: 100%;
+  max-width: 340px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.corsa-esito-icona {
-  font-size: 32px;
+.termina-counter {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #155e52;
+  margin: 0;
 }
 
-.corsa-esito-testo {
+/* Lista mezzi da terminare */
+.termina-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.termina-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f8fffe;
+  border: 1px solid #dff0ea;
+  border-radius: 14px;
+  padding: 10px 12px;
+}
+
+.termina-icona-mezzo { font-size: 24px; flex-shrink: 0; }
+
+.termina-codice {
+  flex: 1;
   font-size: 15px;
   font-weight: 700;
-  color: #0f172a;
-  margin: 0;
+  color: #1e293b;
 }
 
-.corsa-esito-sub {
-  font-size: 13px;
-  color: #64748b;
-  margin: 0;
+.termina-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 140ms, opacity 140ms;
+  opacity: 0.35;
 }
+.termina-btn--attivo { opacity: 1; }
+.termina-btn:hover:not(:disabled) { transform: scale(1.1); }
 
-.corsa-errore {
-  color: #e53935;
-  font-size: 13px;
+.termina-btn--ok          { background: #e0f2ee; color: #155e52; }
+.termina-btn--ok.termina-btn--attivo  { background: #155e52; color: #fff; box-shadow: 0 2px 8px rgba(76,175,154,0.4); }
+.termina-btn--no          { background: #fdecea; color: #e53935; }
+.termina-btn--no.termina-btn--attivo  { background: #e53935; color: #fff; box-shadow: 0 2px 8px rgba(229,57,53,0.35); }
+
+/* Bottoni in fondo alla card */
+.termina-bottoni {
+  display: flex;
+  gap: 10px;
+}
+.btn-termina-tutti   { flex: 1.6; }
+.btn-annulla-termina {
+  flex: 1;
+  background: #e53935;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(229,57,53,0.35);
+}
+/* ── Selezione promozione ── */
+.termina-titolo-promo {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a2e2a;
+  margin: 0 0 16px;
   text-align: center;
-  margin: 0 0 12px;
+}
+
+.promo-lista {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.promo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f0faf7;
+  border: 1px solid #b2dfdb;
+  border-radius: 12px;
+  padding: 10px 14px;
+  gap: 12px;
+}
+
+.promo-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.promo-nome {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a2e2a;
+}
+
+.promo-sconto {
+  font-size: 13px;
+  font-weight: 700;
+  color: #155e52;
+}
+
+.btn-applica-promo {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  font-size: 13px;
+  border-radius: 20px;
 }

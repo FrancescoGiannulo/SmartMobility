@@ -1,12 +1,18 @@
-import { useState, useEffect, useCallback } from 'react'
-import { useParams, useLocation, useNavigate } from 'react-router-dom'
+import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { terminaCorsa, type CorsaAttiva } from '../../services/CorsaService'
+import { terminaCorsa } from '../../services/CorsaService'
 import type { MezzoMappa } from '../../services/MapService'
-import { effettuaPagamento } from '../../services/PaymentService'
+import { effettuaPagamento, getMetodiPagamento, getPromozioni, type Promozione } from '../../services/PaymentService'
 import './VistaCorsa.css'
 
-type FasePagamento = 'idle' | 'termina' | 'paga' | 'ok' | 'rifiutato' | 'no-metodo' | 'errore'
+interface DatiCorsa {
+  corsa_id: string
+  mezzo: MezzoMappa
+  inizio_at: string
+}
+
+type FasePagamento = 'idle' | 'termina' | 'scegli-promo' | 'paga' | 'ok' | 'rifiutato' | 'no-metodo' | 'errore'
 
 function formatTime(sec: number): string {
   const m = Math.floor(sec / 60).toString().padStart(2, '0')
@@ -14,125 +20,207 @@ function formatTime(sec: number): string {
   return `${m}:${s}`
 }
 
-function IconaMezzo({ tipo }: { tipo?: string }) {
-  const emoji = tipo === 'monopattino' ? '🛴' : tipo === 'bicicletta' ? '🚲' : '🚗'
-  return <div className="corsa-icona-mezzo">{emoji}</div>
-}
-
 function Batteria({ valore }: { valore: number | null | undefined }) {
   if (valore == null) return <span>N/D</span>
   const barre = Math.min(4, Math.ceil(valore / 25))
-  const colore = valore > 50 ? '#4caf9a' : valore > 20 ? '#f59e0b' : '#ef4444'
+  const colore = valore > 50 ? '#155e52' : valore > 20 ? '#f59e0b' : '#ef4444'
   return (
     <span style={{ display: 'inline-flex', alignItems: 'flex-end', gap: 3 }}>
       {[1, 2, 3, 4].map(i => (
         <span key={i} style={{
-          display: 'inline-block',
-          width: 7,
-          height: 6 + i * 4,
-          background: i <= barre ? colore : '#e0e0e0',
-          borderRadius: 2,
+          display: 'inline-block', width: 7, height: 6 + i * 4,
+          background: i <= barre ? colore : '#e0e0e0', borderRadius: 2,
         }} />
       ))}
     </span>
   )
 }
 
-// [IF-UT.04/IF-UT.06] CS-10/CS-11 — Info Corsa / IUI-8
+const GLYPH: Record<string, string> = {
+  monopattino: '🛴', bicicletta: '🚲', automobile: '🚗',
+}
+
+// Posizioni sempre sfalsate/diagonali (offset -π/4 fisso)
+// n=1 → top-right; n=2 → top-left + bottom-right; n=4 → angoli
+function posSatellite(i: number, n: number, cx: number, cy: number, raggio: number, w: number, h: number) {
+  const angolo = (i * 2 * Math.PI / n) - Math.PI / 2 - Math.PI / 4
+  return {
+    left: cx + raggio * Math.cos(angolo) - w / 2,
+    top:  cy + raggio * Math.sin(angolo) - h / 2,
+  }
+}
+
+// [IF-UT.04/IF-UT.06] CS-05/CS-06/CS-07
 export default function VistaCorsa() {
-  const { idMezzo } = useParams<{ idMezzo: string }>()
   const location = useLocation()
   const navigate = useNavigate()
 
-  const mezzo = location.state?.mezzo as MezzoMappa | undefined
-  const corsaPassata = location.state?.corsa as CorsaAttiva | undefined
+  // corse è uno stato: i mezzi terminati vengono rimossi dopo il pagamento
+  const corseInit = useMemo<DatiCorsa[]>(() => {
+    const s = location.state as Record<string, unknown> | null
+    if (s?.corse) return s.corse as DatiCorsa[]
+    if (s?.mezzo && s?.corsa) {
+      const c = s.corsa as { id: string; inizio_at?: string }
+      return [{ corsa_id: c.id, mezzo: s.mezzo as MezzoMappa, inizio_at: c.inizio_at ?? new Date().toISOString() }]
+    }
+    return []
+  }, [location.state])
 
-  const [corsa] = useState<CorsaAttiva | null>(corsaPassata ?? null)
+  const [corse, setCorse] = useState<DatiCorsa[]>(corseInit)
+  const [selId, setSelId] = useState<string>(() => corseInit[0]?.mezzo.id ?? '')
   const [elapsed, setElapsed] = useState(0)
   const [fase, setFase] = useState<FasePagamento>('idle')
+  const [schermataTermina, setSchermataTermina] = useState(false)
+  const [daTerminare, setDaTerminare] = useState<Set<string>>(() => new Set(corseInit.map(c => c.corsa_id)))
   const [importoPagato, setImportoPagato] = useState<number | null>(null)
   const [errore, setErrore] = useState('')
-  const [corsaTerminata, setCorsaTerminata] = useState(false)
+  const [promozioniDisp, setPromozioniDisp] = useState<Promozione[]>([])
+  const [corsePerPagamento, setCorsePerPagamento] = useState<DatiCorsa[]>([])
+
+  const selCorsa = corse.find(c => c.mezzo.id === selId) ?? corse[0]
 
   useEffect(() => {
-    if (!corsa) return
-    const inizio = new Date(corsa.inizio_at).getTime()
+    if (!corse[0]) return
+    const inizio = new Date(corse[0].inizio_at).getTime()
     const tick = () => setElapsed(Math.floor((Date.now() - inizio) / 1000))
     tick()
     const t = setInterval(tick, 1000)
     return () => clearInterval(t)
-  }, [corsa])
+  }, [corse])
 
-  // [IF-UT.06 + IF-UT.17] CS-06 termina corsa → CS-07 effettua pagamento
-  const handleTermina = useCallback(async () => {
-    if (!corsa) return
-    setErrore('')
+  const toggleTermina = (corsaId: string) => {
+    setDaTerminare(prev => {
+      const next = new Set(prev)
+      if (next.has(corsaId)) next.delete(corsaId)
+      else next.add(corsaId)
+      return next
+    })
+  }
 
-    if (!corsaTerminata) {
-      setFase('termina')
-      try {
-        await terminaCorsa(corsa.id)
-        setCorsaTerminata(true)
-      } catch {
-        setErrore('Errore durante la chiusura della corsa. Riprova.')
-        setFase('idle')
-        return
-      }
-    }
-
+  const handlePaga = useCallback(async (da: DatiCorsa[], offertaId?: string) => {
     setFase('paga')
     try {
-      const durata_min = elapsed / 60
-      const risultato = await effettuaPagamento(corsa.id, mezzo?.tipo ?? '', durata_min, 0)
-      setImportoPagato(risultato.importo)
+      const res = await effettuaPagamento(da[0].corsa_id, da[0].mezzo?.tipo ?? '', elapsed / 60, 0, offertaId)
+      setImportoPagato(res.importo)
       setFase('ok')
-      setTimeout(() => navigate('/utente/home', { replace: true }), 3000)
+      const idTerminati = new Set(da.map(c => c.corsa_id))
+      const rimanenti = corse.filter(c => !idTerminati.has(c.corsa_id))
+      setTimeout(() => {
+        if (rimanenti.length > 0) {
+          setCorse(rimanenti)
+          setDaTerminare(new Set(rimanenti.map(c => c.corsa_id)))
+          setSelId(rimanenti[0].mezzo.id)
+          setSchermataTermina(false)
+          setFase('idle')
+          setImportoPagato(null)
+        } else {
+          navigate('/utente/home', { replace: true })
+        }
+      }, 2000)
     } catch (err) {
-      if (axios.isAxiosError(err) && err.response?.status === 400) {
-        setFase('no-metodo')
-      } else if (axios.isAxiosError(err) && err.response?.status === 402) {
-        setFase('rifiutato')
-      } else {
-        setFase('errore')
-      }
+      setSchermataTermina(false)
+      if (axios.isAxiosError(err) && err.response?.status === 400) setFase('no-metodo')
+      else if (axios.isAxiosError(err) && err.response?.status === 402) setFase('rifiutato')
+      else setFase('errore')
     }
-  }, [corsa, corsaTerminata, mezzo, elapsed, navigate])
+  }, [corse, elapsed, navigate])
 
-  if (!corsa) {
-    return (
-      <div className="vista-corsa-wrap">
-        <button type="button" className="btn-back-corsa" onClick={() => navigate(-1)}>← Torna alla mappa</button>
-        <p style={{ color: '#888', marginTop: 32, textAlign: 'center' }}>
-          Nessuna corsa attiva. Torna alla mappa e clicca su un mezzo.
-        </p>
-      </div>
-    )
-  }
+  const handleTermina = useCallback(async () => {
+    const da = corse.filter(c => daTerminare.has(c.corsa_id))
+    if (da.length === 0) return
+    setFase('termina')
+    setErrore('')
+    // [CS-07 precondition] Verifica metodo predefinito PRIMA di terminare la corsa.
+    // Se manca, la corsa rimane attiva e l'utente può aggiungere un metodo.
+    try {
+      const metodi = await getMetodiPagamento()
+      if (!metodi.some(m => m.predefinito)) {
+        setSchermataTermina(false)
+        setFase('no-metodo')
+        return
+      }
+    } catch { /* errore rete: il backend gestirà il 400 se necessario */ }
+    try {
+      for (const c of da) await terminaCorsa(c.corsa_id)
+    } catch {
+      setErrore('Errore durante la chiusura. Riprova.')
+      setFase('idle')
+      return
+    }
+    // Dopo la chiusura controlla promozioni disponibili
+    try {
+      const r = await getPromozioni()
+      const lista = Array.isArray(r.data) ? r.data : []
+      if (lista.length > 0) {
+        setPromozioniDisp(lista)
+        setCorsePerPagamento(da)
+        setFase('scegli-promo')
+        return
+      }
+    } catch { /* nessuna promo o errore rete: prosegui senza */ }
+    await handlePaga(da)
+  }, [corse, daTerminare, handlePaga])
+
+  if (!corse.length) return (
+    <div className="vista-corsa-wrap">
+      <button type="button" className="btn-back-corsa" onClick={() => navigate(-1)}>← Torna alla mappa</button>
+      <p style={{ color: '#888', marginTop: 32, textAlign: 'center' }}>Nessuna corsa attiva.</p>
+    </div>
+  )
+
+  // Costanti geometria cerchi
+  const CONTAINER = 330
+  const CX = CONTAINER / 2
+  const CY = CONTAINER / 2
+  const CENT = 126
+  const SAT = 72
+  const SAT_H = 86   // cerchio + testo codice
+  const RAG = 122    // gap visibile ≈ 63-36=27px tra i bordi
+
+  const satellites = corse.filter(c => c.mezzo.id !== selId)
 
   return (
     <div className="vista-corsa-wrap">
+      {/* ── Info corsa ── */}
       <h1 className="corsa-titolo">Info corsa</h1>
 
-      <IconaMezzo tipo={mezzo?.tipo} />
+      {/* Cerchi */}
+      <div className="cerchi-container" style={{ width: CONTAINER, height: CONTAINER }}>
+        {/* Satelliti */}
+        {satellites.map((c, i) => {
+          const pos = posSatellite(i, Math.max(satellites.length, 1), CX, CY, RAG, SAT, SAT_H)
+          return (
+            <button
+              key={c.corsa_id}
+              className="cerchio-sat-wrap"
+              style={{ left: pos.left, top: pos.top, animationDelay: `${i * 0.55}s` }}
+              onClick={() => setSelId(c.mezzo.id)}
+            >
+              <div className="cerchio cerchio--satellite" style={{ width: SAT, height: SAT }}>
+                <span className="cerchio-glyph" style={{ fontSize: 28 }}>{GLYPH[c.mezzo.tipo] ?? '●'}</span>
+              </div>
+              <span className="cerchio-codice">{c.mezzo.codice}</span>
+            </button>
+          )
+        })}
 
+        {/* Cerchio centrale */}
+        <div
+          className="cerchio cerchio--centrale"
+          style={{ width: CENT, height: CENT, left: (CONTAINER - CENT) / 2, top: (CONTAINER - CENT) / 2 }}
+        >
+          <span className="cerchio-glyph" style={{ fontSize: 48 }}>{GLYPH[selCorsa?.mezzo.tipo ?? ''] ?? '●'}</span>
+          <span className="cerchio-codice-cent">{selCorsa?.mezzo.codice}</span>
+        </div>
+      </div>
+
+      {/* Tabella info */}
       <table className="corsa-tabella">
         <tbody>
-          <tr>
-            <td>ID Mezzo:</td>
-            <td>{mezzo?.codice ?? idMezzo}</td>
-          </tr>
-          <tr>
-            <td>Carica rimanente:</td>
-            <td><Batteria valore={mezzo?.batteria} /></td>
-          </tr>
-          <tr>
-            <td>Tempo trascorso:</td>
-            <td>{formatTime(elapsed)}</td>
-          </tr>
-          <tr>
-            <td>Km percorsi:</td>
-            <td>0,0</td>
-          </tr>
+          <tr><td>ID Mezzo:</td><td>{selCorsa?.mezzo.codice}</td></tr>
+          <tr><td>Carica rimanente:</td><td><Batteria valore={selCorsa?.mezzo.batteria} /></td></tr>
+          <tr><td>Tempo trascorso:</td><td>{formatTime(elapsed)}</td></tr>
+          <tr><td>Km percorsi:</td><td>0,0</td></tr>
         </tbody>
       </table>
 
@@ -141,62 +229,118 @@ export default function VistaCorsa() {
         <span className="corsa-logo-testo"><strong>SMART</strong> MOBILITY</span>
       </div>
 
-      {errore && <p className="corsa-errore">{errore}</p>}
-
+      {/* Esiti */}
       {fase === 'ok' && (
         <div className="corsa-esito corsa-esito--ok">
           <span className="corsa-esito-icona">✅</span>
-          <p className="corsa-esito-testo">
-            Pagamento di <strong>€{importoPagato?.toFixed(2)}</strong> completato.
-          </p>
+          <p className="corsa-esito-testo">Pagamento di <strong>€{importoPagato?.toFixed(2)}</strong> completato.</p>
           <p className="corsa-esito-sub">Torno alla mappa...</p>
         </div>
       )}
-
-      {fase === 'rifiutato' && (
+      {(fase === 'rifiutato' || fase === 'no-metodo' || fase === 'errore') && (
         <div className="corsa-esito corsa-esito--errore">
-          <span className="corsa-esito-icona">❌</span>
-          <p className="corsa-esito-testo">Pagamento rifiutato.</p>
-          <p className="corsa-esito-sub">Il metodo di pagamento non è stato accettato.</p>
-          <button type="button" className="btn-corsa btn-termina" onClick={() => navigate('/utente/pagamenti')}>
-            Aggiorna metodo di pagamento
-          </button>
-        </div>
-      )}
-
-      {fase === 'no-metodo' && (
-        <div className="corsa-esito corsa-esito--errore">
-          <span className="corsa-esito-icona">⚠️</span>
-          <p className="corsa-esito-testo">Nessun metodo di pagamento predefinito.</p>
-          <p className="corsa-esito-sub">Aggiungi un metodo e torna qui per completare il pagamento.</p>
-          <button type="button" className="btn-corsa btn-termina" onClick={() => navigate('/utente/pagamenti')}>
-            Aggiungi metodo di pagamento
-          </button>
-        </div>
-      )}
-
-      {fase === 'errore' && (
-        <div className="corsa-esito corsa-esito--errore">
-          <span className="corsa-esito-icona">⚠️</span>
-          <p className="corsa-esito-testo">Errore nel servizio di pagamento.</p>
-          <p className="corsa-esito-sub">Riprova tra qualche istante.</p>
-          <button type="button" className="btn-corsa btn-termina" onClick={() => setFase('idle')}>
-            Riprova
-          </button>
+          <span className="corsa-esito-icona">{fase === 'rifiutato' ? '❌' : '⚠️'}</span>
+          <p className="corsa-esito-testo">
+            {fase === 'no-metodo' ? 'Metodo di pagamento non configurato.'
+             : fase === 'rifiutato' ? 'Pagamento rifiutato.'
+             : 'Errore nel servizio di pagamento.'}
+          </p>
+          {fase === 'no-metodo'
+            ? <button type="button" className="btn-corsa btn-termina" onClick={() => navigate('/utente/pagamenti')}>Gestisci pagamenti</button>
+            : <button type="button" className="btn-corsa btn-termina" onClick={() => setFase('idle')}>Riprova</button>
+          }
         </div>
       )}
 
       {(fase === 'idle' || fase === 'termina' || fase === 'paga') && (
         <div className="corsa-bottoni">
-          <button
-            type="button"
-            className="btn-corsa btn-termina"
-            onClick={handleTermina}
-            disabled={fase !== 'idle'}
-          >
-            {fase === 'termina' ? 'Chiusura...' : fase === 'paga' ? 'Addebito...' : 'TERMINA E PAGA'}
+          <button type="button" className="btn-corsa btn-termina" onClick={() => setSchermataTermina(true)}>
+            TERMINA E PAGA
           </button>
           <button type="button" className="btn-corsa btn-pausa" disabled>PAUSA CORSA</button>
+        </div>
+      )}
+
+      {/* ── Modal scegli promozione ── */}
+      {schermataTermina && fase === 'scegli-promo' && (
+        <div className="termina-overlay">
+          <div className="termina-card">
+            <p className="termina-titolo-promo">Vuoi applicare una promozione?</p>
+            <ul className="promo-lista">
+              {promozioniDisp.map(p => (
+                <li key={p.id} className="promo-item">
+                  <div className="promo-info">
+                    <span className="promo-nome">{p.titolo}</span>
+                    <span className="promo-sconto">-{parseFloat(p.sconto_percentuale).toFixed(0)}%</span>
+                  </div>
+                  <button
+                    type="button"
+                    className="btn-corsa btn-termina btn-applica-promo"
+                    onClick={() => handlePaga(corsePerPagamento, p.id)}
+                  >
+                    Applica
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <button
+              type="button"
+              className="btn-corsa btn-annulla-termina"
+              onClick={() => handlePaga(corsePerPagamento)}
+            >
+              Salta, paga prezzo pieno
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ── Modal Termina Corsa — overlay sfocato ── */}
+      {schermataTermina && fase !== 'scegli-promo' && (
+        <div className="termina-overlay">
+          <div className="termina-card">
+            <p className="termina-counter">{daTerminare.size}/{corse.length}</p>
+
+            <ul className="termina-lista">
+              {corse.map(c => (
+                <li key={c.corsa_id} className="termina-item">
+                  <span className="termina-icona-mezzo">{GLYPH[c.mezzo.tipo] ?? '●'}</span>
+                  <span className="termina-codice">{c.mezzo.codice}</span>
+                  <button
+                    className={`termina-btn termina-btn--ok${daTerminare.has(c.corsa_id) ? ' termina-btn--attivo' : ''}`}
+                    onClick={() => !daTerminare.has(c.corsa_id) && toggleTermina(c.corsa_id)}
+                    title="Termina"
+                  >✓</button>
+                  <button
+                    className={`termina-btn termina-btn--no${!daTerminare.has(c.corsa_id) ? ' termina-btn--attivo' : ''}`}
+                    onClick={() => daTerminare.has(c.corsa_id) && toggleTermina(c.corsa_id)}
+                    title="Salta"
+                  >✕</button>
+                </li>
+              ))}
+            </ul>
+
+            {errore && <p className="corsa-errore">{errore}</p>}
+
+            <div className="termina-bottoni">
+              <button
+                type="button"
+                className="btn-corsa btn-termina btn-termina-tutti"
+                onClick={handleTermina}
+                disabled={daTerminare.size === 0 || fase !== 'idle'}
+              >
+                {fase === 'termina' ? 'Chiusura...'
+                  : fase === 'paga' ? 'Addebito...'
+                  : daTerminare.size === corse.length ? 'TERMINA TUTTI' : 'TERMINA'}
+              </button>
+              <button
+                type="button"
+                className="btn-corsa btn-annulla-termina"
+                onClick={() => { setSchermataTermina(false); setFase('idle'); setErrore('') }}
+              >
+                ANNULLA
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

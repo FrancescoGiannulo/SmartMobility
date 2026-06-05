@@ -46,7 +46,7 @@
   border-radius: 11px;
   background:
     radial-gradient(circle at 30% 30%, #7eecd6, transparent 60%),
-    linear-gradient(135deg, var(--sm-primary, #4caf9a), var(--sm-primary-700, #2a7a6a));
+    linear-gradient(135deg, var(--sm-primary, #155e52), var(--sm-primary-700, #2a7a6a));
   box-shadow: 0 6px 14px rgba(76, 175, 154, 0.35),
               inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
@@ -54,7 +54,7 @@
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: var(--sm-primary, #4caf9a);
+  color: var(--sm-primary, #155e52);
   background: rgba(76, 175, 154, 0.1);
   border: 1px solid rgba(76, 175, 154, 0.25);
   padding: 4px 10px;
@@ -146,7 +146,7 @@
 
 /* ---------- Button system ---------- */
 .btn-pannello {
-  --btn-bg: var(--sm-primary, #4caf9a);
+  --btn-bg: var(--sm-primary, #155e52);
   --btn-bg-hover: var(--sm-primary-600, #3a9a86);
   --btn-fg: #fff;
 
@@ -202,7 +202,7 @@
   box-shadow: none;
 }
 .btn-pannello.secondario::before {
-  background: var(--sm-primary, #4caf9a);
+  background: var(--sm-primary, #155e52);
 }
 .btn-pannello.secondario:hover {
   background: rgba(76, 175, 154, 0.06);
@@ -321,7 +321,7 @@
 .modal-card input::placeholder { color: #94a3b8; }
 .modal-card input:focus,
 .modal-card select:focus {
-  border-color: var(--sm-primary, #4caf9a);
+  border-color: var(--sm-primary, #155e52);
   background: #fff;
   box-shadow: var(--sm-shadow-glow, 0 0 0 4px rgba(76, 175, 154, 0.18));
 }
@@ -343,6 +343,67 @@
   justify-content: center;
   padding: 13px 18px;
 }
+
+/* ---------- Mezzo info card ---------- */
+.mezzo-info-card {
+  background: #f8fafc;
+  border: 1.5px solid rgba(76, 175, 154, 0.4);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mezzo-info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.mezzo-info-titolo {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sm-dark, #0f172a);
+}
+
+.mezzo-info-chiudi {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: var(--sm-muted, #64748b);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+.mezzo-info-riga {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--sm-dark, #0f172a);
+}
+
+.mezzo-info-label {
+  color: var(--sm-muted, #64748b);
+  font-weight: 600;
+}
+
+.mezzo-stato {
+  font-weight: 700;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.mezzo-stato--disponibile     { background: #dcfce7; color: #16a34a; }
+.mezzo-stato--prenotato       { background: #fef3c7; color: #d97706; }
+.mezzo-stato--in-uso          { background: #dbeafe; color: #2563eb; }
+.mezzo-stato--in-pausa        { background: #f3e8ff; color: #9333ea; }
+.mezzo-stato--in-manutenzione { background: #fce7f3; color: #db2777; }
+.mezzo-stato--fuori-servizio  { background: #f1f5f9; color: #64748b; }
 .modal-card .btn-pannello::before { display: none; }
 .modal-card .btn-pannello.secondario {
   background: #fff;
@@ -374,7 +435,7 @@
   height: 38px;
   border-radius: 50% 50% 50% 10%;
   transform: rotate(45deg);
-  background: linear-gradient(135deg, var(--sm-c1, #4caf9a), var(--sm-c2, #2a7a6a));
+  background: linear-gradient(135deg, var(--sm-c1, #155e52), var(--sm-c2, #2a7a6a));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -388,3 +449,45 @@
   color: #fff;
 }
 .sm-pin--dim { opacity: 0.5; }
+
+/* ---------- Zona/Mezzo info card nel pannello ---------- */
+.mezzo-info-card {
+  background: #f8fafc;
+  border: 1.5px solid rgba(76, 175, 154, 0.4);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mezzo-info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.mezzo-info-titolo {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sm-dark, #0f172a);
+}
+.mezzo-info-chiudi {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: var(--sm-muted, #64748b);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 2px;
+}
+.mezzo-info-riga {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--sm-dark, #0f172a);
+}
+.mezzo-info-label {
+  color: var(--sm-muted, #64748b);
+  font-weight: 600;
+}

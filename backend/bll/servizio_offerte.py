@@ -84,7 +84,8 @@ class ServizioOfferte:
                 raise OffertaValidazioneException("Lo sconto deve essere compreso tra 1 e 100")
             if data_scadenza is None:
                 raise OffertaValidazioneException("La data di scadenza è obbligatoria per una promozione")
-            if data_scadenza <= datetime.now(timezone.utc):
+            ds = data_scadenza if data_scadenza.tzinfo else data_scadenza.replace(tzinfo=timezone.utc)
+            if ds <= datetime.now(timezone.utc):
                 raise OffertaValidazioneException("La data di scadenza deve essere nel futuro")
         if tipo == "abbonamento":
             if prezzo is None:

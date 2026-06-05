@@ -1,23 +1,21 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+﻿import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Map as GoogleMap,
   AdvancedMarker,
-  InfoWindow,
   useMap,
 } from '@vis.gl/react-google-maps'
 import { getMezziOperatore, getZoneOperatore, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
 import { creaZona, eliminaZona } from '../../services/ZonaService'
 import { logout } from '../../services/AuthService'
 import ZonaPoligono from '../../components/ZonaPoligono'
-import TooltipZona from '../../components/TooltipZona'
 import { COLORI_ZONA } from '../../utils/coloriZona'
 import './VistaMappaOperatore.css'
 
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
 
 const COLORI_MEZZO: Record<string, { c1: string; c2: string }> = {
-  monopattino: { c1: '#4caf9a', c2: '#2a7a6a' },
+  monopattino: { c1: '#155e52', c2: '#2a7a6a' },
   bicicletta:  { c1: '#3b82f6', c2: '#1d4ed8' },
   automobile:  { c1: '#ec4899', c2: '#be185d' },
 }
@@ -53,24 +51,7 @@ interface ModalZona {
   coordinate: google.maps.LatLngLiteral[]
 }
 
-interface ZonaHover {
-  zona: ZonaMappa
-  pos: google.maps.LatLngLiteral
-}
 
-const PRIORITA_TIPO: Record<string, number> = {
-  operativa: 0, parcheggio: 1, limitata: 2, vietata: 3,
-}
-
-function zonaMiglioreDa(map: Map<string, ZonaHover>): ZonaHover | null {
-  let best: ZonaHover | null = null
-  for (const entry of map.values()) {
-    if (!best || (PRIORITA_TIPO[entry.zona.tipo] ?? 1) > (PRIORITA_TIPO[best.zona.tipo] ?? 1)) {
-      best = entry
-    }
-  }
-  return best
-}
 
 function DrawingManager({
   tipoAttivo,
@@ -131,11 +112,10 @@ export default function VistaMappaOperatore() {
   const [limiteVelocita, setLimiteVelocita] = useState('')
   const [erroreModal, setErroreModal] = useState('')
   const [caricamento, setCaricamento] = useState(false)
-  const [zonaHover, setZonaHover] = useState<ZonaHover | null>(null)
   const [zonaSelezionata, setZonaSelezionata] = useState<ZonaMappa | null>(null)
-  const zoneAttive = useRef(new Map<string, ZonaHover>())
   const [eliminazione, setEliminazione] = useState(false)
   const [erroreEliminazione, setErroreEliminazione] = useState('')
+  const [mezzoSelezionato, setMezzoSelezionato] = useState<MezzoMappa | null>(null)
 
   const ricaricaDati = useCallback(() => {
     Promise.all([getMezziOperatore(), getZoneOperatore()])
@@ -231,7 +211,11 @@ export default function VistaMappaOperatore() {
             />
 
             {mezzi.map(m => (
-              <AdvancedMarker key={m.id} position={{ lat: m.lat, lng: m.lng }} onClick={e => { e.stop(); setZonaHover(null) }}>
+              <AdvancedMarker
+                key={m.id}
+                position={{ lat: m.lat, lng: m.lng }}
+                onClick={e => { e.stop(); setMezzoSelezionato(m); setZonaSelezionata(null) }}
+              >
                 <PinMezzo tipo={m.tipo} stato={m.stato} />
               </AdvancedMarker>
             ))}
@@ -244,37 +228,83 @@ export default function VistaMappaOperatore() {
                   zona={z}
                   fillColor={colori.fill}
                   strokeColor={colori.stroke}
-                  onHover={(zona, pos) => {
-                    zoneAttive.current.set(zona.id, { zona, pos })
-                    setZonaHover(zonaMiglioreDa(zoneAttive.current))
-                  }}
-                  onHoverEnd={() => {
-                    zoneAttive.current.delete(z.id)
-                    setZonaHover(zonaMiglioreDa(zoneAttive.current))
+                  onClick={tipoDisegno ? undefined : zona => {
+                    setZonaSelezionata(zona)
+                    setMezzoSelezionato(null)
                   }}
                 />
               )
             })}
-
-            {zonaHover && (
-              <InfoWindow
-                position={zonaHover.pos}
-                onCloseClick={() => setZonaHover(null)}
-              >
-                <TooltipZona
-                  zona={zonaHover.zona}
-                  onElimina={() => {
-                    setZonaSelezionata(zonaHover.zona)
-                    setZonaHover(null)
-                  }}
-                />
-              </InfoWindow>
-            )}
           </GoogleMap>
         </div>
 
         <div className="mappa-op-pannello">
           <div className="logo">Control Center</div>
+
+          {mezzoSelezionato && (
+            <div className="mezzo-info-card">
+              <div className="mezzo-info-header">
+                <span className="mezzo-info-titolo">
+                  {mezzoSelezionato.tipo === 'monopattino' ? '🛴'
+                    : mezzoSelezionato.tipo === 'bicicletta' ? '🚲' : '🚗'}{' '}
+                  {mezzoSelezionato.codice}
+                </span>
+                <button className="mezzo-info-chiudi" onClick={() => setMezzoSelezionato(null)}>✕</button>
+              </div>
+              <div className="mezzo-info-riga">
+                <span className="mezzo-info-label">Tipo</span>
+                <span>{mezzoSelezionato.tipo.charAt(0).toUpperCase() + mezzoSelezionato.tipo.slice(1)}</span>
+              </div>
+              <div className="mezzo-info-riga">
+                <span className="mezzo-info-label">Stato</span>
+                <span className={`mezzo-stato mezzo-stato--${mezzoSelezionato.stato.toLowerCase().replace(' ', '-')}`}>
+                  {mezzoSelezionato.stato}
+                </span>
+              </div>
+              <div className="mezzo-info-riga">
+                <span className="mezzo-info-label">Batteria</span>
+                <span>{mezzoSelezionato.batteria != null ? `${mezzoSelezionato.batteria}%` : '—'}</span>
+              </div>
+              <div className="mezzo-info-riga">
+                <span className="mezzo-info-label">Posizione</span>
+                <span>{mezzoSelezionato.lat.toFixed(5)}, {mezzoSelezionato.lng.toFixed(5)}</span>
+              </div>
+            </div>
+          )}
+
+          {zonaSelezionata && (
+            <div className="mezzo-info-card">
+              <div className="mezzo-info-header">
+                <span className="mezzo-info-titolo">
+                  {zonaSelezionata.tipo === 'vietata' ? '🚫'
+                    : zonaSelezionata.tipo === 'limitata' ? '⚠️'
+                    : zonaSelezionata.tipo === 'parcheggio' ? 'P'
+                    : '◉'}{' '}
+                  {zonaSelezionata.nome}
+                </span>
+                <button className="mezzo-info-chiudi" onClick={() => { setZonaSelezionata(null); setErroreEliminazione('') }}>✕</button>
+              </div>
+              <div className="mezzo-info-riga">
+                <span className="mezzo-info-label">Tipo</span>
+                <span>{zonaSelezionata.tipo.charAt(0).toUpperCase() + zonaSelezionata.tipo.slice(1)}</span>
+              </div>
+              {zonaSelezionata.limite_velocita && (
+                <div className="mezzo-info-riga">
+                  <span className="mezzo-info-label">Limite velocità</span>
+                  <span>{zonaSelezionata.limite_velocita} km/h</span>
+                </div>
+              )}
+              {erroreEliminazione && <p style={{ fontSize: 12, color: '#f43f5e', margin: 0 }}>{erroreEliminazione}</p>}
+              <button
+                className="btn-pannello danger"
+                style={{ marginTop: 4 }}
+                onClick={handleEliminaZona}
+                disabled={eliminazione}
+              >
+                {eliminazione ? 'Eliminazione…' : 'Elimina zona'}
+              </button>
+            </div>
+          )}
 
           <div className="section-label">Definisci zone</div>
 

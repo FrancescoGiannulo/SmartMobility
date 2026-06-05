@@ -9,6 +9,7 @@ class RegistrazioneRequest(BaseModel):
     password: str
     nome: str
     cognome: str
+    consenso_privacy: bool = False  # [IIN-2 / GDPR art. 7] obbligatorio per la registrazione
 
 
 class LoginRequest(BaseModel):
@@ -32,6 +33,7 @@ class EffettuaPagamentoRequest(BaseModel):
     tipo_mezzo: str
     durata_min: float
     distanza_km: float
+    offerta_id: str | None = None
 
 
 class MetodoPagamentoResponse(BaseModel):
@@ -67,12 +69,55 @@ class ZonaCreate(BaseModel):
     limite_velocita: int | None = None
 
 
+class CreaTariffaRequest(BaseModel):
+    tipo_mezzo: str
+    costo_al_minuto: float
+    costo_al_km: float
+
+
+class TariffaResponse(BaseModel):
+    id: str
+    tipo_mezzo: str
+    costo_al_minuto: float
+    costo_al_km: float
+
+
 class PrenotazioneRequest(BaseModel):
-    mezzo_id: UUID
+    mezzo_ids: list[UUID]
+
+
+class SbloccoRequest(BaseModel):
+    mezzo_ids: list[UUID]
+    lat: float | None = None
+    lng: float | None = None
+
+
+class MezzoSbloccabileOut(MezzoMappaOut):
+    prenotato: bool
+    prenotazione_id: str | None
+
+
+class RisultatoSbloccoItem(BaseModel):
+    mezzo_id: str
+    corsa_id: str
+
+
+class RisultatoSblocco(BaseModel):
+    sbloccati: list[RisultatoSbloccoItem]
+    falliti: list[str]
 
 
 from datetime import datetime
 from decimal import Decimal
+
+
+class ConfigurazioneFineCorsaRequest(BaseModel):
+    durata_max_prenotazione_min: int
+    durata_periodo_grazia_min: int
+    max_mezzi_per_utente: int
+    tipo_vincolo: str
+    batteria_minima: int | None = None
+    penale_fuori_zona: float = 0.0
 
 
 class CreaOffertaRequest(BaseModel):
@@ -117,6 +162,34 @@ class RegolaFinecorsaOut(BaseModel):
     batteria_minima: int | None
     bonus_parcheggi_corretti: int | None
     bonus_valore: Decimal | None
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class TariffaOut(BaseModel):
+    id: UUID
+    tipo_mezzo: str
+    costo_al_minuto: str
+    costo_al_km: str
+
+
+class PromozioneOut(BaseModel):
+    id: UUID
+    titolo: str
+    descrizione: str | None
+    sconto_percentuale: str
+    data_fine: str
+
+
+# [IF-UT.16] Abbonamento Utente
+class AbbonamentoOut(BaseModel):
+    id: UUID
+    utente_id: UUID
+    offerta_id: UUID
+    data_inizio: datetime
+    data_fine: datetime
+    stato: str
     created_at: datetime
 
     model_config = {"from_attributes": True}

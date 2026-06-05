@@ -128,45 +128,52 @@ export default function VistaPagamenti() {
       ) : metodi.length === 0 ? (
         <p className="pag-vuoto">Nessun metodo salvato. Aggiungi il tuo primo metodo di pagamento.</p>
       ) : (
-        <div className="pag-lista">
-          {metodi.map(m => (
-            <div key={m.id} className={`pag-card${m.predefinito ? ' pag-card--predefinito' : ''}`}>
-              <div className="pag-card-info">
-                <span className="pag-card-emoji">{EMOJI_TIPO[m.tipo] ?? '💰'}</span>
-                <div className="pag-card-dettagli">
-                  <span className="pag-card-tipo">{LABEL_TIPO[m.tipo] ?? m.tipo}</span>
-                  {m.last_four && (
-                    <span className="pag-card-last-four">•••• {m.last_four}</span>
+        <>
+          {metodi.length > 1 && !metodi.some(m => m.predefinito) && (
+            <p className="pag-avviso">
+              Hai più metodi di pagamento. Impostane uno come predefinito per procedere al pagamento.
+            </p>
+          )}
+          <div className="pag-lista">
+            {metodi.map(m => (
+              <div key={m.id} className={`pag-card${m.predefinito ? ' pag-card--predefinito' : ''}`}>
+                <div className="pag-card-info">
+                  <span className="pag-card-emoji">{EMOJI_TIPO[m.tipo] ?? '💰'}</span>
+                  <div className="pag-card-dettagli">
+                    <span className="pag-card-tipo">{LABEL_TIPO[m.tipo] ?? m.tipo}</span>
+                    {m.last_four && (
+                      <span className="pag-card-last-four">•••• {m.last_four}</span>
+                    )}
+                  </div>
+                  {m.predefinito && (
+                    <span className="pag-badge-predefinito">★ Predefinito</span>
                   )}
                 </div>
-                {m.predefinito && (
-                  <span className="pag-badge-predefinito">★ Predefinito</span>
-                )}
-              </div>
-              <div className="pag-card-azioni">
-                {!m.predefinito && (
+                <div className="pag-card-azioni">
+                  {metodi.length > 1 && !m.predefinito && (
+                    <button
+                      type="button"
+                      className="btn-pag-secondario"
+                      onClick={() => handlePredefinito(m.id)}
+                      disabled={azioneInCorso !== null}
+                    >
+                      {azioneInCorso === m.id + '-pred' ? '...' : 'Imposta predefinito'}
+                    </button>
+                  )}
                   <button
                     type="button"
-                    className="btn-pag-secondario"
-                    onClick={() => handlePredefinito(m.id)}
+                    className="btn-pag-rimuovi"
+                    onClick={() => handleRimuovi(m.id)}
                     disabled={azioneInCorso !== null}
+                    aria-label="Rimuovi metodo"
                   >
-                    {azioneInCorso === m.id + '-pred' ? '...' : 'Imposta predefinito'}
+                    {azioneInCorso === m.id + '-del' ? '...' : '✕'}
                   </button>
-                )}
-                <button
-                  type="button"
-                  className="btn-pag-rimuovi"
-                  onClick={() => handleRimuovi(m.id)}
-                  disabled={azioneInCorso !== null}
-                  aria-label="Rimuovi metodo"
-                >
-                  {azioneInCorso === m.id + '-del' ? '...' : '✕'}
-                </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </>
       )}
 
       {!mostraForm ? (

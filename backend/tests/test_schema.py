@@ -129,7 +129,7 @@ def test_pagamento_columns():
     from model.pagamento import Pagamento
     cols = {c.name for c in Pagamento.__table__.columns}
     assert cols == {
-        "id", "corsa_id", "utente_id", "metodo_pagamento_id", "importo", "stato", "created_at"
+        "id", "corsa_id", "utente_id", "metodo_pagamento_id", "abbonamento_id", "importo", "stato", "created_at"
     }
 
 
@@ -180,6 +180,27 @@ def test_regola_fine_corsa_columns():
 def test_tipo_vincolo_fine_corsa_values():
     from model.regola_fine_corsa import TipoVincoloFinecorsa
     assert set(e.value for e in TipoVincoloFinecorsa) == {"penale", "divieto", "avviso"}
+
+
+def test_promozione_tablename():
+    from model.promozione import Promozione
+    assert Promozione.__tablename__ == "promozioni"
+
+
+def test_promozione_columns():
+    from model.promozione import Promozione
+    cols = {c.name for c in Promozione.__table__.columns}
+    assert cols == {
+        "id", "titolo", "descrizione", "sconto_percentuale",
+        "data_inizio", "data_fine", "attiva", "created_at",
+    }
+
+
+def test_promozione_check_constraints():
+    from model.promozione import Promozione
+    nomi = {c.name for c in Promozione.__table__.constraints}
+    assert "promozione_sconto_valido" in nomi
+    assert "promozione_date_valide" in nomi
 
 
 @pytest.mark.integration

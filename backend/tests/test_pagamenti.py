@@ -158,7 +158,7 @@ def test_effettua_pagamento_ok():
 # CS-12 — alternativo: nessun metodo predefinito
 def test_effettua_pagamento_nessun_predefinito():
     repo = MagicMock()
-    repo.trova_predefinito.return_value = None
+    repo.lista_metodi.return_value = []
     svc = _servizio(repo=repo)
     with pytest.raises(NessunMetodoPredefinito):
         svc.effettua_pagamento(uuid.uuid4(), uuid.uuid4(), "bicicletta", 10.0, 2.0)

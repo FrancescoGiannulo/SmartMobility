@@ -59,9 +59,14 @@ class Pagamento(Base):
     id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4
     )
-    corsa_id: Mapped[uuid.UUID] = mapped_column(
+    # [CS-07] nullable: il pagamento può essere per una corsa o un abbonamento
+    corsa_id: Mapped[uuid.UUID | None] = mapped_column(
         PGUUID(as_uuid=True),
-        nullable=False,
+        nullable=True,
+    )
+    abbonamento_id: Mapped[uuid.UUID | None] = mapped_column(
+        PGUUID(as_uuid=True),
+        nullable=True,
     )
     utente_id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True),
