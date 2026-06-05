@@ -192,3 +192,15 @@ class AbbonamentoOut(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+
+# [IF-UT.14] CS-11 — Storico corse utente
+class CorsaStoricoOut(BaseModel):
+    id: UUID
+    tipo_mezzo: str
+    codice_mezzo: str
+    inizio_at: datetime
+    fine_at: datetime | None
+    durata_min: float | None
+    distanza_km: float | None
+    gruppo_corsa_id: UUID | None

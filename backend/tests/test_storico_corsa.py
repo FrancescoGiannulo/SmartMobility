@@ -172,3 +172,48 @@ class TestServizioMobilita:
             assert storico[0]["codice_mezzo"] == codice
         finally:
             _cleanup(db, utente_test["id"], [mezzo_id])
+
+
+class TestStoricoEndpoint:
+
+    def _token(self, email: str, password: str) -> str:
+        import httpx
+        r = httpx.post("http://localhost:8000/auth/login",
+                       json={"email": email, "password": password})
+        assert r.status_code == 200
+        return r.json()["access_token"]
+
+    @pytest.mark.integration
+    def test_storico_vuoto(self, utente_test):
+        import httpx
+        token = self._token(utente_test["email"], utente_test["password"])
+        r = httpx.get("http://localhost:8000/utente/corse/storico",
+                      headers={"Authorization": f"Bearer {token}"})
+        assert r.status_code == 200
+        assert r.json() == []
+
+    @pytest.mark.integration
+    def test_storico_con_corse(self, db, utente_test):
+        import httpx
+        codice = f"TEST-EP-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice)
+        try:
+            _inserisci_corsa(db, utente_test["id"], mezzo_id)
+            token = self._token(utente_test["email"], utente_test["password"])
+            r = httpx.get("http://localhost:8000/utente/corse/storico",
+                          headers={"Authorization": f"Bearer {token}"})
+            assert r.status_code == 200
+            data = r.json()
+            assert len(data) == 1
+            assert data[0]["codice_mezzo"] == codice
+            assert data[0]["tipo_mezzo"] == "monopattino"
+            assert "inizio_at" in data[0]
+            assert "gruppo_corsa_id" in data[0]
+        finally:
+            _cleanup(db, utente_test["id"], [mezzo_id])
+
+    @pytest.mark.integration
+    def test_storico_richiede_autenticazione(self):
+        import httpx
+        r = httpx.get("http://localhost:8000/utente/corse/storico")
+        assert r.status_code == 401
