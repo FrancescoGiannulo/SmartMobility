@@ -725,6 +725,17 @@ body {
 .sidebar-pren-mezzo { font-size: 14px; font-weight: 600; color: var(--sm-dark); }
 .sidebar-pren-timer { font-size: 13px; font-weight: 700; color: var(--sm-primary-700); }
 .btn-annulla-singola { padding: 7px 0; font-size: 13px; }
+.sidebar-pren-azioni {
+  display: flex;
+  gap: 8px;
+  padding: 12px 22px 18px;
+}
+.sidebar-pren-azioni .btn-prenota,
+.sidebar-pren-azioni .btn-sblocca-panel {
+  flex: 1;
+  padding: 11px 0;
+  font-size: 13px;
+}
 
 /* ---------- [IF-UT.05][IF-UT.13] Pricing FAB (bottoni flottanti) ---------- */
 .pricing-fab-gruppo {

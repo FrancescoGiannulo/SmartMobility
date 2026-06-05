@@ -195,6 +195,21 @@ class AbbonamentoOut(BaseModel):
     model_config = {"from_attributes": True}
 
 
+# [IF-UT.14] CS-11 — Storico corse utente
+class CorsaStoricoOut(BaseModel):
+    id: UUID
+    tipo_mezzo: str
+    codice_mezzo: str
+    inizio_at: datetime
+    fine_at: datetime | None
+    durata_min: float | None
+    distanza_km: float | None
+    gruppo_corsa_id: UUID | None
+    importo: float | None
+    importo_pieno: float | None
+    nome_offerta_applicata: str | None
+
+
 # [CS-15] Parametri Numerici di Sistema
 class ParametriSistemaRequest(BaseModel):
     durata_max_prenotazione_min: int

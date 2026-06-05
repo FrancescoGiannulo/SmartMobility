@@ -59,3 +59,23 @@ export const sbloccaMezzi = async (
 export const terminaCorsa = async (corsaId: string): Promise<void> => {
   await api.post(`/utente/corse/${corsaId}/termina`)
 }
+
+// [IF-UT.14] CS-11 — Storico corse
+export interface CorsaStorico {
+  id: string
+  tipo_mezzo: 'monopattino' | 'bicicletta' | 'automobile'
+  codice_mezzo: string
+  inizio_at: string
+  fine_at: string | null
+  durata_min: number | null
+  distanza_km: number | null
+  gruppo_corsa_id: string | null
+  importo: number | null
+  importo_pieno: number | null
+  nome_offerta_applicata: string | null
+}
+
+export const getStoricoCorsa = async (): Promise<CorsaStorico[]> => {
+  const r = await api.get<CorsaStorico[]>('/utente/corse/storico')
+  return r.data
+}

@@ -69,27 +69,35 @@ export default function VistaAbbonamenti() {
           </div>
         )}
 
-        <h3 className="abb-sezione-titolo">Piani disponibili</h3>
-
-        {piani.length === 0 ? (
-          <div className="abb-vuoti">Nessun piano abbonamento disponibile al momento.</div>
-        ) : (
-          <div className="abb-piani">
-            {piani.map(piano => (
-              <div
-                key={piano.id}
-                className={`abb-piano-card ${pianoSelezionato?.id === piano.id ? 'selezionato' : ''}`}
-                onClick={() => { setPianoSelezionato(piano); setErrore(''); setConferma('') }}
-              >
-                <div className="abb-piano-nome">{piano.nome}</div>
-                {piano.descrizione && <div className="abb-piano-desc">{piano.descrizione}</div>}
-                <div className="abb-piano-dettagli">
-                  <span className="abb-piano-prezzo">€{Number(piano.prezzo).toFixed(2)}</span>
-                  <span className="abb-piano-durata">{piano.durata_giorni} giorni</span>
-                </div>
-              </div>
-            ))}
+        {corrente && new Date(corrente.data_fine) > new Date() ? (
+          <div className="abb-vuoti">
+            Hai già un abbonamento attivo. Potrai sottoscriverne uno nuovo alla scadenza.
           </div>
+        ) : (
+          <>
+            <h3 className="abb-sezione-titolo">Piani disponibili</h3>
+
+            {piani.length === 0 ? (
+              <div className="abb-vuoti">Nessun piano abbonamento disponibile al momento.</div>
+            ) : (
+              <div className="abb-piani">
+                {piani.map(piano => (
+                  <div
+                    key={piano.id}
+                    className={`abb-piano-card ${pianoSelezionato?.id === piano.id ? 'selezionato' : ''}`}
+                    onClick={() => { setPianoSelezionato(piano); setErrore(''); setConferma('') }}
+                  >
+                    <div className="abb-piano-nome">{piano.nome}</div>
+                    {piano.descrizione && <div className="abb-piano-desc">{piano.descrizione}</div>}
+                    <div className="abb-piano-dettagli">
+                      <span className="abb-piano-prezzo">€{Number(piano.prezzo).toFixed(2)}</span>
+                      <span className="abb-piano-durata">{piano.durata_giorni} giorni</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
         )}
 
         {pianoSelezionato && (
