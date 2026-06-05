@@ -34,7 +34,11 @@ class CorsaRepository:
         }
 
     def aggiorna_stato(self, corsa_id: UUID, nuovo_stato: str) -> None:
-        sql = text("UPDATE corse SET stato = :stato WHERE id = :id")
+        # [IF-UT.06] Imposta fine_at quando la corsa termina, per calcolare durata_min nello storico
+        if nuovo_stato == "terminata":
+            sql = text("UPDATE corse SET stato = :stato, fine_at = NOW() WHERE id = :id")
+        else:
+            sql = text("UPDATE corse SET stato = :stato WHERE id = :id")
         with self._sessione() as s:
             s.execute(sql, {"stato": nuovo_stato, "id": str(corsa_id)})
             s.commit()
