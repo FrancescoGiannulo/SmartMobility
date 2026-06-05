@@ -22,9 +22,17 @@ def _domani() -> str:
 
 
 @pytest.fixture
-def abbonamento_op(operatore_test):
+def abbonamento_op(operatore_test, db):
     """Crea un piano abbonamento attivo e lo elimina dopo il test."""
+    from sqlalchemy.orm import Session
+    from sqlalchemy import text as _text
     token = _login(operatore_test["email"], operatore_test["password"])
+    for o in http.get("/operatore/offerte", headers=_auth(token)).json():
+        if o["nome"] == "Piano Test Abbonamento":
+            with Session(db) as s:
+                s.execute(_text("DELETE FROM abbonamenti_utente WHERE offerta_id = :id"), {"id": o["id"]})
+                s.commit()
+            http.delete(f"/operatore/offerte/{o['id']}", headers=_auth(token))
     resp = http.post("/operatore/offerte", json={
         "nome": "Piano Test Abbonamento",
         "tipo": "abbonamento",
@@ -35,6 +43,9 @@ def abbonamento_op(operatore_test):
     assert resp.status_code == 201
     offerta = resp.json()
     yield offerta
+    with Session(db) as s:
+        s.execute(_text("DELETE FROM abbonamenti_utente WHERE offerta_id = :id"), {"id": offerta["id"]})
+        s.commit()
     http.delete(f"/operatore/offerte/{offerta['id']}", headers=_auth(token))
 
 
@@ -42,7 +53,7 @@ def abbonamento_op(operatore_test):
 def utente_con_metodo(utente_test):
     """Utente con un metodo di pagamento registrato."""
     token = _login(utente_test["email"], utente_test["password"])
-    http.post("/pagamenti/metodi", json={"tipo": "carta", "last_four": "1234"}, headers=_auth(token))
+    http.post("/utente/pagamenti/metodi", json={"tipo": "carta", "last_four": "1234"}, headers=_auth(token))
     yield {**utente_test, "token": token}
 
 
@@ -82,7 +93,7 @@ def test_sottoscrivi_abbonamento(utente_con_metodo, abbonamento_op):
         f"/utente/abbonamenti/{abbonamento_op['id']}",
         headers=_auth(utente_con_metodo["token"]),
     )
-    assert resp.status_code == 201
+    assert resp.status_code == 201, f"Errore: {resp.json()}"
     body = resp.json()
     assert body["stato"] == "attivo"
     assert body["offerta_id"] == abbonamento_op["id"]

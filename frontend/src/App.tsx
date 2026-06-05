@@ -10,6 +10,7 @@ import VistaCorsa from './views/utente/VistaCorsa'
 import VistaDashboardAP from './views/amministrazione/VistaDashboardAP'
 import VistaPagamenti from './views/utente/VistaPagamenti'
 import VistaTariffePromozioni from './views/operatore/VistaTariffePromozioni'
+import VistaParametriSistema from './views/operatore/VistaParametriSistema'
 import VistaAbbonamenti from './views/utente/VistaAbbonamenti'
 import { utenteCorrente, logout } from './services/AuthService'
 import VistaProfiloUtente from './views/utente/VistaProfiloUtente'
@@ -139,6 +140,14 @@ function App() {
           element={
             <RoutaProtetta ruoloRichiesto="OP">
               <VistaImpostazioniRegole />
+            </RoutaProtetta>
+          }
+        />
+        <Route
+          path="/operatore/parametri-sistema"
+          element={
+            <RoutaProtetta ruoloRichiesto="OP">
+              <VistaParametriSistema />
             </RoutaProtetta>
           }
         />
