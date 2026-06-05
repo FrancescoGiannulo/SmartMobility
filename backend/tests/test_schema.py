@@ -129,7 +129,7 @@ def test_pagamento_columns():
     from model.pagamento import Pagamento
     cols = {c.name for c in Pagamento.__table__.columns}
     assert cols == {
-        "id", "corsa_id", "utente_id", "metodo_pagamento_id", "importo", "stato", "created_at"
+        "id", "corsa_id", "utente_id", "metodo_pagamento_id", "abbonamento_id", "importo", "stato", "created_at"
     }
 
 

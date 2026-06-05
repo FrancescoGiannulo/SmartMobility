@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from typing import Any
 from uuid import UUID
+from decimal import Decimal
 
 
 class RegistrazioneRequest(BaseModel):
@@ -204,3 +205,20 @@ class CorsaStoricoOut(BaseModel):
     durata_min: float | None
     distanza_km: float | None
     gruppo_corsa_id: UUID | None
+
+
+# [CS-15] Parametri Numerici di Sistema
+class ParametriSistemaRequest(BaseModel):
+    durata_max_prenotazione_min: int
+    durata_periodo_grazia_min: int
+    max_mezzi_per_utente: int
+    addebito_pausa_min: Decimal = Decimal("0.0000")
+
+
+class ParametriSistemaOut(BaseModel):
+    durata_max_prenotazione_min: int
+    durata_periodo_grazia_min: int
+    max_mezzi_per_utente: int
+    addebito_pausa_min: Decimal
+
+    model_config = {"from_attributes": True}

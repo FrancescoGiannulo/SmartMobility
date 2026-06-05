@@ -236,6 +236,7 @@ class TestUtenteController:
             "password": "TestPass123!",
             "nome": "Ctrl",
             "cognome": "Test",
+            "consenso_privacy": True,
         })
         assert resp.status_code == 201
         assert resp.json()["ruolo"] == "UT"
@@ -251,5 +252,6 @@ class TestUtenteController:
             "password": "TestPass123!",
             "nome": "Dup",
             "cognome": "Utente",
+            "consenso_privacy": True,
         })
         assert resp.status_code == 409
