@@ -25,7 +25,7 @@ const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
 const N_MAX = 3
 
 const COLORI_MEZZO: Record<string, { c1: string; c2: string }> = {
-  monopattino: { c1: '#4caf9a', c2: '#2a7a6a' },
+  monopattino: { c1: '#155e52', c2: '#2a7a6a' },
   bicicletta:  { c1: '#3b82f6', c2: '#1d4ed8' },
   automobile:  { c1: '#ec4899', c2: '#be185d' },
 }
@@ -55,7 +55,7 @@ function PinMezzo({ tipo, selected, dim }: { tipo: string; selected?: boolean; d
 function Batteria({ valore }: { valore: number | null }) {
   if (valore == null) return <span className="batteria-nd">—</span>
   const barre = Math.min(4, Math.ceil(valore / 25))
-  const colore = valore > 50 ? '#4caf9a' : valore > 20 ? '#f59e0b' : '#ef4444'
+  const colore = valore > 50 ? '#155e52' : valore > 20 ? '#f59e0b' : '#ef4444'
   return (
     <span className="batteria-barre">
       {[1, 2, 3, 4].map(i => (

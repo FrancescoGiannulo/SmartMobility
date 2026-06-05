@@ -53,7 +53,7 @@ class ServizioUtenti:
 
         user_id = UUID(resp.user.id)
         try:
-            self._repo.crea_utente(user_id, nome, cognome)
+            self._repo.crea_utente(user_id, nome, cognome, consenso_privacy=True)
         except Exception as exc:
             try:
                 supabase.auth.admin.delete_user(str(user_id))
@@ -86,7 +86,7 @@ class ServizioUtenti:
 
     # [IF-UT.18 / IF-OP.16 / IF-AP.07]
     def autentica_account(self, email: str, password: str) -> dict:
-        if self._repo.conta_tentativi_falliti(email) >= 5:
+        if self._repo.conta_tentativi_falliti(email) >= self._repo.max_tentativi():
             raise AccountBloccatoException("Account bloccato per troppi tentativi falliti")
 
         try:
@@ -120,7 +120,7 @@ class ServizioUtenti:
         }
 
     # [IF-UT.17 / IF-UT.18 — variante OAuth]
-    def accedi_oauth(self, token: str, user_id: UUID, email: str, payload: dict) -> dict:
+    def accedi_oauth(self, token: str, user_id: UUID, email: str, payload: dict, consenso_privacy: bool = False) -> dict:
         """Find-or-create per utenti OAuth. Se non esiste in attori, crea come UT."""
         try:
             profilo, ruolo = self._repo.trova_per_id(user_id)
@@ -134,7 +134,8 @@ class ServizioUtenti:
             parts = full_name.strip().split(" ", 1)
             nome = parts[0]
             cognome = parts[1] if len(parts) > 1 else ""
-            self._repo.crea_utente(user_id, nome, cognome)
+            # [IIN-2 / GDPR art. 7] Registra il consenso raccolto nel callback OAuth
+            self._repo.crea_utente(user_id, nome, cognome, consenso_privacy=consenso_privacy)
             profilo, ruolo = self._repo.trova_per_id(user_id)
 
         return {
@@ -146,6 +147,29 @@ class ServizioUtenti:
     def profilo_corrente(self, utente_id: UUID, email: str) -> dict:
         profilo, ruolo = self._repo.trova_per_id(utente_id)
         return {"ruolo": ruolo, "profilo": self._build_profilo(profilo, ruolo, email)}
+
+    # ── GDPR ──────────────────────────────────────────────────────────────────
+
+    def esporta_dati(self, utente_id: UUID, email: str) -> dict:
+        """Raccoglie tutti i dati personali (art. 20 GDPR — portabilità)."""
+        dati = self._repo.esporta_dati_utente(utente_id)
+        dati["profilo"]["email"] = email
+        return dati
+
+    def cancella_account(self, utente_id: UUID) -> None:
+        """Elimina l'account dall'auth provider e i dati personali (art. 17 GDPR — diritto all'oblio)."""
+        # Prima elimina da auth.users (Supabase), poi il record locale viene
+        # eliminato in cascata tramite FK ON DELETE CASCADE (007_gdpr_cascade.sql).
+        # Se la cascade non è attiva, l'eliminazione locale è gestita da elimina_utente().
+        try:
+            supabase.auth.admin.delete_user(str(utente_id))
+        except Exception as e:
+            raise ServizioAuthException(f"Impossibile eliminare l'account: {e}") from e
+        # Tentativo di eliminazione esplicita (no-op se la cascade è già attiva)
+        try:
+            self._repo.elimina_utente(utente_id)
+        except Exception:
+            pass
 
     def _build_profilo(self, profilo, ruolo: str, email: str) -> dict:
         base = {"id": str(profilo.id), "nome": profilo.nome, "email": email}

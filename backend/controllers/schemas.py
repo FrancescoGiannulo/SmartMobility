@@ -8,6 +8,7 @@ class RegistrazioneRequest(BaseModel):
     password: str
     nome: str
     cognome: str
+    consenso_privacy: bool = False  # [IIN-2 / GDPR art. 7] obbligatorio per la registrazione
 
 
 class LoginRequest(BaseModel):

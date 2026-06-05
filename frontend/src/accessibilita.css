@@ -1,0 +1,57 @@
+/* ============================================================
+ * accessibilita.css — IIN-3 Usabilità / WCAG 2.1 AA
+ * Stili globali di accessibilità applicati a tutta l'app.
+ * ============================================================ */
+
+/* ── Skip-to-content (WCAG 2.4.1 — Level A) ─────────────────
+ * Link visibile solo da tastiera che salta direttamente
+ * al contenuto principale, aggirando la navigazione ripetuta.
+ * -------------------------------------------------------------- */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 8px;
+  padding: 10px 20px;
+  background: #155e52;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 0 0 8px 8px;
+  z-index: 10000;
+  transition: top 0.1s ease;
+}
+
+.skip-to-content:focus {
+  top: 0;
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* ── Focus Visibile (WCAG 2.4.7 — Level AA) ─────────────────
+ * Gli elementi interattivi devono mostrare un indicatore
+ * di focus chiaramente visibile durante la navigazione da tastiera.
+ * Usiamo :focus-visible per non interferire con i click da mouse.
+ * -------------------------------------------------------------- */
+
+/* Rimuove l'outline solo quando il focus non viene da tastiera */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Mostra outline accessibile per navigazione da tastiera */
+*:focus-visible {
+  outline: 3px solid #155e52 !important;
+  outline-offset: 3px !important;
+  border-radius: 4px;
+}
+
+/* Bottoni e link: rimuove il default del browser per hover/active
+   ma preserva il focus da tastiera tramite la regola sopra */
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible),
+input:focus:not(:focus-visible),
+select:focus:not(:focus-visible),
+textarea:focus:not(:focus-visible) {
+  outline: none;
+}

@@ -25,7 +25,7 @@
 .ap-sidebar-logo {
   width: 36px;
   height: 36px;
-  background: #4caf9a;
+  background: #155e52;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -65,11 +65,11 @@
 
 .ap-nav-item.attivo {
   background: #ecfdf5;
-  border-color: #4caf9a;
+  border-color: #155e52;
 }
 
 .ap-nav-item.attivo .ap-nav-label {
-  color: #4caf9a;
+  color: #155e52;
 }
 
 .ap-nav-item:not(.attivo):hover {
@@ -102,7 +102,7 @@
 }
 
 .ap-nav-logout:hover {
-  color: #4caf9a;
+  color: #155e52;
 }
 
 /* ── Main area ───────────────────────────────────────────── */
@@ -172,7 +172,7 @@
 }
 
 .btn-export-csv {
-  background: #4caf9a;
+  background: #155e52;
   color: #fff;
 }
 
@@ -242,7 +242,7 @@
 }
 
 .ap-vista-btn.attivo {
-  background: #4caf9a;
+  background: #155e52;
   color: #ffffff;
 }
 

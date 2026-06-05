@@ -27,6 +27,7 @@ export const registra = async (dati: {
   password: string
   nome: string
   cognome: string
+  consenso_privacy: boolean  // [IIN-2 / GDPR art. 7]
 }): Promise<AuthResult> => {
   const resp = await api.post<AuthResult>('/auth/registra', dati)
   salvaSessione(resp.data)
@@ -52,9 +53,9 @@ export const autenticaGoogle = async (): Promise<void> => {
 }
 
 // [IF-UT.18 — variante OAuth] Callback OAuth: find-or-create sul backend, poi salva sessione
-export const gestisciCallbackOAuth = async (accessToken: string): Promise<AuthResult> => {
+export const gestisciCallbackOAuth = async (accessToken: string, consensoPrivacy: boolean): Promise<AuthResult> => {
   localStorage.setItem('token', accessToken)
-  const resp = await api.post<AuthResult>('/auth/oauth-accedi')
+  const resp = await api.post<AuthResult>('/auth/oauth-accedi', { consenso_privacy: consensoPrivacy })
   salvaSessione(resp.data)
   return resp.data
 }
