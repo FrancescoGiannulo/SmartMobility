@@ -595,6 +595,14 @@ export default function VistaMappa() {
                 <span className="sidebar-voce__testo">Abbonamenti</span>
                 <span className="sidebar-voce__icona">📅</span>
               </button>
+
+              <button
+                className="sidebar-voce"
+                onClick={() => { setSidebarAperta(false); navigate('/utente/storico') }}
+              >
+                <span className="sidebar-voce__testo">Cronologia</span>
+                <span className="sidebar-voce__icona">📋</span>
+              </button>
             </nav>
 
             {/* Logout in fondo */}
