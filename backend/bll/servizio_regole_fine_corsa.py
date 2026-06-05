@@ -41,6 +41,15 @@ class ServizioRegolaFinecorsa:
             raise RegolaFinecorsaValidazioneException(
                 "penale_fuori_zona non può essere negativa."
             )
+        if tipo_vincolo == TipoVincoloFinecorsa.penale.value and penale_fuori_zona <= Decimal("0"):
+            raise RegolaFinecorsaValidazioneException(
+                "penale_fuori_zona deve essere maggiore di 0 quando tipo_vincolo è 'penale'."
+            )
+        bonus_fields = (bonus_parcheggi_corretti is not None, bonus_valore is not None)
+        if any(bonus_fields) and not all(bonus_fields):
+            raise RegolaFinecorsaValidazioneException(
+                "bonus_parcheggi_corretti e bonus_valore devono essere forniti insieme."
+            )
         if batteria_minima is not None and not (0 <= batteria_minima <= 100):
             raise RegolaFinecorsaValidazioneException(
                 "batteria_minima deve essere compresa tra 0 e 100."
