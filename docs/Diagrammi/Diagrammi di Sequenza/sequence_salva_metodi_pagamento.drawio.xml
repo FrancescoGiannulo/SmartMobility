@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="SD - IF-UT.12 SalvaMetodiPagamento" id="0">
+    <mxGraphModel dx="4230" dy="1877" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="1900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="sd_frame" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=190;height=30;" value="sd SalvaMetodiPagamento" vertex="1">
+          <mxGeometry height="1760" width="1780" x="20" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="actor_cell" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value=":Utente" vertex="1">
+          <mxGeometry height="60" width="30" x="55" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="actor_line" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;strokeWidth=1;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="130" as="sourcePoint" />
+            <mxPoint x="70" y="1775" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_vista" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" value="&lt;u&gt;:VistaPagamento&lt;/u&gt;" vertex="1">
+          <mxGeometry height="1720" width="150" x="130" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act_vista_1" parent="ll_vista" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="390" width="10" x="70" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="act_vista_2" parent="ll_vista" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="50" width="10" x="70" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="act_vista_3" parent="ll_vista" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="1150" width="10" x="70" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="alt_int" parent="ll_vista" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;" value="alt" vertex="1">
+          <mxGeometry height="979.1" width="1750" x="-70" y="690" as="geometry" />
+        </mxCell>
+        <mxCell id="alt_int_div" parent="alt_int" style="line;strokeWidth=1;dashed=1;fillColor=none;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="12.131147540983607" width="1700" y="558.0327868852459" as="geometry" />
+        </mxCell>
+        <mxCell id="alt_int_guard1" parent="alt_int" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" value="[non duplicato]" vertex="1">
+          <mxGeometry height="20" width="120" x="10" y="36.393442622950815" as="geometry" />
+        </mxCell>
+        <mxCell id="alt_int_guard2" parent="alt_int" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" value="[metodo già associato]" vertex="1">
+          <mxGeometry height="30" width="130" x="10" y="558.0327868852459" as="geometry" />
+        </mxCell>
+        <mxCell id="alt_ext" parent="alt_int" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;" value="alt" vertex="1">
+          <mxGeometry height="830" width="1740" x="10" y="149.10000000000002" as="geometry" />
+        </mxCell>
+        <mxCell id="alt_ext_div" parent="alt_ext" style="line;strokeWidth=1;dashed=1;fillColor=none;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="8.46938775510204" width="1740" y="635.204081632653" as="geometry" />
+        </mxCell>
+        <mxCell id="alt_ext_guard1" parent="alt_ext" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" value="[dati validi]" vertex="1">
+          <mxGeometry height="20" width="100" x="10" y="25.408163265306122" as="geometry" />
+        </mxCell>
+        <mxCell id="alt_ext_guard2" parent="alt_ext" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" value="[ dati non validi]" vertex="1">
+          <mxGeometry height="30" width="100" x="10" y="635.204081632653" as="geometry" />
+        </mxCell>
+        <mxCell id="ll_pay" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" value="&lt;u&gt;:PaymentService&lt;/u&gt;" vertex="1">
+          <mxGeometry height="1710" width="150" x="340" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act_pay_1" parent="ll_pay" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="360" width="10" x="70" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="act_pay_3" parent="ll_pay" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="1110" width="10" x="70" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="ll_ctrl" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" value="&lt;u&gt;:PagamentiController&lt;/u&gt;" vertex="1">
+          <mxGeometry height="1710" width="200" x="530" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act_ctrl_1" parent="ll_ctrl" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="280" width="10" x="95" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="act_ctrl_3" parent="ll_ctrl" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="1030" width="10" x="95" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="ll_mob" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" value="&lt;u&gt;:ServizioPricing&lt;/u&gt;" vertex="1">
+          <mxGeometry height="1710" width="170" x="770" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act_mob_1" parent="ll_mob" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="210" width="10" x="80" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="act_mob_3" parent="ll_mob" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="960" width="10" x="80" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="ll_provider" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;u&gt;:ProviderPagamenti&lt;/u&gt;" vertex="1">
+          <mxGeometry height="1710" width="170" x="990" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act_provider" parent="ll_provider" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" value="" vertex="1">
+          <mxGeometry height="130" width="10" x="80" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="ll_repo" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" value="&lt;u&gt;:PagamentiRepository&lt;/u&gt;" vertex="1">
+          <mxGeometry height="1710" width="170" x="1210" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act_repo_1" parent="ll_repo" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="80" width="10" x="80" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="act_repo_2" parent="ll_repo" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="80" width="10" x="80" y="770" as="geometry" />
+        </mxCell>
+        <mxCell id="act_repo_3" parent="ll_repo" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="80" width="10" x="80" y="910" as="geometry" />
+        </mxCell>
+        <mxCell id="act_repo_4" parent="ll_repo" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="70" width="10" x="80" y="1070" as="geometry" />
+        </mxCell>
+        <mxCell id="ll_metodo" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" value="&lt;u&gt;metodo:MetodoPagamento&lt;/u&gt;" vertex="1">
+          <mxGeometry height="840" width="160" x="1430" y="940" as="geometry" />
+        </mxCell>
+        <mxCell id="act_metodo" parent="ll_metodo" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="250" width="10" x="75" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="msg1" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="1: apriPortafoglio()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="170" as="sourcePoint" />
+            <mxPoint x="225" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg2" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="2: getMetodiPagamento()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="225" y="210" as="sourcePoint" />
+            <mxPoint x="415" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg3" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="3: GET /utente/pagamenti/metodi">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="415" y="250" as="sourcePoint" />
+            <mxPoint x="630" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg4" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="4: getMetodiPagamento(idUtente)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="290" as="sourcePoint" />
+            <mxPoint x="855" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg5" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="5: findByUtente(idUtente)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="855" y="330" as="sourcePoint" />
+            <mxPoint x="1295" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg6" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="6: :listaMetodi">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1295" y="370" as="sourcePoint" />
+            <mxPoint x="855" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg7" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="7: :listaMetodi">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="855" y="410" as="sourcePoint" />
+            <mxPoint x="630" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg8" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="8: 200 OK :listaMetodi">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="450" as="sourcePoint" />
+            <mxPoint x="415" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg9" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="9: :listaMetodi">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="415" y="490" as="sourcePoint" />
+            <mxPoint x="225" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg10" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="10: mostraPortafoglio(listaMetodi)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="225" y="530" as="sourcePoint" />
+            <mxPoint x="70" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg11" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="11: aggiungiMetodoPagamento(tipologia, dati)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="580" as="sourcePoint" />
+            <mxPoint x="225" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg12" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="12: aggiungiMetodoPagamento(tipologia, dati)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="225" y="620" as="sourcePoint" />
+            <mxPoint x="415" y="620" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg13" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="13: POST /utente/pagamenti/metodi">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="415" y="660" as="sourcePoint" />
+            <mxPoint x="630" y="660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg14" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="14: aggiungiMetodoPagamento(tipologia, dati, idUtente)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="700" as="sourcePoint" />
+            <mxPoint x="855" y="700" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg15" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="15: validaDatiPagamento(tipologia, dati)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="855" y="740" as="sourcePoint" />
+            <mxPoint x="1075" y="740" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg16" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="16: :tokenMetodo">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1075" y="800" as="sourcePoint" />
+            <mxPoint x="855" y="800" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg17" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="17: existsByToken(tokenMetodo)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="855" y="840" as="sourcePoint" />
+            <mxPoint x="1295" y="840" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg18" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="18: :esistenza">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1295" y="880" as="sourcePoint" />
+            <mxPoint x="855" y="880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg19" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="19: «crea»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="855" y="940" as="sourcePoint" />
+            <mxPoint x="1510" y="940" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg20" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="20: save(this)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1510" y="980" as="sourcePoint" />
+            <mxPoint x="1295" y="980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg21" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="21: :ok">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1295" y="1020" as="sourcePoint" />
+            <mxPoint x="1510" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg22" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="22: :ok">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1510" y="1060" as="sourcePoint" />
+            <mxPoint x="855" y="1060" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="opt_frame" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;" value="opt" vertex="1">
+          <mxGeometry height="140" width="1680" x="90" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="opt_guard" parent="opt_frame" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" value="[primo metodo → imposta predefinito automaticamente]" vertex="1">
+          <mxGeometry height="20" width="370" x="10" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="msg23" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="23: impostaPredefinito()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="855" y="1110" as="sourcePoint" />
+            <mxPoint x="1510" y="1110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg24" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="24: updatePredefinito(this)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1510" y="1140" as="sourcePoint" />
+            <mxPoint x="1295" y="1140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg25" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="25: :ok">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1295" y="1170" as="sourcePoint" />
+            <mxPoint x="1510" y="1170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg26" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="26: :ok">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1510" y="1200" as="sourcePoint" />
+            <mxPoint x="855" y="1200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg27" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="27: :ok">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="855" y="1240" as="sourcePoint" />
+            <mxPoint x="630" y="1240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg28" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="28: 201 Created">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="1280" as="sourcePoint" />
+            <mxPoint x="415" y="1280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg29" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="29: :ok">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="415" y="1320" as="sourcePoint" />
+            <mxPoint x="225" y="1320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg30" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="30: mostraConfermaMetodoPagamento()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="225" y="1360" as="sourcePoint" />
+            <mxPoint x="70" y="1360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg31" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="31: :erroreMetodoDuplicato">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="855" y="1390" as="sourcePoint" />
+            <mxPoint x="630" y="1390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg32" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="32: 409 Conflict">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="1430" as="sourcePoint" />
+            <mxPoint x="415" y="1430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg33" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="33: :errore">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="415" y="1470" as="sourcePoint" />
+            <mxPoint x="225" y="1470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg34" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="34: mostraErrore(&quot;Metodo già associato&quot;)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="225" y="1510" as="sourcePoint" />
+            <mxPoint x="70" y="1510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg35" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="35: :erroreValidazione">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1075" y="1540" as="sourcePoint" />
+            <mxPoint x="855" y="1540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg36" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="36: :errore">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="855" y="1580" as="sourcePoint" />
+            <mxPoint x="630" y="1580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg37" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="37: 422 Unprocessable Entity">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="1620" as="sourcePoint" />
+            <mxPoint x="415" y="1620" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg38" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="38: :errore">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="415" y="1660" as="sourcePoint" />
+            <mxPoint x="225" y="1660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg39" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="39: mostraErrore(&quot;Dati non validi, riprova&quot;)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="225" y="1700" as="sourcePoint" />
+            <mxPoint x="70" y="1700" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

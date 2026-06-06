@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="SD - IF-OP.07 DefinisceTariffa" id="0">
+    <mxGraphModel dx="5226" dy="1609" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="sd_frame" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=180;height=30;" value="sd DefinisceTariffa" vertex="1">
+          <mxGeometry height="1460" width="1380" x="20" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="actor_cell" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value=":Operatore" vertex="1">
+          <mxGeometry height="60" width="30" x="55" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="actor_line" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;strokeWidth=1;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="130" as="sourcePoint" />
+            <mxPoint x="70" y="1475" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_vista" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" value="&lt;u&gt;:VistaTariffePromozioni&lt;/u&gt;" vertex="1">
+          <mxGeometry height="1400" width="150" x="140" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act_vista_1" parent="ll_vista" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="390" width="10" x="70" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="act_vista_2" parent="ll_vista" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="50" width="10" x="70" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="act_vista_3" parent="ll_vista" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="790" width="10" x="70" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="ll_flotta" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" value="&lt;u&gt;:FlottaService&lt;/u&gt;" vertex="1">
+          <mxGeometry height="1400" width="140" x="330" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act_flotta_1" parent="ll_flotta" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="360" width="10" x="65" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="act_flotta_3" parent="ll_flotta" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="760" width="10" x="65" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="ll_ctrl" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" value="&lt;u&gt;:MezzoOperatoreController&lt;/u&gt;" vertex="1">
+          <mxGeometry height="1400" width="200" x="510" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act_ctrl_1" parent="ll_ctrl" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="280" width="10" x="95" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="act_ctrl_3" parent="ll_ctrl" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="720" width="10" x="95" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="ll_pricing" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" value="&lt;u&gt;:ServizioPricing&lt;/u&gt;" vertex="1">
+          <mxGeometry height="1400" width="160" x="760" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act_pricing_1" parent="ll_pricing" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="200" width="10" x="75" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="act_pricing_3" parent="ll_pricing" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="670" width="10" x="75" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="ll_tariffa" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" value="&lt;u&gt;tariffa:Tariffa&lt;/u&gt;" vertex="1">
+          <mxGeometry height="530" width="130" x="970" y="930" as="geometry" />
+        </mxCell>
+        <mxCell id="act_tariffa" parent="ll_tariffa" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="170" width="10" x="60" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ll_repo" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" value="&lt;u&gt;:TariffaRepository&lt;/u&gt;" vertex="1">
+          <mxGeometry height="1400" width="160" x="1150" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act_repo_1" parent="ll_repo" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="80" width="10" x="75" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="act_repo_2" parent="ll_repo" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="80" width="10" x="75" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="act_repo_3" parent="ll_repo" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="80" width="10" x="75" y="970" as="geometry" />
+        </mxCell>
+        <mxCell id="msg1" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="1: apriSezioneTariffe()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="170" as="sourcePoint" />
+            <mxPoint x="215" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg2" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="2: getTariffe()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="215" y="210" as="sourcePoint" />
+            <mxPoint x="400" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg3" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="3: GET /operatore/tariffe">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="250" as="sourcePoint" />
+            <mxPoint x="610" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg4" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="4: getTariffe()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="610" y="290" as="sourcePoint" />
+            <mxPoint x="840" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg5" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="5: findAll()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="840" y="330" as="sourcePoint" />
+            <mxPoint x="1230" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg6" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="6: :listaTariffe">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1230" y="370" as="sourcePoint" />
+            <mxPoint x="840" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg7" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="7: :listaTariffe">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="840" y="410" as="sourcePoint" />
+            <mxPoint x="610" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg8" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="8: 200 OK :listaTariffe">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="610" y="450" as="sourcePoint" />
+            <mxPoint x="400" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg9" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="9: :listaTariffe">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="490" as="sourcePoint" />
+            <mxPoint x="215" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg10" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="10: mostraListaTariffe(listaTariffe)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="215" y="530" as="sourcePoint" />
+            <mxPoint x="70" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg11" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="11: selezionaAggiuntaNuovaTariffa()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="580" as="sourcePoint" />
+            <mxPoint x="215" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg12" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="12: mostraFormNuovaTariffa()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="215" y="620" as="sourcePoint" />
+            <mxPoint x="70" y="620" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg13" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="13: confermaNuovaTariffa(tipologiaMezzo, costoMinuto, costoKm)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="670" as="sourcePoint" />
+            <mxPoint x="215" y="670" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg14" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="14: creaTariffa(tipologiaMezzo, costoMinuto, costoKm)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="215" y="710" as="sourcePoint" />
+            <mxPoint x="400" y="710" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg15" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="15: POST /operatore/tariffe">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="750" as="sourcePoint" />
+            <mxPoint x="610" y="750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg16" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="16: creaTariffa(tipologiaMezzo, costoMinuto, costoKm)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="610" y="790" as="sourcePoint" />
+            <mxPoint x="840" y="790" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg17" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="17: existsByTipologia(tipologiaMezzo)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="840" y="830" as="sourcePoint" />
+            <mxPoint x="1230" y="830" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg18" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="18: :esistenza">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1230" y="870" as="sourcePoint" />
+            <mxPoint x="840" y="870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="alt_frame" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;" value="alt" vertex="1">
+          <mxGeometry height="530" width="1340" x="60" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="alt_div" parent="alt_frame" style="line;strokeWidth=1;dashed=1;fillColor=none;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="9.814814814814817" width="1340" y="343.51851851851853" as="geometry" />
+        </mxCell>
+        <mxCell id="guard1" parent="alt_frame" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" value="[tipologia disponibile: nessuna tariffa esistente per questa tipologia]" vertex="1">
+          <mxGeometry height="20" width="430" x="10" y="29.444444444444446" as="geometry" />
+        </mxCell>
+        <mxCell id="guard2" parent="alt_frame" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" value="[ tariffa già esistente per la tipologia selezionata]" vertex="1">
+          <mxGeometry height="30" width="260" x="10" y="343.51851851851853" as="geometry" />
+        </mxCell>
+        <mxCell id="msg19" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="19: «crea»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="840" y="930" as="sourcePoint" />
+            <mxPoint x="1035" y="930" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg20" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" value="20: save(this)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1035" y="970" as="sourcePoint" />
+            <mxPoint x="1230" y="970" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg21" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="21: :ok">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1230" y="1010" as="sourcePoint" />
+            <mxPoint x="1035" y="1010" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg22" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="22: :ok">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1035" y="1050" as="sourcePoint" />
+            <mxPoint x="840" y="1050" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg23" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="23: :ok">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="840" y="1090" as="sourcePoint" />
+            <mxPoint x="610" y="1090" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg24" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="24: 201 Created">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="610" y="1130" as="sourcePoint" />
+            <mxPoint x="400" y="1130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg25" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="25: :ok">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="1170" as="sourcePoint" />
+            <mxPoint x="215" y="1170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg26" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="26: mostraConfermaCreazioneTariffa()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="215" y="1210" as="sourcePoint" />
+            <mxPoint x="70" y="1210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg27" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="27: :erroreTariffaGiàEsistente">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="840" y="1270" as="sourcePoint" />
+            <mxPoint x="610" y="1270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg28" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="28: 409 Conflict">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="610" y="1310" as="sourcePoint" />
+            <mxPoint x="400" y="1310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg29" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="29: :errore">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="1350" as="sourcePoint" />
+            <mxPoint x="215" y="1350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg30" edge="1" parent="1" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" value="30: mostraErrore(&quot;Tariffa già esistente. Usa Modifica Tariffa (OP.08)&quot;)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="215" y="1390" as="sourcePoint" />
+            <mxPoint x="70" y="1390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
