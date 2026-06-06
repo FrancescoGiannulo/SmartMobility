@@ -101,3 +101,35 @@ class TestMezzoRepositoryAggiungi:
             assert MezzoRepository(db).ha_corse_attive(_uuid.UUID(mezzo_id)) is False
         finally:
             _elimina_mezzo(db, mezzo_id)
+
+
+class TestZonaRepositoryPunto:
+
+    @pytest.mark.integration
+    def test_punto_dentro_zona_operativa(self, db):
+        from dal.zona_repository import ZonaRepository
+        zona_id = None
+        with Session(db) as s:
+            row = s.execute(text("""
+                INSERT INTO zone (nome, tipo, perimetro, limite_velocita)
+                VALUES ('ZonaTestOP', 'operativa',
+                    ST_GeomFromGeoJSON('{"type":"Polygon","coordinates":[[[16.8,41.0],[16.95,41.0],[16.95,41.2],[16.8,41.2],[16.8,41.0]]]}'),
+                    NULL)
+                RETURNING id
+            """)).fetchone()
+            s.commit()
+            assert row is not None, "INSERT zone non ha restituito righe"
+            zona_id = str(row.id)
+        try:
+            # lat=41.11, lng=16.87 è dentro il poligono
+            assert ZonaRepository(db).punto_in_zona_operativa(41.11, 16.87) is True
+        finally:
+            with Session(db) as s:
+                s.execute(text("DELETE FROM zone WHERE id = :id"), {"id": zona_id})
+                s.commit()
+
+    @pytest.mark.integration
+    def test_punto_fuori_zona_operativa(self, db):
+        from dal.zona_repository import ZonaRepository
+        # Coordinate lontane da Bari (Roma)
+        assert ZonaRepository(db).punto_in_zona_operativa(41.90, 12.49) is False
