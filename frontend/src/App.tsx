@@ -7,6 +7,8 @@ import VistaMappa from './views/utente/VistaMappa'
 import VistaMappaOperatore from './views/operatore/VistaMappaOperatore'
 import VistaCorsa from './views/utente/VistaCorsa'
 import VistaDashboardAP from './views/amministrazione/VistaDashboardAP'
+import VistaSegnalazione from './views/utente/VistaSegnalazione'
+import VistaSegnalazioniOperatore from './views/operatore/VistaSegnalazioniOperatore'
 import { utenteCorrente, logout } from './services/AuthService'
 
 const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string
@@ -79,6 +81,14 @@ function App() {
           }
         />
         <Route
+          path="/utente/segnalazione"
+          element={
+            <RoutaProtetta ruoloRichiesto="UT">
+              <VistaSegnalazione />
+            </RoutaProtetta>
+          }
+        />
+        <Route
           path="/utente/*"
           element={
             <RoutaProtetta ruoloRichiesto="UT">
@@ -91,6 +101,14 @@ function App() {
           element={
             <RoutaProtetta ruoloRichiesto="OP">
               <VistaMappaOperatore />
+            </RoutaProtetta>
+          }
+        />
+        <Route
+          path="/operatore/segnalazioni"
+          element={
+            <RoutaProtetta ruoloRichiesto="OP">
+              <VistaSegnalazioniOperatore />
             </RoutaProtetta>
           }
         />

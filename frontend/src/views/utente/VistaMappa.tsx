@@ -181,7 +181,10 @@ export default function VistaMappa() {
     <div className="vista-mappa">
       <div className="mappa-topbar">
         <h2>Smart Mobility</h2>
-        <button type="button" className="btn-logout-mappa" onClick={handleLogout}>Logout</button>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <button type="button" className="btn-logout-mappa" style={{ fontSize: 13 }} onClick={() => navigate('/utente/segnalazione')}>Segnala</button>
+          <button type="button" className="btn-logout-mappa" onClick={handleLogout}>Logout</button>
+        </div>
       </div>
 
       <GoogleMap

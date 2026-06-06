@@ -29,7 +29,8 @@
       "Bash(echo \"EXIT:$?\")",
       "Skill(commit-commands:commit)",
       "Skill(commit-commands:commit:*)",
-      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility add backend/bll/servizio_utenti.py backend/config.py backend/controllers/login_controller.py backend/model/orm.py)"
+      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility add backend/bll/servizio_utenti.py backend/config.py backend/controllers/login_controller.py backend/model/orm.py)",
+      "Bash(npx tsc *)"
     ]
   }
 }
