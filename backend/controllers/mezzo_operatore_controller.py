@@ -62,6 +62,37 @@ def aggiungi_mezzo(
         raise HTTPException(status_code=422, detail=str(e))
 
 
+# [IF-OP.12] CS-12 — Verifica se un mezzo può essere dismesso (no side-effects)
+@router.post("/mezzi/{mezzo_id}/verifica")
+def verifica_dismissione(
+    mezzo_id: UUID,
+    _=Depends(verify_token(["OP"])),
+    db: Session = Depends(get_db),
+):
+    from bll.servizio_mobilita import MezzoNonTrovatoException
+    try:
+        return ServizioMobilita(db).verifica_dismissione(mezzo_id)
+    except MezzoNonTrovatoException as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+
+# [IF-OP.12] CS-12 — Dismette il mezzo (imposta stato "Dismesso")
+@router.delete("/mezzi/{mezzo_id}")
+def dismetti_mezzo(
+    mezzo_id: UUID,
+    _=Depends(verify_token(["OP"])),
+    db: Session = Depends(get_db),
+):
+    from bll.servizio_mobilita import MezzoNonTrovatoException, MezzoInMissioneException
+    try:
+        ServizioMobilita(db).dismetti_mezzo(mezzo_id)
+        return {"status": "ok"}
+    except MezzoNonTrovatoException as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except MezzoInMissioneException as e:
+        raise HTTPException(status_code=409, detail=str(e))
+
+
 # [IF-OP.13] CS-XX — Leggi configurazione regole fine corsa
 @router.get("/configurazione/fine-corsa")
 def get_configurazione_fine_corsa(
