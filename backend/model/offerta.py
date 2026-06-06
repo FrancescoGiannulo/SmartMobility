@@ -31,6 +31,11 @@ class Offerta(Base):
     durata_giorni: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     data_inizio: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
     data_scadenza: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
+    # NULL = valido per tutti i tipi di mezzo; valorizzato = abbonamento specifico per quel mezzo
+    tipo_mezzo: Mapped[Optional[str]] = mapped_column(
+        SAEnum("monopattino", "bicicletta", "automobile", name="tipo_mezzo", create_type=False),
+        nullable=True,
+    )
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=text("now()")
     )
