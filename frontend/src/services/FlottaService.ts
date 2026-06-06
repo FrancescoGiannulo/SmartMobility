@@ -1,5 +1,23 @@
 import { api } from './ApiService'
 
+export interface MezzoFlotta {
+  id: string
+  codice: string
+  tipo: string
+  stato: string
+  lat: number | null
+  lng: number | null
+  batteria: number | null
+}
+
+export interface AggiungiMezzoPayload {
+  tipo: string
+  codice: string
+  lat: number
+  lng: number
+  stato: string
+}
+
 export interface ZonaParcheggio {
   id: string
   nome: string
@@ -15,29 +33,28 @@ export interface ConfigurazioneFinecorsa {
   zone_parcheggio: ZonaParcheggio[]
 }
 
-// [IF-OP.12] Aggiunge Mezzo
-export const aggiungiMezzo = (mezzo: object) => api.post('/flotta/mezzi', mezzo)
+// [IF-OP.11] Lista flotta operatore
+export const getMezziFlotta = (): Promise<{ data: MezzoFlotta[] }> =>
+  api.get('/operatore/mezzi')
 
-// [IF-OP.13] Dismette Mezzo
-export const dismetti = (id: string) => api.delete(`/flotta/mezzi/${id}`)
+// [IF-OP.11] Aggiunge nuovo mezzo
+export const aggiungiMezzo = (mezzo: AggiungiMezzoPayload): Promise<{ data: MezzoFlotta }> =>
+  api.post('/operatore/mezzi', mezzo)
 
-// [IF-OP.04] Modifica Stato Mezzo
+// [IF-OP.12] Verifica se il mezzo può essere dismesso
+export const verificaDismissione = (
+  id: string
+): Promise<{ data: { dismettibile: boolean; motivo: string | null; mezzo: MezzoFlotta } }> =>
+  api.post(`/operatore/mezzi/${id}/verifica`, {})
+
+// [IF-OP.12] Dismette il mezzo
+export const dismetti = (id: string): Promise<{ data: { status: string } }> =>
+  api.delete(`/operatore/mezzi/${id}`)
+
+// [IF-OP.04] Modifica Stato Mezzo (implementato separatamente)
 export const modificaStato = (id: string, stato: string) =>
-  api.put(`/flotta/mezzi/${id}/stato`, { stato })
+  api.put(`/operatore/mezzi/${id}/stato`, { stato })
 
-// [IF-OP.13] CS-XX — Configurazione regole fine corsa
-export const getConfigurazioneFinecorsa = async (): Promise<ConfigurazioneFinecorsa> => {
-  const r = await api.get<ConfigurazioneFinecorsa>('/operatore/configurazione/fine-corsa')
-  return r.data
-}
-
-export const salvaConfigurazioneFinecorsa = async (
-  config: Omit<ConfigurazioneFinecorsa, 'zone_parcheggio'>
-): Promise<void> => {
-  await api.post('/operatore/configurazione/fine-corsa', config)
-}
-
-// [IF-OP.07] Definisce Tariffa
 export interface Tariffa {
   id: string
   tipo_mezzo: string
@@ -45,6 +62,7 @@ export interface Tariffa {
   costo_al_km: number
 }
 
+// [IF-OP.07] Definisce Tariffa
 export const getTariffe = (): Promise<{ data: Tariffa[] }> =>
   api.get('/operatore/tariffe')
 
@@ -61,3 +79,15 @@ export const aggiornaTariffa = (
   costo_al_km: number,
 ): Promise<{ data: Tariffa }> =>
   api.put(`/operatore/tariffe/${tipo_mezzo}`, { tipo_mezzo, costo_al_minuto, costo_al_km })
+
+// [IF-OP.13] Configurazione regole fine corsa
+export const getConfigurazioneFinecorsa = async (): Promise<ConfigurazioneFinecorsa> => {
+  const r = await api.get<ConfigurazioneFinecorsa>('/operatore/configurazione/fine-corsa')
+  return r.data
+}
+
+export const salvaConfigurazioneFinecorsa = async (
+  config: Omit<ConfigurazioneFinecorsa, 'zone_parcheggio'>
+): Promise<void> => {
+  await api.post('/operatore/configurazione/fine-corsa', config)
+}

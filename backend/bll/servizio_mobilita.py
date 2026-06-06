@@ -8,6 +8,7 @@ from dal.prenotazione_repository import PrenotazioneRepository
 from dal.zona_repository import ZonaRepository
 from dal.regola_fine_corsa_repository import RegolaFineCorsaRepository
 from dal.operatore_repository import OperatoreRepository
+from bll.servizio_gis import ServizioGIS
 
 
 class MezzoNonTrovatoException(Exception):
@@ -22,9 +23,22 @@ class CorsaNonTrovataException(Exception):
     pass
 
 
+class IdentificativoEsistenteException(Exception):
+    pass
+
+
+class PosizioneNonOperativaException(Exception):
+    pass
+
+
+class MezzoInMissioneException(Exception):
+    pass
+
+
 class ServizioMobilita:
 
     def __init__(self, db: Session) -> None:
+        self._db = db
         self._mezzo_repo = MezzoRepository(db)
         self._corsa_repo = CorsaRepository(db)
         self._pren_repo = PrenotazioneRepository(db)
@@ -161,3 +175,46 @@ class ServizioMobilita:
             raise CorsaNonTrovataException(f"Corsa {corsa_id} non trovata")
         self._corsa_repo.aggiorna_stato(corsa_id, "terminata")
         self._mezzo_repo.aggiorna_stato(UUID(corsa["mezzo_id"]), "Disponibile")
+
+    # [IF-OP.11] CS-11 — Lista flotta per operatore
+    def get_mezzi_flotta(self) -> list[dict]:
+        return self._mezzo_repo.lista_tutti()
+
+    # [IF-OP.11] CS-11 — Aggiunge un nuovo mezzo alla flotta
+    def aggiungi_mezzo(
+        self,
+        tipo: str,
+        codice: str,
+        lat: float,
+        lng: float,
+        stato: str,
+    ) -> dict:
+        if self._mezzo_repo.esiste_by_codice(codice):
+            raise IdentificativoEsistenteException(f"Identificativo '{codice}' già in uso")
+        if not ServizioGIS(self._db).verifica_posizione_in_zona_operativa(lat, lng):
+            raise PosizioneNonOperativaException("La posizione non ricade in nessuna zona operativa")
+        return self._mezzo_repo.crea(tipo, codice, lat, lng, stato)
+
+    # [IF-OP.12] CS-12 — Verifica se un mezzo può essere dismesso (senza effetti collaterali)
+    def verifica_dismissione(self, mezzo_id: UUID) -> dict:
+        mezzo = self._mezzo_repo.trova_per_id(mezzo_id)
+        if mezzo is None:
+            raise MezzoNonTrovatoException(f"Mezzo {mezzo_id} non trovato")
+        stati_bloccanti = {"In uso", "In pausa", "Prenotato"}
+        if mezzo["stato"] in stati_bloccanti or self._mezzo_repo.ha_corse_attive(mezzo_id):
+            return {
+                "dismettibile": False,
+                "motivo": f"Mezzo non dismettibile (stato: {mezzo['stato']})",
+                "mezzo": mezzo,
+            }
+        return {"dismettibile": True, "motivo": None, "mezzo": mezzo}
+
+    # [IF-OP.12] CS-12 — Dismette il mezzo impostando lo stato a "Dismesso"
+    def dismetti_mezzo(self, mezzo_id: UUID) -> None:
+        mezzo = self._mezzo_repo.trova_per_id(mezzo_id)
+        if mezzo is None:
+            raise MezzoNonTrovatoException(f"Mezzo {mezzo_id} non trovato")
+        stati_bloccanti = {"In uso", "In pausa", "Prenotato"}
+        if mezzo["stato"] in stati_bloccanti or self._mezzo_repo.ha_corse_attive(mezzo_id):
+            raise MezzoInMissioneException(f"Mezzo {mezzo_id} ha missioni attive")
+        self._mezzo_repo.aggiorna_stato(mezzo_id, "Dismesso")

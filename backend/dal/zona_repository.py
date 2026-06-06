@@ -101,6 +101,24 @@ class ZonaRepository:
         if rowcount == 0:
             raise ZonaNonTrovataException(f"Zona {zona_id} non trovata")
 
+    # [IF-OP.11] Verifica che un punto (lat, lng) ricada in almeno una zona operativa attiva
+    def punto_in_zona_operativa(self, lat: float, lng: float) -> bool:
+        """True se il punto (lat, lng) ricade in almeno una zona operativa attiva."""
+        sql = text("""
+            SELECT EXISTS(
+                SELECT 1 FROM zone
+                WHERE tipo = 'operativa'
+                  AND attiva = true
+                  AND ST_Within(
+                      ST_SetSRID(ST_MakePoint(:lng, :lat), 4326),
+                      perimetro
+                  )
+            ) AS esiste
+        """)
+        with self._sessione() as s:
+            row = s.execute(sql, {"lat": lat, "lng": lng}).fetchone()
+        return bool(row.esiste) if row else False
+
     # [IF-OP.02] Verifica che il poligono ricada all'interno di una zona operativa attiva
     def esiste_zona_operativa_contenente(self, coordinate: list[list[float]]) -> bool:
         """True se esiste almeno una zona operativa attiva che contiene ST_Within il poligono dato."""

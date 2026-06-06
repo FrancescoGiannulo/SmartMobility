@@ -143,3 +143,66 @@ class MezzoRepository:
         with self._sessione() as s:
             s.execute(sql, {"stato": nuovo_stato, "id": str(mezzo_id)})
             s.commit()
+
+    def esiste_by_codice(self, codice: str) -> bool:
+        sql = text("SELECT EXISTS(SELECT 1 FROM mezzi WHERE codice = :codice) AS esiste")
+        with self._sessione() as s:
+            row = s.execute(sql, {"codice": codice}).fetchone()
+        return bool(row.esiste) if row else False
+
+    def crea(self, tipo: str, codice: str, lat: float, lng: float, stato: str) -> dict:
+        sql = text("""
+            INSERT INTO mezzi (codice, tipo, stato, lat, lng)
+            VALUES (:codice, :tipo, :stato, :lat, :lng)
+            RETURNING id, codice, tipo, stato, lat, lng, batteria
+        """)
+        with self._sessione() as s:
+            row = s.execute(sql, {
+                "codice": codice, "tipo": tipo, "stato": stato, "lat": lat, "lng": lng,
+            }).fetchone()
+            s.commit()
+        if row is None:
+            raise RuntimeError(f"INSERT mezzi non ha restituito righe per codice={codice!r}")
+        return {
+            "id": str(row.id),
+            "codice": row.codice,
+            "tipo": row.tipo,
+            "stato": row.stato,
+            "lat": row.lat,
+            "lng": row.lng,
+            "batteria": row.batteria,
+        }
+
+    def lista_tutti(self) -> list[dict]:
+        sql = text("""
+            SELECT id, codice, tipo, stato, lat, lng, batteria
+            FROM mezzi
+            WHERE stato != 'Dismesso'
+            ORDER BY created_at DESC
+        """)
+        with self._sessione() as s:
+            rows = s.execute(sql).fetchall()
+        return [
+            {
+                "id": str(row.id),
+                "codice": row.codice,
+                "tipo": row.tipo,
+                "stato": row.stato,
+                "lat": row.lat,
+                "lng": row.lng,
+                "batteria": row.batteria,
+            }
+            for row in rows
+        ]
+
+    def ha_corse_attive(self, mezzo_id: UUID) -> bool:
+        sql = text("""
+            SELECT EXISTS(
+                SELECT 1 FROM corse
+                WHERE mezzo_id = :mezzo_id
+                  AND stato != 'terminata'
+            ) AS ha_corse
+        """)
+        with self._sessione() as s:
+            row = s.execute(sql, {"mezzo_id": str(mezzo_id)}).fetchone()
+        return bool(row.ha_corse) if row else False
