@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr
-from typing import Any
+from typing import Any, Literal
 from uuid import UUID
 
 
@@ -185,7 +185,7 @@ class AggiungiMezzoRequest(BaseModel):
     codice: str
     lat: float
     lng: float
-    stato: str = "Disponibile"
+    stato: Literal["Disponibile", "In manutenzione", "Fuori servizio"] = "Disponibile"
 
 
 class MezzoFlottaOut(BaseModel):

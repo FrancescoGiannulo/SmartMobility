@@ -164,7 +164,7 @@ class MezzoRepository:
         if row is None:
             raise RuntimeError(f"INSERT mezzi non ha restituito righe per codice={codice!r}")
         return {
-            "id": row.id,
+            "id": str(row.id),
             "codice": row.codice,
             "tipo": row.tipo,
             "stato": row.stato,
@@ -184,7 +184,7 @@ class MezzoRepository:
             rows = s.execute(sql).fetchall()
         return [
             {
-                "id": row.id,
+                "id": str(row.id),
                 "codice": row.codice,
                 "tipo": row.tipo,
                 "stato": row.stato,
