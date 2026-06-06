@@ -81,6 +81,33 @@ class CorsaRepository:
             "gruppo_corsa_id": str(row.gruppo_corsa_id) if row.gruppo_corsa_id else None,
         }
 
+    # [IF-UT.07] CS-06 — riepilogo corsa terminata, restituisce campi Corsa (diagramma classi)
+    def trova_riepilogo(self, corsa_id: UUID, utente_id: UUID) -> dict | None:
+        sql = text("""
+            SELECT
+                c.id, c.inizio_at, c.fine_at, c.stato,
+                c.distanza_km, c.gruppo_corsa_id,
+                p.importo    AS costo_totale,
+                p.importo_pieno
+            FROM corse c
+            LEFT JOIN pagamenti p ON p.corsa_id = c.id AND p.stato = 'completato'
+            WHERE c.id = :corsa_id AND c.utente_id = :utente_id
+        """)
+        with self._sessione() as s:
+            row = s.execute(sql, {"corsa_id": str(corsa_id), "utente_id": str(utente_id)}).fetchone()
+        if row is None:
+            return None
+        return {
+            "id": str(row.id),
+            "inizio_at": row.inizio_at,
+            "fine_at": row.fine_at,
+            "stato": row.stato,
+            "distanza_km": float(row.distanza_km) if row.distanza_km is not None else None,
+            "gruppo_corsa_id": row.gruppo_corsa_id,
+            "costo_totale": float(row.costo_totale) if row.costo_totale is not None else None,
+            "importo_pieno": float(row.importo_pieno) if row.importo_pieno is not None else None,
+        }
+
     # [IF-UT.14] CS-11 — storico corse per utente, ordinate per data decrescente
     def find_by_utente_order_by_data(self, utente_id: UUID) -> list[dict]:
         sql = text("""
@@ -116,7 +143,7 @@ class CorsaRepository:
                 "durata_min": float(r.durata_min) if r.durata_min is not None else None,
                 "distanza_km": float(r.distanza_km) if r.distanza_km is not None else None,
                 "gruppo_corsa_id": str(r.gruppo_corsa_id) if r.gruppo_corsa_id else None,
-                "importo": float(r.importo) if r.importo is not None else None,
+                "costo_totale": float(r.importo) if r.importo is not None else None,
                 "importo_pieno": float(r.importo_pieno) if r.importo_pieno is not None else None,
                 "nome_offerta_applicata": r.nome_offerta_applicata,
             }

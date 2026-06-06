@@ -100,6 +100,7 @@ class MezzoSbloccabileOut(MezzoMappaOut):
 class RisultatoSbloccoItem(BaseModel):
     mezzo_id: str
     corsa_id: str
+    gruppo_corsa_id: str | None = None
 
 
 class RisultatoSblocco(BaseModel):
@@ -195,19 +196,21 @@ class AbbonamentoOut(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# [IF-UT.14] CS-11 — Storico corse utente
-class CorsaStoricoOut(BaseModel):
+# [IF-UT.07/IF-UT.14] Corsa (classe del diagramma delle classi)
+class Corsa(BaseModel):
     id: UUID
-    tipo_mezzo: str
-    codice_mezzo: str
     inizio_at: datetime
-    fine_at: datetime | None
-    durata_min: float | None
-    distanza_km: float | None
-    gruppo_corsa_id: UUID | None
-    importo: float | None
-    importo_pieno: float | None
-    nome_offerta_applicata: str | None
+    fine_at: datetime | None = None
+    costo_totale: float | None = None    # costoTotale nel diagramma, da JOIN pagamenti
+    stato: str | None = None
+    distanza_km: float | None = None     # distanzaPercorsa nel diagramma
+    gruppo_corsa_id: UUID | None = None  # gruppoCorsaID nel diagramma
+    importo_pieno: float | None = None   # da pagamenti, per badge abbonamento/promo
+    # Campi aggiuntivi per lo storico (join con Mezzo)
+    tipo_mezzo: str | None = None
+    codice_mezzo: str | None = None
+    durata_min: float | None = None
+    nome_offerta_applicata: str | None = None
 
 
 # [CS-15] Parametri Numerici di Sistema

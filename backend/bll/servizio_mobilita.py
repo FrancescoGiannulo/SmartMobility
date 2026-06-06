@@ -1,5 +1,6 @@
 import uuid as _uuid
 from uuid import UUID
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 from dal.mezzo_repository import MezzoRepository
 from dal.corsa_repository import CorsaRepository
@@ -55,7 +56,7 @@ class ServizioMobilita:
         for mezzo_id in mezzo_ids:
             try:
                 corsa = self._sblocca_singolo(mezzo_id, utente_id, gruppo_id)
-                sbloccati.append({"mezzo_id": str(mezzo_id), "corsa_id": corsa["id"]})
+                sbloccati.append({"mezzo_id": str(mezzo_id), "corsa_id": corsa["id"], "gruppo_corsa_id": str(gruppo_id) if gruppo_id else None})
             except Exception:
                 # [CS-05.01] mezzo non sbloccabile — segnaFallito
                 falliti.append(str(mezzo_id))
@@ -145,6 +146,13 @@ class ServizioMobilita:
     # [IF-UT.14] CS-11 — Storico corse dell'utente
     def get_storico(self, utente_id: UUID) -> list[dict]:
         return self._corsa_repo.find_by_utente_order_by_data(utente_id)
+
+    # [IF-UT.07] CS-06 — Riepilogo corsa terminata (restituisce Corsa come da diagramma)
+    def calcolaRiepilogoSessione(self, corsa_id: UUID, utente_id: UUID) -> dict:
+        row = self._corsa_repo.trova_riepilogo(corsa_id, utente_id)
+        if row is None:
+            raise CorsaNonTrovataException(f"Corsa {corsa_id} non trovata")
+        return row
 
     # [IF-UT.06] CS-11 — Termina Corsa (minimale: aggiorna stati)
     def termina_corsa(self, corsa_id: UUID, utente_id: UUID) -> None:
