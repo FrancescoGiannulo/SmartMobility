@@ -132,21 +132,27 @@ class PagamentoRepository:
             predefinito=True,
         )
 
-    # [IF-UT.20] Effettua Pagamento
+    # [CS-07] Effettua Pagamento — generico per corsa o abbonamento
     def crea_pagamento(
         self,
-        corsa_id: uuid.UUID,
         utente_id: uuid.UUID,
         metodo_id: uuid.UUID | None,
         importo: Decimal,
         stato: StatoPagamento,
+        corsa_id: uuid.UUID | None = None,
+        abbonamento_id: uuid.UUID | None = None,
+        importo_pieno: Decimal | None = None,
+        offerta_applicata_id: uuid.UUID | None = None,
     ) -> Pagamento:
         with Session(engine) as session:
             pagamento = Pagamento(
                 corsa_id=corsa_id,
+                abbonamento_id=abbonamento_id,
                 utente_id=utente_id,
                 metodo_pagamento_id=metodo_id,
                 importo=importo,
+                importo_pieno=importo_pieno,
+                offerta_applicata_id=offerta_applicata_id,
                 stato=stato,
             )
             session.add(pagamento)

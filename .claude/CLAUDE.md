@@ -120,16 +120,19 @@ frontend/src/
 │   ├── operatore/        → VistaOperatore (IF-OP.*)
 │   └── amministrazione/  → VistaAmministrazionePubblica (IF-AP.*)
 └── services/
-    ├── ApiService.ts     → gateway HTTP centrale + interceptor JWT
-    ├── AuthService.ts    → login, registrazione [IF-UT.17, IF-UT.18]
-    ├── MapService.ts     → mezzi e zone [IF-UT.01, IF-AP.08, IF-OP.01]
-    ├── PaymentService.ts → metodi di pagamento [IF-UT.12, IF-UT.21]
-    ├── ZonaService.ts    → CRUD zone [IF-AP.02, IF-AP.03, IF-OP.03]
-    └── FlottaService.ts  → gestione flotta [IF-OP.04, IF-OP.12, IF-OP.13]
+    ├── ApiService.ts         → gateway HTTP centrale + interceptor JWT
+    ├── AuthService.ts        → login, registrazione [IF-UT.17, IF-UT.18]
+    ├── MapService.ts         → mezzi e zone [IF-UT.01, IF-AP.08, IF-OP.01]
+    ├── PaymentService.ts     → metodi di pagamento, tariffe, promozioni [IF-UT.12, IF-UT.21]
+    ├── CorsaService.ts       → sblocco, termina, storico [IF-UT.04, IF-UT.06, IF-UT.14]
+    ├── PrenotazioneService.ts → prenotazioni [IF-UT.02]
+    ├── AbbonamentoService.ts → abbonamenti [IF-UT.16]
+    ├── ZonaService.ts        → CRUD zone [IF-AP.02, IF-AP.03, IF-OP.03]
+    └── FlottaService.ts      → gestione flotta [IF-OP.04, IF-OP.12, IF-OP.13]
 
 backend/
 ├── database.py       → engine SQLAlchemy, SessionLocal, Base (DeclarativeBase), get_db()
-├── migrations/       → file SQL da eseguire su Supabase (001_init_schema.sql)
+├── migrations/       → file SQL da eseguire su Supabase (001…011)
 ├── model/            → ORM SQLAlchemy 2.0 (Mapped + mapped_column); importare Base da database.py
 ├── controllers/      → validazione HTTP (8 controller da SprintUno.md §7.3)
 ├── bll/              → logica applicativa (6 servizi)
@@ -241,6 +244,35 @@ Servizi Esterni
 ### Gestione degli stati del mezzo
 Lo stato di un mezzo (`Disponibile`, `Prenotato`, `In uso`, `In pausa`, `In manutenzione`, `Fuori servizio`) è un concetto centrale. Qualsiasi operazione che modifica lo stato deve passare per `ServizioMobilità` e rispettare le transizioni valide. Non aggiornare lo stato direttamente dal Controller o dal DAL.
 
+**Prenotazione scaduta**: non esiste un job di cleanup automatico. Se `scade_at < now()` ma il mezzo è ancora in stato `Prenotato`, `_sblocca_singolo` in `ServizioMobilita` rileva la scadenza (nessuna prenotazione attiva per qualsiasi utente) e resetta il mezzo a `Disponibile` prima di procedere con lo sblocco.
+
+### Logica pagamento a fine corsa [IF-UT.20]
+
+Il flusso in `ServizioPricing.effettua_pagamento` segue questa precedenza:
+
+1. **Abbonamento attivo** (`AbbonamentoUtente.data_fine > now()`) → `importo = 0`, `importo_pieno = importo_base`. Le promozioni vengono ignorate.
+2. **Promozione selezionata** (solo se `importo > 0`) → `importo = importo_base * (1 - sconto%)`, `importo_pieno = importo_base`, `offerta_applicata_id` salvato.
+3. **Nessuna offerta** → `importo = importo_base`.
+
+I campi `importo_pieno` e `offerta_applicata_id` sono salvati nella tabella `pagamenti` (migrazione `011_pagamento_offerta_applicata.sql`) e usati da `CorsaRepository.find_by_utente_order_by_data` per lo storico con badge abbonamento/promozione.
+
+**Regola**: il frontend (`VistaCorsa.tsx`) salta il modal promozioni se `getAbbonamentoCorrente()` restituisce un abbonamento con `data_fine > now()`. Il backend applica comunque la logica corretta indipendentemente da ciò che il frontend invia.
+
+### Logica abbonamenti [IF-UT.16]
+
+- `ServizioAbbonamento.sottoscrivi()` impedisce l'attivazione se esiste già un abbonamento con `data_fine > now()` (errore 422).
+- `VistaAbbonamenti.tsx` nasconde i piani disponibili se `corrente.data_fine > new Date()`.
+- `AbbonamentoRepository.get_attivo()` filtra per `stato == "attivo"` ma **non** per `data_fine > now()` — il check sulla data è responsabilità del chiamante.
+
+### Sblocco multiplo e gruppo corsa [IF-UT.04]
+
+Quando più mezzi vengono sbloccati insieme (batch), `ServizioMobilita.sblocca_mezzi` assegna lo stesso `gruppo_corsa_id` (UUID condiviso) a tutte le corse create. Questo permette di raggrupparle nello storico (`VistaCorse.tsx`).
+
+Il frontend può avviare lo sblocco da tre punti:
+- **Pannello mappa** (modalità `sblocca`) — selezione diretta
+- **Pannello prenotazioni** (homepage) — bottone "Sblocca (N)"
+- **Sidebar → Le mie prenotazioni** — bottone "Sblocca (N)" che sblocca tutte le prenotazioni attive insieme
+
 ---
 
 ## Documentazione continua
@@ -286,3 +318,4 @@ I termini tecnici del dominio sono definiti in `docs/SprintZero.md § 4.2`. Usar
 - Non usare termini diversi da quelli del glossario per i concetti di dominio.
 - Non committare codice non testato su un item del backlog.
 - Non modificare lo stato di un mezzo al di fuori di `ServizioMobilità`.
+- **Non inventare classi, interfacce o schemi Pydantic/TypeScript che non esistono nel diagramma delle classi** (`docs/Diagrammi/DiagrammaClassi.md`). Prima di creare una nuova classe, verificare che esista nel diagramma. Se serve qualcosa che non c'è, chiedere esplicitamente prima di procedere. I nomi devono corrispondere esattamente: es. `Corsa` non `RiepilogoCorsa` o `CorsaStorico`. I Pydantic schema del backend e le interfacce TypeScript del frontend sono serializzazioni delle classi del diagramma — usare lo stesso nome (eventualmente con suffisso tecnico `Out` solo se necessario per evitare collisioni con ORM, ma preferire il nome esatto del diagramma). Il diagramma di sequenza definisce il flusso di chiamate e i tipi di ritorno; il diagramma delle classi definisce le classi. Entrambi sono vincolanti.

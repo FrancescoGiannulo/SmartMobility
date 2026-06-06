@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { autentica, registra, autenticaGoogle } from '../../services/AuthService'
 import './VistaLogin.css'
@@ -6,7 +6,7 @@ import './VistaLogin.css'
 const ERRORI: Record<number, string> = {
   401: 'Email o password non corretti',
   422: 'Password non valida. Deve contenere almeno 8 caratteri',
-  423: 'Account bloccato. Riprova tra 15 minuti',
+  423: 'Account bloccato per troppi tentativi falliti. Riprova più tardi.',
   403: 'Account sospeso. Contatta il supporto',
   409: 'Email già registrata',
 }
@@ -22,6 +22,7 @@ export default function VistaLogin() {
   const [cognome, setCognome] = useState('')
   const [errore, setErrore] = useState('')
   const [caricamento, setCaricamento] = useState(false)
+  const [consensoPrivacy, setConsensoPrivacy] = useState(false)
 
   const redirectDopoLogin = (ruolo: string) => {
     if (ruolo === 'UT') navigate('/utente/home')
@@ -29,7 +30,7 @@ export default function VistaLogin() {
     else navigate('/ap/dashboard')
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: { preventDefault(): void }) => {
     e.preventDefault()
     setErrore('')
     if (modalita === 'registrazione' && password.length < 8) {
@@ -42,7 +43,7 @@ export default function VistaLogin() {
         const result = await autentica({ email, password })
         redirectDopoLogin(result.ruolo)
       } else {
-        const result = await registra({ email, password, nome, cognome })
+        const result = await registra({ email, password, nome, cognome, consenso_privacy: consensoPrivacy })
         redirectDopoLogin(result.ruolo)
       }
     } catch (err: unknown) {
@@ -120,13 +121,52 @@ export default function VistaLogin() {
             </button>
           )}
 
+          {/* [IIN-2 / GDPR art. 7] Consenso esplicito al trattamento dati */}
+          {modalita === 'registrazione' && (
+            <label
+              style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: 10,
+                fontSize: 13,
+                color: '#555',
+                cursor: 'pointer',
+                marginTop: 4,
+              }}
+            >
+              <input
+                type="checkbox"
+                id="consenso-privacy"
+                checked={consensoPrivacy}
+                onChange={e => setConsensoPrivacy(e.target.checked)}
+                style={{ marginTop: 2, flexShrink: 0, accentColor: '#155e52' }}
+              />
+              <span>
+                Acconsento al trattamento dei miei dati personali ai sensi del{' '}
+                <a
+                  href="/privacy-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: '#155e52', fontWeight: 600 }}
+                >
+                  Regolamento UE 2016/679 (GDPR)
+                </a>.
+                {' '}Il consenso è obbligatorio per la registrazione.
+              </span>
+            </label>
+          )}
+
           {errore && (
             <p className="login-errore" role="alert">
               {errore}
             </p>
           )}
 
-          <button className="btn-primario" type="submit" disabled={caricamento}>
+          <button
+            className="btn-primario"
+            type="submit"
+            disabled={caricamento || (modalita === 'registrazione' && !consensoPrivacy)}
+          >
             {caricamento ? '...' : modalita === 'login' ? 'LOGIN' : 'REGISTRATI'}
           </button>
         </form>
@@ -137,7 +177,7 @@ export default function VistaLogin() {
           <button
             className="btn-secondario"
             type="button"
-            onClick={() => { setModalita('registrazione'); setErrore('') }}
+            onClick={() => { setModalita('registrazione'); setErrore(''); setConsensoPrivacy(false) }}
           >
             SIGN UP
           </button>
@@ -147,7 +187,7 @@ export default function VistaLogin() {
           <button
             className="btn-link"
             type="button"
-            onClick={() => { setModalita('login'); setErrore('') }}
+            onClick={() => { setModalita('login'); setErrore(''); setConsensoPrivacy(false) }}
           >
             Hai già un account? LOGIN
           </button>

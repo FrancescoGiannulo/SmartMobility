@@ -37,6 +37,9 @@ class Corsa(Base):
         ForeignKey("prenotazioni.id", ondelete="SET NULL"),
         nullable=True,
     )
+    gruppo_corsa_id: Mapped[uuid.UUID | None] = mapped_column(
+        PGUUID(as_uuid=True), nullable=True
+    )
     stato: Mapped[StatoCorsa] = mapped_column(
         SAEnum(StatoCorsa, name="stato_corsa", create_type=False),
         nullable=False,

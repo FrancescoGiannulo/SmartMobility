@@ -1,4 +1,6 @@
+import uuid as _uuid
 from uuid import UUID
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 from dal.mezzo_repository import MezzoRepository
 from dal.corsa_repository import CorsaRepository
@@ -6,6 +8,7 @@ from dal.prenotazione_repository import PrenotazioneRepository
 from dal.zona_repository import ZonaRepository
 from dal.regola_fine_corsa_repository import RegolaFineCorsaRepository
 from dal.operatore_repository import OperatoreRepository
+from bll.servizio_gis import ServizioGIS
 
 
 class MezzoNonTrovatoException(Exception):
@@ -20,9 +23,22 @@ class CorsaNonTrovataException(Exception):
     pass
 
 
+class IdentificativoEsistenteException(Exception):
+    pass
+
+
+class PosizioneNonOperativaException(Exception):
+    pass
+
+
+class MezzoInMissioneException(Exception):
+    pass
+
+
 class ServizioMobilita:
 
     def __init__(self, db: Session) -> None:
+        self._db = db
         self._mezzo_repo = MezzoRepository(db)
         self._corsa_repo = CorsaRepository(db)
         self._pren_repo = PrenotazioneRepository(db)
@@ -49,16 +65,23 @@ class ServizioMobilita:
     ) -> dict:
         sbloccati = []
         falliti = []
+        # [IF-UT.14] gruppo_corsa_id condiviso se sblocco multiplo
+        gruppo_id = _uuid.uuid4() if len(mezzo_ids) > 1 else None
         for mezzo_id in mezzo_ids:
             try:
-                corsa = self._sblocca_singolo(mezzo_id, utente_id)
-                sbloccati.append({"mezzo_id": str(mezzo_id), "corsa_id": corsa["id"]})
+                corsa = self._sblocca_singolo(mezzo_id, utente_id, gruppo_id)
+                sbloccati.append({"mezzo_id": str(mezzo_id), "corsa_id": corsa["id"], "gruppo_corsa_id": str(gruppo_id) if gruppo_id else None})
             except Exception:
                 # [CS-05.01] mezzo non sbloccabile — segnaFallito
                 falliti.append(str(mezzo_id))
         return {"sbloccati": sbloccati, "falliti": falliti}
 
-    def _sblocca_singolo(self, mezzo_id: UUID, utente_id: UUID) -> dict:
+    def _sblocca_singolo(
+        self,
+        mezzo_id: UUID,
+        utente_id: UUID,
+        gruppo_corsa_id: _uuid.UUID | None = None,
+    ) -> dict:
         mezzo = self._mezzo_repo.trova_per_id(mezzo_id)
         if mezzo is None:
             raise MezzoNonTrovatoException(f"Mezzo {mezzo_id} non trovato")
@@ -69,11 +92,18 @@ class ServizioMobilita:
         elif stato == "Prenotato":
             pren = self._pren_repo.trova_attiva_per_utente_e_mezzo(utente_id, mezzo_id)
             if pren is None:
-                raise MezzoNonDisponibileException("Mezzo prenotato da un altro utente")
-            prenotazione_id = pren["id"]
+                # Nessuna prenotazione attiva per questo utente: verifico se esiste per
+                # qualsiasi utente per distinguere "prenotato da altri" da "prenotazione scaduta"
+                any_active = self._pren_repo.trova_qualsiasi_attiva_per_mezzo(mezzo_id)
+                if any_active is not None:
+                    raise MezzoNonDisponibileException("Mezzo prenotato da un altro utente")
+                # Tutte le prenotazioni sono scadute: reset a Disponibile e procedi
+                self._mezzo_repo.aggiorna_stato(mezzo_id, "Disponibile")
+            else:
+                prenotazione_id = pren["id"]
         else:
             raise MezzoNonDisponibileException(f"Mezzo non disponibile (stato: {stato})")
-        corsa = self._corsa_repo.crea(utente_id, mezzo_id, prenotazione_id)
+        corsa = self._corsa_repo.crea(utente_id, mezzo_id, prenotazione_id, gruppo_corsa_id)
         if prenotazione_id:
             self._pren_repo.aggiorna_stato(UUID(prenotazione_id), "convertita")
         self._mezzo_repo.aggiorna_stato(mezzo_id, "In uso")
@@ -127,6 +157,17 @@ class ServizioMobilita:
                 tipo_vincolo,
             )
 
+    # [IF-UT.14] CS-11 — Storico corse dell'utente
+    def get_storico(self, utente_id: UUID) -> list[dict]:
+        return self._corsa_repo.find_by_utente_order_by_data(utente_id)
+
+    # [IF-UT.07] CS-06 — Riepilogo corsa terminata (restituisce Corsa come da diagramma)
+    def calcolaRiepilogoSessione(self, corsa_id: UUID, utente_id: UUID) -> dict:
+        row = self._corsa_repo.trova_riepilogo(corsa_id, utente_id)
+        if row is None:
+            raise CorsaNonTrovataException(f"Corsa {corsa_id} non trovata")
+        return row
+
     # [IF-UT.06] CS-11 — Termina Corsa (minimale: aggiorna stati)
     def termina_corsa(self, corsa_id: UUID, utente_id: UUID) -> None:
         corsa = self._corsa_repo.trova_per_id(corsa_id)
@@ -134,3 +175,46 @@ class ServizioMobilita:
             raise CorsaNonTrovataException(f"Corsa {corsa_id} non trovata")
         self._corsa_repo.aggiorna_stato(corsa_id, "terminata")
         self._mezzo_repo.aggiorna_stato(UUID(corsa["mezzo_id"]), "Disponibile")
+
+    # [IF-OP.11] CS-11 — Lista flotta per operatore
+    def get_mezzi_flotta(self) -> list[dict]:
+        return self._mezzo_repo.lista_tutti()
+
+    # [IF-OP.11] CS-11 — Aggiunge un nuovo mezzo alla flotta
+    def aggiungi_mezzo(
+        self,
+        tipo: str,
+        codice: str,
+        lat: float,
+        lng: float,
+        stato: str,
+    ) -> dict:
+        if self._mezzo_repo.esiste_by_codice(codice):
+            raise IdentificativoEsistenteException(f"Identificativo '{codice}' già in uso")
+        if not ServizioGIS(self._db).verifica_posizione_in_zona_operativa(lat, lng):
+            raise PosizioneNonOperativaException("La posizione non ricade in nessuna zona operativa")
+        return self._mezzo_repo.crea(tipo, codice, lat, lng, stato)
+
+    # [IF-OP.12] CS-12 — Verifica se un mezzo può essere dismesso (senza effetti collaterali)
+    def verifica_dismissione(self, mezzo_id: UUID) -> dict:
+        mezzo = self._mezzo_repo.trova_per_id(mezzo_id)
+        if mezzo is None:
+            raise MezzoNonTrovatoException(f"Mezzo {mezzo_id} non trovato")
+        stati_bloccanti = {"In uso", "In pausa", "Prenotato"}
+        if mezzo["stato"] in stati_bloccanti or self._mezzo_repo.ha_corse_attive(mezzo_id):
+            return {
+                "dismettibile": False,
+                "motivo": f"Mezzo non dismettibile (stato: {mezzo['stato']})",
+                "mezzo": mezzo,
+            }
+        return {"dismettibile": True, "motivo": None, "mezzo": mezzo}
+
+    # [IF-OP.12] CS-12 — Dismette il mezzo impostando lo stato a "Dismesso"
+    def dismetti_mezzo(self, mezzo_id: UUID) -> None:
+        mezzo = self._mezzo_repo.trova_per_id(mezzo_id)
+        if mezzo is None:
+            raise MezzoNonTrovatoException(f"Mezzo {mezzo_id} non trovato")
+        stati_bloccanti = {"In uso", "In pausa", "Prenotato"}
+        if mezzo["stato"] in stati_bloccanti or self._mezzo_repo.ha_corse_attive(mezzo_id):
+            raise MezzoInMissioneException(f"Mezzo {mezzo_id} ha missioni attive")
+        self._mezzo_repo.aggiorna_stato(mezzo_id, "Dismesso")

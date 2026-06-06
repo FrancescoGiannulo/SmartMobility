@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr
-from typing import Any
+from typing import Any, Literal
 from uuid import UUID
+from decimal import Decimal
 
 
 class RegistrazioneRequest(BaseModel):
@@ -8,6 +9,7 @@ class RegistrazioneRequest(BaseModel):
     password: str
     nome: str
     cognome: str
+    consenso_privacy: bool = False  # [IIN-2 / GDPR art. 7] obbligatorio per la registrazione
 
 
 class LoginRequest(BaseModel):
@@ -98,6 +100,7 @@ class MezzoSbloccabileOut(MezzoMappaOut):
 class RisultatoSbloccoItem(BaseModel):
     mezzo_id: str
     corsa_id: str
+    gruppo_corsa_id: str | None = None
 
 
 class RisultatoSblocco(BaseModel):
@@ -178,3 +181,68 @@ class PromozioneOut(BaseModel):
     descrizione: str | None
     sconto_percentuale: str
     data_fine: str
+
+
+class AggiungiMezzoRequest(BaseModel):
+    tipo: str       # "monopattino" | "bicicletta" | "automobile"
+    codice: str
+    lat: float
+    lng: float
+    stato: Literal["Disponibile", "In manutenzione", "Fuori servizio"] = "Disponibile"
+
+
+class MezzoFlottaOut(BaseModel):
+    id: UUID
+    codice: str
+    tipo: str
+    stato: str
+    lat: float | None
+    lng: float | None
+    batteria: int | None
+
+
+# [IF-UT.16] Abbonamento Utente
+class AbbonamentoOut(BaseModel):
+    id: UUID
+    utente_id: UUID
+    offerta_id: UUID
+    data_inizio: datetime
+    data_fine: datetime
+    stato: str
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+# [IF-UT.07/IF-UT.14] Corsa (classe del diagramma delle classi)
+class Corsa(BaseModel):
+    id: UUID
+    inizio_at: datetime
+    fine_at: datetime | None = None
+    costo_totale: float | None = None    # costoTotale nel diagramma, da JOIN pagamenti
+    stato: str | None = None
+    distanza_km: float | None = None     # distanzaPercorsa nel diagramma
+    gruppo_corsa_id: UUID | None = None  # gruppoCorsaID nel diagramma
+    importo_pieno: float | None = None   # da pagamenti, per badge abbonamento/promo
+    # Campi aggiuntivi per lo storico (join con Mezzo)
+    tipo_mezzo: str | None = None
+    codice_mezzo: str | None = None
+    durata_min: float | None = None
+    nome_offerta_applicata: str | None = None
+
+
+# [CS-15] Parametri Numerici di Sistema
+class ParametriSistemaRequest(BaseModel):
+    durata_max_prenotazione_min: int
+    durata_periodo_grazia_min: int
+    max_mezzi_per_utente: int
+    addebito_pausa_min: Decimal = Decimal("0.0000")
+
+
+class ParametriSistemaOut(BaseModel):
+    durata_max_prenotazione_min: int
+    durata_periodo_grazia_min: int
+    max_mezzi_per_utente: int
+    addebito_pausa_min: Decimal
+
+    model_config = {"from_attributes": True}

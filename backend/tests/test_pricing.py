@@ -84,16 +84,16 @@ class TestPromozioneRepository:
 
     def test_getAttive_restituisce_lista_di_dict(self):
         from dal.promozione_repository import PromozioneRepository
-        from model.promozione import Promozione
+        from model.offerta import Offerta
 
         scadenza = datetime.now(tz=timezone.utc) + timedelta(days=7)
 
-        row = MagicMock(spec=Promozione)
+        row = MagicMock(spec=Offerta)
         row.id = uuid.uuid4()
-        row.titolo = "Prima corsa gratis"
+        row.nome = "Prima corsa gratis"
         row.descrizione = "Solo nuovi utenti"
         row.sconto_percentuale = Decimal("100")
-        row.data_fine = scadenza
+        row.data_scadenza = scadenza
 
         db = MagicMock()
         db.query.return_value.filter.return_value.all.return_value = [row]
