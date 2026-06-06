@@ -24,6 +24,23 @@ class SegnalazioneRepository:
             session.refresh(segnalazione)
             return segnalazione
 
+    def find_by_utente(self, utente_id: uuid.UUID) -> list[Segnalazione]:
+        with Session(engine) as session:
+            rows = session.execute(
+                text(
+                    "SELECT id, utente_id, tipologia, descrizione, stato, created_at "
+                    "FROM segnalazioni WHERE utente_id = :uid ORDER BY created_at DESC"
+                ),
+                {"uid": str(utente_id)},
+            ).fetchall()
+        return [
+            Segnalazione(
+                id=r.id, utente_id=r.utente_id, tipologia=r.tipologia,
+                descrizione=r.descrizione, stato=r.stato, created_at=r.created_at,
+            )
+            for r in rows
+        ]
+
     # [IF-OP.08] Gestisce Segnalazione
     def find_all(self) -> list[Segnalazione]:
         with Session(engine) as session:

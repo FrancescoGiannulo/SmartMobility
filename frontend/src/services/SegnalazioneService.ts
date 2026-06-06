@@ -26,6 +26,9 @@ export const inviaSegnalazione = (
 ): Promise<{ data: Segnalazione }> =>
   api.post('/utente/segnalazioni', { tipologia, descrizione })
 
+export const getMieSegnalazioni = (): Promise<{ data: Segnalazione[] }> =>
+  api.get('/utente/segnalazioni')
+
 // [IF-OP.08] Gestisce Segnalazione
 export const getSegnalazioni = (): Promise<{ data: Segnalazione[] }> =>
   api.get('/operatore/segnalazioni')

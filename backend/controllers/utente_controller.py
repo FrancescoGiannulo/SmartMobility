@@ -66,6 +66,14 @@ def mappa_zone_utente(
 segnalazione_router = APIRouter(prefix="/utente", tags=["Segnalazioni"])
 
 
+@segnalazione_router.get("/segnalazioni", response_model=list[SegnalazioneOut])
+def mie_segnalazioni(
+    utente: dict = Depends(verify_token(["UT"])),
+    db: Session = Depends(get_db),
+):
+    return ServizioMobilita(db).get_mie_segnalazioni(UUID(str(utente["id"])))
+
+
 @segnalazione_router.post("/segnalazioni", response_model=SegnalazioneOut, status_code=201)
 def invia_segnalazione(
     body: InviaSegnalazioneRequest,
