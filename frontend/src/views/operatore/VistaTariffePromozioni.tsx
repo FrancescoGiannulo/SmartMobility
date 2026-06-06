@@ -107,6 +107,10 @@ export default function VistaTariffePromozioni() {
 
   const handleConferma = async () => {
     setErrore('')
+    if (form.data_inizio && form.data_scadenza && form.data_scadenza <= form.data_inizio) {
+      setErrore('La data di scadenza deve essere successiva alla data di inizio.')
+      return
+    }
     setCaricamento(true)
     try {
       if (offertaInModifica) {
