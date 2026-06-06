@@ -7,8 +7,8 @@ from sqlalchemy.orm import Session
 from model.regola_fine_corsa import RegolaFinecorsa, TipoVincoloFinecorsa
 
 
-# [IF-OP.13] — repository ORM (usato da feature/auth: IF-OP.06)
-class RegolaFinecorsaRepository:
+# [IF-OP.13] — repository ORM
+class RegoleFineCorsaRepository:
 
     def get_corrente(self, db: Session) -> Optional[RegolaFinecorsa]:
         return (
@@ -41,8 +41,8 @@ class RegolaFinecorsaRepository:
         return regola
 
 
-# [IF-OP.13] — repository raw-SQL (usato da servizio_mobilita)
-class RegolaFineCorsaRepository:
+# [IF-OP.13] — repository raw-SQL (operazioni bulk su zone parcheggio)
+class RegoleFineCorsaRawRepository:
 
     def __init__(self, db: Session | Engine) -> None:
         self._engine = db if isinstance(db, Engine) else None

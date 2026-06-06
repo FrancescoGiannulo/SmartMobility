@@ -132,6 +132,25 @@ class PagamentoRepository:
             predefinito=True,
         )
 
+    # [IF-UT.14] Trova pagamento associato a una corsa
+    def trova_per_corsa(self, corsa_id: uuid.UUID) -> Pagamento | None:
+        with Session(engine) as session:
+            return (
+                session.query(Pagamento)
+                .filter(Pagamento.corsa_id == corsa_id)
+                .first()
+            )
+
+    # [IF-UT.14] Lista pagamenti di un utente ordinati per data
+    def trova_per_utente(self, utente_id: uuid.UUID) -> list[Pagamento]:
+        with Session(engine) as session:
+            return (
+                session.query(Pagamento)
+                .filter(Pagamento.utente_id == utente_id)
+                .order_by(Pagamento.created_at.desc())
+                .all()
+            )
+
     # [CS-07] Effettua Pagamento — generico per corsa o abbonamento
     def crea_pagamento(
         self,

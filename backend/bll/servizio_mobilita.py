@@ -6,7 +6,7 @@ from dal.mezzo_repository import MezzoRepository
 from dal.corsa_repository import CorsaRepository
 from dal.prenotazione_repository import PrenotazioneRepository
 from dal.zona_repository import ZonaRepository
-from dal.regola_fine_corsa_repository import RegolaFineCorsaRepository
+from dal.regola_fine_corsa_repository import RegoleFineCorsaRawRepository
 from dal.operatore_repository import OperatoreRepository
 from bll.servizio_gis import ServizioGIS
 
@@ -43,7 +43,7 @@ class ServizioMobilita:
         self._corsa_repo = CorsaRepository(db)
         self._pren_repo = PrenotazioneRepository(db)
         self._zona_repo = ZonaRepository(db)
-        self._regola_repo = RegolaFineCorsaRepository(db)
+        self._regola_repo = RegoleFineCorsaRawRepository(db)
         self._op_repo = OperatoreRepository(db)
 
     # [IF-UT.04] CS-05 — lista mezzi sbloccabili (msg4 diagramma di sequenza)
