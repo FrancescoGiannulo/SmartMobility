@@ -1,5 +1,5 @@
 from uuid import UUID
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, HTTPException, Depends, Response
 from sqlalchemy.orm import Session
 from bll.servizio_utenti import (
     ServizioUtenti,
@@ -22,6 +22,12 @@ def registra(body: RegistrazioneRequest):
         raise HTTPException(status_code=422, detail="Password minimo 8 caratteri")
     if not body.nome.strip() or not body.cognome.strip():
         raise HTTPException(status_code=422, detail="Nome e cognome obbligatori")
+    # [IIN-2 / GDPR art. 7] Il consenso esplicito al trattamento dati è obbligatorio
+    if not body.consenso_privacy:
+        raise HTTPException(
+            status_code=422,
+            detail="Il consenso al trattamento dei dati personali è obbligatorio per la registrazione",
+        )
     try:
         return _servizio.registra_account(body.email, body.password, body.nome, body.cognome)
     except EmailGiaRegistrataException as e:
@@ -30,10 +36,8 @@ def registra(body: RegistrazioneRequest):
         raise HTTPException(status_code=502, detail=str(e))
 
 
-from fastapi import Depends
 from sqlalchemy.orm import Session
 from database import get_db
-from middleware.auth_middleware import verify_token
 from bll.servizio_gis import ServizioGIS
 from controllers.schemas import MezzoMappaOut, ZonaOut
 
@@ -71,3 +75,31 @@ def invia_segnalazione(
     return ServizioMobilita(db).registra_segnalazione(
         UUID(str(utente["id"])), body.tipologia, body.descrizione
     )
+
+
+# ── GDPR ─────────────────────────────────────────────────────────────────────
+
+gdpr_router = APIRouter(prefix="/utente", tags=["GDPR"])
+
+
+@gdpr_router.get("/dati-personali")
+def esporta_dati_personali(
+    utente_corrente: dict = Depends(verify_token(["UT"])),
+):
+    """[IIN-2 / GDPR art. 20] Esporta i dati personali dell'utente autenticato in formato JSON."""
+    try:
+        return _servizio.esporta_dati(utente_corrente["id"], utente_corrente["email"])
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@gdpr_router.delete("/account", status_code=204)
+def cancella_account(
+    utente_corrente: dict = Depends(verify_token(["UT"])),
+):
+    """[IIN-2 / GDPR art. 17] Cancella definitivamente l'account (diritto all'oblio)."""
+    try:
+        _servizio.cancella_account(utente_corrente["id"])
+    except ServizioAuthException as e:
+        raise HTTPException(status_code=502, detail=str(e))
+    return Response(status_code=204)

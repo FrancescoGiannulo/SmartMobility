@@ -160,6 +160,7 @@ def _login(email: str, password: str) -> str:
     return r.json()["access_token"]
 
 
+@pytest.mark.integration
 def test_mappa_mezzi_utente_autenticato(utente_test):
     token = _login(utente_test["email"], utente_test["password"])
     r = httpx.get(
@@ -170,11 +171,13 @@ def test_mappa_mezzi_utente_autenticato(utente_test):
     assert isinstance(r.json(), list)
 
 
+@pytest.mark.integration
 def test_mappa_mezzi_utente_non_autenticato():
     r = httpx.get("http://localhost:8000/utente/mappa/mezzi")
     assert r.status_code == 401
 
 
+@pytest.mark.integration
 def test_crea_zona_via_http(operatore_test):
     token = _login(operatore_test["email"], operatore_test["password"])
     # Crea zona operativa contenitore
@@ -224,6 +227,7 @@ def test_crea_zona_via_http(operatore_test):
     )
 
 
+@pytest.mark.integration
 def test_crea_zona_poligono_invalido(operatore_test):
     token = _login(operatore_test["email"], operatore_test["password"])
     payload = {
@@ -301,6 +305,7 @@ def test_servizio_gis_vincolo_zona_operativa_fuori(db):
         svc.crea_zona("test_fuori", "vietata", esterno, None)
 
 
+@pytest.mark.integration
 def test_crea_zona_fuori_operativa_http(operatore_test):
     """POST /operatore/zone con zona non-operativa fuori confine → 422."""
     token = _login(operatore_test["email"], operatore_test["password"])

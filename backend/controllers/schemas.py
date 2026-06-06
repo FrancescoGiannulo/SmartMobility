@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from typing import Any
 from uuid import UUID
+from decimal import Decimal
 
 
 class RegistrazioneRequest(BaseModel):
@@ -8,6 +9,7 @@ class RegistrazioneRequest(BaseModel):
     password: str
     nome: str
     cognome: str
+    consenso_privacy: bool = False  # [IIN-2 / GDPR art. 7] obbligatorio per la registrazione
 
 
 class LoginRequest(BaseModel):
@@ -19,6 +21,26 @@ class AuthResponse(BaseModel):
     access_token: str
     ruolo: str
     profilo: dict
+
+
+class AggiungiMetodoRequest(BaseModel):
+    tipo: str
+    last_four: str | None = None
+
+
+class EffettuaPagamentoRequest(BaseModel):
+    corsa_id: str
+    tipo_mezzo: str
+    durata_min: float
+    distanza_km: float
+    offerta_id: str | None = None
+
+
+class MetodoPagamentoResponse(BaseModel):
+    id: str
+    tipo: str
+    last_four: str | None
+    predefinito: bool
 
 
 class MezzoMappaOut(BaseModel):
@@ -47,8 +69,21 @@ class ZonaCreate(BaseModel):
     limite_velocita: int | None = None
 
 
+class CreaTariffaRequest(BaseModel):
+    tipo_mezzo: str
+    costo_al_minuto: float
+    costo_al_km: float
+
+
+class TariffaResponse(BaseModel):
+    id: str
+    tipo_mezzo: str
+    costo_al_minuto: float
+    costo_al_km: float
+
+
 class PrenotazioneRequest(BaseModel):
-    mezzo_id: UUID
+    mezzo_ids: list[UUID]
 
 
 # [IF-UT.15] Invia Segnalazione / [IF-OP.08] Gestisce Segnalazione
@@ -66,5 +101,142 @@ class SegnalazioneOut(BaseModel):
     created_at: str
 
 
-class AggiornaStatoRequest(BaseModel):
+class SbloccoRequest(BaseModel):
+    mezzo_ids: list[UUID]
+    lat: float | None = None
+    lng: float | None = None
+
+
+class MezzoSbloccabileOut(MezzoMappaOut):
+    prenotato: bool
+    prenotazione_id: str | None
+
+
+class RisultatoSbloccoItem(BaseModel):
+    mezzo_id: str
+    corsa_id: str
+
+
+class RisultatoSblocco(BaseModel):
+    sbloccati: list[RisultatoSbloccoItem]
+    falliti: list[str]
+
+
+from datetime import datetime
+from decimal import Decimal
+
+
+class ConfigurazioneFineCorsaRequest(BaseModel):
+    durata_max_prenotazione_min: int
+    durata_periodo_grazia_min: int
+    max_mezzi_per_utente: int
+    tipo_vincolo: str
+    batteria_minima: int | None = None
+    penale_fuori_zona: float = 0.0
+
+
+class CreaOffertaRequest(BaseModel):
+    nome: str
+    tipo: str  # 'promozione' | 'abbonamento'
+    descrizione: str | None = None
+    sconto_percentuale: Decimal | None = None
+    prezzo: Decimal | None = None
+    durata_giorni: int | None = None
+    data_inizio: datetime | None = None
+    data_scadenza: datetime | None = None
+
+
+class OffertaOut(BaseModel):
+    id: UUID
+    nome: str
+    tipo: str
     stato: str
+    descrizione: str | None
+    sconto_percentuale: Decimal | None
+    prezzo: Decimal | None
+    durata_giorni: int | None
+    data_inizio: datetime | None
+    data_scadenza: datetime | None
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class RegolaFinecorsaRequest(BaseModel):
+    tipo_vincolo: str  # 'penale' | 'divieto' | 'avviso'
+    penale_fuori_zona: Decimal = Decimal("0.00")
+    batteria_minima: int | None = None
+    bonus_parcheggi_corretti: int | None = None
+    bonus_valore: Decimal | None = None
+
+
+class RegolaFinecorsaOut(BaseModel):
+    id: UUID
+    tipo_vincolo: str
+    penale_fuori_zona: Decimal
+    batteria_minima: int | None
+    bonus_parcheggi_corretti: int | None
+    bonus_valore: Decimal | None
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class TariffaOut(BaseModel):
+    id: UUID
+    tipo_mezzo: str
+    costo_al_minuto: str
+    costo_al_km: str
+
+
+class PromozioneOut(BaseModel):
+    id: UUID
+    titolo: str
+    descrizione: str | None
+    sconto_percentuale: str
+    data_fine: str
+
+
+# [IF-UT.16] Abbonamento Utente
+class AbbonamentoOut(BaseModel):
+    id: UUID
+    utente_id: UUID
+    offerta_id: UUID
+    data_inizio: datetime
+    data_fine: datetime
+    stato: str
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+# [IF-UT.14] CS-11 — Storico corse utente
+class CorsaStoricoOut(BaseModel):
+    id: UUID
+    tipo_mezzo: str
+    codice_mezzo: str
+    inizio_at: datetime
+    fine_at: datetime | None
+    durata_min: float | None
+    distanza_km: float | None
+    gruppo_corsa_id: UUID | None
+    importo: float | None
+    importo_pieno: float | None
+    nome_offerta_applicata: str | None
+
+
+# [CS-15] Parametri Numerici di Sistema
+class ParametriSistemaRequest(BaseModel):
+    durata_max_prenotazione_min: int
+    durata_periodo_grazia_min: int
+    max_mezzi_per_utente: int
+    addebito_pausa_min: Decimal = Decimal("0.0000")
+
+
+class ParametriSistemaOut(BaseModel):
+    durata_max_prenotazione_min: int
+    durata_periodo_grazia_min: int
+    max_mezzi_per_utente: int
+    addebito_pausa_min: Decimal
+
+    model_config = {"from_attributes": True}

@@ -1,3 +1,246 @@
-class ServizioPricing:
-    """Calcolo tariffe, promozioni e addebiti a fine corsa."""
+import uuid
+from datetime import datetime, timezone
+from decimal import Decimal
+from sqlalchemy import text
+from sqlalchemy.orm import Session
+from config import engine
+from dal.pagamento_repository import PagamentoRepository, MetodoNonTrovatoException
+from dal.tariffa_repository import TariffaRepository
+from dal.promozione_repository import PromozioneRepository
+from dal.abbonamento_repository import AbbonamentoRepository
+from model.offerta import Offerta
+from model.pagamento import StatoPagamento
+from providers.provider_pagamenti import ProviderPagamentiStub, DatiNonValidiException
+
+
+class MetodoNonTrovato(Exception):
     pass
+
+
+class MetodoDuplicato(Exception):
+    pass
+
+
+class DatiNonValidi(Exception):
+    pass
+
+
+class NessunMetodoPredefinito(Exception):
+    pass
+
+
+class PagamentoRifiutato(Exception):
+    pass
+
+
+class TariffaNonTrovata(Exception):
+    pass
+
+
+class TariffaGiaEsistente(Exception):
+    pass
+
+
+class ServizioPricing:
+
+    def __init__(
+        self,
+        db: Session | None = None,
+        repo: PagamentoRepository | None = None,
+        provider: ProviderPagamentiStub | None = None,
+        tariffa_repo: TariffaRepository | None = None,
+    ):
+        self._db = db
+        self._repo = repo or PagamentoRepository()
+        self._provider = provider or ProviderPagamentiStub()
+        self._tariffa_repo = tariffa_repo or TariffaRepository(db)
+        self._promozione_repo = PromozioneRepository(db)
+
+    # [IF-UT.05] — db injection pattern
+    def getTariffe(self) -> list[dict]:
+        return self._tariffa_repo.findAll()
+
+    # [IF-UT.13] — db injection pattern
+    def getPromozioniAttive(self) -> list[dict]:
+        return self._promozione_repo.getAttive()
+
+    # [IF-OP.07] — engine pattern
+    def get_tariffe(self) -> list[dict]:
+        tariffe = self._tariffa_repo.find_all()
+        return [
+            {
+                "id": str(t.id),
+                "tipo_mezzo": t.tipo_mezzo,
+                "costo_al_minuto": float(t.costo_al_minuto),
+                "costo_al_km": float(t.costo_al_km),
+            }
+            for t in tariffe
+        ]
+
+    def aggiorna_tariffa(self, tipo_mezzo: str, costo_al_minuto: float, costo_al_km: float) -> dict:
+        tariffa = self._tariffa_repo.aggiorna(
+            tipo_mezzo,
+            Decimal(str(costo_al_minuto)),
+            Decimal(str(costo_al_km)),
+        )
+        if not tariffa:
+            raise TariffaNonTrovata(f"Nessuna tariffa per '{tipo_mezzo}'")
+        return {
+            "id": str(tariffa.id),
+            "tipo_mezzo": tariffa.tipo_mezzo,
+            "costo_al_minuto": float(tariffa.costo_al_minuto),
+            "costo_al_km": float(tariffa.costo_al_km),
+        }
+
+    def crea_tariffa(self, tipo_mezzo: str, costo_al_minuto: float, costo_al_km: float) -> dict:
+        if self._tariffa_repo.exists_by_tipologia(tipo_mezzo):
+            raise TariffaGiaEsistente(f"Tariffa per '{tipo_mezzo}' già esistente")
+        tariffa = self._tariffa_repo.crea(
+            tipo_mezzo,
+            Decimal(str(costo_al_minuto)),
+            Decimal(str(costo_al_km)),
+        )
+        return {
+            "id": str(tariffa.id),
+            "tipo_mezzo": tariffa.tipo_mezzo,
+            "costo_al_minuto": float(tariffa.costo_al_minuto),
+            "costo_al_km": float(tariffa.costo_al_km),
+        }
+
+    def calcola_importo(self, tipo_mezzo: str, durata_min: float, distanza_km: float) -> Decimal:
+        with Session(engine) as session:
+            row = session.execute(
+                text(
+                    "SELECT costo_al_minuto, costo_al_km FROM tariffe WHERE tipo_mezzo = :tipo"
+                ),
+                {"tipo": tipo_mezzo},
+            ).fetchone()
+        if not row:
+            raise TariffaNonTrovata(f"Nessuna tariffa per {tipo_mezzo}")
+        return Decimal(str(durata_min)) * row.costo_al_minuto + Decimal(str(distanza_km)) * row.costo_al_km
+
+    # [IF-UT.12] Salva Metodi di Pagamento
+    def aggiungi_metodo(self, utente_id: uuid.UUID, tipo: str, dati: dict) -> dict:
+        try:
+            token = self._provider.valida_dati_pagamento(tipo, dati)
+        except DatiNonValidiException as exc:
+            raise DatiNonValidi(str(exc)) from exc
+
+        if self._repo.exists_by_token(token):
+            raise MetodoDuplicato("Metodo di pagamento già presente")
+
+        last_four = dati.get("last_four")
+        metodo = self._repo.aggiungi_metodo(utente_id, tipo, token, last_four)
+        return {
+            "id": str(metodo.id),
+            "tipo": metodo.tipo,
+            "last_four": metodo.last_four,
+            "predefinito": metodo.predefinito,
+        }
+
+    def lista_metodi(self, utente_id: uuid.UUID) -> list[dict]:
+        metodi = self._repo.lista_metodi(utente_id)
+        return [
+            {
+                "id": str(m.id),
+                "tipo": m.tipo,
+                "last_four": m.last_four,
+                "predefinito": m.predefinito,
+            }
+            for m in metodi
+        ]
+
+    # [IF-UT.21] Imposta Metodo di Pagamento predefinito
+    def imposta_predefinito(self, metodo_id: uuid.UUID, utente_id: uuid.UUID) -> None:
+        try:
+            self._repo.trova_metodo(metodo_id, utente_id)
+        except MetodoNonTrovatoException as exc:
+            raise MetodoNonTrovato(str(exc)) from exc
+        self._repo.imposta_predefinito(metodo_id, utente_id)
+
+    def rimuovi_metodo(self, metodo_id: uuid.UUID, utente_id: uuid.UUID) -> None:
+        try:
+            self._repo.trova_metodo(metodo_id, utente_id)
+        except MetodoNonTrovatoException as exc:
+            raise MetodoNonTrovato(str(exc)) from exc
+        self._repo.rimuovi_metodo(metodo_id, utente_id)
+
+    # [CS-07] Effettua Pagamento — metodo generico usato da corsa e abbonamento
+    def paga_importo(
+        self,
+        utente_id: uuid.UUID,
+        importo: Decimal,
+        corsa_id: uuid.UUID | None = None,
+        abbonamento_id: uuid.UUID | None = None,
+        importo_pieno: Decimal | None = None,
+        offerta_applicata_id: uuid.UUID | None = None,
+    ) -> dict:
+        """Addebita importo sul metodo predefinito. Registra il pagamento in DB."""
+        metodi = self._repo.lista_metodi(utente_id)
+        if not metodi:
+            raise NessunMetodoPredefinito("Nessun metodo di pagamento salvato")
+        metodo = self._repo.trova_predefinito(utente_id) if len(metodi) > 1 else self._repo.trova_metodo(metodi[0].id, utente_id)
+        if not metodo:
+            raise NessunMetodoPredefinito("Imposta un metodo di pagamento predefinito")
+
+        risposta = self._provider.autorizza(metodo.token_esterno, importo)
+        stato = StatoPagamento.completato if risposta.autorizzato else StatoPagamento.rifiutato
+
+        pagamento = self._repo.crea_pagamento(
+            utente_id=utente_id,
+            metodo_id=metodo.id,
+            importo=importo,
+            stato=stato,
+            corsa_id=corsa_id,
+            abbonamento_id=abbonamento_id,
+            importo_pieno=importo_pieno,
+            offerta_applicata_id=offerta_applicata_id,
+        )
+
+        if not risposta.autorizzato:
+            raise PagamentoRifiutato("Il provider ha rifiutato il pagamento")
+
+        return {
+            "id": str(pagamento.id),
+            "importo": float(pagamento.importo),
+            "stato": pagamento.stato.value if hasattr(pagamento.stato, "value") else str(pagamento.stato),
+            "transazione_id": risposta.transazione_id,
+        }
+
+    # [IF-UT.20] Effettua Pagamento a fine corsa
+    def effettua_pagamento(
+        self,
+        corsa_id: uuid.UUID,
+        utente_id: uuid.UUID,
+        tipo_mezzo: str,
+        durata_min: float,
+        distanza_km: float,
+        offerta_id: uuid.UUID | None = None,
+    ) -> dict:
+        importo = self.calcola_importo(tipo_mezzo, durata_min, distanza_km)
+
+        importo_pieno: Decimal | None = None
+        offerta_applicata_id: uuid.UUID | None = None
+
+        # [IF-UT.16] Abbonamento attivo → corsa gratuita
+        with Session(engine) as s:
+            abbonamento = AbbonamentoRepository().get_attivo(utente_id, s)
+            if abbonamento and abbonamento.data_fine > datetime.now(timezone.utc):
+                importo_pieno = importo
+                importo = Decimal("0.00")
+
+        if importo > 0 and offerta_id is not None:
+            with Session(engine) as s:
+                offerta = s.get(Offerta, offerta_id)
+            if offerta and offerta.tipo == "promozione" and offerta.stato == "attiva":
+                importo_pieno = importo
+                importo = importo * (1 - offerta.sconto_percentuale / 100)
+                offerta_applicata_id = offerta.id
+
+        return self.paga_importo(
+            utente_id=utente_id,
+            importo=importo,
+            corsa_id=corsa_id,
+            importo_pieno=importo_pieno,
+            offerta_applicata_id=offerta_applicata_id,
+        )

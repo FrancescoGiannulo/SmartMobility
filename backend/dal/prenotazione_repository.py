@@ -77,3 +77,65 @@ class PrenotazioneRepository:
                 "id": str(prenotazione_id),
             })
             s.commit()
+
+    # [IF-UT.02] CS-04 — lista prenotazioni attive dell'utente
+    def trova_attive_per_utente(self, utente_id: UUID) -> list[dict]:
+        sql = text("""
+            SELECT p.id, p.mezzo_id, p.stato, p.scade_at, p.created_at,
+                   m.codice, m.tipo, m.batteria
+            FROM prenotazioni p
+            JOIN mezzi m ON m.id = p.mezzo_id
+            WHERE p.utente_id = :utente_id
+              AND p.stato = 'attiva'
+              AND p.scade_at > now()
+            ORDER BY p.created_at DESC
+        """)
+        with self._sessione() as s:
+            rows = s.execute(sql, {"utente_id": str(utente_id)}).fetchall()
+        return [
+            {
+                "id": str(row.id),
+                "mezzo_id": str(row.mezzo_id),
+                "stato": row.stato,
+                "scade_at": row.scade_at.isoformat(),
+                "created_at": row.created_at.isoformat(),
+                "codice": row.codice,
+                "tipo": row.tipo,
+                "batteria": row.batteria,
+            }
+            for row in rows
+        ]
+
+    # [IF-UT.04] CS-05 — trova se esiste qualsiasi prenotazione attiva per il mezzo (da qualsiasi utente)
+    def trova_qualsiasi_attiva_per_mezzo(self, mezzo_id: UUID) -> dict | None:
+        sql = text("""
+            SELECT id FROM prenotazioni
+            WHERE mezzo_id = :mezzo_id
+              AND stato = 'attiva'
+              AND scade_at > now()
+            LIMIT 1
+        """)
+        with self._sessione() as s:
+            row = s.execute(sql, {"mezzo_id": str(mezzo_id)}).fetchone()
+        if row is None:
+            return None
+        return {"id": str(row.id)}
+
+    # [IF-UT.02] CS-XX — trova prenotazione attiva per id e utente
+    def trova_attiva_per_id_e_utente(
+        self, prenotazione_id: UUID, utente_id: UUID
+    ) -> dict | None:
+        sql = text("""
+            SELECT id, mezzo_id, stato
+            FROM prenotazioni
+            WHERE id = :id AND utente_id = :utente_id AND stato = 'attiva'
+            LIMIT 1
+        """)
+        with self._sessione() as s:
+            row = s.execute(sql, {
+                "id": str(prenotazione_id),
+                "utente_id": str(utente_id),
+            }).fetchone()
+        if row is None:
+            return None
+        return {"id": str(row.id), "mezzo_id": str(row.mezzo_id), "stato": row.stato}

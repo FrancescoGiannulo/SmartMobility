@@ -58,7 +58,7 @@ form {
 }
 
 .login-input:focus {
-  border-color: #4caf9a;
+  border-color: #155e52;
 }
 
 .link-recupero {
@@ -71,7 +71,7 @@ form {
 .btn-primario {
   width: 100%;
   padding: 14px;
-  background: #4caf9a;
+  background: #155e52;
   color: #fff;
   border: none;
   border-radius: 24px;
@@ -83,7 +83,7 @@ form {
 }
 
 .btn-primario:hover:not(:disabled) {
-  background: #3d9e8a;
+  background: #0f4a3f;
 }
 
 .btn-primario:disabled {
@@ -109,8 +109,8 @@ form {
   width: 100%;
   padding: 14px;
   background: transparent;
-  color: #4caf9a;
-  border: 2px solid #4caf9a;
+  color: #155e52;
+  border: 2px solid #155e52;
   border-radius: 24px;
   font-size: 16px;
   font-weight: 700;
@@ -121,7 +121,7 @@ form {
 .btn-link {
   background: none;
   border: none;
-  color: #4caf9a;
+  color: #155e52;
   font-size: 14px;
   cursor: pointer;
   text-decoration: underline;

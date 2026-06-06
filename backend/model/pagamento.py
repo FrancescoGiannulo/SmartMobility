@@ -38,7 +38,6 @@ class MetodoPagamento(Base):
     )
     utente_id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True),
-        ForeignKey("utenti.id", ondelete="CASCADE"),
         nullable=False,
     )
     tipo: Mapped[TipoMetodoPagamento] = mapped_column(
@@ -60,14 +59,17 @@ class Pagamento(Base):
     id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4
     )
-    corsa_id: Mapped[uuid.UUID] = mapped_column(
+    # [CS-07] nullable: il pagamento può essere per una corsa o un abbonamento
+    corsa_id: Mapped[uuid.UUID | None] = mapped_column(
         PGUUID(as_uuid=True),
-        ForeignKey("corse.id", ondelete="RESTRICT"),
-        nullable=False,
+        nullable=True,
+    )
+    abbonamento_id: Mapped[uuid.UUID | None] = mapped_column(
+        PGUUID(as_uuid=True),
+        nullable=True,
     )
     utente_id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True),
-        ForeignKey("utenti.id", ondelete="RESTRICT"),
         nullable=False,
     )
     # [IF-UT.20] nullable: CS-12.1 il metodo potrebbe essere rimosso dopo un pagamento rifiutato
@@ -78,6 +80,16 @@ class Pagamento(Base):
     )
     importo: Mapped[Decimal] = mapped_column(
         Numeric(10, 2), nullable=False
+    )
+    # prezzo ante-sconto; None se non è stato applicato nessuno sconto
+    importo_pieno: Mapped[Decimal | None] = mapped_column(
+        Numeric(10, 2), nullable=True
+    )
+    # promozione applicata sulla corsa (None se abbonamento o nessuno sconto)
+    offerta_applicata_id: Mapped[uuid.UUID | None] = mapped_column(
+        PGUUID(as_uuid=True),
+        ForeignKey("offerte.id", ondelete="SET NULL"),
+        nullable=True,
     )
     stato: Mapped[StatoPagamento] = mapped_column(
         SAEnum(StatoPagamento, name="stato_pagamento", create_type=False),
