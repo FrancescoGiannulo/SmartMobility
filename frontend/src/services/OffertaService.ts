@@ -1,5 +1,7 @@
 import { api } from './ApiService'
 
+export type TipoMezzo = 'monopattino' | 'bicicletta' | 'automobile'
+
 export interface Offerta {
   id: string
   nome: string
@@ -11,6 +13,7 @@ export interface Offerta {
   durata_giorni: number | null
   data_inizio: string | null
   data_scadenza: string | null
+  tipo_mezzo: TipoMezzo | null
   created_at: string
 }
 
@@ -23,6 +26,7 @@ export interface CreaOffertaPayload {
   durata_giorni?: number
   data_inizio?: string
   data_scadenza?: string
+  tipo_mezzo?: TipoMezzo
 }
 
 export const getOfferte = async (): Promise<Offerta[]> => {

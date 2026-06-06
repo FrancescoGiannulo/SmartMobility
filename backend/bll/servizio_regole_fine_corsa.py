@@ -2,7 +2,7 @@ from decimal import Decimal
 from typing import Optional
 from sqlalchemy.orm import Session
 
-from dal.regola_fine_corsa_repository import RegolaFinecorsaRepository
+from dal.regola_fine_corsa_repository import RegoleFineCorsaRepository
 from model.regola_fine_corsa import RegolaFinecorsa, TipoVincoloFinecorsa
 
 _VALORI_TIPO_VINCOLO = {v.value for v in TipoVincoloFinecorsa}
@@ -16,7 +16,7 @@ class ServizioRegolaFinecorsa:
     """BLL per la gestione delle regole di fine corsa [IF-OP.13]."""
 
     def __init__(self):
-        self._repo = RegolaFinecorsaRepository()
+        self._repo = RegoleFineCorsaRepository()
 
     def get_corrente(self, db: Session) -> Optional[RegolaFinecorsa]:
         """Restituisce la configurazione globale corrente, o None se non ancora impostata."""

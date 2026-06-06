@@ -130,6 +130,19 @@ class CreaOffertaRequest(BaseModel):
     durata_giorni: int | None = None
     data_inizio: datetime | None = None
     data_scadenza: datetime | None = None
+    tipo_mezzo: str | None = None  # None = valido per tutti; 'monopattino'|'bicicletta'|'automobile'
+
+
+class ModificaOffertaRequest(BaseModel):
+    nome: str | None = None
+    descrizione: str | None = None
+    sconto_percentuale: Decimal | None = None
+    prezzo: Decimal | None = None
+    durata_giorni: int | None = None
+    data_inizio: datetime | None = None
+    data_scadenza: datetime | None = None
+    stato: str | None = None
+    tipo_mezzo: str | None = None
 
 
 class OffertaOut(BaseModel):
@@ -143,6 +156,7 @@ class OffertaOut(BaseModel):
     durata_giorni: int | None
     data_inizio: datetime | None
     data_scadenza: datetime | None
+    tipo_mezzo: str | None
     created_at: datetime
 
     model_config = {"from_attributes": True}

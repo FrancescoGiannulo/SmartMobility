@@ -7,6 +7,7 @@ import {
   eliminaOfferta,
   type Offerta,
   type CreaOffertaPayload,
+  type TipoMezzo,
 } from '../../services/OffertaService'
 import './VistaTariffePromozioni.css'
 
@@ -30,6 +31,7 @@ interface FormState {
   durata_giorni: string
   data_inizio: string
   data_scadenza: string
+  tipo_mezzo: string
 }
 
 const FORM_VUOTO: FormState = {
@@ -41,6 +43,7 @@ const FORM_VUOTO: FormState = {
   durata_giorni: '',
   data_inizio: '',
   data_scadenza: '',
+  tipo_mezzo: '',
 }
 
 export default function VistaTariffePromozioni() {
@@ -81,6 +84,7 @@ export default function VistaTariffePromozioni() {
         durata_giorni: form.durata_giorni ? parseInt(form.durata_giorni) : undefined,
         data_inizio: form.data_inizio || undefined,
         data_scadenza: form.data_scadenza || undefined,
+        tipo_mezzo: form.tipo_mezzo ? (form.tipo_mezzo as CreaOffertaPayload['tipo_mezzo']) : undefined,
       }
       await creaOfferta(payload)
       chiudiModal()
@@ -196,6 +200,15 @@ export default function VistaTariffePromozioni() {
                 <label>
                   Durata (giorni) *
                   <input type="number" min="1" value={form.durata_giorni} onChange={set('durata_giorni')} placeholder="es. 30" />
+                </label>
+                <label>
+                  Valido per
+                  <select value={form.tipo_mezzo} onChange={set('tipo_mezzo')}>
+                    <option value="">Tutti i mezzi</option>
+                    <option value="bicicletta">Bicicletta</option>
+                    <option value="monopattino">Monopattino</option>
+                    <option value="automobile">Automobile</option>
+                  </select>
                 </label>
                 <label>
                   Data inizio
