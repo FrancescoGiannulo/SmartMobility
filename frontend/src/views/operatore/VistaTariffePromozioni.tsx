@@ -4,6 +4,7 @@ import axios from 'axios'
 import {
   getOfferte,
   creaOfferta,
+  modificaOfferta,
   eliminaOfferta,
   type Offerta,
   type CreaOffertaPayload,
@@ -32,6 +33,7 @@ interface FormState {
   data_inizio: string
   data_scadenza: string
   tipo_mezzo: string
+  stato: string
 }
 
 const FORM_VUOTO: FormState = {
@@ -44,12 +46,35 @@ const FORM_VUOTO: FormState = {
   data_inizio: '',
   data_scadenza: '',
   tipo_mezzo: '',
+  stato: 'attiva',
+}
+
+function offertaToForm(o: Offerta): FormState {
+  const toLocal = (iso: string | null) => {
+    if (!iso) return ''
+    const d = new Date(iso)
+    const pad = (n: number) => String(n).padStart(2, '0')
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`
+  }
+  return {
+    nome: o.nome,
+    tipo: o.tipo,
+    descrizione: o.descrizione ?? '',
+    sconto_percentuale: o.sconto_percentuale != null ? String(o.sconto_percentuale) : '',
+    prezzo: o.prezzo != null ? String(o.prezzo) : '',
+    durata_giorni: o.durata_giorni != null ? String(o.durata_giorni) : '',
+    data_inizio: toLocal(o.data_inizio),
+    data_scadenza: toLocal(o.data_scadenza),
+    tipo_mezzo: o.tipo_mezzo ?? '',
+    stato: o.stato,
+  }
 }
 
 export default function VistaTariffePromozioni() {
   const navigate = useNavigate()
   const [offerte, setOfferte] = useState<Offerta[]>([])
   const [mostraModal, setMostraModal] = useState(false)
+  const [offertaInModifica, setOffertaInModifica] = useState<Offerta | null>(null)
   const [form, setForm] = useState<FormState>(FORM_VUOTO)
   const [errore, setErrore] = useState('')
   const [caricamento, setCaricamento] = useState(false)
@@ -60,14 +85,23 @@ export default function VistaTariffePromozioni() {
 
   useEffect(() => { ricarica() }, [ricarica])
 
-  const apriModal = () => {
+  const apriNuova = () => {
+    setOffertaInModifica(null)
     setForm(FORM_VUOTO)
+    setErrore('')
+    setMostraModal(true)
+  }
+
+  const apriModifica = (o: Offerta) => {
+    setOffertaInModifica(o)
+    setForm(offertaToForm(o))
     setErrore('')
     setMostraModal(true)
   }
 
   const chiudiModal = () => {
     setMostraModal(false)
+    setOffertaInModifica(null)
     setErrore('')
   }
 
@@ -75,18 +109,32 @@ export default function VistaTariffePromozioni() {
     setErrore('')
     setCaricamento(true)
     try {
-      const payload: CreaOffertaPayload = {
-        nome: form.nome.trim(),
-        tipo: form.tipo,
-        descrizione: form.descrizione.trim() || undefined,
-        sconto_percentuale: form.sconto_percentuale ? parseFloat(form.sconto_percentuale) : undefined,
-        prezzo: form.prezzo ? parseFloat(form.prezzo) : undefined,
-        durata_giorni: form.durata_giorni ? parseInt(form.durata_giorni) : undefined,
-        data_inizio: form.data_inizio || undefined,
-        data_scadenza: form.data_scadenza || undefined,
-        tipo_mezzo: form.tipo_mezzo ? (form.tipo_mezzo as CreaOffertaPayload['tipo_mezzo']) : undefined,
+      if (offertaInModifica) {
+        await modificaOfferta(offertaInModifica.id, {
+          nome: form.nome.trim(),
+          descrizione: form.descrizione.trim() || undefined,
+          sconto_percentuale: form.sconto_percentuale ? parseFloat(form.sconto_percentuale) : undefined,
+          prezzo: form.prezzo ? parseFloat(form.prezzo) : undefined,
+          durata_giorni: form.durata_giorni ? parseInt(form.durata_giorni) : undefined,
+          data_inizio: form.data_inizio || undefined,
+          data_scadenza: form.data_scadenza || undefined,
+          tipo_mezzo: form.tipo_mezzo ? (form.tipo_mezzo as TipoMezzo) : null,
+          stato: form.stato || undefined,
+        })
+      } else {
+        const payload: CreaOffertaPayload = {
+          nome: form.nome.trim(),
+          tipo: form.tipo,
+          descrizione: form.descrizione.trim() || undefined,
+          sconto_percentuale: form.sconto_percentuale ? parseFloat(form.sconto_percentuale) : undefined,
+          prezzo: form.prezzo ? parseFloat(form.prezzo) : undefined,
+          durata_giorni: form.durata_giorni ? parseInt(form.durata_giorni) : undefined,
+          data_inizio: form.data_inizio || undefined,
+          data_scadenza: form.data_scadenza || undefined,
+          tipo_mezzo: form.tipo_mezzo ? (form.tipo_mezzo as CreaOffertaPayload['tipo_mezzo']) : undefined,
+        }
+        await creaOfferta(payload)
       }
-      await creaOfferta(payload)
       chiudiModal()
       ricarica()
     } catch (err) {
@@ -125,7 +173,7 @@ export default function VistaTariffePromozioni() {
       <div className="tariffe-body">
         <div className="tariffe-header-row">
           <h3>Offerte commerciali</h3>
-          <button className="btn-nuova-offerta" onClick={apriModal}>
+          <button className="btn-nuova-offerta" onClick={apriNuova}>
             + Nuova offerta
           </button>
         </div>
@@ -145,9 +193,15 @@ export default function VistaTariffePromozioni() {
                     {o.tipo === 'promozione'
                       ? `Sconto ${o.sconto_percentuale}% — scade ${o.data_scadenza ? new Date(o.data_scadenza).toLocaleDateString('it-IT') : '—'}`
                       : `€${o.prezzo} · ${o.durata_giorni} giorni`}
+                    {o.tipo === 'abbonamento' && (
+                      <span className="offerta-tipo-mezzo-badge">
+                        {o.tipo_mezzo ? o.tipo_mezzo.charAt(0).toUpperCase() + o.tipo_mezzo.slice(1) : 'Tutti i mezzi'}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <span className={`offerta-stato ${o.stato}`}>{STATO_LABEL[o.stato]}</span>
+                <button className="btn-modifica-offerta" onClick={() => apriModifica(o)} title="Modifica">✏️</button>
                 <button className="btn-elimina-offerta" onClick={() => handleElimina(o.id)} title="Elimina">🗑</button>
               </div>
             ))
@@ -158,20 +212,22 @@ export default function VistaTariffePromozioni() {
       {mostraModal && (
         <div className="modal-overlay-offerta" onClick={chiudiModal}>
           <div className="modal-offerta" onClick={e => e.stopPropagation()}>
-            <h3>Nuova offerta</h3>
+            <h3>{offertaInModifica ? 'Modifica offerta' : 'Nuova offerta'}</h3>
 
             <label>
               Nome *
               <input value={form.nome} onChange={set('nome')} placeholder="es. Estate 2026" />
             </label>
 
-            <label>
-              Tipo *
-              <select value={form.tipo} onChange={set('tipo')}>
-                <option value="promozione">Promozione</option>
-                <option value="abbonamento">Abbonamento</option>
-              </select>
-            </label>
+            {!offertaInModifica && (
+              <label>
+                Tipo *
+                <select value={form.tipo} onChange={set('tipo')}>
+                  <option value="promozione">Promozione</option>
+                  <option value="abbonamento">Abbonamento</option>
+                </select>
+              </label>
+            )}
 
             <label>
               Descrizione
@@ -221,12 +277,23 @@ export default function VistaTariffePromozioni() {
               </>
             )}
 
+            {offertaInModifica && (
+              <label>
+                Stato
+                <select value={form.stato} onChange={set('stato')}>
+                  <option value="attiva">Attiva</option>
+                  <option value="bozza">Bozza</option>
+                  <option value="scaduta">Scaduta</option>
+                </select>
+              </label>
+            )}
+
             {errore && <p className="modal-errore-offerta">{errore}</p>}
 
             <div className="modal-azioni-offerta">
               <button className="btn-annulla-offerta" onClick={chiudiModal}>Annulla</button>
               <button className="btn-conferma-offerta" onClick={handleConferma} disabled={caricamento}>
-                {caricamento ? '...' : 'Salva offerta'}
+                {caricamento ? '...' : offertaInModifica ? 'Salva modifiche' : 'Salva offerta'}
               </button>
             </div>
           </div>

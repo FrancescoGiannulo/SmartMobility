@@ -7,6 +7,7 @@ export interface PianoAbbonamento {
   prezzo: number
   durata_giorni: number
   stato: string
+  tipo_mezzo: string | null
 }
 
 export interface AbbonamentoAttivo {

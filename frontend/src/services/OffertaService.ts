@@ -39,6 +39,23 @@ export const creaOfferta = async (payload: CreaOffertaPayload): Promise<Offerta>
   return r.data
 }
 
+export interface ModificaOffertaPayload {
+  nome?: string
+  descrizione?: string
+  sconto_percentuale?: number
+  prezzo?: number
+  durata_giorni?: number
+  data_inizio?: string
+  data_scadenza?: string
+  stato?: string
+  tipo_mezzo?: TipoMezzo | null
+}
+
+export const modificaOfferta = async (id: string, payload: ModificaOffertaPayload): Promise<Offerta> => {
+  const r = await api.patch<Offerta>(`/operatore/offerte/${id}`, payload)
+  return r.data
+}
+
 export const eliminaOfferta = async (id: string): Promise<void> => {
   await api.delete(`/operatore/offerte/${id}`)
 }

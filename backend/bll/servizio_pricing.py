@@ -230,13 +230,20 @@ class ServizioPricing:
             ).fetchone()
             is_gruppo = row is not None and row.gruppo_corsa_id is not None
 
-        # [IF-UT.16] Abbonamento attivo → corsa gratuita (non si applica alle corse di gruppo)
+        # [IF-UT.16] Abbonamento attivo → corsa gratuita solo se compatibile con tipo_mezzo
         if not is_gruppo:
             with Session(engine) as s:
                 abbonamento = AbbonamentoRepository().get_attivo(utente_id, s)
                 if abbonamento and abbonamento.data_fine > datetime.now(timezone.utc):
-                    importo_pieno = importo
-                    importo = Decimal("0.00")
+                    offerta_abb = s.get(Offerta, abbonamento.offerta_id)
+                    mezzo_compatibile = (
+                        offerta_abb is None
+                        or offerta_abb.tipo_mezzo is None
+                        or offerta_abb.tipo_mezzo == tipo_mezzo
+                    )
+                    if mezzo_compatibile:
+                        importo_pieno = importo
+                        importo = Decimal("0.00")
 
         if importo > 0 and offerta_id is not None:
             with Session(engine) as s:

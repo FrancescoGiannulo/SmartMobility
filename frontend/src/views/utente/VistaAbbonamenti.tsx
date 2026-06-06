@@ -95,6 +95,9 @@ export default function VistaAbbonamenti() {
                     <div className="abb-piano-dettagli">
                       <span className="abb-piano-prezzo">€{Number(piano.prezzo).toFixed(2)}</span>
                       <span className="abb-piano-durata">{piano.durata_giorni} giorni</span>
+                      <span className="abb-piano-mezzo">
+                        {piano.tipo_mezzo ? piano.tipo_mezzo.charAt(0).toUpperCase() + piano.tipo_mezzo.slice(1) : 'Tutti i mezzi'}
+                      </span>
                     </div>
                   </div>
                 ))}
