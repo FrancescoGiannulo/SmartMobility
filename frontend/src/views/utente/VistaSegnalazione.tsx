@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { inviaSegnalazione, getMieSegnalazioni, TIPOLOGIE, type Segnalazione } from '../../services/SegnalazioneService'
+import { salvaSegnalazione, getMieSegnalazioni, TIPOLOGIE, type Segnalazione } from '../../services/SegnalazioneService'
 import './VistaSegnalazione.css'
 
 const STATO_LABEL: Record<string, string> = {
@@ -43,7 +43,7 @@ export default function VistaSegnalazione() {
 
   useEffect(() => { caricaStorico() }, [caricaStorico])
 
-  const handleInvia = async (e: React.FormEvent) => {
+  const inviaForm = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!descrizione.trim()) {
       setErrore('Inserisci una descrizione.')
@@ -52,7 +52,7 @@ export default function VistaSegnalazione() {
     setInvioInCorso(true)
     setErrore('')
     try {
-      await inviaSegnalazione(tipologia, descrizione.trim())
+      await salvaSegnalazione(tipologia, descrizione.trim())
       setConfermato(true)
       await caricaStorico()
     } catch (err) {
@@ -95,7 +95,7 @@ export default function VistaSegnalazione() {
           <h1 className="segn-titolo">Invia segnalazione</h1>
           <p className="segn-sottotitolo">Segnala un problema relativo a un mezzo o al servizio.</p>
 
-          <form className="segn-form" onSubmit={handleInvia}>
+          <form className="segn-form" onSubmit={inviaForm}>
             <label className="segn-label" htmlFor="tipologia">Tipologia</label>
             <select
               id="tipologia"

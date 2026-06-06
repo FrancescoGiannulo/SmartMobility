@@ -20,7 +20,7 @@ const TIPOLOGIE = [
 export { TIPOLOGIE }
 
 // [IF-UT.15] Invia Segnalazione
-export const inviaSegnalazione = (
+export const salvaSegnalazione = (
   tipologia: string,
   descrizione: string,
 ): Promise<{ data: Segnalazione }> =>
@@ -36,5 +36,5 @@ export const getSegnalazioni = (): Promise<{ data: Segnalazione[] }> =>
 export const getDettaglioSegnalazione = (id: string): Promise<{ data: Segnalazione }> =>
   api.get(`/operatore/segnalazioni/${id}`)
 
-export const prendiInCarico = (id: string): Promise<{ data: Segnalazione }> =>
+export const aggiornaStatoSegnalazione = (id: string): Promise<{ data: Segnalazione }> =>
   api.patch(`/operatore/segnalazioni/${id}/stato`, {})

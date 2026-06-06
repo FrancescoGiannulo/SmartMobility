@@ -4,7 +4,7 @@ import axios from 'axios'
 import {
   getSegnalazioni,
   getDettaglioSegnalazione,
-  prendiInCarico,
+  aggiornaStatoSegnalazione,
   type Segnalazione,
 } from '../../services/SegnalazioneService'
 import './VistaSegnalazioniOperatore.css'
@@ -37,7 +37,7 @@ export default function VistaSegnalazioniOperatore() {
   const [azioneInCorso, setAzioneInCorso] = useState(false)
   const [messaggio, setMessaggio] = useState('')
 
-  const carica = useCallback(async () => {
+  const getSegnalazioniLocale = useCallback(async () => {
     try {
       const res = await getSegnalazioni()
       setSegnalazioni(res.data)
@@ -48,9 +48,9 @@ export default function VistaSegnalazioniOperatore() {
     }
   }, [])
 
-  useEffect(() => { carica() }, [carica])
+  useEffect(() => { getSegnalazioniLocale() }, [getSegnalazioniLocale])
 
-  const handleSeleziona = async (id: string) => {
+  const selezionaSegnalazione = async (id: string) => {
     try {
       const res = await getDettaglioSegnalazione(id)
       setSelezionata(res.data)
@@ -59,11 +59,11 @@ export default function VistaSegnalazioniOperatore() {
     }
   }
 
-  const handlePrendiInCarico = async () => {
+  const prendiInCarico = async () => {
     if (!selezionata) return
     setAzioneInCorso(true)
     try {
-      const res = await prendiInCarico(selezionata.id)
+      const res = await aggiornaStatoSegnalazione(selezionata.id)
       setSelezionata(res.data)
       setSegnalazioni(prev =>
         prev.map(s => s.id === res.data.id ? res.data : s)
@@ -104,7 +104,7 @@ export default function VistaSegnalazioniOperatore() {
               <div
                 key={s.id}
                 className={`segn-op-card${selezionata?.id === s.id ? ' segn-op-card--attiva' : ''}`}
-                onClick={() => handleSeleziona(s.id)}
+                onClick={() => selezionaSegnalazione(s.id)}
               >
                 <div className="segn-op-card-header">
                   <span className="segn-op-tipologia">{s.tipologia}</span>
@@ -147,7 +147,7 @@ export default function VistaSegnalazioniOperatore() {
               <button
                 type="button"
                 className="btn-segn-op-primario"
-                onClick={handlePrendiInCarico}
+                onClick={prendiInCarico}
                 disabled={azioneInCorso}
               >
                 {azioneInCorso ? 'Aggiornamento...' : 'PRENDI IN CARICO'}
