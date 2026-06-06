@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from typing import Optional
 from sqlalchemy.orm import Session
-from model.offerta import Offerta
+from model.offerta import Offerta, Promozione, Abbonamento
 
 
 class NomeDuplicatoException(Exception):
@@ -43,9 +43,9 @@ class OffertaRepository:
     ) -> Offerta:
         if self.nome_esiste(nome, db):
             raise NomeDuplicatoException(f"Offerta con nome '{nome}' già esistente")
-        offerta = Offerta(
+        cls = Promozione if tipo == "promozione" else Abbonamento
+        offerta = cls(
             nome=nome,
-            tipo=tipo,
             stato="attiva",
             descrizione=descrizione,
             sconto_percentuale=sconto_percentuale,

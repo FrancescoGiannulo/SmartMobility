@@ -4,7 +4,7 @@ from decimal import Decimal
 from typing import Optional
 from sqlalchemy.orm import Session
 from dal.offerta_repository import OffertaRepository, NomeDuplicatoException, OffertaNonTrovataException
-from model.offerta import Offerta
+from model.offerta import Offerta, Promozione, Abbonamento
 
 
 class OffertaValidazioneException(Exception):
