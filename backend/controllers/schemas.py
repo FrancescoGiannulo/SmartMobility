@@ -178,3 +178,21 @@ class PromozioneOut(BaseModel):
     descrizione: str | None
     sconto_percentuale: str
     data_fine: str
+
+
+class AggiungiMezzoRequest(BaseModel):
+    tipo: str       # "monopattino" | "bicicletta" | "automobile"
+    codice: str
+    lat: float
+    lng: float
+    stato: str = "Disponibile"
+
+
+class MezzoFlottaOut(BaseModel):
+    id: UUID
+    codice: str
+    tipo: str
+    stato: str
+    lat: float | None
+    lng: float | None
+    batteria: int | None
