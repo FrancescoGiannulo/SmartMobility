@@ -7,15 +7,14 @@ import {
 } from '@vis.gl/react-google-maps'
 import { getMezziUtente, getZoneUtente, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
 import { getTariffe, getPromozioni, type Tariffa, type Promozione } from '../../services/PaymentService'
-import { sbloccaMezzi } from '../../services/CorsaService'
 import {
-  prenotaMezzi,
+  sbloccaMezzi,
+  prenota,
   annullaPrenotazione,
   getPrenotazioniAttive,
-  isErroreParziale,
+  isRisultatiParziali,
   type Prenotazione,
-  type PrenotazioneAttiva,
-} from '../../services/PrenotazioneService'
+} from '../../services/CorsaService'
 import { logout, utenteCorrente } from '../../services/AuthService'
 import ZonaPoligono from '../../components/ZonaPoligono'
 import { COLORI_ZONA } from '../../utils/coloriZona'
@@ -94,7 +93,7 @@ export default function VistaMappa() {
 
   // Prenotazioni
   const [prenotazioni, setPrenotazioni] = useState<Prenotazione[]>([])
-  const [prenotazioniAttive, setPrenotazioniAttive] = useState<PrenotazioneAttiva[]>([])
+  const [prenotazioniAttive, setPrenotazioniAttive] = useState<Prenotazione[]>([])
   const [mezziPrenotati, setMezziPrenotati] = useState<MezzoMappa[]>([])
   const [tempoRimanente, setTempoRimanente] = useState(0)
   const [nowMs, setNowMs] = useState(Date.now)
@@ -213,15 +212,20 @@ export default function VistaMappa() {
   }, [])
 
   const toggleSelezione = useCallback((mezzo: MezzoMappa) => {
-    setSelezione(prev => {
-      const giaPresente = prev.some(m => m.id === mezzo.id)
-      if (giaPresente) return prev.filter(m => m.id !== mezzo.id)
-      if (prev.length >= N_MAX) return prev
-      return [...prev, mezzo]
-    })
+    const giaPresente = selezione.some(m => m.id === mezzo.id)
+    if (giaPresente) {
+      setSelezione(prev => prev.filter(m => m.id !== mezzo.id))
+    } else if (selezione.length >= N_MAX) {
+      // limite raggiunto, ignorato silenziosamente
+    } else if (selezione.length > 0 && selezione[0].tipo !== mezzo.tipo) {
+      setErrorePanel(`Puoi selezionare solo mezzi dello stesso tipo (${selezione[0].tipo}).`)
+      return
+    } else {
+      setSelezione(prev => [...prev, mezzo])
+    }
     setNonDisponibili([])
     setErrorePanel('')
-  }, [])
+  }, [selezione])
 
   // [IF-UT.02] CS-04
   const handleConfermaPrenotazione = useCallback(async () => {
@@ -230,7 +234,7 @@ export default function VistaMappa() {
     setErrorePanel('')
     setNonDisponibili([])
     try {
-      const prens = await prenotaMezzi(selezione.map(m => m.id))
+      const prens = await prenota(selezione.map(m => m.id))
       setMezziPrenotati([...selezione])
       setPrenotazioni(prens)
       setSelezione([])
@@ -238,7 +242,7 @@ export default function VistaMappa() {
       setMezzoAttivo(null)
       getPrenotazioniAttive().then(setPrenotazioniAttive).catch(() => {})
     } catch (err) {
-      if (isErroreParziale(err)) {
+      if (isRisultatiParziali(err)) {
         const ids = err.response.data.detail.non_disponibili
         setNonDisponibili(ids)
         setSelezione(prev => prev.filter(m => !ids.includes(m.id)))
@@ -301,6 +305,7 @@ export default function VistaMappa() {
             corsa_id: s.corsa_id,
             mezzo: targets.find(m => m.id === s.mezzo_id) ?? targets[0],
             inizio_at,
+            gruppo_corsa_id: s.gruppo_corsa_id ?? null,
           })),
         },
       })

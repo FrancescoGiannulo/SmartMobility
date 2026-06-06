@@ -83,8 +83,13 @@ class ServizioAbbonamento:
                 abbonamento_id=abbonamento.id,
             )
         except self._NessunMetodoPredefinito as e:
+            # Rollback: il pagamento non è andato a buon fine, annulla l'abbonamento creato
+            abbonamento.stato = "annullato"
+            db.commit()
             raise NessunMetodoPagamento(str(e))
         except self._PRifiutato as e:
+            abbonamento.stato = "annullato"
+            db.commit()
             raise PagamentoRifiutato(str(e))
 
         return abbonamento

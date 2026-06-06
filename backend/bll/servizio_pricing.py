@@ -222,12 +222,21 @@ class ServizioPricing:
         importo_pieno: Decimal | None = None
         offerta_applicata_id: uuid.UUID | None = None
 
-        # [IF-UT.16] Abbonamento attivo → corsa gratuita
+        # Verifica se la corsa è di gruppo (gruppo_corsa_id presente)
         with Session(engine) as s:
-            abbonamento = AbbonamentoRepository().get_attivo(utente_id, s)
-            if abbonamento and abbonamento.data_fine > datetime.now(timezone.utc):
-                importo_pieno = importo
-                importo = Decimal("0.00")
+            row = s.execute(
+                text("SELECT gruppo_corsa_id FROM corse WHERE id = :id"),
+                {"id": str(corsa_id)},
+            ).fetchone()
+            is_gruppo = row is not None and row.gruppo_corsa_id is not None
+
+        # [IF-UT.16] Abbonamento attivo → corsa gratuita (non si applica alle corse di gruppo)
+        if not is_gruppo:
+            with Session(engine) as s:
+                abbonamento = AbbonamentoRepository().get_attivo(utente_id, s)
+                if abbonamento and abbonamento.data_fine > datetime.now(timezone.utc):
+                    importo_pieno = importo
+                    importo = Decimal("0.00")
 
         if importo > 0 and offerta_id is not None:
             with Session(engine) as s:

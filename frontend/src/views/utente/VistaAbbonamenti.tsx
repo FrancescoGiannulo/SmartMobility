@@ -35,6 +35,9 @@ export default function VistaAbbonamenti() {
       setPianoSelezionato(null)
       setConferma(`Abbonamento "${pianoSelezionato.nome}" attivato con successo!`)
     } catch (err) {
+      // Aggiorna corrente anche in caso di errore: l'abbonamento potrebbe essere stato creato
+      // ma la risposta persa (es. errore di rete post-commit)
+      getAbbonamentoCorrente().then(setCorrente).catch(() => {})
       if (axios.isAxiosError(err)) {
         const detail = err.response?.data?.detail
         setErrore(typeof detail === 'string' ? detail : 'Impossibile completare la sottoscrizione.')
