@@ -6,6 +6,7 @@ from dal.prenotazione_repository import PrenotazioneRepository
 from dal.zona_repository import ZonaRepository
 from dal.regola_fine_corsa_repository import RegolaFineCorsaRepository
 from dal.operatore_repository import OperatoreRepository
+from bll.servizio_gis import ServizioGIS
 
 
 class MezzoNonTrovatoException(Exception):
@@ -20,9 +21,22 @@ class CorsaNonTrovataException(Exception):
     pass
 
 
+class IdentificativoEsistenteException(Exception):
+    pass
+
+
+class PosizioneNonOperativaException(Exception):
+    pass
+
+
+class MezzoInMissioneException(Exception):
+    pass
+
+
 class ServizioMobilita:
 
     def __init__(self, db: Session) -> None:
+        self._db = db
         self._mezzo_repo = MezzoRepository(db)
         self._corsa_repo = CorsaRepository(db)
         self._pren_repo = PrenotazioneRepository(db)
@@ -134,3 +148,22 @@ class ServizioMobilita:
             raise CorsaNonTrovataException(f"Corsa {corsa_id} non trovata")
         self._corsa_repo.aggiorna_stato(corsa_id, "terminata")
         self._mezzo_repo.aggiorna_stato(UUID(corsa["mezzo_id"]), "Disponibile")
+
+    # [IF-OP.11] CS-11 — Lista flotta per operatore
+    def get_mezzi_flotta(self) -> list[dict]:
+        return self._mezzo_repo.lista_tutti()
+
+    # [IF-OP.11] CS-11 — Aggiunge un nuovo mezzo alla flotta
+    def aggiungi_mezzo(
+        self,
+        tipo: str,
+        codice: str,
+        lat: float,
+        lng: float,
+        stato: str,
+    ) -> dict:
+        if self._mezzo_repo.esiste_by_codice(codice):
+            raise IdentificativoEsistenteException(f"Identificativo '{codice}' già in uso")
+        if not ServizioGIS(self._db).verifica_posizione_in_zona_operativa(lat, lng):
+            raise PosizioneNonOperativaException("La posizione non ricade in nessuna zona operativa")
+        return self._mezzo_repo.crea(tipo, codice, lat, lng, stato)

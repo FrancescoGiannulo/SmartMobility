@@ -133,3 +133,72 @@ class TestZonaRepositoryPunto:
         from dal.zona_repository import ZonaRepository
         # Coordinate lontane da Bari (Roma)
         assert ZonaRepository(db).punto_in_zona_operativa(41.90, 12.49) is False
+
+
+def _inserisci_zona_operativa(db) -> str:
+    with Session(db) as s:
+        row = s.execute(text("""
+            INSERT INTO zone (nome, tipo, perimetro, limite_velocita)
+            VALUES ('ZonaTestOP-BLL', 'operativa',
+                ST_GeomFromGeoJSON('{"type":"Polygon","coordinates":[[[16.8,41.0],[16.95,41.0],[16.95,41.2],[16.8,41.2],[16.8,41.0]]]}'),
+                NULL)
+            RETURNING id
+        """)).fetchone()
+        s.commit()
+        return str(row.id)
+
+
+def _elimina_zona(db, zona_id: str) -> None:
+    with Session(db) as s:
+        s.execute(text("DELETE FROM zone WHERE id = :id"), {"id": zona_id})
+        s.commit()
+
+
+class TestServizioMobilitaAggiungi:
+
+    @pytest.mark.integration
+    def test_aggiungi_mezzo_ok(self, db):
+        from bll.servizio_mobilita import ServizioMobilita
+        from sqlalchemy.orm import Session as S
+        zona_id = _inserisci_zona_operativa(db)
+        codice = f"TEST-BLL-{_uuid.uuid4().hex[:6]}"
+        mezzo: dict = {}
+        try:
+            with S(db) as s:
+                mezzo = ServizioMobilita(s).aggiungi_mezzo(
+                    "monopattino", codice, LAT_BARI, LNG_BARI, "Disponibile"
+                )
+            assert mezzo["codice"] == codice
+            assert mezzo["stato"] == "Disponibile"
+        finally:
+            if "id" in mezzo:
+                _elimina_mezzo(db, str(mezzo["id"]))
+            _elimina_zona(db, zona_id)
+
+    @pytest.mark.integration
+    def test_aggiungi_mezzo_codice_duplicato(self, db):
+        from bll.servizio_mobilita import ServizioMobilita, IdentificativoEsistenteException
+        from sqlalchemy.orm import Session as S
+        zona_id = _inserisci_zona_operativa(db)
+        codice = f"TEST-DUP-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice)
+        try:
+            with S(db) as s:
+                with pytest.raises(IdentificativoEsistenteException):
+                    ServizioMobilita(s).aggiungi_mezzo(
+                        "monopattino", codice, LAT_BARI, LNG_BARI, "Disponibile"
+                    )
+        finally:
+            _elimina_mezzo(db, mezzo_id)
+            _elimina_zona(db, zona_id)
+
+    @pytest.mark.integration
+    def test_aggiungi_mezzo_fuori_zona(self, db):
+        from bll.servizio_mobilita import ServizioMobilita, PosizioneNonOperativaException
+        from sqlalchemy.orm import Session as S
+        codice = f"TEST-FZ-{_uuid.uuid4().hex[:6]}"
+        with S(db) as s:
+            with pytest.raises(PosizioneNonOperativaException):
+                ServizioMobilita(s).aggiungi_mezzo(
+                    "monopattino", codice, 41.90, 12.49, "Disponibile"
+                )
