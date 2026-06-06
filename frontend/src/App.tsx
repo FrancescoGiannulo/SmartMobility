@@ -10,6 +10,7 @@ import VistaCorsa from './views/utente/VistaCorsa'
 import VistaDashboardAP from './views/amministrazione/VistaDashboardAP'
 import VistaPagamenti from './views/utente/VistaPagamenti'
 import VistaTariffePromozioni from './views/operatore/VistaTariffePromozioni'
+import VistaMezziOperatore from './views/operatore/VistaMezziOperatore'
 import { utenteCorrente, logout } from './services/AuthService'
 
 const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string
@@ -118,6 +119,14 @@ function App() {
           element={
             <RoutaProtetta ruoloRichiesto="OP">
               <VistaImpostazioniRegole />
+            </RoutaProtetta>
+          }
+        />
+        <Route
+          path="/operatore/mezzi"
+          element={
+            <RoutaProtetta ruoloRichiesto="OP">
+              <VistaMezziOperatore />
             </RoutaProtetta>
           }
         />
