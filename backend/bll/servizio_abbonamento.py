@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from dal.abbonamento_repository import AbbonamentoRepository
 from model.abbonamento_utente import AbbonamentoUtente
-from model.offerta import Abbonamento
+from model.offerta import Abbonamento, Offerta
 
 
 class AbbonamentoException(Exception):
