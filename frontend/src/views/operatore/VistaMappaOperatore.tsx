@@ -15,7 +15,7 @@ import './VistaMappaOperatore.css'
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
 
 const COLORI_MEZZO: Record<string, { c1: string; c2: string }> = {
-  monopattino: { c1: '#4caf9a', c2: '#2a7a6a' },
+  monopattino: { c1: '#155e52', c2: '#2a7a6a' },
   bicicletta:  { c1: '#3b82f6', c2: '#1d4ed8' },
   automobile:  { c1: '#ec4899', c2: '#be185d' },
 }
@@ -327,6 +327,7 @@ export default function VistaMappaOperatore() {
           <button type="button" className="btn-pannello secondario">Gestisci utenti</button>
           <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/impostazioni-regole')}>Impostazioni regole</button>
           <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/tariffe-promozioni')}>Tariffe e promozioni</button>
+          <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/parametri-sistema')}>Parametri di sistema</button>
           <button type="button" className="btn-pannello secondario">Visualizza report</button>
           <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/mezzi')}>Gestisci mezzi</button>
         </div>

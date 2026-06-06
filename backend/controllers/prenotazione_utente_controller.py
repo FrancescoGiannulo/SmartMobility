@@ -9,6 +9,7 @@ from controllers.schemas import (
     SbloccoRequest,
     MezzoSbloccabileOut,
     RisultatoSblocco,
+    Corsa,
 )
 from bll.servizio_mobilita import (
     ServizioMobilita,
@@ -121,5 +122,36 @@ def termina_corsa(
     try:
         ServizioMobilita(db).termina_corsa(corsa_id, utente["id"])
         return {"status": "ok"}
+    except CorsaNonTrovataException:
+        raise HTTPException(status_code=404, detail="Corsa non trovata")
+
+
+# [IF-UT.14] CS-11 — Storico corse dell'utente (statica prima della dinamica)
+@router.get("/corse/storico", response_model=list[Corsa])
+def get_storico_corse(
+    utente=Depends(verify_token(["UT"])),
+    db=Depends(get_db),
+):
+    """[IF-UT.14 / CS-11] Restituisce la cronologia delle corse terminate dell'utente."""
+    from sqlalchemy.exc import SQLAlchemyError
+    try:
+        return ServizioMobilita(db).get_storico(utente["id"])
+    except SQLAlchemyError:
+        # [CS-11.1] DatiNonDisponibili — errore di accesso ai dati
+        raise HTTPException(
+            status_code=503,
+            detail="Storico non disponibile al momento. Riprova più tardi.",
+        )
+
+
+# [IF-UT.07] CS-06 — Riepilogo corsa terminata
+@router.get("/corse/{corsa_id}/riepilogo", response_model=Corsa)
+def get_riepilogo_corsa(
+    corsa_id: UUID,
+    utente=Depends(verify_token(["UT"])),
+    db=Depends(get_db),
+):
+    try:
+        return ServizioMobilita(db).calcolaRiepilogoSessione(corsa_id, UUID(str(utente["id"])))
     except CorsaNonTrovataException:
         raise HTTPException(status_code=404, detail="Corsa non trovata")

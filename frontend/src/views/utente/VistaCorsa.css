@@ -17,7 +17,7 @@
   align-self: flex-start;
   background: none;
   border: none;
-  color: #4caf9a;
+  color: #155e52;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -30,7 +30,7 @@
   font-size: 26px;
   font-weight: 800;
   font-style: italic;
-  color: #4caf9a;
+  color: #155e52;
   margin: 0 0 20px;
   text-align: center;
 }
@@ -141,7 +141,7 @@
 .corsa-tabella td:first-child {
   font-weight: 700;
   font-style: italic;
-  color: #4caf9a;
+  color: #155e52;
   width: 58%;
 }
 .corsa-tabella td:last-child {
@@ -159,7 +159,7 @@
   margin-bottom: 28px;
 }
 .corsa-logo-icona { font-size: 36px; filter: hue-rotate(120deg); }
-.corsa-logo-testo { font-size: 13px; color: #4caf9a; letter-spacing: 1.5px; }
+.corsa-logo-testo { font-size: 13px; color: #155e52; letter-spacing: 1.5px; }
 
 /* ── Bottoni ───────────────────────────────── */
 .corsa-bottoni {
@@ -187,14 +187,14 @@
 .btn-corsa:disabled { opacity: 0.45; cursor: not-allowed; }
 
 .btn-termina {
-  background: #4caf9a;
+  background: #155e52;
   color: #fff;
   box-shadow: 0 4px 14px rgba(76,175,154,0.4);
 }
 .btn-pausa {
   background: transparent;
-  color: #4caf9a;
-  border: 2.5px solid #4caf9a;
+  color: #155e52;
+  border: 2.5px solid #155e52;
 }
 
 /* ── Esito pagamento ────────────────────────── */
@@ -215,7 +215,7 @@
   from { opacity: 0; transform: translateY(-6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.corsa-esito--ok    { background: #e0f2ee; border: 1.5px solid #4caf9a; }
+.corsa-esito--ok    { background: #e0f2ee; border: 1.5px solid #155e52; }
 .corsa-esito--errore{ background: #fff0f0; border: 1.5px solid #e53935; }
 .corsa-esito-icona  { font-size: 32px; }
 .corsa-esito-testo  { font-size: 15px; font-weight: 700; color: #0f172a; margin: 0; }
@@ -254,7 +254,7 @@
   text-align: center;
   font-size: 24px;
   font-weight: 800;
-  color: #4caf9a;
+  color: #155e52;
   margin: 0;
 }
 
@@ -305,8 +305,8 @@
 .termina-btn--attivo { opacity: 1; }
 .termina-btn:hover:not(:disabled) { transform: scale(1.1); }
 
-.termina-btn--ok          { background: #e0f2ee; color: #4caf9a; }
-.termina-btn--ok.termina-btn--attivo  { background: #4caf9a; color: #fff; box-shadow: 0 2px 8px rgba(76,175,154,0.4); }
+.termina-btn--ok          { background: #e0f2ee; color: #155e52; }
+.termina-btn--ok.termina-btn--attivo  { background: #155e52; color: #fff; box-shadow: 0 2px 8px rgba(76,175,154,0.4); }
 .termina-btn--no          { background: #fdecea; color: #e53935; }
 .termina-btn--no.termina-btn--attivo  { background: #e53935; color: #fff; box-shadow: 0 2px 8px rgba(229,57,53,0.35); }
 
@@ -367,7 +367,7 @@
 .promo-sconto {
   font-size: 13px;
   font-weight: 700;
-  color: #4caf9a;
+  color: #155e52;
 }
 
 .btn-applica-promo {
@@ -375,4 +375,136 @@
   padding: 8px 16px;
   font-size: 13px;
   border-radius: 20px;
+  width: auto;
+}
+
+.btn-salta-promo {
+  background: transparent;
+  color: #155e52;
+  border: 2px solid #155e52;
+  box-shadow: none;
+}
+
+/* ── Riepilogo Corsa [IF-UT.07] ─────────────── */
+.riepilogo-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 15, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px;
+  animation: corsaFadeIn 260ms ease;
+}
+
+.riepilogo-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 24px 20px 26px;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.28);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.riepilogo-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.riepilogo-check  { font-size: 36px; }
+.riepilogo-titolo {
+  font-size: 20px;
+  font-weight: 800;
+  font-style: italic;
+  color: #155e52;
+  margin: 0;
+  text-align: center;
+}
+
+.riepilogo-mezzi {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.riepilogo-mezzo-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #f0faf7;
+  border: 1px solid #c8e6de;
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+.riepilogo-glyph    { font-size: 26px; flex-shrink: 0; }
+.riepilogo-mezzo-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.riepilogo-codice {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+}
+.riepilogo-dato {
+  font-size: 13px;
+  color: #475569;
+}
+
+.riepilogo-totale {
+  border-top: 1.5px solid #e0ede8;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.riepilogo-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.riepilogo-badge--abb  { background: #dcfce7; color: #15803d; }
+.riepilogo-badge--promo{ background: #fef3c7; color: #b45309; }
+
+.riepilogo-prezzi {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.riepilogo-label-totale {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+}
+.riepilogo-prezzo-finale {
+  font-size: 28px;
+  font-weight: 800;
+  color: #155e52;
+}
+.riepilogo-gratis {
+  font-size: 26px;
+  font-weight: 800;
+  color: #15803d;
+}
+.riepilogo-prezzo-barrato {
+  font-size: 16px;
+  color: #94a3b8;
+  text-decoration: line-through;
 }

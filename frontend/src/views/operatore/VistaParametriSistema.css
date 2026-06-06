@@ -1,0 +1,130 @@
+.vista-params {
+  min-height: 100vh;
+  background: #f1f5f9;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+.params-topbar {
+  height: 64px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 14px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.params-topbar h2 {
+  margin: 0;
+  flex: 1;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.params-topbar .btn-indietro {
+  padding: 8px 16px;
+  background: transparent;
+  color: #4caf9a;
+  border: 2px solid #4caf9a;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.params-body {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.params-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.params-card h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.params-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.params-campo label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.params-campo input {
+  padding: 10px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #f8fafc;
+  color: #0f172a;
+  outline: none;
+  transition: border-color 160ms;
+}
+
+.params-campo input:focus {
+  border-color: #4caf9a;
+  background: #fff;
+}
+
+.params-errore {
+  font-size: 13px;
+  color: #f43f5e;
+  margin: 0;
+  padding: 10px 14px;
+  background: rgba(244, 63, 94, 0.06);
+  border-radius: 10px;
+  border: 1px solid rgba(244, 63, 94, 0.2);
+}
+
+.params-conferma {
+  font-size: 13px;
+  color: #16a34a;
+  margin: 0;
+  padding: 10px 14px;
+  background: rgba(22, 163, 74, 0.06);
+  border-radius: 10px;
+  border: 1px solid rgba(22, 163, 74, 0.2);
+}
+
+.btn-salva-params {
+  width: 100%;
+  padding: 14px;
+  background: #4caf9a;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 160ms;
+}
+.btn-salva-params:hover { background: #3a9a86; }
+.btn-salva-params:disabled { opacity: 0.6; cursor: not-allowed; }

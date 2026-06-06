@@ -1,0 +1,149 @@
+.privacy-container {
+  min-height: 100vh;
+  background: #f7f9fc;
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px 80px;
+}
+
+.privacy-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  padding: 48px 56px;
+  max-width: 760px;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .privacy-card { padding: 32px 24px; }
+}
+
+.privacy-back {
+  background: none;
+  border: none;
+  color: #155e52;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 28px;
+}
+
+.privacy-back:hover { text-decoration: underline; }
+
+.privacy-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.privacy-logo { font-size: 48px; }
+
+.privacy-header h1 {
+  font-size: 32px;
+  font-weight: 900;
+  color: #1a1a2e;
+  margin: 12px 0 6px;
+}
+
+.privacy-updated {
+  font-size: 13px;
+  color: #999;
+  margin: 0;
+}
+
+.privacy-sezione {
+  margin-bottom: 36px;
+}
+
+.privacy-sezione h2 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin: 0 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #f0fdf9;
+}
+
+.privacy-sezione p, .privacy-sezione li {
+  font-size: 14.5px;
+  color: #555;
+  line-height: 1.7;
+}
+
+.privacy-sezione ul {
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+.privacy-sezione a {
+  color: #155e52;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.privacy-sezione a:hover { text-decoration: underline; }
+
+.privacy-tabella {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  margin-top: 8px;
+}
+
+.privacy-tabella th {
+  background: #f0fdf9;
+  color: #2d6a5f;
+  font-weight: 700;
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 2px solid #d0f0e8;
+}
+
+.privacy-tabella td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #eef0f3;
+  color: #555;
+  vertical-align: top;
+}
+
+.privacy-tabella tr:last-child td { border-bottom: none; }
+
+.privacy-diritti {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.privacy-diritto-card {
+  background: #f8fffe;
+  border: 1px solid #d0f0e8;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.privacy-diritto-art {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #155e52;
+  background: #e6f7f3;
+  border-radius: 6px;
+  padding: 2px 8px;
+  margin-bottom: 6px;
+}
+
+.privacy-diritto-card strong {
+  display: block;
+  font-size: 14px;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+}
+
+.privacy-diritto-card p {
+  font-size: 12.5px;
+  color: #777;
+  margin: 0;
+  line-height: 1.5;
+}

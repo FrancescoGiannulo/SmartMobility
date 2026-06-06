@@ -17,7 +17,7 @@ import './VistaDashboardAP.css'
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
 
 const COLORI_MEZZO: Record<string, string> = {
-  monopattino: '#4caf9a',
+  monopattino: '#155e52',
   bicicletta:  '#2196f3',
   automobile:  '#e91e8c',
 }
@@ -30,7 +30,7 @@ const EMOJI_MEZZO: Record<string, string> = {
 type VistaMode = 'pin' | 'cluster' | 'heatmap'
 
 const CHIP_CONFIG = [
-  { tipo: 'monopattino', emoji: '🛴', colore: '#4caf9a', bg: '#ecfdf5' },
+  { tipo: 'monopattino', emoji: '🛴', colore: '#155e52', bg: '#ecfdf5' },
   { tipo: 'bicicletta',  emoji: '🚲', colore: '#3b82f6', bg: '#eff6ff' },
   { tipo: 'automobile',  emoji: '🚗', colore: '#e91e8c', bg: '#fdf2f8' },
 ] as const
@@ -56,7 +56,7 @@ const CIRCONFERENZA = 2 * Math.PI * RAGGIO
 
 function GaugeMezzi({ perc }: { perc: number }) {
   const offset = CIRCONFERENZA - (perc / 100) * CIRCONFERENZA
-  const colore = perc >= 60 ? '#4caf9a' : perc >= 30 ? '#ff9800' : '#f44336'
+  const colore = perc >= 60 ? '#155e52' : perc >= 30 ? '#ff9800' : '#f44336'
   return (
     <div className="ap-gauge-container">
       <svg width={140} height={140} viewBox="0 0 96 96">
@@ -198,7 +198,7 @@ export default function VistaDashboardAP() {
 
           {vista === 'mappa' && (
             <div className="ap-kpi-pills">
-              <span className="ap-kpi-pill" style={{ color: '#4caf9a' }}>
+              <span className="ap-kpi-pill" style={{ color: '#155e52' }}>
                 <strong>{errVal ?? kpi.disponibili}</strong>{' '}
                 <span>disp</span>
               </span>

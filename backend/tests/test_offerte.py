@@ -46,6 +46,9 @@ def test_lista_offerte_non_autenticato():
 def test_crea_promozione_valida(operatore_test):
     """[IF-OP.06] Crea promozione con sconto e scadenza futura → 201."""
     token = _login(operatore_test["email"], operatore_test["password"])
+    for o in http.get("/operatore/offerte", headers=_auth(token)).json():
+        if o["nome"] == "Black Friday 2026":
+            http.delete(f"/operatore/offerte/{o['id']}", headers=_auth(token))
     payload = {
         "nome": "Black Friday 2026",
         "tipo": "promozione",
@@ -91,6 +94,9 @@ def test_crea_abbonamento_valido(operatore_test):
 def test_crea_offerta_nome_duplicato(operatore_test):
     """[IF-OP.06] Nome già esistente → 409."""
     token = _login(operatore_test["email"], operatore_test["password"])
+    for o in http.get("/operatore/offerte", headers=_auth(token)).json():
+        if o["nome"] == "Offerta Unica Dup Test":
+            http.delete(f"/operatore/offerte/{o['id']}", headers=_auth(token))
     payload = {
         "nome": "Offerta Unica Dup Test",
         "tipo": "promozione",

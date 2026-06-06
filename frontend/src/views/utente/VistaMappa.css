@@ -4,8 +4,8 @@
    ============================================================ */
 
 :root {
-  --sm-primary: #4caf9a;
-  --sm-primary-600: #3a9a86;
+  --sm-primary: #155e52;
+  --sm-primary-600: #0f4a3f;
   --sm-primary-700: #2a7a6a;
   --sm-accent: #06d6a0;
   --sm-dark: #0f172a;
@@ -124,14 +124,14 @@ body {
   font-size: 18px;
   font-weight: 700;
   font-style: italic;
-  color: #4caf9a;
+  color: #155e52;
 }
 
 .pannello-chiudi {
   background: none;
   border: none;
   font-size: 20px;
-  color: #4caf9a;
+  color: #155e52;
   cursor: pointer;
   line-height: 1;
   padding: 0 4px;
@@ -147,7 +147,7 @@ body {
   font-size: 16px;
   font-weight: 700;
   font-style: italic;
-  color: #4caf9a;
+  color: #155e52;
   margin: 0 0 10px;
 }
 
@@ -222,7 +222,7 @@ body {
 
 .btn-prenota {
   background: #e0f2ee;
-  color: #4caf9a;
+  color: #155e52;
 }
 
 .btn-prenota:disabled {
@@ -241,7 +241,7 @@ body {
 }
 
 .btn-sblocca-panel {
-  background: #4caf9a;
+  background: #155e52;
   color: #fff;
 }
 
@@ -400,7 +400,7 @@ body {
 /* ---------- Pin selezionato (CS-04) ---------- */
 .sm-pin--selected .sm-pin__body {
   border-color: #fff;
-  box-shadow: 0 0 0 3px #4caf9a, inset 0 1px 0 rgba(255,255,255,0.35);
+  box-shadow: 0 0 0 3px #155e52, inset 0 1px 0 rgba(255,255,255,0.35);
 }
 .sm-pin__badge {
   position: absolute;
@@ -408,7 +408,7 @@ body {
   right: -6px;
   width: 18px;
   height: 18px;
-  background: #4caf9a;
+  background: #155e52;
   color: #fff;
   border-radius: 50%;
   font-size: 10px;
@@ -422,7 +422,7 @@ body {
 
 /* ---------- Badge selezione nella topbar ---------- */
 .selezione-badge {
-  background: #4caf9a;
+  background: #155e52;
   color: #fff;
   border-radius: 999px;
   padding: 3px 10px;
@@ -463,7 +463,7 @@ body {
 .chip-rimuovi {
   background: none;
   border: none;
-  color: #4caf9a;
+  color: #155e52;
   font-size: 15px;
   line-height: 1;
   cursor: pointer;
@@ -725,6 +725,17 @@ body {
 .sidebar-pren-mezzo { font-size: 14px; font-weight: 600; color: var(--sm-dark); }
 .sidebar-pren-timer { font-size: 13px; font-weight: 700; color: var(--sm-primary-700); }
 .btn-annulla-singola { padding: 7px 0; font-size: 13px; }
+.sidebar-pren-azioni {
+  display: flex;
+  gap: 8px;
+  padding: 12px 22px 18px;
+}
+.sidebar-pren-azioni .btn-prenota,
+.sidebar-pren-azioni .btn-sblocca-panel {
+  flex: 1;
+  padding: 11px 0;
+  font-size: 13px;
+}
 
 /* ---------- [IF-UT.05][IF-UT.13] Pricing FAB (bottoni flottanti) ---------- */
 .pricing-fab-gruppo {
