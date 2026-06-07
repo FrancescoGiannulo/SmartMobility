@@ -106,7 +106,8 @@ export default function VistaMappa() {
   const [errorePanel, setErrorePanel] = useState('')
 
 
-  const [nMax, setNMax] = useState(3)
+  // [CS-15] Inizializzato a 1 (default DB); aggiornato subito dalla API
+  const [nMax, setNMax] = useState(1)
 
   // [IF-UT.05] [IF-UT.13] Stato tariffe/promozioni (sidebar)
   const [tariffe, setTariffe] = useState<Tariffa[] | null>(null)
@@ -126,10 +127,14 @@ export default function VistaMappa() {
         .then(setMezzi)
         .catch(() => setErrore('Impossibile caricare la mappa. Riprova.'))
 
+    // [CS-15] Ricarica i parametri con lo stesso intervallo dei mezzi
+    const aggiornaParametri = () =>
+      getParametriUtente().then(p => setNMax(p.max_mezzi_per_utente)).catch(() => {})
+
     aggiornaMezzi()
-    const t = setInterval(aggiornaMezzi, 10_000)
+    aggiornaParametri()
+    const t = setInterval(() => { aggiornaMezzi(); aggiornaParametri() }, 10_000)
     getPrenotazioniAttive().then(setPrenotazioniAttive).catch(() => {})
-    getParametriUtente().then(p => setNMax(p.max_mezzi_per_utente)).catch(() => {})
     return () => clearInterval(t)
   }, [])
 
