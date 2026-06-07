@@ -4,7 +4,7 @@ from decimal import Decimal
 from typing import Optional
 from sqlalchemy.orm import Session
 from dal.offerta_repository import OffertaRepository, NomeDuplicatoException, OffertaNonTrovataException
-from model.offerta import Offerta
+from model.offerta import Offerta, Promozione, Abbonamento
 
 
 class OffertaValidazioneException(Exception):
@@ -44,6 +44,7 @@ class ServizioOfferta:
             durata_giorni=durata_giorni,
             data_scadenza=data_scadenza,
             tipo_mezzo=tipo_mezzo,
+            data_inizio=data_inizio,
         )
         try:
             return self._repo.crea(
@@ -88,6 +89,7 @@ class ServizioOfferta:
             durata_giorni=durata_giorni if durata_giorni is not None else offerta_corrente.durata_giorni,
             data_scadenza=data_scadenza if data_scadenza is not None else offerta_corrente.data_scadenza,
             tipo_mezzo=tipo_mezzo if tipo_mezzo is not None else offerta_corrente.tipo_mezzo,
+            data_inizio=data_inizio if data_inizio is not None else offerta_corrente.data_inizio,
         )
         try:
             return self._repo.aggiorna(
@@ -121,6 +123,7 @@ class ServizioOfferta:
         durata_giorni: Optional[int],
         data_scadenza: Optional[datetime],
         tipo_mezzo: Optional[str] = None,
+        data_inizio: Optional[datetime] = None,
     ) -> None:
         if not nome or not nome.strip():
             raise OffertaValidazioneException("Il nome è obbligatorio")
@@ -147,3 +150,8 @@ class ServizioOfferta:
                 raise OffertaValidazioneException("La durata in giorni è obbligatoria per un abbonamento")
             if durata_giorni <= 0:
                 raise OffertaValidazioneException("La durata deve essere maggiore di zero")
+        if data_inizio is not None and data_scadenza is not None:
+            di = data_inizio if data_inizio.tzinfo else data_inizio.replace(tzinfo=timezone.utc)
+            ds = data_scadenza if data_scadenza.tzinfo else data_scadenza.replace(tzinfo=timezone.utc)
+            if ds <= di:
+                raise OffertaValidazioneException("La data di scadenza deve essere successiva alla data di inizio")

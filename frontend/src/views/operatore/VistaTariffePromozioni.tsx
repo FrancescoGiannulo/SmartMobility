@@ -158,6 +158,9 @@ export default function VistaTariffePromozioni() {
     ricarica()
   }
 
+  const dateErrate =
+    !!form.data_inizio && !!form.data_scadenza && form.data_scadenza <= form.data_inizio
+
   const set = (field: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setForm(prev => ({ ...prev, [field]: e.target.value }))
 
@@ -288,11 +291,14 @@ export default function VistaTariffePromozioni() {
               </label>
             )}
 
+            {dateErrate && (
+              <p className="modal-errore-offerta">La data di scadenza deve essere successiva alla data di inizio.</p>
+            )}
             {errore && <p className="modal-errore-offerta">{errore}</p>}
 
             <div className="modal-azioni-offerta">
               <button className="btn-annulla-offerta" onClick={chiudiModal}>Annulla</button>
-              <button className="btn-conferma-offerta" onClick={handleConferma} disabled={caricamento}>
+              <button className="btn-conferma-offerta" onClick={handleConferma} disabled={caricamento || dateErrate}>
                 {caricamento ? '...' : offertaInModifica ? 'Salva modifiche' : 'Salva offerta'}
               </button>
             </div>
