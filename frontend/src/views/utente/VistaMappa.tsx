@@ -658,7 +658,7 @@ export default function VistaMappa() {
                       <li key={p.id} className="sidebar-pren-item">
                         <div className="sidebar-pren-row">
                           <span className="sidebar-pren-mezzo">
-                            {GLYPH_MEZZO[p.tipo] ?? '●'} {tipoLabel(p.tipo)} · {p.codice}
+                            {GLYPH_MEZZO[p.tipo ?? ''] ?? '●'} {tipoLabel(p.tipo ?? '')} · {p.codice}
                           </span>
                           <span className="sidebar-pren-timer">⏱ {formatTempoRimanente(secsLeft)}</span>
                         </div>
@@ -690,12 +690,12 @@ export default function VistaMappa() {
                       setSidebarAperta(false)
                       handleSblocca(prenotazioniAttive.map(p => ({
                         id: p.mezzo_id,
-                        codice: p.codice,
-                        tipo: p.tipo as MezzoMappa['tipo'],
+                        codice: p.codice ?? '',
+                        tipo: (p.tipo ?? 'monopattino') as MezzoMappa['tipo'],
                         stato: 'Prenotato',
                         lat: 0,
                         lng: 0,
-                        batteria: p.batteria,
+                        batteria: p.batteria ?? null,
                       })))
                     }}
                   >

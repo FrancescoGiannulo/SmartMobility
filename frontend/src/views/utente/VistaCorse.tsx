@@ -117,7 +117,7 @@ export default function VistaCorse() {
               v.tipo === 'singola' ? (
                 <li key={v.corsa.id} className="corse-item">
                   <div className="corse-item-riga">
-                    <span className="corse-item-icona">{GLYPH[v.corsa.tipo_mezzo] ?? '●'}</span>
+                    <span className="corse-item-icona">{GLYPH[v.corsa.tipo_mezzo ?? ''] ?? '●'}</span>
                     <div className="corse-item-info">
                       <span className="corse-item-codice">{v.corsa.codice_mezzo}</span>
                       <span className="corse-item-dettagli">
@@ -136,7 +136,7 @@ export default function VistaCorse() {
                 <li key={v.gruppo_id} className="corse-item">
                   <div className="corse-gruppo-header">
                     <span className="corse-gruppo-icone">
-                      {v.corse.map(c => GLYPH[c.tipo_mezzo] ?? '●').join('')}
+                      {v.corse.map(c => GLYPH[c.tipo_mezzo ?? ''] ?? '●').join('')}
                     </span>
                     <div className="corse-gruppo-info">
                       <span className="corse-gruppo-badge">Gruppo ({v.corse.length} mezzi)</span>
@@ -180,7 +180,7 @@ export default function VistaCorse() {
             <ul className="popup-lista">
               {popupGruppo.map(c => (
                 <li key={c.id} className="popup-item">
-                  <span className="popup-item-icona">{GLYPH[c.tipo_mezzo] ?? '●'}</span>
+                  <span className="popup-item-icona">{GLYPH[c.tipo_mezzo ?? ''] ?? '●'}</span>
                   <div className="popup-item-info">
                     <span className="popup-item-codice">{c.codice_mezzo}</span>
                     <span className="popup-item-dettagli">
