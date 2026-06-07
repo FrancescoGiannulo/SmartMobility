@@ -106,6 +106,16 @@ export const terminaCorsa = async (corsaId: string): Promise<void> => {
   await api.post(`/utente/corse/${corsaId}/termina`)
 }
 
+// [IF-UT.05] Mette in pausa la corsa
+export const mettiInPausa = async (corsaId: string): Promise<void> => {
+  await api.post(`/utente/corse/${corsaId}/pausa`)
+}
+
+// [IF-UT.05] Riprende la corsa dalla pausa
+export const riprendiCorsa = async (corsaId: string): Promise<void> => {
+  await api.post(`/utente/corse/${corsaId}/riprendi`)
+}
+
 // [IF-UT.07/IF-UT.14] Corsa (classe del diagramma delle classi)
 export interface Corsa {
   id: string

@@ -100,9 +100,11 @@ def test_corsa_columns():
     from model.corsa import Corsa
     cols = {c.name for c in Corsa.__table__.columns}
     assert cols == {
-        "id", "utente_id", "mezzo_id", "prenotazione_id",
+        "id", "utente_id", "mezzo_id", "prenotazione_id", "gruppo_corsa_id",
         "stato", "inizio_at", "fine_at", "distanza_km",
-        "inizio_lat", "inizio_lng", "fine_lat", "fine_lng", "created_at",
+        "inizio_lat", "inizio_lng", "fine_lat", "fine_lng",
+        "pausa_inizio_at", "pausa_durata_accumulata_sec",
+        "created_at",
     }
 
 
@@ -129,7 +131,8 @@ def test_pagamento_columns():
     from model.pagamento import Pagamento
     cols = {c.name for c in Pagamento.__table__.columns}
     assert cols == {
-        "id", "corsa_id", "utente_id", "metodo_pagamento_id", "abbonamento_id", "importo", "stato", "created_at"
+        "id", "corsa_id", "utente_id", "metodo_pagamento_id", "abbonamento_id",
+        "importo", "importo_pieno", "offerta_applicata_id", "stato", "created_at",
     }
 
 

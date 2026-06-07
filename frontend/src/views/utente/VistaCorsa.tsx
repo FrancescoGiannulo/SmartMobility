@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { terminaCorsa, getRiepilogoCorsa, type Corsa } from '../../services/CorsaService'
+import { terminaCorsa, mettiInPausa, riprendiCorsa, getRiepilogoCorsa, type Corsa } from '../../services/CorsaService'
 import type { MezzoMappa } from '../../services/MapService'
 import { effettuaPagamento, getMetodiPagamento, getPromozioni, type Promozione } from '../../services/PaymentService'
 import { getAbbonamentoCorrente } from '../../services/AbbonamentoService'
@@ -71,6 +71,8 @@ export default function VistaCorsa() {
   const [corse, setCorse] = useState<DatiCorsa[]>(corseInit)
   const [selId, setSelId] = useState<string>(() => corseInit[0]?.mezzo.id ?? '')
   const [elapsed, setElapsed] = useState(0)
+  const [inPausa, setInPausa] = useState(false)
+  const [pausaLoading, setPausaLoading] = useState(false)
   const [fase, setFase] = useState<FasePagamento>('idle')
   const [schermataTermina, setSchermataTermina] = useState(false)
   const [daTerminare, setDaTerminare] = useState<Set<string>>(() => new Set(corseInit.map(c => c.corsa_id)))
@@ -167,6 +169,24 @@ export default function VistaCorsa() {
       navigate('/utente/home', { replace: true })
     }
   }, [corse, navigate, riepilogoData])
+
+  const handlePausa = useCallback(async () => {
+    if (!selCorsa) return
+    setPausaLoading(true)
+    try {
+      if (inPausa) {
+        await riprendiCorsa(selCorsa.corsa_id)
+        setInPausa(false)
+      } else {
+        await mettiInPausa(selCorsa.corsa_id)
+        setInPausa(true)
+      }
+    } catch {
+      // Ignora errori di rete: lo stato si risincronizza al prossimo aggiornamento
+    } finally {
+      setPausaLoading(false)
+    }
+  }, [selCorsa, inPausa])
 
   const handleTermina = useCallback(async () => {
     const da = corse.filter(c => daTerminare.has(c.corsa_id))
@@ -372,7 +392,14 @@ export default function VistaCorsa() {
           <button type="button" className="btn-corsa btn-termina" onClick={() => setSchermataTermina(true)}>
             TERMINA E PAGA
           </button>
-          <button type="button" className="btn-corsa btn-pausa" disabled>PAUSA CORSA</button>
+          <button
+            type="button"
+            className={`btn-corsa ${inPausa ? 'btn-riprendi' : 'btn-pausa'}`}
+            onClick={handlePausa}
+            disabled={pausaLoading}
+          >
+            {pausaLoading ? '...' : inPausa ? 'RIPRENDI CORSA' : 'PAUSA CORSA'}
+          </button>
         </div>
       )}
 

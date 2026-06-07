@@ -16,3 +16,8 @@ export const aggiornaParametriSistema = async (payload: ParametriSistema): Promi
   const r = await api.put<ParametriSistema>('/operatore/configurazione/parametri', payload)
   return r.data
 }
+
+export const getParametriUtente = async (): Promise<ParametriSistema> => {
+  const r = await api.get<ParametriSistema>('/utente/parametri')
+  return r.data
+}

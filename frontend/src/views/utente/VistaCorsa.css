@@ -196,6 +196,11 @@
   color: #155e52;
   border: 2.5px solid #155e52;
 }
+.btn-riprendi {
+  background: #155e52;
+  color: #fff;
+  border: 2.5px solid #155e52;
+}
 
 /* ── Esito pagamento ────────────────────────── */
 .corsa-esito {

@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 from decimal import Decimal
 from enum import Enum
-from sqlalchemy import DateTime, Numeric, Float, text, ForeignKey
+from sqlalchemy import DateTime, Integer, Numeric, Float, text, ForeignKey
 from sqlalchemy import Enum as SAEnum
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
@@ -52,6 +52,8 @@ class Corsa(Base):
     inizio_lng: Mapped[float | None] = mapped_column(Float, nullable=True)
     fine_lat: Mapped[float | None] = mapped_column(Float, nullable=True)
     fine_lng: Mapped[float | None] = mapped_column(Float, nullable=True)
+    pausa_inizio_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    pausa_durata_accumulata_sec: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=text("now()")
     )

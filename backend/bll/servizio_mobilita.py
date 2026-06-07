@@ -8,6 +8,7 @@ from dal.prenotazione_repository import PrenotazioneRepository
 from dal.zona_repository import ZonaRepository
 from dal.regola_fine_corsa_repository import RegoleFineCorsaRawRepository
 from dal.operatore_repository import OperatoreRepository
+from dal.parametri_sistema_repository import ParametriSistemaRepository
 from bll.servizio_gis import ServizioGIS
 
 
@@ -20,6 +21,14 @@ class MezzoNonDisponibileException(Exception):
 
 
 class CorsaNonTrovataException(Exception):
+    pass
+
+
+class CorsaNonInUsaException(Exception):
+    pass
+
+
+class CorsaNonInPausaException(Exception):
     pass
 
 
@@ -45,6 +54,7 @@ class ServizioMobilita:
         self._zona_repo = ZonaRepository(db)
         self._regola_repo = RegoleFineCorsaRawRepository(db)
         self._op_repo = OperatoreRepository(db)
+        self._parametri_repo = ParametriSistemaRepository()
 
     # [IF-UT.04] CS-05 — lista mezzi sbloccabili (msg4 diagramma di sequenza)
     def get_mezzi_sbloccabili(
@@ -113,10 +123,12 @@ class ServizioMobilita:
     def get_zona_parcheggio_e_regole(self, operatore_id: UUID) -> dict:
         zone = [z for z in self._zona_repo.lista_zone() if z["tipo"] == "parcheggio"]
         regole = self._regola_repo.trova_tutte()
-        impostazioni = self._op_repo.trova_impostazioni(operatore_id) or {
-            "durata_max_prenotazione_min": 30,
-            "durata_periodo_grazia_min": 10,
-            "max_mezzi_per_utente": 1,
+        # [CS-15] Usa ParametriSistema come fonte autoritativa per i parametri globali
+        p = self._parametri_repo.get(self._db)
+        impostazioni = {
+            "durata_max_prenotazione_min": p.durata_max_prenotazione_min,
+            "durata_periodo_grazia_min": p.durata_periodo_grazia_min,
+            "max_mezzi_per_utente": p.max_mezzi_per_utente,
         }
         # ricava params globali dalla prima regola esistente (se presente)
         tipo_vincolo = regole[0]["tipo_vincolo"] if regole else "avviso"
@@ -173,8 +185,30 @@ class ServizioMobilita:
         corsa = self._corsa_repo.trova_per_id(corsa_id)
         if corsa is None:
             raise CorsaNonTrovataException(f"Corsa {corsa_id} non trovata")
+        # Finalizza eventuale pausa attiva prima di terminare
+        self._corsa_repo.finalizza_pausa(corsa_id)
         self._corsa_repo.aggiorna_stato(corsa_id, "terminata")
         self._mezzo_repo.aggiorna_stato(UUID(corsa["mezzo_id"]), "Disponibile")
+
+    # [IF-UT.05] — Mette in pausa la corsa corrente
+    def metti_in_pausa(self, corsa_id: UUID, utente_id: UUID) -> None:
+        corsa = self._corsa_repo.trova_per_id(corsa_id)
+        if corsa is None:
+            raise CorsaNonTrovataException(f"Corsa {corsa_id} non trovata")
+        if corsa["stato"] != "in_uso":
+            raise CorsaNonInUsaException("La corsa non è in stato in_uso")
+        self._corsa_repo.metti_in_pausa(corsa_id)
+        self._mezzo_repo.aggiorna_stato(UUID(corsa["mezzo_id"]), "In pausa")
+
+    # [IF-UT.05] — Riprende la corsa dalla pausa
+    def riprendi_corsa(self, corsa_id: UUID, utente_id: UUID) -> None:
+        corsa = self._corsa_repo.trova_per_id(corsa_id)
+        if corsa is None:
+            raise CorsaNonTrovataException(f"Corsa {corsa_id} non trovata")
+        if corsa["stato"] != "in_pausa":
+            raise CorsaNonInPausaException("La corsa non è in stato in_pausa")
+        self._corsa_repo.riprendi(corsa_id)
+        self._mezzo_repo.aggiorna_stato(UUID(corsa["mezzo_id"]), "In uso")
 
     # [IF-OP.11] CS-11 — Lista flotta per operatore
     def get_mezzi_flotta(self) -> list[dict]:
