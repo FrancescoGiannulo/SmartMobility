@@ -99,6 +99,7 @@ class SegnalazioneOut(BaseModel):
     descrizione: str
     stato: str
     created_at: str
+    nome_utente: str | None = None
 
 
 class SbloccoRequest(BaseModel):

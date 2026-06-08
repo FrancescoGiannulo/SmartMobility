@@ -98,6 +98,14 @@
   color: #1a1a2e;
 }
 
+.segn-op-utente {
+  font-size: 12px;
+  color: #4caf9a;
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: block;
+}
+
 .segn-op-descrizione-anteprima {
   font-size: 13px;
   color: #555;

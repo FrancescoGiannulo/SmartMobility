@@ -7,6 +7,7 @@ export interface Segnalazione {
   descrizione: string
   stato: 'aperta' | 'in_carico'
   created_at: string
+  nome_utente?: string
 }
 
 const TIPOLOGIE = [

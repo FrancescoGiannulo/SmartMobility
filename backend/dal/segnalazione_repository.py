@@ -42,45 +42,53 @@ class SegnalazioneRepository:
         ]
 
     # [IF-OP.08] Gestisce Segnalazione
-    def find_all(self) -> list[Segnalazione]:
+    def find_all(self) -> list[dict]:
         with Session(engine) as session:
             rows = session.execute(
                 text(
-                    "SELECT id, utente_id, tipologia, descrizione, stato, created_at "
-                    "FROM segnalazioni ORDER BY created_at DESC"
+                    "SELECT s.id, s.utente_id, s.tipologia, s.descrizione, s.stato, s.created_at, "
+                    "       u.nome || ' ' || u.cognome AS nome_utente "
+                    "FROM segnalazioni s "
+                    "LEFT JOIN utenti u ON u.id = s.utente_id "
+                    "ORDER BY s.created_at DESC"
                 )
             ).fetchall()
         return [
-            Segnalazione(
-                id=r.id,
-                utente_id=r.utente_id,
-                tipologia=r.tipologia,
-                descrizione=r.descrizione,
-                stato=r.stato,
-                created_at=r.created_at,
-            )
+            {
+                "id": r.id,
+                "utente_id": r.utente_id,
+                "tipologia": r.tipologia,
+                "descrizione": r.descrizione,
+                "stato": r.stato,
+                "created_at": r.created_at,
+                "nome_utente": r.nome_utente,
+            }
             for r in rows
         ]
 
-    def find_by_id(self, segnalazione_id: uuid.UUID) -> Segnalazione | None:
+    def find_by_id(self, segnalazione_id: uuid.UUID) -> dict | None:
         with Session(engine) as session:
             row = session.execute(
                 text(
-                    "SELECT id, utente_id, tipologia, descrizione, stato, created_at "
-                    "FROM segnalazioni WHERE id = :sid"
+                    "SELECT s.id, s.utente_id, s.tipologia, s.descrizione, s.stato, s.created_at, "
+                    "       u.nome || ' ' || u.cognome AS nome_utente "
+                    "FROM segnalazioni s "
+                    "LEFT JOIN utenti u ON u.id = s.utente_id "
+                    "WHERE s.id = :sid"
                 ),
                 {"sid": str(segnalazione_id)},
             ).fetchone()
         if not row:
             return None
-        return Segnalazione(
-            id=row.id,
-            utente_id=row.utente_id,
-            tipologia=row.tipologia,
-            descrizione=row.descrizione,
-            stato=row.stato,
-            created_at=row.created_at,
-        )
+        return {
+            "id": row.id,
+            "utente_id": row.utente_id,
+            "tipologia": row.tipologia,
+            "descrizione": row.descrizione,
+            "stato": row.stato,
+            "created_at": row.created_at,
+            "nome_utente": row.nome_utente,
+        }
 
     def aggiorna_stato(self, segnalazione_id: uuid.UUID, stato: StatoSegnalazione) -> bool:
         with Session(engine) as session:

@@ -225,12 +225,13 @@ class ServizioMobilita:
     def get_segnalazioni(self) -> list[dict]:
         return [
             {
-                "id": str(s.id),
-                "utente_id": str(s.utente_id),
-                "tipologia": s.tipologia,
-                "descrizione": s.descrizione,
-                "stato": s.stato,
-                "created_at": s.created_at.isoformat(),
+                "id": str(s["id"]),
+                "utente_id": str(s["utente_id"]),
+                "tipologia": s["tipologia"],
+                "descrizione": s["descrizione"],
+                "stato": s["stato"],
+                "created_at": s["created_at"].isoformat(),
+                "nome_utente": s["nome_utente"],
             }
             for s in self._segnalazione_repo.find_all()
         ]
@@ -241,12 +242,13 @@ class ServizioMobilita:
         if not s:
             raise SegnalazioneNonTrovata(f"Segnalazione {segnalazione_id} non trovata")
         return {
-            "id": str(s.id),
-            "utente_id": str(s.utente_id),
-            "tipologia": s.tipologia,
-            "descrizione": s.descrizione,
-            "stato": s.stato,
-            "created_at": s.created_at.isoformat(),
+            "id": str(s["id"]),
+            "utente_id": str(s["utente_id"]),
+            "tipologia": s["tipologia"],
+            "descrizione": s["descrizione"],
+            "stato": s["stato"],
+            "created_at": s["created_at"].isoformat(),
+            "nome_utente": s["nome_utente"],
         }
 
     # [IF-OP.08] Gestisce Segnalazione — presa in carico

@@ -112,6 +112,9 @@ export default function VistaSegnalazioniOperatore() {
                     {STATO_LABEL[s.stato] ?? s.stato}
                   </span>
                 </div>
+                {s.nome_utente && (
+                  <span className="segn-op-utente">👤 {s.nome_utente}</span>
+                )}
                 <p className="segn-op-descrizione-anteprima">
                   {s.descrizione.length > 80 ? s.descrizione.slice(0, 80) + '…' : s.descrizione}
                 </p>
@@ -125,6 +128,12 @@ export default function VistaSegnalazioniOperatore() {
         {selezionata && (
           <div className="segn-op-dettaglio">
             <h2 className="segn-op-det-titolo">Dettaglio</h2>
+            {selezionata.nome_utente && (
+              <div className="segn-op-det-row">
+                <span className="segn-op-det-label">Utente</span>
+                <span>{selezionata.nome_utente}</span>
+              </div>
+            )}
             <div className="segn-op-det-row">
               <span className="segn-op-det-label">Tipologia</span>
               <span>{selezionata.tipologia}</span>
