@@ -8,6 +8,8 @@ from dal.pagamento_repository import PagamentoRepository, MetodoNonTrovatoExcept
 from dal.tariffa_repository import TariffaRepository
 from dal.promozione_repository import PromozioneRepository
 from dal.abbonamento_repository import AbbonamentoRepository
+from dal.corsa_repository import CorsaRepository
+from dal.parametri_sistema_repository import ParametriSistemaRepository
 from model.offerta import Offerta
 from model.pagamento import StatoPagamento
 from providers.provider_pagamenti import ProviderPagamentiStub, DatiNonValidiException
@@ -217,17 +219,54 @@ class ServizioPricing:
         distanza_km: float,
         offerta_id: uuid.UUID | None = None,
     ) -> dict:
-        importo = self.calcola_importo(tipo_mezzo, durata_min, distanza_km)
+        # [CS-15 / IF-OP.09/14] Calcola addebito pausa e sottrai tempo di pausa dalla tariffa base
+        pausa_accumulata_sec: int = 0
+        addebito_pausa_extra = Decimal("0.00")
+        with Session(engine) as s:
+            corsa_repo = CorsaRepository(s)
+            pausa_accumulata_sec = corsa_repo.get_pausa_accumulata_sec(corsa_id)
+            parametri = ParametriSistemaRepository().get(s)
+            grazia_sec = int(parametri.durata_periodo_grazia_min) * 60
+            addebito_per_min = Decimal(str(parametri.addebito_pausa_min))
+
+        # Tempo pausa oltre il periodo di grazia → addebito_pausa_min al minuto
+        pausa_oltre_grazia_sec = max(0, pausa_accumulata_sec - grazia_sec)
+        if pausa_oltre_grazia_sec > 0 and addebito_per_min > 0:
+            pausa_oltre_grazia_min = Decimal(str(pausa_oltre_grazia_sec)) / Decimal("60")
+            addebito_pausa_extra = (pausa_oltre_grazia_min * addebito_per_min).quantize(Decimal("0.01"))
+
+        # Sottrai il tempo di pausa dalla durata addebitata a tariffa normale
+        pausa_accumulata_min = Decimal(str(pausa_accumulata_sec)) / Decimal("60")
+        effective_durata_min = max(Decimal("0"), Decimal(str(durata_min)) - pausa_accumulata_min)
+
+        importo = self.calcola_importo(tipo_mezzo, float(effective_durata_min), distanza_km)
+        importo += addebito_pausa_extra
 
         importo_pieno: Decimal | None = None
         offerta_applicata_id: uuid.UUID | None = None
 
-        # [IF-UT.16] Abbonamento attivo → corsa gratuita
+        # Verifica se la corsa è di gruppo (gruppo_corsa_id presente)
         with Session(engine) as s:
-            abbonamento = AbbonamentoRepository().get_attivo(utente_id, s)
-            if abbonamento and abbonamento.data_fine > datetime.now(timezone.utc):
-                importo_pieno = importo
-                importo = Decimal("0.00")
+            row = s.execute(
+                text("SELECT gruppo_corsa_id FROM corse WHERE id = :id"),
+                {"id": str(corsa_id)},
+            ).fetchone()
+            is_gruppo = row is not None and row.gruppo_corsa_id is not None
+
+        # [IF-UT.16] Abbonamento attivo → corsa gratuita solo se compatibile con tipo_mezzo
+        if not is_gruppo:
+            with Session(engine) as s:
+                abbonamento = AbbonamentoRepository().get_attivo(utente_id, s)
+                if abbonamento and abbonamento.data_fine > datetime.now(timezone.utc):
+                    offerta_abb = s.get(Offerta, abbonamento.offerta_id)
+                    mezzo_compatibile = (
+                        offerta_abb is None
+                        or offerta_abb.tipo_mezzo is None
+                        or offerta_abb.tipo_mezzo == tipo_mezzo
+                    )
+                    if mezzo_compatibile:
+                        importo_pieno = importo
+                        importo = Decimal("0.00")
 
         if importo > 0 and offerta_id is not None:
             with Session(engine) as s:

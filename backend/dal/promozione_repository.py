@@ -1,6 +1,6 @@
 from sqlalchemy import func
 from sqlalchemy.orm import Session
-from model.offerta import Offerta
+from model.offerta import Promozione
 
 
 class PromozioneRepository:
@@ -13,11 +13,10 @@ class PromozioneRepository:
         if self._db is None:
             raise RuntimeError("PromozioneRepository.getAttive richiede db iniettato")
         rows = (
-            self._db.query(Offerta)
+            self._db.query(Promozione)
             .filter(
-                Offerta.tipo == "promozione",
-                Offerta.stato == "attiva",
-                Offerta.data_scadenza >= func.now(),
+                Promozione.stato == "attiva",
+                Promozione.data_scadenza >= func.now(),
             )
             .all()
         )

@@ -12,6 +12,7 @@ import VistaSegnalazione from './views/utente/VistaSegnalazione'
 import VistaSegnalazioniOperatore from './views/operatore/VistaSegnalazioniOperatore'
 import VistaPagamenti from './views/utente/VistaPagamenti'
 import VistaTariffePromozioni from './views/operatore/VistaTariffePromozioni'
+import VistaMezziOperatore from './views/operatore/VistaMezziOperatore'
 import VistaParametriSistema from './views/operatore/VistaParametriSistema'
 import VistaAbbonamenti from './views/utente/VistaAbbonamenti'
 import { utenteCorrente, logout } from './services/AuthService'
@@ -167,6 +168,14 @@ function App() {
           element={
             <RoutaProtetta ruoloRichiesto="OP">
               <VistaImpostazioniRegole />
+            </RoutaProtetta>
+          }
+        />
+        <Route
+          path="/operatore/mezzi"
+          element={
+            <RoutaProtetta ruoloRichiesto="OP">
+              <VistaMezziOperatore />
             </RoutaProtetta>
           }
         />

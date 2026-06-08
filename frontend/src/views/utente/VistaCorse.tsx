@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getStoricoCorsa, type CorsaStorico } from '../../services/CorsaService'
+import { getStoricoCorsa, type Corsa } from '../../services/CorsaService'
 import './VistaCorse.css'
 
 const GLYPH: Record<string, string> = {
@@ -26,33 +26,33 @@ function formatDurata(min: number | null): string {
   return m >= 60 ? `${Math.floor(m / 60)}h ${m % 60}m` : `${m} min`
 }
 
-function renderSaldo(c: CorsaStorico): React.ReactNode {
-  if (c.importo === 0) return <span className="corse-tag-abbonamento">Abbonamento</span>
+function renderSaldo(c: Corsa): React.ReactNode {
+  if (c.costo_totale === 0) return <span className="corse-tag-abbonamento">Abbonamento</span>
   if (c.nome_offerta_applicata && c.importo_pieno != null)
     return (
       <span className="corse-saldo-promo">
         <s className="corse-saldo-pieno">€{c.importo_pieno.toFixed(2)}</s>
-        {' '}€{c.importo?.toFixed(2)}
+        {' '}€{c.costo_totale?.toFixed(2)}
         <span className="corse-tag-promo">{c.nome_offerta_applicata}</span>
       </span>
     )
-  if (c.importo != null) return <span>€{c.importo.toFixed(2)}</span>
+  if (c.costo_totale != null) return <span>€{c.costo_totale.toFixed(2)}</span>
   return null
 }
 
 type VoceStorico =
-  | { tipo: 'singola'; corsa: CorsaStorico }
-  | { tipo: 'gruppo'; gruppo_id: string; corse: CorsaStorico[] }
+  | { tipo: 'singola'; corsa: Corsa }
+  | { tipo: 'gruppo'; gruppo_id: string; corse: Corsa[] }
 
-function raggruppa(corse: CorsaStorico[]): VoceStorico[] {
+function raggruppa(corse: Corsa[]): VoceStorico[] {
   const voci: VoceStorico[] = []
-  const gruppiVisti = new Map<string, CorsaStorico[]>()
+  const gruppiVisti = new Map<string, Corsa[]>()
   for (const c of corse) {
     if (!c.gruppo_corsa_id) {
       voci.push({ tipo: 'singola', corsa: c })
     } else {
       if (!gruppiVisti.has(c.gruppo_corsa_id)) {
-        const gruppo: CorsaStorico[] = []
+        const gruppo: Corsa[] = []
         gruppiVisti.set(c.gruppo_corsa_id, gruppo)
         voci.push({ tipo: 'gruppo', gruppo_id: c.gruppo_corsa_id, corse: gruppo })
       }
@@ -67,7 +67,7 @@ export default function VistaCorse() {
   const navigate = useNavigate()
   const [voci, setVoci] = useState<VoceStorico[]>([])
   const [stato, setStato] = useState<'loading' | 'ok' | 'errore'>('loading')
-  const [popupGruppo, setPopupGruppo] = useState<CorsaStorico[] | null>(null)
+  const [popupGruppo, setPopupGruppo] = useState<Corsa[] | null>(null)
 
   const carica = () => {
     setStato('loading')
@@ -117,7 +117,7 @@ export default function VistaCorse() {
               v.tipo === 'singola' ? (
                 <li key={v.corsa.id} className="corse-item">
                   <div className="corse-item-riga">
-                    <span className="corse-item-icona">{GLYPH[v.corsa.tipo_mezzo] ?? '●'}</span>
+                    <span className="corse-item-icona">{GLYPH[v.corsa.tipo_mezzo ?? ''] ?? '●'}</span>
                     <div className="corse-item-info">
                       <span className="corse-item-codice">{v.corsa.codice_mezzo}</span>
                       <span className="corse-item-dettagli">
@@ -136,11 +136,16 @@ export default function VistaCorse() {
                 <li key={v.gruppo_id} className="corse-item">
                   <div className="corse-gruppo-header">
                     <span className="corse-gruppo-icone">
-                      {v.corse.map(c => GLYPH[c.tipo_mezzo] ?? '●').join('')}
+                      {v.corse.map(c => GLYPH[c.tipo_mezzo ?? ''] ?? '●').join('')}
                     </span>
                     <div className="corse-gruppo-info">
                       <span className="corse-gruppo-badge">Gruppo ({v.corse.length} mezzi)</span>
                       <span className="corse-gruppo-data">{formatDataOra(v.corse[0].inizio_at)}</span>
+                      {v.corse.some(c => c.costo_totale != null) && (
+                        <span className="corse-gruppo-totale">
+                          Totale: €{v.corse.reduce((s, c) => s + (c.costo_totale ?? 0), 0).toFixed(2)}
+                        </span>
+                      )}
                     </div>
                     <button
                       type="button"
@@ -175,7 +180,7 @@ export default function VistaCorse() {
             <ul className="popup-lista">
               {popupGruppo.map(c => (
                 <li key={c.id} className="popup-item">
-                  <span className="popup-item-icona">{GLYPH[c.tipo_mezzo] ?? '●'}</span>
+                  <span className="popup-item-icona">{GLYPH[c.tipo_mezzo ?? ''] ?? '●'}</span>
                   <div className="popup-item-info">
                     <span className="popup-item-codice">{c.codice_mezzo}</span>
                     <span className="popup-item-dettagli">

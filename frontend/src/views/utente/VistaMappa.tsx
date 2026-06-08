@@ -7,22 +7,21 @@ import {
 } from '@vis.gl/react-google-maps'
 import { getMezziUtente, getZoneUtente, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
 import { getTariffe, getPromozioni, type Tariffa, type Promozione } from '../../services/PaymentService'
-import { sbloccaMezzi } from '../../services/CorsaService'
 import {
-  prenotaMezzi,
+  sbloccaMezzi,
+  prenota,
   annullaPrenotazione,
   getPrenotazioniAttive,
-  isErroreParziale,
+  isRisultatiParziali,
   type Prenotazione,
-  type PrenotazioneAttiva,
-} from '../../services/PrenotazioneService'
+} from '../../services/CorsaService'
 import { logout, utenteCorrente } from '../../services/AuthService'
+import { getParametriUtente } from '../../services/ConfigurazioneService'
 import ZonaPoligono from '../../components/ZonaPoligono'
 import { COLORI_ZONA } from '../../utils/coloriZona'
 import './VistaMappa.css'
 
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
-const N_MAX = 3
 
 const COLORI_MEZZO: Record<string, { c1: string; c2: string }> = {
   monopattino: { c1: '#155e52', c2: '#2a7a6a' },
@@ -94,7 +93,7 @@ export default function VistaMappa() {
 
   // Prenotazioni
   const [prenotazioni, setPrenotazioni] = useState<Prenotazione[]>([])
-  const [prenotazioniAttive, setPrenotazioniAttive] = useState<PrenotazioneAttiva[]>([])
+  const [prenotazioniAttive, setPrenotazioniAttive] = useState<Prenotazione[]>([])
   const [mezziPrenotati, setMezziPrenotati] = useState<MezzoMappa[]>([])
   const [tempoRimanente, setTempoRimanente] = useState(0)
   const [nowMs, setNowMs] = useState(Date.now)
@@ -106,6 +105,9 @@ export default function VistaMappa() {
   const [annullaInCorso, setAnnullaInCorso] = useState(false)
   const [errorePanel, setErrorePanel] = useState('')
 
+
+  // [CS-15] Inizializzato a 1 (default DB); aggiornato subito dalla API
+  const [nMax, setNMax] = useState(1)
 
   // [IF-UT.05] [IF-UT.13] Stato tariffe/promozioni (sidebar)
   const [tariffe, setTariffe] = useState<Tariffa[] | null>(null)
@@ -125,8 +127,13 @@ export default function VistaMappa() {
         .then(setMezzi)
         .catch(() => setErrore('Impossibile caricare la mappa. Riprova.'))
 
+    // [CS-15] Ricarica i parametri con lo stesso intervallo dei mezzi
+    const aggiornaParametri = () =>
+      getParametriUtente().then(p => setNMax(p.max_mezzi_per_utente)).catch(() => {})
+
     aggiornaMezzi()
-    const t = setInterval(aggiornaMezzi, 10_000)
+    aggiornaParametri()
+    const t = setInterval(() => { aggiornaMezzi(); aggiornaParametri() }, 10_000)
     getPrenotazioniAttive().then(setPrenotazioniAttive).catch(() => {})
     return () => clearInterval(t)
   }, [])
@@ -213,15 +220,20 @@ export default function VistaMappa() {
   }, [])
 
   const toggleSelezione = useCallback((mezzo: MezzoMappa) => {
-    setSelezione(prev => {
-      const giaPresente = prev.some(m => m.id === mezzo.id)
-      if (giaPresente) return prev.filter(m => m.id !== mezzo.id)
-      if (prev.length >= N_MAX) return prev
-      return [...prev, mezzo]
-    })
+    const giaPresente = selezione.some(m => m.id === mezzo.id)
+    if (giaPresente) {
+      setSelezione(prev => prev.filter(m => m.id !== mezzo.id))
+    } else if (selezione.length >= nMax) {
+      // limite raggiunto, ignorato silenziosamente
+    } else if (selezione.length > 0 && selezione[0].tipo !== mezzo.tipo) {
+      setErrorePanel(`Puoi selezionare solo mezzi dello stesso tipo (${selezione[0].tipo}).`)
+      return
+    } else {
+      setSelezione(prev => [...prev, mezzo])
+    }
     setNonDisponibili([])
     setErrorePanel('')
-  }, [])
+  }, [selezione])
 
   // [IF-UT.02] CS-04
   const handleConfermaPrenotazione = useCallback(async () => {
@@ -230,7 +242,7 @@ export default function VistaMappa() {
     setErrorePanel('')
     setNonDisponibili([])
     try {
-      const prens = await prenotaMezzi(selezione.map(m => m.id))
+      const prens = await prenota(selezione.map(m => m.id))
       setMezziPrenotati([...selezione])
       setPrenotazioni(prens)
       setSelezione([])
@@ -238,7 +250,7 @@ export default function VistaMappa() {
       setMezzoAttivo(null)
       getPrenotazioniAttive().then(setPrenotazioniAttive).catch(() => {})
     } catch (err) {
-      if (isErroreParziale(err)) {
+      if (isRisultatiParziali(err)) {
         const ids = err.response.data.detail.non_disponibili
         setNonDisponibili(ids)
         setSelezione(prev => prev.filter(m => !ids.includes(m.id)))
@@ -301,6 +313,7 @@ export default function VistaMappa() {
             corsa_id: s.corsa_id,
             mezzo: targets.find(m => m.id === s.mezzo_id) ?? targets[0],
             inizio_at,
+            gruppo_corsa_id: s.gruppo_corsa_id ?? null,
           })),
         },
       })
@@ -328,7 +341,7 @@ export default function VistaMappa() {
       <div className="mappa-topbar">
         <h2>Smart Mobility</h2>
         {selezione.length > 0 && (
-          <span className="selezione-badge">{selezione.length}/{N_MAX}</span>
+          <span className="selezione-badge">{selezione.length}/{nMax}</span>
         )}
         <button
           type="button"
@@ -448,7 +461,7 @@ export default function VistaMappa() {
               {modalita !== null && selezione.length > 0 && (
                 <div className="selezione-sezione">
                   <p className="selezione-label">
-                    {modalita === 'prenota' ? 'Da prenotare' : 'Da sbloccare'} ({selezione.length}/{N_MAX}):
+                    {modalita === 'prenota' ? 'Da prenotare' : 'Da sbloccare'} ({selezione.length}/{nMax}):
                   </p>
                   <div className="selezione-chips">
                     {selezione.map(m => (
@@ -458,7 +471,7 @@ export default function VistaMappa() {
                       </span>
                     ))}
                   </div>
-                  {selezione.length < N_MAX && !errorePanel && (
+                  {selezione.length < nMax && !errorePanel && (
                     <p className="selezione-hint">Tocca altri mezzi sulla mappa per aggiungerli.</p>
                   )}
                 </div>
@@ -502,7 +515,7 @@ export default function VistaMappa() {
                         <button
                           className="btn-prenota"
                           onClick={() => toggleSelezione(mezzoAttivo)}
-                          disabled={selezione.length >= N_MAX}
+                          disabled={selezione.length >= nMax}
                         >
                           + Aggiungi
                         </button>
@@ -661,7 +674,7 @@ export default function VistaMappa() {
                       <li key={p.id} className="sidebar-pren-item">
                         <div className="sidebar-pren-row">
                           <span className="sidebar-pren-mezzo">
-                            {GLYPH_MEZZO[p.tipo] ?? '●'} {tipoLabel(p.tipo)} · {p.codice}
+                            {GLYPH_MEZZO[p.tipo ?? ''] ?? '●'} {tipoLabel(p.tipo ?? '')} · {p.codice}
                           </span>
                           <span className="sidebar-pren-timer">⏱ {formatTempoRimanente(secsLeft)}</span>
                         </div>
@@ -693,12 +706,12 @@ export default function VistaMappa() {
                       setSidebarAperta(false)
                       handleSblocca(prenotazioniAttive.map(p => ({
                         id: p.mezzo_id,
-                        codice: p.codice,
-                        tipo: p.tipo as MezzoMappa['tipo'],
+                        codice: p.codice ?? '',
+                        tipo: (p.tipo ?? 'monopattino') as MezzoMappa['tipo'],
                         stato: 'Prenotato',
                         lat: 0,
                         lng: 0,
-                        batteria: p.batteria,
+                        batteria: p.batteria ?? null,
                       })))
                     }}
                   >

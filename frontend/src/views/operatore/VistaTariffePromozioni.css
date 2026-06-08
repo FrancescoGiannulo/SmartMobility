@@ -98,6 +98,17 @@
   color: #64748b;
 }
 
+.offerta-tipo-mezzo-badge {
+  display: inline-block;
+  margin-left: 8px;
+  background: #e0f2fe;
+  color: #0369a1;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 99px;
+}
+
 .offerta-stato {
   font-size: 11px;
   font-weight: 700;
@@ -107,6 +118,17 @@
 .offerta-stato.attiva  { background: #dcfce7; color: #16a34a; }
 .offerta-stato.scaduta { background: #f1f5f9; color: #64748b; }
 .offerta-stato.bozza   { background: #fef9c3; color: #a16207; }
+
+.btn-modifica-offerta {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 8px;
+  transition: background 140ms;
+}
+.btn-modifica-offerta:hover { background: rgba(99, 102, 241, 0.08); }
 
 .btn-elimina-offerta {
   background: none;

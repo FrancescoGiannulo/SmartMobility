@@ -9,13 +9,15 @@ from controllers.schemas import (
     SbloccoRequest,
     MezzoSbloccabileOut,
     RisultatoSblocco,
-    CorsaStoricoOut,
+    Corsa,
 )
 from bll.servizio_mobilita import (
     ServizioMobilita,
     MezzoNonTrovatoException,
     MezzoNonDisponibileException,
     CorsaNonTrovataException,
+    CorsaNonInUsaException,
+    CorsaNonInPausaException,
 )
 from bll.servizio_prenotazione import (
     ServizioPrenotazione,
@@ -24,8 +26,20 @@ from bll.servizio_prenotazione import (
     LimiteMezziSuperatoException,
     PrenotazioneNonTrovataException,
 )
+from dal.parametri_sistema_repository import ParametriSistemaRepository
+from controllers.schemas import ParametriSistemaOut
 
 router = APIRouter(prefix="/utente", tags=["Utente - Corsa"])
+_parametri_repo = ParametriSistemaRepository()
+
+
+# [IF-UT.02 / CS-15] — Parametri di sistema visibili all'utente
+@router.get("/parametri", response_model=ParametriSistemaOut)
+def get_parametri_utente(
+    _=Depends(verify_token(["UT"])),
+    db=Depends(get_db),
+):
+    return _parametri_repo.get(db)
 
 
 # [IF-UT.02] CS-04 — Prenotazioni attive utente (recupero dopo refresh)
@@ -112,6 +126,38 @@ def sblocca_mezzi(
     )
 
 
+# [IF-UT.05] — Mette in pausa la corsa
+@router.post("/corse/{corsa_id}/pausa", status_code=200)
+def metti_in_pausa(
+    corsa_id: UUID,
+    utente=Depends(verify_token(["UT"])),
+    db=Depends(get_db),
+):
+    try:
+        ServizioMobilita(db).metti_in_pausa(corsa_id, UUID(str(utente["id"])))
+        return {"status": "in_pausa"}
+    except CorsaNonTrovataException:
+        raise HTTPException(status_code=404, detail="Corsa non trovata")
+    except CorsaNonInUsaException as e:
+        raise HTTPException(status_code=409, detail=str(e))
+
+
+# [IF-UT.05] — Riprende la corsa dalla pausa
+@router.post("/corse/{corsa_id}/riprendi", status_code=200)
+def riprendi_corsa(
+    corsa_id: UUID,
+    utente=Depends(verify_token(["UT"])),
+    db=Depends(get_db),
+):
+    try:
+        ServizioMobilita(db).riprendi_corsa(corsa_id, UUID(str(utente["id"])))
+        return {"status": "in_uso"}
+    except CorsaNonTrovataException:
+        raise HTTPException(status_code=404, detail="Corsa non trovata")
+    except CorsaNonInPausaException as e:
+        raise HTTPException(status_code=409, detail=str(e))
+
+
 # [IF-UT.06] CS-11 Termina Corsa (minimale)
 @router.post("/corse/{corsa_id}/termina", status_code=200)
 def termina_corsa(
@@ -126,8 +172,8 @@ def termina_corsa(
         raise HTTPException(status_code=404, detail="Corsa non trovata")
 
 
-# [IF-UT.14] CS-11 — Storico corse dell'utente
-@router.get("/corse/storico", response_model=list[CorsaStoricoOut])
+# [IF-UT.14] CS-11 — Storico corse dell'utente (statica prima della dinamica)
+@router.get("/corse/storico", response_model=list[Corsa])
 def get_storico_corse(
     utente=Depends(verify_token(["UT"])),
     db=Depends(get_db),
@@ -142,3 +188,16 @@ def get_storico_corse(
             status_code=503,
             detail="Storico non disponibile al momento. Riprova più tardi.",
         )
+
+
+# [IF-UT.07] CS-06 — Riepilogo corsa terminata
+@router.get("/corse/{corsa_id}/riepilogo", response_model=Corsa)
+def get_riepilogo_corsa(
+    corsa_id: UUID,
+    utente=Depends(verify_token(["UT"])),
+    db=Depends(get_db),
+):
+    try:
+        return ServizioMobilita(db).calcolaRiepilogoSessione(corsa_id, UUID(str(utente["id"])))
+    except CorsaNonTrovataException:
+        raise HTTPException(status_code=404, detail="Corsa non trovata")

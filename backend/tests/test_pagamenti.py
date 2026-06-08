@@ -1,7 +1,7 @@
 import uuid
 from decimal import Decimal
 from types import SimpleNamespace
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 import pytest
 from providers.provider_pagamenti import ProviderPagamentiStub, DatiNonValidiException
 from bll.servizio_pricing import (
@@ -134,6 +134,21 @@ def test_imposta_predefinito_non_trovato():
     repo.imposta_predefinito.assert_not_called()
 
 
+def _mock_pausa_e_parametri():
+    """Patch per isolare effettua_pagamento dal DB per i test unitari."""
+    mock_corsa_repo = MagicMock()
+    mock_corsa_repo.return_value.get_pausa_accumulata_sec.return_value = 0
+
+    mock_parametri = SimpleNamespace(
+        durata_periodo_grazia_min=5,
+        addebito_pausa_min=Decimal("0.00"),
+    )
+    mock_parametri_repo = MagicMock()
+    mock_parametri_repo.return_value.get.return_value = mock_parametri
+
+    return mock_corsa_repo, mock_parametri_repo
+
+
 # CS-12 — scenario base: effettua pagamento OK
 def test_effettua_pagamento_ok():
     repo = MagicMock()
@@ -144,11 +159,12 @@ def test_effettua_pagamento_ok():
     repo.trova_predefinito.return_value = metodo
     repo.crea_pagamento.return_value = pagamento
 
-    # tariffa mock via monkeypatch del metodo calcola_importo
-    svc = _servizio(repo=repo)
-    svc.calcola_importo = MagicMock(return_value=Decimal("5.00"))
-
-    result = svc.effettua_pagamento(corsa_id, uid, "bicicletta", 10.0, 2.0)
+    mock_cr, mock_pr = _mock_pausa_e_parametri()
+    with patch("bll.servizio_pricing.CorsaRepository", mock_cr), \
+         patch("bll.servizio_pricing.ParametriSistemaRepository", mock_pr):
+        svc = _servizio(repo=repo)
+        svc.calcola_importo = MagicMock(return_value=Decimal("5.00"))
+        result = svc.effettua_pagamento(corsa_id, uid, "bicicletta", 10.0, 2.0)
 
     assert result["stato"] == StatoPagamento.completato
     assert "transazione_id" in result
@@ -159,9 +175,12 @@ def test_effettua_pagamento_ok():
 def test_effettua_pagamento_nessun_predefinito():
     repo = MagicMock()
     repo.lista_metodi.return_value = []
-    svc = _servizio(repo=repo)
-    with pytest.raises(NessunMetodoPredefinito):
-        svc.effettua_pagamento(uuid.uuid4(), uuid.uuid4(), "bicicletta", 10.0, 2.0)
+    mock_cr, mock_pr = _mock_pausa_e_parametri()
+    with patch("bll.servizio_pricing.CorsaRepository", mock_cr), \
+         patch("bll.servizio_pricing.ParametriSistemaRepository", mock_pr):
+        svc = _servizio(repo=repo)
+        with pytest.raises(NessunMetodoPredefinito):
+            svc.effettua_pagamento(uuid.uuid4(), uuid.uuid4(), "bicicletta", 10.0, 2.0)
     repo.crea_pagamento.assert_not_called()
 
 
@@ -176,11 +195,13 @@ def test_effettua_pagamento_rifiutato():
     repo.crea_pagamento.return_value = pagamento
 
     provider = ProviderPagamentiStub(deve_fallire=True)
-    svc = ServizioPricing(repo=repo, provider=provider)
-    svc.calcola_importo = MagicMock(return_value=Decimal("5.00"))
-
-    with pytest.raises(PagamentoRifiutato):
-        svc.effettua_pagamento(corsa_id, uid, "bicicletta", 10.0, 2.0)
+    mock_cr, mock_pr = _mock_pausa_e_parametri()
+    with patch("bll.servizio_pricing.CorsaRepository", mock_cr), \
+         patch("bll.servizio_pricing.ParametriSistemaRepository", mock_pr):
+        svc = ServizioPricing(repo=repo, provider=provider)
+        svc.calcola_importo = MagicMock(return_value=Decimal("5.00"))
+        with pytest.raises(PagamentoRifiutato):
+            svc.effettua_pagamento(corsa_id, uid, "bicicletta", 10.0, 2.0)
 
     # il pagamento viene comunque registrato come rifiutato
     repo.crea_pagamento.assert_called_once()

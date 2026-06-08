@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr
-from typing import Any
+from typing import Any, Literal
 from uuid import UUID
 from decimal import Decimal
 
@@ -115,6 +115,7 @@ class MezzoSbloccabileOut(MezzoMappaOut):
 class RisultatoSbloccoItem(BaseModel):
     mezzo_id: str
     corsa_id: str
+    gruppo_corsa_id: str | None = None
 
 
 class RisultatoSblocco(BaseModel):
@@ -144,6 +145,19 @@ class CreaOffertaRequest(BaseModel):
     durata_giorni: int | None = None
     data_inizio: datetime | None = None
     data_scadenza: datetime | None = None
+    tipo_mezzo: str | None = None  # None = valido per tutti; 'monopattino'|'bicicletta'|'automobile'
+
+
+class ModificaOffertaRequest(BaseModel):
+    nome: str | None = None
+    descrizione: str | None = None
+    sconto_percentuale: Decimal | None = None
+    prezzo: Decimal | None = None
+    durata_giorni: int | None = None
+    data_inizio: datetime | None = None
+    data_scadenza: datetime | None = None
+    stato: str | None = None
+    tipo_mezzo: str | None = None
 
 
 class OffertaOut(BaseModel):
@@ -157,6 +171,7 @@ class OffertaOut(BaseModel):
     durata_giorni: int | None
     data_inizio: datetime | None
     data_scadenza: datetime | None
+    tipo_mezzo: str | None
     created_at: datetime
 
     model_config = {"from_attributes": True}
@@ -197,6 +212,24 @@ class PromozioneOut(BaseModel):
     data_fine: str
 
 
+class AggiungiMezzoRequest(BaseModel):
+    tipo: str       # "monopattino" | "bicicletta" | "automobile"
+    codice: str
+    lat: float
+    lng: float
+    stato: Literal["Disponibile", "In manutenzione", "Fuori servizio"] = "Disponibile"
+
+
+class MezzoFlottaOut(BaseModel):
+    id: UUID
+    codice: str
+    tipo: str
+    stato: str
+    lat: float | None
+    lng: float | None
+    batteria: int | None
+
+
 # [IF-UT.16] Abbonamento Utente
 class AbbonamentoOut(BaseModel):
     id: UUID
@@ -210,19 +243,21 @@ class AbbonamentoOut(BaseModel):
     model_config = {"from_attributes": True}
 
 
-# [IF-UT.14] CS-11 — Storico corse utente
-class CorsaStoricoOut(BaseModel):
+# [IF-UT.07/IF-UT.14] Corsa (classe del diagramma delle classi)
+class Corsa(BaseModel):
     id: UUID
-    tipo_mezzo: str
-    codice_mezzo: str
     inizio_at: datetime
-    fine_at: datetime | None
-    durata_min: float | None
-    distanza_km: float | None
-    gruppo_corsa_id: UUID | None
-    importo: float | None
-    importo_pieno: float | None
-    nome_offerta_applicata: str | None
+    fine_at: datetime | None = None
+    costo_totale: float | None = None    # costoTotale nel diagramma, da JOIN pagamenti
+    stato: str | None = None
+    distanza_km: float | None = None     # distanzaPercorsa nel diagramma
+    gruppo_corsa_id: UUID | None = None  # gruppoCorsaID nel diagramma
+    importo_pieno: float | None = None   # da pagamenti, per badge abbonamento/promo
+    # Campi aggiuntivi per lo storico (join con Mezzo)
+    tipo_mezzo: str | None = None
+    codice_mezzo: str | None = None
+    durata_min: float | None = None
+    nome_offerta_applicata: str | None = None
 
 
 # [CS-15] Parametri Numerici di Sistema

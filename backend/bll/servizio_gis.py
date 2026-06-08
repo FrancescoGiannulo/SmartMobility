@@ -52,3 +52,7 @@ class ServizioGIS:
 
     def elimina_zona(self, zona_id: UUID) -> None:
         self._zone_repo.elimina(zona_id)
+
+    # [IF-OP.11] Verifica che la posizione ricada in una zona operativa attiva
+    def verifica_posizione_in_zona_operativa(self, lat: float, lng: float) -> bool:
+        return self._zone_repo.punto_in_zona_operativa(lat, lng)

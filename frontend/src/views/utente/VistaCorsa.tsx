@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { terminaCorsa } from '../../services/CorsaService'
+import { terminaCorsa, mettiInPausa, riprendiCorsa, getRiepilogoCorsa, type Corsa } from '../../services/CorsaService'
 import type { MezzoMappa } from '../../services/MapService'
 import { effettuaPagamento, getMetodiPagamento, getPromozioni, type Promozione } from '../../services/PaymentService'
 import { getAbbonamentoCorrente } from '../../services/AbbonamentoService'
@@ -11,6 +11,7 @@ interface DatiCorsa {
   corsa_id: string
   mezzo: MezzoMappa
   inizio_at: string
+  gruppo_corsa_id?: string | null
 }
 
 type FasePagamento = 'idle' | 'termina' | 'scegli-promo' | 'paga' | 'ok' | 'rifiutato' | 'no-metodo' | 'errore'
@@ -70,6 +71,8 @@ export default function VistaCorsa() {
   const [corse, setCorse] = useState<DatiCorsa[]>(corseInit)
   const [selId, setSelId] = useState<string>(() => corseInit[0]?.mezzo.id ?? '')
   const [elapsed, setElapsed] = useState(0)
+  const [inPausa, setInPausa] = useState(false)
+  const [pausaLoading, setPausaLoading] = useState(false)
   const [fase, setFase] = useState<FasePagamento>('idle')
   const [schermataTermina, setSchermataTermina] = useState(false)
   const [daTerminare, setDaTerminare] = useState<Set<string>>(() => new Set(corseInit.map(c => c.corsa_id)))
@@ -77,6 +80,10 @@ export default function VistaCorsa() {
   const [errore, setErrore] = useState('')
   const [promozioniDisp, setPromozioniDisp] = useState<Promozione[]>([])
   const [corsePerPagamento, setCorsePerPagamento] = useState<DatiCorsa[]>([])
+  const [riepilogoData, setRiepilogoData] = useState<{
+    riepilogo: Corsa
+    daTerminate: DatiCorsa[]
+  } | null>(null)
 
   const selCorsa = corse.find(c => c.mezzo.id === selId) ?? corse[0]
 
@@ -101,30 +108,85 @@ export default function VistaCorsa() {
   const handlePaga = useCallback(async (da: DatiCorsa[], offertaId?: string) => {
     setFase('paga')
     try {
-      const res = await effettuaPagamento(da[0].corsa_id, da[0].mezzo?.tipo ?? '', elapsed / 60, 0, offertaId)
-      setImportoPagato(res.importo)
+      // [IF-UT.20] Per corse di gruppo ogni mezzo ha il proprio pagamento; somma i totali
+      let totaleImporto = 0
+      for (const corsa of da) {
+        const res = await effettuaPagamento(corsa.corsa_id, corsa.mezzo?.tipo ?? '', elapsed / 60, 0, offertaId)
+        totaleImporto += res.importo
+      }
+      setImportoPagato(totaleImporto)
+      // [IF-UT.07] Recupera riepilogo dal backend e mostralo all'utente
+      try {
+        const riepilogo = await getRiepilogoCorsa(da[0].corsa_id)
+        // Per gruppo: costo_totale del riepilogo è la somma di tutti i pagamenti
+        setRiepilogoData({
+          riepilogo: da.length > 1 ? { ...riepilogo, costo_totale: totaleImporto } : riepilogo,
+          daTerminate: da,
+        })
+      } catch {
+        // fallback: costruisci riepilogo minimo da dati client
+        setRiepilogoData({
+          riepilogo: {
+            id: da[0].corsa_id,
+            inizio_at: da[0].inizio_at,
+            fine_at: new Date().toISOString(),
+            costo_totale: totaleImporto,
+            stato: 'terminata',
+            distanza_km: 0,
+            gruppo_corsa_id: da[0].gruppo_corsa_id ?? null,
+            importo_pieno: null,
+            tipo_mezzo: da[0].mezzo?.tipo ?? null,
+            codice_mezzo: da[0].mezzo?.codice ?? null,
+            durata_min: null,
+            nome_offerta_applicata: null,
+          },
+          daTerminate: da,
+        })
+      }
       setFase('ok')
-      const idTerminati = new Set(da.map(c => c.corsa_id))
-      const rimanenti = corse.filter(c => !idTerminati.has(c.corsa_id))
-      setTimeout(() => {
-        if (rimanenti.length > 0) {
-          setCorse(rimanenti)
-          setDaTerminare(new Set(rimanenti.map(c => c.corsa_id)))
-          setSelId(rimanenti[0].mezzo.id)
-          setSchermataTermina(false)
-          setFase('idle')
-          setImportoPagato(null)
-        } else {
-          navigate('/utente/home', { replace: true })
-        }
-      }, 2000)
     } catch (err) {
       setSchermataTermina(false)
       if (axios.isAxiosError(err) && err.response?.status === 400) setFase('no-metodo')
       else if (axios.isAxiosError(err) && err.response?.status === 402) setFase('rifiutato')
       else setFase('errore')
     }
-  }, [corse, elapsed, navigate])
+  }, [elapsed, navigate])
+
+  // [IF-UT.07] Torna alla mappa dopo aver visualizzato il riepilogo
+  const handleTornaAllaMappa = useCallback(() => {
+    if (!riepilogoData) return
+    const idTerminati = new Set(riepilogoData.daTerminate.map(c => c.corsa_id))
+    const rimanenti = corse.filter(c => !idTerminati.has(c.corsa_id))
+    if (rimanenti.length > 0) {
+      setCorse(rimanenti)
+      setDaTerminare(new Set(rimanenti.map(c => c.corsa_id)))
+      setSelId(rimanenti[0].mezzo.id)
+      setSchermataTermina(false)
+      setFase('idle')
+      setImportoPagato(null)
+      setRiepilogoData(null)
+    } else {
+      navigate('/utente/home', { replace: true })
+    }
+  }, [corse, navigate, riepilogoData])
+
+  const handlePausa = useCallback(async () => {
+    if (!selCorsa) return
+    setPausaLoading(true)
+    try {
+      if (inPausa) {
+        await riprendiCorsa(selCorsa.corsa_id)
+        setInPausa(false)
+      } else {
+        await mettiInPausa(selCorsa.corsa_id)
+        setInPausa(true)
+      }
+    } catch {
+      // Ignora errori di rete: lo stato si risincronizza al prossimo aggiornamento
+    } finally {
+      setPausaLoading(false)
+    }
+  }, [selCorsa, inPausa])
 
   const handleTermina = useCallback(async () => {
     const da = corse.filter(c => daTerminare.has(c.corsa_id))
@@ -148,14 +210,21 @@ export default function VistaCorsa() {
       setFase('idle')
       return
     }
-    // [IF-UT.16] Abbonamento attivo → corsa gratuita, salta selezione promozioni
-    try {
-      const abb = await getAbbonamentoCorrente()
-      if (abb && new Date(abb.data_fine) > new Date()) {
+    // [IF-UT.16] Abbonamento attivo → corsa gratuita (non si applica alle corse di gruppo)
+    const isGruppo = da.some(c => c.gruppo_corsa_id)
+    if (!isGruppo) {
+      try {
+        const abb = await getAbbonamentoCorrente()
+        if (abb && new Date(abb.data_fine) > new Date()) {
+          await handlePaga(da)
+          return
+        }
+      } catch {
+        // Errore di rete: saltiamo le promozioni per non mostrarle a chi ha l'abbonamento attivo
         await handlePaga(da)
         return
       }
-    } catch { /* nessun abbonamento o errore rete: prosegui */ }
+    }
     // Dopo la chiusura controlla promozioni disponibili
     try {
       const r = await getPromozioni()
@@ -238,12 +307,69 @@ export default function VistaCorsa() {
         <span className="corsa-logo-testo"><strong>SMART</strong> MOBILITY</span>
       </div>
 
-      {/* Esiti */}
-      {fase === 'ok' && (
-        <div className="corsa-esito corsa-esito--ok">
-          <span className="corsa-esito-icona">✅</span>
-          <p className="corsa-esito-testo">Pagamento di <strong>€{importoPagato?.toFixed(2)}</strong> completato.</p>
-          <p className="corsa-esito-sub">Torno alla mappa...</p>
+      {/* [IF-UT.07] Riepilogo corsa */}
+      {fase === 'ok' && riepilogoData && (
+        <div className="riepilogo-overlay">
+          <div className="riepilogo-card">
+            <div className="riepilogo-header">
+              <span className="riepilogo-check">✅</span>
+              <h2 className="riepilogo-titolo">Riepilogo Corsa</h2>
+            </div>
+
+            {/* [IF-UT.07] mostraRiepilogo(Corsa) — dettaglio per ogni mezzo */}
+            {(() => {
+              const r = riepilogoData.riepilogo
+              const durataMin = r.fine_at
+                ? (new Date(r.fine_at).getTime() - new Date(r.inizio_at).getTime()) / 60000
+                : elapsed / 60
+              return (
+                <>
+                  <ul className="riepilogo-mezzi">
+                    {riepilogoData.daTerminate.map(c => (
+                      <li key={c.corsa_id} className="riepilogo-mezzo-item">
+                        <span className="riepilogo-glyph">{GLYPH[c.mezzo.tipo] ?? '●'}</span>
+                        <div className="riepilogo-mezzo-info">
+                          <span className="riepilogo-codice">{c.mezzo.codice}</span>
+                          <span className="riepilogo-dato">Durata: <strong>{formatTime(Math.round(durataMin * 60))}</strong></span>
+                          <span className="riepilogo-dato">Km: <strong>{(r.distanza_km ?? 0).toFixed(1)}</strong></span>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* [IF-UT.07] mostraTotaleComplessivo(Corsa[]) */}
+                  <div className="riepilogo-totale">
+                    {r.importo_pieno !== null && r.costo_totale === 0 ? (
+                      <>
+                        <span className="riepilogo-badge riepilogo-badge--abb">Abbonamento</span>
+                        <div className="riepilogo-prezzi">
+                          <span className="riepilogo-gratis">Gratuita</span>
+                          <span className="riepilogo-prezzo-barrato">€{r.importo_pieno!.toFixed(2)}</span>
+                        </div>
+                      </>
+                    ) : r.importo_pieno !== null ? (
+                      <>
+                        <span className="riepilogo-badge riepilogo-badge--promo">Promozione</span>
+                        <div className="riepilogo-prezzi">
+                          <span className="riepilogo-prezzo-finale">€{(r.costo_totale ?? 0).toFixed(2)}</span>
+                          <span className="riepilogo-prezzo-barrato">€{r.importo_pieno!.toFixed(2)}</span>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="riepilogo-prezzi">
+                        <span className="riepilogo-label-totale">Totale pagato</span>
+                        <span className="riepilogo-prezzo-finale">€{(r.costo_totale ?? importoPagato ?? 0).toFixed(2)}</span>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )
+            })()}
+
+            <button type="button" className="btn-corsa btn-termina" onClick={handleTornaAllaMappa}>
+              Torna alla mappa
+            </button>
+          </div>
         </div>
       )}
       {(fase === 'rifiutato' || fase === 'no-metodo' || fase === 'errore') && (
@@ -266,7 +392,14 @@ export default function VistaCorsa() {
           <button type="button" className="btn-corsa btn-termina" onClick={() => setSchermataTermina(true)}>
             TERMINA E PAGA
           </button>
-          <button type="button" className="btn-corsa btn-pausa" disabled>PAUSA CORSA</button>
+          <button
+            type="button"
+            className={`btn-corsa ${inPausa ? 'btn-riprendi' : 'btn-pausa'}`}
+            onClick={handlePausa}
+            disabled={pausaLoading}
+          >
+            {pausaLoading ? '...' : inPausa ? 'RIPRENDI CORSA' : 'PAUSA CORSA'}
+          </button>
         </div>
       )}
 
@@ -294,7 +427,7 @@ export default function VistaCorsa() {
             </ul>
             <button
               type="button"
-              className="btn-corsa btn-annulla-termina"
+              className="btn-corsa btn-salta-promo"
               onClick={() => handlePaga(corsePerPagamento)}
             >
               Salta, paga prezzo pieno

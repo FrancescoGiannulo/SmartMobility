@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from dal.abbonamento_repository import AbbonamentoRepository
 from model.abbonamento_utente import AbbonamentoUtente
-from model.offerta import Offerta
+from model.offerta import Abbonamento, Offerta
 
 
 class AbbonamentoException(Exception):
@@ -35,12 +35,12 @@ class ServizioAbbonamento:
         self._NessunMetodoPredefinito = NessunMetodoPredefinito
         self._PRifiutato = PRifiutato
 
-    def get_piani_disponibili(self, db: Session) -> list[Offerta]:
-        """Restituisce solo le offerte di tipo abbonamento con stato attiva."""
+    def get_piani_disponibili(self, db: Session) -> list[Abbonamento]:
+        """Restituisce solo i piani abbonamento attivi."""
         return (
-            db.query(Offerta)
-            .filter(Offerta.tipo == "abbonamento", Offerta.stato == "attiva")
-            .order_by(Offerta.created_at.desc())
+            db.query(Abbonamento)
+            .filter(Abbonamento.stato == "attiva")
+            .order_by(Abbonamento.created_at.desc())
             .all()
         )
 
@@ -83,8 +83,13 @@ class ServizioAbbonamento:
                 abbonamento_id=abbonamento.id,
             )
         except self._NessunMetodoPredefinito as e:
+            # Rollback: il pagamento non è andato a buon fine, annulla l'abbonamento creato
+            abbonamento.stato = "annullato"
+            db.commit()
             raise NessunMetodoPagamento(str(e))
         except self._PRifiutato as e:
+            abbonamento.stato = "annullato"
+            db.commit()
             raise PagamentoRifiutato(str(e))
 
         return abbonamento

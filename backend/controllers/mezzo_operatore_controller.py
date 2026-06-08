@@ -6,7 +6,15 @@ from middleware.auth_middleware import verify_token
 from bll.servizio_gis import ServizioGIS
 from bll.servizio_mobilita import ServizioMobilita, SegnalazioneNonTrovata
 from bll.servizio_pricing import ServizioPricing, TariffaGiaEsistente, TariffaNonTrovata
-from controllers.schemas import MezzoMappaOut, SegnalazioneOut, ConfigurazioneFineCorsaRequest, CreaTariffaRequest, TariffaResponse
+from controllers.schemas import (
+    MezzoMappaOut,
+    SegnalazioneOut,
+    ConfigurazioneFineCorsaRequest,
+    CreaTariffaRequest,
+    TariffaResponse,
+    AggiungiMezzoRequest,
+    MezzoFlottaOut,
+)
 
 router = APIRouter(prefix="/operatore", tags=["Flotta Operatore"])
 _pricing = ServizioPricing()
@@ -54,6 +62,69 @@ def prendi_in_carico(
         return ServizioMobilita(db).prendi_in_carico(segnalazione_id)
     except SegnalazioneNonTrovata as e:
         raise HTTPException(status_code=404, detail=str(e))
+
+
+# [IF-OP.11] CS-11 — Lista flotta operatore (tutti i mezzi non dismessi)
+@router.get("/mezzi", response_model=list[MezzoFlottaOut])
+def lista_mezzi_flotta(
+    _=Depends(verify_token(["OP"])),
+    db: Session = Depends(get_db),
+):
+    return ServizioMobilita(db).get_mezzi_flotta()
+
+
+# [IF-OP.11] CS-11 — Aggiunge nuovo mezzo alla flotta
+@router.post("/mezzi", response_model=MezzoFlottaOut, status_code=201)
+def aggiungi_mezzo(
+    body: AggiungiMezzoRequest,
+    _=Depends(verify_token(["OP"])),
+    db: Session = Depends(get_db),
+):
+    from bll.servizio_mobilita import IdentificativoEsistenteException, PosizioneNonOperativaException
+    tipi_validi = {"monopattino", "bicicletta", "automobile"}
+    if body.tipo not in tipi_validi:
+        raise HTTPException(status_code=422, detail=f"tipo non valido: {body.tipo}")
+    if not body.codice.strip():
+        raise HTTPException(status_code=422, detail="codice non può essere vuoto")
+    try:
+        return ServizioMobilita(db).aggiungi_mezzo(
+            body.tipo, body.codice.strip(), body.lat, body.lng, body.stato
+        )
+    except IdentificativoEsistenteException as e:
+        raise HTTPException(status_code=409, detail=str(e))
+    except PosizioneNonOperativaException as e:
+        raise HTTPException(status_code=422, detail=str(e))
+
+
+# [IF-OP.12] CS-12 — Verifica se un mezzo può essere dismesso (no side-effects)
+@router.post("/mezzi/{mezzo_id}/verifica")
+def verifica_dismissione(
+    mezzo_id: UUID,
+    _=Depends(verify_token(["OP"])),
+    db: Session = Depends(get_db),
+):
+    from bll.servizio_mobilita import MezzoNonTrovatoException
+    try:
+        return ServizioMobilita(db).verifica_dismissione(mezzo_id)
+    except MezzoNonTrovatoException as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+
+# [IF-OP.12] CS-12 — Dismette il mezzo (imposta stato "Dismesso")
+@router.delete("/mezzi/{mezzo_id}")
+def dismetti_mezzo(
+    mezzo_id: UUID,
+    _=Depends(verify_token(["OP"])),
+    db: Session = Depends(get_db),
+):
+    from bll.servizio_mobilita import MezzoNonTrovatoException, MezzoInMissioneException
+    try:
+        ServizioMobilita(db).dismetti_mezzo(mezzo_id)
+        return {"status": "ok"}
+    except MezzoNonTrovatoException as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except MezzoInMissioneException as e:
+        raise HTTPException(status_code=409, detail=str(e))
 
 
 # [IF-OP.13] CS-XX — Leggi configurazione regole fine corsa

@@ -2,8 +2,7 @@ from uuid import UUID
 from sqlalchemy.orm import Session
 from dal.mezzo_repository import MezzoRepository
 from dal.prenotazione_repository import PrenotazioneRepository
-
-N_MAX_DEFAULT = 3
+from dal.parametri_sistema_repository import ParametriSistemaRepository
 
 
 class MezzoNonTrovatoException(Exception):
@@ -32,11 +31,11 @@ class LimiteMezziSuperatoException(Exception):
 class ServizioPrenotazione:
     """Ciclo di vita delle prenotazioni: creazione, scadenza, cancellazione."""
 
-    DURATA_MINUTI = 30
-
     def __init__(self, db: Session) -> None:
         self._mezzo_repo = MezzoRepository(db)
         self._pren_repo = PrenotazioneRepository(db)
+        self._parametri_repo = ParametriSistemaRepository()
+        self._db = db
 
     # [IF-UT.02] CS-04 — prenotazioni attive dell'utente (per recupero dopo refresh)
     def get_prenotazioni_attive(self, utente_id: UUID) -> list[dict]:
@@ -54,8 +53,11 @@ class ServizioPrenotazione:
         self,
         mezzo_ids: list[UUID],
         utente_id: UUID,
-        n_max: int = N_MAX_DEFAULT,
     ) -> list[dict]:
+        parametri = self._parametri_repo.get(self._db)
+        durata_minuti = parametri.durata_max_prenotazione_min
+        n_max = parametri.max_mezzi_per_utente
+
         if not mezzo_ids:
             raise MezzoNonTrovatoException("Nessun mezzo specificato")
         if len(mezzo_ids) > n_max:
@@ -78,7 +80,7 @@ class ServizioPrenotazione:
             # msg22-25: aggiorna stato mezzo → "Prenotato"
             self._mezzo_repo.aggiorna_stato(mezzo_id, "Prenotato")
             # msg26-29: crea prenotazione
-            pren = self._pren_repo.crea(utente_id, mezzo_id, self.DURATA_MINUTI)
+            pren = self._pren_repo.crea(utente_id, mezzo_id, durata_minuti)
             prenotazioni.append(pren)
 
         return prenotazioni

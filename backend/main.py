@@ -5,7 +5,7 @@ from controllers.login_controller import router as login_router
 from controllers.utente_controller import router as auth_router, mappa_router, segnalazione_router, gdpr_router
 from controllers.mezzo_operatore_controller import router as mezzo_op_router
 from controllers.zona_operatore_controller import router as zona_op_router
-from controllers.prenotazione_utente_controller import router as corsa_router
+from controllers.corsa_controller import router as corsa_router
 from controllers.ap_controller import router as ap_router
 from controllers.pagamenti_controller import router as pagamenti_router
 from controllers.offerta_controller import router as offerta_router

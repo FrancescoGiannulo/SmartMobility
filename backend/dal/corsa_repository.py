@@ -21,7 +21,11 @@ class CorsaRepository:
                 yield s
 
     def trova_per_id(self, corsa_id: UUID) -> dict | None:
-        sql = text("SELECT id, utente_id, mezzo_id, stato FROM corse WHERE id = :id")
+        sql = text("""
+            SELECT id, utente_id, mezzo_id, stato,
+                   pausa_inizio_at, pausa_durata_accumulata_sec
+            FROM corse WHERE id = :id
+        """)
         with self._sessione() as s:
             row = s.execute(sql, {"id": str(corsa_id)}).fetchone()
         if row is None:
@@ -31,6 +35,8 @@ class CorsaRepository:
             "utente_id": str(row.utente_id),
             "mezzo_id": str(row.mezzo_id),
             "stato": row.stato,
+            "pausa_inizio_at": row.pausa_inizio_at,
+            "pausa_durata_accumulata_sec": row.pausa_durata_accumulata_sec,
         }
 
     def aggiorna_stato(self, corsa_id: UUID, nuovo_stato: str) -> None:
@@ -42,6 +48,49 @@ class CorsaRepository:
         with self._sessione() as s:
             s.execute(sql, {"stato": nuovo_stato, "id": str(corsa_id)})
             s.commit()
+
+    def metti_in_pausa(self, corsa_id: UUID) -> None:
+        sql = text("""
+            UPDATE corse
+            SET stato = 'in_pausa', pausa_inizio_at = NOW()
+            WHERE id = :id
+        """)
+        with self._sessione() as s:
+            s.execute(sql, {"id": str(corsa_id)})
+            s.commit()
+
+    def riprendi(self, corsa_id: UUID) -> None:
+        """Finalizza la pausa corrente accumulando i secondi, poi riporta la corsa in_uso."""
+        sql = text("""
+            UPDATE corse
+            SET stato = 'in_uso',
+                pausa_durata_accumulata_sec = pausa_durata_accumulata_sec
+                    + COALESCE(EXTRACT(EPOCH FROM (NOW() - pausa_inizio_at))::INTEGER, 0),
+                pausa_inizio_at = NULL
+            WHERE id = :id
+        """)
+        with self._sessione() as s:
+            s.execute(sql, {"id": str(corsa_id)})
+            s.commit()
+
+    def finalizza_pausa(self, corsa_id: UUID) -> None:
+        """Se c'è una pausa attiva, accumula i secondi prima di terminare."""
+        sql = text("""
+            UPDATE corse
+            SET pausa_durata_accumulata_sec = pausa_durata_accumulata_sec
+                    + COALESCE(EXTRACT(EPOCH FROM (NOW() - pausa_inizio_at))::INTEGER, 0),
+                pausa_inizio_at = NULL
+            WHERE id = :id AND pausa_inizio_at IS NOT NULL
+        """)
+        with self._sessione() as s:
+            s.execute(sql, {"id": str(corsa_id)})
+            s.commit()
+
+    def get_pausa_accumulata_sec(self, corsa_id: UUID) -> int:
+        sql = text("SELECT pausa_durata_accumulata_sec FROM corse WHERE id = :id")
+        with self._sessione() as s:
+            row = s.execute(sql, {"id": str(corsa_id)}).fetchone()
+        return row.pausa_durata_accumulata_sec if row else 0
 
     # [IF-UT.04] CS-05 — crea corsa all'avvio del mezzo
     def crea(
@@ -81,6 +130,33 @@ class CorsaRepository:
             "gruppo_corsa_id": str(row.gruppo_corsa_id) if row.gruppo_corsa_id else None,
         }
 
+    # [IF-UT.07] CS-06 — riepilogo corsa terminata, restituisce campi Corsa (diagramma classi)
+    def trova_riepilogo(self, corsa_id: UUID, utente_id: UUID) -> dict | None:
+        sql = text("""
+            SELECT
+                c.id, c.inizio_at, c.fine_at, c.stato,
+                c.distanza_km, c.gruppo_corsa_id,
+                p.importo    AS costo_totale,
+                p.importo_pieno
+            FROM corse c
+            LEFT JOIN pagamenti p ON p.corsa_id = c.id AND p.stato = 'completato'
+            WHERE c.id = :corsa_id AND c.utente_id = :utente_id
+        """)
+        with self._sessione() as s:
+            row = s.execute(sql, {"corsa_id": str(corsa_id), "utente_id": str(utente_id)}).fetchone()
+        if row is None:
+            return None
+        return {
+            "id": str(row.id),
+            "inizio_at": row.inizio_at,
+            "fine_at": row.fine_at,
+            "stato": row.stato,
+            "distanza_km": float(row.distanza_km) if row.distanza_km is not None else None,
+            "gruppo_corsa_id": row.gruppo_corsa_id,
+            "costo_totale": float(row.costo_totale) if row.costo_totale is not None else None,
+            "importo_pieno": float(row.importo_pieno) if row.importo_pieno is not None else None,
+        }
+
     # [IF-UT.14] CS-11 — storico corse per utente, ordinate per data decrescente
     def find_by_utente_order_by_data(self, utente_id: UUID) -> list[dict]:
         sql = text("""
@@ -116,7 +192,7 @@ class CorsaRepository:
                 "durata_min": float(r.durata_min) if r.durata_min is not None else None,
                 "distanza_km": float(r.distanza_km) if r.distanza_km is not None else None,
                 "gruppo_corsa_id": str(r.gruppo_corsa_id) if r.gruppo_corsa_id else None,
-                "importo": float(r.importo) if r.importo is not None else None,
+                "costo_totale": float(r.importo) if r.importo is not None else None,
                 "importo_pieno": float(r.importo_pieno) if r.importo_pieno is not None else None,
                 "nome_offerta_applicata": r.nome_offerta_applicata,
             }

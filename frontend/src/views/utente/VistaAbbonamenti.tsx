@@ -35,6 +35,9 @@ export default function VistaAbbonamenti() {
       setPianoSelezionato(null)
       setConferma(`Abbonamento "${pianoSelezionato.nome}" attivato con successo!`)
     } catch (err) {
+      // Aggiorna corrente anche in caso di errore: l'abbonamento potrebbe essere stato creato
+      // ma la risposta persa (es. errore di rete post-commit)
+      getAbbonamentoCorrente().then(setCorrente).catch(() => {})
       if (axios.isAxiosError(err)) {
         const detail = err.response?.data?.detail
         setErrore(typeof detail === 'string' ? detail : 'Impossibile completare la sottoscrizione.')
@@ -92,6 +95,9 @@ export default function VistaAbbonamenti() {
                     <div className="abb-piano-dettagli">
                       <span className="abb-piano-prezzo">€{Number(piano.prezzo).toFixed(2)}</span>
                       <span className="abb-piano-durata">{piano.durata_giorni} giorni</span>
+                      <span className="abb-piano-mezzo">
+                        {piano.tipo_mezzo ? piano.tipo_mezzo.charAt(0).toUpperCase() + piano.tipo_mezzo.slice(1) : 'Tutti i mezzi'}
+                      </span>
                     </div>
                   </div>
                 ))}
