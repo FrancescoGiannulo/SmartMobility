@@ -1,11 +1,15 @@
+from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends, Response
+from sqlalchemy.orm import Session
 from bll.servizio_utenti import (
     ServizioUtenti,
     EmailGiaRegistrataException,
     ServizioAuthException,
 )
-from controllers.schemas import RegistrazioneRequest, AuthResponse
+from bll.servizio_mobilita import ServizioMobilita, SegnalazioneNonTrovata
+from database import get_db
 from middleware.auth_middleware import verify_token
+from controllers.schemas import RegistrazioneRequest, AuthResponse, InviaSegnalazioneRequest, SegnalazioneOut
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 _servizio = ServizioUtenti()
@@ -58,6 +62,29 @@ def mappa_zone_utente(
     return ServizioGIS(db).ottieni_zone()
 
 
+# [IF-UT.15] Invia Segnalazione
+segnalazione_router = APIRouter(prefix="/utente", tags=["Segnalazioni"])
+
+
+@segnalazione_router.get("/segnalazioni", response_model=list[SegnalazioneOut])
+def mie_segnalazioni(
+    utente: dict = Depends(verify_token(["UT"])),
+    db: Session = Depends(get_db),
+):
+    return ServizioMobilita(db).get_mie_segnalazioni(UUID(str(utente["id"])))
+
+
+@segnalazione_router.post("/segnalazioni", response_model=SegnalazioneOut, status_code=201)
+def invia_segnalazione(
+    body: InviaSegnalazioneRequest,
+    utente: dict = Depends(verify_token(["UT"])),
+    db: Session = Depends(get_db),
+):
+    return ServizioMobilita(db).registra_segnalazione(
+        UUID(str(utente["id"])), body.tipologia, body.descrizione
+    )
+
+
 # ── GDPR ─────────────────────────────────────────────────────────────────────
 
 gdpr_router = APIRouter(prefix="/utente", tags=["GDPR"])
@@ -67,9 +94,7 @@ gdpr_router = APIRouter(prefix="/utente", tags=["GDPR"])
 def esporta_dati_personali(
     utente_corrente: dict = Depends(verify_token(["UT"])),
 ):
-    """[IIN-2 / GDPR art. 20] Esporta i dati personali dell'utente autenticato in formato JSON
-    (portabilità dei dati).
-    """
+    """[IIN-2 / GDPR art. 20] Esporta i dati personali dell'utente autenticato in formato JSON."""
     try:
         return _servizio.esporta_dati(utente_corrente["id"], utente_corrente["email"])
     except Exception as e:
@@ -80,9 +105,7 @@ def esporta_dati_personali(
 def cancella_account(
     utente_corrente: dict = Depends(verify_token(["UT"])),
 ):
-    """[IIN-2 / GDPR art. 17] Cancella definitivamente l'account e tutti i dati personali
-    dell'utente autenticato (diritto all'oblio).
-    """
+    """[IIN-2 / GDPR art. 17] Cancella definitivamente l'account (diritto all'oblio)."""
     try:
         _servizio.cancella_account(utente_corrente["id"])
     except ServizioAuthException as e:

@@ -1,0 +1,201 @@
+.vista-segn-op-wrap {
+  min-height: 100vh;
+  background: #f5f6fa;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px 20px 48px;
+}
+
+.btn-back-segn-op {
+  background: none;
+  border: none;
+  color: #4caf9a;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.segn-op-titolo {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 16px;
+}
+
+.segn-op-messaggio {
+  background: #e8f5e9;
+  border: 1px solid #a5d6a7;
+  border-radius: 8px;
+  color: #2e7d32;
+  font-size: 13px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  width: 100%;
+  max-width: 860px;
+}
+
+.segn-op-errore {
+  color: #e53935;
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+
+.segn-op-vuoto {
+  color: #888;
+  font-size: 14px;
+}
+
+/* Layout lista + dettaglio */
+.segn-op-layout {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 920px;
+  align-items: flex-start;
+}
+
+/* Lista */
+.segn-op-lista {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.segn-op-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  padding: 14px 16px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.15s;
+}
+
+.segn-op-card:hover {
+  border-color: #4caf9a;
+}
+
+.segn-op-card--attiva {
+  border-color: #4caf9a;
+}
+
+.segn-op-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.segn-op-tipologia {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.segn-op-descrizione-anteprima {
+  font-size: 13px;
+  color: #555;
+  margin: 0 0 6px;
+}
+
+.segn-op-data {
+  font-size: 11px;
+  color: #999;
+}
+
+/* Badge stato */
+.segn-badge {
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+.badge-aperta {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.badge-in-carico {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+/* Dettaglio */
+.segn-op-dettaglio {
+  width: 320px;
+  flex-shrink: 0;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.segn-op-det-titolo {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.segn-op-det-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #333;
+}
+
+.segn-op-det-label {
+  font-weight: 600;
+  color: #666;
+}
+
+.segn-op-det-descrizione {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: #333;
+}
+
+.segn-op-det-descrizione p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.btn-segn-op-primario {
+  background: #4caf9a;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.btn-segn-op-primario:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.segn-op-in-carico-msg {
+  font-size: 13px;
+  color: #2e7d32;
+  text-align: center;
+  margin: 0;
+}

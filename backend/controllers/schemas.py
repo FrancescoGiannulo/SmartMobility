@@ -86,6 +86,21 @@ class PrenotazioneRequest(BaseModel):
     mezzo_ids: list[UUID]
 
 
+# [IF-UT.15] Invia Segnalazione / [IF-OP.08] Gestisce Segnalazione
+class InviaSegnalazioneRequest(BaseModel):
+    tipologia: str
+    descrizione: str
+
+
+class SegnalazioneOut(BaseModel):
+    id: str
+    utente_id: str | None = None
+    tipologia: str
+    descrizione: str
+    stato: str
+    created_at: str
+
+
 class SbloccoRequest(BaseModel):
     mezzo_ids: list[UUID]
     lat: float | None = None

@@ -8,6 +8,8 @@ import VistaMappaOperatore from './views/operatore/VistaMappaOperatore'
 import VistaImpostazioniRegole from './views/operatore/VistaImpostazioniRegole'
 import VistaCorsa from './views/utente/VistaCorsa'
 import VistaDashboardAP from './views/amministrazione/VistaDashboardAP'
+import VistaSegnalazione from './views/utente/VistaSegnalazione'
+import VistaSegnalazioniOperatore from './views/operatore/VistaSegnalazioniOperatore'
 import VistaPagamenti from './views/utente/VistaPagamenti'
 import VistaTariffePromozioni from './views/operatore/VistaTariffePromozioni'
 import VistaMezziOperatore from './views/operatore/VistaMezziOperatore'
@@ -90,6 +92,14 @@ function App() {
           }
         />
         <Route
+          path="/utente/segnalazione"
+          element={
+            <RoutaProtetta ruoloRichiesto="UT">
+              <VistaSegnalazione />
+            </RoutaProtetta>
+          }
+        />
+        <Route
           path="/utente/pagamenti"
           element={
             <RoutaProtetta ruoloRichiesto="UT">
@@ -134,6 +144,14 @@ function App() {
           element={
             <RoutaProtetta ruoloRichiesto="OP">
               <VistaMappaOperatore />
+            </RoutaProtetta>
+          }
+        />
+        <Route
+          path="/operatore/segnalazioni"
+          element={
+            <RoutaProtetta ruoloRichiesto="OP">
+              <VistaSegnalazioniOperatore />
             </RoutaProtetta>
           }
         />

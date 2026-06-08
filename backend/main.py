@@ -2,7 +2,7 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from controllers.login_controller import router as login_router
-from controllers.utente_controller import router as auth_router, mappa_router, gdpr_router
+from controllers.utente_controller import router as auth_router, mappa_router, segnalazione_router, gdpr_router
 from controllers.mezzo_operatore_controller import router as mezzo_op_router
 from controllers.zona_operatore_controller import router as zona_op_router
 from controllers.corsa_controller import router as corsa_router
@@ -35,6 +35,7 @@ app.include_router(mezzo_op_router)
 app.include_router(zona_op_router)
 app.include_router(corsa_router)
 app.include_router(ap_router)
+app.include_router(segnalazione_router)
 app.include_router(pagamenti_router)
 app.include_router(offerta_router)
 app.include_router(regola_fine_corsa_router)

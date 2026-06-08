@@ -637,6 +637,14 @@ export default function VistaMappa() {
                 <span className="sidebar-voce__testo">Cronologia</span>
                 <span className="sidebar-voce__icona">📋</span>
               </button>
+
+              <button
+                className="sidebar-voce"
+                onClick={() => { setSidebarAperta(false); navigate('/utente/segnalazione') }}
+              >
+                <span className="sidebar-voce__testo">Invia segnalazione</span>
+                <span className="sidebar-voce__icona">⚠️</span>
+              </button>
             </nav>
 
             {/* Logout in fondo */}
