@@ -13,8 +13,6 @@ from controllers.schemas import (
 )
 from bll.servizio_mobilita import (
     ServizioMobilita,
-    MezzoNonTrovatoException,
-    MezzoNonDisponibileException,
     CorsaNonTrovataException,
     CorsaNonInUsaException,
     CorsaNonInPausaException,
@@ -126,16 +124,15 @@ def sblocca_mezzi(
     )
 
 
-# [IF-UT.05] — Mette in pausa la corsa
+# [IF-UT.10] SD SospendeCorsa — msg3: POST /utente/corse/{idCorsa}/pausa
 @router.post("/corse/{corsa_id}/pausa", status_code=200)
-def metti_in_pausa(
+def sospendi_corsa(
     corsa_id: UUID,
     utente=Depends(verify_token(["UT"])),
     db=Depends(get_db),
 ):
     try:
-        ServizioMobilita(db).metti_in_pausa(corsa_id, UUID(str(utente["id"])))
-        return {"status": "in_pausa"}
+        return ServizioMobilita(db).sospendiCorsa(corsa_id, UUID(str(utente["id"])))
     except CorsaNonTrovataException:
         raise HTTPException(status_code=404, detail="Corsa non trovata")
     except CorsaNonInUsaException as e:

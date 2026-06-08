@@ -357,6 +357,48 @@
   gap: 12px;
 }
 
+/* [IF-UT.10] mostraSospensione / mostraAddebitoPausa */
+.pausa-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 340px;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-top: 8px;
+}
+
+.pausa-banner--gratis {
+  background: #e0f2fe;
+  border: 1.5px solid #7dd3fc;
+}
+
+.pausa-banner--addebito {
+  background: #fff7ed;
+  border: 1.5px solid #fb923c;
+}
+
+.pausa-banner-icona {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.pausa-banner-testo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+}
+
+.pausa-banner-testo strong {
+  font-size: 13px;
+  color: #0f172a;
+}
+
+.pausa-banner--gratis .pausa-banner-testo span { color: #0369a1; }
+.pausa-banner--addebito .pausa-banner-testo span { color: #c2410c; }
+
 .promo-info {
   display: flex;
   flex-direction: column;

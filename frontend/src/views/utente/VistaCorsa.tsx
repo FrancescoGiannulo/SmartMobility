@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { terminaCorsa, mettiInPausa, riprendiCorsa, getRiepilogoCorsa, type Corsa } from '../../services/CorsaService'
+import { terminaCorsa, sospendiCorsa, riprendiCorsa, getRiepilogoCorsa, type Corsa, type RispostaSospensione } from '../../services/CorsaService'
 import type { MezzoMappa } from '../../services/MapService'
 import { effettuaPagamento, getMetodiPagamento, getPromozioni, type Promozione } from '../../services/PaymentService'
 import { getAbbonamentoCorrente } from '../../services/AbbonamentoService'
@@ -73,6 +73,8 @@ export default function VistaCorsa() {
   const [elapsed, setElapsed] = useState(0)
   const [inPausa, setInPausa] = useState(false)
   const [pausaLoading, setPausaLoading] = useState(false)
+  const [pausaInfo, setPausaInfo] = useState<RispostaSospensione | null>(null)
+  const [graziaResiduaSec, setGraziaResiduaSec] = useState<number | null>(null)
   const [fase, setFase] = useState<FasePagamento>('idle')
   const [schermataTermina, setSchermataTermina] = useState(false)
   const [daTerminare, setDaTerminare] = useState<Set<string>>(() => new Set(corseInit.map(c => c.corsa_id)))
@@ -95,6 +97,13 @@ export default function VistaCorsa() {
     const t = setInterval(tick, 1000)
     return () => clearInterval(t)
   }, [corse])
+
+  // [IF-UT.10] Countdown grace period durante la pausa (msg16: mostraSospensione)
+  useEffect(() => {
+    if (!inPausa || graziaResiduaSec === null || graziaResiduaSec <= 0) return
+    const t = setInterval(() => setGraziaResiduaSec(prev => (prev !== null && prev > 0) ? prev - 1 : 0), 1000)
+    return () => clearInterval(t)
+  }, [inPausa, graziaResiduaSec])
 
   const toggleTermina = (corsaId: string) => {
     setDaTerminare(prev => {
@@ -177,9 +186,14 @@ export default function VistaCorsa() {
       if (inPausa) {
         await riprendiCorsa(selCorsa.corsa_id)
         setInPausa(false)
+        setPausaInfo(null)
+        setGraziaResiduaSec(null)
       } else {
-        await mettiInPausa(selCorsa.corsa_id)
+        // [IF-UT.10] msg2: sospendiCorsa(idCorsa) → msg16: mostraSospensione(tempoGratuitoResiduo, politicaAddebito)
+        const risposta = await sospendiCorsa(selCorsa.corsa_id)
         setInPausa(true)
+        setPausaInfo(risposta)
+        setGraziaResiduaSec(risposta.tempo_gratuito_residuo_sec)
       }
     } catch {
       // Ignora errori di rete: lo stato si risincronizza al prossimo aggiornamento
@@ -400,6 +414,31 @@ export default function VistaCorsa() {
           >
             {pausaLoading ? '...' : inPausa ? 'RIPRENDI CORSA' : 'PAUSA CORSA'}
           </button>
+        </div>
+      )}
+
+      {/* [IF-UT.10] msg16: mostraSospensione(tempoGratuitoResiduo, politicaAddebito) */}
+      {inPausa && pausaInfo && (
+        <div className={`pausa-banner ${pausaInfo.periodo_grazia_scaduto || graziaResiduaSec === 0 ? 'pausa-banner--addebito' : 'pausa-banner--gratis'}`}>
+          {(pausaInfo.periodo_grazia_scaduto || graziaResiduaSec === 0) ? (
+            /* A9: mostraAddebitoPausa() */
+            <>
+              <span className="pausa-banner-icona">⚠️</span>
+              <div className="pausa-banner-testo">
+                <strong>Periodo gratuito terminato</strong>
+                <span>Addebito in corso: €{pausaInfo.addebito_pausa_min.toFixed(2)}/min</span>
+              </div>
+            </>
+          ) : (
+            /* Pausa gratuita: mostra countdown */
+            <>
+              <span className="pausa-banner-icona">⏸</span>
+              <div className="pausa-banner-testo">
+                <strong>Corsa in pausa</strong>
+                <span>Tempo gratuito residuo: {formatTime(graziaResiduaSec ?? 0)}</span>
+              </div>
+            </>
+          )}
         </div>
       )}
 

@@ -260,15 +260,34 @@ class ServizioMobilita:
             raise SegnalazioneNonTrovata(f"Segnalazione {segnalazione_id} non trovata")
         return self.get_dettaglio_segnalazione(segnalazione_id)
 
-    # [IF-UT.05] — Mette in pausa la corsa corrente
-    def metti_in_pausa(self, corsa_id: UUID, utente_id: UUID) -> None:
+    # [IF-UT.10] SD SospendeCorsa — msg4: sospendiCorsa(idCorsa)
+    def sospendiCorsa(self, corsa_id: UUID, utente_id: UUID) -> dict:
         corsa = self._corsa_repo.trova_per_id(corsa_id)
         if corsa is None:
             raise CorsaNonTrovataException(f"Corsa {corsa_id} non trovata")
         if corsa["stato"] != "in_uso":
             raise CorsaNonInUsaException("La corsa non è in stato in_uso")
-        self._corsa_repo.metti_in_pausa(corsa_id)
+        # msg5: bloccaMezzo() → msg6: save(this)
         self._mezzo_repo.aggiorna_stato(UUID(corsa["mezzo_id"]), "In pausa")
+        # msg9: registraInizioPausa(timestamp) → msg10: save(this)
+        self._corsa_repo.metti_in_pausa(corsa_id)
+        # Calcola tempoGratuitoResiduo e politicaAddebito (msg16)
+        parametri = self._parametri_repo.get(self._db)
+        grazia_sec = parametri.durata_periodo_grazia_min * 60
+        pausa_accumulata = corsa["pausa_durata_accumulata_sec"]
+        tempo_gratuito_residuo_sec = max(0, grazia_sec - pausa_accumulata)
+        # opt [periodo di grazia scaduto]: A1 rilevaPausaScaduta()
+        periodo_grazia_scaduto = self._rilevaPausaScaduta(pausa_accumulata, grazia_sec)
+        return {
+            "stato": "in_pausa",
+            "tempo_gratuito_residuo_sec": tempo_gratuito_residuo_sec,
+            "addebito_pausa_min": float(parametri.addebito_pausa_min),
+            "periodo_grazia_scaduto": periodo_grazia_scaduto,
+        }
+
+    # A1: rilevaPausaScaduta() — self-call ServizioMobilità
+    def _rilevaPausaScaduta(self, pausa_accumulata_sec: int, grazia_sec: int) -> bool:
+        return pausa_accumulata_sec >= grazia_sec
 
     # [IF-UT.05] — Riprende la corsa dalla pausa
     def riprendi_corsa(self, corsa_id: UUID, utente_id: UUID) -> None:
