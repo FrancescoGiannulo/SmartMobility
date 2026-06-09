@@ -5,10 +5,9 @@ from bll.servizio_utenti import (
     EmailGiaRegistrataException,
     ServizioAuthException,
 )
-from bll.servizio_gis import ServizioGIS
 from database import get_db
 from middleware.auth_middleware import verify_token
-from controllers.schemas import RegistrazioneRequest, AuthResponse, MezzoMappaOut, ZonaOut
+from controllers.schemas import RegistrazioneRequest, AuthResponse
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 _servizio = ServizioUtenti()
@@ -33,27 +32,6 @@ def registra(body: RegistrazioneRequest):
         raise HTTPException(status_code=409, detail=str(e))
     except ServizioAuthException as e:
         raise HTTPException(status_code=502, detail=str(e))
-
-mappa_router = APIRouter(prefix="/utente", tags=["Mappa Utente"])
-
-
-@mappa_router.get("/mappa/mezzi", response_model=list[MezzoMappaOut])
-def mappa_mezzi_utente(
-    _=Depends(verify_token(["UT"])),
-    db: Session = Depends(get_db),
-):
-    """[CS-01 / UT.01] Mezzi disponibili per la Mappa Utente."""
-    return ServizioGIS(db).ottieni_mezzi_utente()
-
-
-@mappa_router.get("/mappa/zone", response_model=list[ZonaOut])
-def mappa_zone_utente(
-    _=Depends(verify_token(["UT"])),
-    db: Session = Depends(get_db),
-):
-    """[CS-01 / UT.01] Zone attive per la Mappa Utente."""
-    return ServizioGIS(db).ottieni_zone()
-
 
 # ── GDPR ─────────────────────────────────────────────────────────────────────
 

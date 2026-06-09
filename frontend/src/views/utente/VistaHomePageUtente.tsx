@@ -19,7 +19,7 @@ import { logout, utenteCorrente } from '../../services/AuthService'
 import { getParametriUtente } from '../../services/ConfigurazioneService'
 import ZonaPoligono from '../../components/ZonaPoligono'
 import { COLORI_ZONA } from '../../utils/coloriZona'
-import './VistaMappa.css'
+import './VistaHomePageUtente.css'
 
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
 
@@ -75,7 +75,7 @@ function formatTempoRimanente(sec: number): string {
 
 type SidebarSezione = 'menu' | 'prenotazioni' | 'tariffe' | 'promozioni'
 
-export default function VistaMappa() {
+export default function VistaHomePageUtente() {
   const navigate = useNavigate()
   const [mezzi, setMezzi] = useState<MezzoMappa[]>([])
   const [zone, setZone] = useState<ZonaMappa[]>([])

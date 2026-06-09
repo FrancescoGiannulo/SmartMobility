@@ -3,7 +3,7 @@ import { APIProvider } from '@vis.gl/react-google-maps'
 import VistaLogin from './views/auth/VistaLogin'
 import CallbackOAuth from './views/auth/CallbackOAuth'
 import RoutaProtetta from './components/RoutaProtetta'
-import VistaMappa from './views/utente/VistaMappa'
+import VistaHomePageUtente from './views/utente/VistaHomePageUtente'
 import VistaMappaOperatore from './views/operatore/VistaMappaOperatore'
 import VistaImpostazioniRegole from './views/operatore/VistaImpostazioniRegole'
 import VistaCorsa from './views/utente/VistaCorsa'
@@ -79,7 +79,7 @@ function App() {
           path="/utente/home"
           element={
             <RoutaProtetta ruoloRichiesto="UT">
-              <VistaMappa />
+              <VistaHomePageUtente />
             </RoutaProtetta>
           }
         />
