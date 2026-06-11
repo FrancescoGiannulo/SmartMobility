@@ -82,7 +82,9 @@
       "Bash(sed -i '' 's/endArrow=none;dashed=1;html=1;strokeColor=#000000;strokeWidth=1;/endArrow=none;dashed=1;html=1;strokeColor=#ffffff;strokeWidth=1;/g' /Users/francescogiannulo/Documents/TestDrawIOClaude/output/francesco/sequence_*.drawio && grep -h \"actor_ln\\\\|actor_line\" /Users/francescogiannulo/Documents/TestDrawIOClaude/output/francesco/sequence_*.drawio)",
       "Bash(sed -i '' 's/endArrow=none;dashed=1;html=1;strokeColor=#ffffff;strokeWidth=1;/endArrow=none;dashed=1;html=1;strokeColor=#000000;strokeWidth=1;/g' /Users/francescogiannulo/Documents/TestDrawIOClaude/output/francesco/sequence_*.drawio && echo \"done\")",
       "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility checkout -b chore/update-settings-local)",
-      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility add .claude/settings.local.json)"
+      "Bash(git -C /Users/francescogiannulo/Documents/SmartMobility add .claude/settings.local.json)",
+      "Bash(ls \"C:\\\\Users\\\\camil_53qael0\\\\SmartMobility\\\\docs\")",
+      "Bash(cp \"C:\\\\Users\\\\camil_53qael0\\\\SmartMobility\\\\.claude\\\\worktrees\\\\competent-curie-634755\\\\docs\\\\pattern.md\" \"C:\\\\Users\\\\camil_53qael0\\\\SmartMobility\\\\docs\\\\pattern.md\")"
     ],
     "additionalDirectories": [
       "/Users/francescogiannulo/.claude/skills",
