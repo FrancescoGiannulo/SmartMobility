@@ -1,4 +1,3 @@
-from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends, Response
 from sqlalchemy.orm import Session
 from bll.servizio_utenti import (
@@ -6,10 +5,9 @@ from bll.servizio_utenti import (
     EmailGiaRegistrataException,
     ServizioAuthException,
 )
-from bll.servizio_mobilita import ServizioMobilita, SegnalazioneNonTrovata
 from database import get_db
 from middleware.auth_middleware import verify_token
-from controllers.schemas import RegistrazioneRequest, AuthResponse, InviaSegnalazioneRequest, SegnalazioneOut
+from controllers.schemas import RegistrazioneRequest, AuthResponse
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 _servizio = ServizioUtenti()
@@ -34,56 +32,6 @@ def registra(body: RegistrazioneRequest):
         raise HTTPException(status_code=409, detail=str(e))
     except ServizioAuthException as e:
         raise HTTPException(status_code=502, detail=str(e))
-
-
-from sqlalchemy.orm import Session
-from database import get_db
-from bll.servizio_gis import ServizioGIS
-from controllers.schemas import MezzoMappaOut, ZonaOut
-
-mappa_router = APIRouter(prefix="/utente", tags=["Mappa Utente"])
-
-
-@mappa_router.get("/mappa/mezzi", response_model=list[MezzoMappaOut])
-def mappa_mezzi_utente(
-    _=Depends(verify_token(["UT"])),
-    db: Session = Depends(get_db),
-):
-    """[CS-01 / UT.01] Mezzi disponibili per la Mappa Utente."""
-    return ServizioGIS(db).ottieni_mezzi_utente()
-
-
-@mappa_router.get("/mappa/zone", response_model=list[ZonaOut])
-def mappa_zone_utente(
-    _=Depends(verify_token(["UT"])),
-    db: Session = Depends(get_db),
-):
-    """[CS-01 / UT.01] Zone attive per la Mappa Utente."""
-    return ServizioGIS(db).ottieni_zone()
-
-
-# [IF-UT.15] Invia Segnalazione
-segnalazione_router = APIRouter(prefix="/utente", tags=["Segnalazioni"])
-
-
-@segnalazione_router.get("/segnalazioni", response_model=list[SegnalazioneOut])
-def mie_segnalazioni(
-    utente: dict = Depends(verify_token(["UT"])),
-    db: Session = Depends(get_db),
-):
-    return ServizioMobilita(db).get_mie_segnalazioni(UUID(str(utente["id"])))
-
-
-@segnalazione_router.post("/segnalazioni", response_model=SegnalazioneOut, status_code=201)
-def invia_segnalazione(
-    body: InviaSegnalazioneRequest,
-    utente: dict = Depends(verify_token(["UT"])),
-    db: Session = Depends(get_db),
-):
-    return ServizioMobilita(db).registra_segnalazione(
-        UUID(str(utente["id"])), body.tipologia, body.descrizione
-    )
-
 
 # ── GDPR ─────────────────────────────────────────────────────────────────────
 

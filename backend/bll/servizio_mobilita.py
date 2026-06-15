@@ -5,12 +5,12 @@ from sqlalchemy.orm import Session
 from dal.mezzo_repository import MezzoRepository
 from dal.corsa_repository import CorsaRepository
 from dal.prenotazione_repository import PrenotazioneRepository
-from dal.segnalazione_repository import SegnalazioneRepository, SegnalazioneNonTrovataException
-from model.segnalazione import StatoSegnalazione
 from dal.zona_repository import ZonaRepository
 from dal.regola_fine_corsa_repository import RegoleFineCorsaRawRepository
 from dal.operatore_repository import OperatoreRepository
 from dal.parametri_sistema_repository import ParametriSistemaRepository
+from dal.segnalazione_repository import SegnalazioneRepository
+from model.segnalazione import StatoSegnalazione
 from bll.servizio_gis import ServizioGIS
 
 
@@ -25,9 +25,6 @@ class MezzoNonDisponibileException(Exception):
 class CorsaNonTrovataException(Exception):
     pass
 
-
-class SegnalazioneNonTrovata(Exception):
-    pass
 
 
 class CorsaNonInUsaException(Exception):
@@ -50,6 +47,10 @@ class MezzoInMissioneException(Exception):
     pass
 
 
+class SegnalazioneNonTrovata(Exception):
+    pass
+
+
 class ServizioMobilita:
 
     def __init__(self, db: Session) -> None:
@@ -57,11 +58,11 @@ class ServizioMobilita:
         self._mezzo_repo = MezzoRepository(db)
         self._corsa_repo = CorsaRepository(db)
         self._pren_repo = PrenotazioneRepository(db)
-        self._segnalazione_repo = SegnalazioneRepository()
         self._zona_repo = ZonaRepository(db)
         self._regola_repo = RegoleFineCorsaRawRepository(db)
         self._op_repo = OperatoreRepository(db)
         self._parametri_repo = ParametriSistemaRepository()
+        self._segnalazione_repo = SegnalazioneRepository()
 
     # [IF-UT.04] CS-05 — lista mezzi sbloccabili (msg4 diagramma di sequenza)
     def get_mezzi_sbloccabili(

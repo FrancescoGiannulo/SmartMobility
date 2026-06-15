@@ -1,0 +1,302 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="SD - UT-01 Visualizza Mappa Utente" id="corrected-ut01">
+    <mxGraphModel dx="700" dy="400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="frame" value="sd Visualizza Mappa Utente [UT-01]" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry x="20" y="30" width="1280" height="1150" as="geometry"/>
+        </mxCell>
+
+        <!-- Actor -->
+        <mxCell id="actor" value=":Utente" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="45" y="60" width="30" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="actor-dl" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="130" as="sourcePoint"/>
+            <mxPoint x="60" y="1160" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- VistaHomePageUtente -->
+        <mxCell id="ll-vista" value="&lt;h3&gt;&lt;u&gt;:VistaHomePageUtente&lt;/u&gt;&lt;/h3&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="110" y="60" width="160" height="1090" as="geometry"/>
+        </mxCell>
+        <mxCell id="ll-vista-a" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll-vista" vertex="1">
+          <mxGeometry x="75" y="115" width="10" height="940" as="geometry"/>
+        </mxCell>
+
+        <!-- MapService -->
+        <mxCell id="ll-map" value="&lt;h3&gt;&lt;u&gt;:MapService&lt;/u&gt;&lt;/h3&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="310" y="60" width="120" height="1090" as="geometry"/>
+        </mxCell>
+        <mxCell id="ll-map-a" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll-map" vertex="1">
+          <mxGeometry x="55" y="155" width="10" height="825" as="geometry"/>
+        </mxCell>
+
+        <!-- HomePageUtenteController -->
+        <mxCell id="ll-ctrl" value="&lt;h3&gt;&lt;u&gt;:HomePageUtenteController&lt;/u&gt;&lt;/h3&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="460" y="60" width="190" height="1090" as="geometry"/>
+        </mxCell>
+        <mxCell id="ll-ctrl-a" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll-ctrl" vertex="1">
+          <mxGeometry x="90" y="200" width="10" height="780" as="geometry"/>
+        </mxCell>
+
+        <!-- ServizioGIS -->
+        <mxCell id="ll-gis" value="&lt;h3&gt;&lt;u&gt;:ServizioGIS&lt;/u&gt;&lt;/h3&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="690" y="60" width="130" height="1090" as="geometry"/>
+        </mxCell>
+        <mxCell id="ll-gis-a" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll-gis" vertex="1">
+          <mxGeometry x="60" y="240" width="10" height="660" as="geometry"/>
+        </mxCell>
+
+        <!-- MezzoRepository -->
+        <mxCell id="ll-mrepo" value="&lt;h3&gt;&lt;u&gt;:MezzoRepository&lt;/u&gt;&lt;/h3&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="865" y="60" width="140" height="1090" as="geometry"/>
+        </mxCell>
+        <mxCell id="ll-mrepo-a" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll-mrepo" vertex="1">
+          <mxGeometry x="65" y="275" width="10" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- ZonaRepository -->
+        <mxCell id="ll-zrepo" value="&lt;h3&gt;&lt;u&gt;:ZonaRepository&lt;/u&gt;&lt;/h3&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="1050" y="60" width="130" height="1090" as="geometry"/>
+        </mxCell>
+        <mxCell id="ll-zrepo-a" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll-zrepo" vertex="1">
+          <mxGeometry x="60" y="405" width="10" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- OUTER ALT: posizioneDisponibile / posizioneNonDisponibile -->
+        <mxCell id="alt-outer" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry x="120" y="190" width="1170" height="940" as="geometry"/>
+        </mxCell>
+        <mxCell id="alt-outer-l1" value="&lt;h3&gt;[posizioneDisponibile]&lt;/h3&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="alt-outer" vertex="1">
+          <mxGeometry x="5" y="18" width="175" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="alt-outer-sep" value="" style="line;strokeWidth=1;dashed=1;fillColor=none;strokeColor=#000000;" parent="alt-outer" vertex="1">
+          <mxGeometry y="840" width="1170" height="10" as="geometry"/>
+        </mxCell>
+        <mxCell id="alt-outer-l2" value="&lt;h3&gt;[posizioneNonDisponibile]&lt;/h3&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="alt-outer" vertex="1">
+          <mxGeometry x="5" y="830" width="215" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- INNER ALT: ServizioGIS disponibile / erroreServizioGIS -->
+        <mxCell id="alt-inner" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry x="135" y="230" width="1140" height="790" as="geometry"/>
+        </mxCell>
+        <mxCell id="alt-inner-l1" value="&lt;h3&gt;[ServizioGIS disponibile]&lt;/h3&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="alt-inner" vertex="1">
+          <mxGeometry x="5" y="18" width="200" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="alt-inner-sep" value="" style="line;strokeWidth=1;dashed=1;fillColor=none;strokeColor=#000000;" parent="alt-inner" vertex="1">
+          <mxGeometry y="640" width="1140" height="10" as="geometry"/>
+        </mxCell>
+        <mxCell id="alt-inner-l2" value="&lt;h3&gt;[erroreServizioGIS]&lt;/h3&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="alt-inner" vertex="1">
+          <mxGeometry x="5" y="630" width="160" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ══════════ MESSAGES ══════════ -->
+
+        <!-- 1: apriMappa() -->
+        <mxCell id="m1" value="1: apriMappa()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="175" as="sourcePoint"/>
+            <mxPoint x="195" y="175" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 2: getMezziUtente() -->
+        <mxCell id="m2" value="2: getMezziUtente()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="195" y="265" as="sourcePoint"/>
+            <mxPoint x="370" y="265" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 3: GET /utente/mappa/mezzi -->
+        <mxCell id="m3" value="3: GET /utente/mappa/mezzi" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="305" as="sourcePoint"/>
+            <mxPoint x="555" y="305" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 4: ottieni_mezzi_utente() -->
+        <mxCell id="m4" value="4: ottieni_mezzi_utente()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="555" y="345" as="sourcePoint"/>
+            <mxPoint x="755" y="345" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 5: lista_per_mappa(solo_disponibili=True) -->
+        <mxCell id="m5" value="5: lista_per_mappa(solo_disponibili=True)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="755" y="385" as="sourcePoint"/>
+            <mxPoint x="935" y="385" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 6: :listaMezzi return from MezzoRepo -->
+        <mxCell id="m6" value="6: :listaMezzi" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="935" y="420" as="sourcePoint"/>
+            <mxPoint x="755" y="420" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 7: :listaMezzi GIS → Ctrl -->
+        <mxCell id="m7" value="7: :listaMezzi" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="755" y="455" as="sourcePoint"/>
+            <mxPoint x="555" y="455" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 8: 200 OK + listaMezzi -->
+        <mxCell id="m8" value="8: 200 OK + listaMezzi" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="555" y="490" as="sourcePoint"/>
+            <mxPoint x="370" y="490" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 9: :listaMezzi MapSvc → Vista -->
+        <mxCell id="m9" value="9: :listaMezzi" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="525" as="sourcePoint"/>
+            <mxPoint x="195" y="525" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 10: getZoneUtente() -->
+        <mxCell id="m10" value="10: getZoneUtente()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="195" y="565" as="sourcePoint"/>
+            <mxPoint x="370" y="565" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 11: GET /utente/mappa/zone -->
+        <mxCell id="m11" value="11: GET /utente/mappa/zone" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="600" as="sourcePoint"/>
+            <mxPoint x="555" y="600" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 12: ottieni_zone() -->
+        <mxCell id="m12" value="12: ottieni_zone()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="555" y="640" as="sourcePoint"/>
+            <mxPoint x="755" y="640" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 13: lista_zone(solo_attive=True) -->
+        <mxCell id="m13" value="13: lista_zone(solo_attive=True)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="755" y="680" as="sourcePoint"/>
+            <mxPoint x="1115" y="680" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 14: :listaZone from ZonaRepo -->
+        <mxCell id="m14" value="14: :listaZone" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1115" y="715" as="sourcePoint"/>
+            <mxPoint x="755" y="715" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 15: :listaZone GIS → Ctrl -->
+        <mxCell id="m15" value="15: :listaZone" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="755" y="750" as="sourcePoint"/>
+            <mxPoint x="555" y="750" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 16: 200 OK + listaZone -->
+        <mxCell id="m16" value="16: 200 OK + listaZone" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="555" y="785" as="sourcePoint"/>
+            <mxPoint x="370" y="785" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 17: :listaZone MapSvc → Vista -->
+        <mxCell id="m17" value="17: :listaZone" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="820" as="sourcePoint"/>
+            <mxPoint x="195" y="820" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 18: mostraMappa() → Utente -->
+        <mxCell id="m18" value="18: mostraMappa(listaMezzi, listaZone)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="195" y="860" as="sourcePoint"/>
+            <mxPoint x="60" y="860" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ERROR BRANCH -->
+        <!-- 19: ServizioGISException GIS → Ctrl -->
+        <mxCell id="m19" value="19: ServizioGISException" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="755" y="920" as="sourcePoint"/>
+            <mxPoint x="555" y="920" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 20: 500 Internal Server Error -->
+        <mxCell id="m20" value="20: 500 Internal Server Error" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="555" y="955" as="sourcePoint"/>
+            <mxPoint x="370" y="955" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 21: :errore MapSvc → Vista -->
+        <mxCell id="m21" value="21: :errore" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="985" as="sourcePoint"/>
+            <mxPoint x="195" y="985" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 22: Impossibile caricare la mappa -->
+        <mxCell id="m22" value="22: Impossibile caricare la mappa" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="195" y="1015" as="sourcePoint"/>
+            <mxPoint x="60" y="1015" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- GEOLOCATION NOT AVAILABLE -->
+        <!-- 23: impostaCentroDefault (self-message) -->
+        <mxCell id="m23" value="23: impostaCentroDefault()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="195" y="1065" as="sourcePoint"/>
+            <mxPoint x="195" y="1090" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="225" y="1065"/>
+              <mxPoint x="225" y="1090"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 24: mostraMappa(centroDefault) senza marker posizione -->
+        <mxCell id="m24" value="24: mostraMappa(centroDefault) [senza marker posizione]" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="195" y="1115" as="sourcePoint"/>
+            <mxPoint x="60" y="1115" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
