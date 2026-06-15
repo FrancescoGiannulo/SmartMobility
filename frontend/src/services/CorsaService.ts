@@ -106,9 +106,17 @@ export const terminaCorsa = async (corsaId: string): Promise<void> => {
   await api.post(`/utente/corse/${corsaId}/termina`)
 }
 
-// [IF-UT.05] Mette in pausa la corsa
-export const mettiInPausa = async (corsaId: string): Promise<void> => {
-  await api.post(`/utente/corse/${corsaId}/pausa`)
+// [IF-UT.10] SD SospendeCorsa — msg2: sospendiCorsa(idCorsa)
+export interface RispostaSospensione {
+  stato: string
+  tempo_gratuito_residuo_sec: number
+  addebito_pausa_min: number
+  periodo_grazia_scaduto: boolean
+}
+
+export const sospendiCorsa = async (corsaId: string): Promise<RispostaSospensione> => {
+  const r = await api.put<RispostaSospensione>(`/utente/corse/${corsaId}/pausa`)
+  return r.data
 }
 
 // [IF-UT.05] Riprende la corsa dalla pausa

@@ -49,11 +49,22 @@ class CorsaRepository:
             s.execute(sql, {"stato": nuovo_stato, "id": str(corsa_id)})
             s.commit()
 
-    def metti_in_pausa(self, corsa_id: UUID) -> None:
+    def registraInizioPausa(self, corsa_id: UUID) -> None:
         sql = text("""
             UPDATE corse
             SET stato = 'in_pausa', pausa_inizio_at = NOW()
             WHERE id = :id
+        """)
+        with self._sessione() as s:
+            s.execute(sql, {"id": str(corsa_id)})
+            s.commit()
+
+    def applicaAddebitoPausa(self, corsa_id: UUID) -> None:
+        """[IF-UT.10] opt [periodo di grazia scaduto] — msgA2/A3: resetta pausa_inizio_at al momento esatto in cui parte il periodo a pagamento."""
+        sql = text("""
+            UPDATE corse
+            SET pausa_inizio_at = NOW()
+            WHERE id = :id AND stato = 'in_pausa'
         """)
         with self._sessione() as s:
             s.execute(sql, {"id": str(corsa_id)})

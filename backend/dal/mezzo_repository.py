@@ -144,6 +144,10 @@ class MezzoRepository:
             s.execute(sql, {"stato": nuovo_stato, "id": str(mezzo_id)})
             s.commit()
 
+    def bloccaMezzo(self, mezzo_id: UUID) -> None:
+        """[IF-UT.10] SD SospendeCorsa — msg5/6: bloccaMezzo() + save(this)."""
+        self.aggiorna_stato(mezzo_id, "In pausa")
+
     def esiste_by_codice(self, codice: str) -> bool:
         sql = text("SELECT EXISTS(SELECT 1 FROM mezzi WHERE codice = :codice) AS esiste")
         with self._sessione() as s:
