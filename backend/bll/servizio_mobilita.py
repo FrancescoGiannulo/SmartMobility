@@ -268,7 +268,7 @@ class ServizioMobilita:
         if corsa["stato"] != "in_uso":
             raise CorsaNonInUsaException("La corsa non è in stato in_uso")
         # msg5: bloccaMezzo() → msg6: save(this)
-        self._mezzo_repo.aggiorna_stato(UUID(corsa["mezzo_id"]), "In pausa")
+        self._mezzo_repo.bloccaMezzo(UUID(corsa["mezzo_id"]))
         # msg9: registraInizioPausa(timestamp) → msg10: save(this)
         self._corsa_repo.registraInizioPausa(corsa_id)
         # Calcola tempoGratuitoResiduo e politicaAddebito (msg16)
