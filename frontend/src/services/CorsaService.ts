@@ -115,7 +115,7 @@ export interface RispostaSospensione {
 }
 
 export const sospendiCorsa = async (corsaId: string): Promise<RispostaSospensione> => {
-  const r = await api.post<RispostaSospensione>(`/utente/corse/${corsaId}/pausa`)
+  const r = await api.put<RispostaSospensione>(`/utente/corse/${corsaId}/pausa`)
   return r.data
 }
 

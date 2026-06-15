@@ -270,14 +270,16 @@ class ServizioMobilita:
         # msg5: bloccaMezzo() → msg6: save(this)
         self._mezzo_repo.aggiorna_stato(UUID(corsa["mezzo_id"]), "In pausa")
         # msg9: registraInizioPausa(timestamp) → msg10: save(this)
-        self._corsa_repo.metti_in_pausa(corsa_id)
+        self._corsa_repo.registraInizioPausa(corsa_id)
         # Calcola tempoGratuitoResiduo e politicaAddebito (msg16)
         parametri = self._parametri_repo.get(self._db)
         grazia_sec = parametri.durata_periodo_grazia_min * 60
         pausa_accumulata = corsa["pausa_durata_accumulata_sec"]
         tempo_gratuito_residuo_sec = max(0, grazia_sec - pausa_accumulata)
-        # opt [periodo di grazia scaduto]: A1 rilevaPausaScaduta()
+        # opt [periodo di grazia scaduto]: A1 rilevaPausaScaduta() — A2 applicaAddebitoPausa()
         periodo_grazia_scaduto = self._rilevaPausaScaduta(pausa_accumulata, grazia_sec)
+        if periodo_grazia_scaduto:
+            self._corsa_repo.applicaAddebitoPausa(corsa_id)
         return {
             "stato": "in_pausa",
             "tempo_gratuito_residuo_sec": tempo_gratuito_residuo_sec,

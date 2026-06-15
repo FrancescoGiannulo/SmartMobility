@@ -124,8 +124,8 @@ def sblocca_mezzi(
     )
 
 
-# [IF-UT.10] SD SospendeCorsa — msg3: POST /utente/corse/{idCorsa}/pausa
-@router.post("/corse/{corsa_id}/pausa", status_code=200)
+# [IF-UT.10] SD SospendeCorsa — msg3: PUT /utente/corse/{idCorsa}/pausa
+@router.put("/corse/{corsa_id}/pausa", status_code=200)
 def sospendi_corsa(
     corsa_id: UUID,
     utente=Depends(verify_token(["UT"])),
