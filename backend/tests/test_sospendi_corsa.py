@@ -1,7 +1,6 @@
 """[IF-UT.10] Test sospendi corsa — scenario base e scenari alternativi."""
 import pytest
 import uuid as _uuid
-from datetime import datetime, timezone
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
@@ -27,6 +26,7 @@ def _inserisci_mezzo(db, codice: str, stato: str) -> str:
         """), {"codice": codice, "stato": stato, "lat": LAT_TEST, "lng": LNG_TEST})
         s.commit()
         row = s.execute(text("SELECT id FROM mezzi WHERE codice = :c"), {"c": codice}).fetchone()
+    assert row is not None
     return str(row.id)
 
 
@@ -41,6 +41,7 @@ def _crea_corsa(db, utente_id: str, mezzo_id: str, stato: str = "in_uso", pausa_
             text("SELECT id FROM corse WHERE utente_id = :uid AND mezzo_id = :mid ORDER BY inizio_at DESC LIMIT 1"),
             {"uid": utente_id, "mid": mezzo_id},
         ).fetchone()
+    assert row is not None
     return str(row.id)
 
 
@@ -53,7 +54,6 @@ def _elimina_mezzo(db, mezzo_id: str) -> None:
 
 
 def _get_parametri_grazia(db) -> int:
-    """Restituisce durata_periodo_grazia_min dai parametri di sistema."""
     with Session(db) as s:
         row = s.execute(text("SELECT durata_periodo_grazia_min FROM parametri_sistema LIMIT 1")).fetchone()
     return int(row.durata_periodo_grazia_min) if row else 5
@@ -83,8 +83,8 @@ class TestSospendiCorsa:
             with Session(db) as s:
                 mezzo_row = s.execute(text("SELECT stato FROM mezzi WHERE id = :id"), {"id": mezzo_id}).fetchone()
                 corsa_row = s.execute(text("SELECT stato FROM corse WHERE id = :id"), {"id": corsa_id}).fetchone()
-            assert mezzo_row.stato == "In pausa"
-            assert corsa_row.stato == "in_pausa"
+            assert mezzo_row is not None and mezzo_row.stato == "In pausa"
+            assert corsa_row is not None and corsa_row.stato == "in_pausa"
         finally:
             _elimina_mezzo(db, mezzo_id)
 
@@ -146,14 +146,14 @@ class TestSospendiCorsaHTTP:
 
     @pytest.mark.integration
     def test_sospendi_200_con_grace_period(self, db, utente_test):
-        """HTTP scenario base: POST /utente/corse/{id}/pausa → 200 con grace period."""
+        """HTTP scenario base: PUT /utente/corse/{id}/pausa → 200 con grace period."""
         import httpx
         codice = f"TEST-HTTP-SC-{_uuid.uuid4().hex[:6]}"
         mezzo_id = _inserisci_mezzo(db, codice, "In uso")
         corsa_id = _crea_corsa(db, str(utente_test["id"]), mezzo_id)
         try:
             token = _login(utente_test["email"], utente_test["password"])
-            r = httpx.post(
+            r = httpx.put(
                 f"http://localhost:8000/utente/corse/{corsa_id}/pausa",
                 headers={"Authorization": f"Bearer {token}"},
             )
@@ -167,18 +167,18 @@ class TestSospendiCorsaHTTP:
             _elimina_mezzo(db, mezzo_id)
 
     @pytest.mark.integration
-    def test_sospendi_non_autenticato_401(self, db):
+    def test_sospendi_non_autenticato_401(self):
         """Scenario alternativo: senza token → 401."""
         import httpx
-        r = httpx.post(f"http://localhost:8000/utente/corse/{_uuid.uuid4()}/pausa")
+        r = httpx.put(f"http://localhost:8000/utente/corse/{_uuid.uuid4()}/pausa")
         assert r.status_code == 401
 
     @pytest.mark.integration
-    def test_sospendi_corsa_inesistente_404(self, db, utente_test):
+    def test_sospendi_corsa_inesistente_404(self, utente_test):
         """Scenario alternativo: corsa non trovata → 404."""
         import httpx
         token = _login(utente_test["email"], utente_test["password"])
-        r = httpx.post(
+        r = httpx.put(
             f"http://localhost:8000/utente/corse/{_uuid.uuid4()}/pausa",
             headers={"Authorization": f"Bearer {token}"},
         )
@@ -193,7 +193,7 @@ class TestSospendiCorsaHTTP:
         corsa_id = _crea_corsa(db, str(utente_test["id"]), mezzo_id, stato="terminata")
         try:
             token = _login(utente_test["email"], utente_test["password"])
-            r = httpx.post(
+            r = httpx.put(
                 f"http://localhost:8000/utente/corse/{corsa_id}/pausa",
                 headers={"Authorization": f"Bearer {token}"},
             )
