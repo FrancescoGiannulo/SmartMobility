@@ -1,114 +1,107 @@
-# Architettura dei Componenti - SMART MOBILITY SYSTEM
+# Architettura dei Componenti — SMART MOBILITY
 
-Questo documento descrive l'architettura a componenti del sistema "Smart Mobility System". Il diagramma illustra un'architettura distribuita basata su livelli (Client, Server, Database, Servizi Esterni) e definisce chiaramente i raggruppamenti logici dei moduli e le interfacce di comunicazione tra di essi.
+> Descrizione testuale di `Diagramma Componenti.drawio` (fonte di verità: il file `.drawio`).
+> Architettura distribuita Client-Server a livelli (MVC a tre tier). I componenti white-box
+> mostrano le classi contenute; i sistemi esterni sono black-box. I componenti comunicano
+> solo tramite interfacce (provided = lollipop / required = dipendenza «use»).
 
----
-
-## 1. Livello CLIENT (Frontend)
-Il componente Client racchiude l'intera applicazione lato utente/operatore ed è strutturato internamente in due sottolivelli principali: la UI (View) e i servizi di integrazione (API Service Layer).
-
-### 1.1 Sottocomponente: View
-Contiene i moduli visivi (interfacce grafiche) suddivisi per tipologia di attore:
-* **VistaAuth:** Contiene `VistaLogin`.
-* **VistaUtente:** Contiene `VistaHomePageUtente`, `VistaPrenotazioneMezzo`, `VistaCronologiaCorse`, `VistaCorsa`.
-* **VistaOperatore:** Contiene `VistaDashboardOperatore`, `VistaTariffePromozioni`, `VistaMezziOperatore`, `VistaImpostazioniRegole`, `VistaDefinisciZona`.
-* **VistaAmministrazionePubblica:** Contiene `VistaDashboardAP`.
-
-### 1.2 Sottocomponente: API Service Layer (Frontend)
-Gestisce la logica lato client e le chiamate di rete verso il backend.
-* **Moduli Servizio Client:** `ApiService`, `AuthService`, `MapService`, `PaymentService`, `ZonaService`, `FlottaService`, `ReportService`, `PrenotazioneService`.
+Il diagramma è organizzato in **due macro-componenti** `«component»` — **CLIENT** e **SERVER** —
+più i **sistemi esterni**. Ogni macro-componente contiene i sotto-componenti di layer, e ogni
+sotto-componente contiene le classi del rispettivo livello.
 
 ---
 
-## 2. Livello SERVER (Backend)
-Il Server è suddiviso rigidamente in quattro livelli logico-architetturali, che gestiscono il ciclo di vita della richiesta dalla ricezione fino alla persistenza.
+## 1. Macro-componente CLIENT
 
-### 2.1 Sottocomponente: CONTROLLER
-Gestisce l'instradamento delle richieste HTTP in ingresso e raggruppa i controller per area di competenza:
-* **AuthController:** Contiene `LoginController`.
-* **UtenteController:** Contiene `PrenotazioneUtenteController`, `PagamentoController`, `HomePageUtenteController`.
-* **OperatoreController:** Contiene `MezzoOperatoreController`, `ZonaOperatoreController`.
-* **AmministrazionePubblicaController:** Contiene `ReportAPController`.
+### 1.1 `«component» View` (Presentation) — 20 classi
+`VistaLogin`, `VistaHomePageUtente`, `VistaCorsa`, `VistaStoricoCorse`, `VistaPagamenti`,
+`VistaAbbonamenti`, `VistaSegnalazioneUtente`, `VistaProfiloUtente`, `CallbackOAuth`,
+`PrivacyPolicy`, `VistaDefinisciZona`, `VistaMezziOperatore`, `VistaTariffePromozioni`,
+`VistaImpostazioniRegole`, `VistaParametriSistema`, `VistaSegnalazioniOperatore`,
+`VistaGestioneUtentiOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaRecensione`.
 
-### 2.2 Sottocomponente: BUSINESS LOGIC LAYER (BLL)
-Contiene i servizi core che implementano le regole di business del dominio.
-* **Moduli BLL:** `ServizioMobilità`, `ServizioGIS`, `ServizioUtenti`, `ServizioReport`, `ServizioPricing`, `ServizioPrenotazione`.
+### 1.2 `«component» ApiService` (API Service Layer) — 16 classi
+`ApiService`, `AuthService`, `MapService`, `CorsaService`, `PrenotazioneService`,
+`PaymentService`, `AbbonamentoService`, `OffertaService`, `FlottaService`, `ZonaService`,
+`SegnalazioneService`, `ConfigurazioneService`, `RegoleFineCorsaService`, `ReportService`,
+`GestioneUtentiService`, `RecensioneService`.
 
-### 2.3 Sottocomponente: MODEL
-Rappresenta le entità di dominio (Business Objects) manipolate dal sistema.
-* **Entità:** `Utente`, `Operatore`, `AmministrazionePubblica`, `Mezzo`, `Corsa`, `Prenotazione`, `Pagamento`, `Tariffa`, `Zona`, `RegoleFineCorsa`.
-
-### 2.4 Sottocomponente: DATA ACCESS LAYER (DAL)
-Gestisce l'astrazione per l'accesso ai dati (pattern Repository).
-* **Moduli Repository:** `AttoreRepository`, `MezzoRepository`, `CorsaRepository`, `PagamentoRepository`, `ZonaRepository`, `PrenotazioneRepository`, `TariffaRepository`, `RegoleFineCorsaRepository`.
+`ApiService` è la **Facade** verso il server; i service di dominio traducono le operazioni del
+proprio dominio in chiamate ad `ApiService`. Le View consumano i service tramite l'interfaccia
+`ApiToView`.
 
 ---
 
-## 3. Infrastruttura e Servizi Esterni
+## 2. Macro-componente SERVER
 
-### 3.1 DATABASE
-* **DBMS:** Il sistema di gestione del database relazionale/non relazionale, che comunica direttamente con il DAL.
+### 2.1 `«component» Controller` (MVC / FrontController) — 16 classi
+`FrontController`, `AccountController`, `HomePageUtenteController`, `CorsaController`,
+`PagamentoController`, `AbbonamentoController`, `MezzoOperatoreController`, `ZoneController`,
+`RegoleFineCorsaController`, `OffertaController`, `ConfigurazioneController`,
+`SegnalazioneUtenteController`, `SegnalazioneOPController`, `UtentiOPController`,
+`AmministrazionePubblicaController`, `RecensioneController`.
 
-### 3.2 SERVIZI ESTERNI
-Sistemi di terze parti integrati nel flusso del Server:
-* **ProviderPagamenti:** Gestisce l'autorizzazione e la validazione dei pagamenti.
-* **GoogleMaps:** Fornisce i dati cartografici e i servizi di geocoding/geofencing.
+### 2.2 `«component» BLL` (Business Logic Layer) — 12 servizi
+`ServizioMobilita`, `ServizioPrenotazione`, `ServizioPricing`, `ServizioGIS`,
+`ServizioAbbonamento`, `ServizioOfferta`, `ServizioSegnalazione`, `ServizioParametri`,
+`ServizioRegoleFineCorsa`, `ServizioReport`, `ServizioUtenti`, `ServizioRecensione`.
+
+Espone al Controller l'interfaccia `BLLToController` (realizzazione delle `IServizio*` del
+diagramma delle classi). Lo stato del `Mezzo` cambia solo tramite `ServizioMobilita`
+(pattern State); il calcolo tariffa usa il pattern Strategy (IIN-4).
+
+### 2.3 `«component» DAL` (Repository) — 17 classi
+`MezzoRepository`, `CorsaRepository`, `PrenotazioneRepository`, `PagamentoRepository`,
+`TariffaRepository`, `ZonaRepository`, `UtenteRepository`, `OperatoreRepository`,
+`AttoreRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`,
+`RegoleFineCorsaRepository`, `ParametriSistemaRepository`, `SegnalazioneRepository`,
+`RecensioneRepository`, `IRepository`.
+
+I repository sono l'unico livello che conosce le entità ORM e convertono ORM ↔ Transfer Object
+verso la BLL (pattern DAO + Transfer Object). La BLL non importa mai dal Model.
+
+### 2.4 `«component» Model` (Domain / Entity) — 19 classi
+`Persona`, `Utente`, `Operatore`, `AmministrazionePubblica`, `Mezzo`, `Corsa`, `Prenotazione`,
+`Pagamento`, `MetodoPagamento`, `Tariffa`, `Zona`, `Offerta`, `Promozione`, `Abbonamento`,
+`AbbonamentoUtente`, `RegolaFineCorsa`, `ParametriSistema`, `Segnalazione`, `Recensione`.
 
 ---
 
-## 4. Interfacce e Porte (Contratti di Comunicazione)
-I componenti comunicano esclusivamente tramite interfacce ben definite (porte fornite/richieste):
+## 3. Sistemi esterni (black-box)
 
-* **`APIToView`**: Collega internamente le View del Client ai propri servizi Frontend (API Service Layer).
-* **`ClientToServer`** & **`ServerToClient`**: Rete/Contratti API. Permettono all'API Service Layer del Client di comunicare con i Controller del Server (e viceversa per le risposte/notifiche).
-* **`BLLToController`**: Interfaccia esposta dal Business Logic Layer e consumata dal Controller.
-* **`ModelToBLL`**: Interfaccia che permette al BLL di istanziare, validare e manipolare le entità del Model.
-* **`DALToModel`**: Interfaccia utilizzata dal DAL per idratare le entità del Model recuperate dal database.
-* **`DALtoDBMS`**: Interfaccia di basso livello per l'esecuzione di query e connessioni al Database.
+- `«component» DBMS — Supabase PostgreSQL` — persistenza relazionale (PostgreSQL + PostGIS).
+- `«component» GoogleMaps (Adapter)` — dati cartografici, geocoding/geofencing.
+- `«component» Provider Pagamenti (Adapter)` — autorizzazione e validazione pagamenti.
+
+Non se ne mostra il contenuto (componenti black-box/grey-box).
 
 ---
 
-## 5. Mappatura Operazioni (Dettaglio Metodi per Livello)
-Il diagramma associa a vari livelli specifici set di operazioni:
+## 4. Interfacce (provided = lollipop · required = dipendenza «use»)
 
-### 5.1 Metodi Client (API Service Layer)
-* *AuthService:* `.login()`, `.registraUtente()`, `.logout()`
-* *MapService:* `.caricaMappa()`, `.cercaMezzi()`
-* *PrenotazioneService:* `.prenotaMezzo()`, `.terminaCorsa()`, `.sbloccaMezzo()`
-* *PaymentService:* `.effettuaPagamento()`, `.salvaMetodoPagamento()`
-* *FlottaService:* `.aggiungiMezzo()`, `.dismetti()`, `.modificaStato()`
-* *ZonaService:* `.creaZona()`
-* *Gestione Rete Base:* `ApiService.gestisciRisposta()`, `.riceviNotifica()`, `.mostraErroreHTTP()`
+| Interfaccia | Fornita da (provided) | Richiesta da (required) | Operazioni esposte (annotazioni) |
+|---|---|---|---|
+| `ApiToView` | ApiService | View | `AuthService.login()`, `CorsaService.sblocca()`, `PaymentService.effettuaPagamento()`, `MapService.caricaMappa()` |
+| `ClientToServer` | Controller | ApiService | REST/HTTPS: `POST /auth/login`, `GET /utente/mezzi/sbloccabili`, `POST /utente/prenotazioni`, `POST /utente/corse/{id}/termina` |
+| `BLLToController` (= `IServizio*`) | BLL | Controller | `IServizioMobilita.sbloccaMezzi()`, `IServizioPricing.effettuaPagamento()`, `IServizioPrenotazione.creaPrenotazioni()`, `IServizioGIS.creaZona()` |
+| `Repository` | DAL | BLL | `IRepository.save() / update() / delete() / findById()` |
+| `DALtoDBMS` | DBMS | DAL | `executeQuery()`, `executeUpdate()`, `connectDB()` |
+| `BLLtoGoogleMaps` | GoogleMaps | BLL (`ServizioGIS`) | `recuperaDatiMappa()`, `verificaZona()` |
+| `BLLtoProviderPagamenti` | Provider Pagamenti | BLL (`ServizioPricing`) | `autorizza()`, `validaDatiPagamento()` |
 
-### 5.2 Metodi Server (Controller)
-* *HomePageUtenteController:* `.login()`, `.registra()`, `.modificaProfilo()`
-* *PrenotazioneUtenteController:* `.Prenotazione()`, `.sblocca()`, `.terminaCorsa()`
-* *PagamentiController:* `.effettuaPagamento()`
-* *MezzoOperatoreController:* `.aggiungiMezzo()`, `.dismetti()`, `.modificaStatoMezzo()`, `.getTariffe()`, `.creatariffa()`, `.salvaRegoleFineCorsa()`
-* *ZonaOperatoreController:* `.creaZona()`
-* *DashboardOPController:* `.CaricaMappa()`
+**Flusso delle dipendenze:**
+`View → ApiService → (ClientToServer, REST/HTTPS) → Controller → BLL → DAL → Model`,
+con `DAL → DBMS`, `ServizioGIS → GoogleMaps`, `ServizioPricing → Provider Pagamenti`.
 
-### 5.3 Metodi Server (Business Logic Layer)
-* *ServizioUtenti:* `.registra()`, `.autentica()`, `.modificaProfilo()`
-* *ServizioPrenotazione:* `.creaPrenotazione()`, `.verificaDisponibilita()`
-* *ServizioMobilità:* `.sbloccaMezzo()`, `.terminaCorsa()`, `.aggiungiMezzo()`, `.dismetti()`, `.modificaStatoMezzo()`, `.verificaPosizione()`, `.getZonaParcheggioeRegole()`, `.salvaRegoleFineCorsa()`
-* *ServizioPricing:* `.calcolaImporto()`, `.effettuaPagamento()`, `.definisciTariffa()`
-* *ServizioGIS:* `.creaZona()`
-* *ServizioReport:* `.generaReport()`, `.esportaCSV()`
+---
 
-### 5.4 Metodi Server (Model)
-* *Entity:* `.crea()`, `.aggiorna()`
+## 5. Note di consistenza
 
-### 5.5 Metodi Server (DAL & Repository)
-* *Generic Repository:* `.save()`, `.update()`, `.delete()`
-* *MezzoRepository:* `.findVicini(coordinate, raggio)`
-* *PrenotazioneRepository:* `.findAttiva(idUtente)`
-* *UtenteRepository:* `.findByEmail(email)`
-* *ZonaRepository:* `.findContenenti(coordinate)`
-
-### 5.6 Metodi Database (DBMS)
-* *DataSource:* `.connettDB()`, `.executeQuery()`, `.executeUpdate()`
-
-### 5.7 Metodi Servizi Esterni
-* *ProviderPagamenti:* `.autorizza()`, `.validaDatiPagamento()`
-* *GoogleMaps:* `.recuperaDatiMappa()`, `.verificaZona()`
+- **Componenti ↔ Classi:** verificato l'allineamento 1:1 per ogni layer
+  (View 20, ApiService 16, Controller 16, BLL 12, DAL 17, Model 19). Le `IServizio*` del
+  diagramma delle classi sono rese nel diagramma dei componenti come l'interfaccia provided
+  `BLLToController`.
+- **Feature `Recensione`:** presente in tutti i layer del diagramma (View, Service, Controller,
+  BLL, DAL, Model) ma **non ancora implementata nel codice**. È una **feature pianificata**, da
+  realizzare in uno sprint successivo seguendo lo slice già modellato: il disallineamento
+  diagramma↔codice è quindi atteso. Da tracciare nel Product Backlog con un ID dedicato.

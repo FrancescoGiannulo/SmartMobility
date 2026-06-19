@@ -171,6 +171,10 @@ backend/
 
 **DAL** (15 repository in `backend/dal/`): `MezzoRepository`, `CorsaRepository`, `PrenotazioneRepository`, `PagamentoRepository`, `TariffaRepository`, `ZonaRepository`, `UtenteRepository`, `OperatoreRepository`, `AttoreRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`, `RegoleFIneCorsaRepository`, `ParametriSistemaRepository`, `SegnalazioneRepository`
 
+### Feature pianificate (progettate ma non ancora implementate)
+
+- **`Recensione`** — modellata su tutti i layer dei diagrammi (`Diagramma Classi.drawio` e `Diagramma Componenti.drawio`): `VistaRecensione`, `RecensioneService`, `RecensioneController`, `IServizioRecensione`/`ServizioRecensione`, `RecensioneRepository`, entità `Recensione`. **Non ancora presente nel codice** — sarà implementata in uno sprint successivo. Quando la si implementa, seguire lo slice già modellato nei diagrammi e tracciarla con un ID del Product Backlog. Il disallineamento diagrammi↔codice su `Recensione` è quindi atteso, non un errore.
+
 ### Git workflow
 
 - Branch per feature: `feature/auth`, `feature/corsa`, `feature/pagamenti`, `feature/mappa-zone`, `feature/db-schema`
