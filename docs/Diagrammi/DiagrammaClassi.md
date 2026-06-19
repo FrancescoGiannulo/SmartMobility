@@ -1290,6 +1290,7 @@ Totale elementi identificati: **122**.
 
 ```
 + findById(idCorsa: String): Corsa
++ findRiepilogo(idCorsa: String, idUtente: String): Corsa
 + findAttiva(idMezzo: String): Corsa
 + findByUtenteOrderByData(idUtente: String): List
 + findByPeriodo(periodo: Periodo): List
