@@ -6,7 +6,7 @@
 
 Documenti di riferimento:
 - [`docs/SprintZero.md`](docs/SprintZero.md) — architettura, glossario, mockup UI
-- [`docs/Sprint1_definitivo.md`](docs/Sprint1_definitivo.md) — Sprint 1 Backlog, casi d'uso, mockup UI (**documento primario per Sprint 1** — sostituisce SprintUno.md)
+- [`docs/Sprint2_SMART_Mobility.md`](docs/Sprint2_SMART_Mobility.md) — Product Backlog completo, Sprint 1 + Sprint 2 Backlog, casi d'uso, mockup UI (**documento primario** — sostituisce Sprint1_definitivo.md)
 - [`docs/Deploy.md`](docs/Deploy.md) — guida completa al deploy su Vercel + Render, variabili d'ambiente, diagnosi problemi
 
 Tre ruoli utente distinti:
@@ -29,6 +29,7 @@ Tre ruoli utente distinti:
 | Auth | Supabase Auth + PyJWT | Token JWT, blocco dopo 5 tentativi (IIN-2) |
 | HTTP Client (FE) | Axios + TanStack Query | Chiamate API e cache lato client |
 | Routing (FE) | React Router DOM | Navigazione SPA |
+| Mappe | Google Maps (`@vis.gl/react-google-maps`) | Mappa interattiva e geofencing |
 | Gestore dipendenze Python | uv | Sostituisce pip+venv; gestisce `.venv` automaticamente |
 
 ### Chiavi Supabase
@@ -72,7 +73,7 @@ Push su `main` → deploy automatico su entrambe le piattaforme.
 **Google OAuth → reindirizza a localhost:**
 - Configurare **Site URL** su Supabase → Authentication → URL Configuration con l'URL Vercel
 - I Redirect URLs devono includere `https://<url-vercel>/**`
-- Stato attuale (maggio 2026): OAuth con Google non completamente funzionante in produzione — issue aperta
+- Stato attuale (giugno 2026): OAuth con Google non completamente funzionante in produzione — issue aperta
 
 **Avvio locale da mobile (stessa rete Wi-Fi):**
 - Vite espone su `0.0.0.0` grazie a `host: true` in `vite.config.ts`
@@ -109,6 +110,7 @@ DATABASE_URL=postgresql://postgres:<password>@db.xxxx.supabase.co:5432/postgres
 ```
 VITE_SUPABASE_URL=https://xxxx.supabase.co
 VITE_SUPABASE_ANON_KEY=<publishable key>
+VITE_GOOGLE_MAPS_API_KEY=<google maps api key>
 ```
 
 ### Struttura del progetto
@@ -116,29 +118,58 @@ VITE_SUPABASE_ANON_KEY=<publishable key>
 ```
 frontend/src/
 ├── views/
-│   ├── utente/           → VistaUtente (IF-UT.*)
-│   ├── operatore/        → VistaOperatore (IF-OP.*)
-│   └── amministrazione/  → VistaAmministrazionePubblica (IF-AP.*)
+│   ├── auth/             → VistaLogin, CallbackOAuth
+│   ├── utente/           → VistaMappa, VistaCorsa, VistaCorse, VistaPagamenti,
+│   │                        VistaAbbonamenti, VistaSegnalazione, VistaProfiloUtente
+│   ├── operatore/        → VistaMappaOperatore, VistaMezziOperatore, VistaTariffePromozioni,
+│   │                        VistaImpostazioniRegole, VistaParametriSistema, VistaSegnalazioniOperatore
+│   └── amministrazione/  → VistaDashboardAP, VistaReportAP
+├── components/           → RoutaProtetta, ZonaPoligono, TooltipZona,
+│                            ClusterLayerAP, HeatmapLayerAP, PopupStatsZona
 └── services/
-    ├── ApiService.ts         → gateway HTTP centrale + interceptor JWT
-    ├── AuthService.ts        → login, registrazione [IF-UT.17, IF-UT.18]
-    ├── MapService.ts         → mezzi e zone [IF-UT.01, IF-AP.08, IF-OP.01]
-    ├── PaymentService.ts     → metodi di pagamento, tariffe, promozioni [IF-UT.12, IF-UT.21]
-    ├── CorsaService.ts       → sblocco, termina, storico [IF-UT.04, IF-UT.06, IF-UT.14]
-    ├── PrenotazioneService.ts → prenotazioni [IF-UT.02]
-    ├── AbbonamentoService.ts → abbonamenti [IF-UT.16]
-    ├── ZonaService.ts        → CRUD zone [IF-AP.02, IF-AP.03, IF-OP.03]
-    └── FlottaService.ts      → gestione flotta [IF-OP.04, IF-OP.12, IF-OP.13]
+    ├── ApiService.ts           → gateway HTTP centrale + interceptor JWT
+    ├── AuthService.ts          → login, registrazione, OAuth callback
+    ├── MapService.ts           → mezzi e zone [IF-UT.01, IF-AP.03, IF-OP.01]
+    ├── CorsaService.ts         → sblocco, pausa, termina, storico [IF-UT.03, IF-UT.04, IF-UT.09, IF-UT.11]
+    ├── PaymentService.ts       → metodi di pagamento [IF-UT.05, IF-UT.06]
+    ├── AbbonamentoService.ts   → abbonamenti [IF-UT.13]
+    ├── OffertaService.ts       → offerte/promozioni [IF-OP.10]
+    ├── FlottaService.ts        → gestione flotta [IF-OP.02, IF-OP.03, IF-OP.04]
+    ├── ZonaService.ts          → CRUD zone [IF-OP.07]
+    ├── SegnalazioneService.ts  → segnalazioni [IF-UT.12, IF-OP.08]
+    ├── ConfigurazioneService.ts → parametri sistema [IF-OP.11]
+    └── RegolaFinecorsaService.ts → regole fine corsa [IF-OP.06]
 
 backend/
 ├── database.py       → engine SQLAlchemy, SessionLocal, Base (DeclarativeBase), get_db()
-├── migrations/       → file SQL da eseguire su Supabase (001…011)
-├── model/            → ORM SQLAlchemy 2.0 (Mapped + mapped_column); importare Base da database.py
-├── controllers/      → validazione HTTP (8 controller da SprintUno.md §7.3)
-├── bll/              → logica applicativa (6 servizi)
-├── dal/              → repository (6, uno per entità)
-└── tests/            → test pytest; conftest.py imposta DATABASE_URL dummy per unit test
+├── migrations/       → file SQL da eseguire su Supabase (001…013)
+├── model/            → ORM SQLAlchemy 2.0 (Mapped + mapped_column); 17 entità; importare Base da database.py
+├── controllers/      → validazione HTTP (12 controller file)
+├── bll/              → logica applicativa (10 servizi)
+├── dal/              → repository (15, uno per entità)
+└── tests/            → test pytest (18 file); conftest.py crea fixture utente/operatore/AP con cleanup
 ```
+
+**Controller backend** (12 file in `backend/controllers/`):
+
+| File | Responsabilità |
+|---|---|
+| `login_controller.py` | auth: login, registrazione, OAuth callback |
+| `corsa_controller.py` | prenotazioni, sblocco, corsa, pausa, storico |
+| `pagamenti_controller.py` | metodi di pagamento |
+| `pricing_controller.py` | tariffe e promozioni (lato utente) |
+| `abbonamento_controller.py` | abbonamenti utente |
+| `mezzo_operatore_controller.py` | flotta operatore (aggiungi, dismetti, modifica stato) |
+| `zona_operatore_controller.py` | zone operative, vietate, limitate, parcheggio |
+| `regola_fine_corsa_controller.py` | regole fine corsa |
+| `offerta_controller.py` | offerte/promozioni (lato operatore) |
+| `configurazione_controller.py` | parametri sistema |
+| `utente_controller.py` | segnalazioni utente |
+| `ap_controller.py` | report AP, mappa AP, segnalazioni OP, gestione utenti OP |
+
+**BLL** (10 servizi in `backend/bll/`): `ServizioMobilità`, `ServizioPrenotazione`, `ServizioPricing`, `ServizioAbbonamento`, `ServizioGIS`, `ServizioReport`, `ServizioOfferta`, `ServizioRegoleFineCorsa`, `ServizioParametri`, `ServizioUtenti`
+
+**DAL** (15 repository in `backend/dal/`): `MezzoRepository`, `CorsaRepository`, `PrenotazioneRepository`, `PagamentoRepository`, `TariffaRepository`, `ZonaRepository`, `UtenteRepository`, `OperatoreRepository`, `AttoreRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`, `RegoleFIneCorsaRepository`, `ParametriSistemaRepository`, `SegnalazioneRepository`
 
 ### Git workflow
 
@@ -177,7 +208,7 @@ Lo sviluppo segue il paradigma **Agile Software Engineering** basato su sprint. 
 ### Flusso per ogni item
 
 ```
-User Story (SprintZero.md)
+User Story (Sprint2_SMART_Mobility.md § 1.4)
   → Caso d'uso (scenario base + alternativi)
     → Diagramma di sequenza
       → Implementazione
@@ -194,7 +225,9 @@ Il sistema segue il pattern **Client-Server + MVC** su più livelli. Rispetta se
 ```
 Client
 ├── View (VistaUtente | VistaOperatore | VistaAmministrazionePubblica)
-└── API Service Layer (ApiService, AuthService, MapService, PaymentService, ZonaService, FlottaService)
+└── API Service Layer (ApiService, AuthService, MapService, CorsaService, PaymentService,
+                       AbbonamentoService, OffertaService, FlottaService, ZonaService,
+                       SegnalazioneService, ConfigurazioneService, RegolaFinecorsaService)
 
 Server
 ├── Controller Layer
@@ -203,7 +236,7 @@ Server
 └── Data Access Layer (DAL) → DBMS
 
 Servizi Esterni
-├── BingMaps (geolocalizzazione)
+├── GoogleMaps (geolocalizzazione e geofencing)
 └── ProviderPagamenti (gateway pagamenti)
 ```
 
@@ -214,7 +247,7 @@ Servizi Esterni
 - **DAL**: solo accesso ai dati. Nessuna logica di business.
 - **View/ApiService**: nessuna logica di business lato client.
 - **model/**: ORM SQLAlchemy 2.0 puri — nessuna logica, nessun Pydantic. I `CheckConstraint` vanno in `__table_args__`, non come argomenti di `mapped_column`. Usare `create_type=False` su tutti i `SAEnum` (gli enum esistono già nella migrazione SQL).
-- La precedenza tra tipi di zona (`vietata > limitata > operativa`) è applicata a runtime in `ServizioGIS`, non tramite vincoli DB. In Sprint 1 tutte le zone sono create dall'Operatore (IF-OP.02).
+- La precedenza tra tipi di zona (`vietata > limitata > operativa`) è applicata a runtime in `ServizioGIS`, non tramite vincoli DB. Le zone sono create dall'Operatore (IF-OP.07).
 
 ---
 
@@ -226,7 +259,7 @@ Servizi Esterni
 - Non aggiungere commenti ovunque — solo dove la connessione al requisito non è ovvia dal codice.
 
 ### Modularità e separazione delle responsabilità
-- Un controller per entità/funzione principale (vedere lista in `SprintZero.md § 2.3.2`).
+- Un controller per entità/funzione principale (vedere lista controller sopra).
 - Un service per dominio logico nel BLL.
 - Un repository per entità nel DAL.
 
@@ -246,7 +279,7 @@ Lo stato di un mezzo (`Disponibile`, `Prenotato`, `In uso`, `In pausa`, `In manu
 
 **Prenotazione scaduta**: non esiste un job di cleanup automatico. Se `scade_at < now()` ma il mezzo è ancora in stato `Prenotato`, `_sblocca_singolo` in `ServizioMobilita` rileva la scadenza (nessuna prenotazione attiva per qualsiasi utente) e resetta il mezzo a `Disponibile` prima di procedere con lo sblocco.
 
-### Logica pagamento a fine corsa [IF-UT.20]
+### Logica pagamento a fine corsa [IF-UT.05]
 
 Il flusso in `ServizioPricing.effettua_pagamento` segue questa precedenza:
 
@@ -258,13 +291,13 @@ I campi `importo_pieno` e `offerta_applicata_id` sono salvati nella tabella `pag
 
 **Regola**: il frontend (`VistaCorsa.tsx`) salta il modal promozioni se `getAbbonamentoCorrente()` restituisce un abbonamento con `data_fine > now()`. Il backend applica comunque la logica corretta indipendentemente da ciò che il frontend invia.
 
-### Logica abbonamenti [IF-UT.16]
+### Logica abbonamenti [IF-UT.13]
 
 - `ServizioAbbonamento.sottoscrivi()` impedisce l'attivazione se esiste già un abbonamento con `data_fine > now()` (errore 422).
 - `VistaAbbonamenti.tsx` nasconde i piani disponibili se `corrente.data_fine > new Date()`.
 - `AbbonamentoRepository.get_attivo()` filtra per `stato == "attivo"` ma **non** per `data_fine > now()` — il check sulla data è responsabilità del chiamante.
 
-### Sblocco multiplo e gruppo corsa [IF-UT.04]
+### Sblocco multiplo e gruppo corsa [IF-UT.03]
 
 Quando più mezzi vengono sbloccati insieme (batch), `ServizioMobilita.sblocca_mezzi` assegna lo stesso `gruppo_corsa_id` (UUID condiviso) a tutte le corse create. Questo permette di raggrupparle nello storico (`VistaCorse.tsx`).
 
@@ -272,6 +305,10 @@ Il frontend può avviare lo sblocco da tre punti:
 - **Pannello mappa** (modalità `sblocca`) — selezione diretta
 - **Pannello prenotazioni** (homepage) — bottone "Sblocca (N)"
 - **Sidebar → Le mie prenotazioni** — bottone "Sblocca (N)" che sblocca tutte le prenotazioni attive insieme
+
+### Pausa corsa [IF-UT.09]
+
+La pausa accumula tempo in `pausa_durata_accumulata_sec` (migrazione `013_pausa_corsa.sql`). Il costo della pausa (`addebito_pausa` da `ParametriSistema`) viene sommato all'importo finale in `ServizioPricing`. Il mezzo resta in stato `In pausa` durante la sosta — non torna `Disponibile`.
 
 ---
 
@@ -282,7 +319,7 @@ Ad ogni sprint, aggiornare:
 | Documento | Contenuto |
 |---|---|
 | `docs/SprintZero.md` | Solo se cambiano requisiti o architettura (deliberato, non automatico) |
-| `docs/Sprint{N}.md` | Sprint Backlog, casi d'uso, diagrammi di sequenza, note di implementazione |
+| `docs/Sprint2_SMART_Mobility.md` | Sprint Backlog, casi d'uso, diagrammi di sequenza, note di implementazione |
 | `docs/README.md` | Panoramica del progetto, istruzioni per avviare il sistema |
 
 La documentazione è parte della **Definition of Done** di ogni item. Un item non è completo se non è documentato.
@@ -304,10 +341,10 @@ I termini tecnici del dominio sono definiti in `docs/SprintZero.md § 4.2`. Usar
 
 ## Cosa fare prima di scrivere codice
 
-1. Verificare che l'item da implementare abbia un ID nel Product Backlog (`SprintZero.md § 1.4`).
+1. Verificare che l'item da implementare abbia un ID nel Product Backlog (`Sprint2_SMART_Mobility.md § 1.4`).
 2. Verificare che esista o creare la specifica del caso d'uso nello sprint corrente.
 3. Identificare il layer corretto in cui il codice va scritto (Controller / BLL / Model / DAL).
-4. Verificare che non esista già logica simile in un altro service (evitare ridondanza — `IIN` 12 del prompt).
+4. Verificare che non esista già logica simile in un altro service (evitare ridondanza).
 5. Scrivere prima il test, poi l'implementazione.
 
 ## Cosa non fare mai
