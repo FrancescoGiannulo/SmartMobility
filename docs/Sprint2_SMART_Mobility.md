@@ -579,7 +579,7 @@ della sessione di gruppo. L'Utente prende visione del riepilogo e lo chiude.
 | Campo | Valore |
 |---|---|
 | **Nome** | Visualizza Promozioni |
-| **ID** | UT.13 |
+| **ID** | UT.10 |
 | **Breve descrizione** | Il sistema mostra all'Utente autenticato l'elenco delle<br>promozioni attive pubblicate dall'Operatore, con le<br>relative condizioni e vantaggi, così da consentirgli di<br>ridurre i costi di utilizzo del servizio. |
 | **Attori Primari** | Utente |
 | **Attori Secondari** | Nessuno |
@@ -802,7 +802,29 @@ all'operatore.
 | Campo | Valore |
 |---|---|
 | **Post-condizioni** | Il nuovo mezzo è stato salvato nel sistema e risulta<br>disponibile sulla Mappa Utente in base allo stato<br>impostato. |
-| **Sequenza alternativa degli eventi** | IdentificativoEsistente |
+| **Sequenza alternativa degli eventi** | IdentificativoEsistente<br>PosizioneNonOperativa |
+
+| Campo | Valore |
+|---|---|
+| **Nome** | Aggiunge Mezzo: IdentificativoEsistente |
+| **ID** | OP-02.01 |
+| **Breve descrizione** | Il sistema rileva che l'identificativo inserito è già<br>associato ad un altro mezzo e solleva<br>IdentificativoEsistenteException, impedendo il salvataggio. |
+| **Attori primari** | Operatore |
+| **Attori secondari** | Nessuno |
+| **Precondizioni** | L'identificativo inserito dall'operatore esiste già nel<br>MezzoRepository. |
+| **Postcondizioni** | Il nuovo mezzo non viene salvato; l'operatore rimane sulla<br>schermata di inserimento per correggere i dati. |
+| **Sequenza alternativa degli eventi** | 1. La sequenza alternativa inizia al passo 7 della sequenza<br>principale.<br>2. Il sistema verifica l'unicità dell'identificativo tramite<br>MezzoRepository.<br>3. Il sistema rileva che l'identificativo è già presente e<br>solleva IdentificativoEsistenteException.<br>4. Il sistema informa l'operatore dell'errore e torna<br>al passo 5. |
+
+| Campo | Valore |
+|---|---|
+| **Nome** | Aggiunge Mezzo: PosizioneNonOperativa |
+| **ID** | OP-02.02 |
+| **Breve descrizione** | Il ServizioGIS rileva che la posizione iniziale non ricade in<br>alcuna zona operativa; il sistema solleva<br>PosizioneNonOperativaException e impedisce il salvataggio. |
+| **Attori primari** | Operatore |
+| **Attori secondari** | ServizioGIS |
+| **Precondizioni** | La posizione iniziale del mezzo selezionata sulla mappa non<br>ricade in alcuna zona operativa. |
+| **Postcondizioni** | Il nuovo mezzo non viene salvato; l'operatore rimane sulla<br>schermata di inserimento per selezionare una posizione<br>valida. |
+| **Sequenza alternativa degli eventi** | 1. La sequenza alternativa inizia dopo il passo 8 della<br>sequenza principale.<br>2. Il ServizioGIS rileva che la posizione iniziale non ricade<br>in alcuna zona operativa e solleva<br>PosizioneNonOperativaException.<br>3. Il sistema informa l'operatore dell'errore di posizione<br>e torna al passo 5. |
 
 ##### 2.2.2.13 OP – 03 Dismette Mezzo
 

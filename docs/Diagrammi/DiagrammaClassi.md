@@ -653,6 +653,8 @@ Totale elementi identificati: **122**.
 ```
 + visualizzaReport(periodo: Object): Response
 + esportaCSV(idReport: String): Response
++ mappaMezziAP(): Response
++ mappaZoneAP(): Response
 ```
 
 ### `ConfigurazioneController`
@@ -759,7 +761,6 @@ Totale elementi identificati: **122**.
 + zoneParcheggio(): Response
 + zoneLimitate(): Response
 + zoneVietate(): Response
-+ getDatiMappaAP(): Response
 ```
 
 ### `HomePageUtenteController`

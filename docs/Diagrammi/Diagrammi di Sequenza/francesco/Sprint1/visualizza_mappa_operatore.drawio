@@ -1,0 +1,297 @@
+<mxfile host="65bd71144e">
+    <diagram name="SD - OP-01 Visualizza Mappa Operatore" id="visualizza-mappa-operatore-op01">
+        <mxGraphModel dx="1422" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="frame" value="SD - Visualizza Mappa Operatore (OP-01 / IF-OP.01)" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=360;height=30;" vertex="1" parent="1">
+                    <mxGeometry x="45" y="80" width="1900" height="1010" as="geometry"/>
+                </mxCell>
+                <mxCell id="note" value="Precondizione: l'Operatore è autenticato (ruolo OP). All'apertura della mappa il frontend emette in parallelo (Promise.all) GET /operatore/mappa/mezzi e GET /operatore/zone; qui sono in sequenza. I mezzi passano da MezzoOperatoreController, le zone da ZoneController; entrambi delegano a ServizioGIS. ottieniMezziOperatore() recupera TUTTI i mezzi (soloDisponibili=false). La spec OP-01 non prevede sequenze alternative." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="1">
+                    <mxGeometry x="360" y="112" width="1180" height="60" as="geometry"/>
+                </mxCell>
+                <!-- ================= LIFELINES ================= -->
+                <mxCell id="ll-actor-h" value=":Operatore" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+                    <mxGeometry x="105" y="182" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-actor" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="120" y="242" as="sourcePoint"/>
+                        <mxPoint x="120" y="1064" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ll-view-h" value="&lt;b&gt;&lt;u&gt;:VistaMappaOperatore&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="205" y="198" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-view" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="285" y="242" as="sourcePoint"/>
+                        <mxPoint x="285" y="1064" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ll-ms-h" value="&lt;b&gt;&lt;u&gt;:MapService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="400" y="198" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-ms" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="480" y="242" as="sourcePoint"/>
+                        <mxPoint x="480" y="1064" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ll-api-h" value="&lt;b&gt;&lt;u&gt;:ApiService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="595" y="198" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-api" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="675" y="242" as="sourcePoint"/>
+                        <mxPoint x="675" y="1064" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ll-fc-h" value="&lt;b&gt;&lt;u&gt;:FrontController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="790" y="198" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-fc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="870" y="242" as="sourcePoint"/>
+                        <mxPoint x="870" y="1064" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ll-moc-h" value="&lt;b&gt;&lt;u&gt;:MezzoOperatoreController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="985" y="198" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-moc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1065" y="242" as="sourcePoint"/>
+                        <mxPoint x="1065" y="1064" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ll-zc-h" value="&lt;b&gt;&lt;u&gt;:ZoneController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1180" y="198" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-zc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1260" y="242" as="sourcePoint"/>
+                        <mxPoint x="1260" y="1064" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ll-gis-h" value="&lt;b&gt;&lt;u&gt;:ServizioGIS&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1375" y="198" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-gis" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1455" y="242" as="sourcePoint"/>
+                        <mxPoint x="1455" y="1064" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ll-mr-h" value="&lt;b&gt;&lt;u&gt;:MezzoRepository&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1570" y="198" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-mr" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1650" y="242" as="sourcePoint"/>
+                        <mxPoint x="1650" y="1064" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ll-zr-h" value="&lt;b&gt;&lt;u&gt;:ZonaRepository&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1765" y="198" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-zr" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1845" y="242" as="sourcePoint"/>
+                        <mxPoint x="1845" y="1064" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <!-- ================= ACTIVATION BARS ================= -->
+                <mxCell id="act-view" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="280" y="250" width="10" height="780" as="geometry"/>
+                </mxCell>
+                <mxCell id="act-ms" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="475" y="282" width="10" height="708" as="geometry"/>
+                </mxCell>
+                <mxCell id="act-api" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="670" y="314" width="10" height="644" as="geometry"/>
+                </mxCell>
+                <mxCell id="act-fc1" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="865" y="346" width="10" height="74" as="geometry"/>
+                </mxCell>
+                <mxCell id="act-fc2" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="865" y="734" width="10" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="act-moc" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="1060" y="414" width="10" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="act-zc" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="1255" y="766" width="10" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="act-gis1" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="1450" y="446" width="10" height="96" as="geometry"/>
+                </mxCell>
+                <mxCell id="act-gis2" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="1450" y="798" width="10" height="96" as="geometry"/>
+                </mxCell>
+                <mxCell id="act-mr" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                    <mxGeometry x="1645" y="478" width="10" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="act-zr" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                    <mxGeometry x="1840" y="830" width="10" height="36" as="geometry"/>
+                </mxCell>
+                <!-- ================= MESSAGES: richiesta mezzi ================= -->
+                <mxCell id="m1" value="1: apriMappa() [accede alla schermata principale]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="120" y="250" as="sourcePoint"/>
+                        <mxPoint x="280" y="250" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m2" value="2: getMezziOperatore()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="290" y="282" as="sourcePoint"/>
+                        <mxPoint x="475" y="282" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m3" value="3: inviaRichiesta(GET /operatore/mappa/mezzi)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="485" y="314" as="sourcePoint"/>
+                        <mxPoint x="670" y="314" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m4" value="4: GET /operatore/mappa/mezzi  (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="680" y="346" as="sourcePoint"/>
+                        <mxPoint x="865" y="346" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m5" value="5: validaAutenticazione([&quot;OP&quot;])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="935" y="378"/>
+                            <mxPoint x="935" y="392"/>
+                        </Array>
+                        <mxPoint x="875" y="378" as="sourcePoint"/>
+                        <mxPoint x="875" y="392" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m6" value="6: instrada(): mappaMezziOperatore()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="875" y="414" as="sourcePoint"/>
+                        <mxPoint x="1060" y="414" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m7" value="7: ottieniMezziOperatore()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1070" y="446" as="sourcePoint"/>
+                        <mxPoint x="1450" y="446" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m8" value="8: listaPerMappa(soloDisponibili=false)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1460" y="478" as="sourcePoint"/>
+                        <mxPoint x="1645" y="478" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m9" value="9: :listaMezzi" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1645" y="510" as="sourcePoint"/>
+                        <mxPoint x="1460" y="510" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m10" value="10: :listaMezzi" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1450" y="542" as="sourcePoint"/>
+                        <mxPoint x="1070" y="542" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m11" value="11: 200 OK + mezzi" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1060" y="574" as="sourcePoint"/>
+                        <mxPoint x="680" y="574" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m12" value="12: gestisciRisposta(): :listaMezzi" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="670" y="606" as="sourcePoint"/>
+                        <mxPoint x="485" y="606" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m13" value="13: :listaMezzi" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="475" y="638" as="sourcePoint"/>
+                        <mxPoint x="290" y="638" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <!-- ================= MESSAGES: richiesta zone ================= -->
+                <mxCell id="m14" value="14: getZoneOperatore()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="290" y="670" as="sourcePoint"/>
+                        <mxPoint x="475" y="670" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m15" value="15: inviaRichiesta(GET /operatore/zone)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="485" y="702" as="sourcePoint"/>
+                        <mxPoint x="670" y="702" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m16" value="16: GET /operatore/zone  (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="680" y="734" as="sourcePoint"/>
+                        <mxPoint x="865" y="734" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m17" value="17: instrada(): listaZone()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="875" y="766" as="sourcePoint"/>
+                        <mxPoint x="1255" y="766" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m18" value="18: ottieniZone()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1265" y="798" as="sourcePoint"/>
+                        <mxPoint x="1450" y="798" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m19" value="19: listaZone(soloAttive=true)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1460" y="830" as="sourcePoint"/>
+                        <mxPoint x="1840" y="830" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m20" value="20: :listaZone" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1840" y="862" as="sourcePoint"/>
+                        <mxPoint x="1460" y="862" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m21" value="21: :listaZone" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1450" y="894" as="sourcePoint"/>
+                        <mxPoint x="1265" y="894" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m22" value="22: 200 OK + zone" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1255" y="926" as="sourcePoint"/>
+                        <mxPoint x="680" y="926" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m23" value="23: gestisciRisposta(): :listaZone" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="670" y="958" as="sourcePoint"/>
+                        <mxPoint x="485" y="958" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m24" value="24: :listaZone" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="475" y="990" as="sourcePoint"/>
+                        <mxPoint x="290" y="990" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m25" value="25: mostraMappa(mezzi, zone, stati, restrizioni, marker posizione)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="280" y="1022" as="sourcePoint"/>
+                        <mxPoint x="120" y="1022" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

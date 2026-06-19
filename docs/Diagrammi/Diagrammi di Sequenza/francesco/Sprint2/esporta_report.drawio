@@ -1,0 +1,238 @@
+<mxfile host="65bd71144e">
+    <diagram name="SD - AP-02 Esporta Report" id="esporta-report-ap02">
+        <mxGraphModel dx="721" dy="833" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="frame" value="SD - Esporta Report (CS-15 / IF-AP.02) «extend» AccedeReport" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=415;height=30;" parent="1" vertex="1">
+                    <mxGeometry x="45" y="80" width="1380" height="910" as="geometry"/>
+                </mxCell>
+                <mxCell id="note" value="Punto di estensione EsportaReport di AccedeReport (CS-14): l'AP ha già la dashboard di reportistica visualizzata e seleziona un formato di esportazione. Flusso modellato per il formato CSV (esportaCSV); il formato PDF segue lo stesso percorso tramite VistaDashboardAP.esportaPDF()." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" parent="1" vertex="1">
+                    <mxGeometry x="300" y="116" width="1080" height="46" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-actor-h" value=":AmministrazionePubblica" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="105" y="170" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-actor" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="120" y="230" as="sourcePoint"/>
+                        <mxPoint x="120" y="935" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ll-dash-h" value="&lt;b&gt;&lt;u&gt;:VistaDashboardAP&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="205" y="186" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-dash" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="285" y="230" as="sourcePoint"/>
+                        <mxPoint x="285" y="935" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ll-rs-h" value="&lt;b&gt;&lt;u&gt;:ReportService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="186" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-rs" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="480" y="230" as="sourcePoint"/>
+                        <mxPoint x="480" y="935" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ll-api-h" value="&lt;b&gt;&lt;u&gt;:ApiService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="595" y="186" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-api" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="675" y="230" as="sourcePoint"/>
+                        <mxPoint x="675" y="935" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ll-fc-h" value="&lt;b&gt;&lt;u&gt;:FrontController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="790" y="186" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-fc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="870" y="230" as="sourcePoint"/>
+                        <mxPoint x="870" y="935" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ll-apc-h" value="&lt;b&gt;&lt;u&gt;:AmministrazionePubblicaController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="985" y="186" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-apc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1065" y="230" as="sourcePoint"/>
+                        <mxPoint x="1065" y="935" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ll-sr-h" value="&lt;b&gt;&lt;u&gt;:ServizioReport&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="1180" y="186" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="ll-sr" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1260" y="230" as="sourcePoint"/>
+                        <mxPoint x="1260" y="935" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="act-dash" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="280" y="234" width="10" height="678" as="geometry"/>
+                </mxCell>
+                <mxCell id="act-rs" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="475" y="274" width="10" height="626" as="geometry"/>
+                </mxCell>
+                <mxCell id="act-api" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="670" y="308" width="10" height="558" as="geometry"/>
+                </mxCell>
+                <mxCell id="act-fc" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="865" y="342" width="10" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="act-apc" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="1060" y="416" width="10" height="390" as="geometry"/>
+                </mxCell>
+                <mxCell id="act-sr" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="1255" y="450" width="10" height="318" as="geometry"/>
+                </mxCell>
+                <mxCell id="alt" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="250" y="470" width="1090" height="448" as="geometry"/>
+                </mxCell>
+                <mxCell id="alt-guard1" value="[file generato con successo]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="315" y="464" width="240" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="alt-sep" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="250" y="730" as="sourcePoint"/>
+                        <mxPoint x="1340" y="730" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="alt-guard2" value="[else / erroreGenerazioneFile — CS-15.01]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="260" y="734" width="320" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="m1" value="1: esportaCSV() [seleziona formato CSV dal menu Esporta]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="120" y="240" as="sourcePoint"/>
+                        <mxPoint x="280" y="240" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m2" value="2: esportaCSV(idReport)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="290" y="274" as="sourcePoint"/>
+                        <mxPoint x="475" y="274" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m3" value="3: inviaRichiesta(GET /ap/report/export?formato=csv)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="485" y="308" as="sourcePoint"/>
+                        <mxPoint x="670" y="308" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m4" value="4: GET /ap/report/export  (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="680" y="342" as="sourcePoint"/>
+                        <mxPoint x="865" y="342" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m5" value="5: validaAutenticazione([&quot;AP&quot;])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="935" y="376"/>
+                            <mxPoint x="935" y="392"/>
+                        </Array>
+                        <mxPoint x="875" y="376" as="sourcePoint"/>
+                        <mxPoint x="875" y="392" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m6" value="6: instrada(): esportaCSV(idReport)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="875" y="416" as="sourcePoint"/>
+                        <mxPoint x="1060" y="416" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m7" value="7: esportaCSV(idReport)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1070" y="450" as="sourcePoint"/>
+                        <mxPoint x="1255" y="450" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m8" value="8: serializzaCSV(report)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1325" y="490"/>
+                            <mxPoint x="1325" y="506"/>
+                        </Array>
+                        <mxPoint x="1265" y="490" as="sourcePoint"/>
+                        <mxPoint x="1265" y="506" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m9" value="9: :file (CSV)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1255" y="530" as="sourcePoint"/>
+                        <mxPoint x="1070" y="530" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m10" value="10: 200 OK + file (text/csv)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1060" y="564" as="sourcePoint"/>
+                        <mxPoint x="680" y="564" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m11" value="11: gestisciRisposta(): :file" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="670" y="598" as="sourcePoint"/>
+                        <mxPoint x="485" y="598" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m12" value="12: :file" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="475" y="632" as="sourcePoint"/>
+                        <mxPoint x="290" y="632" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m13" value="13: avviaDownload(file)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="355" y="666"/>
+                            <mxPoint x="355" y="682"/>
+                        </Array>
+                        <mxPoint x="290" y="666" as="sourcePoint"/>
+                        <mxPoint x="290" y="682" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m14" value="14: file CSV scaricato + notifica completamento" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="280" y="706" as="sourcePoint"/>
+                        <mxPoint x="120" y="706" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m15" value="15: :erroreGenerazioneFile" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1255" y="758" as="sourcePoint"/>
+                        <mxPoint x="1070" y="758" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m16" value="16: 500 Internal Server Error" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1060" y="792" as="sourcePoint"/>
+                        <mxPoint x="680" y="792" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m17" value="17: gestisciRisposta(): :errore" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="670" y="826" as="sourcePoint"/>
+                        <mxPoint x="485" y="826" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m18" value="18: :errore" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="475" y="860" as="sourcePoint"/>
+                        <mxPoint x="290" y="860" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m19" value="19: mostraErrore(&quot;Esportazione fallita, riprova o scegli un altro formato&quot;)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="280" y="894" as="sourcePoint"/>
+                        <mxPoint x="120" y="894" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
