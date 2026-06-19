@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="SD - UT-05 Effettua Pagamento" id="effettua-pagamento-ut05">
-        <mxGraphModel dx="2705" dy="502" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
+        <mxGraphModel dx="428" dy="-1901" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -204,7 +204,7 @@
                         <mxPoint x="545" y="3228" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="MYzrLpS_YrxnJL8aIgBe-461" value="15: 200 OK (JSON)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="MYzrLpS_YrxnJL8aIgBe-461" value="15: 200 OK&amp;nbsp;" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="535" y="3268" as="sourcePoint"/>
                         <mxPoint x="350" y="3268" as="targetPoint"/>

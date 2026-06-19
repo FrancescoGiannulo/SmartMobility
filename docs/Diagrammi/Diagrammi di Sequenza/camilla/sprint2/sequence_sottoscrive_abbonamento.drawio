@@ -1,0 +1,333 @@
+<mxfile host="65bd71144e">
+    <diagram name="SD - UT-13 Sottoscrive Abbonamento" id="sottoscrive-abbonamento-ut13">
+        <mxGraphModel dx="2780" dy="2840" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="jlml057ZhRlPvIFHQQon-545" value="sd Sottoscrive Abbonamento" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=200;height=30;" vertex="1" parent="1">
+                    <mxGeometry x="220" y="170" width="1530" height="1560" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-546" value=":Utente" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+                    <mxGeometry x="255" y="230" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-547" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="270" y="290" as="sourcePoint"/>
+                        <mxPoint x="270" y="1740" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-548" value="&lt;b&gt;&lt;u&gt;:VistaAbbonamenti&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="230" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-549" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="400" y="274" as="sourcePoint"/>
+                        <mxPoint x="400" y="1730" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-550" value="&lt;b&gt;&lt;u&gt;:AbbonamentoService&lt;/u&gt;&lt;/b&gt;&lt;i style=&quot;font-size:9px;&quot;&gt;&lt;br&gt;&lt;/i&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="525" y="230" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-551" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="605" y="274" as="sourcePoint"/>
+                        <mxPoint x="605" y="1730" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-552" value="&lt;b&gt;&lt;u&gt;:ApiService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="730" y="230" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-553" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="810" y="274" as="sourcePoint"/>
+                        <mxPoint x="810" y="1730" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-554" value="&lt;b&gt;&lt;u&gt;:FrontController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="935" y="230" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-555" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1015" y="274" as="sourcePoint"/>
+                        <mxPoint x="1015" y="1740" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-556" value="&lt;b&gt;&lt;u&gt;:AbbonamentoController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1140" y="230" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-557" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1220" y="274" as="sourcePoint"/>
+                        <mxPoint x="1220" y="1730" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-558" value="&lt;b&gt;&lt;u&gt;:ServizioAbbonamento&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1345" y="230" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-559" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1425" y="274" as="sourcePoint"/>
+                        <mxPoint x="1425" y="1730" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-560" value="&lt;b&gt;&lt;u&gt;:AbbonamentoRepository&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1550" y="230" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-561" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;entryX=0.922;entryY=1.003;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="jlml057ZhRlPvIFHQQon-545">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1630" y="274" as="sourcePoint"/>
+                        <mxPoint x="1630" y="1960" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-562" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="395" y="385" width="10" height="568" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-563" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="395" y="989" width="10" height="710" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-564" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="600" y="425" width="10" height="488" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-565" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="600" y="1117" width="10" height="544" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-566" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="805" y="465" width="10" height="408" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-567" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="805" y="1157" width="10" height="464" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-568" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="1010" y="505" width="10" height="328" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-569" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="1010" y="1197" width="10" height="384" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-570" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="1215" y="577" width="10" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-571" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="1215" y="1273" width="10" height="268" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-572" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="1420" y="617" width="10" height="138" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-573" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="1420" y="1313" width="10" height="188" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-574" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                    <mxGeometry x="1625" y="657" width="10" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-575" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                    <mxGeometry x="1625" y="1405" width="10" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-576" value="1: accediAbbonamenti()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="270" y="391" as="sourcePoint"/>
+                        <mxPoint x="395" y="391" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-577" value="2: getPianiAbbonamento()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="405" y="431" as="sourcePoint"/>
+                        <mxPoint x="600" y="431" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-578" value="3: inviaRichiesta(GET /utente/abbonamenti/piani)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="610" y="471" as="sourcePoint"/>
+                        <mxPoint x="805" y="471" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-579" value="4: GET /utente/abbonamenti/piani  (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="815" y="511" as="sourcePoint"/>
+                        <mxPoint x="1010" y="511" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-580" value="5: validaAutenticazione()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1085" y="547"/>
+                            <mxPoint x="1085" y="563"/>
+                        </Array>
+                        <mxPoint x="1020" y="547" as="sourcePoint"/>
+                        <mxPoint x="1020" y="563" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-581" value="6: instrada(): getPiani()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1020" y="583" as="sourcePoint"/>
+                        <mxPoint x="1215" y="583" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-582" value="7: getPianiDisponibili()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1225" y="623" as="sourcePoint"/>
+                        <mxPoint x="1420" y="623" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-583" value="8: getPianiDisponibili()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1430" y="663" as="sourcePoint"/>
+                        <mxPoint x="1625" y="663" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-584" value="9: :piani «Transfer Object»" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1625" y="703" as="sourcePoint"/>
+                        <mxPoint x="1430" y="703" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-585" value="10: :piani" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1420" y="743" as="sourcePoint"/>
+                        <mxPoint x="1225" y="743" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-586" value="11: 200 OK :listaPiani" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1215" y="783" as="sourcePoint"/>
+                        <mxPoint x="1020" y="783" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-587" value="12: 200 OK&amp;nbsp;" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1010" y="823" as="sourcePoint"/>
+                        <mxPoint x="815" y="823" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-588" value="13: gestisciRisposta(): :listaPiani" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="805" y="863" as="sourcePoint"/>
+                        <mxPoint x="610" y="863" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-589" value="14: :listaPiani" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="600" y="903" as="sourcePoint"/>
+                        <mxPoint x="405" y="903" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-590" value="15: mostraPianiAbbonamento(listaPiani)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="395" y="943" as="sourcePoint"/>
+                        <mxPoint x="270" y="943" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-591" value="16: selezionaPiano(idOfferta)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="270" y="995" as="sourcePoint"/>
+                        <mxPoint x="395" y="995" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-592" value="17: mostraRiepilogo(piano)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="395" y="1035" as="sourcePoint"/>
+                        <mxPoint x="270" y="1035" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-593" value="18: confermaSottoscrizione()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="270" y="1083" as="sourcePoint"/>
+                        <mxPoint x="395" y="1083" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-594" value="19: sottoscriviAbbonamento(idOfferta)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="405" y="1123" as="sourcePoint"/>
+                        <mxPoint x="600" y="1123" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-595" value="20: inviaRichiesta(POST /utente/abbonamenti/{idOfferta})" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="610" y="1163" as="sourcePoint"/>
+                        <mxPoint x="805" y="1163" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-596" value="21: POST /utente/abbonamenti/{idOfferta}  (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="815" y="1203" as="sourcePoint"/>
+                        <mxPoint x="1010" y="1203" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-597" value="22: validaAutenticazione()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1085" y="1239"/>
+                            <mxPoint x="1085" y="1255"/>
+                        </Array>
+                        <mxPoint x="1020" y="1239.0000000000018" as="sourcePoint"/>
+                        <mxPoint x="1020" y="1255" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-598" value="23: instrada(): sottoscrivi()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1020" y="1279.0000000000018" as="sourcePoint"/>
+                        <mxPoint x="1215" y="1279.0000000000018" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-599" value="24: sottoscrivi(idUtente, idOfferta)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1225" y="1319.0000000000018" as="sourcePoint"/>
+                        <mxPoint x="1420" y="1319.0000000000018" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-600" value="ref" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="1343" width="1420" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-601" value="EffettuaPagamento (UC «incluso» — UT-05)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="1343" width="1420" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-602" value="25: crea(idUtente, idOfferta)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1430" y="1411" as="sourcePoint"/>
+                        <mxPoint x="1625" y="1411" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-603" value="26: :abbonamentoUtente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1625" y="1451" as="sourcePoint"/>
+                        <mxPoint x="1430" y="1451" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-604" value="27: :abbonamentoCreato" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1420" y="1491" as="sourcePoint"/>
+                        <mxPoint x="1225" y="1491" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-605" value="28: 201 Created" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1215" y="1531" as="sourcePoint"/>
+                        <mxPoint x="1020" y="1531" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-606" value="29: 201 Created (JSON)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1010" y="1571" as="sourcePoint"/>
+                        <mxPoint x="815" y="1571" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-607" value="30: gestisciRisposta(): :abbonamentoAttivato" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="805" y="1611" as="sourcePoint"/>
+                        <mxPoint x="610" y="1611" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-608" value="31: :abbonamentoAttivato" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="600" y="1651" as="sourcePoint"/>
+                        <mxPoint x="405" y="1651" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jlml057ZhRlPvIFHQQon-609" value="32: mostraAbbonamentoAttivo()" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="395" y="1691" as="sourcePoint"/>
+                        <mxPoint x="270" y="1691" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
