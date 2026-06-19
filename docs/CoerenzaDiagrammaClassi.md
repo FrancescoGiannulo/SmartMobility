@@ -29,7 +29,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | `VistaSegnalazioneUtente` | `views/utente/VistaSegnalazione.tsx` | ⚠️ | Nome abbreviato |
 | `VistaSegnalazioniOP` | `views/operatore/VistaSegnalazioniOperatore.tsx` | ⚠️ | Nome diverso |
 | `VistaTariffeOfferte` | `views/operatore/VistaTariffeOfferte.tsx` | ✅ | |
-| *(non previsto)* | `views/utente/VistaCorse.tsx` | ⚠️ | Extra: storico corse — aggiungere al diagramma |
+| `VistaStoricoCorse` | `views/utente/VistaStoricoCorse.tsx` | ✅ | |
 | *(non previsto)* | `views/auth/VistaLogin.tsx` | ⚠️ | Extra — aggiungere al diagramma |
 | *(non previsto)* | `views/utente/VistaProfiloUtente.tsx` | ⚠️ | Extra — aggiungere al diagramma |
 | *(non previsto)* | `views/auth/CallbackOAuth.tsx` | ⚠️ | Extra tecnico OAuth |
@@ -185,7 +185,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 
 **Frontend services:** `AbbonamentoService`, `CorsaService`, `ConfigurazioneService`, `OffertaService`, `RegolaFinecorsaService`, `SegnalazioneService`
 
-**Frontend views:** `VistaCorse`, `VistaLogin`, `VistaProfiloUtente`, `CallbackOAuth`, `PrivacyPolicy`
+**Frontend views:** `VistaStoricoCorse`, `VistaLogin`, `VistaProfiloUtente`, `CallbackOAuth`, `PrivacyPolicy`
 
 **DAL:** `AttoreRepository`, `OperatoreRepository`, `PromozioneRepository`, `RegoleFineCorsaRawRepository`
 

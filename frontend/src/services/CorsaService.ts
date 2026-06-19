@@ -87,7 +87,7 @@ export interface Corsa {
   nome_offerta_applicata: string | null
 }
 
-export const getStoricoCorsa = async (): Promise<Corsa[]> => {
+export const getStorico = async (): Promise<Corsa[]> => {
   const r = await api.get<Corsa[]>('/utente/corse/storico')
   return r.data
 }

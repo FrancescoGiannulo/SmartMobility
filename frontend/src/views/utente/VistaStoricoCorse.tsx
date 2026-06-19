@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getStoricoCorsa, type Corsa } from '../../services/CorsaService'
-import './VistaCorse.css'
+import { getStorico, type Corsa } from '../../services/CorsaService'
+import './VistaStoricoCorse.css'
 
 const GLYPH: Record<string, string> = {
   monopattino: '🛴', bicicletta: '🚲', automobile: '🚗',
@@ -63,7 +63,7 @@ function raggruppa(corse: Corsa[]): VoceStorico[] {
 }
 
 // [IF-UT.14] CS-11 — Visualizza Storico Corse
-export default function VistaCorse() {
+export default function VistaStoricoCorse() {
   const navigate = useNavigate()
   const [voci, setVoci] = useState<VoceStorico[]>([])
   const [stato, setStato] = useState<'loading' | 'ok' | 'errore'>('loading')
@@ -71,7 +71,7 @@ export default function VistaCorse() {
 
   const carica = () => {
     setStato('loading')
-    getStoricoCorsa()
+    getStorico()
       .then(corse => {
         setVoci(raggruppa(corse))
         setStato('ok')

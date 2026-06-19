@@ -1,0 +1,289 @@
+<mxfile host="65bd71144e">
+    <diagram name="SD - UT-11 Visualizza Storico Corse" id="storico-corse-ut11">
+        <mxGraphModel dx="2780" dy="2840" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="1654" background="#FFFFFF" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+
+                <!-- ===================== FRAME ===================== -->
+                <mxCell id="st-frame" value="sd Visualizza Storico Corse" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=240;height=30;" vertex="1" parent="1">
+                    <mxGeometry x="220" y="170" width="1560" height="1270" as="geometry"/>
+                </mxCell>
+
+                <!-- ===================== LIFELINES ===================== -->
+                <mxCell id="st-actor" value=":Utente" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+                    <mxGeometry x="255" y="230" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-ll-actor" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="270" y="290" as="sourcePoint"/>
+                        <mxPoint x="270" y="1420" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="st-view" value="&lt;b&gt;&lt;u&gt;:VistaStoricoCorse&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="230" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-ll-view" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="400" y="274" as="sourcePoint"/>
+                        <mxPoint x="400" y="1420" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="st-cs" value="&lt;b&gt;&lt;u&gt;:CorsaService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="525" y="230" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-ll-cs" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="605" y="274" as="sourcePoint"/>
+                        <mxPoint x="605" y="1420" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="st-api" value="&lt;b&gt;&lt;u&gt;:ApiService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="730" y="230" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-ll-api" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="810" y="274" as="sourcePoint"/>
+                        <mxPoint x="810" y="1420" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="st-fc" value="&lt;b&gt;&lt;u&gt;:FrontController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="935" y="230" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-ll-fc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1015" y="274" as="sourcePoint"/>
+                        <mxPoint x="1015" y="1420" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="st-ctrl" value="&lt;b&gt;&lt;u&gt;:CorsaController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1140" y="230" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-ll-ctrl" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1220" y="274" as="sourcePoint"/>
+                        <mxPoint x="1220" y="1420" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="st-sm" value="&lt;b&gt;&lt;u&gt;:ServizioMobilita&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1345" y="230" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-ll-sm" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1425" y="274" as="sourcePoint"/>
+                        <mxPoint x="1425" y="1420" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="st-repo" value="&lt;b&gt;&lt;u&gt;:CorsaRepository&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1550" y="230" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-ll-repo" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1630" y="274" as="sourcePoint"/>
+                        <mxPoint x="1630" y="1420" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+                <!-- ===================== ACTIVATION BARS ===================== -->
+                <mxCell id="st-act-view" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="395" y="431" width="10" height="941" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-act-cs" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="600" y="471" width="10" height="861" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-act-api" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="805" y="511" width="10" height="781" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-act-fc" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="1010" y="551" width="10" height="701" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-act-ctrl" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="1215" y="623" width="10" height="589" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-act-sm" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="1420" y="663" width="10" height="509" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-act-repo" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                    <mxGeometry x="1625" y="703" width="10" height="429" as="geometry"/>
+                </mxCell>
+
+                <!-- ===================== ALT FRAME ===================== -->
+                <mxCell id="st-alt" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="240" y="733" width="1540" height="667" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-alt-guard1" value="[dati disponibili]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="305" y="731" width="240" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-alt-div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="240" y="1098" as="sourcePoint"/>
+                        <mxPoint x="1780" y="1098" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-alt-guard2" value="[else / DatiNonDisponibili (SQLAlchemyError) &#8212; UT-11.1]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="250" y="1102" width="460" height="22" as="geometry"/>
+                </mxCell>
+
+                <!-- ===================== MESSAGGI ===================== -->
+                <mxCell id="st-m1" value="1: visualizzaStoricoCorse()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="270" y="431" as="sourcePoint"/>
+                        <mxPoint x="395" y="431" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m2" value="2: getStorico(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="405" y="471" as="sourcePoint"/>
+                        <mxPoint x="600" y="471" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m3" value="3: inviaRichiesta(GET /utente/corse/storico)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="610" y="511" as="sourcePoint"/>
+                        <mxPoint x="805" y="511" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m4" value="4: GET /utente/corse/storico  (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="815" y="551" as="sourcePoint"/>
+                        <mxPoint x="1010" y="551" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m5" value="5: validaAutenticazione()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1080" y="587"/>
+                            <mxPoint x="1080" y="603"/>
+                        </Array>
+                        <mxPoint x="1020" y="587" as="sourcePoint"/>
+                        <mxPoint x="1020" y="603" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m6" value="6: instrada(): getStorico()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1020" y="623" as="sourcePoint"/>
+                        <mxPoint x="1215" y="623" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m7" value="7: getStorico(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1225" y="663" as="sourcePoint"/>
+                        <mxPoint x="1420" y="663" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m8" value="8: findByUtenteOrderByData(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1430" y="703" as="sourcePoint"/>
+                        <mxPoint x="1625" y="703" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+                <!-- alt: ramo [dati disponibili] -->
+                <mxCell id="st-m9" value="9: :listaCorse" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1625" y="763" as="sourcePoint"/>
+                        <mxPoint x="1430" y="763" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m10" value="10: :listaCorse" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1420" y="803" as="sourcePoint"/>
+                        <mxPoint x="1225" y="803" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m11" value="11: 200 OK :listaCorse" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1215" y="843" as="sourcePoint"/>
+                        <mxPoint x="1020" y="843" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m12" value="12: 200 OK (JSON)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1010" y="883" as="sourcePoint"/>
+                        <mxPoint x="815" y="883" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m13" value="13: gestisciRisposta(): :listaCorse" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="805" y="923" as="sourcePoint"/>
+                        <mxPoint x="610" y="923" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m14" value="14: :listaCorse" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="600" y="963" as="sourcePoint"/>
+                        <mxPoint x="405" y="963" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m15" value="15: raggruppa(corse)  [per gruppo_corsa_id]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="460" y="1003"/>
+                            <mxPoint x="460" y="1019"/>
+                        </Array>
+                        <mxPoint x="400" y="1003" as="sourcePoint"/>
+                        <mxPoint x="400" y="1019" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m16" value="16: mostraStoricoCorse(voci)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="395" y="1063" as="sourcePoint"/>
+                        <mxPoint x="270" y="1063" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+                <!-- alt: ramo [else / DatiNonDisponibili] -->
+                <mxCell id="st-m17" value="17: «SQLAlchemyError»" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;strokeColor=#B85450;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1625" y="1132" as="sourcePoint"/>
+                        <mxPoint x="1430" y="1132" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m18" value="18: «SQLAlchemyError» (propaga)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;strokeColor=#B85450;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1420" y="1172" as="sourcePoint"/>
+                        <mxPoint x="1225" y="1172" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m19" value="19: 503 Service Unavailable {Storico non disponibile}" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;strokeColor=#B85450;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1215" y="1212" as="sourcePoint"/>
+                        <mxPoint x="1020" y="1212" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m20" value="20: 503 Service Unavailable" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;strokeColor=#B85450;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1010" y="1252" as="sourcePoint"/>
+                        <mxPoint x="815" y="1252" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m21" value="21: mostraErroreHTTP(503): errore" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;strokeColor=#B85450;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="805" y="1292" as="sourcePoint"/>
+                        <mxPoint x="610" y="1292" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m22" value="22: :errore" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;strokeColor=#B85450;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="600" y="1332" as="sourcePoint"/>
+                        <mxPoint x="405" y="1332" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="st-m23" value="23: mostraStoricoNonDisponibile()  [con opzione Riprova]" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;strokeColor=#B85450;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="395" y="1372" as="sourcePoint"/>
+                        <mxPoint x="270" y="1372" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

@@ -119,7 +119,7 @@ VITE_GOOGLE_MAPS_API_KEY=<google maps api key>
 frontend/src/
 ├── views/
 │   ├── auth/             → VistaLogin, CallbackOAuth
-│   ├── utente/           → VistaHomePageUtente, VistaCorsa, VistaCorse, VistaPagamenti,
+│   ├── utente/           → VistaHomePageUtente, VistaCorsa, VistaStoricoCorse, VistaPagamenti,
 │   │                        VistaAbbonamenti, VistaSegnalazione, VistaProfiloUtente
 │   ├── operatore/        → VistaMappaOperatore, VistaMezziOperatore, VistaTariffeOfferte,
 │   │                        VistaImpostazioniRegole, VistaParametriSistema, VistaSegnalazioniOperatore
@@ -304,7 +304,7 @@ I campi `importo_pieno` e `offerta_applicata_id` sono salvati nella tabella `pag
 
 ### Sblocco multiplo e gruppo corsa [IF-UT.03]
 
-Quando più mezzi vengono sbloccati insieme (batch), `ServizioMobilita.sblocca_mezzi` assegna lo stesso `gruppo_corsa_id` (UUID condiviso) a tutte le corse create. Questo permette di raggrupparle nello storico (`VistaCorse.tsx`).
+Quando più mezzi vengono sbloccati insieme (batch), `ServizioMobilita.sblocca_mezzi` assegna lo stesso `gruppo_corsa_id` (UUID condiviso) a tutte le corse create. Questo permette di raggrupparle nello storico (`VistaStoricoCorse.tsx`).
 
 Il frontend può avviare lo sblocco da tre punti:
 - **Pannello mappa** (modalità `sblocca`) — selezione diretta
