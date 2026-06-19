@@ -7,14 +7,14 @@ import {
 } from '@vis.gl/react-google-maps'
 import { getMezziUtente, getZoneUtente, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
 import { getTariffe, getPromozioni, type Tariffa, type Promozione } from '../../services/PaymentService'
+import { sbloccaMezzi } from '../../services/CorsaService'
 import {
-  sbloccaMezzi,
-  prenota,
+  creaPrenotazione,
   annullaPrenotazione,
   getPrenotazioniAttive,
   isRisultatiParziali,
   type Prenotazione,
-} from '../../services/CorsaService'
+} from '../../services/PrenotazioneService'
 import { logout, utenteCorrente } from '../../services/AuthService'
 import { getParametriUtente } from '../../services/ConfigurazioneService'
 import ZonaPoligono from '../../components/ZonaPoligono'
@@ -242,7 +242,7 @@ export default function VistaHomePageUtente() {
     setErrorePanel('')
     setNonDisponibili([])
     try {
-      const prens = await prenota(selezione.map(m => m.id))
+      const prens = await creaPrenotazione(selezione.map(m => m.id))
       setMezziPrenotati([...selezione])
       setPrenotazioni(prens)
       setSelezione([])

@@ -28,7 +28,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | `VistaReport` | `views/amministrazione/VistaReportAP.tsx` | ⚠️ | Nome diverso |
 | `VistaSegnalazioneUtente` | `views/utente/VistaSegnalazione.tsx` | ⚠️ | Nome abbreviato |
 | `VistaSegnalazioniOP` | `views/operatore/VistaSegnalazioniOperatore.tsx` | ⚠️ | Nome diverso |
-| `VistaTariffePromozioni` | `views/operatore/VistaTariffePromozioni.tsx` | ✅ | |
+| `VistaTariffeOfferte` | `views/operatore/VistaTariffeOfferte.tsx` | ✅ | |
 | *(non previsto)* | `views/utente/VistaCorse.tsx` | ⚠️ | Extra: storico corse — aggiungere al diagramma |
 | *(non previsto)* | `views/auth/VistaLogin.tsx` | ⚠️ | Extra — aggiungere al diagramma |
 | *(non previsto)* | `views/utente/VistaProfiloUtente.tsx` | ⚠️ | Extra — aggiungere al diagramma |

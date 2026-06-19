@@ -121,7 +121,7 @@ frontend/src/
 │   ├── auth/             → VistaLogin, CallbackOAuth
 │   ├── utente/           → VistaHomePageUtente, VistaCorsa, VistaCorse, VistaPagamenti,
 │   │                        VistaAbbonamenti, VistaSegnalazione, VistaProfiloUtente
-│   ├── operatore/        → VistaMappaOperatore, VistaMezziOperatore, VistaTariffePromozioni,
+│   ├── operatore/        → VistaMappaOperatore, VistaMezziOperatore, VistaTariffeOfferte,
 │   │                        VistaImpostazioniRegole, VistaParametriSistema, VistaSegnalazioniOperatore
 │   └── amministrazione/  → VistaDashboardAP, VistaReportAP
 ├── components/           → RoutaProtetta, ZonaPoligono, TooltipZona,
@@ -131,6 +131,7 @@ frontend/src/
     ├── AuthService.ts          → login, registrazione, OAuth callback
     ├── MapService.ts           → mezzi e zone [IF-UT.01, IF-AP.03, IF-OP.01]
     ├── CorsaService.ts         → sblocco, pausa, termina, storico [IF-UT.03, IF-UT.04, IF-UT.09, IF-UT.11]
+    ├── PrenotazioneService.ts  → prenotazioni: crea, annulla, attive, caratteristiche mezzo [IF-UT.02]
     ├── PaymentService.ts       → metodi di pagamento [IF-UT.05, IF-UT.06]
     ├── AbbonamentoService.ts   → abbonamenti [IF-UT.13]
     ├── OffertaService.ts       → offerte/promozioni [IF-OP.10]

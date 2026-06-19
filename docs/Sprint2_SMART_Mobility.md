@@ -1083,7 +1083,7 @@ Il blocco Client gestisce l'interfaccia utente (Frontend) e la comunicazione ini
 - VistaOperatore: Interfaccia per il personale di gestione sul campo. Contiene le classi:
   - VistaDashBoardOperatore: È la schermata principale di controllo per l'operatore. Fornisce una panoramica dello stato del servizio, notifiche in tempo reale su eventuali anomalie dei mezzi, segnalazioni degli utenti o task di manutenzione da completare.
   - VistaDefinisciZona: Interfaccia grafica che permette all'operatore di tracciare e definire nuove aree operative sulla mappa o di modificare quelle esistenti. Viene utilizzata per impostare aree di geofencing, come zone di parcheggio obbligatorio, zone in cui è vietata la sosta o aree a velocità limitata.
-  - VistaTariffePromozioni: Schermata per la gestione e la configurazione economica del servizio. Permette all'operatore di inserire nuovi piani tariffari (es. costo di sblocco e costo al minuto) o di creare e attivare codici promozionali e sconti per gli utenti.
+  - VistaTariffeOfferte: Schermata per la gestione e la configurazione economica del servizio. Permette all'operatore di inserire nuovi piani tariffari (es. costo di sblocco e costo al minuto) o di creare e attivare codici promozionali e sconti per gli utenti.
   - VistaMezziOperatore: Pannello tecnico focalizzato sulla gestione fisica della flotta. Consente di visualizzare l'elenco completo dei veicoli, filtrandoli per stato (es. carica bassa, in manutenzione, disponibile), e include le funzionalità per registrare un nuovo mezzo nel sistema o forzare la chiusura di una corsa.
   - VistaImpostazioniRegole: Schermata di configurazione aziendale e sistemistica in cui l'operatore definisce i parametri generali di funzionamento e le regole di fine corsa (ad esempio, l'obbligo
 
@@ -1266,7 +1266,7 @@ Le classi View rappresentano le schermate dell'applicazione. Tutte dialogano con
 - VistaMezziOperatore: consente la gestione completa dei mezzi della flotta, comprendendo la visualizzazione della lista, la modifica dello stato di un mezzo, l'aggiunta di nuovi mezzi e la richiesta di dismissione, con relative conferme e notifiche di esito.
 - VistaDefinisciZona: fornisce un editor cartografico per la definizione di nuove zone (parcheggio, operative, vietate), con conferma del perimetro disegnato e possibilità di ritornare in editing in caso di errore.
 - VistaImpostazioniRegole: consente la configurazione delle regole di fine corsa, come ad esempio l'obbligo di sosta in determinate zone parcheggio, con relativa conferma di salvataggio.
-- VistaTariffePromozioni: gestisce le tariffe e le promozioni applicate ai mezzi, consentendone la visualizzazione e la creazione di nuove tariffe.
+- VistaTariffeOfferte: gestisce le tariffe e le promozioni applicate ai mezzi, consentendone la visualizzazione e la creazione di nuove tariffe.
 - VistaGestioneSegnalazioni: lista delle segnalazioni ricevute, consultazione del dettaglio e pianificazione interventi (integrata o accessibile dalla VistaDashboardOperatore).
 - VistaConfigurazioneParametri: configurazione dei parametri numerici di sistema (durata prenotazione, periodo di grazia, numero massimo mezzi, addebito pausa, bonus), con validazione e conferma di salvataggio.
 - VistaGestioneUtenti (Operatore): consultazione della lista utenti e sospensione/riattivazione di un account, con conferma e notifica di esito.
@@ -1281,7 +1281,7 @@ Le classi View rappresentano le schermate dell'applicazione. Tutte dialogano con
   - AuthService, MapService, ZonaService, PaymentService, FlottaService, ReportService e PrenotazioneService utilizzano ApiService.
   - Tutte le classi Vista* utilizzano ApiToView.
 - Associazioni tra viste:
-  - VistaAccount è la vista radice; sono ad essa associate VistaHomepageUtente, VistaCorsa, VistaPrenotazioneMezzo, VistaPagamento, VistaMezziOperatore, VistaDashboardOperatore, VistaDashboardAP, VistaDefinisciZona, VistaTariffePromozioni e VistaImpostazioniRegole.
+  - VistaAccount è la vista radice; sono ad essa associate VistaHomepageUtente, VistaCorsa, VistaPrenotazioneMezzo, VistaPagamento, VistaMezziOperatore, VistaDashboardOperatore, VistaDashboardAP, VistaDefinisciZona, VistaTariffeOfferte e VistaImpostazioniRegole.
 
 ##### 2.4.2.2 Specifica delle Classi – Server
 
