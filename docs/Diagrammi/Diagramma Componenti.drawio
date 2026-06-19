@@ -98,7 +98,7 @@
         <mxCell id="32" parent="20" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6C8EBF;fontSize=11;" value="VistaMezziOperatore" vertex="1">
           <mxGeometry height="40.02916666666667" width="306.9371727748691" x="1008.5078534031413" y="166.27500000000003" as="geometry" />
         </mxCell>
-        <mxCell id="33" parent="20" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6C8EBF;fontSize=11;" value="VistaTariffePromozioni" vertex="1">
+        <mxCell id="33" parent="20" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6C8EBF;fontSize=11;" value="VistaTariffeOfferte" vertex="1">
           <mxGeometry height="40.02916666666667" width="306.9371727748691" x="24.554973821989527" y="218.62083333333337" as="geometry" />
         </mxCell>
         <mxCell id="34" parent="20" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6C8EBF;fontSize=11;" value="VistaImpostazioniRegole" vertex="1">
