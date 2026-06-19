@@ -16,7 +16,7 @@ sotto-componente contiene le classi del rispettivo livello.
 ### 1.1 `«component» View` (Presentation) — 20 classi
 `VistaLogin`, `VistaHomePageUtente`, `VistaCorsa`, `VistaStoricoCorse`, `VistaPagamenti`,
 `VistaAbbonamenti`, `VistaSegnalazioneUtente`, `VistaProfiloUtente`, `CallbackOAuth`,
-`PrivacyPolicy`, `VistaDefinisciZona`, `VistaMezziOperatore`, `VistaTariffePromozioni`,
+`PrivacyPolicy`, `VistaDefinisciZona`, `VistaMezziOperatore`, `VistaTariffeOfferte`,
 `VistaImpostazioniRegole`, `VistaParametriSistema`, `VistaSegnalazioniOperatore`,
 `VistaGestioneUtentiOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaRecensione`.
 

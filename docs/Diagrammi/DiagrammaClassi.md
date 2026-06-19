@@ -8,7 +8,7 @@
 
 Totale elementi identificati: **122**.
 
-- **CLIENT - View (Presentation)** (20): `VistaLogin`, `VistaProfiloUtente`, `CallbackOAuth`, `PrivacyPolicy`, `VistaGestioneUtentiOperatore`, `VistaRecensione`, `VistaSegnalazioneUtente`, `VistaSegnalazioniOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaParametriSistema`, `VistaImpostazioniRegole`, `VistaAbbonamenti`, `VistaTariffePromozioni`, `VistaCorsa`, `VistaStoricoCorse`, `VistaMezziOperatore`, `VistaPagamenti`, `VistaHomePageUtente`, `VistaDefinisciZona`
+- **CLIENT - View (Presentation)** (20): `VistaLogin`, `VistaProfiloUtente`, `CallbackOAuth`, `PrivacyPolicy`, `VistaGestioneUtentiOperatore`, `VistaRecensione`, `VistaSegnalazioneUtente`, `VistaSegnalazioniOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaParametriSistema`, `VistaImpostazioniRegole`, `VistaAbbonamenti`, `VistaTariffeOfferte`, `VistaCorsa`, `VistaStoricoCorse`, `VistaMezziOperatore`, `VistaPagamenti`, `VistaHomePageUtente`, `VistaDefinisciZona`
 - **CLIENT - Service (API Service Layer)** (16): `AuthService`, `GestioneUtentiService`, `RecensioneService`, `SegnalazioneService`, `ReportService`, `RegoleFineCorsaService`, `ConfigurazioneService`, `ApiService`, `AbbonamentoService`, `OffertaService`, `CorsaService`, `PrenotazioneService`, `FlottaService`, `PaymentService`, `ZonaService`, `MapService`
 - **SERVER - Controller (MVC / FrontController)** (16): `AccountController`, `UtentiOPController`, `RecensioneController`, `SegnalazioneUtenteController`, `SegnalazioneOPController`, `AmministrazionePubblicaController`, `ConfigurazioneController`, `RegoleFineCorsaController`, `FrontController (router FastAPI + auth middleware)`, `AbbonamentoController`, `OffertaController`, `CorsaController`, `MezzoOperatoreController`, `PagamentoController`, `ZoneController`, `HomePageUtenteController`
 - **Contratti Controller -> BLL (interfacce)** (12): `IServizioUtenti`, `IServizioRecensione`, `IServizioSegnalazione`, `IServizioReport`, `IServizioRegoleFineCorsa`, `IServizioParametri`, `IServizioAbbonamento`, `IServizioOfferta`, `IServizioPrenotazione`, `IServizioMobilita`, `IServizioPricing`, `IServizioGIS`
@@ -241,7 +241,7 @@ Totale elementi identificati: **122**.
 + mostraAbbonamentoAttivo(): void
 ```
 
-### `VistaTariffePromozioni`
+### `VistaTariffeOfferte`
 
 **Attributi**
 

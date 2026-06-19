@@ -1,0 +1,366 @@
+<mxfile host="65bd71144e">
+    <diagram name="SD - OP-06 Definisce Regole Fine Corsa" id="definisce-regole-fine-corsa-op06">
+        <mxGraphModel dx="1147" dy="1893" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-805" value="sd Definisce Regole Fine Corsa" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=220;height=30;" vertex="1" parent="1">
+                    <mxGeometry x="235" y="160" width="1675" height="1570" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-806" value=":Operatore" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+                    <mxGeometry x="265" y="200" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-807" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="279.9999999999991" y="260" as="sourcePoint"/>
+                        <mxPoint x="280" y="1730" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-808" value="&lt;b&gt;&lt;u&gt;:VistaImpostazioniRegole&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="330" y="200" width="180" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-809" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="419.9999999999991" y="243.9999999999991" as="sourcePoint"/>
+                        <mxPoint x="420" y="1740" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-810" value="&lt;b&gt;&lt;u&gt;:RegoleFineCorsaService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="545" y="200" width="190" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-811" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="639.9999999999991" y="243.9999999999991" as="sourcePoint"/>
+                        <mxPoint x="640" y="1740" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-812" value="&lt;b&gt;&lt;u&gt;:ApiService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="770" y="200" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-813" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="849.9999999999991" y="243.9999999999991" as="sourcePoint"/>
+                        <mxPoint x="850" y="1730" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-814" value="&lt;b&gt;&lt;u&gt;:FrontController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="965" y="200" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-815" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1044.999999999999" y="243.9999999999991" as="sourcePoint"/>
+                        <mxPoint x="1050" y="1730" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-816" value="&lt;b&gt;&lt;u&gt;:RegoleFineCorsaController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1160" y="200" width="200" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-817" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1260.000000000001" y="243.9999999999991" as="sourcePoint"/>
+                        <mxPoint x="1260" y="1740" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-818" value="&lt;b&gt;&lt;u&gt;:ServizioRegoleFineCorsa&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1395" y="200" width="190" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-819" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1490.000000000001" y="243.9999999999991" as="sourcePoint"/>
+                        <mxPoint x="1490" y="1730" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-820" value="&lt;b&gt;&lt;u&gt;:RegoleFineCorsaRepository&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1625" y="200" width="200" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-821" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1725.000000000001" y="243.9999999999991" as="sourcePoint"/>
+                        <mxPoint x="1725" y="1730" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-822" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="415" y="320" width="10" height="522" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-823" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="635" y="356" width="10" height="450" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-824" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="845" y="392" width="10" height="378" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-825" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="1040" y="428" width="10" height="308" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-826" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="1255" y="502" width="10" height="196" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-827" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="1485" y="538" width="10" height="124" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-828" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                    <mxGeometry x="1720" y="574" width="10" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-829" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="415" y="878" width="10" height="762" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-830" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="635" y="914" width="10" height="696" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-831" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="845" y="950" width="10" height="622" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-832" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="1040" y="986" width="10" height="552" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-833" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="1255" y="1058" width="10" height="444" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-834" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="1485" y="1094" width="10" height="372" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-835" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                    <mxGeometry x="1720" y="1140" width="10" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-836" value="1: apriConfigurazioneRegoleFineCorsa()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="279.9999999999991" y="326" as="sourcePoint"/>
+                        <mxPoint x="414.9999999999991" y="326" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-837" value="2: getConfigurazioneCorrente()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="424.9999999999991" y="362" as="sourcePoint"/>
+                        <mxPoint x="634.9999999999991" y="362" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-838" value="3: inviaRichiesta(GET /operatore/configurazione/fine-corsa)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="644.9999999999991" y="398" as="sourcePoint"/>
+                        <mxPoint x="844.9999999999991" y="398" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-839" value="4: GET /operatore/configurazione/fine-corsa  (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="854.9999999999991" y="434" as="sourcePoint"/>
+                        <mxPoint x="1039.999999999999" y="434" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-840" value="5: validaAutenticazione()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1120" y="468"/>
+                            <mxPoint x="1120" y="484"/>
+                        </Array>
+                        <mxPoint x="1049.999999999999" y="468" as="sourcePoint"/>
+                        <mxPoint x="1049.999999999999" y="484" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-841" value="6: instrada(): getRegoleFineCorsa()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1049.999999999999" y="508" as="sourcePoint"/>
+                        <mxPoint x="1255.000000000001" y="508" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-842" value="7: getCorrente()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1265.000000000001" y="544" as="sourcePoint"/>
+                        <mxPoint x="1485.000000000001" y="544" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-843" value="8: findCorrente()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1495.000000000001" y="580.0000000000009" as="sourcePoint"/>
+                        <mxPoint x="1720.000000000001" y="580.0000000000009" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-844" value="9: :regolaCorrente «Transfer Object»" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1720.000000000001" y="616" as="sourcePoint"/>
+                        <mxPoint x="1495.000000000001" y="616" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-845" value="10: :regolaCorrente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1485.000000000001" y="652" as="sourcePoint"/>
+                        <mxPoint x="1265.000000000001" y="652" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-846" value="11: 200 OK :regolaCorrente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1255.000000000001" y="688" as="sourcePoint"/>
+                        <mxPoint x="1049.999999999999" y="688" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-847" value="12: 200 OK (JSON)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1039.999999999999" y="724" as="sourcePoint"/>
+                        <mxPoint x="854.9999999999991" y="724" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-848" value="13: gestisciRisposta(): :configurazioneAttuale" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="844.9999999999991" y="760.0000000000009" as="sourcePoint"/>
+                        <mxPoint x="644.9999999999991" y="760.0000000000009" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-849" value="14: :configurazioneAttuale" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="634.9999999999991" y="796" as="sourcePoint"/>
+                        <mxPoint x="424.9999999999991" y="796" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-850" value="15: mostraConfiguratoreRegoleFineCorsa(configurazioneAttuale)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="414.9999999999991" y="832" as="sourcePoint"/>
+                        <mxPoint x="279.9999999999991" y="832" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-851" value="16: confermaRegoleFineCorsa(politicaSanzionatoria, importoPenale, bonusConfig)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="279.9999999999991" y="884" as="sourcePoint"/>
+                        <mxPoint x="414.9999999999991" y="884" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-852" value="17: salvaRegoleFineCorsa(politica, importoPenale, bonusConfig)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="424.9999999999991" y="920.0000000000009" as="sourcePoint"/>
+                        <mxPoint x="634.9999999999991" y="920.0000000000009" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-853" value="18: inviaRichiesta(POST /operatore/configurazione/fine-corsa)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="644.9999999999991" y="956" as="sourcePoint"/>
+                        <mxPoint x="844.9999999999991" y="956" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-854" value="19: POST /operatore/configurazione/fine-corsa  (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="854.9999999999991" y="992" as="sourcePoint"/>
+                        <mxPoint x="1039.999999999999" y="992" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-855" value="20: validaAutenticazione()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1120" y="1024"/>
+                            <mxPoint x="1120" y="1040"/>
+                        </Array>
+                        <mxPoint x="1049.999999999999" y="1024" as="sourcePoint"/>
+                        <mxPoint x="1049.999999999999" y="1040.000000000001" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-856" value="21: instrada(): definisciRegoleFineCorsa()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1049.999999999999" y="1064" as="sourcePoint"/>
+                        <mxPoint x="1255.000000000001" y="1064" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-857" value="22: salva(tipoVincolo, penaleFuoriZona, batteriaMinima, bonusParcheggiCorretti, bonusValore)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1265.000000000001" y="1100.000000000001" as="sourcePoint"/>
+                        <mxPoint x="1485.000000000001" y="1100.000000000001" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-858" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="330" y="1122" width="1540" height="522" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-859" value="[parametri validi: valori negli intervalli ammessi]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="330" y="1155" width="380" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-860" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="329.9999999999991" y="1430.000000000001" as="sourcePoint"/>
+                        <mxPoint x="1870.000000000001" y="1430.000000000001" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-861" value="[else / parametri non validi: valori fuori intervallo]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="1434" width="380" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-862" value="23: save(regola: RegolaFineCorsa)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1495.000000000001" y="1146" as="sourcePoint"/>
+                        <mxPoint x="1720.000000000001" y="1146" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-863" value="24: :regolaAggiornata «Transfer Object»" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1720.000000000001" y="1182" as="sourcePoint"/>
+                        <mxPoint x="1495.000000000001" y="1182" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-864" value="25: :regolaAggiornata" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1485.000000000001" y="1218" as="sourcePoint"/>
+                        <mxPoint x="1265.000000000001" y="1218" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-865" value="26: 201 Created" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1255.000000000001" y="1254" as="sourcePoint"/>
+                        <mxPoint x="1049.999999999999" y="1254" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-866" value="27: 201 Created (JSON)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1039.999999999999" y="1290.000000000001" as="sourcePoint"/>
+                        <mxPoint x="854.9999999999991" y="1290.000000000001" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-867" value="28: gestisciRisposta(): :ok" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="844.9999999999991" y="1326" as="sourcePoint"/>
+                        <mxPoint x="644.9999999999991" y="1326" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-868" value="29: :ok" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="634.9999999999991" y="1362" as="sourcePoint"/>
+                        <mxPoint x="424.9999999999991" y="1362" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-869" value="30: mostraConfermaRegoleSalvate()" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="414.9999999999991" y="1398" as="sourcePoint"/>
+                        <mxPoint x="279.9999999999991" y="1398" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-870" value="31: :erroreParametriNonValidi(campiNonValidi)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1485.000000000001" y="1454" as="sourcePoint"/>
+                        <mxPoint x="1265.000000000001" y="1454" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-871" value="32: 422 Unprocessable Entity" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1255.000000000001" y="1490.000000000001" as="sourcePoint"/>
+                        <mxPoint x="1049.999999999999" y="1490.000000000001" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-872" value="33: 422 Unprocessable Entity" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1039.999999999999" y="1526" as="sourcePoint"/>
+                        <mxPoint x="854.9999999999991" y="1526" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-873" value="34: mostraErroreHTTP(422): :errore" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="844.9999999999991" y="1562" as="sourcePoint"/>
+                        <mxPoint x="644.9999999999991" y="1562" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-874" value="35: :errore" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="634.9999999999991" y="1598" as="sourcePoint"/>
+                        <mxPoint x="424.9999999999991" y="1598" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="P03CkvBwM4DMVpRVNmzw-875" value="36: mostraErrore(campiNonValidi)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="414.9999999999991" y="1634" as="sourcePoint"/>
+                        <mxPoint x="279.9999999999991" y="1634" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
