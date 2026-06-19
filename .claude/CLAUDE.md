@@ -119,7 +119,7 @@ VITE_GOOGLE_MAPS_API_KEY=<google maps api key>
 frontend/src/
 ├── views/
 │   ├── auth/             → VistaLogin, CallbackOAuth
-│   ├── utente/           → VistaMappa, VistaCorsa, VistaCorse, VistaPagamenti,
+│   ├── utente/           → VistaHomePageUtente, VistaCorsa, VistaCorse, VistaPagamenti,
 │   │                        VistaAbbonamenti, VistaSegnalazione, VistaProfiloUtente
 │   ├── operatore/        → VistaMappaOperatore, VistaMezziOperatore, VistaTariffePromozioni,
 │   │                        VistaImpostazioniRegole, VistaParametriSistema, VistaSegnalazioniOperatore
@@ -145,7 +145,7 @@ backend/
 ├── migrations/       → file SQL da eseguire su Supabase (001…013)
 ├── model/            → ORM SQLAlchemy 2.0 (Mapped + mapped_column); 17 entità; importare Base da database.py
 ├── controllers/      → validazione HTTP (12 controller file)
-├── bll/              → logica applicativa (10 servizi)
+├── bll/              → logica applicativa (11 servizi)
 ├── dal/              → repository (15, uno per entità)
 └── tests/            → test pytest (18 file); conftest.py crea fixture utente/operatore/AP con cleanup
 ```
@@ -167,7 +167,7 @@ backend/
 | `utente_controller.py` | segnalazioni utente |
 | `ap_controller.py` | report AP, mappa AP, segnalazioni OP, gestione utenti OP |
 
-**BLL** (10 servizi in `backend/bll/`): `ServizioMobilità`, `ServizioPrenotazione`, `ServizioPricing`, `ServizioAbbonamento`, `ServizioGIS`, `ServizioReport`, `ServizioOfferta`, `ServizioRegoleFineCorsa`, `ServizioParametri`, `ServizioUtenti`
+**BLL** (11 servizi in `backend/bll/`): `ServizioMobilità`, `ServizioPrenotazione`, `ServizioPricing`, `ServizioAbbonamento`, `ServizioGIS`, `ServizioReport`, `ServizioOfferta`, `ServizioRegoleFineCorsa`, `ServizioParametri`, `ServizioUtenti`, `ServizioSegnalazione`
 
 **DAL** (15 repository in `backend/dal/`): `MezzoRepository`, `CorsaRepository`, `PrenotazioneRepository`, `PagamentoRepository`, `TariffaRepository`, `ZonaRepository`, `UtenteRepository`, `OperatoreRepository`, `AttoreRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`, `RegoleFIneCorsaRepository`, `ParametriSistemaRepository`, `SegnalazioneRepository`
 
@@ -355,4 +355,4 @@ I termini tecnici del dominio sono definiti in `docs/SprintZero.md § 4.2`. Usar
 - Non usare termini diversi da quelli del glossario per i concetti di dominio.
 - Non committare codice non testato su un item del backlog.
 - Non modificare lo stato di un mezzo al di fuori di `ServizioMobilità`.
-- **Non inventare classi, interfacce o schemi Pydantic/TypeScript che non esistono nel diagramma delle classi** (`docs/Diagrammi/DiagrammaClassi.md`). Prima di creare una nuova classe, verificare che esista nel diagramma. Se serve qualcosa che non c'è, chiedere esplicitamente prima di procedere. I nomi devono corrispondere esattamente: es. `Corsa` non `RiepilogoCorsa` o `CorsaStorico`. I Pydantic schema del backend e le interfacce TypeScript del frontend sono serializzazioni delle classi del diagramma — usare lo stesso nome (eventualmente con suffisso tecnico `Out` solo se necessario per evitare collisioni con ORM, ma preferire il nome esatto del diagramma). Il diagramma di sequenza definisce il flusso di chiamate e i tipi di ritorno; il diagramma delle classi definisce le classi. Entrambi sono vincolanti.
+- **Non inventare classi, interfacce o schemi Pydantic/TypeScript che non esistono nel diagramma delle classi.** La fonte di verità è `docs/Diagrammi/Diagramma Classi.drawio`; `docs/Diagrammi/DiagrammaClassi.md` ne è l'export testuale (rigenerato dal .drawio). Prima di creare una nuova classe, verificare che esista nel diagramma. Se serve qualcosa che non c'è, chiedere esplicitamente prima di procedere. I nomi devono corrispondere esattamente: es. `Corsa` non `RiepilogoCorsa` o `CorsaStorico`. I Pydantic schema del backend e le interfacce TypeScript del frontend sono serializzazioni delle classi del diagramma — usare lo stesso nome (eventualmente con suffisso tecnico `Out` solo se necessario per evitare collisioni con ORM, ma preferire il nome esatto del diagramma). Il diagramma di sequenza definisce il flusso di chiamate e i tipi di ritorno; il diagramma delle classi definisce le classi. Entrambi sono vincolanti.
