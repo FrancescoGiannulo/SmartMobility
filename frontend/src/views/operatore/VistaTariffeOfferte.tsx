@@ -10,7 +10,7 @@ import {
   type CreaOffertaPayload,
   type TipoMezzo,
 } from '../../services/OffertaService'
-import './VistaTariffePromozioni.css'
+import './VistaTariffeOfferte.css'
 
 const STATO_LABEL: Record<string, string> = {
   attiva: 'Attiva',
@@ -70,7 +70,7 @@ function offertaToForm(o: Offerta): FormState {
   }
 }
 
-export default function VistaTariffePromozioni() {
+export default function VistaTariffeOfferte() {
   const navigate = useNavigate()
   const [offerte, setOfferte] = useState<Offerta[]>([])
   const [mostraModal, setMostraModal] = useState(false)
