@@ -235,7 +235,7 @@ Totale elementi identificati: **122**.
 
 ```
 + accediAbbonamenti(): void
-+ mostraPianiAbbonamento(): List
++ mostraPianiAbbonamento(): List+selezionaPiano(id): boolean
 + mostraRiepilogo(piano: Abbonamento): void
 + confermaSottoscrizione(): void
 + mostraAbbonamentoAttivo(): void
@@ -491,7 +491,7 @@ Totale elementi identificati: **122**.
 
 ```
 + getPianiAbbonamento(): List
-+ sottoscriviAbbonamento(idOfferta: String): AbbonamentoUtente
++ sottoscriviAbbonamento(id: String): AbbonamentoUtente
 + getAbbonamentoCorrente(): AbbonamentoUtente
 ```
 
@@ -527,6 +527,7 @@ Totale elementi identificati: **122**.
 + creaPrenotazione(idMezzo: String[], idUtente: String): Prenotazione
 + annullaPrenotazione(idPrenotazione: String): void
 + getPrenotazioniAttive(idUtente: String): List
++ getCaratteristiche(idMezzo: String): Mezzo
 ```
 
 ### `FlottaService`
@@ -717,6 +718,7 @@ Totale elementi identificati: **122**.
 + getStorico(idUtente: String): Response
 + getRiepilogo(idCorsa: String): Response
 + getMezzo(idMezzo: String): Response
++ getMezziSbloccabili(pos: Coordinate): Response
 ```
 
 ### `MezzoOperatoreController`
