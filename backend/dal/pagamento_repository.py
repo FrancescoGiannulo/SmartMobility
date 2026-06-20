@@ -12,7 +12,7 @@ class MetodoNonTrovatoException(Exception):
 
 class PagamentoRepository:
 
-    # [IF-UT.12] Salva Metodi di Pagamento
+    # [IF-UT.06] Salva Metodi di Pagamento
     def aggiungi_metodo(
         self,
         utente_id: uuid.UUID,

@@ -222,7 +222,7 @@ class ServizioMobilita:
         self._corsa_repo.aggiorna_stato(corsa_id, "terminata")
         self._mezzo_repo.aggiorna_stato(UUID(corsa["mezzo_id"]), "Disponibile")
 
-    # [IF-UT.15] Le mie segnalazioni
+    # [IF-UT.12] Le mie segnalazioni
     def get_mie_segnalazioni(self, utente_id: UUID) -> list[dict]:
         return [
             {
@@ -235,7 +235,7 @@ class ServizioMobilita:
             for s in self._segnalazione_repo.find_by_utente(utente_id)
         ]
 
-    # [IF-UT.15] Invia Segnalazione
+    # [IF-UT.12] Invia Segnalazione
     def registra_segnalazione(self, utente_id: UUID, tipologia: str, descrizione: str) -> dict:
         segnalazione = self._segnalazione_repo.crea(utente_id, tipologia, descrizione)
         return {

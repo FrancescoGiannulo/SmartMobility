@@ -20,13 +20,13 @@ router = APIRouter(prefix="/utente/pagamenti", tags=["Pagamenti"])
 _servizio = ServizioPricing()
 
 
-# [IF-UT.12] Lista metodi di pagamento salvati
+# [IF-UT.06] Lista metodi di pagamento salvati
 @router.get("/metodi", response_model=list[MetodoPagamentoResponse])
 def lista_metodi(utente: dict = Depends(verify_token(required_roles=["UT"]))):
     return _servizio.lista_metodi(UUID(str(utente["id"])))
 
 
-# [IF-UT.12] Aggiungi metodo di pagamento
+# [IF-UT.06] Aggiungi metodo di pagamento
 @router.post("/metodi", response_model=MetodoPagamentoResponse, status_code=status.HTTP_201_CREATED)
 def aggiungi_metodo(
     body: AggiungiMetodoRequest,
@@ -56,7 +56,7 @@ def imposta_predefinito(
     return {"detail": "Metodo impostato come predefinito"}
 
 
-# [IF-UT.12] Rimuovi metodo di pagamento
+# [IF-UT.06] Rimuovi metodo di pagamento
 @router.delete("/metodi/{metodo_id}", status_code=status.HTTP_204_NO_CONTENT)
 def rimuovi_metodo(
     metodo_id: UUID,

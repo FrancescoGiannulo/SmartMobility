@@ -86,7 +86,7 @@ class PrenotazioneRequest(BaseModel):
     mezzo_ids: list[UUID]
 
 
-# [IF-UT.15] Invia Segnalazione / [IF-OP.08] Gestisce Segnalazione
+# [IF-UT.12] Invia Segnalazione / [IF-OP.08] Gestisce Segnalazione
 class InviaSegnalazioneRequest(BaseModel):
     tipologia: str
     descrizione: str

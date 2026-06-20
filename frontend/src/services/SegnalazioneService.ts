@@ -20,7 +20,7 @@ const TIPOLOGIE = [
 
 export { TIPOLOGIE }
 
-// [IF-UT.15] Invia Segnalazione
+// [IF-UT.12] Invia Segnalazione
 export const salvaSegnalazione = (
   tipologia: string,
   descrizione: string,

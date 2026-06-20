@@ -71,7 +71,7 @@ class ServizioPricing:
             raise TariffaNonTrovata(f"Nessuna tariffa per {tipo_mezzo}")
         return Decimal(str(durata_min)) * row.costo_al_minuto + Decimal(str(distanza_km)) * row.costo_al_km
 
-    # [IF-UT.12] Salva Metodi di Pagamento
+    # [IF-UT.06] Salva Metodi di Pagamento
     def aggiungi_metodo(self, utente_id: uuid.UUID, tipo: str, dati: dict) -> dict:
         try:
             token = self._provider.valida_dati_pagamento(tipo, dati)

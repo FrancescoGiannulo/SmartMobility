@@ -10,7 +10,7 @@ Totale elementi identificati: **136**.
 
 - **CLIENT - View (Presentation)** (21): `VistaLogin`, `VistaProfiloUtente`, `CallbackOAuth`, `PrivacyPolicy`, `VistaGestioneUtentiOperatore`, `VistaRecensione`, `VistaSegnalazioneUtente`, `VistaSegnalazioniOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaParametriSistema`, `VistaImpostazioniRegole`, `VistaAbbonamenti`, `VistaTariffe`, `VistaOfferte`, `VistaCorsa`, `VistaStoricoCorse`, `VistaMezziOperatore`, `VistaPagamenti`, `VistaHomePageUtente`, `VistaDefinisciZona`
 - **CLIENT - Service (API Service Layer)** (18): `AuthService`, `GestioneUtentiService`, `RecensioneService`, `SegnalazioneService`, `ReportService`, `SuggerimentiService`, `RegoleFineCorsaService`, `ConfigurazioneService`, `ApiService`, `AbbonamentoService`, `OffertaService`, `TariffaService`, `CorsaService`, `PrenotazioneService`, `FlottaService`, `PaymentService`, `ZonaService`, `MapService`
-- **SERVER - Controller (MVC / FrontController)** (18): `AccountController`, `UtentiOPController`, `RecensioneController`, `SegnalazioneUtenteController`, `SegnalazioneOPController`, `AmministrazionePubblicaController`, `SuggerimentoController`, `ConfigurazioneController`, `RegoleFineCorsaController`, `FrontController (router FastAPI + auth middleware)`, `AbbonamentoController`, `OffertaController`, `CorsaController`, `MezzoOperatoreController`, `PagamentoController`, `ZoneController`, `HomePageUtenteController`, `TariffaController`
+- **SERVER - Controller (MVC / FrontController)** (18): `AccountController`, `UtentiOPController`, `RecensioneController`, `SegnalazioneUtenteController`, `SegnalazioneOPController`, `AmministrazionePubblicaController`, `SuggerimentoController`, `ConfigurazioneController`, `RegoleFineCorsaController`, `FrontController (router FastAPI + auth middleware)`, `AbbonamentoController`, `OffertaController`, `CorsaController`, `MezzoOperatoreController`, `PagamentoController`, `ZoneController`, `TariffaController`, `HomePageUtenteController`
 - **Contratti Controller -> BLL (interfacce)** (14): `IServizioUtenti`, `IServizioRecensione`, `IServizioSegnalazione`, `IServizioReport`, `IServizioSuggerimenti`, `IServizioRegoleFineCorsa`, `IServizioParametri`, `IServizioAbbonamento`, `IServizioOfferta`, `IServizioTariffa`, `IServizioPrenotazione`, `IServizioMobilita`, `IServizioPricing`, `IServizioGIS`
 - **SERVER - Service (Business Logic Layer)** (14): `ServizioUtenti`, `ServizioRecensione`, `ServizioSegnalazione`, `ServizioReport`, `ServizioSuggerimenti`, `ServizioParametri`, `ServizioRegoleFineCorsa`, `ServizioAbbonamento`, `ServizioOfferta`, `ServizioTariffa`, `ServizioPrenotazione`, `ServizioMobilita`, `ServizioPricing`, `ServizioGIS`
 - **SERVER - Repository (Data Access Layer)** (18): `UtenteRepository`, `AttoreRepository`, `OperatoreRepository`, `RecensioneRepository`, `SegnalazioneRepository`, `IRepository`, `SuggerimentoRepository`, `RegoleFineCorsaRepository`, `ParametriSistemaRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`, `CorsaRepository`, `PrenotazioneRepository`, `MezzoRepository`, `PagamentoRepository`, `TariffaRepository`, `ZonaRepository`
@@ -131,6 +131,7 @@ Totale elementi identificati: **136**.
 + mostraFormSegnalazione(): void
 + selezionaTipologia(tipologia: String): void
 + confermaSegnalazione(tipologia: String, descrizione: String): void
++ mostraConfermaInvio(): void
 ```
 
 ### `VistaSegnalazioniOperatore`
@@ -813,14 +814,6 @@ Totale elementi identificati: **136**.
 + getDatiMappaAP(): Response
 ```
 
-### `HomePageUtenteController`
-
-**Metodi**
-
-```
-+ mappaUtente()+mostraMezzi()
-```
-
 ### `TariffaController`
 
 **Metodi**
@@ -829,6 +822,14 @@ Totale elementi identificati: **136**.
 + getTariffe(): Response
 + creaTariffa(body: TariffaIn): Response
 + aggiornaTariffa(idTariffa: String, body: TariffaIn): Response
+```
+
+### `HomePageUtenteController`
+
+**Metodi**
+
+```
++ mappaUtente()+mostraMezzi()
 ```
 
 ---
