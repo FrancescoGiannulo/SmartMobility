@@ -6,11 +6,11 @@
 
 ## Indice delle classi
 
-Totale elementi identificati: **131**.
+Totale elementi identificati: **134**.
 
-- **CLIENT - View (Presentation)** (20): `VistaLogin`, `VistaProfiloUtente`, `CallbackOAuth`, `PrivacyPolicy`, `VistaGestioneUtentiOperatore`, `VistaRecensione`, `VistaSegnalazioneUtente`, `VistaSegnalazioniOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaParametriSistema`, `VistaImpostazioniRegole`, `VistaAbbonamenti`, `VistaTariffeOfferte`, `VistaCorsa`, `VistaStoricoCorse`, `VistaMezziOperatore`, `VistaPagamenti`, `VistaHomePageUtente`, `VistaDefinisciZona`
-- **CLIENT - Service (API Service Layer)** (17): `AuthService`, `GestioneUtentiService`, `RecensioneService`, `SegnalazioneService`, `ReportService`, `SuggerimentiService`, `RegoleFineCorsaService`, `ConfigurazioneService`, `ApiService`, `AbbonamentoService`, `OffertaService`, `CorsaService`, `PrenotazioneService`, `FlottaService`, `PaymentService`, `ZonaService`, `MapService`
-- **SERVER - Controller (MVC / FrontController)** (17): `AccountController`, `UtentiOPController`, `RecensioneController`, `SegnalazioneUtenteController`, `SegnalazioneOPController`, `AmministrazionePubblicaController`, `SuggerimentoController`, `ConfigurazioneController`, `RegoleFineCorsaController`, `FrontController (router FastAPI + auth middleware)`, `AbbonamentoController`, `OffertaController`, `CorsaController`, `MezzoOperatoreController`, `PagamentoController`, `ZoneController`, `HomePageUtenteController`
+- **CLIENT - View (Presentation)** (21): `VistaLogin`, `VistaProfiloUtente`, `CallbackOAuth`, `PrivacyPolicy`, `VistaGestioneUtentiOperatore`, `VistaRecensione`, `VistaSegnalazioneUtente`, `VistaSegnalazioniOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaParametriSistema`, `VistaImpostazioniRegole`, `VistaAbbonamenti`, `VistaTariffe`, `VistaOfferte`, `VistaCorsa`, `VistaStoricoCorse`, `VistaMezziOperatore`, `VistaPagamenti`, `VistaHomePageUtente`, `VistaDefinisciZona`
+- **CLIENT - Service (API Service Layer)** (18): `AuthService`, `GestioneUtentiService`, `RecensioneService`, `SegnalazioneService`, `ReportService`, `SuggerimentiService`, `RegoleFineCorsaService`, `ConfigurazioneService`, `ApiService`, `AbbonamentoService`, `OffertaService`, `TariffaService`, `CorsaService`, `PrenotazioneService`, `FlottaService`, `PaymentService`, `ZonaService`, `MapService`
+- **SERVER - Controller (MVC / FrontController)** (18): `AccountController`, `UtentiOPController`, `RecensioneController`, `SegnalazioneUtenteController`, `SegnalazioneOPController`, `AmministrazionePubblicaController`, `SuggerimentoController`, `ConfigurazioneController`, `RegoleFineCorsaController`, `FrontController (router FastAPI + auth middleware)`, `AbbonamentoController`, `OffertaController`, `CorsaController`, `MezzoOperatoreController`, `PagamentoController`, `ZoneController`, `HomePageUtenteController`, `TariffaController`
 - **Contratti Controller -> BLL (interfacce)** (13): `IServizioUtenti`, `IServizioRecensione`, `IServizioSegnalazione`, `IServizioReport`, `IServizioSuggerimenti`, `IServizioRegoleFineCorsa`, `IServizioParametri`, `IServizioAbbonamento`, `IServizioOfferta`, `IServizioPrenotazione`, `IServizioMobilita`, `IServizioPricing`, `IServizioGIS`
 - **SERVER - Service (Business Logic Layer)** (13): `ServizioUtenti`, `ServizioRecensione`, `ServizioSegnalazione`, `ServizioReport`, `ServizioSuggerimenti`, `ServizioParametri`, `ServizioRegoleFineCorsa`, `ServizioAbbonamento`, `ServizioOfferta`, `ServizioPrenotazione`, `ServizioMobilita`, `ServizioPricing`, `ServizioGIS`
 - **SERVER - Repository (Data Access Layer)** (18): `UtenteRepository`, `AttoreRepository`, `OperatoreRepository`, `RecensioneRepository`, `SegnalazioneRepository`, `IRepository`, `SuggerimentoRepository`, `RegoleFineCorsaRepository`, `ParametriSistemaRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`, `CorsaRepository`, `PrenotazioneRepository`, `MezzoRepository`, `PagamentoRepository`, `TariffaRepository`, `ZonaRepository`
@@ -241,7 +241,7 @@ Totale elementi identificati: **131**.
 + mostraAbbonamentoAttivo(): void
 ```
 
-### `VistaTariffeOfferte`
+### `VistaTariffe`
 
 **Attributi**
 
@@ -253,9 +253,34 @@ Totale elementi identificati: **131**.
 **Metodi**
 
 ```
-+ apriSezioneTariffePromozioni(): void
++ apriTariffe(): void
++ mostraListaTariffe(listaTariffe: List): void
++ selezionaCreaNuovaTariffa(): void
++ confermaNuovaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float, costoKm: float): void
++ mostraConfermaTariffa(): void
+```
+
+### `VistaOfferte`
+
+**Attributi**
+
+```
+- listaOfferte: List
+```
+
+**Metodi**
+
+```
++ apriOfferte(): void
++ mostraListaOfferte(listaOfferte: List): void
 + selezionaCreaNuovaOfferta(): void
-+ confermaOfferta(): void
++ mostraSceltaTipologia(): void
++ selezionaTipologia(tipo: String): void
++ mostraFormPromozione(): void
++ mostraFormAbbonamento(): void
++ confermaOfferta(dati: Object): void
++ mostraConferma(): void
++ mostraErrore(motivazione: String): void
 ```
 
 ### `VistaCorsa`
@@ -519,6 +544,15 @@ Totale elementi identificati: **131**.
 + eliminaOfferta(id: String): void
 ```
 
+### `TariffaService`
+
+**Metodi**
+
+```
++ getTariffe(): List
++ creaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float, costoKm: float): void
+```
+
 ### `CorsaService`
 
 **Metodi**
@@ -558,8 +592,6 @@ Totale elementi identificati: **131**.
 + modificaStatoMezzo(idMezzo: String, nuovoStato: StatoMezzo): void
 + dismetti(idMezzo: String, idOperatore: String): void
 + verificaDisponibilita(idMezzo: String): boolean
-+ getTariffe(): List
-+ creaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float, costoKm: float): void
 + getZoneParcheggioEConfigurazione(): Object
 ```
 
@@ -752,7 +784,6 @@ Totale elementi identificati: **131**.
 + modificaStatoMezzo(idMezzo: String, stato: StatoMezzo): Response
 + dismettiMezzo(idMezzo: String): Response
 + verificaMezzo(idMezzo: String): Response
-+ getTariffe(): Response
 ```
 
 ### `PagamentoController`
@@ -788,6 +819,16 @@ Totale elementi identificati: **131**.
 
 ```
 + mappaUtente()+mostraMezzi()
+```
+
+### `TariffaController`
+
+**Metodi**
+
+```
++ getTariffe(): Response
++ creaTariffa(body: TariffaIn): Response
++ aggiornaTariffa(idTariffa: String, body: TariffaIn): Response
 ```
 
 ---
@@ -1769,7 +1810,7 @@ I repository sono l'unico livello che conosce le entita' ORM: convertono ORM ↔
 
 ## Relazioni tra layer
 
-Il diagramma contiene **171** relazioni (in prevalenza dipendenze d'uso `Use`).
+Il diagramma contiene **174** relazioni (in prevalenza dipendenze d'uso `Use`).
 Riepilogo delle dipendenze direzionali tra layer (origine -> destinazione):
 
 | Da (layer) | A (layer) | N. dipendenze |
@@ -1777,11 +1818,11 @@ Riepilogo delle dipendenze direzionali tra layer (origine -> destinazione):
 | SERVER - Service (Business Logic Layer) | SERVER - Repository (Data Access Layer) | 28 |
 | CLIENT - View (Presentation) | CLIENT - Service (API Service Layer) | 20 |
 | SERVER - Model (Domain / Entity) | SERVER - Model (Domain / Entity) | 19 |
-| SERVER - Controller (MVC / FrontController) | Contratti Controller -> BLL (interfacce) | 16 |
+| SERVER - Controller (MVC / FrontController) | Contratti Controller -> BLL (interfacce) | 17 |
+| CLIENT - Service (API Service Layer) | CLIENT - Service (API Service Layer) | 16 |
 | SERVER - Repository (Data Access Layer) | SERVER - Repository (Data Access Layer) | 16 |
 | SERVER - Repository (Data Access Layer) | SERVER - Model (Domain / Entity) | 16 |
-| CLIENT - Service (API Service Layer) | CLIENT - Service (API Service Layer) | 15 |
-| SERVER - Controller (MVC / FrontController) | SERVER - Controller (MVC / FrontController) | 13 |
+| SERVER - Controller (MVC / FrontController) | SERVER - Controller (MVC / FrontController) | 14 |
 | SERVER - Service (Business Logic Layer) | Contratti Controller -> BLL (interfacce) | 12 |
 | Sistemi esterni, Adapter & Note | Sistemi esterni, Adapter & Note | 6 |
 | SERVER - Service (Business Logic Layer) | Sistemi esterni, Adapter & Note | 3 |

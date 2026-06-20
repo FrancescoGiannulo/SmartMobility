@@ -10,7 +10,7 @@ import {
   type CreaOffertaPayload,
   type TipoMezzo,
 } from '../../services/OffertaService'
-import './VistaTariffeOfferte.css'
+import './VistaOfferte.css'
 
 const STATO_LABEL: Record<string, string> = {
   attiva: 'Attiva',
@@ -70,7 +70,7 @@ function offertaToForm(o: Offerta): FormState {
   }
 }
 
-export default function VistaTariffeOfferte() {
+export default function VistaOfferte() {
   const navigate = useNavigate()
   const [offerte, setOfferte] = useState<Offerta[]>([])
   const [mostraModal, setMostraModal] = useState(false)
@@ -165,16 +165,16 @@ export default function VistaTariffeOfferte() {
     setForm(prev => ({ ...prev, [field]: e.target.value }))
 
   return (
-    <div className="vista-tariffe">
-      <div className="tariffe-topbar">
-        <h2>Tariffe e Promozioni</h2>
+    <div className="vista-offerte">
+      <div className="offerte-topbar">
+        <h2>Offerte e Promozioni</h2>
         <button className="btn-indietro" onClick={() => navigate('/operatore/dashboard')}>
           ← Torna alla mappa
         </button>
       </div>
 
-      <div className="tariffe-body">
-        <div className="tariffe-header-row">
+      <div className="offerte-body">
+        <div className="offerte-header-row">
           <h3>Offerte commerciali</h3>
           <button className="btn-nuova-offerta" onClick={apriNuova}>
             + Nuova offerta

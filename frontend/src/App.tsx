@@ -11,7 +11,8 @@ import VistaDashboardAP from './views/amministrazione/VistaDashboardAP'
 import VistaSegnalazione from './views/utente/VistaSegnalazione'
 import VistaSegnalazioniOperatore from './views/operatore/VistaSegnalazioniOperatore'
 import VistaPagamenti from './views/utente/VistaPagamenti'
-import VistaTariffeOfferte from './views/operatore/VistaTariffeOfferte'
+import VistaTariffe from './views/operatore/VistaTariffe'
+import VistaOfferte from './views/operatore/VistaOfferte'
 import VistaMezziOperatore from './views/operatore/VistaMezziOperatore'
 import VistaParametriSistema from './views/operatore/VistaParametriSistema'
 import VistaAbbonamenti from './views/utente/VistaAbbonamenti'
@@ -156,10 +157,18 @@ function App() {
           }
         />
         <Route
-          path="/operatore/tariffe-offerte"
+          path="/operatore/tariffe"
           element={
             <RoutaProtetta ruoloRichiesto="OP">
-              <VistaTariffeOfferte />
+              <VistaTariffe />
+            </RoutaProtetta>
+          }
+        />
+        <Route
+          path="/operatore/offerte"
+          element={
+            <RoutaProtetta ruoloRichiesto="OP">
+              <VistaOfferte />
             </RoutaProtetta>
           }
         />

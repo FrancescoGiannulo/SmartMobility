@@ -7,6 +7,7 @@ from controllers.homepage_utente_controller import router as homepage_utente_rou
 from controllers.segnalazione_utente_controller import router as segnalazione_ut_router
 from controllers.segnalazione_op_controller import router as segnalazione_op_router
 from controllers.mezzo_operatore_controller import router as mezzo_op_router
+from controllers.tariffa_controller import router as tariffa_router
 from controllers.zona_operatore_controller import router as zona_op_router
 from controllers.corsa_controller import router as corsa_router
 from controllers.ap_controller import router as ap_router
@@ -36,6 +37,7 @@ app.include_router(auth_router)
 app.include_router(homepage_utente_router)
 app.include_router(gdpr_router)
 app.include_router(mezzo_op_router)
+app.include_router(tariffa_router)
 app.include_router(zona_op_router)
 app.include_router(corsa_router)
 app.include_router(ap_router)

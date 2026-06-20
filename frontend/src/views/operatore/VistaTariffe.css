@@ -1,0 +1,232 @@
+.vista-tariffe {
+  min-height: 100vh;
+  background: #f1f5f9;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+.tariffe-topbar {
+  height: 64px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 14px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.tariffe-topbar h2 {
+  margin: 0;
+  flex: 1;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.tariffe-body {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.tariffe-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.tariffe-header-row h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.btn-nuova-tariffa {
+  padding: 11px 22px;
+  background: #155e52;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 160ms ease;
+}
+.btn-nuova-tariffa:hover { background: #0f4a3f; }
+.btn-nuova-tariffa:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.tariffe-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tariffa-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.tariffa-tipo-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  flex-shrink: 0;
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.tariffa-info { flex: 1; min-width: 0; }
+.tariffa-nome {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+.tariffa-dettaglio {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.btn-modifica-tariffa {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 8px;
+  transition: background 140ms;
+}
+.btn-modifica-tariffa:hover { background: rgba(99, 102, 241, 0.08); }
+
+.tariffe-vuote {
+  text-align: center;
+  padding: 48px;
+  color: #94a3b8;
+  font-size: 15px;
+}
+
+.modal-overlay-tariffa {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-tariffa {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 26px;
+  width: 380px;
+  max-width: 95vw;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.2);
+}
+
+.modal-tariffa h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.modal-tariffa label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.modal-tariffa input,
+.modal-tariffa select {
+  padding: 10px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #f8fafc;
+  color: #0f172a;
+  outline: none;
+  transition: border-color 160ms;
+}
+.modal-tariffa input:focus,
+.modal-tariffa select:focus {
+  border-color: #155e52;
+  background: #fff;
+}
+.modal-tariffa input:disabled {
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.modal-errore-tariffa {
+  font-size: 12.5px;
+  color: #f43f5e;
+  margin: 0;
+}
+
+.modal-azioni-tariffa {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.btn-conferma-tariffa {
+  flex: 1;
+  padding: 12px;
+  background: #155e52;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.btn-conferma-tariffa:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.btn-annulla-tariffa {
+  flex: 1;
+  padding: 12px;
+  background: #f1f5f9;
+  color: #64748b;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.tariffe-topbar .btn-indietro {
+  padding: 8px 16px;
+  background: transparent;
+  color: #155e52;
+  border: 2px solid #155e52;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}

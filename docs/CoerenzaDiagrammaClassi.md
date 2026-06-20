@@ -3,7 +3,7 @@
 Documento di tracciamento delle discrepanze tra `docs/Diagrammi/DiagrammaClassi.md` e il codice sorgente.
 Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 
-**Ultima revisione:** 2026-06-08
+**Ultima revisione:** 2026-06-20
 
 **Legenda:** ✅ Coerente | ⚠️ Nome/struttura diverge | ❌ Mancante o problema critico
 
@@ -28,7 +28,8 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | `VistaReport` | `views/amministrazione/VistaReportAP.tsx` | ⚠️ | Nome diverso |
 | `VistaSegnalazioneUtente` | `views/utente/VistaSegnalazione.tsx` | ⚠️ | Nome abbreviato |
 | `VistaSegnalazioniOP` | `views/operatore/VistaSegnalazioniOperatore.tsx` | ⚠️ | Nome diverso |
-| `VistaTariffeOfferte` | `views/operatore/VistaTariffeOfferte.tsx` | ✅ | |
+| `VistaTariffe` | `views/operatore/VistaTariffe.tsx` | ✅ | Sprint successivo: separata da `VistaTariffeOfferte` (2026-06-20) |
+| `VistaOfferte` | `views/operatore/VistaOfferte.tsx` | ✅ | Sprint successivo: separata da `VistaTariffeOfferte` (2026-06-20) |
 | `VistaStoricoCorse` | `views/utente/VistaStoricoCorse.tsx` | ✅ | |
 | *(non previsto)* | `views/auth/VistaLogin.tsx` | ⚠️ | Extra — aggiungere al diagramma |
 | *(non previsto)* | `views/utente/VistaProfiloUtente.tsx` | ⚠️ | Extra — aggiungere al diagramma |
@@ -44,6 +45,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | `ApiService` | `services/ApiService.ts` | ✅ | |
 | `AuthService` | `services/AuthService.ts` | ✅ | |
 | `FlottaService` | `services/FlottaService.ts` | ✅ | |
+| `TariffaService` | `services/TariffaService.ts` | ✅ | Creato 2026-06-20, estratto da `FlottaService` |
 | `MapService` | `services/MapService.ts` | ✅ | |
 | `PaymentService` | `services/PaymentService.ts` | ✅ | |
 | `ZonaService` | `services/ZonaService.ts` | ✅ | |
@@ -141,6 +143,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | `DashBoardOPController` | non trovato | ❌ | Funzionalità probabilmente dentro `mezzo_operatore_controller.py` |
 | `HomePageUtenteController` | non trovato | ❌ | Funzionalità inside `utente_controller.py` (mappa_router) |
 | `MezzoOperatoreController` | `controllers/mezzo_operatore_controller.py` | ✅ | |
+| `TariffaController` | `controllers/tariffa_controller.py` | ✅ | Creato 2026-06-20, estratto da `mezzo_operatore_controller.py` |
 | `OffertaController` | `controllers/offerta_controller.py` | ✅ | |
 | `PagamentoController` | `controllers/pagamenti_controller.py` + `controllers/pricing_controller.py` | ⚠️ | Spezzato in due file |
 | `RegoleFineCorsaController` | `controllers/regola_fine_corsa_controller.py` | ✅ | |
@@ -200,6 +203,7 @@ Le seguenti classi BLL compaiono due volte nel diagramma (una volta con nome ita
 
 | Data | Fix | File coinvolti |
 |------|-----|----------------|
+| 2026-06-20 | Separata `VistaTariffeOfferte` (troppo ampia, due flussi indipendenti) in `VistaTariffe` + `VistaOfferte`; estratto `TariffaService` da `FlottaService`; estratto `TariffaController` da `mezzo_operatore_controller.py` con relativi test di integrazione | `views/operatore/VistaTariffe.tsx` (nuovo), `views/operatore/VistaOfferte.tsx` (nuovo, ex `VistaTariffeOfferte.tsx`), `services/TariffaService.ts` (nuovo), `services/FlottaService.ts`, `controllers/tariffa_controller.py` (nuovo), `controllers/mezzo_operatore_controller.py`, `main.py`, `tests/test_tariffa_http.py` (nuovo), `App.tsx`, `views/operatore/VistaMappaOperatore.tsx` |
 | 2026-06-08 | Creato `ServizioSegnalazione` BLL separato da `ServizioMobilita` | `bll/servizio_segnalazione.py` (nuovo) |
 | 2026-06-08 | Creato `SegnalazioneUtenteController` per IF-UT.15 | `controllers/segnalazione_utente_controller.py` (nuovo) |
 | 2026-06-08 | Creato `SegnalazioneOPController` per IF-OP.08 | `controllers/segnalazione_op_controller.py` (nuovo) |
