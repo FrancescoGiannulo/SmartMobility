@@ -20,7 +20,7 @@ function formatData(iso: string) {
   })
 }
 
-// [IF-UT.15] Invia Segnalazione
+// [IF-UT.12] Invia Segnalazione
 export default function VistaSegnalazione() {
   const navigate = useNavigate()
 

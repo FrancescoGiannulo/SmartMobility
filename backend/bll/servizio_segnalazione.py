@@ -9,12 +9,12 @@ class SegnalazioneNonTrovata(Exception):
 
 
 class ServizioSegnalazione:
-    """[IF-UT.15 / IF-OP.08] BLL per la gestione delle segnalazioni utente."""
+    """[IF-UT.12 / IF-OP.08] BLL per la gestione delle segnalazioni utente."""
 
     def __init__(self, db: Session) -> None:
         self._repo = SegnalazioneRepository()
 
-    # [IF-UT.15] Le mie segnalazioni
+    # [IF-UT.12] Le mie segnalazioni
     def get_mie_segnalazioni(self, utente_id: UUID) -> list[dict]:
         return [
             {
@@ -27,7 +27,7 @@ class ServizioSegnalazione:
             for s in self._repo.find_by_utente(utente_id)
         ]
 
-    # [IF-UT.15] Invia Segnalazione
+    # [IF-UT.12] Invia Segnalazione
     def registra_segnalazione(self, utente_id: UUID, tipologia: str, descrizione: str) -> dict:
         segnalazione = self._repo.crea(utente_id, tipologia, descrizione)
         return {
