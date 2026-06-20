@@ -276,3 +276,13 @@ class ParametriSistemaOut(BaseModel):
     addebito_pausa_min: Decimal
 
     model_config = {"from_attributes": True}
+
+
+# [IF-UT.14] Suggerimenti Intelligenti
+class SuggerimentoOut(BaseModel):
+    id: str
+    tipo: str
+    testo: str
+    dati_contesto: dict = {}
+    stato: str
+    creato_at: str | None = None
