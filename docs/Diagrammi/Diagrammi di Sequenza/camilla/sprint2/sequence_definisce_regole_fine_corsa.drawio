@@ -7,6 +7,9 @@
                 <mxCell id="P03CkvBwM4DMVpRVNmzw-805" value="sd Definisce Regole Fine Corsa" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=220;height=30;" vertex="1" parent="1">
                     <mxGeometry x="235" y="160" width="1675" height="1570" as="geometry"/>
                 </mxCell>
+                <mxCell id="note-definisce-regole-fine-corsa" value="Precondizione: l'Operatore è autenticato (ruolo OP) nella sezione Impostazioni Regole. Flusso a due fasi: (1) GET della configurazione corrente per precompilare il form, (2) POST con i nuovi valori (tipoVincolo, penaleFuoriZona, batteriaMinima, bonusParcheggiCorretti, bonusValore). La validazione degli intervalli ammessi è demandata a ServizioRegoleFineCorsa; in caso di parametri fuori intervallo il sistema risponde 422 Unprocessable Entity con i campi non validi." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="1">
+                    <mxGeometry x="255" y="100" width="1100" height="54" as="geometry"/>
+                </mxCell>
                 <mxCell id="P03CkvBwM4DMVpRVNmzw-806" value=":Operatore" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
                     <mxGeometry x="265" y="200" width="30" height="60" as="geometry"/>
                 </mxCell>

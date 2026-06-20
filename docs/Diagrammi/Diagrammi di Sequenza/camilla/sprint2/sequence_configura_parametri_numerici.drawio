@@ -12,6 +12,12 @@
           <mxGeometry x="20" y="20" width="1840" height="1380" as="geometry"/>
         </mxCell>
 
+        <mxCell id="note-configura-parametri" value="Precondizione: l'Operatore è autenticato (ruolo OP) nella sezione Parametri di Sistema. Flusso a due fasi: (1) GET dei parametri correnti per precompilare il form, (2) PUT con i nuovi valori (durataPrenotazione, durataGrazia, maxMezzi, addebitoPausa). La validazione (valori numerici ≥ 0, maxMezzi intero ≥ 1) è demandata a ServizioParametri; in caso di valori non validi il sistema risponde 422 Unprocessable Entity."
+          style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;"
+          vertex="1" parent="1">
+          <mxGeometry x="40" y="-40" width="1100" height="54" as="geometry"/>
+        </mxCell>
+
         <!-- ACTOR: operatore:Operatore -->
         <mxCell id="601" value="operatore:Operatore"
           style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;"

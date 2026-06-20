@@ -509,11 +509,11 @@ Contiene l’elenco e la specifica di tutti i requisiti funzionali espressi attr
 
 ### IF-UT.05 – Effettua Pagamento
 
-Come utente,
+*Come* utente,
 
-*Voglio* che il sistema addebiti automaticamente l'importo sul mio metodo di pagamento predefinito al termine della corsa,
+*Voglio* che il sistema addebiti automaticamente l'importo dovuto sul mio metodo di pagamento predefinito al termine di un'operazione soggetta a pagamento (es. corsa, sottoscrizione di un abbonamento),
 
-*Così* da non dover effettuare transazioni manuali ogni volta che scendo dal mezzo.
+*Così da* non dover effettuare transazioni manuali ogni volta che utilizzo un servizio a pagamento.
 
 ### IF-UT.06 – Salva Metodi Pagamento 
 

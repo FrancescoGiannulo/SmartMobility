@@ -7,6 +7,9 @@
                 <mxCell id="45" value="sd Scrive Recensione" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=200;height=30;" vertex="1" parent="1">
                     <mxGeometry x="310" y="80" width="1530" height="1010" as="geometry"/>
                 </mxCell>
+                <mxCell id="note-scrive-recensione" value="Precondizione: l'Utente è autenticato (ruolo UT). La precondizione 2 dello use case UT-15 (almeno una corsa conclusa) è verificata da ServizioRecensione.haCorsaConclusa() al passo 10b, prima del salvataggio; se non soddisfatta il sistema risponde 422. Il voto (1-5) è validato lato BLL tramite validaVoto(); il commento testuale è facoltativo." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="1">
+                    <mxGeometry x="330" y="20" width="1100" height="54" as="geometry"/>
+                </mxCell>
                 <mxCell id="46" value=":Utente" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
                     <mxGeometry x="345" y="140" width="30" height="60" as="geometry"/>
                 </mxCell>

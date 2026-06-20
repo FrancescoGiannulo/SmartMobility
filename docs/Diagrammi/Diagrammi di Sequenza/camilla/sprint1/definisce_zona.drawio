@@ -7,6 +7,9 @@
                 <mxCell id="367" value="sd Definisce Zona" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=200;height=30;" vertex="1" parent="1">
                     <mxGeometry x="10" y="1270" width="1600" height="1190" as="geometry"/>
                 </mxCell>
+                <mxCell id="note-definisce-zona" value="Precondizione: l'Operatore è autenticato (ruolo OP) nella sezione di gestione delle zone. Attore secondario: ServizioGIS, richiamato per validaPerimetro(coordinate) «include». La validazione del perimetro è demandata a ServizioGIS/ZonaRepository: se non valido il sistema risponde 400 Bad Request e l'Operatore può tornare in editing (tornaEditing) senza perdere i dati già inseriti." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="1210" width="1100" height="54" as="geometry"/>
+                </mxCell>
                 <mxCell id="368" value=":Operatore" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
                     <mxGeometry x="75" y="1330" width="30" height="60" as="geometry"/>
                 </mxCell>
