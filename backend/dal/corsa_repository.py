@@ -141,7 +141,7 @@ class CorsaRepository:
             "gruppo_corsa_id": str(row.gruppo_corsa_id) if row.gruppo_corsa_id else None,
         }
 
-    # [IF-UT.07] CS-06 — riepilogo corsa terminata, restituisce campi Corsa (diagramma classi)
+    # [IF-UT.07] UT-08 — riepilogo corsa terminata, restituisce campi Corsa (diagramma classi)
     def trova_riepilogo(self, corsa_id: UUID, utente_id: UUID) -> dict | None:
         sql = text("""
             SELECT
@@ -168,7 +168,7 @@ class CorsaRepository:
             "importo_pieno": float(row.importo_pieno) if row.importo_pieno is not None else None,
         }
 
-    # [IF-UT.14] CS-11 — storico corse per utente, ordinate per data decrescente
+    # [IF-UT.14] UT-11 — storico corse per utente, ordinate per data decrescente
     def find_by_utente_order_by_data(self, utente_id: UUID) -> list[dict]:
         sql = text("""
             SELECT

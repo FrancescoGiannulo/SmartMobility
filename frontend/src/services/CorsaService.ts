@@ -92,7 +92,7 @@ export const getStorico = async (): Promise<Corsa[]> => {
   return r.data
 }
 
-// [IF-UT.07] CS-06 — Riepilogo corsa terminata
+// [IF-UT.07] UT-08 — Riepilogo corsa terminata
 export const getRiepilogoCorsa = async (corsaId: string): Promise<Corsa> => {
   const r = await api.get<Corsa>(`/utente/corse/${corsaId}/riepilogo`)
   return r.data

@@ -14,12 +14,12 @@ def _login(email: str, password: str) -> str:
     return r.json()["access_token"]
 
 
-def _inserisci_mezzo(db, codice: str, stato: str) -> str:
+def _inserisci_mezzo(db, codice: str, stato: str, lat: float = 41.11, lng: float = 16.85) -> str:
     with Session(db) as s:
         s.execute(text("""
             INSERT INTO mezzi (codice, tipo, stato, lat, lng, batteria)
-            VALUES (:codice, 'monopattino', :stato, 41.11, 16.85, 80)
-        """), {"codice": codice, "stato": stato})
+            VALUES (:codice, 'monopattino', :stato, :lat, :lng, 80)
+        """), {"codice": codice, "stato": stato, "lat": lat, "lng": lng})
         s.commit()
         row = s.execute(
             text("SELECT id FROM mezzi WHERE codice = :c"), {"c": codice}
@@ -111,6 +111,35 @@ class TestServizioPrenotazione:
                     text("SELECT stato FROM mezzi WHERE id = :id"), {"id": id1}
                 ).fetchone()
             assert row.stato == "Disponibile"
+        finally:
+            _elimina_mezzo(db, id1)
+            _elimina_mezzo(db, id2)
+
+    @pytest.mark.integration
+    def test_crea_prenotazioni_mezzo_fuori_raggio_gruppo(self, db, utente_test):
+        # [IF-UT.02] CS-04 — il primo mezzo è il riferimento; un secondo mezzo
+        # troppo lontano (oltre RAGGIO_GRUPPO_KM) non può entrare nel gruppo
+        from bll.servizio_prenotazione import (
+            ServizioPrenotazione, MezziFuoriRaggioGruppoException
+        )
+        c1 = f"TEST-SVC-{_uuid.uuid4().hex[:6]}"
+        c2 = f"TEST-SVC-{_uuid.uuid4().hex[:6]}"
+        id1 = _inserisci_mezzo(db, c1, "Disponibile")  # Bari (riferimento)
+        id2 = _inserisci_mezzo(db, c2, "Disponibile", lat=41.9028, lng=12.4964)  # Roma (~375 km)
+        try:
+            svc = ServizioPrenotazione(db)
+            with pytest.raises(MezziFuoriRaggioGruppoException) as exc_info:
+                svc.crea_prenotazioni(
+                    [_uuid.UUID(id1), _uuid.UUID(id2)], utente_test["id"]
+                )
+            assert id2 in exc_info.value.fuori_raggio
+            # nessun booking parziale: entrambi restano Disponibile
+            with Session(db) as s:
+                for mid in [id1, id2]:
+                    row = s.execute(
+                        text("SELECT stato FROM mezzi WHERE id = :id"), {"id": mid}
+                    ).fetchone()
+                    assert row.stato == "Disponibile"
         finally:
             _elimina_mezzo(db, id1)
             _elimina_mezzo(db, id2)

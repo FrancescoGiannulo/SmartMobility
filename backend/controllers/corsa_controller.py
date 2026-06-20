@@ -21,6 +21,7 @@ from bll.servizio_prenotazione import (
     ServizioPrenotazione,
     MezzoNonTrovatoException as PrenMezzoNonTrovato,
     AlcuniMezziNonDisponibiliException,
+    MezziFuoriRaggioGruppoException,
     LimiteMezziSuperatoException,
     PrenotazioneNonTrovataException,
 )
@@ -97,6 +98,14 @@ def prenota_mezzi(
                 "non_disponibili": e.non_disponibili,
             },
         )
+    except MezziFuoriRaggioGruppoException as e:
+        raise HTTPException(
+            status_code=422,
+            detail={
+                "messaggio": "Alcuni mezzi sono troppo lontani dal primo selezionato",
+                "fuori_raggio": e.fuori_raggio,
+            },
+        )
 
 
 # [IF-UT.02] CS-XX — Annulla prenotazione
@@ -169,25 +178,25 @@ def termina_corsa(
         raise HTTPException(status_code=404, detail="Corsa non trovata")
 
 
-# [IF-UT.14] CS-11 — Storico corse dell'utente (statica prima della dinamica)
+# [IF-UT.14] UT-11 — Storico corse dell'utente (statica prima della dinamica)
 @router.get("/corse/storico", response_model=list[Corsa])
 def get_storico_corse(
     utente=Depends(verify_token(["UT"])),
     db=Depends(get_db),
 ):
-    """[IF-UT.14 / CS-11] Restituisce la cronologia delle corse terminate dell'utente."""
+    """[IF-UT.14 / UT-11] Restituisce la cronologia delle corse terminate dell'utente."""
     from sqlalchemy.exc import SQLAlchemyError
     try:
         return ServizioMobilita(db).get_storico(utente["id"])
     except SQLAlchemyError:
-        # [CS-11.1] DatiNonDisponibili — errore di accesso ai dati
+        # [UT-11.1] DatiNonDisponibili — errore di accesso ai dati
         raise HTTPException(
             status_code=503,
             detail="Storico non disponibile al momento. Riprova più tardi.",
         )
 
 
-# [IF-UT.07] CS-06 — Riepilogo corsa terminata
+# [IF-UT.07] UT-08 — Riepilogo corsa terminata
 @router.get("/corse/{corsa_id}/riepilogo", response_model=Corsa)
 def get_riepilogo_corsa(
     corsa_id: UUID,

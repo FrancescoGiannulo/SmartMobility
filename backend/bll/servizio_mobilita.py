@@ -1,4 +1,5 @@
 import uuid as _uuid
+from math import radians, cos, sin, asin, sqrt
 from uuid import UUID
 from sqlalchemy import text
 from sqlalchemy.orm import Session
@@ -19,6 +20,10 @@ class MezzoNonTrovatoException(Exception):
 
 
 class MezzoNonDisponibileException(Exception):
+    pass
+
+
+class MezzoTroppoLontanoException(Exception):
     pass
 
 
@@ -49,6 +54,18 @@ class MezzoInMissioneException(Exception):
 
 class SegnalazioneNonTrovata(Exception):
     pass
+
+
+# [IF-UT.04] CS-05 — raggio massimo (km) entro cui l'utente può sbloccare un mezzo
+RAGGIO_SBLOCCO_KM = 0.5
+
+
+def _haversine_km(lat1: float, lng1: float, lat2: float, lng2: float) -> float:
+    R = 6371.0
+    dlat = radians(lat2 - lat1)
+    dlng = radians(lng2 - lng1)
+    a = sin(dlat / 2) ** 2 + cos(radians(lat1)) * cos(radians(lat2)) * sin(dlng / 2) ** 2
+    return R * 2 * asin(sqrt(a))
 
 
 class ServizioMobilita:
@@ -87,7 +104,7 @@ class ServizioMobilita:
         gruppo_id = _uuid.uuid4() if len(mezzo_ids) > 1 else None
         for mezzo_id in mezzo_ids:
             try:
-                corsa = self._sblocca_singolo(mezzo_id, utente_id, gruppo_id)
+                corsa = self._sblocca_singolo(mezzo_id, utente_id, gruppo_id, lat, lng)
                 sbloccati.append({"mezzo_id": str(mezzo_id), "corsa_id": corsa["id"], "gruppo_corsa_id": str(gruppo_id) if gruppo_id else None})
             except Exception:
                 # [CS-05.01] mezzo non sbloccabile — segnaFallito
@@ -99,10 +116,17 @@ class ServizioMobilita:
         mezzo_id: UUID,
         utente_id: UUID,
         gruppo_corsa_id: _uuid.UUID | None = None,
+        lat: float | None = None,
+        lng: float | None = None,
     ) -> dict:
         mezzo = self._mezzo_repo.trova_per_id(mezzo_id)
         if mezzo is None:
             raise MezzoNonTrovatoException(f"Mezzo {mezzo_id} non trovato")
+        # [IF-UT.04] CS-05 — verifica prossimità: l'utente deve essere entro RAGGIO_SBLOCCO_KM
+        # dal mezzo (vale anche per i mezzi prenotati, non solo i disponibili)
+        if lat is not None and lng is not None and mezzo.get("lat") is not None and mezzo.get("lng") is not None:
+            if _haversine_km(lat, lng, mezzo["lat"], mezzo["lng"]) > RAGGIO_SBLOCCO_KM:
+                raise MezzoTroppoLontanoException(f"Mezzo {mezzo_id} troppo lontano")
         stato = mezzo["stato"]
         prenotazione_id = None
         if stato == "Disponibile":
@@ -177,11 +201,11 @@ class ServizioMobilita:
                 tipo_vincolo,
             )
 
-    # [IF-UT.14] CS-11 — Storico corse dell'utente
+    # [IF-UT.14] UT-11 — Storico corse dell'utente
     def get_storico(self, utente_id: UUID) -> list[dict]:
         return self._corsa_repo.find_by_utente_order_by_data(utente_id)
 
-    # [IF-UT.07] CS-06 — Riepilogo corsa terminata (restituisce Corsa come da diagramma)
+    # [IF-UT.07] UT-08 — Riepilogo corsa terminata (restituisce Corsa come da diagramma)
     def calcolaRiepilogoSessione(self, corsa_id: UUID, utente_id: UUID) -> dict:
         row = self._corsa_repo.trova_riepilogo(corsa_id, utente_id)
         if row is None:

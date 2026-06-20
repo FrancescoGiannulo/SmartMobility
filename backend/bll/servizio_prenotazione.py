@@ -1,8 +1,23 @@
+from math import radians, cos, sin, asin, sqrt
 from uuid import UUID
 from sqlalchemy.orm import Session
 from dal.mezzo_repository import MezzoRepository
 from dal.prenotazione_repository import PrenotazioneRepository
 from dal.parametri_sistema_repository import ParametriSistemaRepository
+
+
+# [IF-UT.02] CS-04 — raggio massimo (km) entro cui i mezzi aggiunti al gruppo
+# devono trovarsi rispetto al primo mezzo selezionato. Il primo mezzo non ha
+# vincolo di distanza; gli altri devono essere "nelle vicinanze" (step 4 del caso d'uso).
+RAGGIO_GRUPPO_KM = 0.5
+
+
+def _haversine_km(lat1: float, lng1: float, lat2: float, lng2: float) -> float:
+    R = 6371.0
+    dlat = radians(lat2 - lat1)
+    dlng = radians(lng2 - lng1)
+    a = sin(dlat / 2) ** 2 + cos(radians(lat1)) * cos(radians(lat2)) * sin(dlng / 2) ** 2
+    return R * 2 * asin(sqrt(a))
 
 
 class MezzoNonTrovatoException(Exception):
@@ -22,6 +37,13 @@ class AlcuniMezziNonDisponibiliException(Exception):
     def __init__(self, non_disponibili: list[str]) -> None:
         self.non_disponibili = non_disponibili
         super().__init__(f"Mezzi non disponibili: {non_disponibili}")
+
+
+# [IF-UT.02] CS-04 — uno o più mezzi aggiunti sono troppo lontani dal primo del gruppo
+class MezziFuoriRaggioGruppoException(Exception):
+    def __init__(self, fuori_raggio: list[str]) -> None:
+        self.fuori_raggio = fuori_raggio
+        super().__init__(f"Mezzi fuori dal raggio di selezione gruppo: {fuori_raggio}")
 
 
 class LimiteMezziSuperatoException(Exception):
@@ -73,6 +95,23 @@ class ServizioPrenotazione:
         # msg alt[else] CS-04.01: se anche un solo mezzo non è disponibile, abort
         if non_disponibili:
             raise AlcuniMezziNonDisponibiliException(non_disponibili)
+
+        # [IF-UT.02] CS-04 — verifica raggio gruppo: il primo mezzo selezionato è il
+        # riferimento (nessun vincolo di distanza); gli altri devono trovarsi entro
+        # RAGGIO_GRUPPO_KM dal primo (step 4 del caso d'uso "nelle vicinanze")
+        if len(mezzo_ids) > 1:
+            posizioni = {m["id"]: (m["lat"], m["lng"]) for m in disponibili}
+            rif_lat, rif_lng = posizioni[str(mezzo_ids[0])]
+            fuori_raggio = []
+            if rif_lat is not None and rif_lng is not None:
+                for mid in mezzo_ids[1:]:
+                    lat, lng = posizioni[str(mid)]
+                    if lat is None or lng is None:
+                        continue
+                    if _haversine_km(rif_lat, rif_lng, lat, lng) > RAGGIO_GRUPPO_KM:
+                        fuori_raggio.append(str(mid))
+            if fuori_raggio:
+                raise MezziFuoriRaggioGruppoException(fuori_raggio)
 
         # msg alt[tutti i mezzi disponibili] — loop per ogni mezzo
         prenotazioni = []

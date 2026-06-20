@@ -52,7 +52,7 @@ function posSatellite(i: number, n: number, cx: number, cy: number, raggio: numb
   }
 }
 
-// [IF-UT.04/IF-UT.06] CS-05/CS-06/CS-07
+// [IF-UT.04/IF-UT.06] CS-05/UT-08/CS-07
 export default function VistaCorsa() {
   const location = useLocation()
   const navigate = useNavigate()

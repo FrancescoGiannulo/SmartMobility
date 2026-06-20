@@ -62,7 +62,7 @@ function raggruppa(corse: Corsa[]): VoceStorico[] {
   return voci
 }
 
-// [IF-UT.14] CS-11 — Visualizza Storico Corse
+// [IF-UT.14] UT-11 — Visualizza Storico Corse
 export default function VistaStoricoCorse() {
   const navigate = useNavigate()
   const [voci, setVoci] = useState<VoceStorico[]>([])
@@ -95,7 +95,7 @@ export default function VistaStoricoCorse() {
           <p className="corse-loading">Caricamento...</p>
         )}
 
-        {/* [CS-11.1] DatiNonDisponibili */}
+        {/* [UT-11.1] DatiNonDisponibili */}
         {stato === 'errore' && (
           <div className="corse-errore-banner">
             <p className="corse-errore-testo">
