@@ -36,9 +36,10 @@ Flusso (dal diagramma di sequenza): `VistaRecensione.confermaScrivi(voto, commen
 - `backend/migrations/014_recensioni.sql`: tabella `recensioni` (id uuid PK, utente_id uuid FK→utenti, voto int CHECK 1-5, commento text NULL, created_at timestamptz default now())
 - `backend/model/recensione.py`: ORM `Recensione` (stile identico a `model/segnalazione.py`)
 - `backend/dal/recensione_repository.py`: `RecensioneRepository` (pattern engine-based come `SegnalazioneRepository`) con `save`, `find_by_utente_id`, `find_all`
-- `backend/bll/servizio_recensione.py`: `ServizioRecensione.scrivi_recensione(utente_id, voto, commento)` — valida voto (1-5, altrimenti 422) poi salva. `valida_voto(voto)` esposto come metodo separato per rispettare il diagramma.
+- `backend/dal/corsa_repository.py`: aggiunto `ha_corsa_conclusa(utente_id) -> bool` (query `EXISTS` su `stato='terminata'`)
+- `backend/bll/servizio_recensione.py`: `ServizioRecensione.scrivi_recensione(utente_id, voto, commento)` — valida voto (1-5, altrimenti 422), verifica precondizione 2 dello use case tramite `ha_corsa_conclusa(utente_id)` (altrimenti 422 `CorsaNonConclusaException`), poi salva. `valida_voto(voto)` e `ha_corsa_conclusa(idUtente)` esposti come metodi separati per rispettare il diagramma.
 
-**Nota di fedeltà ai diagrammi**: la precondizione 2 dello use case ("ha effettuato e concluso almeno una corsa") non è enforced lato codice. Il diagramma delle classi assegna a `ServizioRecensione` solo `recensioneRepo: IRecensioneRepository` (nessuna dipendenza da `CorsaRepository`), e il diagramma di sequenza non mostra alcun passo di verifica — passa direttamente da `scriviRecensione` a `validaVoto` a `save`. Diagramma classi e diagramma di sequenza sono entrambi vincolanti per CLAUDE.md: in caso di conflitto con la prosa dello use case, prevalgono i diagrammi. Non aggiungo quindi una dipendenza da `CorsaRepository` non modellata.
+**Aggiornamento (decisione utente, 2026-06-20)**: la precondizione 2 dello use case ("ha effettuato e concluso almeno una corsa") è stata inizialmente esclusa dall'implementazione perché non modellata nei diagrammi originali (`ServizioRecensione` aveva solo `recensioneRepo: IRecensioneRepository`). Su richiesta esplicita dell'utente è stata successivamente aggiunta sia al codice che ai diagrammi: `Diagramma Classi.drawio` ora include `- corsaRepo: ICorsaRepository` e `+ haCorsaConclusa(idUtente: String): boolean` su `ServizioRecensione`/`IServizioRecensione`; `sequence_scrive_recensione.drawio` include il passo `10b: haCorsaConclusa(idUtente)` con il ramo alternativo (precondizione non soddisfatta → 422) prima di `save(recensione)`. Diagrammi e codice sono quindi nuovamente allineati.
 - `backend/controllers/recensione_controller.py`: router `prefix="/utente"`, `POST /recensioni` con `verify_token(["UT"])`, `status_code=201`
 - `backend/controllers/schemas.py`: `ScriviRecensioneRequest{voto:int, commento:str|None}`, `RecensioneOut{id,voto,commento,created_at}`
 - `backend/main.py`: registrazione router
@@ -52,7 +53,7 @@ Flusso (dal diagramma di sequenza): `VistaRecensione.confermaScrivi(voto, commen
 
 ### Test
 
-- `backend/tests/test_recensione.py` (integration, fixture `utente_test`): scenario base (salvataggio riuscito, recensione associata all'utente) + validazione voto fuori range (0 o 6 → 422) + voto valido senza commento (campo facoltativo)
+- `backend/tests/test_recensione.py` (integration): scenario base con fixture `utente_con_corsa_conclusa` (salvataggio riuscito, recensione associata all'utente) + voto valido senza commento + voto fuori range → 422 + utente senza corsa conclusa → 422 + non autenticato → 401
 
 ## Note di scope
 

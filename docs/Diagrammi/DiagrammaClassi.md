@@ -425,7 +425,7 @@ Totale elementi identificati: **122**.
 **Metodi**
 
 ```
-+ scriviRecensione(voto: int, commento: String): void
++ scriviRecensione(voto: int, commento: String): Recensione
 ```
 
 ### `SegnalazioneService`
@@ -527,7 +527,6 @@ Totale elementi identificati: **122**.
 + creaPrenotazione(idMezzo: String[], idUtente: String): Prenotazione
 + annullaPrenotazione(idPrenotazione: String): void
 + getPrenotazioniAttive(idUtente: String): List
-+ getCaratteristiche(idMezzo: String): Mezzo
 ```
 
 ### `FlottaService`
@@ -653,8 +652,6 @@ Totale elementi identificati: **122**.
 ```
 + visualizzaReport(periodo: Object): Response
 + esportaCSV(idReport: String): Response
-+ mappaMezziAP(): Response
-+ mappaZoneAP(): Response
 ```
 
 ### `ConfigurazioneController`
@@ -720,7 +717,6 @@ Totale elementi identificati: **122**.
 + getStorico(idUtente: String): Response
 + getRiepilogo(idCorsa: String): Response
 + getMezzo(idMezzo: String): Response
-+ getMezziSbloccabili(pos: Coordinate): Response
 ```
 
 ### `MezzoOperatoreController`
@@ -761,6 +757,7 @@ Totale elementi identificati: **122**.
 + zoneParcheggio(): Response
 + zoneLimitate(): Response
 + zoneVietate(): Response
++ getDatiMappaAP(): Response
 ```
 
 ### `HomePageUtenteController`
@@ -798,6 +795,7 @@ Totale elementi identificati: **122**.
 ```
 + scriviRecensione(idUtente: String, voto: int, commento: String): Recensione
 + validaVoto(voto: int): boolean
++ haCorsaConclusa(idUtente: String): boolean
 ```
 
 ### `IServizioSegnalazione`
@@ -957,6 +955,7 @@ Totale elementi identificati: **122**.
 
 ```
 - recensioneRepo: IRecensioneRepository
+- corsaRepo: ICorsaRepository
 ```
 
 **Metodi**
@@ -964,6 +963,7 @@ Totale elementi identificati: **122**.
 ```
 + scriviRecensione(idUtente: String, voto: int, commento: String): Recensione
 + validaVoto(voto: int): boolean
++ haCorsaConclusa(idUtente: String): boolean
 ```
 
 ### `ServizioSegnalazione`
@@ -1291,7 +1291,6 @@ Totale elementi identificati: **122**.
 
 ```
 + findById(idCorsa: String): Corsa
-+ findRiepilogo(idCorsa: String, idUtente: String): Corsa
 + findAttiva(idMezzo: String): Corsa
 + findByUtenteOrderByData(idUtente: String): List
 + findByPeriodo(periodo: Periodo): List

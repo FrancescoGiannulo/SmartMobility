@@ -171,10 +171,23 @@
                         <mxPoint x="1520" y="676.9999999999995" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
+                <mxCell id="79b" value="10b: haCorsaConclusa(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1575" y="686"/>
+                            <mxPoint x="1575" y="697"/>
+                        </Array>
+                        <mxPoint x="1520" y="686" as="sourcePoint"/>
+                        <mxPoint x="1520" y="697" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="79c" value="alt [haCorsaConclusa = false] -&gt; 422 Errore precondizione non soddisfatta" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];strokeColor=#888888;fillColor=#FFFFE0;fontSize=9;fontStyle=2;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="1100" y="700" width="420" height="16" as="geometry"/>
+                </mxCell>
                 <mxCell id="80" value="11: save(recensione)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1520" y="701" as="sourcePoint"/>
-                        <mxPoint x="1715" y="701" as="targetPoint"/>
+                        <mxPoint x="1520" y="716" as="sourcePoint"/>
+                        <mxPoint x="1715" y="716" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="81" value="12: :recensioneSalvata" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
