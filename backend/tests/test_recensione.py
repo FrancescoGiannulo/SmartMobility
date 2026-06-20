@@ -147,3 +147,30 @@ def test_scrive_recensione_non_autenticato():
     """[IIN-2] Senza token → 401."""
     resp = http.post("/utente/recensioni", json={"voto": 4})
     assert resp.status_code == 401
+
+
+# ── Le mie recensioni (storico) ──────────────────────────────────────────────
+
+@pytest.mark.integration
+def test_mie_recensioni_restituisce_lo_storico(utente_con_corsa_conclusa, db):
+    """[IF-UT.15] GET /utente/recensioni restituisce le recensioni dell'utente autenticato."""
+    utente = utente_con_corsa_conclusa
+    token = _login(utente["email"], utente["password"])
+    creata = http.post(
+        "/utente/recensioni",
+        json={"voto": 4, "commento": "Buona esperienza"},
+        headers=_auth(token),
+    ).json()
+    resp = http.get("/utente/recensioni", headers=_auth(token))
+    assert resp.status_code == 200
+    body = resp.json()
+    assert any(r["id"] == creata["id"] and r["voto"] == 4 for r in body)
+    # cleanup
+    _elimina_recensione(db, creata["id"])
+
+
+@pytest.mark.integration
+def test_mie_recensioni_non_autenticato():
+    """[IIN-2] Senza token → 401."""
+    resp = http.get("/utente/recensioni")
+    assert resp.status_code == 401

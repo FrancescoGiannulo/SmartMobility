@@ -42,3 +42,15 @@ class ServizioRecensione:
             "commento": recensione.commento,
             "created_at": recensione.created_at.isoformat(),
         }
+
+    # [IF-UT.15] Le mie recensioni
+    def get_mie_recensioni(self, utente_id: UUID) -> list[dict]:
+        return [
+            {
+                "id": str(r.id),
+                "voto": r.voto,
+                "commento": r.commento,
+                "created_at": r.created_at.isoformat(),
+            }
+            for r in self._repo.find_by_utente_id(utente_id)
+        ]

@@ -13,3 +13,7 @@ export const scriviRecensione = (
   commento?: string,
 ): Promise<{ data: Recensione }> =>
   api.post('/utente/recensioni', { voto, commento: commento || null })
+
+// [IF-UT.15] Le mie recensioni
+export const getMieRecensioni = (): Promise<{ data: Recensione[] }> =>
+  api.get('/utente/recensioni')
