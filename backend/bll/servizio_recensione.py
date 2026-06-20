@@ -1,8 +1,14 @@
 from uuid import UUID
+from config import engine
 from dal.recensione_repository import RecensioneRepository
+from dal.corsa_repository import CorsaRepository
 
 
 class VotoNonValidoException(Exception):
+    pass
+
+
+class CorsaNonConclusaException(Exception):
     pass
 
 
@@ -11,15 +17,24 @@ class ServizioRecensione:
 
     def __init__(self) -> None:
         self._repo = RecensioneRepository()
+        self._corsa_repo = CorsaRepository(engine)
 
     # [IF-UT.15] Scrive Recensione
     def valida_voto(self, voto: int) -> bool:
         return 1 <= voto <= 5
 
+    # [IF-UT.15] Scrive Recensione — precondizione 2 dello use case UT-15
+    def ha_corsa_conclusa(self, utente_id: UUID) -> bool:
+        return self._corsa_repo.ha_corsa_conclusa(utente_id)
+
     # [IF-UT.15] Scrive Recensione
     def scrivi_recensione(self, utente_id: UUID, voto: int, commento: str | None) -> dict:
         if not self.valida_voto(voto):
             raise VotoNonValidoException("Il voto deve essere compreso tra 1 e 5")
+        if not self.ha_corsa_conclusa(utente_id):
+            raise CorsaNonConclusaException(
+                "Devi aver concluso almeno una corsa per lasciare una recensione"
+            )
         recensione = self._repo.save(utente_id, voto, commento)
         return {
             "id": str(recensione.id),

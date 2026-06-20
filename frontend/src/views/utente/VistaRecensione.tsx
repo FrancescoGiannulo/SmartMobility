@@ -28,7 +28,8 @@ export default function VistaRecensione() {
       setConfermato(true)
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 422) {
-        setErrore('Dati non validi. Controlla il voto e riprova.')
+        const dettaglio = err.response.data?.detail
+        setErrore(typeof dettaglio === 'string' ? dettaglio : 'Dati non validi. Controlla il voto e riprova.')
       } else {
         setErrore("Errore durante l'invio. Riprova.")
       }

@@ -39,6 +39,16 @@ class CorsaRepository:
             "pausa_durata_accumulata_sec": row.pausa_durata_accumulata_sec,
         }
 
+    # [IF-UT.15] Scrive Recensione — verifica precondizione "almeno una corsa conclusa"
+    def ha_corsa_conclusa(self, utente_id: UUID) -> bool:
+        sql = text("""
+            SELECT EXISTS(
+                SELECT 1 FROM corse WHERE utente_id = :uid AND stato = 'terminata'
+            )
+        """)
+        with self._sessione() as s:
+            return bool(s.execute(sql, {"uid": str(utente_id)}).scalar())
+
     def aggiorna_stato(self, corsa_id: UUID, nuovo_stato: str) -> None:
         # [IF-UT.06] Imposta fine_at quando la corsa termina, per calcolare durata_min nello storico
         if nuovo_stato == "terminata":

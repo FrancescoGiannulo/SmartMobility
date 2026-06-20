@@ -1,6 +1,10 @@
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends
-from bll.servizio_recensione import ServizioRecensione, VotoNonValidoException
+from bll.servizio_recensione import (
+    ServizioRecensione,
+    VotoNonValidoException,
+    CorsaNonConclusaException,
+)
 from middleware.auth_middleware import verify_token
 from controllers.schemas import ScriviRecensioneRequest, RecensioneOut
 
@@ -18,4 +22,6 @@ def scrivi_recensione(
     try:
         return _servizio.scrivi_recensione(UUID(str(utente["id"])), body.voto, body.commento)
     except VotoNonValidoException as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except CorsaNonConclusaException as e:
         raise HTTPException(status_code=422, detail=str(e))
