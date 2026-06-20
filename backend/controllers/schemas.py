@@ -102,6 +102,19 @@ class SegnalazioneOut(BaseModel):
     nome_utente: str | None = None
 
 
+# [IF-UT.15] Scrive Recensione
+class ScriviRecensioneRequest(BaseModel):
+    voto: int
+    commento: str | None = None
+
+
+class RecensioneOut(BaseModel):
+    id: str
+    voto: int
+    commento: str | None = None
+    created_at: str
+
+
 class SbloccoRequest(BaseModel):
     mezzo_ids: list[UUID]
     lat: float | None = None
