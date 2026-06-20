@@ -13,6 +13,14 @@ router = APIRouter(prefix="/utente", tags=["Recensioni"])
 _servizio = ServizioRecensione()
 
 
+@router.get("/recensioni", response_model=list[RecensioneOut])
+def mie_recensioni(
+    utente: dict = Depends(verify_token(["UT"])),
+):
+    """[IF-UT.15] Le mie recensioni."""
+    return _servizio.get_mie_recensioni(UUID(str(utente["id"])))
+
+
 @router.post("/recensioni", response_model=RecensioneOut, status_code=201)
 def scrivi_recensione(
     body: ScriviRecensioneRequest,

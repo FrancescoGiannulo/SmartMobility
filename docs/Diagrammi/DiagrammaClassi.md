@@ -112,6 +112,7 @@ Totale elementi identificati: **122**.
 + mostraFormRecensione(): void
 + confermaScrivi(voto: int, commento: String): void
 + mostraConfermaRecensione(): void
++ mostraStoricoRecensioni(recensioni: List): void
 + mostraErrore(msg: String): void
 ```
 
@@ -426,6 +427,7 @@ Totale elementi identificati: **122**.
 
 ```
 + scriviRecensione(voto: int, commento: String): Recensione
++ getMieRecensioni(): List
 ```
 
 ### `SegnalazioneService`
@@ -624,6 +626,7 @@ Totale elementi identificati: **122**.
 
 ```
 + scriviRecensione(idUtente: String, voto: int, commento: String): Response
++ mieRecensioni(idUtente: String): Response
 ```
 
 ### `SegnalazioneUtenteController`
@@ -796,6 +799,7 @@ Totale elementi identificati: **122**.
 + scriviRecensione(idUtente: String, voto: int, commento: String): Recensione
 + validaVoto(voto: int): boolean
 + haCorsaConclusa(idUtente: String): boolean
++ getMieRecensioni(idUtente: String): List
 ```
 
 ### `IServizioSegnalazione`
@@ -964,6 +968,7 @@ Totale elementi identificati: **122**.
 + scriviRecensione(idUtente: String, voto: int, commento: String): Recensione
 + validaVoto(voto: int): boolean
 + haCorsaConclusa(idUtente: String): boolean
++ getMieRecensioni(idUtente: String): List
 ```
 
 ### `ServizioSegnalazione`
