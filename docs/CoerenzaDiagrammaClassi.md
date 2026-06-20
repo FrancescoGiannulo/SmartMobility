@@ -19,7 +19,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | `VistaDashboardAP` | `views/amministrazione/VistaDashboardAP.tsx` | ✅ | |
 | `VistaDashboardOperatore` | `views/operatore/VistaMappaOperatore.tsx` | ⚠️ | Nome diverso |
 | `VistaDefinisciZona` | non trovata | ❌ | Probabilmente da creare o da integrare in `VistaMappaOperatore` |
-| `VistaGestioneUtentiOperatore` | non trovata | ❌ | Vista prevista dal diagramma non implementata |
+| `VistaGestioneUtentiOperatore` | non trovata | ❌ | IF-OP.09 Sospende Account Utente — pianificata nel diagramma, non implementata (come `Recensione`) |
 | `VistaHomepageUtente` | `views/utente/VistaMappa.tsx` | ⚠️ | Nome diverso |
 | `VistaImpostazioniRegole` | `views/operatore/VistaImpostazioniRegole.tsx` | ✅ | |
 | `VistaMezziOperatore` | `views/operatore/VistaMezziOperatore.tsx` | ✅ | |
@@ -74,6 +74,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | `ServizioReport` | `bll/servizio_report.py` | ✅ | |
 | `ServizioSegnalazione` | `bll/servizio_segnalazione.py` | ✅ | Creato il 2026-06-08 |
 | `ServizioUtenti` | `bll/servizio_utenti.py` | ✅ | |
+| `NotificaService` | non trovato | ❌ | Creato 2026-06-20 nel diagramma (IF-OP.08/IF-OP.09 richiedono notifica all'Utente); non implementato nel codice — nessun canale notifiche esiste oggi |
 | `AbbonamentoService` | *(duplicato nel diagramma)* | ⚠️ | Duplicato di `ServizioAbbonamento` — rimuovere dal diagramma |
 | `CorsaService` | *(duplicato nel diagramma)* | ⚠️ | Duplicato di parte di `ServizioMobilità` — rimuovere dal diagramma |
 | `ConfigurazioneService` | *(duplicato nel diagramma)* | ⚠️ | Duplicato di `ServizioParametri` — rimuovere dal diagramma |
@@ -92,7 +93,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | `Abbonamento` | non presente come ORM separato | ❌ | Modellato dentro `Offerta` con `tipo='abbonamento'` — decidere se allineare diagramma o creare modello separato |
 | `AbbonamentoUtente` | `model/abbonamento_utente.py` | ✅ | |
 | `AmministrazionePubblica` | `model/amministrazione_pubblica.py` (dataclass) | ⚠️ | Solo dataclass, non ORM SQLAlchemy |
-| `Corsa` | `model/corsa.py` | ✅ | |
+| `Corsa` | `model/corsa.py` | ✅ | Aggiunto `pausaDurataAccumulataSec` al diagramma (2026-06-20), già presente nel DB (`013_pausa_corsa.sql`) ma mancante nel diagramma classi |
 | `MetodoPagamento` | `model/pagamento.py` | ✅ | |
 | `Mezzo` | `model/mezzo.py` | ✅ | |
 | `Offerta` | `model/offerta.py` | ✅ | |
@@ -107,6 +108,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | `Tariffa` | `model/tariffa.py` | ✅ | |
 | `Utente` | `model/orm.py` + `model/utente.py` (dataclass) | ✅ | |
 | `Zona` | `model/zona.py` | ✅ | |
+| `Notifica` | non trovato | ❌ | Creato 2026-06-20 nel diagramma insieme a `NotificaService`/`NotificaRepository` — non implementato |
 
 ---
 
@@ -126,6 +128,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | `TariffaRepository` | `dal/tariffa_repository.py` | ✅ | |
 | `UtenteRepository` | `dal/utente_repository.py` | ❌ | File esiste ma la classe è vuota (`pass`) — implementazione assente |
 | `ZonaRepository` | `dal/zona_repository.py` | ✅ | |
+| `NotificaRepository` | non trovato | ❌ | Creato 2026-06-20 nel diagramma — non implementato |
 | *(non previsto)* | `dal/attore_repository.py` (`AttoreRepository`) | ⚠️ | Extra — aggiungere al diagramma |
 | *(non previsto)* | `dal/operatore_repository.py` (`OperatoreRepository`) | ⚠️ | Extra — aggiungere al diagramma |
 | *(non previsto)* | `dal/promozione_repository.py` (`PromozioneRepository`) | ⚠️ | Extra — aggiungere al diagramma |
@@ -150,7 +153,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | `RegoleFineCorsaController` | `controllers/regola_fine_corsa_controller.py` | ✅ | |
 | `SegnalazioneOPController` | `controllers/segnalazione_op_controller.py` | ✅ | Creato il 2026-06-08 |
 | `SegnalazioneUtenteController` | `controllers/segnalazione_utente_controller.py` | ✅ | Creato il 2026-06-08 |
-| `UtentiOPController` | non trovato | ❌ | Da verificare se esiste logica di gestione utenti OP |
+| `UtentiOPController` | non trovato | ❌ | IF-OP.09 Sospende Account Utente — pianificato nel diagramma, non implementato |
 | `ZoneController` | `controllers/zona_operatore_controller.py` | ✅ | |
 
 ---
@@ -204,6 +207,8 @@ Le seguenti classi BLL compaiono due volte nel diagramma (una volta con nome ita
 
 | Data | Fix | File coinvolti |
 |------|-----|----------------|
+| 2026-06-20 | Corretto ID errato in `sequence_sospende_corsa.drawio`: era `IF-UT.10` (= Visualizza Promozioni, tutt'altra feature), corretto in **IF-UT.09** (verificato in `Sprint3_SMART_Mobility.md`). Rimossi self-message inventati su entità pure (`corsa.registraInizioPausa()`, `mezzo.bloccaMezzo()`, `corsa.applicaAddebitoPausa()`); corretto `sospendiCorsa→pausaCorsa` per `CorsaController` (nome reale); rimosso il branch "periodo di grazia scaduto" come round-trip client-server fittizio (nessun metodo/endpoint reale lo supporta) — sostituito con nota che rimanda al meccanismo reale (`pausaDurataAccumulataSec` calcolato in `ServizioPricing.effettuaPagamento` a fine corsa). Aggiunto `pausaDurataAccumulataSec: int` a `Corsa` nel diagramma classi | `Diagramma Classi.drawio`, `sequence_sospende_corsa.drawio` (ricostruito) |
+| 2026-06-20 | Identificato e corretto ID errato: "Sospende Account Utente" è **IF-OP.09** (verificato in `Sprint3_SMART_Mobility.md`), non un generico "CS-21" usato nel titolo del vecchio diagramma di sequenza. Aggiunti i gap reali del caso d'uso: parametro `motivazione` mancante in tutta la catena (`VistaGestioneUtentiOperatore.confermaSospensione`, `IServizioUtenti`/`ServizioUtenti.sospendiAccount`, `UtentiOPController.sospendiAccount`, `GestioneUtentiService.sospendiAccount`, `AttoreRepository.sospendi`); creato `Notifica`/`NotificaRepository`/`NotificaService` (richiesti sia da IF-OP.09 passo 9 sia da IF-OP.08, mai modellati prima) e collegati a `ServizioUtenti`/`ServizioSegnalazione`. Solo diagrammi, nessun file di codice creato/modificato — feature pianificata, non implementata (come `Recensione`) | `Diagramma Classi.drawio`, `sequence_sospende_account_utente.drawio` (ricostruito), `sequence_gestisce_segnalazione.drawio` (aggiunta chiamata NotificaService) |
 | 2026-06-20 | Estratto `ServizioTariffa`/`IServizioTariffa` da `ServizioPricing` (creaTariffa/aggiornaTariffa/getTariffe, pattern "engine") per simmetria con `ServizioOfferta`; `ServizioPricing` mantiene solo `getTariffe()` (pattern "db injection", IF-UT.05) e `calcolaImporto` | `bll/servizio_tariffa.py` (nuovo), `bll/servizio_pricing.py`, `controllers/tariffa_controller.py`, `tests/test_servizio_tariffa.py` (nuovo), `Diagramma Classi.drawio`, `sequence_definisce_tariffa.drawio` |
 | 2026-06-20 | Separata `VistaTariffeOfferte` (troppo ampia, due flussi indipendenti) in `VistaTariffe` + `VistaOfferte`; estratto `TariffaService` da `FlottaService`; estratto `TariffaController` da `mezzo_operatore_controller.py` con relativi test di integrazione | `views/operatore/VistaTariffe.tsx` (nuovo), `views/operatore/VistaOfferte.tsx` (nuovo, ex `VistaTariffeOfferte.tsx`), `services/TariffaService.ts` (nuovo), `services/FlottaService.ts`, `controllers/tariffa_controller.py` (nuovo), `controllers/mezzo_operatore_controller.py`, `main.py`, `tests/test_tariffa_http.py` (nuovo), `App.tsx`, `views/operatore/VistaMappaOperatore.tsx` |
 | 2026-06-08 | Creato `ServizioSegnalazione` BLL separato da `ServizioMobilita` | `bll/servizio_segnalazione.py` (nuovo) |

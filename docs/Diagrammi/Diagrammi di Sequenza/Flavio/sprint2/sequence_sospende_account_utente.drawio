@@ -1,317 +1,467 @@
 <mxfile host="65bd71144e">
-    <diagram name="SD - CS-21 SospendeAccountUtente" id="0">
-        <mxGraphModel dx="454" dy="182" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+    <diagram name="SD - IF-OP.09 SospendeAccountUtente" id="0">
+        <mxGraphModel dx="2070" dy="2340" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2070" pageHeight="2340" background="#FFFFFF" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="sd_frame" value="sd SospendeAccountUtente" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=200;height=30;" parent="1" vertex="1">
-                    <mxGeometry x="20" y="20" width="1510" height="1570" as="geometry"/>
+                <mxCell id="frame" value="sd SospendeAccountUtente" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=200;height=30;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="20" width="2050" height="2320" as="geometry"/>
                 </mxCell>
-                <mxCell id="actor_cell" value=":Operatore" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="55" y="70" width="30" height="60" as="geometry"/>
+                <mxCell id="note" value="L'Operatore consulta l'elenco utenti, apre il dettaglio di un Utente, inserisce la motivazione e sospende l'account. Riferimento: IF-OP.09 (OP-09). Precondizione: l'Operatore è autenticato (ruolo OP); l'account dell'Utente è attivo. Alla sospensione il sistema registra una notifica per l'Utente (NotificaService), letta al successivo accesso — nessun canale push attivo." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="55" width="2010" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="actor_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;strokeWidth=1;" parent="1" edge="1">
+                <mxCell id="actor" value=":Operatore" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+                    <mxGeometry x="60" y="130" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="actor_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="70" y="130" as="sourcePoint"/>
-                        <mxPoint x="70" y="1545" as="targetPoint"/>
+                        <mxPoint x="75" y="190" as="sourcePoint"/>
+                        <mxPoint x="75" y="2320" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ll_vista" value="&lt;b&gt;&lt;u&gt;:VistaGestioneUtentiOperatore&lt;/u&gt;&lt;/b&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="150" y="70" width="200" height="1520" as="geometry"/>
+                <mxCell id="lbl_vista" value="&lt;b&gt;&lt;u&gt;:VistaGestioneUtentiOperatore&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="160" y="130" width="210" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="act_vista_1" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_vista" vertex="1">
-                    <mxGeometry x="95" y="100" width="10" height="315" as="geometry"/>
-                </mxCell>
-                <mxCell id="act_vista_2" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_vista" vertex="1">
-                    <mxGeometry x="95" y="470" width="10" height="315" as="geometry"/>
-                </mxCell>
-                <mxCell id="act_vista_3" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_vista" vertex="1">
-                    <mxGeometry x="95" y="840" width="10" height="35" as="geometry"/>
-                </mxCell>
-                <mxCell id="act_vista_4" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_vista" vertex="1">
-                    <mxGeometry x="95" y="915" width="10" height="535" as="geometry"/>
-                </mxCell>
-                <mxCell id="ll_flotta" value="&lt;u&gt;&lt;b&gt;:GestioneUtentiService&lt;/b&gt;&lt;/u&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="395" y="70" width="150" height="1520" as="geometry"/>
-                </mxCell>
-                <mxCell id="act_flotta_1" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_flotta" vertex="1">
-                    <mxGeometry x="70" y="135" width="10" height="245" as="geometry"/>
-                </mxCell>
-                <mxCell id="act_flotta_2" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_flotta" vertex="1">
-                    <mxGeometry x="70" y="505" width="10" height="245" as="geometry"/>
-                </mxCell>
-                <mxCell id="act_flotta_3" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_flotta" vertex="1">
-                    <mxGeometry x="70" y="950" width="10" height="465" as="geometry"/>
-                </mxCell>
-                <mxCell id="ll_ctrl" value="&lt;b&gt;&lt;u&gt;:UtentiOPController&lt;/u&gt;&lt;/b&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="590" y="70" width="220" height="1520" as="geometry"/>
-                </mxCell>
-                <mxCell id="act_ctrl_1" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_ctrl" vertex="1">
-                    <mxGeometry x="105" y="170" width="10" height="175" as="geometry"/>
-                </mxCell>
-                <mxCell id="act_ctrl_2" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_ctrl" vertex="1">
-                    <mxGeometry x="105" y="540" width="10" height="175" as="geometry"/>
-                </mxCell>
-                <mxCell id="act_ctrl_3" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_ctrl" vertex="1">
-                    <mxGeometry x="105" y="985" width="10" height="395" as="geometry"/>
-                </mxCell>
-                <mxCell id="ll_svc" value="&lt;u&gt;&lt;b&gt;:ServizioUtenti&lt;/b&gt;&lt;/u&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="860" y="70" width="150" height="1520" as="geometry"/>
-                </mxCell>
-                <mxCell id="act_svc_1" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_svc" vertex="1">
-                    <mxGeometry x="70" y="205" width="10" height="105" as="geometry"/>
-                </mxCell>
-                <mxCell id="act_svc_2" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_svc" vertex="1">
-                    <mxGeometry x="70" y="575" width="10" height="105" as="geometry"/>
-                </mxCell>
-                <mxCell id="act_svc_3" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_svc" vertex="1">
-                    <mxGeometry x="70" y="1020" width="10" height="325" as="geometry"/>
-                </mxCell>
-                <mxCell id="ll_utente" value="&lt;u&gt;&lt;b&gt;utente:Utente&lt;/b&gt;&lt;/u&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="1060" y="70" width="150" height="1520" as="geometry"/>
-                </mxCell>
-                <mxCell id="act_utente" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_utente" vertex="1">
-                    <mxGeometry x="70" y="1125" width="10" height="105" as="geometry"/>
-                </mxCell>
-                <mxCell id="ll_repo" value="&lt;u&gt;&lt;b&gt;:UtenteRepository&lt;/b&gt;&lt;/u&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="1260" y="70" width="190" height="1520" as="geometry"/>
-                </mxCell>
-                <mxCell id="act_repo_1" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_repo" vertex="1">
-                    <mxGeometry x="90" y="240" width="10" height="35" as="geometry"/>
-                </mxCell>
-                <mxCell id="act_repo_2" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_repo" vertex="1">
-                    <mxGeometry x="90" y="610" width="10" height="35" as="geometry"/>
-                </mxCell>
-                <mxCell id="act_repo_3a" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_repo" vertex="1">
-                    <mxGeometry x="90" y="1055" width="10" height="35" as="geometry"/>
-                </mxCell>
-                <mxCell id="act_repo_3b" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="ll_repo" vertex="1">
-                    <mxGeometry x="90" y="1160" width="10" height="35" as="geometry"/>
-                </mxCell>
-                <mxCell id="msg1" value="1: apriGestioneUtenti()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                <mxCell id="line_vista" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="70" y="170" as="sourcePoint"/>
-                        <mxPoint x="250" y="170" as="targetPoint"/>
+                        <mxPoint x="265" y="174" as="sourcePoint"/>
+                        <mxPoint x="265" y="2320" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg2" value="2: getUtenti()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                <mxCell id="lbl_svc_client" value="&lt;b&gt;&lt;u&gt;:GestioneUtentiService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="390" y="130" width="180" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="line_svc_client" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="250" y="205" as="sourcePoint"/>
-                        <mxPoint x="470" y="205" as="targetPoint"/>
+                        <mxPoint x="480" y="174" as="sourcePoint"/>
+                        <mxPoint x="480" y="2320" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg3" value="3: GET /operatore/utenti" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                <mxCell id="lbl_api" value="&lt;b&gt;&lt;u&gt;:ApiService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="590" y="130" width="150" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="line_api" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="470" y="240" as="sourcePoint"/>
-                        <mxPoint x="700" y="240" as="targetPoint"/>
+                        <mxPoint x="665" y="174" as="sourcePoint"/>
+                        <mxPoint x="665" y="2320" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg4" value="4: getUtenti()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                <mxCell id="lbl_front" value="&lt;b&gt;&lt;u&gt;:FrontController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="760" y="130" width="150" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="line_front" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="700" y="275" as="sourcePoint"/>
-                        <mxPoint x="935" y="275" as="targetPoint"/>
+                        <mxPoint x="835" y="174" as="sourcePoint"/>
+                        <mxPoint x="835" y="2320" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg5" value="5: findAll()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                <mxCell id="lbl_ctrl" value="&lt;b&gt;&lt;u&gt;:UtentiOPController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="930" y="130" width="190" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="line_ctrl" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="935" y="310" as="sourcePoint"/>
-                        <mxPoint x="1355" y="310" as="targetPoint"/>
+                        <mxPoint x="1025" y="174" as="sourcePoint"/>
+                        <mxPoint x="1025" y="2320" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg6" value="6: :listaUtenti" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                <mxCell id="lbl_svc" value="&lt;b&gt;&lt;u&gt;:ServizioUtenti&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1140" y="130" width="150" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="line_svc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1355" y="345" as="sourcePoint"/>
-                        <mxPoint x="935" y="345" as="targetPoint"/>
+                        <mxPoint x="1215" y="174" as="sourcePoint"/>
+                        <mxPoint x="1215" y="2320" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg7" value="7: :listaUtenti" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                <mxCell id="lbl_attore" value="&lt;u&gt;:AttoreRepository&lt;/u&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1310" y="130" width="170" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="line_attore" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="935" y="380" as="sourcePoint"/>
-                        <mxPoint x="700" y="380" as="targetPoint"/>
+                        <mxPoint x="1395" y="174" as="sourcePoint"/>
+                        <mxPoint x="1395" y="2320" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg8" value="8: 200 OK :listaUtenti" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                <mxCell id="lbl_utente" value="&lt;u&gt;:UtenteRepository&lt;/u&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1500" y="130" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="line_utente" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="700" y="415" as="sourcePoint"/>
-                        <mxPoint x="470" y="415" as="targetPoint"/>
+                        <mxPoint x="1580" y="174" as="sourcePoint"/>
+                        <mxPoint x="1580" y="2320" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg9" value="9: :listaUtenti" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                <mxCell id="lbl_notsvc" value="&lt;b&gt;&lt;u&gt;:NotificaService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1680" y="130" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="line_notsvc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="470" y="450" as="sourcePoint"/>
-                        <mxPoint x="250" y="450" as="targetPoint"/>
+                        <mxPoint x="1760" y="174" as="sourcePoint"/>
+                        <mxPoint x="1760" y="2320" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg10" value="10: mostraElencoUtenti(listaUtenti)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                <mxCell id="lbl_notrepo" value="&lt;u&gt;:NotificaRepository&lt;/u&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1860" y="130" width="170" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="line_notrepo" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="250" y="485" as="sourcePoint"/>
-                        <mxPoint x="70" y="485" as="targetPoint"/>
+                        <mxPoint x="1945" y="174" as="sourcePoint"/>
+                        <mxPoint x="1945" y="2320" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg11" value="11: selezionaUtente(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+
+                <mxCell id="act_vista" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="260" y="200" width="10" height="2100" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_svc_client" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="475" y="240" width="10" height="2020" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_api" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="660" y="280" width="10" height="1940" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_front" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="830" y="320" width="10" height="1860" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_ctrl" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="1020" y="420" width="10" height="1720" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_svc" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="1210" y="460" width="10" height="1640" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_attore_1" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                    <mxGeometry x="1390" y="500" width="10" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_attore_2" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                    <mxGeometry x="1390" y="1820" width="10" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_utente" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                    <mxGeometry x="1575" y="1120" width="10" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_notsvc" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="1755" y="1900" width="10" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_notrepo" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                    <mxGeometry x="1940" y="1940" width="10" height="80" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="m1" value="1: apriGestioneUtenti()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="70" y="540" as="sourcePoint"/>
-                        <mxPoint x="250" y="540" as="targetPoint"/>
+                        <mxPoint x="75" y="200" as="sourcePoint"/>
+                        <mxPoint x="260" y="200" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg12" value="12: getDettaglioUtente(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                <mxCell id="m2" value="2: getUtenti()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="250" y="575" as="sourcePoint"/>
-                        <mxPoint x="470" y="575" as="targetPoint"/>
+                        <mxPoint x="270" y="240" as="sourcePoint"/>
+                        <mxPoint x="475" y="240" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg13" value="13: GET /operatore/utenti/{idUtente}" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                <mxCell id="m3" value="3: inviaRichiesta(endpoint, body)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="470" y="610" as="sourcePoint"/>
-                        <mxPoint x="700" y="610" as="targetPoint"/>
+                        <mxPoint x="485" y="280" as="sourcePoint"/>
+                        <mxPoint x="660" y="280" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg14" value="14: getDettaglioUtente(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                <mxCell id="m4" value="4: GET /operatore/utenti (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="700" y="645" as="sourcePoint"/>
-                        <mxPoint x="935" y="645" as="targetPoint"/>
+                        <mxPoint x="670" y="320" as="sourcePoint"/>
+                        <mxPoint x="830" y="320" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg15" value="15: findById(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
+                <mxCell id="m5" value="5: validaAutenticazione()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="935" y="680" as="sourcePoint"/>
-                        <mxPoint x="1355" y="680" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg16" value="16: :utente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1355" y="715" as="sourcePoint"/>
-                        <mxPoint x="935" y="715" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg17" value="17: :utente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="935" y="750" as="sourcePoint"/>
-                        <mxPoint x="700" y="750" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg18" value="18: 200 OK :utente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="700" y="785" as="sourcePoint"/>
-                        <mxPoint x="470" y="785" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg19" value="19: :utente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="470" y="820" as="sourcePoint"/>
-                        <mxPoint x="250" y="820" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg20" value="20: mostraDettaglioUtente(utente)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="250" y="855" as="sourcePoint"/>
-                        <mxPoint x="70" y="855" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg21" value="21: avviaSospensione(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="70" y="910" as="sourcePoint"/>
-                        <mxPoint x="250" y="910" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg22" value="22: mostraDialogoConferma()" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="250" y="945" as="sourcePoint"/>
-                        <mxPoint x="70" y="945" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg23" value="23: confermaSospensione(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="70" y="985" as="sourcePoint"/>
-                        <mxPoint x="250" y="985" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg24" value="24: sospendiAccount(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="250" y="1020" as="sourcePoint"/>
-                        <mxPoint x="470" y="1020" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg25" value="25: PATCH /operatore/utenti/{idUtente}/stato" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="470" y="1055" as="sourcePoint"/>
-                        <mxPoint x="700" y="1055" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg26" value="26: sospendiAccount(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="700" y="1090" as="sourcePoint"/>
-                        <mxPoint x="935" y="1090" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg27" value="27: findById(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="935" y="1125" as="sourcePoint"/>
-                        <mxPoint x="1355" y="1125" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg28" value="28: :utente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1355" y="1160" as="sourcePoint"/>
-                        <mxPoint x="935" y="1160" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg29" value="29: sospendi()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="935" y="1195" as="sourcePoint"/>
-                        <mxPoint x="1135" y="1195" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg30" value="30: save(this)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1135" y="1230" as="sourcePoint"/>
-                        <mxPoint x="1355" y="1230" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg31" value="31: :ok" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1355" y="1265" as="sourcePoint"/>
-                        <mxPoint x="1135" y="1265" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg32" value="32: :ok" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1135" y="1300" as="sourcePoint"/>
-                        <mxPoint x="935" y="1300" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg33" value="33: notificaUtente(utente.id, &quot;account sospeso&quot;)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="940" y="1335" as="sourcePoint"/>
-                        <mxPoint x="940" y="1375" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="980" y="1335"/>
-                            <mxPoint x="980" y="1375"/>
+                            <mxPoint x="900" y="360"/>
+                            <mxPoint x="900" y="380"/>
                         </Array>
+                        <mxPoint x="840" y="360" as="sourcePoint"/>
+                        <mxPoint x="840" y="380" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg34" value="34: :ok" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                <mxCell id="m6" value="6: instrada(): getUtenti()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="935" y="1415" as="sourcePoint"/>
-                        <mxPoint x="700" y="1415" as="targetPoint"/>
+                        <mxPoint x="840" y="420" as="sourcePoint"/>
+                        <mxPoint x="1020" y="420" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg35" value="35: 200 OK" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                <mxCell id="m7" value="7: getUtenti()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="700" y="1450" as="sourcePoint"/>
-                        <mxPoint x="470" y="1450" as="targetPoint"/>
+                        <mxPoint x="1030" y="460" as="sourcePoint"/>
+                        <mxPoint x="1210" y="460" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg36" value="36: :ok" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                <mxCell id="m8" value="8: findByRuolo(&quot;UT&quot;)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="470" y="1485" as="sourcePoint"/>
-                        <mxPoint x="250" y="1485" as="targetPoint"/>
+                        <mxPoint x="1220" y="500" as="sourcePoint"/>
+                        <mxPoint x="1390" y="500" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg37" value="37: mostraConfermaSospensione()" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;" parent="1" edge="1">
+                <mxCell id="m9" value="9: :listaUtenti" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="250" y="1520" as="sourcePoint"/>
-                        <mxPoint x="70" y="1520" as="targetPoint"/>
+                        <mxPoint x="1390" y="540" as="sourcePoint"/>
+                        <mxPoint x="1220" y="540" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m10" value="10: :listaUtenti" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1210" y="580" as="sourcePoint"/>
+                        <mxPoint x="1030" y="580" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m11" value="11: 200 OK :listaUtenti" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1020" y="620" as="sourcePoint"/>
+                        <mxPoint x="840" y="620" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m12" value="12: 200 OK :listaUtenti" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="830" y="660" as="sourcePoint"/>
+                        <mxPoint x="670" y="660" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m13" value="13: gestisciRisposta(): :listaUtenti" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="660" y="700" as="sourcePoint"/>
+                        <mxPoint x="485" y="700" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m14" value="14: :listaUtenti" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="475" y="740" as="sourcePoint"/>
+                        <mxPoint x="270" y="740" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m15" value="15: mostraElencoUtenti(listaUtenti)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="260" y="780" as="sourcePoint"/>
+                        <mxPoint x="75" y="780" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="m16" value="16: selezionaUtente(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="75" y="820" as="sourcePoint"/>
+                        <mxPoint x="260" y="820" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m17" value="17: getDettaglioUtente(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="270" y="860" as="sourcePoint"/>
+                        <mxPoint x="475" y="860" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m18" value="18: inviaRichiesta(endpoint, body)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="485" y="900" as="sourcePoint"/>
+                        <mxPoint x="660" y="900" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m19" value="19: GET /operatore/utenti/{idUtente} (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="670" y="940" as="sourcePoint"/>
+                        <mxPoint x="830" y="940" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m20" value="20: validaAutenticazione()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="900" y="980"/>
+                            <mxPoint x="900" y="1000"/>
+                        </Array>
+                        <mxPoint x="840" y="980" as="sourcePoint"/>
+                        <mxPoint x="840" y="1000" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m21" value="21: instrada(): getDettaglioUtente()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="840" y="1040" as="sourcePoint"/>
+                        <mxPoint x="1020" y="1040" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m22" value="22: getDettaglioUtente(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1030" y="1080" as="sourcePoint"/>
+                        <mxPoint x="1210" y="1080" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m23" value="23: findById(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1220" y="1120" as="sourcePoint"/>
+                        <mxPoint x="1575" y="1120" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m24" value="24: :utente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1575" y="1160" as="sourcePoint"/>
+                        <mxPoint x="1220" y="1160" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m25" value="25: :utente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1210" y="1200" as="sourcePoint"/>
+                        <mxPoint x="1030" y="1200" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m26" value="26: 200 OK :utente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1020" y="1240" as="sourcePoint"/>
+                        <mxPoint x="840" y="1240" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m27" value="27: 200 OK :utente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="830" y="1280" as="sourcePoint"/>
+                        <mxPoint x="670" y="1280" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m28" value="28: gestisciRisposta(): :utente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="660" y="1320" as="sourcePoint"/>
+                        <mxPoint x="485" y="1320" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m29" value="29: :utente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="475" y="1360" as="sourcePoint"/>
+                        <mxPoint x="270" y="1360" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m30" value="30: mostraDettaglioUtente(utente)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="260" y="1400" as="sourcePoint"/>
+                        <mxPoint x="75" y="1400" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="m31" value="31: avviaSospensione(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="75" y="1440" as="sourcePoint"/>
+                        <mxPoint x="260" y="1440" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m32" value="32: mostraDialogoConferma()" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="260" y="1480" as="sourcePoint"/>
+                        <mxPoint x="75" y="1480" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m33" value="33: confermaSospensione(idUtente, motivazione)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="75" y="1520" as="sourcePoint"/>
+                        <mxPoint x="260" y="1520" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m34" value="34: sospendiAccount(idUtente, motivazione)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="270" y="1560" as="sourcePoint"/>
+                        <mxPoint x="475" y="1560" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m35" value="35: inviaRichiesta(endpoint, body)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="485" y="1600" as="sourcePoint"/>
+                        <mxPoint x="660" y="1600" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m36" value="36: PATCH /operatore/utenti/{idUtente}/stato (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="670" y="1640" as="sourcePoint"/>
+                        <mxPoint x="830" y="1640" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m37" value="37: validaAutenticazione()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="900" y="1680"/>
+                            <mxPoint x="900" y="1700"/>
+                        </Array>
+                        <mxPoint x="840" y="1680" as="sourcePoint"/>
+                        <mxPoint x="840" y="1700" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m38" value="38: instrada(): sospendiAccount()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="840" y="1740" as="sourcePoint"/>
+                        <mxPoint x="1020" y="1740" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m39" value="39: sospendiAccount(idUtente, motivazione)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1030" y="1780" as="sourcePoint"/>
+                        <mxPoint x="1210" y="1780" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m40" value="40: sospendi(idUtente, motivazione)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1220" y="1820" as="sourcePoint"/>
+                        <mxPoint x="1390" y="1820" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m41" value="41: :ok" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1390" y="1860" as="sourcePoint"/>
+                        <mxPoint x="1220" y="1860" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m42" value="42: notifica(idUtente, &quot;Account sospeso: &quot; + motivazione)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1220" y="1900" as="sourcePoint"/>
+                        <mxPoint x="1755" y="1900" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m43" value="43: crea(idUtente, messaggio)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1765" y="1940" as="sourcePoint"/>
+                        <mxPoint x="1940" y="1940" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m44" value="44: :notifica" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1940" y="1980" as="sourcePoint"/>
+                        <mxPoint x="1765" y="1980" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m45" value="45: :ok" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1755" y="2020" as="sourcePoint"/>
+                        <mxPoint x="1220" y="2020" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m46" value="46: :ok" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1210" y="2060" as="sourcePoint"/>
+                        <mxPoint x="1030" y="2060" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m47" value="47: 200 OK" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1020" y="2100" as="sourcePoint"/>
+                        <mxPoint x="840" y="2100" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m48" value="48: 200 OK" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="830" y="2140" as="sourcePoint"/>
+                        <mxPoint x="670" y="2140" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m49" value="49: gestisciRisposta(): :ok" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="660" y="2180" as="sourcePoint"/>
+                        <mxPoint x="485" y="2180" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m50" value="50: :ok" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="475" y="2220" as="sourcePoint"/>
+                        <mxPoint x="270" y="2220" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m51" value="51: mostraConfermaSospensione()" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="260" y="2260" as="sourcePoint"/>
+                        <mxPoint x="75" y="2260" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
             </root>
