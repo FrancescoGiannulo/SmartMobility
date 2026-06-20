@@ -20,11 +20,11 @@ sotto-componente contiene le classi del rispettivo livello.
 `VistaImpostazioniRegole`, `VistaParametriSistema`, `VistaSegnalazioniOperatore`,
 `VistaGestioneUtentiOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaRecensione`.
 
-### 1.2 `«component» ApiService` (API Service Layer) — 16 classi
+### 1.2 `«component» ApiService` (API Service Layer) — 17 classi
 `ApiService`, `AuthService`, `MapService`, `CorsaService`, `PrenotazioneService`,
 `PaymentService`, `AbbonamentoService`, `OffertaService`, `FlottaService`, `ZonaService`,
 `SegnalazioneService`, `ConfigurazioneService`, `RegoleFineCorsaService`, `ReportService`,
-`GestioneUtentiService`, `RecensioneService`.
+`GestioneUtentiService`, `RecensioneService`, `SuggerimentiService`.
 
 `ApiService` è la **Facade** verso il server; i service di dominio traducono le operazioni del
 proprio dominio in chiamate ad `ApiService`. Le View consumano i service tramite l'interfaccia
@@ -34,36 +34,38 @@ proprio dominio in chiamate ad `ApiService`. Le View consumano i service tramite
 
 ## 2. Macro-componente SERVER
 
-### 2.1 `«component» Controller` (MVC / FrontController) — 16 classi
+### 2.1 `«component» Controller` (MVC / FrontController) — 17 classi
 `FrontController`, `AccountController`, `HomePageUtenteController`, `CorsaController`,
 `PagamentoController`, `AbbonamentoController`, `MezzoOperatoreController`, `ZoneController`,
 `RegoleFineCorsaController`, `OffertaController`, `ConfigurazioneController`,
 `SegnalazioneUtenteController`, `SegnalazioneOPController`, `UtentiOPController`,
-`AmministrazionePubblicaController`, `RecensioneController`.
+`AmministrazionePubblicaController`, `RecensioneController`, `SuggerimentoController`.
 
-### 2.2 `«component» BLL` (Business Logic Layer) — 12 servizi
+### 2.2 `«component» BLL` (Business Logic Layer) — 13 servizi
 `ServizioMobilita`, `ServizioPrenotazione`, `ServizioPricing`, `ServizioGIS`,
 `ServizioAbbonamento`, `ServizioOfferta`, `ServizioSegnalazione`, `ServizioParametri`,
-`ServizioRegoleFineCorsa`, `ServizioReport`, `ServizioUtenti`, `ServizioRecensione`.
+`ServizioRegoleFineCorsa`, `ServizioReport`, `ServizioUtenti`, `ServizioRecensione`,
+`ServizioSuggerimenti`.
 
 Espone al Controller l'interfaccia `BLLToController` (realizzazione delle `IServizio*` del
 diagramma delle classi). Lo stato del `Mezzo` cambia solo tramite `ServizioMobilita`
 (pattern State); il calcolo tariffa usa il pattern Strategy (IIN-4).
 
-### 2.3 `«component» DAL` (Repository) — 17 classi
+### 2.3 `«component» DAL` (Repository) — 18 classi
 `MezzoRepository`, `CorsaRepository`, `PrenotazioneRepository`, `PagamentoRepository`,
 `TariffaRepository`, `ZonaRepository`, `UtenteRepository`, `OperatoreRepository`,
 `AttoreRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`,
 `RegoleFineCorsaRepository`, `ParametriSistemaRepository`, `SegnalazioneRepository`,
-`RecensioneRepository`, `IRepository`.
+`RecensioneRepository`, `IRepository`, `SuggerimentoRepository`.
 
 I repository sono l'unico livello che conosce le entità ORM e convertono ORM ↔ Transfer Object
 verso la BLL (pattern DAO + Transfer Object). La BLL non importa mai dal Model.
 
-### 2.4 `«component» Model` (Domain / Entity) — 19 classi
+### 2.4 `«component» Model` (Domain / Entity) — 20 classi
 `Persona`, `Utente`, `Operatore`, `AmministrazionePubblica`, `Mezzo`, `Corsa`, `Prenotazione`,
 `Pagamento`, `MetodoPagamento`, `Tariffa`, `Zona`, `Offerta`, `Promozione`, `Abbonamento`,
-`AbbonamentoUtente`, `RegolaFineCorsa`, `ParametriSistema`, `Segnalazione`, `Recensione`.
+`AbbonamentoUtente`, `RegolaFineCorsa`, `ParametriSistema`, `Segnalazione`, `Recensione`,
+`Suggerimento`.
 
 ---
 
@@ -72,6 +74,7 @@ verso la BLL (pattern DAO + Transfer Object). La BLL non importa mai dal Model.
 - `«component» DBMS — Supabase PostgreSQL` — persistenza relazionale (PostgreSQL + PostGIS).
 - `«component» GoogleMaps (Adapter)` — dati cartografici, geocoding/geofencing.
 - `«component» Provider Pagamenti (Adapter)` — autorizzazione e validazione pagamenti.
+- `«component» ServizioAI (Adapter)` — generazione dei suggerimenti intelligenti (IF-UT.14).
 
 Non se ne mostra il contenuto (componenti black-box/grey-box).
 
@@ -88,19 +91,25 @@ Non se ne mostra il contenuto (componenti black-box/grey-box).
 | `DALtoDBMS` | DBMS | DAL | `executeQuery()`, `executeUpdate()`, `connectDB()` |
 | `BLLtoGoogleMaps` | GoogleMaps | BLL (`ServizioGIS`) | `recuperaDatiMappa()`, `verificaZona()` |
 | `BLLtoProviderPagamenti` | Provider Pagamenti | BLL (`ServizioPricing`) | `autorizza()`, `validaDatiPagamento()` |
+| `BLLtoServizioAI` | ServizioAI | BLL (`ServizioSuggerimenti`) | `generaSuggerimenti()` |
 
 **Flusso delle dipendenze:**
 `View → ApiService → (ClientToServer, REST/HTTPS) → Controller → BLL → DAL → Model`,
-con `DAL → DBMS`, `ServizioGIS → GoogleMaps`, `ServizioPricing → Provider Pagamenti`.
+con `DAL → DBMS`, `ServizioGIS → GoogleMaps`, `ServizioPricing → Provider Pagamenti`,
+`ServizioSuggerimenti → ServizioAI`.
 
 ---
 
 ## 5. Note di consistenza
 
 - **Componenti ↔ Classi:** verificato l'allineamento 1:1 per ogni layer
-  (View 20, ApiService 16, Controller 16, BLL 12, DAL 17, Model 19). Le `IServizio*` del
+  (View 20, ApiService 17, Controller 17, BLL 13, DAL 18, Model 20). Le `IServizio*` del
   diagramma delle classi sono rese nel diagramma dei componenti come l'interfaccia provided
   `BLLToController`.
+- **Feature `Suggerimenti Intelligenti` (IF-UT.14):** aggiunta in tutti i layer del diagramma
+  (`SuggerimentiService`, `SuggerimentoController`, `ServizioSuggerimenti`, `SuggerimentoRepository`,
+  `Suggerimento`) più il sistema esterno `ServizioAI (Adapter)` consumato da `ServizioSuggerimenti`
+  tramite l'interfaccia `BLLtoServizioAI`. La View è riusata (`VistaHomePageUtente`).
 - **Feature `Recensione`:** presente in tutti i layer del diagramma (View, Service, Controller,
   BLL, DAL, Model) ma **non ancora implementata nel codice**. È una **feature pianificata**, da
   realizzare in uno sprint successivo seguendo lo slice già modellato: il disallineamento

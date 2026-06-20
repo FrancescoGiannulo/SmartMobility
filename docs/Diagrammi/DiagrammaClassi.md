@@ -6,16 +6,16 @@
 
 ## Indice delle classi
 
-Totale elementi identificati: **122**.
+Totale elementi identificati: **131**.
 
 - **CLIENT - View (Presentation)** (20): `VistaLogin`, `VistaProfiloUtente`, `CallbackOAuth`, `PrivacyPolicy`, `VistaGestioneUtentiOperatore`, `VistaRecensione`, `VistaSegnalazioneUtente`, `VistaSegnalazioniOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaParametriSistema`, `VistaImpostazioniRegole`, `VistaAbbonamenti`, `VistaTariffeOfferte`, `VistaCorsa`, `VistaStoricoCorse`, `VistaMezziOperatore`, `VistaPagamenti`, `VistaHomePageUtente`, `VistaDefinisciZona`
-- **CLIENT - Service (API Service Layer)** (16): `AuthService`, `GestioneUtentiService`, `RecensioneService`, `SegnalazioneService`, `ReportService`, `RegoleFineCorsaService`, `ConfigurazioneService`, `ApiService`, `AbbonamentoService`, `OffertaService`, `CorsaService`, `PrenotazioneService`, `FlottaService`, `PaymentService`, `ZonaService`, `MapService`
-- **SERVER - Controller (MVC / FrontController)** (16): `AccountController`, `UtentiOPController`, `RecensioneController`, `SegnalazioneUtenteController`, `SegnalazioneOPController`, `AmministrazionePubblicaController`, `ConfigurazioneController`, `RegoleFineCorsaController`, `FrontController (router FastAPI + auth middleware)`, `AbbonamentoController`, `OffertaController`, `CorsaController`, `MezzoOperatoreController`, `PagamentoController`, `ZoneController`, `HomePageUtenteController`
-- **Contratti Controller -> BLL (interfacce)** (12): `IServizioUtenti`, `IServizioRecensione`, `IServizioSegnalazione`, `IServizioReport`, `IServizioRegoleFineCorsa`, `IServizioParametri`, `IServizioAbbonamento`, `IServizioOfferta`, `IServizioPrenotazione`, `IServizioMobilita`, `IServizioPricing`, `IServizioGIS`
-- **SERVER - Service (Business Logic Layer)** (12): `ServizioUtenti`, `ServizioRecensione`, `ServizioSegnalazione`, `ServizioReport`, `ServizioParametri`, `ServizioRegoleFineCorsa`, `ServizioAbbonamento`, `ServizioOfferta`, `ServizioPrenotazione`, `ServizioMobilita`, `ServizioPricing`, `ServizioGIS`
-- **SERVER - Repository (Data Access Layer)** (17): `UtenteRepository`, `AttoreRepository`, `OperatoreRepository`, `RecensioneRepository`, `SegnalazioneRepository`, `IRepository`, `RegoleFineCorsaRepository`, `ParametriSistemaRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`, `CorsaRepository`, `PrenotazioneRepository`, `MezzoRepository`, `PagamentoRepository`, `TariffaRepository`, `ZonaRepository`
-- **SERVER - Model (Domain / Entity)** (19): `Persona`, `Utente`, `Operatore`, `AmministrazionePubblica`, `Recensione`, `Segnalazione`, `ParametriSistema`, `RegolaFineCorsa`, `AbbonamentoUtente`, `Abbonamento`, `Offerta`, `Promozione`, `Prenotazione`, `Corsa`, `Mezzo`, `Tariffa`, `Pagamento`, `MetodoPagamento`, `Zona`
-- **Sistemi esterni, Adapter & Note** (10): `Nota 1 — Client`, `Nota 2 — BLL`, `Nota 3 — DAL`, `GoogleMaps`, `Pagamenti`, `ProviderPagamentiAdapter`, `GoogleMapsAdapter`, `DBMS — Supabase PostgreSQL`, `Provider Pagamenti`, `Google Maps`
+- **CLIENT - Service (API Service Layer)** (17): `AuthService`, `GestioneUtentiService`, `RecensioneService`, `SegnalazioneService`, `ReportService`, `SuggerimentiService`, `RegoleFineCorsaService`, `ConfigurazioneService`, `ApiService`, `AbbonamentoService`, `OffertaService`, `CorsaService`, `PrenotazioneService`, `FlottaService`, `PaymentService`, `ZonaService`, `MapService`
+- **SERVER - Controller (MVC / FrontController)** (17): `AccountController`, `UtentiOPController`, `RecensioneController`, `SegnalazioneUtenteController`, `SegnalazioneOPController`, `AmministrazionePubblicaController`, `SuggerimentoController`, `ConfigurazioneController`, `RegoleFineCorsaController`, `FrontController (router FastAPI + auth middleware)`, `AbbonamentoController`, `OffertaController`, `CorsaController`, `MezzoOperatoreController`, `PagamentoController`, `ZoneController`, `HomePageUtenteController`
+- **Contratti Controller -> BLL (interfacce)** (13): `IServizioUtenti`, `IServizioRecensione`, `IServizioSegnalazione`, `IServizioReport`, `IServizioSuggerimenti`, `IServizioRegoleFineCorsa`, `IServizioParametri`, `IServizioAbbonamento`, `IServizioOfferta`, `IServizioPrenotazione`, `IServizioMobilita`, `IServizioPricing`, `IServizioGIS`
+- **SERVER - Service (Business Logic Layer)** (13): `ServizioUtenti`, `ServizioRecensione`, `ServizioSegnalazione`, `ServizioReport`, `ServizioSuggerimenti`, `ServizioParametri`, `ServizioRegoleFineCorsa`, `ServizioAbbonamento`, `ServizioOfferta`, `ServizioPrenotazione`, `ServizioMobilita`, `ServizioPricing`, `ServizioGIS`
+- **SERVER - Repository (Data Access Layer)** (18): `UtenteRepository`, `AttoreRepository`, `OperatoreRepository`, `RecensioneRepository`, `SegnalazioneRepository`, `IRepository`, `SuggerimentoRepository`, `RegoleFineCorsaRepository`, `ParametriSistemaRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`, `CorsaRepository`, `PrenotazioneRepository`, `MezzoRepository`, `PagamentoRepository`, `TariffaRepository`, `ZonaRepository`
+- **SERVER - Model (Domain / Entity)** (20): `Persona`, `Utente`, `Operatore`, `AmministrazionePubblica`, `Recensione`, `Segnalazione`, `ParametriSistema`, `RegolaFineCorsa`, `AbbonamentoUtente`, `Abbonamento`, `Offerta`, `Promozione`, `Prenotazione`, `Corsa`, `Mezzo`, `Tariffa`, `Pagamento`, `MetodoPagamento`, `Zona`, `Suggerimento`
+- **Sistemi esterni, Adapter & Note** (13): `Nota 1 — Client`, `Nota 2 — BLL`, `Nota 3 — DAL`, `GoogleMaps`, `Pagamenti`, `ProviderPagamentiAdapter`, `IServizioAI`, `GoogleMapsAdapter`, `DBMS — Supabase PostgreSQL`, `Provider Pagamenti`, `Google Maps`, `ServizioAIAdapter`, `ServizioAI`
 
 ---
 
@@ -356,6 +356,7 @@ Totale elementi identificati: **122**.
 ```
 - mezziDisponibili: List
 - zone: List
+- suggerimenti: List
 ```
 
 **Metodi**
@@ -366,6 +367,9 @@ Totale elementi identificati: **122**.
 + selezionaMezzoStazione(idMezzo: String): void
 + apriTariffe(): void
 + consultaPromozioni(): void
++ mostraSuggerimenti(suggerimenti: List): void
++ segnaSuggerimentoVisto(id: String): void
++ mostraNessunSuggerimento(): void
 + mostraErrore(msg: String): void
 ```
 
@@ -425,7 +429,7 @@ Totale elementi identificati: **122**.
 **Metodi**
 
 ```
-+ scriviRecensione(voto: int, commento: String): void
++ scriviRecensione(voto: int, commento: String): Recensione
 ```
 
 ### `SegnalazioneService`
@@ -447,6 +451,15 @@ Totale elementi identificati: **122**.
 ```
 + recuperaReport(periodo: Object): Report
 + esportaCSV(idReport: String): File
+```
+
+### `SuggerimentiService`
+
+**Metodi**
+
+```
++ getSuggerimenti(): List
++ segnaVisto(id: String): void
 ```
 
 ### `RegoleFineCorsaService`
@@ -527,7 +540,6 @@ Totale elementi identificati: **122**.
 + creaPrenotazione(idMezzo: String[], idUtente: String): Prenotazione
 + annullaPrenotazione(idPrenotazione: String): void
 + getPrenotazioniAttive(idUtente: String): List
-+ getCaratteristiche(idMezzo: String): Mezzo
 ```
 
 ### `FlottaService`
@@ -653,8 +665,15 @@ Totale elementi identificati: **122**.
 ```
 + visualizzaReport(periodo: Object): Response
 + esportaCSV(idReport: String): Response
-+ mappaMezziAP(): Response
-+ mappaZoneAP(): Response
+```
+
+### `SuggerimentoController`
+
+**Metodi**
+
+```
++ getSuggerimenti(): Response
++ segnaVisto(id: String): Response
 ```
 
 ### `ConfigurazioneController`
@@ -720,7 +739,6 @@ Totale elementi identificati: **122**.
 + getStorico(idUtente: String): Response
 + getRiepilogo(idCorsa: String): Response
 + getMezzo(idMezzo: String): Response
-+ getMezziSbloccabili(pos: Coordinate): Response
 ```
 
 ### `MezzoOperatoreController`
@@ -761,6 +779,7 @@ Totale elementi identificati: **122**.
 + zoneParcheggio(): Response
 + zoneLimitate(): Response
 + zoneVietate(): Response
++ getDatiMappaAP(): Response
 ```
 
 ### `HomePageUtenteController`
@@ -820,6 +839,16 @@ Totale elementi identificati: **122**.
 + generaReport(periodo): Report
 + esportaCSV(idReport): File
 + consultaStorico(periodo): List
+```
+
+### `IServizioSuggerimenti`
+
+**Metodi**
+
+```
++ getSuggerimenti(idUtente): List
++ generaSuggerimenti(idUtente): List
++ segnaVisto(idSuggerimento, idUtente): void
 ```
 
 ### `IServizioRegoleFineCorsa`
@@ -998,6 +1027,28 @@ Totale elementi identificati: **122**.
 + generaReport(periodo: Periodo): Report
 + esportaCSV(idReport: String): File
 + consultaStorico(periodo: Periodo): List
+```
+
+### `ServizioSuggerimenti`
+
+**Attributi**
+
+```
+- suggerimentoRepo: ISuggerimentoRepository
+- corsaRepo: ICorsaRepository
+- abbonamentoRepo: IAbbonamentoRepository
+- pagamentoRepo: IPagamentoRepository
+- servizioAI: IServizioAI
+```
+
+**Metodi**
+
+```
++ getSuggerimenti(idUtente): List
++ generaSuggerimenti(idUtente): List
++ segnaVisto(idSuggerimento, idUtente): void
+- raccogliDati(idUtente): Object
+- ordinaPerRilevanza(suggerimenti): List
 ```
 
 ### `ServizioParametri`
@@ -1234,6 +1285,17 @@ Totale elementi identificati: **122**.
 + findById(id: String): T
 ```
 
+### `SuggerimentoRepository`
+
+**Metodi**
+
+```
++ findByUtente(idUtente: String): List
++ save(s: Suggerimento): Suggerimento
++ findRecenti(idUtente: String, da: DateTime): List
++ aggiornaStato(id: String, stato: StatoSuggerimento): void
+```
+
 ### `RegoleFineCorsaRepository`
 
 **Metodi**
@@ -1291,7 +1353,6 @@ Totale elementi identificati: **122**.
 
 ```
 + findById(idCorsa: String): Corsa
-+ findRiepilogo(idCorsa: String, idUtente: String): Corsa
 + findAttiva(idMezzo: String): Corsa
 + findByUtenteOrderByData(idUtente: String): List
 + findByPeriodo(periodo: Periodo): List
@@ -1581,6 +1642,20 @@ Totale elementi identificati: **122**.
 - tipoZona: TipoZona
 ```
 
+### `Suggerimento`
+
+**Attributi**
+
+```
+- id: String
+- utenteId: String
+- tipo: TipoSuggerimento
+- testo: String
+- datiContesto: Object
+- stato: StatoSuggerimento
+- creatoAt: DateTime
+```
+
 ---
 
 ## Sistemi esterni, Adapter & Note
@@ -1637,6 +1712,14 @@ I repository sono l'unico livello che conosce le entita' ORM: convertono ORM ↔
 - chiamaGateway(req: Request): Response
 ```
 
+### `IServizioAI`
+
+**Metodi**
+
+```
++ generaSuggerimenti(dati: Object): List
+```
+
 ### `GoogleMapsAdapter`
 
 **Metodi**
@@ -1668,25 +1751,37 @@ I repository sono l'unico livello che conosce le entita' ORM: convertono ORM ↔
 
 ### `Google Maps`
 
+### `ServizioAIAdapter`
+
+**Metodi**
+
+```
++ generaSuggerimenti(dati: Object): List
+- chiamaModelloIA(prompt: String): Response
+- valutaSufficienzaDati(dati: Object): boolean
+```
+
+### `ServizioAI`
+
 ---
 
 ## Relazioni tra layer
 
-Il diagramma contiene **161** relazioni (in prevalenza dipendenze d'uso `Use`).
+Il diagramma contiene **171** relazioni (in prevalenza dipendenze d'uso `Use`).
 Riepilogo delle dipendenze direzionali tra layer (origine -> destinazione):
 
 | Da (layer) | A (layer) | N. dipendenze |
 |---|---|---|
-| SERVER - Service (Business Logic Layer) | SERVER - Repository (Data Access Layer) | 27 |
+| SERVER - Service (Business Logic Layer) | SERVER - Repository (Data Access Layer) | 28 |
 | CLIENT - View (Presentation) | CLIENT - Service (API Service Layer) | 20 |
 | SERVER - Model (Domain / Entity) | SERVER - Model (Domain / Entity) | 19 |
-| SERVER - Controller (MVC / FrontController) | Contratti Controller -> BLL (interfacce) | 15 |
-| SERVER - Repository (Data Access Layer) | SERVER - Repository (Data Access Layer) | 15 |
-| SERVER - Repository (Data Access Layer) | SERVER - Model (Domain / Entity) | 15 |
-| CLIENT - Service (API Service Layer) | CLIENT - Service (API Service Layer) | 14 |
+| SERVER - Controller (MVC / FrontController) | Contratti Controller -> BLL (interfacce) | 16 |
+| SERVER - Repository (Data Access Layer) | SERVER - Repository (Data Access Layer) | 16 |
+| SERVER - Repository (Data Access Layer) | SERVER - Model (Domain / Entity) | 16 |
+| CLIENT - Service (API Service Layer) | CLIENT - Service (API Service Layer) | 15 |
 | SERVER - Controller (MVC / FrontController) | SERVER - Controller (MVC / FrontController) | 13 |
-| SERVER - Service (Business Logic Layer) | Contratti Controller -> BLL (interfacce) | 11 |
-| Sistemi esterni, Adapter & Note | Sistemi esterni, Adapter & Note | 4 |
-| SERVER - Service (Business Logic Layer) | Sistemi esterni, Adapter & Note | 2 |
+| SERVER - Service (Business Logic Layer) | Contratti Controller -> BLL (interfacce) | 12 |
+| Sistemi esterni, Adapter & Note | Sistemi esterni, Adapter & Note | 6 |
+| SERVER - Service (Business Logic Layer) | Sistemi esterni, Adapter & Note | 3 |
 | CLIENT - Service (API Service Layer) | SERVER - Controller (MVC / FrontController) | 1 |
 | SERVER - Repository (Data Access Layer) | Sistemi esterni, Adapter & Note | 1 |
