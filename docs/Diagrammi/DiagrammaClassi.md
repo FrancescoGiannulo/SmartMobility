@@ -111,7 +111,7 @@ Totale elementi identificati: **131**.
 + apriFormRecensione(): void
 + mostraFormRecensione(): void
 + confermaScrivi(voto: int, commento: String): void
-+ mostraConfermaRecensione(): void
++ mostraConfermaRecensione(): void+ mostraStoricoRecensioni(recensioni: List): void
 + mostraErrore(msg: String): void
 ```
 
@@ -201,7 +201,7 @@ Totale elementi identificati: **131**.
 ```
 + apriSezioneParametriSistema(): void
 + mostraParametriAttuali(): void
-+ inserisciNuoviValori(durataPren: int, durataGrazia: int, maxMezzi: int, addebitoPausa: Decimal): void
++ inserisciNuoviValori(parametri: ParametriSistema): void
 ```
 
 ### `VistaImpostazioniRegole`
@@ -429,7 +429,7 @@ Totale elementi identificati: **131**.
 **Metodi**
 
 ```
-+ scriviRecensione(voto: int, commento: String): Recensione
++ scriviRecensione(voto: int, commento: String): Recensione+getMieRecensioni(): List
 ```
 
 ### `SegnalazioneService`
@@ -477,7 +477,7 @@ Totale elementi identificati: **131**.
 
 ```
 + getParametri(): ParametriSistema
-+ aggiornaParametri(durataPren: int, durataGrazia: int, maxMezzi: int, addebitoPausa: Decimal): void
++ aggiornaParametri(parametri: ParametriSistema): void
 ```
 
 ### `ApiService`
@@ -636,7 +636,7 @@ Totale elementi identificati: **131**.
 **Metodi**
 
 ```
-+ scriviRecensione(idUtente: String, voto: int, commento: String): Response
++ scriviRecensione(idUtente: String, voto: int, commento: String): Response+ mieRecensioni(idUtente: String): Response
 ```
 
 ### `SegnalazioneUtenteController`
@@ -815,8 +815,9 @@ Totale elementi identificati: **131**.
 **Metodi**
 
 ```
-+ scriviRecensione(idUtente: String, voto: int, commento: String): Recensione
-+ validaVoto(voto: int): boolean
++ scriviRecensione(idUtente: String, voto: int, commento: String): Recensione+ validaVoto(voto: int): boolean
++ haCorsaConclusa(idUtente: String): boolean
++ getMieRecensioni(idUtente: String): List
 ```
 
 ### `IServizioSegnalazione`
@@ -985,14 +986,15 @@ Totale elementi identificati: **131**.
 **Attributi**
 
 ```
-- recensioneRepo: IRecensioneRepository
+- recensioneRepo: IRecensioneRepository- corsaRepo: ICorsaRepository
 ```
 
 **Metodi**
 
 ```
-+ scriviRecensione(idUtente: String, voto: int, commento: String): Recensione
-+ validaVoto(voto: int): boolean
++ scriviRecensione(idUtente: String, voto: int, commento: String): Recensione+ validaVoto(voto: int): boolean
++ haCorsaConclusa(idUtente: String): boolean
++ getMieRecensioni(idUtente: String): List
 ```
 
 ### `ServizioSegnalazione`

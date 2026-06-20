@@ -327,7 +327,7 @@
 
         <!-- ===== PHASE 2: PUT AGGIORNA PARAMETRI ===== -->
 
-        <mxCell id="655" value="15: inserisciNuoviValori(durataPrenotazione, durataGrazia, maxMezzi, addebitoPausa)"
+        <mxCell id="655" value="15: inserisciNuoviValori(nuoviParametri: ParametriSistema)"
           style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;"
           edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
@@ -345,7 +345,7 @@
           </mxGeometry>
         </mxCell>
 
-        <mxCell id="657" value="17: aggiornaParametri(durataPrenotazione, durataGrazia, maxMezzi, addebitoPausa)"
+        <mxCell id="657" value="17: aggiornaParametri(nuoviParametri: ParametriSistema)"
           style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;"
           edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
