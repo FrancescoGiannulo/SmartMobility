@@ -6,7 +6,7 @@
 
 Documenti di riferimento:
 - [`docs/SprintZero.md`](docs/SprintZero.md) — architettura, glossario, mockup UI
-- [`docs/Sprint2_SMART_Mobility.md`](docs/Sprint2_SMART_Mobility.md) — Product Backlog completo, Sprint 1 + Sprint 2 Backlog, casi d'uso, mockup UI (**documento primario** — sostituisce Sprint1_definitivo.md)
+- [`docs/Sprint3_SMART_Mobility.md`](docs/Sprint3_SMART_Mobility.md) — Product Backlog completo, Sprint 1 + Sprint 2 + Sprint 3 Backlog, casi d'uso, mockup UI (**documento primario** — sostituisce Sprint3_SMART_Mobility.md)
 - [`docs/Deploy.md`](docs/Deploy.md) — guida completa al deploy su Vercel + Render, variabili d'ambiente, diagnosi problemi
 
 Tre ruoli utente distinti:
@@ -213,7 +213,7 @@ Lo sviluppo segue il paradigma **Agile Software Engineering** basato su sprint. 
 ### Flusso per ogni item
 
 ```
-User Story (Sprint2_SMART_Mobility.md § 1.4)
+User Story (Sprint3_SMART_Mobility.md § 1.4)
   → Caso d'uso (scenario base + alternativi)
     → Diagramma di sequenza
       → Implementazione
@@ -324,7 +324,7 @@ Ad ogni sprint, aggiornare:
 | Documento | Contenuto |
 |---|---|
 | `docs/SprintZero.md` | Solo se cambiano requisiti o architettura (deliberato, non automatico) |
-| `docs/Sprint2_SMART_Mobility.md` | Sprint Backlog, casi d'uso, diagrammi di sequenza, note di implementazione |
+| `docs/Sprint3_SMART_Mobility.md` | Sprint Backlog, casi d'uso, diagrammi di sequenza, note di implementazione |
 | `docs/README.md` | Panoramica del progetto, istruzioni per avviare il sistema |
 
 La documentazione è parte della **Definition of Done** di ogni item. Un item non è completo se non è documentato.
@@ -346,7 +346,7 @@ I termini tecnici del dominio sono definiti in `docs/SprintZero.md § 4.2`. Usar
 
 ## Cosa fare prima di scrivere codice
 
-1. Verificare che l'item da implementare abbia un ID nel Product Backlog (`Sprint2_SMART_Mobility.md § 1.4`).
+1. Verificare che l'item da implementare abbia un ID nel Product Backlog (`Sprint3_SMART_Mobility.md § 1.4`).
 2. Verificare che esista o creare la specifica del caso d'uso nello sprint corrente.
 3. Identificare il layer corretto in cui il codice va scritto (Controller / BLL / Model / DAL).
 4. Verificare che non esista già logica simile in un altro service (evitare ridondanza).
