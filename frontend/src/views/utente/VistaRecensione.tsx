@@ -2,8 +2,14 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { scriviRecensione } from '../../services/RecensioneService'
+import { scriviRecensione, type Recensione } from '../../services/RecensioneService'
 import './VistaRecensione.css'
+
+function formatData(iso: string) {
+  return new Date(iso).toLocaleDateString('it-IT', {
+    day: '2-digit', month: '2-digit', year: 'numeric',
+  })
+}
 
 // [IF-UT.15] Scrive Recensione
 export default function VistaRecensione() {
@@ -12,7 +18,7 @@ export default function VistaRecensione() {
   const [voto, setVoto] = useState(0)
   const [commento, setCommento] = useState('')
   const [invioInCorso, setInvioInCorso] = useState(false)
-  const [confermato, setConfermato] = useState(false)
+  const [recensioneInviata, setRecensioneInviata] = useState<Recensione | null>(null)
   const [errore, setErrore] = useState('')
 
   const confermaScrivi = async (e: React.FormEvent) => {
@@ -24,8 +30,8 @@ export default function VistaRecensione() {
     setInvioInCorso(true)
     setErrore('')
     try {
-      await scriviRecensione(voto, commento.trim() || undefined)
-      setConfermato(true)
+      const res = await scriviRecensione(voto, commento.trim() || undefined)
+      setRecensioneInviata(res.data)
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 422) {
         const dettaglio = err.response.data?.detail
@@ -44,13 +50,33 @@ export default function VistaRecensione() {
         ← Torna indietro
       </button>
 
-      {confermato ? (
+      {recensioneInviata ? (
         <div className="rec-conferma">
           <span className="rec-conferma-icona">✅</span>
           <h2 className="rec-conferma-titolo">Recensione inviata</h2>
           <p className="rec-conferma-testo">
             Grazie per il tuo feedback, ci aiuta a migliorare il servizio.
           </p>
+
+          <div className="rec-storico">
+            <div className="rec-storico-card">
+              <div className="rec-storico-stelle">
+                {[1, 2, 3, 4, 5].map(n => (
+                  <span
+                    key={n}
+                    className={`rec-stella-statica${n <= recensioneInviata.voto ? ' rec-stella-statica--attiva' : ''}`}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
+              {recensioneInviata.commento && (
+                <p className="rec-storico-commento">{recensioneInviata.commento}</p>
+              )}
+              <span className="rec-storico-data">{formatData(recensioneInviata.created_at)}</span>
+            </div>
+          </div>
+
           <button
             type="button"
             className="btn-rec-secondario"

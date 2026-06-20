@@ -120,3 +120,40 @@
   color: #666;
   margin-bottom: 24px;
 }
+
+.rec-storico {
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.rec-storico-card {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 14px;
+  background: #fafafa;
+}
+
+.rec-storico-stelle {
+  margin-bottom: 6px;
+}
+
+.rec-stella-statica {
+  font-size: 18px;
+  color: #ccc;
+}
+
+.rec-stella-statica--attiva {
+  color: #f5a623;
+}
+
+.rec-storico-commento {
+  margin: 6px 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.rec-storico-data {
+  display: block;
+  font-size: 12px;
+  color: #888;
+}
