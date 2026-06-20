@@ -275,7 +275,7 @@
                         <mxPoint x="150" y="880" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="899" value="19a: confermaOfferta(nome, 'promozione', scontoPercentuale, dataScadenza)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" edge="1" parent="1">
+                <mxCell id="899" value="19a: confermaOfferta(dati) [nome, tipo='promozione', scontoPercentuale, dataScadenza]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="150" y="910" as="sourcePoint"/>
                         <mxPoint x="280" y="910" as="targetPoint"/>
@@ -439,7 +439,7 @@
                         <mxPoint x="150" y="1750" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="927" value="19b: confermaOfferta(nome, 'abbonamento', prezzo, durataGiorni, tipoMezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" edge="1" parent="1">
+                <mxCell id="927" value="19b: confermaOfferta(dati) [nome, tipo='abbonamento', prezzo, durataGiorni, tipoMezzo]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="150" y="1780" as="sourcePoint"/>
                         <mxPoint x="280" y="1780" as="targetPoint"/>

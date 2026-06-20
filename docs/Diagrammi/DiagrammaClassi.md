@@ -6,13 +6,13 @@
 
 ## Indice delle classi
 
-Totale elementi identificati: **134**.
+Totale elementi identificati: **136**.
 
 - **CLIENT - View (Presentation)** (21): `VistaLogin`, `VistaProfiloUtente`, `CallbackOAuth`, `PrivacyPolicy`, `VistaGestioneUtentiOperatore`, `VistaRecensione`, `VistaSegnalazioneUtente`, `VistaSegnalazioniOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaParametriSistema`, `VistaImpostazioniRegole`, `VistaAbbonamenti`, `VistaTariffe`, `VistaOfferte`, `VistaCorsa`, `VistaStoricoCorse`, `VistaMezziOperatore`, `VistaPagamenti`, `VistaHomePageUtente`, `VistaDefinisciZona`
 - **CLIENT - Service (API Service Layer)** (18): `AuthService`, `GestioneUtentiService`, `RecensioneService`, `SegnalazioneService`, `ReportService`, `SuggerimentiService`, `RegoleFineCorsaService`, `ConfigurazioneService`, `ApiService`, `AbbonamentoService`, `OffertaService`, `TariffaService`, `CorsaService`, `PrenotazioneService`, `FlottaService`, `PaymentService`, `ZonaService`, `MapService`
 - **SERVER - Controller (MVC / FrontController)** (18): `AccountController`, `UtentiOPController`, `RecensioneController`, `SegnalazioneUtenteController`, `SegnalazioneOPController`, `AmministrazionePubblicaController`, `SuggerimentoController`, `ConfigurazioneController`, `RegoleFineCorsaController`, `FrontController (router FastAPI + auth middleware)`, `AbbonamentoController`, `OffertaController`, `CorsaController`, `MezzoOperatoreController`, `PagamentoController`, `ZoneController`, `HomePageUtenteController`, `TariffaController`
-- **Contratti Controller -> BLL (interfacce)** (13): `IServizioUtenti`, `IServizioRecensione`, `IServizioSegnalazione`, `IServizioReport`, `IServizioSuggerimenti`, `IServizioRegoleFineCorsa`, `IServizioParametri`, `IServizioAbbonamento`, `IServizioOfferta`, `IServizioPrenotazione`, `IServizioMobilita`, `IServizioPricing`, `IServizioGIS`
-- **SERVER - Service (Business Logic Layer)** (13): `ServizioUtenti`, `ServizioRecensione`, `ServizioSegnalazione`, `ServizioReport`, `ServizioSuggerimenti`, `ServizioParametri`, `ServizioRegoleFineCorsa`, `ServizioAbbonamento`, `ServizioOfferta`, `ServizioPrenotazione`, `ServizioMobilita`, `ServizioPricing`, `ServizioGIS`
+- **Contratti Controller -> BLL (interfacce)** (14): `IServizioUtenti`, `IServizioRecensione`, `IServizioSegnalazione`, `IServizioReport`, `IServizioSuggerimenti`, `IServizioRegoleFineCorsa`, `IServizioParametri`, `IServizioAbbonamento`, `IServizioOfferta`, `IServizioTariffa`, `IServizioPrenotazione`, `IServizioMobilita`, `IServizioPricing`, `IServizioGIS`
+- **SERVER - Service (Business Logic Layer)** (14): `ServizioUtenti`, `ServizioRecensione`, `ServizioSegnalazione`, `ServizioReport`, `ServizioSuggerimenti`, `ServizioParametri`, `ServizioRegoleFineCorsa`, `ServizioAbbonamento`, `ServizioOfferta`, `ServizioTariffa`, `ServizioPrenotazione`, `ServizioMobilita`, `ServizioPricing`, `ServizioGIS`
 - **SERVER - Repository (Data Access Layer)** (18): `UtenteRepository`, `AttoreRepository`, `OperatoreRepository`, `RecensioneRepository`, `SegnalazioneRepository`, `IRepository`, `SuggerimentoRepository`, `RegoleFineCorsaRepository`, `ParametriSistemaRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`, `CorsaRepository`, `PrenotazioneRepository`, `MezzoRepository`, `PagamentoRepository`, `TariffaRepository`, `ZonaRepository`
 - **SERVER - Model (Domain / Entity)** (20): `Persona`, `Utente`, `Operatore`, `AmministrazionePubblica`, `Recensione`, `Segnalazione`, `ParametriSistema`, `RegolaFineCorsa`, `AbbonamentoUtente`, `Abbonamento`, `Offerta`, `Promozione`, `Prenotazione`, `Corsa`, `Mezzo`, `Tariffa`, `Pagamento`, `MetodoPagamento`, `Zona`, `Suggerimento`
 - **Sistemi esterni, Adapter & Note** (13): `Nota 1 — Client`, `Nota 2 — BLL`, `Nota 3 — DAL`, `GoogleMaps`, `Pagamenti`, `ProviderPagamentiAdapter`, `IServizioAI`, `GoogleMapsAdapter`, `DBMS — Supabase PostgreSQL`, `Provider Pagamenti`, `Google Maps`, `ServizioAIAdapter`, `ServizioAI`
@@ -932,6 +932,16 @@ Totale elementi identificati: **134**.
 + eliminaOfferta(id): void
 ```
 
+### `IServizioTariffa`
+
+**Metodi**
+
+```
++ getTariffe(): List
++ creaTariffa(tipoMezzo, costoMin, costoKm): Tariffa
++ aggiornaTariffa(tipoMezzo, costoMin, costoKm): Tariffa
+```
+
 ### `IServizioPrenotazione`
 
 **Metodi**
@@ -972,8 +982,6 @@ Totale elementi identificati: **134**.
 + pagaImporto(idUtente, importo, idCorsa, idAbbonamento): Pagamento
 + calcolaImporto(tipoMezzo, durataMin, distanzaKm): Decimal
 + getTariffe(): List
-+ creaTariffa(tipoMezzo, costoMin, costoKm): Tariffa
-+ aggiornaTariffa(tipoMezzo, costoMin, costoKm): Tariffa
 + listaMetodi(idUtente): List
 + aggiungiMetodo(idUtente, tipo, dati): MetodoPagamento
 + impostaPredefinito(idMetodo, idUtente): void
@@ -1160,6 +1168,22 @@ Totale elementi identificati: **134**.
 - valida(dati: Object): boolean
 ```
 
+### `ServizioTariffa`
+
+**Attributi**
+
+```
+- tariffaRepo: ITariffaRepository
+```
+
+**Metodi**
+
+```
++ getTariffe(): List
++ creaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float, costoKm: float): Tariffa
++ aggiornaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float, costoKm: float): Tariffa
+```
+
 ### `ServizioPrenotazione`
 
 **Attributi**
@@ -1230,8 +1254,6 @@ Totale elementi identificati: **134**.
 +elaboraPagamento(idCorsa, idUtente):boolean
 + calcolaImporto(tipoMezzo: TipoMezzo, durataMin: float, distanzaKm: float): Decimal
 + getTariffe(): List
-+ creaTariffa(tipoMezzo: TipoMezzo, costoMin: float, costoKm: float): Tariffa
-+ aggiornaTariffa(tipoMezzo: TipoMezzo, costoMin: float, costoKm: float): Tariffa
 + listaMetodi(idUtente: String): List
 + aggiungiMetodo(idUtente: String, tipo: TipoMetodo, dati: Object): MetodoPagamento
 + impostaPredefinito(idMetodo: String, idUtente: String): void
@@ -1810,12 +1832,12 @@ I repository sono l'unico livello che conosce le entita' ORM: convertono ORM ↔
 
 ## Relazioni tra layer
 
-Il diagramma contiene **174** relazioni (in prevalenza dipendenze d'uso `Use`).
+Il diagramma contiene **176** relazioni (in prevalenza dipendenze d'uso `Use`).
 Riepilogo delle dipendenze direzionali tra layer (origine -> destinazione):
 
 | Da (layer) | A (layer) | N. dipendenze |
 |---|---|---|
-| SERVER - Service (Business Logic Layer) | SERVER - Repository (Data Access Layer) | 28 |
+| SERVER - Service (Business Logic Layer) | SERVER - Repository (Data Access Layer) | 29 |
 | CLIENT - View (Presentation) | CLIENT - Service (API Service Layer) | 20 |
 | SERVER - Model (Domain / Entity) | SERVER - Model (Domain / Entity) | 19 |
 | SERVER - Controller (MVC / FrontController) | Contratti Controller -> BLL (interfacce) | 17 |
@@ -1823,7 +1845,7 @@ Riepilogo delle dipendenze direzionali tra layer (origine -> destinazione):
 | SERVER - Repository (Data Access Layer) | SERVER - Repository (Data Access Layer) | 16 |
 | SERVER - Repository (Data Access Layer) | SERVER - Model (Domain / Entity) | 16 |
 | SERVER - Controller (MVC / FrontController) | SERVER - Controller (MVC / FrontController) | 14 |
-| SERVER - Service (Business Logic Layer) | Contratti Controller -> BLL (interfacce) | 12 |
+| SERVER - Service (Business Logic Layer) | Contratti Controller -> BLL (interfacce) | 13 |
 | Sistemi esterni, Adapter & Note | Sistemi esterni, Adapter & Note | 6 |
 | SERVER - Service (Business Logic Layer) | Sistemi esterni, Adapter & Note | 3 |
 | CLIENT - Service (API Service Layer) | SERVER - Controller (MVC / FrontController) | 1 |

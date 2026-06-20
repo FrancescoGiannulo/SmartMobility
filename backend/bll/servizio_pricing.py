@@ -13,6 +13,7 @@ from dal.parametri_sistema_repository import ParametriSistemaRepository
 from model.offerta import Offerta
 from model.pagamento import StatoPagamento
 from providers.provider_pagamenti import ProviderPagamentiStub, DatiNonValidiException
+from bll.servizio_tariffa import TariffaNonTrovata  # re-export per compatibilità
 
 
 class MetodoNonTrovato(Exception):
@@ -32,14 +33,6 @@ class NessunMetodoPredefinito(Exception):
 
 
 class PagamentoRifiutato(Exception):
-    pass
-
-
-class TariffaNonTrovata(Exception):
-    pass
-
-
-class TariffaGiaEsistente(Exception):
     pass
 
 
@@ -65,49 +58,6 @@ class ServizioPricing:
     # [IF-UT.13] — db injection pattern
     def getPromozioniAttive(self) -> list[dict]:
         return self._promozione_repo.getAttive()
-
-    # [IF-OP.07] — engine pattern
-    def get_tariffe(self) -> list[dict]:
-        tariffe = self._tariffa_repo.find_all()
-        return [
-            {
-                "id": str(t.id),
-                "tipo_mezzo": t.tipo_mezzo,
-                "costo_al_minuto": float(t.costo_al_minuto),
-                "costo_al_km": float(t.costo_al_km),
-            }
-            for t in tariffe
-        ]
-
-    def aggiorna_tariffa(self, tipo_mezzo: str, costo_al_minuto: float, costo_al_km: float) -> dict:
-        tariffa = self._tariffa_repo.aggiorna(
-            tipo_mezzo,
-            Decimal(str(costo_al_minuto)),
-            Decimal(str(costo_al_km)),
-        )
-        if not tariffa:
-            raise TariffaNonTrovata(f"Nessuna tariffa per '{tipo_mezzo}'")
-        return {
-            "id": str(tariffa.id),
-            "tipo_mezzo": tariffa.tipo_mezzo,
-            "costo_al_minuto": float(tariffa.costo_al_minuto),
-            "costo_al_km": float(tariffa.costo_al_km),
-        }
-
-    def crea_tariffa(self, tipo_mezzo: str, costo_al_minuto: float, costo_al_km: float) -> dict:
-        if self._tariffa_repo.exists_by_tipologia(tipo_mezzo):
-            raise TariffaGiaEsistente(f"Tariffa per '{tipo_mezzo}' già esistente")
-        tariffa = self._tariffa_repo.crea(
-            tipo_mezzo,
-            Decimal(str(costo_al_minuto)),
-            Decimal(str(costo_al_km)),
-        )
-        return {
-            "id": str(tariffa.id),
-            "tipo_mezzo": tariffa.tipo_mezzo,
-            "costo_al_minuto": float(tariffa.costo_al_minuto),
-            "costo_al_km": float(tariffa.costo_al_km),
-        }
 
     def calcola_importo(self, tipo_mezzo: str, durata_min: float, distanza_km: float) -> Decimal:
         with Session(engine) as session:

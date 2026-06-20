@@ -13,18 +13,18 @@ sotto-componente contiene le classi del rispettivo livello.
 
 ## 1. Macro-componente CLIENT
 
-### 1.1 `«component» View` (Presentation) — 20 classi
+### 1.1 `«component» View` (Presentation) — 21 classi
 `VistaLogin`, `VistaHomePageUtente`, `VistaCorsa`, `VistaStoricoCorse`, `VistaPagamenti`,
 `VistaAbbonamenti`, `VistaSegnalazioneUtente`, `VistaProfiloUtente`, `CallbackOAuth`,
-`PrivacyPolicy`, `VistaDefinisciZona`, `VistaMezziOperatore`, `VistaTariffeOfferte`,
+`PrivacyPolicy`, `VistaDefinisciZona`, `VistaMezziOperatore`, `VistaTariffe`, `VistaOfferte`,
 `VistaImpostazioniRegole`, `VistaParametriSistema`, `VistaSegnalazioniOperatore`,
 `VistaGestioneUtentiOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaRecensione`.
 
-### 1.2 `«component» ApiService` (API Service Layer) — 17 classi
+### 1.2 `«component» ApiService` (API Service Layer) — 18 classi
 `ApiService`, `AuthService`, `MapService`, `CorsaService`, `PrenotazioneService`,
-`PaymentService`, `AbbonamentoService`, `OffertaService`, `FlottaService`, `ZonaService`,
-`SegnalazioneService`, `ConfigurazioneService`, `RegoleFineCorsaService`, `ReportService`,
-`GestioneUtentiService`, `RecensioneService`, `SuggerimentiService`.
+`PaymentService`, `AbbonamentoService`, `OffertaService`, `FlottaService`, `TariffaService`,
+`ZonaService`, `SegnalazioneService`, `ConfigurazioneService`, `RegoleFineCorsaService`,
+`ReportService`, `GestioneUtentiService`, `RecensioneService`, `SuggerimentiService`.
 
 `ApiService` è la **Facade** verso il server; i service di dominio traducono le operazioni del
 proprio dominio in chiamate ad `ApiService`. Le View consumano i service tramite l'interfaccia
@@ -34,15 +34,15 @@ proprio dominio in chiamate ad `ApiService`. Le View consumano i service tramite
 
 ## 2. Macro-componente SERVER
 
-### 2.1 `«component» Controller` (MVC / FrontController) — 17 classi
+### 2.1 `«component» Controller` (MVC / FrontController) — 18 classi
 `FrontController`, `AccountController`, `HomePageUtenteController`, `CorsaController`,
-`PagamentoController`, `AbbonamentoController`, `MezzoOperatoreController`, `ZoneController`,
-`RegoleFineCorsaController`, `OffertaController`, `ConfigurazioneController`,
+`PagamentoController`, `AbbonamentoController`, `MezzoOperatoreController`, `TariffaController`,
+`ZoneController`, `RegoleFineCorsaController`, `OffertaController`, `ConfigurazioneController`,
 `SegnalazioneUtenteController`, `SegnalazioneOPController`, `UtentiOPController`,
 `AmministrazionePubblicaController`, `RecensioneController`, `SuggerimentoController`.
 
-### 2.2 `«component» BLL` (Business Logic Layer) — 13 servizi
-`ServizioMobilita`, `ServizioPrenotazione`, `ServizioPricing`, `ServizioGIS`,
+### 2.2 `«component» BLL` (Business Logic Layer) — 14 servizi
+`ServizioMobilita`, `ServizioPrenotazione`, `ServizioPricing`, `ServizioTariffa`, `ServizioGIS`,
 `ServizioAbbonamento`, `ServizioOfferta`, `ServizioSegnalazione`, `ServizioParametri`,
 `ServizioRegoleFineCorsa`, `ServizioReport`, `ServizioUtenti`, `ServizioRecensione`,
 `ServizioSuggerimenti`.
@@ -103,9 +103,15 @@ con `DAL → DBMS`, `ServizioGIS → GoogleMaps`, `ServizioPricing → Provider 
 ## 5. Note di consistenza
 
 - **Componenti ↔ Classi:** verificato l'allineamento 1:1 per ogni layer
-  (View 20, ApiService 17, Controller 17, BLL 13, DAL 18, Model 20). Le `IServizio*` del
+  (View 21, ApiService 18, Controller 18, BLL 14, DAL 18, Model 20). Le `IServizio*` del
   diagramma delle classi sono rese nel diagramma dei componenti come l'interfaccia provided
   `BLLToController`.
+- **Split Tariffa/Offerta (2026-06-20):** `VistaTariffeOfferte` era troppo ampia (due flussi
+  indipendenti) ed è stata separata in `VistaTariffe` + `VistaOfferte`; analogamente è stato
+  estratto `TariffaService` da `FlottaService`, `TariffaController` da `MezzoOperatoreController`
+  e `ServizioTariffa` da `ServizioPricing`, per simmetria con la catena già esistente
+  `OffertaService → OffertaController → ServizioOfferta`. Vedi `docs/CoerenzaDiagrammaClassi.md`
+  per il dettaglio dei file coinvolti.
 - **Feature `Suggerimenti Intelligenti` (IF-UT.14):** aggiunta in tutti i layer del diagramma
   (`SuggerimentiService`, `SuggerimentoController`, `ServizioSuggerimenti`, `SuggerimentoRepository`,
   `Suggerimento`) più il sistema esterno `ServizioAI (Adapter)` consumato da `ServizioSuggerimenti`

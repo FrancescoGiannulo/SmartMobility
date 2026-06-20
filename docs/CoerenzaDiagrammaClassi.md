@@ -69,6 +69,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | `ServizioParametri` | `bll/servizio_parametri.py` | ✅ | |
 | `ServizioPrenotazione` | `bll/servizio_prenotazione.py` | ✅ | |
 | `ServizioPricing` | `bll/servizio_pricing.py` | ✅ | |
+| `ServizioTariffa` | `bll/servizio_tariffa.py` | ✅ | Creato 2026-06-20, estratto da `ServizioPricing` (creaTariffa/aggiornaTariffa/get_tariffe) per simmetria con `ServizioOfferta` |
 | `ServizioRegoleFineCorsa` | `bll/servizio_regole_fine_corsa.py` (`ServizioRegolaFinecorsa`) | ⚠️ | `Finecorsa` vs `FineCorsa` — maiuscola 'C' diverge |
 | `ServizioReport` | `bll/servizio_report.py` | ✅ | |
 | `ServizioSegnalazione` | `bll/servizio_segnalazione.py` | ✅ | Creato il 2026-06-08 |
@@ -203,6 +204,7 @@ Le seguenti classi BLL compaiono due volte nel diagramma (una volta con nome ita
 
 | Data | Fix | File coinvolti |
 |------|-----|----------------|
+| 2026-06-20 | Estratto `ServizioTariffa`/`IServizioTariffa` da `ServizioPricing` (creaTariffa/aggiornaTariffa/getTariffe, pattern "engine") per simmetria con `ServizioOfferta`; `ServizioPricing` mantiene solo `getTariffe()` (pattern "db injection", IF-UT.05) e `calcolaImporto` | `bll/servizio_tariffa.py` (nuovo), `bll/servizio_pricing.py`, `controllers/tariffa_controller.py`, `tests/test_servizio_tariffa.py` (nuovo), `Diagramma Classi.drawio`, `sequence_definisce_tariffa.drawio` |
 | 2026-06-20 | Separata `VistaTariffeOfferte` (troppo ampia, due flussi indipendenti) in `VistaTariffe` + `VistaOfferte`; estratto `TariffaService` da `FlottaService`; estratto `TariffaController` da `mezzo_operatore_controller.py` con relativi test di integrazione | `views/operatore/VistaTariffe.tsx` (nuovo), `views/operatore/VistaOfferte.tsx` (nuovo, ex `VistaTariffeOfferte.tsx`), `services/TariffaService.ts` (nuovo), `services/FlottaService.ts`, `controllers/tariffa_controller.py` (nuovo), `controllers/mezzo_operatore_controller.py`, `main.py`, `tests/test_tariffa_http.py` (nuovo), `App.tsx`, `views/operatore/VistaMappaOperatore.tsx` |
 | 2026-06-08 | Creato `ServizioSegnalazione` BLL separato da `ServizioMobilita` | `bll/servizio_segnalazione.py` (nuovo) |
 | 2026-06-08 | Creato `SegnalazioneUtenteController` per IF-UT.15 | `controllers/segnalazione_utente_controller.py` (nuovo) |
