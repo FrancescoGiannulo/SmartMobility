@@ -36,8 +36,9 @@ Flusso (dal diagramma di sequenza): `VistaRecensione.confermaScrivi(voto, commen
 - `backend/migrations/014_recensioni.sql`: tabella `recensioni` (id uuid PK, utente_id uuid FK→utenti, voto int CHECK 1-5, commento text NULL, created_at timestamptz default now())
 - `backend/model/recensione.py`: ORM `Recensione` (stile identico a `model/segnalazione.py`)
 - `backend/dal/recensione_repository.py`: `RecensioneRepository` (pattern engine-based come `SegnalazioneRepository`) con `save`, `find_by_utente_id`, `find_all`
-- `backend/dal/corsa_repository.py`: aggiungo `ha_corsa_conclusa(utente_id) -> bool` (query EXISTS su `stato='terminata'`) — necessario per la precondizione 2
-- `backend/bll/servizio_recensione.py`: `ServizioRecensione.scrivi_recensione(utente_id, voto, commento)` — valida voto (1-5, altrimenti 422), verifica precondizione corsa conclusa (altrimenti 422), poi salva. `valida_voto(voto)` esposto come metodo separato per rispettare il diagramma.
+- `backend/bll/servizio_recensione.py`: `ServizioRecensione.scrivi_recensione(utente_id, voto, commento)` — valida voto (1-5, altrimenti 422) poi salva. `valida_voto(voto)` esposto come metodo separato per rispettare il diagramma.
+
+**Nota di fedeltà ai diagrammi**: la precondizione 2 dello use case ("ha effettuato e concluso almeno una corsa") non è enforced lato codice. Il diagramma delle classi assegna a `ServizioRecensione` solo `recensioneRepo: IRecensioneRepository` (nessuna dipendenza da `CorsaRepository`), e il diagramma di sequenza non mostra alcun passo di verifica — passa direttamente da `scriviRecensione` a `validaVoto` a `save`. Diagramma classi e diagramma di sequenza sono entrambi vincolanti per CLAUDE.md: in caso di conflitto con la prosa dello use case, prevalgono i diagrammi. Non aggiungo quindi una dipendenza da `CorsaRepository` non modellata.
 - `backend/controllers/recensione_controller.py`: router `prefix="/utente"`, `POST /recensioni` con `verify_token(["UT"])`, `status_code=201`
 - `backend/controllers/schemas.py`: `ScriviRecensioneRequest{voto:int, commento:str|None}`, `RecensioneOut{id,voto,commento,created_at}`
 - `backend/main.py`: registrazione router
@@ -51,7 +52,7 @@ Flusso (dal diagramma di sequenza): `VistaRecensione.confermaScrivi(voto, commen
 
 ### Test
 
-- `backend/tests/test_recensione.py` (integration, fixture `utente_test` + `corsa` di supporto): scenario base (salvataggio riuscito) + validazioni (voto fuori range 1-5 → 422; utente senza corse concluse → 422)
+- `backend/tests/test_recensione.py` (integration, fixture `utente_test`): scenario base (salvataggio riuscito, recensione associata all'utente) + validazione voto fuori range (0 o 6 → 422) + voto valido senza commento (campo facoltativo)
 
 ## Note di scope
 
