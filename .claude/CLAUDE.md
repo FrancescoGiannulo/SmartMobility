@@ -174,7 +174,8 @@ backend/
 
 ### Feature pianificate (progettate ma non ancora implementate)
 
-- **`Recensione`** — modellata su tutti i layer dei diagrammi (`Diagramma Classi.drawio` e `Diagramma Componenti.drawio`): `VistaRecensione`, `RecensioneService`, `RecensioneController`, `IServizioRecensione`/`ServizioRecensione`, `RecensioneRepository`, entità `Recensione`. **Non ancora presente nel codice** — sarà implementata in uno sprint successivo. Quando la si implementa, seguire lo slice già modellato nei diagrammi e tracciarla con un ID del Product Backlog. Il disallineamento diagrammi↔codice su `Recensione` è quindi atteso, non un errore.
+- **`Recensione` (lato utente, IF-UT.15 "Scrive Recensione")** — **implementata** (Sprint 3): `backend/model/recensione.py`, `backend/dal/recensione_repository.py`, `backend/bll/servizio_recensione.py`, `backend/controllers/recensione_controller.py` (endpoint `POST /utente/recensioni`), `frontend/src/services/RecensioneService.ts`, `frontend/src/views/utente/VistaRecensione.tsx`.
+- **`Recensione` (lato operatore, IF-OP.13 "Visualizza Recensioni")** — modellata nei diagrammi (`Diagramma Classi.drawio` e `Diagramma Componenti.drawio`) ma **non ancora presente nel codice** — sarà implementata in uno sprint successivo. Quando la si implementa, seguire lo slice già modellato nei diagrammi e tracciarla con un ID del Product Backlog.
 
 ### Git workflow
 

@@ -2995,6 +2995,8 @@ stelle) e campo commento testuale facoltativo.</p>
 </tbody>
 </table>
 
+**Note di implementazione:** implementato in Sprint 3 tramite l'endpoint `POST /utente/recensioni`. File coinvolti: `backend/model/recensione.py`, `backend/dal/recensione_repository.py`, `backend/bll/servizio_recensione.py`, `backend/controllers/recensione_controller.py`, `frontend/src/services/RecensioneService.ts`, `frontend/src/views/utente/VistaRecensione.tsx`.
+
 #### AP – 01 Accede Report
 
 <table style="width:99%;">
