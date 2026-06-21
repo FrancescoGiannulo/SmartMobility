@@ -168,7 +168,7 @@ backend/
 | `utente_controller.py` | segnalazioni utente |
 | `ap_controller.py` | report AP, mappa AP, segnalazioni OP, gestione utenti OP |
 
-**BLL** (11 servizi in `backend/bll/`): `ServizioMobilità`, `ServizioPrenotazione`, `ServizioPricing`, `ServizioAbbonamento`, `ServizioGIS`, `ServizioReport`, `ServizioOfferta`, `ServizioRegoleFineCorsa`, `ServizioParametri`, `ServizioUtenti`, `ServizioSegnalazione`
+**BLL** (11 servizi in `backend/bll/`): `ServizioMobilità`, `ServizioPrenotazione`, `ServizioPricing`, `ServizioAbbonamento`, `ServizioMappa`, `ServizioReport`, `ServizioOfferta`, `ServizioRegoleFineCorsa`, `ServizioParametri`, `ServizioUtenti`, `ServizioSegnalazione`
 
 **DAL** (15 repository in `backend/dal/`): `MezzoRepository`, `CorsaRepository`, `PrenotazioneRepository`, `PagamentoRepository`, `TariffaRepository`, `ZonaRepository`, `UtenteRepository`, `OperatoreRepository`, `AttoreRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`, `RegoleFIneCorsaRepository`, `ParametriSistemaRepository`, `SegnalazioneRepository`
 
@@ -252,7 +252,7 @@ Servizi Esterni
 - **DAL**: solo accesso ai dati. Nessuna logica di business.
 - **View/ApiService**: nessuna logica di business lato client.
 - **model/**: ORM SQLAlchemy 2.0 puri — nessuna logica, nessun Pydantic. I `CheckConstraint` vanno in `__table_args__`, non come argomenti di `mapped_column`. Usare `create_type=False` su tutti i `SAEnum` (gli enum esistono già nella migrazione SQL).
-- La precedenza tra tipi di zona (`vietata > limitata > operativa`) è applicata a runtime in `ServizioGIS`, non tramite vincoli DB. Le zone sono create dall'Operatore (IF-OP.07).
+- La precedenza tra tipi di zona (`vietata > limitata > operativa`) è applicata a runtime in `ServizioMappa`, non tramite vincoli DB. Le zone sono create dall'Operatore (IF-OP.07).
 
 ---
 

@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
 from middleware.auth_middleware import verify_token
-from bll.servizio_gis import ServizioGIS
+from bll.servizio_mappa import ServizioMappa
 from bll.servizio_mobilita import ServizioMobilita
 
 from controllers.schemas import (
@@ -24,7 +24,7 @@ def mappa_mezzi_operatore(
     db: Session = Depends(get_db),
 ):
     """[CS-02 / OP.01] Tutti i mezzi con posizione per la Mappa Operatore."""
-    return ServizioGIS(db).ottieni_mezzi_operatore()
+    return ServizioMappa(db).ottieni_mezzi_operatore()
 
 
 

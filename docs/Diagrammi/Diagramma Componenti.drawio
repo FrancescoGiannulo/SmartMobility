@@ -232,7 +232,7 @@
         <mxCell id="72" parent="69" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D6B656;fontSize=11;" value="ServizioPricing" vertex="1">
           <mxGeometry height="24.61285714285714" width="453.2530329289428" x="1004.9267244367419" y="37.86593406593406" as="geometry" />
         </mxCell>
-        <mxCell id="73" parent="69" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D6B656;fontSize=11;" value="ServizioGIS" vertex="1">
+        <mxCell id="73" parent="69" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D6B656;fontSize=11;" value="ServizioMappa" vertex="1">
           <mxGeometry height="24.61285714285714" width="453.2530329289428" x="36.26024263431542" y="70.05197802197802" as="geometry" />
         </mxCell>
         <mxCell id="74" parent="69" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D6B656;fontSize=11;" value="ServizioAbbonamento" vertex="1">
@@ -450,7 +450,7 @@
         <mxCell id="139" parent="1" style="shape=note;whiteSpace=wrap;html=1;fillColor=#FFF7D5;strokeColor=#D6B656;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=10;size=14;" value="ClientToServer (provided)&lt;br/&gt;POST /auth/login&lt;br/&gt;GET /utente/mezzi/sbloccabili&lt;br/&gt;POST /utente/prenotazioni&lt;br/&gt;POST /utente/corse/{id}/termina" vertex="1">
           <mxGeometry height="110" width="240" x="3239.996666666667" y="909.996666666667" as="geometry" />
         </mxCell>
-        <mxCell id="140" parent="1" style="shape=note;whiteSpace=wrap;html=1;fillColor=#FFF7D5;strokeColor=#D6B656;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=10;size=14;" value="BLLToController = IServizio* (provided)&lt;br/&gt;IServizioMobilita.sbloccaMezzi()&lt;br/&gt;IServizioPricing.effettuaPagamento()&lt;br/&gt;IServizioPrenotazione.creaPrenotazioni()&lt;br/&gt;IServizioGIS.creaZona()" vertex="1">
+        <mxCell id="140" parent="1" style="shape=note;whiteSpace=wrap;html=1;fillColor=#FFF7D5;strokeColor=#D6B656;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=10;size=14;" value="BLLToController = IServizio* (provided)&lt;br/&gt;IServizioMobilita.sbloccaMezzi()&lt;br/&gt;IServizioPricing.effettuaPagamento()&lt;br/&gt;IServizioPrenotazione.creaPrenotazioni()&lt;br/&gt;IServizioMappa.creaZona()" vertex="1">
           <mxGeometry height="110" width="240" x="3147.996666666667" y="1329.996666666667" as="geometry" />
         </mxCell>
         <mxCell id="141" parent="1" style="ellipse;html=1;fillColor=#FFFFFF;strokeColor=#333333;fontSize=10;verticalLabelPosition=bottom;verticalAlign=top;labelBackgroundColor=#FFFFFF;" value="DALtoDBMS" vertex="1">

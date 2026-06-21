@@ -11,8 +11,8 @@ Totale elementi identificati: **137**.
 - **CLIENT - View (Presentation)** (21): `VistaLogin`, `VistaProfiloUtente`, `CallbackOAuth`, `PrivacyPolicy`, `VistaGestioneUtentiOperatore`, `VistaRecensione`, `VistaSegnalazioneUtente`, `VistaSegnalazioniOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaParametriSistema`, `VistaImpostazioniRegole`, `VistaAbbonamenti`, `VistaTariffe`, `VistaOfferte`, `VistaCorsa`, `VistaStoricoCorse`, `VistaMezziOperatore`, `VistaPagamenti`, `VistaHomePageUtente`, `VistaDefinisciZona`
 - **CLIENT - Service (API Service Layer)** (18): `AuthService`, `GestioneUtentiService`, `RecensioneService`, `SegnalazioneService`, `ReportService`, `SuggerimentiService`, `RegoleFineCorsaService`, `ConfigurazioneService`, `ApiService`, `AbbonamentoService`, `OffertaService`, `TariffaService`, `CorsaService`, `PrenotazioneService`, `FlottaService`, `PaymentService`, `ZonaService`, `MapService`
 - **SERVER - Controller (MVC / FrontController)** (18): `AccountController`, `UtentiOPController`, `RecensioneController`, `SegnalazioneUtenteController`, `SegnalazioneOPController`, `AmministrazionePubblicaController`, `SuggerimentoController`, `ConfigurazioneController`, `RegoleFineCorsaController`, `FrontController (router FastAPI + auth middleware)`, `AbbonamentoController`, `OffertaController`, `CorsaController`, `MezzoOperatoreController`, `PagamentoController`, `ZoneController`, `TariffaController`, `HomePageUtenteController`
-- **Contratti Controller -> BLL (interfacce)** (14): `IServizioUtenti`, `IServizioRecensione`, `IServizioSegnalazione`, `IServizioReport`, `IServizioSuggerimenti`, `IServizioRegoleFineCorsa`, `IServizioParametri`, `IServizioAbbonamento`, `IServizioOfferta`, `IServizioTariffa`, `IServizioPrenotazione`, `IServizioMobilita`, `IServizioPricing`, `IServizioGIS`
-- **SERVER - Service (Business Logic Layer)** (15): `ServizioUtenti`, `ServizioRecensione`, `NotificaService`, `ServizioSegnalazione`, `ServizioReport`, `ServizioSuggerimenti`, `ServizioParametri`, `ServizioRegoleFineCorsa`, `ServizioAbbonamento`, `ServizioOfferta`, `ServizioTariffa`, `ServizioPrenotazione`, `ServizioMobilita`, `ServizioPricing`, `ServizioGIS`
+- **Contratti Controller -> BLL (interfacce)** (14): `IServizioUtenti`, `IServizioRecensione`, `IServizioSegnalazione`, `IServizioReport`, `IServizioSuggerimenti`, `IServizioRegoleFineCorsa`, `IServizioParametri`, `IServizioAbbonamento`, `IServizioOfferta`, `IServizioTariffa`, `IServizioPrenotazione`, `IServizioMobilita`, `IServizioPricing`, `IServizioMappa`
+- **SERVER - Service (Business Logic Layer)** (15): `ServizioUtenti`, `ServizioRecensione`, `NotificaService`, `ServizioSegnalazione`, `ServizioReport`, `ServizioSuggerimenti`, `ServizioParametri`, `ServizioRegoleFineCorsa`, `ServizioAbbonamento`, `ServizioOfferta`, `ServizioTariffa`, `ServizioPrenotazione`, `ServizioMobilita`, `ServizioPricing`, `ServizioMappa`
 - **SERVER - Repository (Data Access Layer)** (18): `UtenteRepository`, `AttoreRepository`, `OperatoreRepository`, `RecensioneRepository`, `SegnalazioneRepository`, `IRepository`, `SuggerimentoRepository`, `RegoleFineCorsaRepository`, `ParametriSistemaRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`, `CorsaRepository`, `PrenotazioneRepository`, `MezzoRepository`, `PagamentoRepository`, `TariffaRepository`, `ZonaRepository`
 - **SERVER - Model (Domain / Entity)** (20): `Persona`, `Utente`, `Operatore`, `AmministrazionePubblica`, `Recensione`, `Segnalazione`, `ParametriSistema`, `RegolaFineCorsa`, `AbbonamentoUtente`, `Abbonamento`, `Offerta`, `Promozione`, `Prenotazione`, `Corsa`, `Mezzo`, `Tariffa`, `Pagamento`, `MetodoPagamento`, `Zona`, `Suggerimento`
 - **Sistemi esterni, Adapter & Note** (13): `Nota 1 — Client`, `Nota 2 — BLL`, `Nota 3 — DAL`, `GoogleMaps`, `Pagamenti`, `ProviderPagamentiAdapter`, `IServizioAI`, `GoogleMapsAdapter`, `DBMS — Supabase PostgreSQL`, `Provider Pagamenti`, `Google Maps`, `ServizioAIAdapter`, `ServizioAI`
@@ -990,7 +990,7 @@ Totale elementi identificati: **137**.
 + getPromozioniAttive(): List
 ```
 
-### `IServizioGIS`
+### `IServizioMappa`
 
 **Metodi**
 
@@ -1278,7 +1278,7 @@ Totale elementi identificati: **137**.
 + getPromozioniAttive(): List
 ```
 
-### `ServizioGIS`
+### `ServizioMappa`
 
 **Attributi**
 

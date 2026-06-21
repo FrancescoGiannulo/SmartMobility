@@ -953,7 +953,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td><strong>Attori Secondari</strong></td>
-<td>ServizioGIS</td>
+<td>ServizioMappa</td>
 </tr>
 <tr>
 <td><strong>Precondizioni</strong></td>
@@ -964,7 +964,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <td><ol type="1">
 <li><p>Il caso d'uso inizia quando l'Utente accede alla schermata principale della piattaforma.</p></li>
 <li><p>Il sistema rileva la posizione geografica corrente dell'Utente tramite il dispositivo.</p></li>
-<li><p>Il sistema interroga il ServizioGIS per recuperare i dati geografici.</p></li>
+<li><p>Il sistema interroga il ServizioMappa per recuperare i dati geografici.</p></li>
 <li><p>Il sistema recupera le zone con restrizioni e le zone di parcheggio.</p></li>
 <li><p>Il sistema visualizza la mappa con i soli mezzi disponibili per tipologia, le aree con restrizioni, le zone di parcheggio e il marker della posizione corrente.</p></li>
 </ol></td>
@@ -975,7 +975,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td><strong>Sequenza alternativa degli eventi</strong></td>
-<td>PosizioneNonDisponibile, ServizioGIS non raggiungibile</td>
+<td>PosizioneNonDisponibile, ServizioMappa non raggiungibile</td>
 </tr>
 </tbody>
 </table>
@@ -1006,7 +1006,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td>Attori Secondari</td>
-<td>ServizioGIS</td>
+<td>ServizioMappa</td>
 </tr>
 <tr>
 <td>Precondizioni</td>
@@ -1033,7 +1033,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <thead>
 <tr>
 <th><strong>Nome</strong></th>
-<th><strong>Visualizza MappaUtente:</strong> ServizioGIS non raggiungibile</th>
+<th><strong>Visualizza MappaUtente:</strong> ServizioMappa non raggiungibile</th>
 </tr>
 </thead>
 <tbody>
@@ -1043,7 +1043,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td>Breve descrizione</td>
-<td>Il sistema non riesce a interrogare il ServizioGIS a causa di un timeout o errore di rete; la mappa non viene visualizzata e l'Utente può riprovare.</td>
+<td>Il sistema non riesce a interrogare il ServizioMappa a causa di un timeout o errore di rete; la mappa non viene visualizzata e l'Utente può riprovare.</td>
 </tr>
 <tr>
 <td>Attori Primari</td>
@@ -1051,11 +1051,11 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td>Attori Secondari</td>
-<td>ServizioGIS</td>
+<td>ServizioMappa</td>
 </tr>
 <tr>
 <td>Precondizioni</td>
-<td>Al passo 3: il sistema non riesce a interrogare il ServizioGIS (timeout o errore di rete).</td>
+<td>Al passo 3: il sistema non riesce a interrogare il ServizioMappa (timeout o errore di rete).</td>
 </tr>
 <tr>
 <td>Post-Condizioni</td>
@@ -1063,7 +1063,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td>Sequenza alternativa degli eventi</td>
-<td><p>3a. Il sistema rileva l'errore di comunicazione con il ServizioGIS.</p>
+<td><p>3a. Il sistema rileva l'errore di comunicazione con il ServizioMappa.</p>
 <p>3b. Il sistema mostra un messaggio di errore ("Impossibile caricare i dati della mappa"). </p>
 <p>3c. Il sistema offre all'Utente la possibilità di riprovare. </p>
 <p>3d. Se l'Utente riprova, il caso d'uso riparte dal passo 3; altrimenti termina.</p></td>
@@ -1309,7 +1309,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td>Attori Secondari</td>
-<td>ServizioGIS</td>
+<td>ServizioMappa</td>
 </tr>
 <tr>
 <td>Precondizioni</td>
@@ -1318,7 +1318,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <tr>
 <td>Sequenza principale degli eventi</td>
 <td style="text-align: left;"><p>1. Il caso d'uso inizia quando l'utente vuole terminare e pagare la corsa.</p>
-<p>2. Il sistema rileva la posizione corrente del mezzo tramite ServizioGIS.</p>
+<p>2. Il sistema rileva la posizione corrente del mezzo tramite ServizioMappa.</p>
 <p><em>Punto di estensione: ErroreServizioGis</em></p>
 <p>3. Il sistema aggiorna lo stato del mezzo da "In Uso" a "Disponibile".</p>
 <p>4. Il sistema mostra all'utente il Riepilogo Corsa con le varie informazioni.</p>
@@ -1362,7 +1362,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td>Attori Secondari</td>
-<td>ServizioGIS</td>
+<td>ServizioMappa</td>
 </tr>
 <tr>
 <td>Precondizioni</td>
@@ -2523,7 +2523,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td>Attori Secondari</td>
-<td>ServizioGIS</td>
+<td>ServizioMappa</td>
 </tr>
 <tr>
 <td>Precondizioni</td>
@@ -2532,7 +2532,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <tr>
 <td>Sequenza principale degli eventi</td>
 <td><p>1. Il caso d'uso inizia quando l'Amministrazione Pubblica accede alla schermata principale della propria dashboard.</p>
-<p>2. Il sistema interroga il ServizioGIS per recuperare i dati geografici aggiornati relativi all'area urbana di competenza.</p>
+<p>2. Il sistema interroga il ServizioMappa per recuperare i dati geografici aggiornati relativi all'area urbana di competenza.</p>
 <p>3. Il sistema carica la mappa interattiva e sovrappone il layer predefinito: la heatmap della distribuzione dei mezzi, che evidenzia con gradiente cromatico le aree ad alta e bassa densità di mezzi disponibili.</p>
 <p>4. Il sistema visualizza sulla mappa le zone definite (Operativa, Vietata, Limitata, di Parcheggio) con la rispettiva colorazione semantica.</p>
 <p>5. Il sistema mostra nel pannello laterale i layer statistici selezionabili: distribuzione mezzi per tipologia, intensità d'uso per zona e fasce orarie di picco.</p>
@@ -2569,7 +2569,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td>Breve descrizione</td>
-<td>Il ServizioGIS non riesce a fornire i dati geografici o statistici necessari al caricamento della mappa.</td>
+<td>Il ServizioMappa non riesce a fornire i dati geografici o statistici necessari al caricamento della mappa.</td>
 </tr>
 <tr>
 <td>Attori primari</td>
@@ -2577,11 +2577,11 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td>Attori secondari</td>
-<td>ServizioGIS</td>
+<td>ServizioMappa</td>
 </tr>
 <tr>
 <td>Precondizioni</td>
-<td>Il ServizioGIS ha restituito un errore o non è raggiungibile al momento della richiesta.</td>
+<td>Il ServizioMappa ha restituito un errore o non è raggiungibile al momento della richiesta.</td>
 </tr>
 <tr>
 <td>Postcondizioni</td>
@@ -2590,7 +2590,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <tr>
 <td>Sequenza alternativa degli eventi</td>
 <td><p>1. La sequenza alternativa inizia dopo il passo 2 della sequenza principale.</p>
-<p>2. Il sistema rileva che il ServizioGIS non ha restituito dati validi.</p>
+<p>2. Il sistema rileva che il ServizioMappa non ha restituito dati validi.</p>
 <p>3. Il sistema notifica all'Amministrazione Pubblica che la mappa non è al momento disponibile e la invita a riprovare.</p></td>
 </tr>
 </tbody>
@@ -2624,7 +2624,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td><strong>Attori Secondari</strong></td>
-<td>ServizioGIS</td>
+<td>ServizioMappa</td>
 </tr>
 <tr>
 <td><strong>Precondizioni</strong></td>
@@ -2634,7 +2634,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <td><strong>Sequenza principale degli eventi</strong></td>
 <td><ol type="1">
 <li><p>Il caso d'uso inizia quando l'Operatore accede alla schermata principale della piattaforma.</p></li>
-<li><p>Il sistema interroga il ServizioGIS per recuperare i dati geografici.</p></li>
+<li><p>Il sistema interroga il ServizioMappa per recuperare i dati geografici.</p></li>
 <li><p>Il sistema recupera le zone con restrizioni, le zone di parcheggio e lo stato aggiornato di tutti i mezzi della flotta.</p></li>
 <li><p>Il sistema visualizza la mappa con tutti i mezzi, lo stato di ciascuno, le aree con restrizioni e il marker della posizione corrente.</p></li>
 </ol></td>
@@ -2789,7 +2789,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <thead>
 <tr>
 <th><strong>Attori Secondari</strong></th>
-<th>ServizioGIS</th>
+<th>ServizioMappa</th>
 </tr>
 </thead>
 <tbody>
@@ -2803,7 +2803,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <thead>
 <tr>
 <th><strong>Attori Secondari</strong></th>
-<th>ServizioGIS</th>
+<th>ServizioMappa</th>
 </tr>
 </thead>
 <tbody>
@@ -2856,7 +2856,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 5. L'operatore inserisce i dati richiesti e seleziona la posizione iniziale sulla mappa.<br />
 6. L'operatore conferma i dati inseriti.<br />
 7. Il sistema valida i dati verificando che i campi obbligatori siano compilati e che l'identificativo sia univoco. Se uno o più campi non sono validi, il sistema informa l'operatore specificando i campi non validi e torna al passo 5.<br />
-8. Il sistema verifica tramite ServizioGIS che la posizione selezionata ricada all'interno di una zona operativa.<br />
+8. Il sistema verifica tramite ServizioMappa che la posizione selezionata ricada all'interno di una zona operativa.<br />
 9. Il sistema salva il nuovo mezzo associandolo alla flotta.<br />
 10. Il sistema mostra un messaggio di conferma all'operatore.</th>
 </tr>
@@ -2879,7 +2879,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 5. L'operatore inserisce i dati richiesti e seleziona la posizione iniziale sulla mappa.<br />
 6. L'operatore conferma i dati inseriti.<br />
 7. Il sistema valida i dati verificando che i campi obbligatori siano compilati e che l'identificativo sia univoco. Se uno o più campi non sono validi, il sistema informa l'operatore specificando i campi non validi e torna al passo 5.<br />
-8. Il sistema verifica tramite ServizioGIS che la posizione selezionata ricada all'interno di una zona operativa.<br />
+8. Il sistema verifica tramite ServizioMappa che la posizione selezionata ricada all'interno di una zona operativa.<br />
 9. Il sistema salva il nuovo mezzo associandolo alla flotta.<br />
 10. Il sistema mostra un messaggio di conferma all'operatore.</th>
 </tr>
@@ -3295,7 +3295,7 @@ PosizioneNonOperativa</th>
 <thead>
 <tr>
 <th><strong>Breve descrizione</strong></th>
-<th>Il ServizioGIS rileva che la posizione iniziale non ricade in alcuna zona operativa; il sistema solleva PosizioneNonOperativaException e impedisce il salvataggio.</th>
+<th>Il ServizioMappa rileva che la posizione iniziale non ricade in alcuna zona operativa; il sistema solleva PosizioneNonOperativaException e impedisce il salvataggio.</th>
 </tr>
 </thead>
 <tbody>
@@ -3309,7 +3309,7 @@ PosizioneNonOperativa</th>
 <thead>
 <tr>
 <th><strong>Breve descrizione</strong></th>
-<th>Il ServizioGIS rileva che la posizione iniziale non ricade in alcuna zona operativa; il sistema solleva PosizioneNonOperativaException e impedisce il salvataggio.</th>
+<th>Il ServizioMappa rileva che la posizione iniziale non ricade in alcuna zona operativa; il sistema solleva PosizioneNonOperativaException e impedisce il salvataggio.</th>
 </tr>
 </thead>
 <tbody>
@@ -3355,7 +3355,7 @@ PosizioneNonOperativa</th>
 <thead>
 <tr>
 <th><strong>Attori secondari</strong></th>
-<th>ServizioGIS</th>
+<th>ServizioMappa</th>
 </tr>
 </thead>
 <tbody>
@@ -3369,7 +3369,7 @@ PosizioneNonOperativa</th>
 <thead>
 <tr>
 <th><strong>Attori secondari</strong></th>
-<th>ServizioGIS</th>
+<th>ServizioMappa</th>
 </tr>
 </thead>
 <tbody>
@@ -3439,7 +3439,7 @@ PosizioneNonOperativa</th>
 <tr>
 <td style="text-align: left;"><strong>Sequenza alternativa degli eventi</strong></td>
 <td style="text-align: left;">1. La sequenza alternativa inizia dopo il passo 8 della sequenza principale.<br />
-2. Il ServizioGIS rileva che la posizione iniziale non ricade in alcuna zona operativa e solleva PosizioneNonOperativaException.<br />
+2. Il ServizioMappa rileva che la posizione iniziale non ricade in alcuna zona operativa e solleva PosizioneNonOperativaException.<br />
 3. Il sistema informa l'operatore dell'errore di posizione e torna al passo 5.</td>
 </tr>
 </tbody>
@@ -3527,7 +3527,7 @@ PosizioneNonOperativa</th>
 </tr>
 <tr>
 <td>Attori Secondari</td>
-<td>ServizioGIS</td>
+<td>ServizioMappa</td>
 </tr>
 <tr>
 <td>Precondizioni</td>
@@ -3539,7 +3539,7 @@ PosizioneNonOperativa</th>
 </tr>
 <tr>
 <td>Sequenza alternativa degli eventi</td>
-<td><p>1. Il sistema, tramite il ServizioGIS, rileva che il mezzo selezionato è impegnato in una corsa.</p>
+<td><p>1. Il sistema, tramite il ServizioMappa, rileva che il mezzo selezionato è impegnato in una corsa.</p>
 <p>2. Il sistema notifica all'operatore l'impossibilità di dismettere il mezzo, indicandone la causa.</p>
 <p>3. L'operatore prende visione del messaggio e ritorna alla sezione di gestione dei mezzi.</p></td>
 </tr>
@@ -4181,7 +4181,7 @@ Il Server elabora la logica di business, coordina i dati e interagisce con il da
 
 - ServizioMobilità: Applica le regole per l'avvio e la terminazione di una corsa, lo sblocco fisico del mezzo e il cambio di stato del veicolo.
 
-- ServizioGIS: Elabora i calcoli geografici, verifica se un mezzo si trova all'interno di una determinata area e definisce i confini dei perimetri operativi.
+- ServizioMappa: Elabora i calcoli geografici, verifica se un mezzo si trova all'interno di una determinata area e definisce i confini dei perimetri operativi.
 
 - ServizioUtenti: Contiene la logica per validare le registrazioni, verificare i documenti di guida e modificare i profili.
 
@@ -4539,9 +4539,9 @@ Questa organizzazione garantisce che:
 
 ##### Livello Business Logic Layer
 
-- **ServizioMobilità:** orchestratore principale della BLL. Gestisce l'intero ciclo di vita della corsa, la verifica della disponibilità dei mezzi, lo sblocco, la terminazione, il calcolo dell'importo e la gestione delle zone geografiche. Coordina le interazioni tra ServizioGIS, ServizioPagamenti, ServizioPrenotazione e i Repository.
+- **ServizioMobilità:** orchestratore principale della BLL. Gestisce l'intero ciclo di vita della corsa, la verifica della disponibilità dei mezzi, lo sblocco, la terminazione, il calcolo dell'importo e la gestione delle zone geografiche. Coordina le interazioni tra ServizioMappa, ServizioPagamenti, ServizioPrenotazione e i Repository.
 
-- **ServizioGIS:** gestisce le operazioni geografiche e cartografiche. Si occupa del recupero delle zone attive, della verifica della posizione del mezzo rispetto alle zone consentite e vietate, della validazione della posizione di fine corsa e del caricamento della mappa cartografica.
+- **ServizioMappa:** gestisce le operazioni geografiche e cartografiche. Si occupa del recupero delle zone attive, della verifica della posizione del mezzo rispetto alle zone consentite e vietate, della validazione della posizione di fine corsa e del caricamento della mappa cartografica.
 
 - **ServizioPagamenti:** gestisce l'autorizzazione dei pagamenti tramite il ProviderPagamenti, la creazione dei record di pagamento, la validazione dei metodi di pagamento e la gestione delle transazioni associate alle corse. Espone inoltre le operazioni di amministrazione degli account di pagamento.
 
@@ -4637,7 +4637,7 @@ Questa organizzazione garantisce che:
 
 - Tutti i Controller utilizzano BLLToController.
 
-- ServizioMobilità utilizza ServizioGIS, ServizioPagamenti, ServizioPrenotazione, ServizioTariffe e ServizioReport.
+- ServizioMobilità utilizza ServizioMappa, ServizioPagamenti, ServizioPrenotazione, ServizioTariffe e ServizioReport.
 
 - Tutti i service BLL utilizzano i rispettivi Repository del DAL.
 
@@ -5088,7 +5088,7 @@ Caso d'uso da analizzare: \[NOME CASO D’USO\]
 
 - **HTTP**: HyperText Transfer Protocol
 
-- **ServizioGIS**: Geographic Information System
+- **ServizioMappa**: Geographic Information System
 
 - **API**: Application Programming Interface
 

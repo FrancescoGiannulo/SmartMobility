@@ -12,7 +12,7 @@ from dal.operatore_repository import OperatoreRepository
 from dal.parametri_sistema_repository import ParametriSistemaRepository
 from dal.segnalazione_repository import SegnalazioneRepository
 from model.segnalazione import StatoSegnalazione
-from bll.servizio_gis import ServizioGIS
+from bll.servizio_mappa import ServizioMappa
 
 
 class MezzoNonTrovatoException(Exception):
@@ -341,7 +341,7 @@ class ServizioMobilita:
     ) -> dict:
         if self._mezzo_repo.esiste_by_codice(codice):
             raise IdentificativoEsistenteException(f"Identificativo '{codice}' già in uso")
-        if not ServizioGIS(self._db).verifica_posizione_in_zona_operativa(lat, lng):
+        if not ServizioMappa(self._db).verifica_posizione_in_zona_operativa(lat, lng):
             raise PosizioneNonOperativaException("La posizione non ricade in nessuna zona operativa")
         return self._mezzo_repo.crea(tipo, codice, lat, lng, stato)
 

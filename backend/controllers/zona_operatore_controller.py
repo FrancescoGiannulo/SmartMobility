@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
 from middleware.auth_middleware import verify_token
-from bll.servizio_gis import ServizioGIS, PoligonoNonValidoException, PoligonoFuoriZonaOperativaException
+from bll.servizio_mappa import ServizioMappa, PoligonoNonValidoException, PoligonoFuoriZonaOperativaException
 from dal.zona_repository import ZonaNonTrovataException
 from controllers.schemas import ZonaOut, ZonaCreate
 
@@ -16,7 +16,7 @@ def lista_zone(
     db: Session = Depends(get_db),
 ):
     """[CS-03 / OP.03 / OP.15 / OP.16] Lista zone attive."""
-    return ServizioGIS(db).ottieni_zone()
+    return ServizioMappa(db).ottieni_zone()
 
 
 @router.post("", response_model=ZonaOut, status_code=201)
@@ -27,7 +27,7 @@ def crea_zona(
 ):
     """[CS-03 / OP.03 / OP.15 / OP.16] Crea una nuova zona."""
     try:
-        return ServizioGIS(db).crea_zona(
+        return ServizioMappa(db).crea_zona(
             body.nome, body.tipo, body.coordinate, body.limite_velocita
         )
     except (PoligonoNonValidoException, PoligonoFuoriZonaOperativaException) as e:
@@ -42,6 +42,6 @@ def elimina_zona(
 ):
     """[CS-03] Elimina zona."""
     try:
-        ServizioGIS(db).elimina_zona(zona_id)
+        ServizioMappa(db).elimina_zona(zona_id)
     except ZonaNonTrovataException as e:
         raise HTTPException(status_code=404, detail=str(e))

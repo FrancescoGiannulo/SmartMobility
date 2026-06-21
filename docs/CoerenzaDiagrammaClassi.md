@@ -63,7 +63,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | Diagramma | File / Classe nel codice | Stato | Note |
 |-----------|--------------------------|-------|------|
 | `ServizioAbbonamento` | `bll/servizio_abbonamento.py` | ✅ | |
-| `ServizioGIS` | `bll/servizio_gis.py` | ✅ | |
+| `ServizioMappa` | `bll/servizio_mappa.py` | ✅ | |
 | `ServizioMobilità` | `bll/servizio_mobilita.py` (`ServizioMobilita`) | ✅ | Nome senza accento — accettabile |
 | `ServizioOfferta` | `bll/servizio_offerte.py` (`ServizioOfferta`) | ⚠️ | Nome file al plurale (`offerte`) vs singolare nel diagramma |
 | `ServizioParametri` | `bll/servizio_parametri.py` | ✅ | |

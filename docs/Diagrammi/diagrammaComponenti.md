@@ -42,7 +42,7 @@ proprio dominio in chiamate ad `ApiService`. Le View consumano i service tramite
 `AmministrazionePubblicaController`, `RecensioneController`, `SuggerimentoController`.
 
 ### 2.2 `«component» BLL` (Business Logic Layer) — 14 servizi
-`ServizioMobilita`, `ServizioPrenotazione`, `ServizioPricing`, `ServizioTariffa`, `ServizioGIS`,
+`ServizioMobilita`, `ServizioPrenotazione`, `ServizioPricing`, `ServizioTariffa`, `ServizioMappa`,
 `ServizioAbbonamento`, `ServizioOfferta`, `ServizioSegnalazione`, `ServizioParametri`,
 `ServizioRegoleFineCorsa`, `ServizioReport`, `ServizioUtenti`, `ServizioRecensione`,
 `ServizioSuggerimenti`.
@@ -86,16 +86,16 @@ Non se ne mostra il contenuto (componenti black-box/grey-box).
 |---|---|---|---|
 | `ApiToView` | ApiService | View | `AuthService.login()`, `CorsaService.sblocca()`, `PaymentService.effettuaPagamento()`, `MapService.caricaMappa()` |
 | `ClientToServer` | Controller | ApiService | REST/HTTPS: `POST /auth/login`, `GET /utente/mezzi/sbloccabili`, `POST /utente/prenotazioni`, `POST /utente/corse/{id}/termina` |
-| `BLLToController` (= `IServizio*`) | BLL | Controller | `IServizioMobilita.sbloccaMezzi()`, `IServizioPricing.effettuaPagamento()`, `IServizioPrenotazione.creaPrenotazioni()`, `IServizioGIS.creaZona()` |
+| `BLLToController` (= `IServizio*`) | BLL | Controller | `IServizioMobilita.sbloccaMezzi()`, `IServizioPricing.effettuaPagamento()`, `IServizioPrenotazione.creaPrenotazioni()`, `IServizioMappa.creaZona()` |
 | `Repository` | DAL | BLL | `IRepository.save() / update() / delete() / findById()` |
 | `DALtoDBMS` | DBMS | DAL | `executeQuery()`, `executeUpdate()`, `connectDB()` |
-| `BLLtoGoogleMaps` | GoogleMaps | BLL (`ServizioGIS`) | `recuperaDatiMappa()`, `verificaZona()` |
+| `BLLtoGoogleMaps` | GoogleMaps | BLL (`ServizioMappa`) | `recuperaDatiMappa()`, `verificaZona()` |
 | `BLLtoProviderPagamenti` | Provider Pagamenti | BLL (`ServizioPricing`) | `autorizza()`, `validaDatiPagamento()` |
 | `BLLtoServizioAI` | ServizioAI | BLL (`ServizioSuggerimenti`) | `generaSuggerimenti()` |
 
 **Flusso delle dipendenze:**
 `View → ApiService → (ClientToServer, REST/HTTPS) → Controller → BLL → DAL → Model`,
-con `DAL → DBMS`, `ServizioGIS → GoogleMaps`, `ServizioPricing → Provider Pagamenti`,
+con `DAL → DBMS`, `ServizioMappa → GoogleMaps`, `ServizioPricing → Provider Pagamenti`,
 `ServizioSuggerimenti → ServizioAI`.
 
 ---
