@@ -377,6 +377,8 @@ Totale elementi identificati: **139**.
 + mostraConfermaMetodoPagamento(): void
 + mostraRiepilogoPagamento(): void
 + mostraErrorePagamento(): void
++ chiediImpostaPredefinito(): void
++ confermaImpostaPredefinito(idMetodo: String): void
 ```
 
 ### `VistaHomePageUtente`
