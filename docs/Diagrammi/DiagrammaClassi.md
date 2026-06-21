@@ -243,6 +243,7 @@ Totale elementi identificati: **139**.
 + mostraRiepilogo(piano: Abbonamento): void
 + confermaSottoscrizione(): void
 + mostraAbbonamentoAttivo(): void
++ mostraErrore(msg: String): void
 ```
 
 ### `VistaTariffe`
