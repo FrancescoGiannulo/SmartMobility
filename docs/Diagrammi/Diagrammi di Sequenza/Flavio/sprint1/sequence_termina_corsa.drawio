@@ -432,10 +432,22 @@
                         <mxPoint x="340" y="1750" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
+                <mxCell id="106" value="opt" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="275" y="1779" width="300" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="107" value="[zonaVietata]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="335" y="1775" width="140" height="18" as="geometry"/>
+                </mxCell>
+                <mxCell id="108" value="35a: mostraAvvisoZonaVietata()" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="330" y="1796" as="sourcePoint"/>
+                        <mxPoint x="185" y="1796" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
                 <mxCell id="92" value="36: mostraRiepilogoCorsa(riepilogo)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="330" y="1790" as="sourcePoint"/>
-                        <mxPoint x="185" y="1790" as="targetPoint"/>
+                        <mxPoint x="330" y="1816" as="sourcePoint"/>
+                        <mxPoint x="185" y="1816" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="93" value="37: :false" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">

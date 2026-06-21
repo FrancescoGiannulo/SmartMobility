@@ -764,6 +764,14 @@ export default function VistaHomePageUtente() {
                 <span className="sidebar-voce__testo">Invia segnalazione</span>
                 <span className="sidebar-voce__icona">⚠️</span>
               </button>
+
+              <button
+                className="sidebar-voce"
+                onClick={() => { setSidebarAperta(false); navigate('/utente/recensione') }}
+              >
+                <span className="sidebar-voce__testo">Lascia recensione</span>
+                <span className="sidebar-voce__icona">⭐</span>
+              </button>
             </nav>
 
             {/* Logout in fondo */}
