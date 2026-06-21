@@ -1,0 +1,252 @@
+<mxfile host="65bd71144e">
+    <diagram name="SD - UT-05 Effettua Pagamento" id="effettua-pagamento-ut05">
+        <mxGraphModel dx="1905" dy="2300" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="sd Effettua Pagamento" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=200;height=30;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="30" width="1390" height="1210" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="UC «incluso» — invocato da UT-04 Termina Corsa e da UT-13 Sottoscrivi Abbonamento. Il flusso inizia dalla chiamata a PaymentService.effettuaPagamento(idCorsa, idUtente)." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="1">
+                    <mxGeometry x="205" y="210" width="1160" height="42" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="&lt;b&gt;&lt;u&gt;:PaymentService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="90" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="180" y="134" as="sourcePoint"/>
+                        <mxPoint x="180" y="1230.0000000000005" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="6" value="&lt;b&gt;&lt;u&gt;:ApiService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="295" y="90" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="375" y="134" as="sourcePoint"/>
+                        <mxPoint x="375" y="1240.0000000000005" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="8" value="&lt;b&gt;&lt;u&gt;:FrontController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="490" y="90" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="570" y="134" as="sourcePoint"/>
+                        <mxPoint x="570" y="1240.0000000000005" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="10" value="&lt;b&gt;&lt;u&gt;:PagamentoController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="685" y="90" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;entryX=0.492;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="2">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="765" y="134" as="sourcePoint"/>
+                        <mxPoint x="765" y="1370" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="12" value="&lt;b&gt;&lt;u&gt;:ServizioPricing&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="880" y="90" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="960" y="134" as="sourcePoint"/>
+                        <mxPoint x="960" y="1240.0000000000005" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="14" value="&lt;b&gt;&lt;u&gt;:PagamentoRepository&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1075" y="90" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;entryX=0.773;entryY=1.004;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="2">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1155" y="134" as="sourcePoint"/>
+                        <mxPoint x="1155" y="1370" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="16" value="&lt;b&gt;&lt;u&gt;:ProviderPagamentiAdapter&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="1270" y="90" width="160" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1350" y="134" as="sourcePoint"/>
+                        <mxPoint x="1350" y="1250.0000000000005" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="18" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="175" y="340" width="10" height="828" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="370" y="380" width="10" height="788" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="565" y="420" width="10" height="708" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="760" y="456" width="10" height="632" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="955" y="492" width="10" height="556" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                    <mxGeometry x="1150" y="564" width="10" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                    <mxGeometry x="1150" y="732" width="10" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="1345" y="644" width="10" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="270" y="674" width="1180" height="514" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="[transazione autorizzata]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="335" y="669" width="200" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="270" y="974" as="sourcePoint"/>
+                        <mxPoint x="1450" y="974" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="29" value="[else / pagamentoRifiutato dal ProviderPagamentiAdapter]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="280" y="978" width="340" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="1: inviaRichiesta(POST /pagamenti/elabora)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="185" y="346" as="sourcePoint"/>
+                        <mxPoint x="370" y="346" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="31" value="2: POST /pagamenti/elabora  (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="380" y="386" as="sourcePoint"/>
+                        <mxPoint x="565" y="386" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="32" value="3: validaAutenticazione()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="640" y="422"/>
+                            <mxPoint x="640" y="438"/>
+                        </Array>
+                        <mxPoint x="575" y="422" as="sourcePoint"/>
+                        <mxPoint x="575" y="438.00000000000045" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="33" value="4: instrada(): elaboraPagamento()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="575" y="462" as="sourcePoint"/>
+                        <mxPoint x="760" y="462" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="34" value="5: elaboraPagamento(idCorsa, idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="770" y="498.00000000000045" as="sourcePoint"/>
+                        <mxPoint x="955" y="498.00000000000045" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="35" value="6: calcolaImporto(tipoMezzo, durataMin, distanzaKm)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1030" y="534"/>
+                            <mxPoint x="1030" y="550"/>
+                        </Array>
+                        <mxPoint x="965" y="534" as="sourcePoint"/>
+                        <mxPoint x="965" y="549.9999999999995" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="36" value="7: getMetodiByUtente(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="965" y="569.9999999999995" as="sourcePoint"/>
+                        <mxPoint x="1150" y="569.9999999999995" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="37" value="8: :metodi&amp;nbsp;" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1150" y="609.9999999999995" as="sourcePoint"/>
+                        <mxPoint x="965" y="609.9999999999995" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="38" value="9: autorizza(metodoPagamento, importo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="965" y="649.9999999999995" as="sourcePoint"/>
+                        <mxPoint x="1345" y="649.9999999999995" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="39" value="10: :transactionId" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1345" y="699.9999999999995" as="sourcePoint"/>
+                        <mxPoint x="965" y="699.9999999999995" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="40" value="11: save(idCorsa, idUtente, importo, transactionId, COMPLETATO)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="965" y="738.0000000000005" as="sourcePoint"/>
+                        <mxPoint x="1150" y="738.0000000000005" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="41" value="12: :pagamento" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1150" y="778.0000000000005" as="sourcePoint"/>
+                        <mxPoint x="965" y="778.0000000000005" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="42" value="13: :pagamentoCompletato" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="955" y="818" as="sourcePoint"/>
+                        <mxPoint x="770" y="818" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="43" value="14: 200 OK" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="760" y="858" as="sourcePoint"/>
+                        <mxPoint x="575" y="858" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="44" value="15: 200 OK&amp;nbsp;" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="565" y="898" as="sourcePoint"/>
+                        <mxPoint x="380" y="898" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="45" value="16: gestisciRisposta(): :ricevuta" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="370" y="938" as="sourcePoint"/>
+                        <mxPoint x="185" y="938" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="46" value="17: :erroreRifiuto" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1345" y="1002" as="sourcePoint"/>
+                        <mxPoint x="965" y="1002" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="47" value="18: :PagamentoRifiutato" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="955" y="1042" as="sourcePoint"/>
+                        <mxPoint x="770" y="1042" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="48" value="19: 402 Payment Required" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="760" y="1082" as="sourcePoint"/>
+                        <mxPoint x="575" y="1082" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="49" value="20: 402 Payment Required" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="565" y="1122" as="sourcePoint"/>
+                        <mxPoint x="380" y="1122" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="50" value="21: mostraErroreHTTP(402): :errore" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="370" y="1162" as="sourcePoint"/>
+                        <mxPoint x="185" y="1162" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

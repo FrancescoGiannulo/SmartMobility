@@ -16,7 +16,7 @@
                         <mxPoint x="115" y="1480" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="357" value="&lt;b&gt;&lt;u&gt;:VistaHomepageUtente&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+                <mxCell id="357" value="&lt;b&gt;&lt;u&gt;:VistaHomePageUtente&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
                     <mxGeometry x="200" y="115" width="160" height="44" as="geometry"/>
                 </mxCell>
                 <mxCell id="358" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
@@ -148,7 +148,7 @@
                         <mxPoint x="275" y="230" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="390" value="2: caricaMappa(posizioneUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="390" value="2: getMezziUtente()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="285" y="284" as="sourcePoint"/>
                         <mxPoint x="470" y="284" as="targetPoint"/>
@@ -182,7 +182,7 @@
                         <mxPoint x="1055" y="416" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="395" value="7: recuperaDatiMappa(posizioneUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="395" value="7: ottieniMezziUtente()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1065" y="464" as="sourcePoint"/>
                         <mxPoint x="1255" y="464" as="targetPoint"/>
@@ -230,7 +230,7 @@
                         <mxPoint x="285" y="688" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="403" value="15: recuperaDatiMappa()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="403" value="15: getZoneUtente()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="285" y="720" as="sourcePoint"/>
                         <mxPoint x="470" y="720" as="targetPoint"/>
@@ -254,7 +254,7 @@
                         <mxPoint x="1055" y="816" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="407" value="19: getZoneGeografiche()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="407" value="19: ottieniZone()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1065" y="848" as="sourcePoint"/>
                         <mxPoint x="1255" y="848" as="targetPoint"/>
@@ -272,7 +272,7 @@
                         <mxPoint x="1265" y="912" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="410" value="22: getZoneGeografiche()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
+                <mxCell id="410" value="22: applicaPrecedenzaZone(listaZone)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="1330" y="940"/>

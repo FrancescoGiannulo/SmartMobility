@@ -353,7 +353,7 @@ Indice
 
 [2.4.3.26 OP – 10 Definisce Offerta [123](#op-10-definisce-offerta-1)](#op-10-definisce-offerta-1)
 
-[2.4.3.27 OP – 11 Configura parametri numerici di sistema [124](#op-11-configura-parametri-numerici-di-sistema)](#op-11-configura-parametri-numerici-di-sistema)
+[2.4.3.27 OP – 11 Configura parametri numerici di sistema [124](#op-11-configura-parametri-numerici-sistema)](#op-11-configura-parametri-numerici-sistema)
 
 [2.5 Data modeling and design [124](#data-modeling-and-design)](#data-modeling-and-design)
 
@@ -511,9 +511,9 @@ Contiene l’elenco e la specifica di tutti i requisiti funzionali espressi attr
 
 *Come* utente,
 
-*Voglio* che il sistema addebiti automaticamente l'importo dovuto sul mio metodo di pagamento predefinito al termine di un'operazione soggetta a pagamento (es. corsa, sottoscrizione di un abbonamento),
+*voglio* che il sistema addebiti automaticamente l'importo dovuto sul mio metodo di pagamento predefinito al termine di un'operazione soggetta a pagamento,
 
-*Così da* non dover effettuare transazioni manuali ogni volta che utilizzo un servizio a pagamento.
+*così da* non dover effettuare transazioni manuali ogni volta che utilizzo un servizio a pagamento.
 
 ### IF-UT.06 – Salva Metodi Pagamento 
 
@@ -1319,7 +1319,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <td>Sequenza principale degli eventi</td>
 <td style="text-align: left;"><p>1. Il caso d'uso inizia quando l'utente vuole terminare e pagare la corsa.</p>
 <p>2. Il sistema rileva la posizione corrente del mezzo tramite ServizioMappa.</p>
-<p><em>Punto di estensione: ErroreServizioGis</em></p>
+<p><em>Punto di estensione: Errore</em>ServizioMappa</p>
 <p>3. Il sistema aggiorna lo stato del mezzo da "In Uso" a "Disponibile".</p>
 <p>4. Il sistema mostra all'utente il Riepilogo Corsa con le varie informazioni.</p>
 <p>5. <em>punto di inclusione (Visualizza Riepilogo Fine Corsa)</em></p>
@@ -2652,795 +2652,58 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 
 #### OP – 02 Aggiunge Mezzo
 
-<table>
+<table style="width:100%;">
 <colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr>
-<th><table style="width:29%;">
-<colgroup>
-<col style="width: 8%" />
-<col style="width: 20%" />
+<col style="width: 26%" />
+<col style="width: 73%" />
 </colgroup>
 <thead>
 <tr>
 <th><strong>Nome</strong></th>
-<th>Aggiunge Mezzo</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></th>
-<th><table style="width:29%;">
-<colgroup>
-<col style="width: 8%" />
-<col style="width: 20%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Nome</strong></th>
-<th>Aggiunge Mezzo</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></th>
+<th><strong>Aggiunge Mezzo</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><table style="width:15%;">
-<colgroup>
-<col style="width: 4%" />
-<col style="width: 10%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>ID</strong></th>
-<th>OP – 02</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:15%;">
-<colgroup>
-<col style="width: 4%" />
-<col style="width: 10%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>ID</strong></th>
-<th>OP – 02</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 32%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Breve descrizione</strong></th>
-<th>Il sistema consente all'operatore autenticato di aggiungere un nuovo mezzo alla flotta, specificando tipologia, identificativo, posizione iniziale e stato, così da renderlo disponibile per il noleggio da parte degli utenti.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 32%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Breve descrizione</strong></th>
-<th>Il sistema consente all'operatore autenticato di aggiungere un nuovo mezzo alla flotta, specificando tipologia, identificativo, posizione iniziale e stato, così da renderlo disponibile per il noleggio da parte degli utenti.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:30%;">
-<colgroup>
-<col style="width: 16%" />
-<col style="width: 13%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Attori Primari</strong></th>
-<th>Operatore</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:30%;">
-<colgroup>
-<col style="width: 16%" />
-<col style="width: 13%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Attori Primari</strong></th>
-<th>Operatore</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:34%;">
-<colgroup>
-<col style="width: 19%" />
-<col style="width: 14%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Attori Secondari</strong></th>
-<th>ServizioMappa</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:34%;">
-<colgroup>
-<col style="width: 19%" />
-<col style="width: 14%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Attori Secondari</strong></th>
-<th>ServizioMappa</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 16%" />
-<col style="width: 30%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Precondizioni</strong></th>
-<th>L'operatore è autenticato alla piattaforma e si trova nella Dashboard Operatore.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 16%" />
-<col style="width: 30%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Precondizioni</strong></th>
-<th>L'operatore è autenticato alla piattaforma e si trova nella Dashboard Operatore.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 14%" />
-<col style="width: 32%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Sequenza principale degli eventi</strong></th>
-<th>1. Il caso d'uso inizia quando l'operatore accede alla sezione dedicata ai mezzi.<br />
-2. Il sistema mostra la lista dei mezzi attualmente presenti nella flotta.<br />
-3. L'operatore seleziona la funzione che permette di aggiungere un nuovo mezzo.<br />
-4. Il sistema permette di inserire i campi: tipologia (monopattino, bicicletta, automobile), identificativo, posizione iniziale e stato iniziale.<br />
-5. L'operatore inserisce i dati richiesti e seleziona la posizione iniziale sulla mappa.<br />
-6. L'operatore conferma i dati inseriti.<br />
-7. Il sistema valida i dati verificando che i campi obbligatori siano compilati e che l'identificativo sia univoco. Se uno o più campi non sono validi, il sistema informa l'operatore specificando i campi non validi e torna al passo 5.<br />
-8. Il sistema verifica tramite ServizioMappa che la posizione selezionata ricada all'interno di una zona operativa.<br />
-9. Il sistema salva il nuovo mezzo associandolo alla flotta.<br />
-10. Il sistema mostra un messaggio di conferma all'operatore.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 14%" />
-<col style="width: 32%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Sequenza principale degli eventi</strong></th>
-<th>1. Il caso d'uso inizia quando l'operatore accede alla sezione dedicata ai mezzi.<br />
-2. Il sistema mostra la lista dei mezzi attualmente presenti nella flotta.<br />
-3. L'operatore seleziona la funzione che permette di aggiungere un nuovo mezzo.<br />
-4. Il sistema permette di inserire i campi: tipologia (monopattino, bicicletta, automobile), identificativo, posizione iniziale e stato iniziale.<br />
-5. L'operatore inserisce i dati richiesti e seleziona la posizione iniziale sulla mappa.<br />
-6. L'operatore conferma i dati inseriti.<br />
-7. Il sistema valida i dati verificando che i campi obbligatori siano compilati e che l'identificativo sia univoco. Se uno o più campi non sono validi, il sistema informa l'operatore specificando i campi non validi e torna al passo 5.<br />
-8. Il sistema verifica tramite ServizioMappa che la posizione selezionata ricada all'interno di una zona operativa.<br />
-9. Il sistema salva il nuovo mezzo associandolo alla flotta.<br />
-10. Il sistema mostra un messaggio di conferma all'operatore.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 14%" />
-<col style="width: 32%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Post-condizioni</strong></th>
-<th>Il nuovo mezzo è stato salvato nel sistema e risulta disponibile sulla Mappa Utente in base allo stato impostato.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 14%" />
-<col style="width: 32%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Post-condizioni</strong></th>
-<th>Il nuovo mezzo è stato salvato nel sistema e risulta disponibile sulla Mappa Utente in base allo stato impostato.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 20%" />
-<col style="width: 27%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Sequenza alternativa degli eventi</strong></th>
-<th>IdentificativoEsistente<br />
-PosizioneNonOperativa</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 20%" />
-<col style="width: 27%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Sequenza alternativa degli eventi</strong></th>
-<th>IdentificativoEsistente<br />
-PosizioneNonOperativa</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-</tbody>
-</table>
-
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr>
-<th>Campo</th>
-<th>Valore</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 8%" />
-<col style="width: 38%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Nome</strong></th>
-<th>Aggiunge Mezzo: IdentificativoEsistente</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 8%" />
-<col style="width: 38%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Nome</strong></th>
-<th>Aggiunge Mezzo: IdentificativoEsistente</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:18%;">
-<colgroup>
-<col style="width: 4%" />
-<col style="width: 12%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>ID</strong></th>
-<th>OP-02.01</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:18%;">
-<colgroup>
-<col style="width: 4%" />
-<col style="width: 12%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>ID</strong></th>
-<th>OP-02.01</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 13%" />
-<col style="width: 33%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Breve descrizione</strong></th>
-<th>Il sistema rileva che l'identificativo inserito è già associato ad un altro mezzo e solleva IdentificativoEsistenteException, impedendo il salvataggio.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 13%" />
-<col style="width: 33%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Breve descrizione</strong></th>
-<th>Il sistema rileva che l'identificativo inserito è già associato ad un altro mezzo e solleva IdentificativoEsistenteException, impedendo il salvataggio.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:30%;">
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 13%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Attori primari</strong></th>
-<th>Operatore</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:30%;">
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 13%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Attori primari</strong></th>
-<th>Operatore</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:31%;">
-<colgroup>
-<col style="width: 19%" />
-<col style="width: 11%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Attori secondari</strong></th>
-<th>Nessuno</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:31%;">
-<colgroup>
-<col style="width: 19%" />
-<col style="width: 11%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Attori secondari</strong></th>
-<th>Nessuno</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 16%" />
-<col style="width: 30%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Precondizioni</strong></th>
-<th>L'identificativo inserito dall'operatore esiste già nel MezzoRepository.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 16%" />
-<col style="width: 30%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Precondizioni</strong></th>
-<th>L'identificativo inserito dall'operatore esiste già nel MezzoRepository.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 18%" />
-<col style="width: 29%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Postcondizioni</strong></th>
-<th>Il nuovo mezzo non viene salvato; l'operatore rimane sulla schermata di inserimento per correggere i dati.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 18%" />
-<col style="width: 29%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Postcondizioni</strong></th>
-<th>Il nuovo mezzo non viene salvato; l'operatore rimane sulla schermata di inserimento per correggere i dati.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 12%" />
-<col style="width: 34%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Sequenza alternativa degli eventi</strong></th>
-<th>1. La sequenza alternativa inizia al passo 7 della sequenza principale.<br />
-2. Il sistema verifica l'unicità dell'identificativo tramite MezzoRepository.<br />
-3. Il sistema rileva che l'identificativo è già presente e solleva IdentificativoEsistenteException.<br />
-4. Il sistema informa l'operatore dell'errore e torna al passo 5.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 12%" />
-<col style="width: 34%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Sequenza alternativa degli eventi</strong></th>
-<th>1. La sequenza alternativa inizia al passo 7 della sequenza principale.<br />
-2. Il sistema verifica l'unicità dell'identificativo tramite MezzoRepository.<br />
-3. Il sistema rileva che l'identificativo è già presente e solleva IdentificativoEsistenteException.<br />
-4. Il sistema informa l'operatore dell'errore e torna al passo 5.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
+<td>ID</td>
+<td>OP – 02</td>
 </tr>
-</tbody>
-</table>
-
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
 <tr>
-<th>Campo</th>
-<th>Valore</th>
+<td>Breve descrizione</td>
+<td>Il sistema consente all'operatore autenticato di aggiungere un nuovo mezzo alla flotta, specificando tipologia, identificativo, posizione iniziale e stato, così da renderlo disponibile per il noleggio da parte degli utenti.</td>
 </tr>
-</thead>
-<tbody>
 <tr>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 8%" />
-<col style="width: 38%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Nome</strong></th>
-<th>Aggiunge Mezzo: PosizioneNonOperativa</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 8%" />
-<col style="width: 38%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Nome</strong></th>
-<th>Aggiunge Mezzo: PosizioneNonOperativa</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:18%;">
-<colgroup>
-<col style="width: 4%" />
-<col style="width: 12%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>ID</strong></th>
-<th>OP-02.02</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:18%;">
-<colgroup>
-<col style="width: 4%" />
-<col style="width: 12%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>ID</strong></th>
-<th>OP-02.02</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 13%" />
-<col style="width: 34%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Breve descrizione</strong></th>
-<th>Il ServizioMappa rileva che la posizione iniziale non ricade in alcuna zona operativa; il sistema solleva PosizioneNonOperativaException e impedisce il salvataggio.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 13%" />
-<col style="width: 34%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Breve descrizione</strong></th>
-<th>Il ServizioMappa rileva che la posizione iniziale non ricade in alcuna zona operativa; il sistema solleva PosizioneNonOperativaException e impedisce il salvataggio.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
+<td>Attori Primari</td>
+<td>Operatore</td>
 </tr>
 <tr>
-<td><table style="width:30%;">
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 13%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Attori primari</strong></th>
-<th>Operatore</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:30%;">
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 13%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Attori primari</strong></th>
-<th>Operatore</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:34%;">
-<colgroup>
-<col style="width: 19%" />
-<col style="width: 14%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Attori secondari</strong></th>
-<th>ServizioMappa</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:34%;">
-<colgroup>
-<col style="width: 19%" />
-<col style="width: 14%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Attori secondari</strong></th>
-<th>ServizioMappa</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-</tr>
-<tr>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 16%" />
-<col style="width: 30%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Precondizioni</strong></th>
-<th>La posizione iniziale del mezzo selezionata sulla mappa non ricade in alcuna zona operativa.</th>
+<td>Attori Secondari</td>
+<td>ServizioMappa</td>
 </tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 16%" />
-<col style="width: 30%" />
-</colgroup>
-<thead>
 <tr>
-<th><strong>Precondizioni</strong></th>
-<th>La posizione iniziale del mezzo selezionata sulla mappa non ricade in alcuna zona operativa.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
+<td>Precondizioni</td>
+<td>L'operatore è autenticato alla piattaforma e si trova nella Dashboard Operatore.</td>
 </tr>
 <tr>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 18%" />
-<col style="width: 29%" />
-</colgroup>
-<thead>
-<tr>
-<th><strong>Postcondizioni</strong></th>
-<th>Il nuovo mezzo non viene salvato; l'operatore rimane sulla schermata di inserimento per selezionare una posizione valida.</th>
+<td>Sequenza principale degli eventi</td>
+<td>1. Il caso d'uso inizia quando l'operatore accede alla sezione dedicata ai mezzi.</td>
 </tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
-<td><table style="width:47%;">
-<colgroup>
-<col style="width: 18%" />
-<col style="width: 29%" />
-</colgroup>
-<thead>
 <tr>
-<th><strong>Postcondizioni</strong></th>
-<th>Il nuovo mezzo non viene salvato; l'operatore rimane sulla schermata di inserimento per selezionare una posizione valida.</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table></td>
+<td><p>2. Il sistema mostra la lista dei mezzi attualmente presenti nella flotta.</p>
+<p>3. L'operatore seleziona la funzione che permette di aggiungere un nuovo mezzo.</p>
+<p>4. Il sistema permette di inserire i campi: tipologia (monopattino, bicicletta, automobile), identificativo, posizione iniziale e stato iniziale.</p>
+<p>5. L'operatore inserisce i dati richiesti e seleziona la posizione iniziale sulla mappa.</p>
+<p>6. L'operatore conferma i dati inseriti.</p>
+<p>7. Il sistema valida i dati verificando che i campi obbligatori siano compilati e che l'identificativo sia univoco. Se uno o più campi non sono validi, il sistema informa l'operatore specificando i campi non validi e torna al passo 5.</p>
+<p>8. Il sistema verifica tramite ServizioMappa che la posizione selezionata ricada all'interno di una zona operativa.</p>
+<p>9. Il sistema salva il nuovo mezzo associandolo alla flotta.</p>
+<p>10. Il sistema mostra un messaggio di conferma all'operatore.</p>
+<p>Post-condizioni</p></td>
+<td>Il nuovo mezzo è stato salvato nel sistema e risulta disponibile sulla Mappa Utente in base allo stato impostato.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Sequenza alternativa degli eventi</strong></td>
-<td style="text-align: left;">1. La sequenza alternativa inizia dopo il passo 8 della sequenza principale.<br />
-2. Il ServizioMappa rileva che la posizione iniziale non ricade in alcuna zona operativa e solleva PosizioneNonOperativaException.<br />
-3. Il sistema informa l'operatore dell'errore di posizione e torna al passo 5.</td>
+<td>Sequenza alternativa degli eventi</td>
+<td>IdentificativoEsistentePosizioneNonOperativa</td>
 </tr>
 </tbody>
 </table>
@@ -4541,7 +3804,7 @@ Questa organizzazione garantisce che:
 
 - **ServizioMobilità:** orchestratore principale della BLL. Gestisce l'intero ciclo di vita della corsa, la verifica della disponibilità dei mezzi, lo sblocco, la terminazione, il calcolo dell'importo e la gestione delle zone geografiche. Coordina le interazioni tra ServizioMappa, ServizioPagamenti, ServizioPrenotazione e i Repository.
 
-- **ServizioMappa:** gestisce le operazioni geografiche e cartografiche. Si occupa del recupero delle zone attive, della verifica della posizione del mezzo rispetto alle zone consentite e vietate, della validazione della posizione di fine corsa e del caricamento della mappa cartografica.
+- ServizioMappa**:** gestisce le operazioni geografiche e cartografiche. Si occupa del recupero delle zone attive, della verifica della posizione del mezzo rispetto alle zone consentite e vietate, della validazione della posizione di fine corsa e del caricamento della mappa cartografica.
 
 - **ServizioPagamenti:** gestisce l'autorizzazione dei pagamenti tramite il ProviderPagamenti, la creazione dei record di pagamento, la validazione dei metodi di pagamento e la gestione delle transazioni associate alle corse. Espone inoltre le operazioni di amministrazione degli account di pagamento.
 
@@ -4657,111 +3920,98 @@ Questa organizzazione garantisce che:
 
 #### UT - 01 Visualizza Mappa Utente
 
-<img src="media/image34.png" style="width:5.60317in;height:3.89168in" />
+<img src="media/image34.png" style="width:6.26806in;height:5.52222in" />
 
 #### UT - 02 Prenota Mezzo
 
-<img src="media/image35.png" style="width:6.26806in;height:5.64236in" />
-
 #### UT – 03 Sblocca Mezzo
-
-<img src="media/image36.png" style="width:6.26806in;height:5.27569in" />
 
 #### UT – 04 Termina Corsa
 
-<img src="media/image37.png" style="width:6.26806in;height:5.76667in" />
-
 #### UT – 05 Effettua Pagamento
 
-<img src="media/image38.png" style="width:6.26806in;height:4.58125in" />
+<img src="media/image35.png" style="width:6.26806in;height:5.50694in" />
 
 #### UT – 06 Salva Metodo di Pagamento
 
-<img src="media/image39.png" style="width:6.26806in;height:6.19792in" />
-
 #### UT – 07 Consulta Tariffe
 
-<img src="media/image40.png" style="width:6.26806in;height:4.65625in" />
+<img src="media/image36.png" style="width:6.26806in;height:3.55903in" />
 
 #### UT – 08 Visualizza Riepilogo Corsa
 
-<img src="media/image41.png" style="width:6.26806in;height:5.20208in" />
-
 #### UT - 09 Sospende Corsa
-
-<img src="media/image42.png" style="width:6.26806in;height:4.68194in" />
 
 #### UT – 10 Visualizza Promozioni
 
-<img src="media/image43.png" style="width:6.26806in;height:4.71458in" />
+<img src="media/image37.png" style="width:6.26806in;height:3.49375in" />
 
 #### UT – 11 Visualizza Storico Corsa
 
-<img src="media/image44.png" style="width:6.26806in;height:4.675in" />
-
 #### UT – 12 Invia Segnalazione
-
-<img src="media/image45.png" style="width:6.26806in;height:4.02014in" />
 
 #### UT – 13 Sottoscrive Abbonamento
 
-<img src="media/image46.png" style="width:6.26806in;height:5.59583in" />
+<img src="media/image38.png" style="width:6.26806in;height:6.68125in" />
+
+#### UT – 14 
+
+#### UT – 15 Scrive Recensione
+
+<img src="media/image39.png" style="width:6.26806in;height:4.40208in" />
 
 #### AP – 01 Accede Report
 
-<img src="media/image47.png" style="width:6.26806in;height:4.09514in" />
+<img src="media/image40.png" style="width:6.26806in;height:3.64444in" />
 
 #### AP – 02 Esporta Report
 
-<img src="media/image48.png" style="width:4.56944in;height:4.72222in" />
+<img src="media/image41.png" style="width:6.26806in;height:4.08056in" />
 
 #### AP – 03 Visualizza Mappa Amministrazione Pubblica
 
-<img src="media/image49.png" style="width:6.26806in;height:3.86944in" />
+<img src="media/image42.png" style="width:6.26806in;height:4.17639in" />
 
-#### OP-01 Visualizza Mappa Operatore
-
-<img src="media/image50.png" style="width:6.23809in;height:3.99816in" />
+#### OP-01 Visualizza Mappa Operatore\
+<img src="media/image43.png" style="width:6.26806in;height:3.33125in" />
 
 #### OP – 02 Aggiunge Mezzo
 
-<img src="media/image51.png" style="width:6.26806in;height:4.09236in" />
+<img src="media/image44.png" style="width:6.26806in;height:4.72292in" />
 
 #### OP – 03 Dismette Mezzo
 
-<img src="media/image52.png" style="width:6.26806in;height:4.19306in" />
+<img src="media/image45.png" style="width:6.26806in;height:5.13611in" />
 
 #### OP – 04 Modifica Stato Mezzo
 
-<img src="media/image53.png" style="width:6.26806in;height:6.63125in" />
-
 #### OP – 05 Definisce Tariffa
 
-<img src="media/image54.png" style="width:6.26806in;height:6.41736in" />
+<img src="media/image46.png" style="width:6.26806in;height:7.49028in" />
 
 #### OP – 06 Definisce Regole fine corsa
 
-<img src="media/image55.png" style="width:6.26806in;height:5.02014in" />
+<img src="media/image47.png" style="width:6.26806in;height:5.83125in" />
 
 #### OP – 07 Definisce Zona
 
-<img src="media/image56.png" style="width:6.21355in;height:4.81746in" />
+<img src="media/image48.png" style="width:6.26806in;height:4.94444in" />
 
 #### OP – 08 Gestisce Segnalazione
 
-<img src="media/image57.png" style="width:6.26806in;height:6.14167in" />
+<img src="media/image49.png" style="width:6.26806in;height:6.14167in" />
 
 #### OP – 09 Sospende account utente
 
-<img src="media/image58.png" style="width:6.26806in;height:6.51458in" />
+<img src="media/image50.png" style="width:6.26806in;height:6.51458in" />
 
 #### OP – 10 Definisce Offerta
 
-<img src="media/image59.png" style="width:6.26806in;height:7.51736in" />
+<img src="media/image51.png" style="width:5.46989in;height:8.80769in" />
 
-#### OP – 11 Configura parametri numerici di sistema
+#### OP – 11 Configura Parametri Numerici Sistema
 
-<img src="media/image60.png" style="width:6.26806in;height:4.76944in" />
+<img src="media/image52.png" style="width:6.26806in;height:4.86875in" />
 
 ## Data modeling and design
 
@@ -4769,7 +4019,7 @@ Qui va fornita la specifica di tutti i dati e le informazioni scambiate dal sist
 
 ### Modello logico del Database
 
-<img src="media/image61.png" style="width:6.26806in;height:3.23194in" />
+<img src="media/image53.png" style="width:6.26806in;height:3.23194in" />
 
 ### Struttura fisica del Database
 
@@ -4991,7 +4241,7 @@ La seguente sezione riporta il prompt utilizzato per la convalidazione della qua
 |:---|:---|:---|
 | Non Ambiguo | 3 | Termini vaghi non specificati: "suggerimenti intelligenti" (IF-UT.14), "Formato Esportabile" (IF-AP.02), "parametri relativi al sistema" e "limiti di utilizzo" (IF-OP.11). Lo "Stato" del mezzo (IF-OP.04) non enumera gli stati possibili. |
 | Provabile o Verificabile | 3 | Obiettivi non testabili: "garantire il decoro urbano" (IF-OP.06), "rispetto delle normative locali" (IF-OP.07), "tutelare l'integrità del servizio" (IF-OP.09). I "suggerimenti intelligenti" (IF-UT.14) non hanno criteri di accettazione verificabili. |
-| Chiaro | 4 | Formulazioni in generale concise. Leggera verbosità in IF-UT.05 ("ogni volta che scendo dal mezzo"), eliminabile senza perdita di significato. |
+| Chiaro | 4 | Formulazioni in generale concise. |
 | Corretto | 5 | Non si rilevano fatti errati o affermazioni false all'interno delle storie. |
 | Comprensibile | 5 | Stile consistente e formato user story (COME/VOGLIO/COSÌ) conforme allo standard prescritto. |
 | Fattibile | 4 | Requisiti realizzabili entro vincoli ragionevoli. I "suggerimenti intelligenti" (IF-UT.14) richiedono maggiore sforzo implementativo ma restano fattibili. |
@@ -5087,8 +4337,6 @@ Caso d'uso da analizzare: \[NOME CASO D’USO\]
 - **UT**: Utente
 
 - **HTTP**: HyperText Transfer Protocol
-
-- **ServizioMappa**: Geographic Information System
 
 - **API**: Application Programming Interface
 

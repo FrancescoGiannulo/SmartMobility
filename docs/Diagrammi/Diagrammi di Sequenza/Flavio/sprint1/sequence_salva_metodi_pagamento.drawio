@@ -1,5 +1,5 @@
 <mxfile host="65bd71144e">
-    <diagram name="SD - IF-UT.12 SalvaMetodiPagamento" id="0">
+    <diagram name="SD - IF-UT.06 SalvaMetodiPagamento" id="0">
         <mxGraphModel dx="1880" dy="2450" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="2450" background="#FFFFFF" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
@@ -7,7 +7,7 @@
                 <mxCell id="frame" value="sd SalvaMetodiPagamento" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=200;height=30;" vertex="1" parent="1">
                     <mxGeometry x="20" y="20" width="1880" height="2420" as="geometry"/>
                 </mxCell>
-                <mxCell id="note" value="Precondizione: l'Utente è autenticato (ruolo UT) nella sezione Pagamenti. Riferimento: IF-UT.12. Attore secondario: ProviderPagamentiAdapter, richiamato per validaDatiPagamento(tipologia, dati) prima della tokenizzazione. Se i dati non sono validi il sistema risponde 422 Unprocessable Entity; se il metodo è già associato all'utente risponde 409 Conflict." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="1">
+                <mxCell id="note" value="Precondizione: l'Utente è autenticato (ruolo UT) nella sezione Pagamenti. Riferimento: IF-UT.06. Attore secondario: ProviderPagamentiAdapter, richiamato per validaDatiPagamento(tipologia, dati) prima della tokenizzazione. Se i dati non sono validi il sistema risponde 422 Unprocessable Entity; se il metodo è già associato all'utente risponde 409 Conflict." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="1">
                     <mxGeometry x="40" y="55" width="1840" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="actor" value=":Utente" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
@@ -444,7 +444,7 @@
                         <mxPoint x="245" y="2030" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m44" value="44: mostraErrore(&quot;Dati non validi, riprova&quot;)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m44" value="44: mostraErrorePagamento()" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="235" y="2070" as="sourcePoint"/>
                         <mxPoint x="75" y="2070" as="targetPoint"/>
@@ -481,7 +481,7 @@
                         <mxPoint x="245" y="2310" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m50" value="50: mostraErrore(&quot;Metodo già associato&quot;)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m50" value="50: mostraErrorePagamento()" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="235" y="2350" as="sourcePoint"/>
                         <mxPoint x="75" y="2350" as="targetPoint"/>

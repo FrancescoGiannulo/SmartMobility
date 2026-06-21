@@ -1,5 +1,5 @@
 <mxfile host="65bd71144e">
-    <diagram name="SD - IF-UT.06 Termina Corsa" id="0">
+    <diagram name="SD - IF-UT.04 Termina Corsa" id="0">
         <mxGraphModel dx="6580" dy="9200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2560" pageHeight="2470" background="#FFFFFF" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
@@ -468,7 +468,7 @@
                         <mxPoint x="340" y="2030" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="98" value="42: mostraErrorePagamento()" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="98" value="42: mostraErrore(&quot;Pagamento rifiutato&quot;)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="330" y="2070" as="sourcePoint"/>
                         <mxPoint x="185" y="2070" as="targetPoint"/>
@@ -510,7 +510,7 @@
                         <mxPoint x="340" y="2400" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="105" value="49: mostraErroreServizio(motivazione)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="105" value="49: mostraErrore(motivazione)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="330" y="2440" as="sourcePoint"/>
                         <mxPoint x="185" y="2440" as="targetPoint"/>
