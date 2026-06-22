@@ -36,32 +36,77 @@
   font-size: 14px;
 }
 
-.storico-mod-lista {
+.storico-mod-sezioni {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
   max-width: 720px;
 }
 
-.storico-mod-card {
+.storico-mod-sezione {
   background: #fff;
   border: 1px solid #e0e0e0;
   border-radius: 10px;
+  overflow: hidden;
+}
+
+.storico-mod-sezione-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
   padding: 14px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.storico-mod-sezione-titolo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.storico-mod-sezione-badge {
+  background: #eef2f1;
+  color: #4caf9a;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.storico-mod-chevron {
+  color: #888;
+  transition: transform 0.15s ease;
+}
+
+.storico-mod-chevron.aperta {
+  transform: rotate(180deg);
+}
+
+.storico-mod-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 16px 16px;
+}
+
+.storico-mod-card {
+  background: #fafbfc;
+  border: 1px solid #ececec;
+  border-radius: 8px;
+  padding: 12px 14px;
 }
 
 .storico-mod-card-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-end;
   margin-bottom: 6px;
-}
-
-.storico-mod-tipo {
-  font-weight: 600;
-  font-size: 14px;
-  color: #1a1a2e;
 }
 
 .storico-mod-data {
@@ -71,6 +116,7 @@
 
 .storico-mod-descrizione {
   font-size: 13px;
+  font-weight: 600;
   color: #333;
   margin: 0 0 8px;
 }
@@ -78,9 +124,21 @@
 .storico-mod-valori {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  font-size: 12px;
+  gap: 4px;
+  font-size: 13px;
+  color: #444;
+}
+
+.storico-mod-riga-diff {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.storico-mod-riga-etichetta {
   color: #666;
+  font-weight: 500;
 }
 
 .storico-mod-valore-precedente {
@@ -89,4 +147,9 @@
 
 .storico-mod-valore-nuovo {
   color: #2e7d32;
+  font-weight: 600;
+}
+
+.storico-mod-freccia {
+  color: #999;
 }
