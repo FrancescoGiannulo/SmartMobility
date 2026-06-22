@@ -11,8 +11,8 @@
                 </mxCell>
 
                 <!-- ===================== NOTA ===================== -->
-                <mxCell id="rf-nota" value="&#171; incluso da UT-04 Termina Corsa &#8212; eseguito dopo EffettuaPagamento (UT-05) &#187;" style="shape=note;whiteSpace=wrap;html=1;fontSize=10;fontStyle=2;align=left;spacingLeft=6;fillColor=#FFF8DC;strokeColor=#D6B656;" vertex="1" parent="1">
-                    <mxGeometry x="300" y="320" width="480" height="36" as="geometry"/>
+                <mxCell id="rf-nota" value="Precondizione: l'Utente è autenticato (ruolo UT) e ha appena terminato una corsa (UT-04) con pagamento completato (UT-05). VistaCorsa invoca visualizzaRiepilogoFineCorsa() che richiede al backend il riepilogo tramite ServizioMobilita.calcolaRiepilogoSessione(). Se la corsa è di gruppo (N &gt; 1 mezzi), calcolaTotaleComplessivo() somma gli importi al passo 15. Scenario alternativo: CorsaNonTrovataException → 404 Not Found; la vista costruisce un riepilogo fallback dai dati client." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="1">
+                    <mxGeometry x="240" y="110" width="1300" height="54" as="geometry"/>
                 </mxCell>
 
                 <!-- ===================== LIFELINES ===================== -->

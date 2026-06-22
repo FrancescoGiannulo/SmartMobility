@@ -4,6 +4,9 @@
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
+                <mxCell id="nota-1" value="Precondizione: l'Utente è autenticato (ruolo UT). Il sistema mostra i mezzi sbloccabili (Disponibili o Prenotati dall'utente) entro 0.5 km dalla posizione corrente. Lo sblocco batch assegna un gruppo_corsa_id condiviso (UUID, passo 24) se N &gt; 1 mezzi. Per ogni mezzo: verifica distanza (passo 28), se stato == Prenotato converte la prenotazione (passo 33), crea la Corsa (passo 31) e aggiorna lo stato a «In uso» (passo 34). Scenario alternativo UT-03.1: mezzo troppo lontano o non risponde — viene aggiunto a falliti." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" parent="1" vertex="1">
+                    <mxGeometry x="210.0001220703125" y="60" width="1600" height="54" as="geometry"/>
+                </mxCell>
                 <mxCell id="2" value="sd Sblocca Mezzo" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=200;height=30;" parent="1" vertex="1">
                     <mxGeometry x="190.0001220703125" y="120.0001220703125" width="2000" height="2340" as="geometry"/>
                 </mxCell>

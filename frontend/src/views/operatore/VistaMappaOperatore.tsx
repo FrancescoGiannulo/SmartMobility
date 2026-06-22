@@ -190,7 +190,7 @@ export default function VistaMappaOperatore() {
     <div className="vista-mappa-op">
       <div className="mappa-op-topbar">
         <h2>
-          Smart Mobility
+          <img src="/logo.png" alt="Smart Mobility" className="topbar-logo" />
           <span className="role-tag">Operatore</span>
         </h2>
         <button type="button" className="btn-logout-mappa" onClick={handleLogout}>Logout</button>

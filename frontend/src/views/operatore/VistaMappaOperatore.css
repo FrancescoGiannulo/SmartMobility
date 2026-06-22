@@ -38,17 +38,10 @@
   align-items: center;
   gap: 12px;
 }
-.mappa-op-topbar h2::before {
-  content: "";
-  display: inline-block;
-  width: 34px;
-  height: 34px;
-  border-radius: 11px;
-  background:
-    radial-gradient(circle at 30% 30%, #7eecd6, transparent 60%),
-    linear-gradient(135deg, var(--sm-primary, #155e52), var(--sm-primary-700, #2a7a6a));
-  box-shadow: 0 6px 14px rgba(76, 175, 154, 0.35),
-              inset 0 1px 0 rgba(255, 255, 255, 0.5);
+.mappa-op-topbar h2 .topbar-logo {
+  height: 46px;
+  width: auto;
+  object-fit: contain;
 }
 .mappa-op-topbar h2 .role-tag {
   font-size: 11px;
