@@ -7,7 +7,7 @@
                 <mxCell id="frame" value="SD - Aggiunge Mezzo" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=300;height=30;" vertex="1" parent="1">
                     <mxGeometry x="45" y="80" width="1740" height="1370" as="geometry"/>
                 </mxCell>
-                <mxCell id="note" value="Precondizione: l'Operatore è autenticato (ruolo OP) nella Dashboard Operatore, sezione Gestisci Mezzi. Attore secondario: ServizioGIS." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="1">
+                <mxCell id="note" value="Precondizione: l'Operatore è autenticato (ruolo OP) nella Dashboard Operatore, sezione Gestisci Mezzi. Attore secondario: ServizioMappa." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="1">
                     <mxGeometry x="360" y="116" width="1100" height="54" as="geometry"/>
                 </mxCell>
                 <!-- ================= LIFELINES ================= -->
@@ -74,7 +74,7 @@
                         <mxPoint x="1260" y="1420" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ll-gis-h" value="&lt;b&gt;&lt;u&gt;:ServizioGIS&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+                <mxCell id="ll-gis-h" value="&lt;b&gt;&lt;u&gt;:ServizioMappa&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
                     <mxGeometry x="1375" y="196" width="160" height="44" as="geometry"/>
                 </mxCell>
                 <mxCell id="ll-gis" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">

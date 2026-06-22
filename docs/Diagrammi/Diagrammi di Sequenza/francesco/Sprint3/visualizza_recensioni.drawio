@@ -1,152 +1,145 @@
 <mxfile host="65bd71144e">
     <diagram name="SD - Visualizza Recensioni" id="visualizza-recensioni-op13">
-        <mxGraphModel dx="1422" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
+        <mxGraphModel dx="514" dy="642" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="frame" value="SD - Visualizza Recensioni" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=320;height=30;" vertex="1" parent="1">
+                <mxCell id="frame" value="SD - Visualizza Recensioni" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=320;height=30;" parent="1" vertex="1">
                     <mxGeometry x="45" y="80" width="1500" height="840" as="geometry"/>
                 </mxCell>
-                <mxCell id="note" value="Precondizione: l'Operatore è autenticato (ruolo OP). L'Operatore consulta l'elenco delle recensioni lasciate dagli utenti e il voto medio aggregato." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="1">
-                    <mxGeometry x="320" y="112" width="1140" height="56" as="geometry"/>
-                </mxCell>
-                <!-- ================= LIFELINES ================= -->
-                <mxCell id="ll-actor-h" value=":Operatore" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+                <mxCell id="ll-actor-h" value=":Operatore" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="105" y="180" width="30" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="ll-actor" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+                <mxCell id="ll-actor" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="120" y="240" as="sourcePoint"/>
                         <mxPoint x="120" y="890" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ll-view-h" value="&lt;b&gt;&lt;u&gt;:VistaRecensioniOperatore&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+                <mxCell id="ll-view-h" value="&lt;b&gt;&lt;u&gt;:VistaRecensioniOperatore&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" parent="1" vertex="1">
                     <mxGeometry x="205" y="196" width="160" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="ll-view" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                <mxCell id="ll-view" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="285" y="240" as="sourcePoint"/>
                         <mxPoint x="285" y="890" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ll-rs-h" value="&lt;b&gt;&lt;u&gt;:RecensioneService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+                <mxCell id="ll-rs-h" value="&lt;b&gt;&lt;u&gt;:RecensioneService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" parent="1" vertex="1">
                     <mxGeometry x="400" y="196" width="160" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="ll-rs" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                <mxCell id="ll-rs" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="480" y="240" as="sourcePoint"/>
                         <mxPoint x="480" y="890" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ll-api-h" value="&lt;b&gt;&lt;u&gt;:ApiService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+                <mxCell id="ll-api-h" value="&lt;b&gt;&lt;u&gt;:ApiService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" parent="1" vertex="1">
                     <mxGeometry x="595" y="196" width="160" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="ll-api" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                <mxCell id="ll-api" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="675" y="240" as="sourcePoint"/>
                         <mxPoint x="675" y="890" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ll-fc-h" value="&lt;b&gt;&lt;u&gt;:FrontController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+                <mxCell id="ll-fc-h" value="&lt;b&gt;&lt;u&gt;:FrontController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" parent="1" vertex="1">
                     <mxGeometry x="790" y="196" width="160" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="ll-fc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                <mxCell id="ll-fc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="870" y="240" as="sourcePoint"/>
                         <mxPoint x="870" y="890" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ll-rc-h" value="&lt;b&gt;&lt;u&gt;:RecensioneController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="1">
+                <mxCell id="ll-rc-h" value="&lt;b&gt;&lt;u&gt;:RecensioneController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" parent="1" vertex="1">
                     <mxGeometry x="985" y="196" width="160" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="ll-rc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                <mxCell id="ll-rc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1065" y="240" as="sourcePoint"/>
                         <mxPoint x="1065" y="890" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ll-sr-h" value="&lt;b&gt;&lt;u&gt;:ServizioRecensione&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+                <mxCell id="ll-sr-h" value="&lt;b&gt;&lt;u&gt;:ServizioRecensione&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" parent="1" vertex="1">
                     <mxGeometry x="1180" y="196" width="160" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="ll-sr" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                <mxCell id="ll-sr" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1260" y="240" as="sourcePoint"/>
                         <mxPoint x="1260" y="890" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ll-rr-h" value="&lt;b&gt;&lt;u&gt;:RecensioneRepository&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+                <mxCell id="ll-rr-h" value="&lt;b&gt;&lt;u&gt;:RecensioneRepository&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" parent="1" vertex="1">
                     <mxGeometry x="1375" y="196" width="160" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="ll-rr" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                <mxCell id="ll-rr" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1455" y="240" as="sourcePoint"/>
                         <mxPoint x="1455" y="890" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <!-- ================= ACTIVATION BARS ================= -->
-                <mxCell id="act-view" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                <mxCell id="act-view" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
                     <mxGeometry x="280" y="310" width="10" height="540" as="geometry"/>
                 </mxCell>
-                <mxCell id="act-rs" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                <mxCell id="act-rs" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="475" y="342" width="10" height="396" as="geometry"/>
                 </mxCell>
-                <mxCell id="act-api" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                <mxCell id="act-api" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="670" y="374" width="10" height="332" as="geometry"/>
                 </mxCell>
-                <mxCell id="act-fc" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                <mxCell id="act-fc" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
                     <mxGeometry x="865" y="406" width="10" height="84" as="geometry"/>
                 </mxCell>
-                <mxCell id="act-rc" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                <mxCell id="act-rc" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
                     <mxGeometry x="1060" y="474" width="10" height="200" as="geometry"/>
                 </mxCell>
-                <mxCell id="act-sr" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                <mxCell id="act-sr" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
                     <mxGeometry x="1255" y="506" width="10" height="136" as="geometry"/>
                 </mxCell>
-                <mxCell id="act-rr" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                <mxCell id="act-rr" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
                     <mxGeometry x="1450" y="538" width="10" height="36" as="geometry"/>
                 </mxCell>
-                <!-- ================= ALT FRAGMENT ================= -->
-                <mxCell id="alt" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="alt" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="250" y="754" width="1290" height="124" as="geometry"/>
                 </mxCell>
-                <mxCell id="alt-g1" value="[recensioni presenti]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="alt-g1" value="[recensioni presenti]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="315" y="748" width="220" height="22" as="geometry"/>
                 </mxCell>
-                <mxCell id="alt-sep" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+                <mxCell id="alt-sep" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="250" y="802" as="sourcePoint"/>
                         <mxPoint x="1540" y="802" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="alt-g2" value="[else / nessuna recensione — NessunaRecensione]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="alt-g2" value="[else / nessuna recensione — NessunaRecensione]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="260" y="806" width="420" height="22" as="geometry"/>
                 </mxCell>
-                <!-- ================= MESSAGES ================= -->
-                <mxCell id="m1" value="1: apriRecensioni() [seleziona sezione &quot;Recensioni&quot;]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m1" value="1: apriRecensioni() [seleziona sezione &quot;Recensioni&quot;]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="120" y="310" as="sourcePoint"/>
                         <mxPoint x="280" y="310" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m2" value="2: getRecensioni()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m2" value="2: getRecensioni()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="290" y="342" as="sourcePoint"/>
                         <mxPoint x="475" y="342" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m3" value="3: inviaRichiesta(GET /operatore/recensioni)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m3" value="3: inviaRichiesta(GET /operatore/recensioni)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="485" y="374" as="sourcePoint"/>
                         <mxPoint x="670" y="374" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m4" value="4: GET /operatore/recensioni  (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m4" value="4: GET /operatore/recensioni  (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="680" y="406" as="sourcePoint"/>
                         <mxPoint x="865" y="406" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m5" value="5: validaAutenticazione([&quot;OP&quot;])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
+                <mxCell id="m5" value="5: validaAutenticazione([&quot;OP&quot;])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="935" y="438"/>
@@ -156,31 +149,31 @@
                         <mxPoint x="875" y="452" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m6" value="6: instrada(): getRecensioni()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m6" value="6: instrada(): getRecensioni()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="875" y="474" as="sourcePoint"/>
                         <mxPoint x="1060" y="474" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m7" value="7: getRecensioni()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m7" value="7: getRecensioni()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1070" y="506" as="sourcePoint"/>
                         <mxPoint x="1255" y="506" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m8" value="8: findAll()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m8" value="8: findAll()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1265" y="538" as="sourcePoint"/>
                         <mxPoint x="1450" y="538" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m9" value="9: :listaRecensioni" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m9" value="9: :listaRecensioni" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1450" y="570" as="sourcePoint"/>
                         <mxPoint x="1265" y="570" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m10" value="10: calcolaVotoMedio(listaRecensioni)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
+                <mxCell id="m10" value="10: calcolaVotoMedio(listaRecensioni)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="1325" y="602"/>
@@ -190,38 +183,37 @@
                         <mxPoint x="1265" y="618" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m11" value="11: :{recensioni, votoMedio}" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m11" value="11: :{recensioni, votoMedio}" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1255" y="642" as="sourcePoint"/>
                         <mxPoint x="1070" y="642" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m12" value="12: 200 OK + {recensioni, votoMedio}" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m12" value="12: 200 OK + {recensioni, votoMedio}" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1060" y="674" as="sourcePoint"/>
                         <mxPoint x="680" y="674" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m13" value="13: gestisciRisposta(): :dati" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m13" value="13: gestisciRisposta(): :dati" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="670" y="706" as="sourcePoint"/>
                         <mxPoint x="485" y="706" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m14" value="14: :dati (recensioni, votoMedio)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m14" value="14: :dati (recensioni, votoMedio)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="475" y="738" as="sourcePoint"/>
                         <mxPoint x="290" y="738" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <!-- ALT branches -->
-                <mxCell id="m15" value="15: mostraRecensioni(recensioni, votoMedio)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m15" value="15: mostraRecensioni(recensioni, votoMedio)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="280" y="778" as="sourcePoint"/>
                         <mxPoint x="120" y="778" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m16" value="16: mostraInfo(&quot;Nessuna recensione presente&quot;)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m16" value="16: mostraInfo(&quot;Nessuna recensione presente&quot;)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="280" y="826" as="sourcePoint"/>
                         <mxPoint x="120" y="826" as="targetPoint"/>
