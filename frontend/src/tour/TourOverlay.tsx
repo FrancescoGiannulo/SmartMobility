@@ -194,6 +194,14 @@ export function TourOverlay({ tours }: TourOverlayProps) {
     return () => window.removeEventListener('keydown', handler);
   }, [tourAttivo, chiudiTour, prossimoStep, stepPrecedente]);
 
+  // Recalculate tooltip position on window resize
+  useEffect(() => {
+    if (!tourAttivo || !pronto) return;
+    const handler = () => posizionaSpotlight();
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, [tourAttivo, pronto, posizionaSpotlight]);
+
   // Focus trap: focus the dialog on step change
   useEffect(() => {
     if (pronto && tooltipRef.current) {
