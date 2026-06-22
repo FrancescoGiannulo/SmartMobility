@@ -12,18 +12,31 @@ class AttoreNonTrovatoException(Exception):
     pass
 
 
+class AccountGiaSospesoException(Exception):
+    pass
+
+
 class AttoreRepository:
 
     def trova_per_id(self, id: UUID) -> tuple:
         """Cerca in utenti → operatori → amministratori. Restituisce (profilo, ruolo)."""
         with Session(engine) as session:
             row = session.execute(
-                text("SELECT nome, cognome, sospeso FROM utenti WHERE id = :id"),
+                text(
+                    "SELECT nome, cognome, sospeso, motivazione_sospensione "
+                    "FROM utenti WHERE id = :id"
+                ),
                 {"id": str(id)},
             ).fetchone()
             if row:
                 return (
-                    Utente(id=id, nome=row.nome, cognome=row.cognome, sospeso=row.sospeso),
+                    Utente(
+                        id=id,
+                        nome=row.nome,
+                        cognome=row.cognome,
+                        sospeso=row.sospeso,
+                        motivazione_sospensione=row.motivazione_sospensione,
+                    ),
                     "UT",
                 )
 
@@ -76,6 +89,72 @@ class AttoreRepository:
                     "VALUES (:id, :nome, :cognome, :consenso_at)"
                 ),
                 {"id": str(id), "nome": nome, "cognome": cognome, "consenso_at": consenso_at},
+            )
+            session.commit()
+
+    # [IF-OP.09] ──────────────────────────────────────────────────────────────
+
+    def lista_utenti(self) -> list[dict]:
+        """Elenco di tutti gli Utenti registrati, con email da auth.users."""
+        with Session(engine) as session:
+            rows = session.execute(
+                text(
+                    "SELECT u.id, u.nome, u.cognome, u.sospeso, a.email "
+                    "FROM utenti u JOIN auth.users a ON a.id = u.id "
+                    "ORDER BY u.cognome, u.nome"
+                )
+            ).fetchall()
+            return [
+                {
+                    "id": str(row.id),
+                    "nome": row.nome,
+                    "cognome": row.cognome,
+                    "email": row.email,
+                    "sospeso": row.sospeso,
+                }
+                for row in rows
+            ]
+
+    def trova_utente_per_id(self, id: UUID) -> dict:
+        """Dettaglio di un singolo Utente, con email da auth.users."""
+        with Session(engine) as session:
+            row = session.execute(
+                text(
+                    "SELECT u.id, u.nome, u.cognome, u.sospeso, a.email "
+                    "FROM utenti u JOIN auth.users a ON a.id = u.id "
+                    "WHERE u.id = :id"
+                ),
+                {"id": str(id)},
+            ).fetchone()
+            if not row:
+                raise AttoreNonTrovatoException(f"Utente {id} non trovato")
+            return {
+                "id": str(row.id),
+                "nome": row.nome,
+                "cognome": row.cognome,
+                "email": row.email,
+                "sospeso": row.sospeso,
+            }
+
+    def sospendi(self, id: UUID, motivazione: str) -> None:
+        """[IF-OP.09] Sospende l'account di un Utente attivo."""
+        with Session(engine) as session:
+            row = session.execute(
+                text("SELECT sospeso FROM utenti WHERE id = :id"),
+                {"id": str(id)},
+            ).fetchone()
+            if not row:
+                raise AttoreNonTrovatoException(f"Utente {id} non trovato")
+            if row.sospeso:
+                raise AccountGiaSospesoException(f"Utente {id} è già sospeso")
+
+            session.execute(
+                text(
+                    "UPDATE utenti SET sospeso = true, "
+                    "motivazione_sospensione = :motivazione, sospeso_at = NOW() "
+                    "WHERE id = :id"
+                ),
+                {"id": str(id), "motivazione": motivazione},
             )
             session.commit()
 

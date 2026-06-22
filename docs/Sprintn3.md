@@ -3190,7 +3190,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td>Post-condizioni</td>
-<td>La segnalazione è stata presa in carico dall'Operatore; l'Utente è informato dell'aggiornamento di stato.</td>
+<td>L'account dell'Utente è sospeso; l'Utente non può più accedere alla piattaforma; l'Utente è stato notificato dell'avvenuta sospensione.</td>
 </tr>
 <tr>
 <td>Sequenza alternativa degli eventi</td>

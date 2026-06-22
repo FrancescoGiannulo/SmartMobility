@@ -9,7 +9,10 @@ def test_utente_tablename():
 def test_utente_columns():
     from model.orm import Utente
     cols = {c.name for c in Utente.__table__.columns}
-    assert cols == {"id", "nome", "cognome", "telefono", "sospeso", "created_at"}
+    assert cols == {
+        "id", "nome", "cognome", "telefono", "sospeso",
+        "motivazione_sospensione", "sospeso_at", "created_at",
+    }
 
 
 def test_operatore_tablename():
@@ -236,3 +239,14 @@ def test_zone_gist_index_exists():
         ))
         indexes = [row[0] for row in result]
     assert len(indexes) >= 1, "Indice GIST su zone.perimetro non trovato"
+
+
+def test_notifica_tablename():
+    from model.orm import Notifica
+    assert Notifica.__tablename__ == "notifiche"
+
+
+def test_notifica_columns():
+    from model.orm import Notifica
+    cols = {c.name for c in Notifica.__table__.columns}
+    assert cols == {"id", "utente_id", "messaggio", "letta", "created_at"}

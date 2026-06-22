@@ -41,31 +41,31 @@ proprio dominio in chiamate ad `ApiService`. Le View consumano i service tramite
 `SegnalazioneUtenteController`, `SegnalazioneOPController`, `UtentiOPController`,
 `AmministrazionePubblicaController`, `RecensioneController`, `SuggerimentoController`.
 
-### 2.2 `«component» BLL` (Business Logic Layer) — 14 servizi
+### 2.2 `«component» BLL` (Business Logic Layer) — 15 servizi
 `ServizioMobilita`, `ServizioPrenotazione`, `ServizioPricing`, `ServizioTariffa`, `ServizioMappa`,
 `ServizioAbbonamento`, `ServizioOfferta`, `ServizioSegnalazione`, `ServizioParametri`,
 `ServizioRegoleFineCorsa`, `ServizioReport`, `ServizioUtenti`, `ServizioRecensione`,
-`ServizioSuggerimenti`.
+`ServizioSuggerimenti`, `NotificaService`.
 
 Espone al Controller l'interfaccia `BLLToController` (realizzazione delle `IServizio*` del
 diagramma delle classi). Lo stato del `Mezzo` cambia solo tramite `ServizioMobilita`
 (pattern State); il calcolo tariffa usa il pattern Strategy (IIN-4).
 
-### 2.3 `«component» DAL` (Repository) — 18 classi
+### 2.3 `«component» DAL` (Repository) — 19 classi
 `MezzoRepository`, `CorsaRepository`, `PrenotazioneRepository`, `PagamentoRepository`,
 `TariffaRepository`, `ZonaRepository`, `UtenteRepository`, `OperatoreRepository`,
 `AttoreRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`,
 `RegoleFineCorsaRepository`, `ParametriSistemaRepository`, `SegnalazioneRepository`,
-`RecensioneRepository`, `IRepository`, `SuggerimentoRepository`.
+`RecensioneRepository`, `IRepository`, `SuggerimentoRepository`, `NotificaRepository`.
 
 I repository sono l'unico livello che conosce le entità ORM e convertono ORM ↔ Transfer Object
 verso la BLL (pattern DAO + Transfer Object). La BLL non importa mai dal Model.
 
-### 2.4 `«component» Model` (Domain / Entity) — 20 classi
+### 2.4 `«component» Model` (Domain / Entity) — 21 classi
 `Persona`, `Utente`, `Operatore`, `AmministrazionePubblica`, `Mezzo`, `Corsa`, `Prenotazione`,
 `Pagamento`, `MetodoPagamento`, `Tariffa`, `Zona`, `Offerta`, `Promozione`, `Abbonamento`,
 `AbbonamentoUtente`, `RegolaFineCorsa`, `ParametriSistema`, `Segnalazione`, `Recensione`,
-`Suggerimento`.
+`Suggerimento`, `Notifica`.
 
 ---
 
@@ -103,9 +103,13 @@ con `DAL → DBMS`, `ServizioMappa → GoogleMaps`, `ServizioPricing → Provide
 ## 5. Note di consistenza
 
 - **Componenti ↔ Classi:** verificato l'allineamento 1:1 per ogni layer
-  (View 21, ApiService 18, Controller 18, BLL 14, DAL 18, Model 20). Le `IServizio*` del
+  (View 21, ApiService 18, Controller 18, BLL 15, DAL 19, Model 21). Le `IServizio*` del
   diagramma delle classi sono rese nel diagramma dei componenti come l'interfaccia provided
   `BLLToController`.
+- **Meccanismo di notifica (2026-06-21):** `NotificaService` (BLL), `NotificaRepository` (DAL) e
+  `Notifica` (Model) erano già presenti nel diagramma delle classi (usati da `ServizioSegnalazione`
+  e `ServizioUtenti` per notificare l'Utente) ma non erano ancora stati riportati nel diagramma dei
+  componenti — aggiunti ora per coerenza.
 - **Split Tariffa/Offerta (2026-06-20):** `VistaTariffeOfferte` era troppo ampia (due flussi
   indipendenti) ed è stata separata in `VistaTariffe` + `VistaOfferte`; analogamente è stato
   estratto `TariffaService` da `FlottaService`, `TariffaController` da `MezzoOperatoreController`
@@ -116,7 +120,8 @@ con `DAL → DBMS`, `ServizioMappa → GoogleMaps`, `ServizioPricing → Provide
   (`SuggerimentiService`, `SuggerimentoController`, `ServizioSuggerimenti`, `SuggerimentoRepository`,
   `Suggerimento`) più il sistema esterno `ServizioAI (Adapter)` consumato da `ServizioSuggerimenti`
   tramite l'interfaccia `BLLtoServizioAI`. La View è riusata (`VistaHomePageUtente`).
-- **Feature `Recensione`:** presente in tutti i layer del diagramma (View, Service, Controller,
-  BLL, DAL, Model) ma **non ancora implementata nel codice**. È una **feature pianificata**, da
-  realizzare in uno sprint successivo seguendo lo slice già modellato: il disallineamento
-  diagramma↔codice è quindi atteso. Da tracciare nel Product Backlog con un ID dedicato.
+- **Feature `Recensione` (IF-UT.15, implementata 2026-06-21):** presente in tutti i layer del
+  diagramma (View, Service, Controller, BLL, DAL, Model) ed **ora implementata nel codice**
+  seguendo esattamente lo slice già modellato qui (`VistaRecensione`, `RecensioneService`,
+  `RecensioneController`, `ServizioRecensione`, `RecensioneRepository`, `Recensione`). Diagramma e
+  codice sono allineati.
