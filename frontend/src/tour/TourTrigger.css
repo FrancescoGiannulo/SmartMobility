@@ -1,0 +1,40 @@
+.tour-trigger {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #155e52;
+  color: #fff;
+  border: none;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: 0 4px 16px rgba(21, 94, 82, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 200ms, box-shadow 200ms;
+}
+
+.tour-trigger:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 24px rgba(21, 94, 82, 0.5);
+}
+
+.tour-trigger:active {
+  transform: scale(0.96);
+}
+
+.tour-trigger:focus-visible {
+  outline: 2px solid #06d6a0;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tour-trigger {
+    transition: none;
+  }
+}

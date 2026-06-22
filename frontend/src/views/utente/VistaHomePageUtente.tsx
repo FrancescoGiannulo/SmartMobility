@@ -20,6 +20,7 @@ import { getParametriUtente } from '../../services/ConfigurazioneService'
 import { getSuggerimenti, generaSuggerimenti, segnaVisto, type Suggerimento } from '../../services/SuggerimentiService'
 import ZonaPoligono from '../../components/ZonaPoligono'
 import { COLORI_ZONA } from '../../utils/coloriZona'
+import { TourTrigger } from '../../tour/TourTrigger'
 import './VistaHomePageUtente.css'
 
 const CENTRO_DEFAULT = { lat: 41.1087, lng: 16.8781 }
@@ -382,11 +383,12 @@ export default function VistaHomePageUtente() {
       <div className="mappa-topbar">
         <h2>Smart Mobility</h2>
         {selezione.length > 0 && (
-          <span className="selezione-badge">{selezione.length}/{nMax}</span>
+          <span className="selezione-badge" data-tour="filtro-mezzi">{selezione.length}/{nMax}</span>
         )}
         <button
           type="button"
           className="btn-hamburger"
+          data-tour="btn-sidebar"
           onClick={() => apriSidebar('menu')}
           aria-label="Menu"
         >
@@ -395,6 +397,7 @@ export default function VistaHomePageUtente() {
       </div>
 
       {/* ── Mappa ── */}
+      <div data-tour="mappa" style={{ width: '100%', height: '100%' }}>
       <GoogleMap
         className="mappa-container"
         defaultCenter={centro}
@@ -440,9 +443,10 @@ export default function VistaHomePageUtente() {
           </div>
         </AdvancedMarker>
       </GoogleMap>
+      </div>
 
       {/* ── [IF-UT.14] Banner suggerimenti ── */}
-      <div className={`suggerimenti-banner${bannerAperto ? ' suggerimenti-banner--aperto' : ''}`}>
+      <div data-tour="banner-suggerimenti" className={`suggerimenti-banner${bannerAperto ? ' suggerimenti-banner--aperto' : ''}`}>
         <div className="suggerimenti-banner__header">
           <button
             className="suggerimenti-banner__toggle"
@@ -523,7 +527,7 @@ export default function VistaHomePageUtente() {
           <div className="pannello-separatore" />
 
           {prenotazioni.length > 0 ? (
-            <div className="pannello-prenotazioni">
+            <div className="pannello-prenotazioni" data-tour="pannello-prenotazioni">
               <p className="pannello-prenotati-titolo">
                 ✅ {prenotazioni.length} mezzo/i prenotato/i
               </p>
@@ -578,7 +582,7 @@ export default function VistaHomePageUtente() {
 
               {/* Selezione — visibile solo quando si è già in una modalità */}
               {modalita !== null && selezione.length > 0 && (
-                <div className="selezione-sezione">
+                <div className="selezione-sezione" data-tour="selezione-mezzi">
                   <p className="selezione-label">
                     {modalita === 'prenota' ? 'Da prenotare' : 'Da sbloccare'} ({selezione.length}/{nMax}):
                   </p>
@@ -603,6 +607,7 @@ export default function VistaHomePageUtente() {
                     <>
                       <button
                         className="btn-prenota"
+                        data-tour="btn-prenota"
                         onClick={() => {
                           setModalita('prenota')
                           toggleSelezione(mezzoAttivo)
@@ -901,6 +906,8 @@ export default function VistaHomePageUtente() {
       </div>
 
 
+
+      <TourTrigger tourId="homepage-ut" />
 
       {errore && <div className="mappa-errore">{errore}</div>}
     </div>
