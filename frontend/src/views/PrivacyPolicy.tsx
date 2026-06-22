@@ -7,7 +7,17 @@ export default function PrivacyPolicy() {
   return (
     <div className="privacy-container">
       <div className="privacy-card">
-        <button className="privacy-back" onClick={() => navigate(-1)} aria-label="Torna indietro">
+        <button
+          className="privacy-back"
+          onClick={() => {
+            if (document.referrer && new URL(document.referrer).origin === window.location.origin) {
+              navigate(-1)
+            } else {
+              window.close()
+            }
+          }}
+          aria-label="Torna indietro"
+        >
           ← Indietro
         </button>
 
