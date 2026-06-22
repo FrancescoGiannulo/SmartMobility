@@ -300,3 +300,11 @@
   opacity: 0.45;
   cursor: not-allowed;
 }
+
+/* Mobile */
+@media (max-width: 480px) {
+  .vista-pagamenti-wrap { padding: 16px 12px 32px; }
+  .pag-titolo { font-size: 20px; }
+  .pag-card, .pag-metodo-card, .pag-form-card, .pag-lista { max-width: 100%; }
+  .pag-metodo-item { padding: 12px; }
+}

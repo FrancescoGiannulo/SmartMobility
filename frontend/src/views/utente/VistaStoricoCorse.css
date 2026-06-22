@@ -316,3 +316,12 @@
   padding: 2px 7px;
   border-radius: 99px;
 }
+
+/* Mobile */
+@media (max-width: 480px) {
+  .corse-header { padding: 14px 12px 12px; }
+  .corse-header h2 { font-size: 18px; }
+  .corse-lista { padding: 12px; gap: 10px; }
+  .corse-card { max-width: 100%; padding: 14px; }
+  .corse-mezzo-info { font-size: 13px; }
+}

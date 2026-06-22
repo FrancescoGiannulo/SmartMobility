@@ -20,6 +20,9 @@ import { getParametriUtente } from '../../services/ConfigurazioneService'
 import { getSuggerimenti, generaSuggerimenti, segnaVisto, type Suggerimento } from '../../services/SuggerimentiService'
 import ZonaPoligono from '../../components/ZonaPoligono'
 import { COLORI_ZONA } from '../../utils/coloriZona'
+import { TourTrigger } from '../../tour/TourTrigger'
+import { useTour } from '../../tour/useTour'
+import { tourHomepageUtente } from '../../tour/tours/tourHomepageUtente'
 import './VistaHomePageUtente.css'
 
 const CENTRO_DEFAULT = { lat: 41.1087, lng: 16.8781 }
@@ -121,6 +124,42 @@ export default function VistaHomePageUtente() {
   const [suggerimenti, setSuggerimenti] = useState<Suggerimento[] | null>(null)
   const [generaInCorso, setGeneraInCorso] = useState(false)
   const [erroreSuggerimenti, setErroreSuggerimenti] = useState('')
+
+  // Tour guidato: auto-select mezzo per step interattivi
+  const { tourAttivo, stepCorrente } = useTour()
+  const stepTourCorrente = tourAttivo ? tourHomepageUtente.steps[stepCorrente] : null
+  const targetTour = stepTourCorrente?.target ?? null
+
+  useEffect(() => {
+    if (!tourAttivo) return
+    const targetsConPanel = ['btn-prenota', 'btn-sblocca']
+    const targetsSenzaPanel = ['btn-sidebar', 'banner-suggerimenti']
+    if (targetTour && targetsConPanel.includes(targetTour)) {
+      if (!mezzoAttivo && mezzi.length > 0) {
+        const disponibile = mezzi.find(m => m.stato === 'Disponibile') ?? mezzi[0]
+        setMezzoAttivo(disponibile)
+        setModalita(null)
+        setErrorePanel('')
+      }
+    } else if (targetTour && targetsSenzaPanel.includes(targetTour)) {
+      if (mezzoAttivo) {
+        setMezzoAttivo(null)
+        setModalita(null)
+        setSelezione([])
+        setPrenotazioni([])
+        setMezziPrenotati([])
+        setErrorePanel('')
+      }
+    }
+  }, [tourAttivo, targetTour, mezzoAttivo, mezzi])
+
+  useEffect(() => {
+    if (!tourAttivo) {
+      setMezzoAttivo(null)
+      setModalita(null)
+      setErrorePanel('')
+    }
+  }, [tourAttivo])
 
   useEffect(() => {
     navigator.geolocation?.getCurrentPosition(
@@ -380,13 +419,14 @@ export default function VistaHomePageUtente() {
     <div className="vista-mappa">
       {/* ── Topbar ── */}
       <div className="mappa-topbar">
-        <h2>Smart Mobility</h2>
+        <img src="/logo.png" alt="Smart Mobility" className="topbar-logo" />
         {selezione.length > 0 && (
           <span className="selezione-badge">{selezione.length}/{nMax}</span>
         )}
         <button
           type="button"
           className="btn-hamburger"
+          data-tour="btn-sidebar"
           onClick={() => apriSidebar('menu')}
           aria-label="Menu"
         >
@@ -395,6 +435,7 @@ export default function VistaHomePageUtente() {
       </div>
 
       {/* ── Mappa ── */}
+      <div data-tour="mappa" style={{ width: '100%', height: '100%' }}>
       <GoogleMap
         className="mappa-container"
         defaultCenter={centro}
@@ -405,15 +446,21 @@ export default function VistaHomePageUtente() {
         style={{ paddingTop: 88 }}
         onClick={chiudiPanel}
       >
-        {mezzi.map(m => (
-          <AdvancedMarker
-            key={m.id}
-            position={{ lat: m.lat, lng: m.lng }}
-            onClick={() => { setMezzoAttivo(m); setErrorePanel('') }}
-          >
-            <PinMezzo tipo={m.tipo} selected={isInSelezione(m)} dim={isNonDisponibile(m)} />
-          </AdvancedMarker>
-        ))}
+        {mezzi.map((m, i) => {
+          const primoDisponibile = mezzi.findIndex(x => x.stato === 'Disponibile')
+          const isTourTarget = i === (primoDisponibile >= 0 ? primoDisponibile : 0)
+          return (
+            <AdvancedMarker
+              key={m.id}
+              position={{ lat: m.lat, lng: m.lng }}
+              onClick={() => { setMezzoAttivo(m); setErrorePanel('') }}
+            >
+              <div data-tour={isTourTarget ? 'mezzo-mappa' : undefined}>
+                <PinMezzo tipo={m.tipo} selected={isInSelezione(m)} dim={isNonDisponibile(m)} />
+              </div>
+            </AdvancedMarker>
+          )
+        })}
 
         {zone.map(z => {
           const colori = COLORI_ZONA[z.tipo] ?? COLORI_ZONA.operativa
@@ -440,9 +487,10 @@ export default function VistaHomePageUtente() {
           </div>
         </AdvancedMarker>
       </GoogleMap>
+      </div>
 
       {/* ── [IF-UT.14] Banner suggerimenti ── */}
-      <div className={`suggerimenti-banner${bannerAperto ? ' suggerimenti-banner--aperto' : ''}`}>
+      <div data-tour="banner-suggerimenti" className={`suggerimenti-banner${bannerAperto ? ' suggerimenti-banner--aperto' : ''}`}>
         <div className="suggerimenti-banner__header">
           <button
             className="suggerimenti-banner__toggle"
@@ -508,7 +556,7 @@ export default function VistaHomePageUtente() {
 
       {/* ── Bottom sheet: prenota / selezione ── */}
       {panelAperto && (
-        <div className="pannello-mezzo">
+        <div className="pannello-mezzo" data-tour="pannello-mezzo">
           <div className="pannello-header">
             <span className="pannello-titolo">
               {prenotazioni.length > 0 ? 'Prenotazioni attive' : 'Prenota mezzo'}
@@ -523,7 +571,7 @@ export default function VistaHomePageUtente() {
           <div className="pannello-separatore" />
 
           {prenotazioni.length > 0 ? (
-            <div className="pannello-prenotazioni">
+            <div className="pannello-prenotazioni" data-tour="pannello-prenotazioni">
               <p className="pannello-prenotati-titolo">
                 ✅ {prenotazioni.length} mezzo/i prenotato/i
               </p>
@@ -578,7 +626,7 @@ export default function VistaHomePageUtente() {
 
               {/* Selezione — visibile solo quando si è già in una modalità */}
               {modalita !== null && selezione.length > 0 && (
-                <div className="selezione-sezione">
+                <div className="selezione-sezione" data-tour="selezione-mezzi">
                   <p className="selezione-label">
                     {modalita === 'prenota' ? 'Da prenotare' : 'Da sbloccare'} ({selezione.length}/{nMax}):
                   </p>
@@ -603,6 +651,7 @@ export default function VistaHomePageUtente() {
                     <>
                       <button
                         className="btn-prenota"
+                        data-tour="btn-prenota"
                         onClick={() => {
                           setModalita('prenota')
                           toggleSelezione(mezzoAttivo)
@@ -612,6 +661,7 @@ export default function VistaHomePageUtente() {
                       </button>
                       <button
                         className="btn-sblocca-panel"
+                        data-tour="btn-sblocca"
                         onClick={() => {
                           setModalita('sblocca')
                           toggleSelezione(mezzoAttivo)
@@ -678,7 +728,7 @@ export default function VistaHomePageUtente() {
       <div className={`sidebar${sidebarAperta ? ' sidebar--aperta' : ''}`}>
         {/* Header */}
         <div className="sidebar-header">
-          <span className="sidebar-logo">SMART M<span className="sidebar-logo-accent">O</span>BILITY</span>
+          <img src="/logo.png" alt="Smart Mobility" className="sidebar-logo-img" />
           <button className="sidebar-chiudi" onClick={() => setSidebarAperta(false)}>✕</button>
         </div>
 
@@ -901,6 +951,8 @@ export default function VistaHomePageUtente() {
       </div>
 
 
+
+      <TourTrigger tourId="homepage-ut" />
 
       {errore && <div className="mappa-errore">{errore}</div>}
     </div>

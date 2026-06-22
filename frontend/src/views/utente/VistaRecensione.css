@@ -169,3 +169,11 @@
   font-size: 12px;
   color: #888;
 }
+
+/* Mobile */
+@media (max-width: 480px) {
+  .vista-rec-wrap { padding: 16px 12px 32px; }
+  .rec-titolo { font-size: 20px; }
+  .rec-container { max-width: 100%; }
+  .rec-card { padding: 16px; }
+}

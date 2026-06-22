@@ -157,7 +157,7 @@ export default function VistaDashboardAP() {
 
       {/* ── Left sidebar ── */}
       <div className="ap-sidebar">
-        <div className="ap-sidebar-logo">🚲</div>
+        <div className="ap-sidebar-logo"><img src="/logo.png" alt="Smart Mobility" style={{ width: 52, height: 'auto' }} /></div>
 
         <div
           className={`ap-nav-item${vista === 'mappa' ? ' attivo' : ''}`}

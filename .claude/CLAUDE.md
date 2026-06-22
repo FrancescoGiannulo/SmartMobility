@@ -172,11 +172,6 @@ backend/
 
 **DAL** (15 repository in `backend/dal/`): `MezzoRepository`, `CorsaRepository`, `PrenotazioneRepository`, `PagamentoRepository`, `TariffaRepository`, `ZonaRepository`, `UtenteRepository`, `OperatoreRepository`, `AttoreRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`, `RegoleFIneCorsaRepository`, `ParametriSistemaRepository`, `SegnalazioneRepository`
 
-### Feature pianificate (progettate ma non ancora implementate)
-
-- **`Recensione` (lato utente, IF-UT.15 "Scrive Recensione")** — **implementata** (Sprint 3): `backend/model/recensione.py`, `backend/dal/recensione_repository.py`, `backend/bll/servizio_recensione.py`, `backend/controllers/recensione_controller.py` (endpoint `POST /utente/recensioni`), `frontend/src/services/RecensioneService.ts`, `frontend/src/views/utente/VistaRecensione.tsx`.
-- **`Recensione` (lato operatore, IF-OP.13 "Visualizza Recensioni")** — modellata nei diagrammi (`Diagramma Classi.drawio` e `Diagramma Componenti.drawio`) ma **non ancora presente nel codice** — sarà implementata in uno sprint successivo. Quando la si implementa, seguire lo slice già modellato nei diagrammi e tracciarla con un ID del Product Backlog.
-
 ### Git workflow
 
 - Branch per feature: `feature/auth`, `feature/corsa`, `feature/pagamenti`, `feature/mappa-zone`, `feature/db-schema`
@@ -284,7 +279,13 @@ Servizi Esterni
 ### Gestione degli stati del mezzo
 Lo stato di un mezzo (`Disponibile`, `Prenotato`, `In uso`, `In pausa`, `In manutenzione`, `Fuori servizio`) è un concetto centrale. Qualsiasi operazione che modifica lo stato deve passare per `ServizioMobilità` e rispettare le transizioni valide. Non aggiornare lo stato direttamente dal Controller o dal DAL.
 
-**Prenotazione scaduta**: non esiste un job di cleanup automatico. Se `scade_at < now()` ma il mezzo è ancora in stato `Prenotato`, `_sblocca_singolo` in `ServizioMobilita` rileva la scadenza (nessuna prenotazione attiva per qualsiasi utente) e resetta il mezzo a `Disponibile` prima di procedere con lo sblocco.
+**Prenotazione scaduta**: il cleanup avviene su due livelli complementari:
+1. **Proattivo (pg_cron)**: la funzione `cleanup_prenotazioni_scadute()` (migrazione `016_cleanup_scadenze.sql`) gira ogni 5 minuti, marca le prenotazioni scadute come `scaduta`, rilascia i mezzi a `Disponibile` e inserisce una notifica per l'utente.
+2. **Lazy (fallback)**: `_sblocca_singolo` in `ServizioMobilita` rileva comunque la scadenza al momento dello sblocco, come sicurezza nel caso il job non sia ancora passato.
+
+**Abbonamento scaduto**: la funzione `cleanup_abbonamenti_scaduti()` (stessa migrazione) gira ogni giorno a mezzanotte, marca gli abbonamenti con `data_fine < now()` come `scaduto` e notifica l'utente. Il check lazy in `ServizioAbbonamento` resta attivo come doppia sicurezza.
+
+Entrambe le funzioni usano l'entità `Notifica` già modellata nel Diagramma Classi e implementata in `NotificaRepository.crea()`. Non introducono nuove classi o interfacce. Per abilitare pg_cron su Supabase: Dashboard → Database → Extensions → pg_cron.
 
 ### Logica pagamento a fine corsa [IF-UT.05]
 

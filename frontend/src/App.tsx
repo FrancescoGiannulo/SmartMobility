@@ -23,8 +23,15 @@ import VistaRecensione from './views/utente/VistaRecensione'
 import VistaGestioneUtentiOperatore from './views/operatore/VistaGestioneUtentiOperatore'
 import VistaRecensioniOperatore from './views/operatore/VistaRecensioniOperatore'
 import PrivacyPolicy from './views/PrivacyPolicy'
+import { TourProvider } from './tour/TourProvider'
+import { TourOverlay } from './tour/TourOverlay'
+import { tourHomepageUtente } from './tour/tours/tourHomepageUtente'
 
 const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string
+
+const TOURS = {
+  [tourHomepageUtente.id]: tourHomepageUtente,
+}
 
 function PlaceholderView({ titolo }: { titolo: string }) {
   const navigate = useNavigate()
@@ -76,6 +83,7 @@ function App() {
     <APIProvider apiKey={MAPS_API_KEY} version="quarterly" libraries={['drawing']}>
     {/* [IIN-3 / WCAG 1.3.1 + 2.4.1] Landmark main + destinazione skip-link */}
     <BrowserRouter>
+    <TourProvider tours={TOURS}>
     <main id="main-content" tabIndex={-1} style={{ outline: 'none' }}>
       <Routes>
         <Route path="/" element={<RoutaIniziale />} />
@@ -253,6 +261,8 @@ function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </main>
+    <TourOverlay tours={TOURS} />
+    </TourProvider>
     </BrowserRouter>
     </APIProvider>
   )
