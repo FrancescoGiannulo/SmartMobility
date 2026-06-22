@@ -22,6 +22,8 @@ class Utente(Base):
     cognome: Mapped[str] = mapped_column(Text, nullable=False)
     telefono: Mapped[str | None] = mapped_column(Text, nullable=True)
     sospeso: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    motivazione_sospensione: Mapped[str | None] = mapped_column(Text, nullable=True)
+    sospeso_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
 
 
@@ -45,4 +47,16 @@ class AmministrazionePubblica(Base):
 
     id: Mapped[UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     nome: Mapped[str] = mapped_column(Text, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+
+
+class Notifica(Base):
+    """[IF-OP.09] Notifica persistita per l'Utente."""
+
+    __tablename__ = "notifiche"
+
+    id: Mapped[UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
+    utente_id: Mapped[UUID] = mapped_column(PG_UUID(as_uuid=True), nullable=False)
+    messaggio: Mapped[str] = mapped_column(Text, nullable=False)
+    letta: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)

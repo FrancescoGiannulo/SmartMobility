@@ -5,6 +5,7 @@ from supabase.lib.client_options import SyncClientOptions
 from supabase_auth.errors import AuthApiError
 from config import supabase, SUPABASE_URL, SUPABASE_KEY, _verify
 from dal.attore_repository import AttoreRepository, AttoreNonTrovatoException
+from bll.notifica_service import NotificaService
 
 
 def _client_per_richiesta():
@@ -109,7 +110,10 @@ class ServizioUtenti:
             raise CredenzialNonValideException("Credenziali non valide")
 
         if ruolo == "UT" and profilo.sospeso:
-            raise AccountSospesoException("Account sospeso")
+            messaggio = "Account sospeso"
+            if profilo.motivazione_sospensione:
+                messaggio += f": {profilo.motivazione_sospensione}"
+            raise AccountSospesoException(messaggio)
 
         self._repo.registra_tentativo(email, riuscito=True)
 
@@ -170,6 +174,22 @@ class ServizioUtenti:
             self._repo.elimina_utente(utente_id)
         except Exception:
             pass
+
+    # [IF-OP.09] ──────────────────────────────────────────────────────────────
+
+    def get_utenti(self) -> list[dict]:
+        return self._repo.lista_utenti()
+
+    def get_dettaglio_utente(self, utente_id: UUID) -> dict:
+        return self._repo.trova_utente_per_id(utente_id)
+
+    def sospendi_account(self, utente_id: UUID, motivazione: str) -> None:
+        if not motivazione or not motivazione.strip():
+            raise ValueError("La motivazione della sospensione è obbligatoria")
+        self._repo.sospendi(utente_id, motivazione)
+        NotificaService().notifica(
+            utente_id, f"Il tuo account è stato sospeso. Motivo: {motivazione}"
+        )
 
     def _build_profilo(self, profilo, ruolo: str, email: str) -> dict:
         base = {"id": str(profilo.id), "nome": profilo.nome, "email": email}

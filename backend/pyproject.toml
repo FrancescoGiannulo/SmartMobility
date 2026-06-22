@@ -12,6 +12,7 @@ dependencies = [
     "python-dotenv>=1.2.2",
     "pydantic[email]>=2.13.4",
     "PyJWT>=2.8.0",
+    "groq>=0.25.0",
 ]
 
 [project.optional-dependencies]

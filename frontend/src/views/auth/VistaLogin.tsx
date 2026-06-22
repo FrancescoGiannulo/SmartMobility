@@ -47,8 +47,23 @@ export default function VistaLogin() {
         redirectDopoLogin(result.ruolo)
       }
     } catch (err: unknown) {
-      const status: number = (err as { response?: { status?: number } })?.response?.status ?? 0
-      setErrore(ERRORI[status] ?? 'Servizio temporaneamente non disponibile')
+      const response = (err as { response?: { status?: number; data?: { detail?: string } } })?.response
+      const status = response?.status ?? 0
+      if (status === 403) {
+        // [IF-OP.09] Il backend include la motivazione della sospensione nel detail
+        // come "Account sospeso: <motivazione>" — la estraiamo per mostrarla all'utente.
+        const detail = response?.data?.detail ?? ''
+        const motivazione = detail.startsWith('Account sospeso: ')
+          ? detail.slice('Account sospeso: '.length)
+          : null
+        setErrore(
+          motivazione
+            ? `Account sospeso. Motivo: ${motivazione}. Contatta il supporto.`
+            : ERRORI[403],
+        )
+      } else {
+        setErrore(ERRORI[status] ?? 'Servizio temporaneamente non disponibile')
+      }
     } finally {
       setCaricamento(false)
     }
