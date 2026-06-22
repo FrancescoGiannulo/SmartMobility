@@ -5,6 +5,9 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="nota-1" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" value="Precondizione: l'Utente è autenticato (ruolo UT) e ha visualizzato la mappa con i mezzi disponibili. La selezione multipla è gestita in un loop (1 ≤ N ≤ N_max); il limite N_max è letto da ParametriSistemaRepository al passo 23. Il raggio di gruppo (RAGGIO_GRUPPO_KM) viene verificato al passo 27 solo se N &gt; 1. Scenari alternativi: CS-04.01 (mezzo non più disponibile → 409 Conflict) e CS-04 (fuori raggio gruppo → 422 Unprocessable Entity)." vertex="1">
+          <mxGeometry height="54" width="1600" x="1564.800048828125" y="694" as="geometry" />
+        </mxCell>
         <mxCell id="2" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=200;height=30;" value="sd Prenota Mezzo" vertex="1">
           <mxGeometry height="2140" width="2000" x="1544.800048828125" y="754" as="geometry" />
         </mxCell>
