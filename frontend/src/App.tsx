@@ -20,6 +20,7 @@ import { utenteCorrente, logout } from './services/AuthService'
 import VistaProfiloUtente from './views/utente/VistaProfiloUtente'
 import VistaStoricoCorse from './views/utente/VistaStoricoCorse'
 import VistaRecensione from './views/utente/VistaRecensione'
+import VistaGestioneUtentiOperatore from './views/operatore/VistaGestioneUtentiOperatore'
 import PrivacyPolicy from './views/PrivacyPolicy'
 
 const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string
@@ -162,6 +163,14 @@ function App() {
           element={
             <RoutaProtetta ruoloRichiesto="OP">
               <VistaSegnalazioniOperatore />
+            </RoutaProtetta>
+          }
+        />
+        <Route
+          path="/operatore/utenti"
+          element={
+            <RoutaProtetta ruoloRichiesto="OP">
+              <VistaGestioneUtentiOperatore />
             </RoutaProtetta>
           }
         />
