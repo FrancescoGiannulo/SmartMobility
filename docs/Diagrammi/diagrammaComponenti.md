@@ -13,18 +13,20 @@ sotto-componente contiene le classi del rispettivo livello.
 
 ## 1. Macro-componente CLIENT
 
-### 1.1 `«component» View` (Presentation) — 21 classi
+### 1.1 `«component» View` (Presentation) — 22 classi
 `VistaLogin`, `VistaHomePageUtente`, `VistaCorsa`, `VistaStoricoCorse`, `VistaPagamenti`,
 `VistaAbbonamenti`, `VistaSegnalazioneUtente`, `VistaProfiloUtente`, `CallbackOAuth`,
 `PrivacyPolicy`, `VistaDefinisciZona`, `VistaMezziOperatore`, `VistaTariffe`, `VistaOfferte`,
 `VistaImpostazioniRegole`, `VistaParametriSistema`, `VistaSegnalazioniOperatore`,
-`VistaGestioneUtentiOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaRecensione`.
+`VistaGestioneUtentiOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaRecensione`,
+`VistaStoricoModifiche`.
 
-### 1.2 `«component» ApiService` (API Service Layer) — 18 classi
+### 1.2 `«component» ApiService` (API Service Layer) — 19 classi
 `ApiService`, `AuthService`, `MapService`, `CorsaService`, `PrenotazioneService`,
 `PaymentService`, `AbbonamentoService`, `OffertaService`, `FlottaService`, `TariffaService`,
 `ZonaService`, `SegnalazioneService`, `ConfigurazioneService`, `RegoleFineCorsaService`,
-`ReportService`, `GestioneUtentiService`, `RecensioneService`, `SuggerimentiService`.
+`ReportService`, `GestioneUtentiService`, `RecensioneService`, `SuggerimentiService`,
+`StoricoModificheService`.
 
 `ApiService` è la **Facade** verso il server; i service di dominio traducono le operazioni del
 proprio dominio in chiamate ad `ApiService`. Le View consumano i service tramite l'interfaccia
@@ -34,38 +36,40 @@ proprio dominio in chiamate ad `ApiService`. Le View consumano i service tramite
 
 ## 2. Macro-componente SERVER
 
-### 2.1 `«component» Controller` (MVC / FrontController) — 18 classi
+### 2.1 `«component» Controller` (MVC / FrontController) — 19 classi
 `FrontController`, `AccountController`, `HomePageUtenteController`, `CorsaController`,
 `PagamentoController`, `AbbonamentoController`, `MezzoOperatoreController`, `TariffaController`,
 `ZoneController`, `RegoleFineCorsaController`, `OffertaController`, `ConfigurazioneController`,
 `SegnalazioneUtenteController`, `SegnalazioneOPController`, `UtentiOPController`,
-`AmministrazionePubblicaController`, `RecensioneController`, `SuggerimentoController`.
+`AmministrazionePubblicaController`, `RecensioneController`, `SuggerimentoController`,
+`StoricoModificheController`.
 
-### 2.2 `«component» BLL` (Business Logic Layer) — 15 servizi
+### 2.2 `«component» BLL` (Business Logic Layer) — 16 servizi
 `ServizioMobilita`, `ServizioPrenotazione`, `ServizioPricing`, `ServizioTariffa`, `ServizioMappa`,
 `ServizioAbbonamento`, `ServizioOfferta`, `ServizioSegnalazione`, `ServizioParametri`,
 `ServizioRegoleFineCorsa`, `ServizioReport`, `ServizioUtenti`, `ServizioRecensione`,
-`ServizioSuggerimenti`, `NotificaService`.
+`ServizioSuggerimenti`, `NotificaService`, `ServizioStoricoModifiche`.
 
 Espone al Controller l'interfaccia `BLLToController` (realizzazione delle `IServizio*` del
 diagramma delle classi). Lo stato del `Mezzo` cambia solo tramite `ServizioMobilita`
 (pattern State); il calcolo tariffa usa il pattern Strategy (IIN-4).
 
-### 2.3 `«component» DAL` (Repository) — 19 classi
+### 2.3 `«component» DAL` (Repository) — 20 classi
 `MezzoRepository`, `CorsaRepository`, `PrenotazioneRepository`, `PagamentoRepository`,
 `TariffaRepository`, `ZonaRepository`, `UtenteRepository`, `OperatoreRepository`,
 `AttoreRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`,
 `RegoleFineCorsaRepository`, `ParametriSistemaRepository`, `SegnalazioneRepository`,
-`RecensioneRepository`, `IRepository`, `SuggerimentoRepository`, `NotificaRepository`.
+`RecensioneRepository`, `IRepository`, `SuggerimentoRepository`, `NotificaRepository`,
+`StoricoModificheRepository`.
 
 I repository sono l'unico livello che conosce le entità ORM e convertono ORM ↔ Transfer Object
 verso la BLL (pattern DAO + Transfer Object). La BLL non importa mai dal Model.
 
-### 2.4 `«component» Model` (Domain / Entity) — 21 classi
+### 2.4 `«component» Model` (Domain / Entity) — 22 classi
 `Persona`, `Utente`, `Operatore`, `AmministrazionePubblica`, `Mezzo`, `Corsa`, `Prenotazione`,
 `Pagamento`, `MetodoPagamento`, `Tariffa`, `Zona`, `Offerta`, `Promozione`, `Abbonamento`,
 `AbbonamentoUtente`, `RegolaFineCorsa`, `ParametriSistema`, `Segnalazione`, `Recensione`,
-`Suggerimento`, `Notifica`.
+`Suggerimento`, `Notifica`, `StoricoModifiche`.
 
 ---
 
@@ -103,7 +107,7 @@ con `DAL → DBMS`, `ServizioMappa → GoogleMaps`, `ServizioPricing → Provide
 ## 5. Note di consistenza
 
 - **Componenti ↔ Classi:** verificato l'allineamento 1:1 per ogni layer
-  (View 21, ApiService 18, Controller 18, BLL 15, DAL 19, Model 21). Le `IServizio*` del
+  (View 22, ApiService 19, Controller 19, BLL 16, DAL 20, Model 22). Le `IServizio*` del
   diagramma delle classi sono rese nel diagramma dei componenti come l'interfaccia provided
   `BLLToController`.
 - **Meccanismo di notifica (2026-06-21):** `NotificaService` (BLL), `NotificaRepository` (DAL) e
@@ -125,3 +129,9 @@ con `DAL → DBMS`, `ServizioMappa → GoogleMaps`, `ServizioPricing → Provide
   seguendo esattamente lo slice già modellato qui (`VistaRecensione`, `RecensioneService`,
   `RecensioneController`, `ServizioRecensione`, `RecensioneRepository`, `Recensione`). Diagramma e
   codice sono allineati.
+- **Feature `Mostra Storico Modifiche` (IF-OP.12, 2026-06-22):** aggiunta in tutti i layer del
+  diagramma dei componenti (`VistaStoricoModifiche`, `StoricoModificheService`,
+  `StoricoModificheController`, `ServizioStoricoModifiche`, `StoricoModificheRepository`,
+  `StoricoModifiche`), in linea con lo slice già presente nel diagramma delle classi
+  (`IServizioStoricoModifiche` realizzata da `ServizioStoricoModifiche`). Non ancora implementata
+  nel codice — il disallineamento diagrammi↔codice è quindi atteso fino al relativo sprint.
