@@ -1,0 +1,219 @@
+/* ============================================================
+   Tour Guidato — Overlay, Spotlight, Tooltip
+   ============================================================ */
+
+/* Spotlight: applied to target element via data-tour-active attribute */
+[data-tour-active] {
+  position: relative !important;
+  z-index: 10001 !important;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.7) !important;
+  border-radius: 8px;
+  pointer-events: auto;
+}
+
+/* Modal overlay backdrop */
+.tour-overlay-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: tour-fadeIn 200ms ease;
+}
+
+@keyframes tour-fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Modal card (for modal-type steps) */
+.tour-modal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 36px 32px 28px;
+  max-width: 420px;
+  width: calc(100vw - 48px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: tour-scaleIn 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  outline: none;
+}
+
+@keyframes tour-scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.tour-modal__titolo {
+  font-size: 22px;
+  font-weight: 800;
+  color: #155e52;
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+}
+
+.tour-modal__testo {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #334155;
+  margin: 0 0 28px;
+}
+
+/* Tooltip (for spotlight-type steps) */
+.tour-tooltip {
+  position: fixed;
+  z-index: 10002;
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  max-width: 340px;
+  width: calc(100vw - 48px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  animation: tour-tooltipIn 200ms ease;
+  outline: none;
+}
+
+@keyframes tour-tooltipIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tour-tooltip__titolo {
+  font-size: 16px;
+  font-weight: 700;
+  color: #155e52;
+  margin: 0 0 6px;
+}
+
+.tour-tooltip__testo {
+  font-size: 14px;
+  line-height: 1.55;
+  color: #475569;
+  margin: 0 0 16px;
+}
+
+/* Close button (top-right of tooltip) */
+.tour-tooltip__chiudi {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+  line-height: 1;
+  transition: color 150ms, background 150ms;
+}
+
+.tour-tooltip__chiudi:hover {
+  color: #334155;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.tour-tooltip__chiudi:focus-visible {
+  outline: 2px solid #155e52;
+  outline-offset: 2px;
+}
+
+/* Progress dots */
+.tour-dots {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.tour-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  transition: background 200ms;
+}
+
+.tour-dot--attivo {
+  background: #155e52;
+}
+
+/* Navigation buttons (shared by modal and tooltip) */
+.tour-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.tour-btn {
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 150ms, transform 100ms;
+  border: none;
+}
+
+.tour-btn:active { transform: scale(0.97); }
+
+.tour-btn:focus-visible {
+  outline: 2px solid #155e52;
+  outline-offset: 2px;
+}
+
+.tour-btn--primario {
+  background: #155e52;
+  color: #fff;
+}
+
+.tour-btn--primario:hover { opacity: 0.88; }
+
+.tour-btn--secondario {
+  background: #e0f2ee;
+  color: #155e52;
+}
+
+.tour-btn--secondario:hover { opacity: 0.8; }
+
+.tour-btn--salta {
+  background: none;
+  color: #94a3b8;
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+.tour-btn--salta:hover { color: #64748b; }
+
+/* Mobile bottom-sheet for tooltip */
+@media (max-width: 767px) {
+  .tour-tooltip {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    max-width: none;
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    padding: 24px 20px calc(env(safe-area-inset-bottom, 0px) + 20px);
+    animation: tour-slideUp 250ms ease;
+  }
+
+  @keyframes tour-slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .tour-overlay-backdrop,
+  .tour-modal,
+  .tour-tooltip,
+  [data-tour-active] {
+    animation: none !important;
+    transition: none !important;
+  }
+}
