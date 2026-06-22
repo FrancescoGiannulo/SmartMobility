@@ -6,6 +6,7 @@ from .persona import Persona
 class Utente(Persona):
     cognome: str = ""
     sospeso: bool = False
+    motivazione_sospensione: str | None = None
 
     def ruolo_atteso(self) -> str:
         return "UT"

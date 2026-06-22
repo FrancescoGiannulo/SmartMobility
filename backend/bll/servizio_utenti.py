@@ -110,7 +110,10 @@ class ServizioUtenti:
             raise CredenzialNonValideException("Credenziali non valide")
 
         if ruolo == "UT" and profilo.sospeso:
-            raise AccountSospesoException("Account sospeso")
+            messaggio = "Account sospeso"
+            if profilo.motivazione_sospensione:
+                messaggio += f": {profilo.motivazione_sospensione}"
+            raise AccountSospesoException(messaggio)
 
         self._repo.registra_tentativo(email, riuscito=True)
 
