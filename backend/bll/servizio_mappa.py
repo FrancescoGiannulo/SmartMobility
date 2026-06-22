@@ -3,6 +3,7 @@ from sqlalchemy import Engine
 from sqlalchemy.orm import Session
 from dal.zona_repository import ZonaRepository
 from dal.mezzo_repository import MezzoRepository
+from bll.servizio_storico_modifiche import ServizioStoricoModifiche
 
 
 class PoligonoNonValidoException(Exception):
@@ -19,6 +20,7 @@ class ServizioMappa:
     def __init__(self, db: Session | Engine) -> None:
         self._zone_repo = ZonaRepository(db)
         self._mezzo_repo = MezzoRepository(db)
+        self._storico = ServizioStoricoModifiche()
 
     def ottieni_zone(self) -> list[dict]:
         return self._zone_repo.lista_zone(solo_attive=True)
@@ -35,6 +37,7 @@ class ServizioMappa:
         tipo: str,
         coordinate: list[list[float]],
         limite_velocita: int | None,
+        operatore_id: UUID,
     ) -> dict:
         vertici_distinti = {tuple(c) for c in coordinate}
         if len(vertici_distinti) < 3:
@@ -48,10 +51,26 @@ class ServizioMappa:
                     "La zona deve essere disegnata all'interno del confine operativo"
                 )
         zona = self._zone_repo.crea(nome, tipo, coordinate, limite_velocita)
-        return self._zone_repo.trova_per_id(zona.id)
+        creata = self._zone_repo.trova_per_id(zona.id)
+        self._storico.registra_modifica(
+            tipo_configurazione="zona_creata",
+            descrizione=f"Creazione zona '{nome}' (tipo: {tipo})",
+            valore_precedente=None,
+            valore_nuovo=f"nome={nome}, tipo={tipo}, limite_velocita={limite_velocita}",
+            operatore_id=operatore_id,
+        )
+        return creata
 
-    def elimina_zona(self, zona_id: UUID) -> None:
+    def elimina_zona(self, zona_id: UUID, operatore_id: UUID) -> None:
+        zona = self._zone_repo.trova_per_id(zona_id)
         self._zone_repo.elimina(zona_id)
+        self._storico.registra_modifica(
+            tipo_configurazione="zona_eliminata",
+            descrizione=f"Eliminazione zona '{zona['nome']}'",
+            valore_precedente=f"nome={zona['nome']}, tipo={zona['tipo']}",
+            valore_nuovo=None,
+            operatore_id=operatore_id,
+        )
 
     # [IF-OP.11] Verifica che la posizione ricada in una zona operativa attiva
     def verifica_posizione_in_zona_operativa(self, lat: float, lng: float) -> bool:

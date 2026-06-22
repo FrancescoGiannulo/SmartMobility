@@ -1,3 +1,4 @@
+from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 from database import get_db
@@ -36,6 +37,7 @@ def aggiorna_parametri(
             max_mezzi_per_utente=body.max_mezzi_per_utente,
             addebito_pausa_min=body.addebito_pausa_min,
             db=db,
+            operatore_id=UUID(str(_op["id"])),
         )
     except ParametriValidazioneException as e:
         raise HTTPException(status_code=422, detail=str(e))

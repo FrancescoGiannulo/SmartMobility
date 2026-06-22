@@ -118,12 +118,12 @@ def test_servizio_mappa_crea_zona_valida(db):
         [16.84, 41.10], [16.88, 41.10],
         [16.88, 41.14], [16.84, 41.14], [16.84, 41.10],
     ]
-    svc.crea_zona("test_op_valida", "operativa", operativa, None)
+    svc.crea_zona("test_op_valida", "operativa", operativa, None, operatore_id=uuid4())
     coordinate = [
         [16.85, 41.11], [16.86, 41.11],
         [16.86, 41.12], [16.85, 41.12], [16.85, 41.11],
     ]
-    zona = svc.crea_zona("test_gis", "vietata", coordinate, None)
+    zona = svc.crea_zona("test_gis", "vietata", coordinate, None, operatore_id=uuid4())
     assert zona["nome"] == "test_gis"
     assert zona["tipo"] == "vietata"
     assert zona["perimetro"]["type"] == "Polygon"
@@ -133,7 +133,7 @@ def test_servizio_mappa_poligono_insufficiente(db):
     from bll.servizio_mappa import ServizioMappa, PoligonoNonValidoException
     svc = ServizioMappa(db)
     with pytest.raises(PoligonoNonValidoException):
-        svc.crea_zona("test_err", "vietata", [[16.85, 41.11], [16.86, 41.11]], None)
+        svc.crea_zona("test_err", "vietata", [[16.85, 41.11], [16.86, 41.11]], None, operatore_id=uuid4())
 
 
 def test_servizio_mappa_lista_zone(db):
@@ -143,12 +143,12 @@ def test_servizio_mappa_lista_zone(db):
         [16.84, 41.10], [16.88, 41.10],
         [16.88, 41.14], [16.84, 41.14], [16.84, 41.10],
     ]
-    svc.crea_zona("test_op_lista", "operativa", operativa, None)
+    svc.crea_zona("test_op_lista", "operativa", operativa, None, operatore_id=uuid4())
     coordinate = [
         [16.85, 41.11], [16.86, 41.11],
         [16.86, 41.12], [16.85, 41.12], [16.85, 41.11],
     ]
-    svc.crea_zona("test_lista", "parcheggio", coordinate, None)
+    svc.crea_zona("test_lista", "parcheggio", coordinate, None, operatore_id=uuid4())
     zone = svc.ottieni_zone()
     nomi = [z["nome"] for z in zone]
     assert "test_lista" in nomi
@@ -284,12 +284,12 @@ def test_servizio_mappa_vincolo_zona_operativa_ok(db):
         [16.84, 41.10], [16.88, 41.10],
         [16.88, 41.14], [16.84, 41.14], [16.84, 41.10],
     ]
-    svc.crea_zona("test_op_vincolo", "operativa", operativa, None)
+    svc.crea_zona("test_op_vincolo", "operativa", operativa, None, operatore_id=uuid4())
     interno = [
         [16.85, 41.11], [16.86, 41.11],
         [16.86, 41.12], [16.85, 41.12], [16.85, 41.11],
     ]
-    zona = svc.crea_zona("test_vietata_interna", "vietata", interno, None)
+    zona = svc.crea_zona("test_vietata_interna", "vietata", interno, None, operatore_id=uuid4())
     assert zona["nome"] == "test_vietata_interna"
 
 
@@ -302,7 +302,7 @@ def test_servizio_mappa_vincolo_zona_operativa_fuori(db):
         [16.91, 41.16], [16.90, 41.16], [16.90, 41.15],
     ]
     with pytest.raises(PoligonoFuoriZonaOperativaException):
-        svc.crea_zona("test_fuori", "vietata", esterno, None)
+        svc.crea_zona("test_fuori", "vietata", esterno, None, operatore_id=uuid4())
 
 
 @pytest.mark.integration

@@ -15,6 +15,7 @@ import VistaTariffe from './views/operatore/VistaTariffe'
 import VistaOfferte from './views/operatore/VistaOfferte'
 import VistaMezziOperatore from './views/operatore/VistaMezziOperatore'
 import VistaParametriSistema from './views/operatore/VistaParametriSistema'
+import VistaStoricoModifiche from './views/operatore/VistaStoricoModifiche'
 import VistaAbbonamenti from './views/utente/VistaAbbonamenti'
 import { utenteCorrente, logout } from './services/AuthService'
 import VistaProfiloUtente from './views/utente/VistaProfiloUtente'
@@ -211,6 +212,14 @@ function App() {
           element={
             <RoutaProtetta ruoloRichiesto="OP">
               <VistaMezziOperatore />
+            </RoutaProtetta>
+          }
+        />
+        <Route
+          path="/operatore/storico-modifiche"
+          element={
+            <RoutaProtetta ruoloRichiesto="OP">
+              <VistaStoricoModifiche />
             </RoutaProtetta>
           }
         />
