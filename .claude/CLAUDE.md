@@ -6,7 +6,7 @@
 
 Documenti di riferimento:
 - [`docs/SprintZero.md`](docs/SprintZero.md) — architettura, glossario, mockup UI
-- [`docs/Sprint3_SMART_Mobility.md`](docs/Sprint3_SMART_Mobility.md) — Product Backlog completo, Sprint 1 + Sprint 2 + Sprint 3 Backlog, casi d'uso, mockup UI (**documento primario** — sostituisce Sprint3_SMART_Mobility.md)
+- [`docs/Sprintn3.md`](docs/Sprintn3.md) — Product Backlog completo, Sprint 1 + Sprint 2 + Sprint 3 Backlog, casi d'uso, mockup UI (**documento primario** — sostituisce i documenti dei precedenti sprint)
 - [`docs/Deploy.md`](docs/Deploy.md) — guida completa al deploy su Vercel + Render, variabili d'ambiente, diagnosi problemi
 
 Tre ruoli utente distinti:
@@ -213,7 +213,7 @@ Lo sviluppo segue il paradigma **Agile Software Engineering** basato su sprint. 
 ### Flusso per ogni item
 
 ```
-User Story (Sprint3_SMART_Mobility.md § 1.4)
+User Story (Sprintn3.md § 1.4)
   → Caso d'uso (scenario base + alternativi)
     → Diagramma di sequenza
       → Implementazione
@@ -262,7 +262,7 @@ Servizi Esterni
 - Ogni file, classe, metodo implementato deve essere ricondotto a un ID del Product Backlog.
 - Usare commenti di tracciabilità solo nei punti architetturalmente rilevanti, nel formato: `// [IF-UT.02] Prenota mezzo`.
 - Non aggiungere commenti ovunque — solo dove la connessione al requisito non è ovvia dal codice.
-- **Prima di scrivere o citare un ID (`IF-UT.xx`, `IF-OP.xx`, `IF-AP.xx`) in codice, commenti, diagrammi o documentazione, verificare SEMPRE la corrispondenza nome↔ID in `docs/Sprint3_SMART_Mobility.md` (§ 1.4) — non riusare un ID visto in un commento esistente, nel nome di un file, o in un altro diagramma senza controllare il backlog. I commenti già presenti nel codice possono essere essi stessi sbagliati (es. caso reale 2026-06-20: `IF-UT.12` usato per "Salva Metodi Pagamento" invece di `IF-UT.06`, e `IF-UT.15` usato per "Invia Segnalazione" invece di `IF-UT.12`, in collisione con `IF-UT.15` reale = "Scrive una recensione"). Se un ID citato nel codice non si trova nel backlog (es. `IF-UT.21`), segnalarlo come discrepanza in `docs/CoerenzaDiagrammaClassi.md` invece di darlo per buono.
+- **Prima di scrivere o citare un ID (`IF-UT.xx`, `IF-OP.xx`, `IF-AP.xx`) in codice, commenti, diagrammi o documentazione, verificare SEMPRE la corrispondenza nome↔ID in `docs/Sprintn3.md` (§ 1.4) — non riusare un ID visto in un commento esistente, nel nome di un file, o in un altro diagramma senza controllare il backlog. I commenti già presenti nel codice possono essere essi stessi sbagliati (es. caso reale 2026-06-20: `IF-UT.12` usato per "Salva Metodi Pagamento" invece di `IF-UT.06`, e `IF-UT.15` usato per "Invia Segnalazione" invece di `IF-UT.12`, in collisione con `IF-UT.15` reale = "Scrive una recensione"). Se un ID citato nel codice non si trova nel backlog (es. `IF-UT.21`), segnalarlo come discrepanza in `docs/CoerenzaDiagrammaClassi.md` invece di darlo per buono.
 
 ### Modularità e separazione delle responsabilità
 - Un controller per entità/funzione principale (vedere lista controller sopra).
@@ -325,7 +325,7 @@ Ad ogni sprint, aggiornare:
 | Documento | Contenuto |
 |---|---|
 | `docs/SprintZero.md` | Solo se cambiano requisiti o architettura (deliberato, non automatico) |
-| `docs/Sprint3_SMART_Mobility.md` | Sprint Backlog, casi d'uso, diagrammi di sequenza, note di implementazione |
+| `docs/Sprintn3.md` | Sprint Backlog, casi d'uso, diagrammi di sequenza, note di implementazione |
 | `docs/README.md` | Panoramica del progetto, istruzioni per avviare il sistema |
 
 La documentazione è parte della **Definition of Done** di ogni item. Un item non è completo se non è documentato.
@@ -347,7 +347,7 @@ I termini tecnici del dominio sono definiti in `docs/SprintZero.md § 4.2`. Usar
 
 ## Cosa fare prima di scrivere codice
 
-1. Verificare che l'item da implementare abbia un ID nel Product Backlog (`Sprint3_SMART_Mobility.md § 1.4`) e che il nome dell'item corrisponda esattamente a quell'ID — non assumere che un ID visto altrove (commento nel codice, nome file, altro diagramma) sia corretto: va sempre riverificato lì.
+1. Verificare che l'item da implementare abbia un ID nel Product Backlog (`Sprintn3.md § 1.4`) e che il nome dell'item corrisponda esattamente a quell'ID — non assumere che un ID visto altrove (commento nel codice, nome file, altro diagramma) sia corretto: va sempre riverificato lì.
 2. Verificare che esista o creare la specifica del caso d'uso nello sprint corrente.
 3. Identificare il layer corretto in cui il codice va scritto (Controller / BLL / Model / DAL).
 4. Verificare che non esista già logica simile in un altro service (evitare ridondanza).
