@@ -5,7 +5,7 @@ from uuid import UUID
 
 @dataclass
 class StoricoModifiche:
-    """[IF-OP.12] Voce dello storico delle modifiche alle configurazioni del servizio."""
+    """[IF-OP.13] Voce dello storico delle modifiche alle configurazioni del servizio."""
 
     id: UUID
     tipo_configurazione: str

@@ -707,7 +707,7 @@ Contiene l’elenco e la specifica di tutti i requisiti funzionali espressi attr
 
 *Così* da stabilire dei limiti di utilizzo.
 
-### IF-OP.12 – Mostra Storico Modifiche
+### IF-OP.13 – Mostra Storico Modifiche
 
 *Come* operatore,
 
@@ -715,7 +715,7 @@ Contiene l’elenco e la specifica di tutti i requisiti funzionali espressi attr
 
 *Così da* poter ricostruire l'evoluzione delle configurazioni del servizio.
 
-### IF-OP.13 – Visualizza Recensioni 
+### IF-OP.12 – Visualizza Recensioni 
 
 *Come* operatore,
 
@@ -916,8 +916,8 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 | OP.11 | Sprint 2 | Configura parametri numerici di sistema |
 | UT.14 | Sprint 3 | Visualizza Suggerimenti Intelligenti |
 | UT.15 | Sprint 3 | Scrive Recensione |
-| OP.12 | Sprint 3 | Mostra storico modifiche |
-| OP.13 | Sprint 3 | Visualizza Recensioni |
+| OP.13 | Sprint 3 | Mostra storico modifiche |
+| OP.12 | Sprint 3 | Visualizza Recensioni |
 
 ## Product Requirement Specification 
 
@@ -3312,7 +3312,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tbody>
 </table>
 
-#### OP-13 Visualizza Recensioni
+#### OP-12 Visualizza Recensioni
 
 <table style="width:99%;">
 <colgroup>
@@ -3326,7 +3326,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td>ID</td>
-<td>OP-13</td>
+<td>OP-12</td>
 </tr>
 <tr>
 <td>Breve descrizione</td>
@@ -3382,7 +3382,7 @@ l'Operatore ha consultato i feedback degli utenti.</td>
 </tr>
 <tr>
 <td>ID</td>
-<td>OP-13.01</td>
+<td>OP-12.01</td>
 </tr>
 <tr>
 <td>Breve descrizione</td>

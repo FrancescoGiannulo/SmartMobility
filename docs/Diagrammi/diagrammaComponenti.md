@@ -129,7 +129,7 @@ con `DAL → DBMS`, `ServizioMappa → GoogleMaps`, `ServizioPricing → Provide
   seguendo esattamente lo slice già modellato qui (`VistaRecensione`, `RecensioneService`,
   `RecensioneController`, `ServizioRecensione`, `RecensioneRepository`, `Recensione`). Diagramma e
   codice sono allineati.
-- **Feature `Mostra Storico Modifiche` (IF-OP.12, 2026-06-22):** aggiunta in tutti i layer del
+- **Feature `Mostra Storico Modifiche` (IF-OP.13, 2026-06-22):** aggiunta in tutti i layer del
   diagramma dei componenti (`VistaStoricoModifiche`, `StoricoModificheService`,
   `StoricoModificheController`, `ServizioStoricoModifiche`, `StoricoModificheRepository`,
   `StoricoModifiche`), in linea con lo slice già presente nel diagramma delle classi

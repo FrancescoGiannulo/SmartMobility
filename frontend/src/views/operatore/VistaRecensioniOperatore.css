@@ -1,0 +1,109 @@
+.vista-rec-op-wrap {
+  min-height: 100vh;
+  background: #f5f6fa;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px 20px 48px;
+}
+
+.btn-back-rec-op {
+  background: none;
+  border: none;
+  color: #4caf9a;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.rec-op-titolo {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 16px;
+}
+
+.rec-op-errore {
+  color: #e53935;
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+
+.rec-op-vuoto {
+  color: #888;
+  font-size: 14px;
+}
+
+/* Riepilogo voto medio */
+.rec-op-media {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  width: 100%;
+  max-width: 720px;
+}
+
+.rec-op-media-valore {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1a1a2e;
+}
+
+.rec-op-media-stelle {
+  font-size: 20px;
+  color: #f5b301;
+  letter-spacing: 2px;
+}
+
+.rec-op-media-label {
+  font-size: 13px;
+  color: #666;
+}
+
+/* Lista recensioni */
+.rec-op-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 720px;
+}
+
+.rec-op-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+  padding: 14px 16px;
+}
+
+.rec-op-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.rec-op-stelle {
+  font-size: 16px;
+  color: #f5b301;
+  letter-spacing: 2px;
+}
+
+.rec-op-data {
+  font-size: 12px;
+  color: #999;
+}
+
+.rec-op-commento {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.4;
+}

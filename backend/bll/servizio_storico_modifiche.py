@@ -3,7 +3,7 @@ from dal.storico_modifiche_repository import StoricoModificheRepository
 
 
 class ServizioStoricoModifiche:
-    """[IF-OP.12] Mostra Storico Modifiche — consultazione e registrazione delle modifiche
+    """[IF-OP.13] Mostra Storico Modifiche — consultazione e registrazione delle modifiche
     apportate alle configurazioni del servizio (parametri di sistema, regole di fine corsa,
     zone operative)."""
 
