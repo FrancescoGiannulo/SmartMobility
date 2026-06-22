@@ -1,3 +1,4 @@
+from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, status
 from middleware.auth_middleware import verify_token
 from bll.servizio_tariffa import ServizioTariffa, TariffaGiaEsistente, TariffaNonTrovata
@@ -16,10 +17,12 @@ def lista_tariffe(_=Depends(verify_token(["OP"]))):
 @router.post("/tariffe", response_model=TariffaResponse, status_code=status.HTTP_201_CREATED)
 def crea_tariffa(
     body: CreaTariffaRequest,
-    _=Depends(verify_token(["OP"])),
+    _op=Depends(verify_token(["OP"])),
 ):
     try:
-        return _servizio.crea_tariffa(body.tipo_mezzo, body.costo_al_minuto, body.costo_al_km)
+        return _servizio.crea_tariffa(
+            body.tipo_mezzo, body.costo_al_minuto, body.costo_al_km, UUID(str(_op["id"]))
+        )
     except TariffaGiaEsistente as e:
         raise HTTPException(status_code=409, detail=str(e))
 
@@ -29,9 +32,11 @@ def crea_tariffa(
 def aggiorna_tariffa(
     tipo_mezzo: str,
     body: CreaTariffaRequest,
-    _=Depends(verify_token(["OP"])),
+    _op=Depends(verify_token(["OP"])),
 ):
     try:
-        return _servizio.aggiorna_tariffa(tipo_mezzo, body.costo_al_minuto, body.costo_al_km)
+        return _servizio.aggiorna_tariffa(
+            tipo_mezzo, body.costo_al_minuto, body.costo_al_km, UUID(str(_op["id"]))
+        )
     except TariffaNonTrovata as e:
         raise HTTPException(status_code=404, detail=str(e))

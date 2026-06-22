@@ -43,22 +43,32 @@ class TestServizioTariffa:
         tariffa.tipo_mezzo = "bicicletta"
         tariffa.costo_al_minuto = Decimal("0.03")
         tariffa.costo_al_km = Decimal("0.08")
+        operatore_id = uuid.uuid4()
 
-        with patch("bll.servizio_tariffa.TariffaRepository") as MockRepo:
+        with patch("bll.servizio_tariffa.TariffaRepository") as MockRepo, \
+             patch("bll.servizio_tariffa.ServizioStoricoModifiche") as MockStorico:
             MockRepo.return_value.exists_by_tipologia.return_value = False
             MockRepo.return_value.crea.return_value = tariffa
-            result = ServizioTariffa().crea_tariffa("bicicletta", 0.03, 0.08)
+            result = ServizioTariffa().crea_tariffa("bicicletta", 0.03, 0.08, operatore_id)
 
         MockRepo.return_value.crea.assert_called_once_with("bicicletta", Decimal("0.03"), Decimal("0.08"))
         assert result["tipo_mezzo"] == "bicicletta"
+        MockStorico.return_value.registra_modifica.assert_called_once()
+        kwargs = MockStorico.return_value.registra_modifica.call_args.kwargs
+        assert kwargs["tipo_configurazione"] == "tariffa_creata"
+        assert kwargs["valore_precedente"] is None
+        assert "tipo_mezzo=bicicletta" in kwargs["valore_nuovo"]
+        assert kwargs["operatore_id"] == operatore_id
 
     def test_crea_tariffa_gia_esistente(self):
         from bll.servizio_tariffa import ServizioTariffa, TariffaGiaEsistente
 
-        with patch("bll.servizio_tariffa.TariffaRepository") as MockRepo:
+        operatore_id = uuid.uuid4()
+        with patch("bll.servizio_tariffa.TariffaRepository") as MockRepo, \
+             patch("bll.servizio_tariffa.ServizioStoricoModifiche"):
             MockRepo.return_value.exists_by_tipologia.return_value = True
             try:
-                ServizioTariffa().crea_tariffa("bicicletta", 0.03, 0.08)
+                ServizioTariffa().crea_tariffa("bicicletta", 0.03, 0.08, operatore_id)
                 assert False, "doveva lanciare TariffaGiaEsistente"
             except TariffaGiaEsistente:
                 pass
@@ -67,25 +77,40 @@ class TestServizioTariffa:
     def test_aggiorna_tariffa_delega_al_repository(self):
         from bll.servizio_tariffa import ServizioTariffa
 
+        precedente = MagicMock()
+        precedente.tipo_mezzo = "monopattino"
+        precedente.costo_al_minuto = Decimal("0.05")
+        precedente.costo_al_km = Decimal("0.10")
+
         tariffa = MagicMock()
         tariffa.id = uuid.uuid4()
         tariffa.tipo_mezzo = "monopattino"
         tariffa.costo_al_minuto = Decimal("0.07")
         tariffa.costo_al_km = Decimal("0.12")
+        operatore_id = uuid.uuid4()
 
-        with patch("bll.servizio_tariffa.TariffaRepository") as MockRepo:
+        with patch("bll.servizio_tariffa.TariffaRepository") as MockRepo, \
+             patch("bll.servizio_tariffa.ServizioStoricoModifiche") as MockStorico:
+            MockRepo.return_value.find_all.return_value = [precedente]
             MockRepo.return_value.aggiorna.return_value = tariffa
-            result = ServizioTariffa().aggiorna_tariffa("monopattino", 0.07, 0.12)
+            result = ServizioTariffa().aggiorna_tariffa("monopattino", 0.07, 0.12, operatore_id)
 
         assert result["costo_al_minuto"] == 0.07
+        kwargs = MockStorico.return_value.registra_modifica.call_args.kwargs
+        assert kwargs["tipo_configurazione"] == "tariffa_modificata"
+        assert "costo_al_minuto=0.05" in kwargs["valore_precedente"]
+        assert "costo_al_minuto=0.07" in kwargs["valore_nuovo"]
 
     def test_aggiorna_tariffa_non_trovata(self):
         from bll.servizio_tariffa import ServizioTariffa, TariffaNonTrovata
 
-        with patch("bll.servizio_tariffa.TariffaRepository") as MockRepo:
+        operatore_id = uuid.uuid4()
+        with patch("bll.servizio_tariffa.TariffaRepository") as MockRepo, \
+             patch("bll.servizio_tariffa.ServizioStoricoModifiche"):
+            MockRepo.return_value.find_all.return_value = []
             MockRepo.return_value.aggiorna.return_value = None
             try:
-                ServizioTariffa().aggiorna_tariffa("monopattino", 0.07, 0.12)
+                ServizioTariffa().aggiorna_tariffa("monopattino", 0.07, 0.12, operatore_id)
                 assert False, "doveva lanciare TariffaNonTrovata"
             except TariffaNonTrovata:
                 pass
