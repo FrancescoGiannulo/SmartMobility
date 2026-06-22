@@ -324,7 +324,7 @@ export default function VistaMappaOperatore() {
           <div className="section-label">Gestione</div>
 
           <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/segnalazioni')}>Gestisci segnalazioni</button>
-          <button type="button" className="btn-pannello secondario">Gestisci utenti</button>
+          <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/utenti')}>Gestisci utenti</button>
           <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/impostazioni-regole')}>Impostazioni regole</button>
           <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/tariffe')}>Tariffe</button>
           <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/offerte')}>Offerte e promozioni</button>
