@@ -48,7 +48,7 @@
 .tour-modal__titolo {
   font-size: 22px;
   font-weight: 800;
-  color: #155e52;
+  color: var(--sm-primary, #155e52);
   margin: 0 0 12px;
   letter-spacing: -0.01em;
 }
@@ -82,7 +82,7 @@
 .tour-tooltip__titolo {
   font-size: 16px;
   font-weight: 700;
-  color: #155e52;
+  color: var(--sm-primary, #155e52);
   margin: 0 0 6px;
 }
 
@@ -115,7 +115,7 @@
 }
 
 .tour-tooltip__chiudi:focus-visible {
-  outline: 2px solid #155e52;
+  outline: 2px solid var(--sm-primary, #155e52);
   outline-offset: 2px;
 }
 
@@ -135,7 +135,7 @@
 }
 
 .tour-dot--attivo {
-  background: #155e52;
+  background: var(--sm-primary, #155e52);
 }
 
 /* Navigation buttons (shared by modal and tooltip) */
@@ -159,12 +159,12 @@
 .tour-btn:active { transform: scale(0.97); }
 
 .tour-btn:focus-visible {
-  outline: 2px solid #155e52;
+  outline: 2px solid var(--sm-primary, #155e52);
   outline-offset: 2px;
 }
 
 .tour-btn--primario {
-  background: #155e52;
+  background: var(--sm-primary, #155e52);
   color: #fff;
 }
 
@@ -172,19 +172,19 @@
 
 .tour-btn--secondario {
   background: #e0f2ee;
-  color: #155e52;
+  color: var(--sm-primary, #155e52);
 }
 
 .tour-btn--secondario:hover { opacity: 0.8; }
 
 .tour-btn--salta {
   background: none;
-  color: #94a3b8;
+  color: var(--sm-muted, #64748b);
   padding: 10px 12px;
   font-size: 13px;
 }
 
-.tour-btn--salta:hover { color: #64748b; }
+.tour-btn--salta:hover { color: #475569; }
 
 /* Mobile bottom-sheet for tooltip */
 @media (max-width: 767px) {

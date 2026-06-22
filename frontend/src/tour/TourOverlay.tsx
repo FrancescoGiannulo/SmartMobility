@@ -160,13 +160,35 @@ export function TourOverlay({ tours }: TourOverlayProps) {
     }
   }, [tourAttivo]);
 
-  // Keyboard navigation
+  // Keyboard navigation + focus trap (IIN-3 WCAG)
   useEffect(() => {
     if (!tourAttivo) return;
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') { chiudiTour(); return; }
       if (e.key === 'ArrowRight') { prossimoStep(); return; }
       if (e.key === 'ArrowLeft') { stepPrecedente(); return; }
+
+      // Focus trap: cycle Tab among focusable elements inside the dialog
+      if (e.key === 'Tab' && tooltipRef.current) {
+        const focusable = tooltipRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === first || document.activeElement === tooltipRef.current) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
