@@ -191,3 +191,96 @@ class TestIntegrazioneServiziEsistenti:
             with Session(db) as session:
                 session.execute(text("DELETE FROM zone WHERE nome = :n"), {"n": nome_zona})
                 session.commit()
+
+    def test_crea_e_aggiorna_tariffa_registrano_modifica_nello_storico(self, db):
+        # [IF-OP.07 / IF-OP.08] `tipo_mezzo` è un enum Postgres con soli 3 valori
+        # (monopattino, bicicletta, automobile) già seedati in modo univoco
+        # (migrazione 003_seed_tariffe.sql), quindi non è possibile creare una
+        # tariffa con un tipo_mezzo arbitrario di test. Si usa "bicicletta":
+        # si elimina temporaneamente la riga esistente per poter esercitare
+        # crea_tariffa, poi si esercita aggiorna_tariffa, e infine si ripristinano
+        # i valori originali del seed in teardown.
+        from bll.servizio_tariffa import ServizioTariffa
+
+        operatore_id = _uuid.uuid4()
+        tipo_mezzo = "bicicletta"
+        originale = None
+        try:
+            with Session(db) as session:
+                originale = session.execute(
+                    text(
+                        "SELECT costo_al_minuto, costo_al_km FROM tariffe WHERE tipo_mezzo = :t"
+                    ),
+                    {"t": tipo_mezzo},
+                ).fetchone()
+                session.execute(text("DELETE FROM tariffe WHERE tipo_mezzo = :t"), {"t": tipo_mezzo})
+                session.commit()
+
+            ServizioTariffa().crea_tariffa(tipo_mezzo, 0.05, 0.10, operatore_id)
+            ServizioTariffa().aggiorna_tariffa(tipo_mezzo, 0.07, 0.12, operatore_id)
+            storico = ServizioStoricoModifiche().get_storico()
+            tipi_evento = [
+                v["tipo_configurazione"]
+                for v in storico
+                if v["operatore_id"] == str(operatore_id)
+            ]
+            assert "tariffa_creata" in tipi_evento
+            assert "tariffa_modificata" in tipi_evento
+        finally:
+            _pulisci(db, operatore_id)
+            with Session(db) as session:
+                session.execute(text("DELETE FROM tariffe WHERE tipo_mezzo = :t"), {"t": tipo_mezzo})
+                if originale is not None:
+                    session.execute(
+                        text(
+                            "INSERT INTO tariffe (tipo_mezzo, costo_al_minuto, costo_al_km) "
+                            "VALUES (:t, :minuto, :km) ON CONFLICT (tipo_mezzo) DO NOTHING"
+                        ),
+                        {"t": tipo_mezzo, "minuto": str(originale.costo_al_minuto), "km": str(originale.costo_al_km)},
+                    )
+                session.commit()
+
+    def test_crea_modifica_ed_elimina_offerta_registrano_modifica_nello_storico(self, db):
+        from decimal import Decimal
+        from datetime import datetime, timedelta, timezone
+        from bll.servizio_offerte import ServizioOfferta
+
+        operatore_id = _uuid.uuid4()
+        nome = f"OffertaTest-{operatore_id.hex[:6]}"
+        try:
+            with Session(db) as session:
+                offerta = ServizioOfferta().crea_offerta(
+                    nome=nome,
+                    tipo="promozione",
+                    descrizione="Test",
+                    sconto_percentuale=Decimal("10"),
+                    prezzo=None,
+                    durata_giorni=None,
+                    data_inizio=None,
+                    data_scadenza=datetime.now(timezone.utc) + timedelta(days=1),
+                    db=session,
+                    operatore_id=operatore_id,
+                )
+            with Session(db) as session:
+                ServizioOfferta().modifica_offerta(
+                    offerta_id=offerta.id,
+                    db=session,
+                    operatore_id=operatore_id,
+                    sconto_percentuale=Decimal("20"),
+                )
+            with Session(db) as session:
+                ServizioOfferta().elimina_offerta(offerta.id, session, operatore_id=operatore_id)
+            storico = ServizioStoricoModifiche().get_storico()
+            tipi_evento = [
+                v["tipo_configurazione"]
+                for v in storico
+                if v["operatore_id"] == str(operatore_id)
+            ]
+            assert "offerta_creata" in tipi_evento
+            assert "offerta_modificata" in tipi_evento
+            assert "offerta_eliminata" in tipi_evento
+        finally:
+            _pulisci(db, operatore_id)
+            with Session(db) as session:
+                session.execute(text("DELETE FROM offerte WHERE nome = :n"), {"n": nome})
+                session.commit()

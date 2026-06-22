@@ -715,6 +715,8 @@ Contiene l’elenco e la specifica di tutti i requisiti funzionali espressi attr
 
 *Così da* poter ricostruire l'evoluzione delle configurazioni del servizio.
 
+**Nota di implementazione (Sprint 3):** la registrazione nello storico modifiche è stata estesa oltre a `parametri_sistema`, `regole_fine_corsa`, `zona_creata` e `zona_eliminata` per includere anche `tariffa_creata`, `tariffa_modificata`, `offerta_creata`, `offerta_modificata` e `offerta_eliminata` — loggate da `ServizioTariffa` e `ServizioOfferta` con la stessa convenzione testuale `"campo1=valore1, campo2=valore2"` per `valore_precedente`/`valore_nuovo`. L'interfaccia `VistaStoricoModifiche.tsx` è stata riorganizzata da un elenco cronologico piatto a un accordion con una sezione collassabile per categoria (Parametri di sistema, Regole di fine corsa, Zone, Tariffe, Offerte); ogni voce calcola un diff campo-per-campo e mostra solo i campi effettivamente cambiati, con etichette in italiano, unità di misura (€, %, minuti) e freccia "prima → dopo".
+
 ### IF-OP.12 – Visualizza Recensioni 
 
 *Come* operatore,
