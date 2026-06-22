@@ -31,13 +31,13 @@ export interface RispostaPagamento {
   transazione_id: string
 }
 
-// [IF-UT.12] Lista metodi di pagamento salvati
+// [IF-UT.06] Lista metodi di pagamento salvati
 export const getMetodiPagamento = async (): Promise<MetodoPagamento[]> => {
   const r = await api.get<MetodoPagamento[]>('/utente/pagamenti/metodi')
   return r.data
 }
 
-// [IF-UT.12] Aggiungi metodo di pagamento
+// [IF-UT.06] Aggiungi metodo di pagamento
 export const aggiungiMetodo = async (
   tipo: string,
   last_four?: string,
@@ -53,7 +53,7 @@ export const impostaPredefinito = async (id: string): Promise<void> => {
   await api.put(`/utente/pagamenti/metodi/${id}/predefinito`)
 }
 
-// [IF-UT.12] Rimuovi metodo di pagamento
+// [IF-UT.06] Rimuovi metodo di pagamento
 export const rimuoviMetodo = async (id: string): Promise<void> => {
   await api.delete(`/utente/pagamenti/metodi/${id}`)
 }

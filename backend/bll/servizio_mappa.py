@@ -13,7 +13,7 @@ class PoligonoFuoriZonaOperativaException(Exception):
     pass
 
 
-class ServizioGIS:
+class ServizioMappa:
     """Funzionalità geografiche: zone, posizioni, validazione perimetri."""
 
     def __init__(self, db: Session | Engine) -> None:

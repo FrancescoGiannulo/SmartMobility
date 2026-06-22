@@ -55,31 +55,6 @@ export const dismetti = (id: string): Promise<{ data: { status: string } }> =>
 export const modificaStato = (id: string, stato: string) =>
   api.put(`/operatore/mezzi/${id}/stato`, { stato })
 
-export interface Tariffa {
-  id: string
-  tipo_mezzo: string
-  costo_al_minuto: number
-  costo_al_km: number
-}
-
-// [IF-OP.07] Definisce Tariffa
-export const getTariffe = (): Promise<{ data: Tariffa[] }> =>
-  api.get('/operatore/tariffe')
-
-export const creaTariffa = (
-  tipo_mezzo: string,
-  costo_al_minuto: number,
-  costo_al_km: number,
-): Promise<{ data: Tariffa }> =>
-  api.post('/operatore/tariffe', { tipo_mezzo, costo_al_minuto, costo_al_km })
-
-export const aggiornaTariffa = (
-  tipo_mezzo: string,
-  costo_al_minuto: number,
-  costo_al_km: number,
-): Promise<{ data: Tariffa }> =>
-  api.put(`/operatore/tariffe/${tipo_mezzo}`, { tipo_mezzo, costo_al_minuto, costo_al_km })
-
 // [IF-OP.13] Configurazione regole fine corsa
 export const getConfigurazioneFinecorsa = async (): Promise<ConfigurazioneFinecorsa> => {
   const r = await api.get<ConfigurazioneFinecorsa>('/operatore/configurazione/fine-corsa')

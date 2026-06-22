@@ -11,7 +11,7 @@ class SegnalazioneNonTrovataException(Exception):
 
 class SegnalazioneRepository:
 
-    # [IF-UT.15] Invia Segnalazione
+    # [IF-UT.12] Invia Segnalazione
     def crea(self, utente_id: uuid.UUID, tipologia: str, descrizione: str) -> Segnalazione:
         with Session(engine) as session:
             segnalazione = Segnalazione(

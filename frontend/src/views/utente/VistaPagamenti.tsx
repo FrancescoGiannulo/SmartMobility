@@ -26,7 +26,7 @@ const LABEL_TIPO: Record<string, string> = {
 
 const TIPI_DISPONIBILI = ['carta', 'paypal', 'google_pay', 'apple_pay'] as const
 
-// [IF-UT.12] Salva Metodi di Pagamento / [IF-UT.21] Imposta Metodo Predefinito
+// [IF-UT.06] Salva Metodi di Pagamento / [IF-UT.21] Imposta Metodo Predefinito
 export default function VistaPagamenti() {
   const navigate = useNavigate()
 

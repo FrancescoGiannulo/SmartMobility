@@ -20,7 +20,7 @@ const TIPOLOGIE = [
 
 export { TIPOLOGIE }
 
-// [IF-UT.15] Invia Segnalazione
+// [IF-UT.12] Invia Segnalazione
 export const salvaSegnalazione = (
   tipologia: string,
   descrizione: string,
@@ -38,4 +38,4 @@ export const getDettaglioSegnalazione = (id: string): Promise<{ data: Segnalazio
   api.get(`/operatore/segnalazioni/${id}`)
 
 export const aggiornaStatoSegnalazione = (id: string): Promise<{ data: Segnalazione }> =>
-  api.patch(`/operatore/segnalazioni/${id}/stato`, {})
+  api.patch(`/operatore/segnalazioni/${id}/prendi-in-carico`, {})

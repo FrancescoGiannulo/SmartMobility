@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from bll.servizio_gis import ServizioGIS
+from bll.servizio_mappa import ServizioMappa
 from database import get_db
 from middleware.auth_middleware import verify_token
 from controllers.schemas import MezzoMappaOut, ZonaOut
@@ -14,7 +14,7 @@ def mappa_mezzi_utente(
     db: Session = Depends(get_db),
 ):
     """[CS-01 / UT.01] Mezzi disponibili per la Mappa Utente."""
-    return ServizioGIS(db).ottieni_mezzi_utente()
+    return ServizioMappa(db).ottieni_mezzi_utente()
 
 
 @router.get("/mappa/zone", response_model=list[ZonaOut])
@@ -23,4 +23,4 @@ def mappa_zone_utente(
     db: Session = Depends(get_db),
 ):
     """[CS-01 / UT.01] Zone attive per la Mappa Utente."""
-    return ServizioGIS(db).ottieni_zone()
+    return ServizioMappa(db).ottieni_zone()

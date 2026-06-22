@@ -11,13 +11,15 @@ import VistaDashboardAP from './views/amministrazione/VistaDashboardAP'
 import VistaSegnalazione from './views/utente/VistaSegnalazione'
 import VistaSegnalazioniOperatore from './views/operatore/VistaSegnalazioniOperatore'
 import VistaPagamenti from './views/utente/VistaPagamenti'
-import VistaTariffeOfferte from './views/operatore/VistaTariffeOfferte'
+import VistaTariffe from './views/operatore/VistaTariffe'
+import VistaOfferte from './views/operatore/VistaOfferte'
 import VistaMezziOperatore from './views/operatore/VistaMezziOperatore'
 import VistaParametriSistema from './views/operatore/VistaParametriSistema'
 import VistaAbbonamenti from './views/utente/VistaAbbonamenti'
 import { utenteCorrente, logout } from './services/AuthService'
 import VistaProfiloUtente from './views/utente/VistaProfiloUtente'
 import VistaStoricoCorse from './views/utente/VistaStoricoCorse'
+import VistaRecensione from './views/utente/VistaRecensione'
 import PrivacyPolicy from './views/PrivacyPolicy'
 
 const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string
@@ -100,6 +102,14 @@ function App() {
           }
         />
         <Route
+          path="/utente/recensione"
+          element={
+            <RoutaProtetta ruoloRichiesto="UT">
+              <VistaRecensione />
+            </RoutaProtetta>
+          }
+        />
+        <Route
           path="/utente/pagamenti"
           element={
             <RoutaProtetta ruoloRichiesto="UT">
@@ -156,10 +166,18 @@ function App() {
           }
         />
         <Route
-          path="/operatore/tariffe-offerte"
+          path="/operatore/tariffe"
           element={
             <RoutaProtetta ruoloRichiesto="OP">
-              <VistaTariffeOfferte />
+              <VistaTariffe />
+            </RoutaProtetta>
+          }
+        />
+        <Route
+          path="/operatore/offerte"
+          element={
+            <RoutaProtetta ruoloRichiesto="OP">
+              <VistaOfferte />
             </RoutaProtetta>
           }
         />

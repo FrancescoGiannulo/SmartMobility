@@ -881,3 +881,279 @@ body {
 }
 
 .pricing-stato--errore { color: var(--sm-error); }
+
+/* ============================================================
+   Marker posizione utente
+   ============================================================ */
+
+.pin-utente,
+.pin-default {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pin-utente__pulse {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: rgba(21, 94, 82, 0.18);
+  animation: pulse-ring 2s ease-out infinite;
+  pointer-events: none;
+}
+
+.pin-utente__dot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sm-primary), var(--sm-primary-700));
+  box-shadow: 0 2px 10px rgba(21, 94, 82, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  line-height: 1;
+  border: 3px solid #fff;
+  z-index: 1;
+}
+
+.pin-default__dot {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  opacity: 0.75;
+}
+
+@keyframes pulse-ring {
+  0%   { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* ============================================================
+   [IF-UT.14] Suggerimenti Intelligenti — Banner flottante
+   ============================================================ */
+
+.suggerimenti-banner {
+  position: absolute;
+  bottom: 24px;
+  right: 16px;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  z-index: 10;
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.97), rgba(248, 250, 252, 0.97));
+  backdrop-filter: blur(16px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(21, 94, 82, 0.08);
+  overflow: hidden;
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+
+.suggerimenti-banner--aperto {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.suggerimenti-banner__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 12px;
+}
+
+.suggerimenti-banner__toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--sm-dark);
+  transition: background 0.15s;
+}
+
+.suggerimenti-banner__toggle:hover {
+  background: rgba(21, 94, 82, 0.04);
+}
+
+.suggerimenti-banner__toggle:focus-visible {
+  outline: 2px solid var(--sm-primary);
+  outline-offset: -2px;
+  border-radius: 16px;
+}
+
+.suggerimenti-banner__toggle-icon {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f0fdf9, #e0f7f0);
+}
+
+.suggerimenti-banner__toggle-label {
+  flex: 1;
+  text-align: left;
+  letter-spacing: 0.01em;
+}
+
+.suggerimenti-banner__chevron {
+  font-size: 11px;
+  color: var(--sm-muted);
+  transition: transform 0.25s ease;
+}
+
+.suggerimenti-banner__chevron--up {
+  transform: rotate(180deg);
+}
+
+.suggerimenti-banner__body {
+  padding: 0 16px 16px;
+  max-height: 280px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(21, 94, 82, 0.15) transparent;
+}
+
+.btn-genera-suggerimenti {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--sm-primary), var(--sm-primary-700));
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 6px rgba(21, 94, 82, 0.25);
+  white-space: nowrap;
+}
+
+.btn-genera-suggerimenti:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(21, 94, 82, 0.35);
+}
+
+.btn-genera-suggerimenti:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-genera-suggerimenti:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-genera-suggerimenti:focus-visible {
+  outline: 2px solid var(--sm-accent);
+  outline-offset: 2px;
+}
+
+.suggerimenti-banner__errore {
+  font-size: 13px;
+  color: var(--sm-error);
+  margin: 0 0 10px;
+  padding: 8px 10px;
+  background: rgba(244, 63, 94, 0.06);
+  border-radius: 8px;
+}
+
+.suggerimenti-banner__vuoto {
+  font-size: 13px;
+  color: var(--sm-muted);
+  margin: 0;
+  text-align: center;
+  padding: 8px 0;
+}
+
+.suggerimenti-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.suggerimento-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s, transform 0.15s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.suggerimento-card:hover {
+  background: #fafcfb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.suggerimento-card:focus-visible {
+  outline: 2px solid var(--sm-primary);
+  outline-offset: -1px;
+}
+
+.suggerimento-card--nuovo {
+  border-left: 3px solid var(--sm-accent);
+  background: linear-gradient(135deg, #f0fdf9, #fff);
+}
+
+.suggerimento-card__tipo {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sm-primary);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.suggerimento-card__testo {
+  font-size: 13px;
+  color: var(--sm-dark);
+  line-height: 1.45;
+}
+
+.suggerimento-card__badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--sm-accent), #04c493);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  box-shadow: 0 1px 4px rgba(6, 214, 160, 0.3);
+}
+
+/* Mobile: banner a tutta larghezza, sopra il bottom sheet */
+@media (max-width: 480px) {
+  .suggerimenti-banner {
+    right: 8px;
+    left: 8px;
+    bottom: 16px;
+    width: auto;
+    border-radius: 14px;
+  }
+}

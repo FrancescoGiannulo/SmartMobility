@@ -1,10 +1,10 @@
-.vista-tariffe {
+.vista-offerte {
   min-height: 100vh;
   background: #f1f5f9;
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
-.tariffe-topbar {
+.offerte-topbar {
   height: 64px;
   background: #fff;
   display: flex;
@@ -15,7 +15,7 @@
   box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
 
-.tariffe-topbar h2 {
+.offerte-topbar h2 {
   margin: 0;
   flex: 1;
   font-size: 16px;
@@ -23,20 +23,20 @@
   color: #0f172a;
 }
 
-.tariffe-body {
+.offerte-body {
   max-width: 860px;
   margin: 0 auto;
   padding: 32px 24px;
 }
 
-.tariffe-header-row {
+.offerte-header-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 24px;
 }
 
-.tariffe-header-row h3 {
+.offerte-header-row h3 {
   margin: 0;
   font-size: 20px;
   font-weight: 800;
@@ -245,7 +245,7 @@
   font-family: inherit;
 }
 
-.tariffe-topbar .btn-indietro {
+.offerte-topbar .btn-indietro {
   padding: 8px 16px;
   background: transparent;
   color: #155e52;

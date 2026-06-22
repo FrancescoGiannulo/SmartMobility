@@ -17,11 +17,12 @@ import {
 } from '../../services/PrenotazioneService'
 import { logout, utenteCorrente } from '../../services/AuthService'
 import { getParametriUtente } from '../../services/ConfigurazioneService'
+import { getSuggerimenti, generaSuggerimenti, segnaVisto, type Suggerimento } from '../../services/SuggerimentiService'
 import ZonaPoligono from '../../components/ZonaPoligono'
 import { COLORI_ZONA } from '../../utils/coloriZona'
 import './VistaHomePageUtente.css'
 
-const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
+const CENTRO_DEFAULT = { lat: 41.1087, lng: 16.8781 }
 
 const COLORI_MEZZO: Record<string, { c1: string; c2: string }> = {
   monopattino: { c1: '#155e52', c2: '#2a7a6a' },
@@ -80,6 +81,7 @@ export default function VistaHomePageUtente() {
   const [mezzi, setMezzi] = useState<MezzoMappa[]>([])
   const [zone, setZone] = useState<ZonaMappa[]>([])
   const [centro, setCentro] = useState(CENTRO_DEFAULT)
+  const [posizioneReale, setPosizioneReale] = useState(false)
   const [errore, setErrore] = useState('')
 
   // Sidebar
@@ -115,10 +117,18 @@ export default function VistaHomePageUtente() {
   const [loadingDrawer, setLoadingDrawer] = useState(false)
   const [erroreDrawer, setErroreDrawer] = useState('')
 
+  // [IF-UT.14] Suggerimenti Intelligenti
+  const [suggerimenti, setSuggerimenti] = useState<Suggerimento[] | null>(null)
+  const [generaInCorso, setGeneraInCorso] = useState(false)
+  const [erroreSuggerimenti, setErroreSuggerimenti] = useState('')
+
   useEffect(() => {
     navigator.geolocation?.getCurrentPosition(
-      pos => setCentro({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-      () => {}
+      pos => {
+        setCentro({ lat: pos.coords.latitude, lng: pos.coords.longitude })
+        setPosizioneReale(true)
+      },
+      () => setPosizioneReale(false)
     )
     getZoneUtente().then(setZone).catch(() => {})
 
@@ -183,6 +193,37 @@ export default function VistaHomePageUtente() {
     }
   }, [promozioni])
 
+  // [IF-UT.14] Suggerimenti — banner sulla mappa
+  const [bannerAperto, setBannerAperto] = useState(false)
+
+  useEffect(() => {
+    getSuggerimenti()
+      .then(r => { setSuggerimenti(r.data ?? []); if ((r.data ?? []).length > 0) setBannerAperto(true) })
+      .catch(() => {})
+  }, [])
+
+  const handleGeneraSuggerimenti = useCallback(async () => {
+    setGeneraInCorso(true)
+    setErroreSuggerimenti('')
+    try {
+      const r = await generaSuggerimenti()
+      setSuggerimenti(r.data ?? [])
+      setBannerAperto(true)
+    } catch {
+      setErroreSuggerimenti('Errore nella generazione dei suggerimenti.')
+    } finally {
+      setGeneraInCorso(false)
+    }
+  }, [])
+
+  const handleSegnaVisto = useCallback(async (id: string) => {
+    try {
+      await segnaVisto(id)
+      setSuggerimenti(prev =>
+        prev ? prev.map(s => s.id === id ? { ...s, stato: 'visto' as const } : s) : prev
+      )
+    } catch { /* ignore */ }
+  }, [])
 
   useEffect(() => {
     const t = setInterval(() => setNowMs(Date.now()), 1000)
@@ -385,7 +426,85 @@ export default function VistaHomePageUtente() {
             />
           )
         })}
+
+        {/* Marker posizione utente */}
+        <AdvancedMarker position={centro}>
+          <div
+            className={posizioneReale ? 'pin-utente' : 'pin-default'}
+            aria-label={posizioneReale ? 'La tua posizione' : 'Posizione predefinita'}
+          >
+            {posizioneReale && <div className="pin-utente__pulse" />}
+            <div className={posizioneReale ? 'pin-utente__dot' : 'pin-default__dot'}>
+              {posizioneReale ? '🧍' : '📍'}
+            </div>
+          </div>
+        </AdvancedMarker>
       </GoogleMap>
+
+      {/* ── [IF-UT.14] Banner suggerimenti ── */}
+      <div className={`suggerimenti-banner${bannerAperto ? ' suggerimenti-banner--aperto' : ''}`}>
+        <div className="suggerimenti-banner__header">
+          <button
+            className="suggerimenti-banner__toggle"
+            onClick={() => setBannerAperto(prev => !prev)}
+            aria-label={bannerAperto ? 'Chiudi suggerimenti' : 'Apri suggerimenti'}
+            aria-expanded={bannerAperto}
+          >
+            <span className="suggerimenti-banner__toggle-icon">💡</span>
+            <span className="suggerimenti-banner__toggle-label">Suggerimenti</span>
+            <span className={`suggerimenti-banner__chevron${bannerAperto ? ' suggerimenti-banner__chevron--up' : ''}`}>
+              ▾
+            </span>
+          </button>
+          <button
+            className="btn-genera-suggerimenti"
+            onClick={(e) => { e.stopPropagation(); handleGeneraSuggerimenti() }}
+            disabled={generaInCorso}
+            aria-busy={generaInCorso}
+          >
+            {generaInCorso ? '...' : 'Genera'}
+          </button>
+        </div>
+
+        {bannerAperto && (
+          <div className="suggerimenti-banner__body" role="region" aria-label="Suggerimenti intelligenti">
+            {erroreSuggerimenti && (
+              <p className="suggerimenti-banner__errore" role="alert">{erroreSuggerimenti}</p>
+            )}
+
+            {generaInCorso && (
+              <p className="suggerimenti-banner__vuoto">Generazione in corso...</p>
+            )}
+
+            {!generaInCorso && suggerimenti && suggerimenti.length > 0 ? (
+              <ul className="suggerimenti-lista" role="list">
+                {suggerimenti.map(s => (
+                  <li
+                    key={s.id}
+                    className={`suggerimento-card${s.stato === 'nuovo' ? ' suggerimento-card--nuovo' : ''}`}
+                    onClick={() => s.stato === 'nuovo' && handleSegnaVisto(s.id)}
+                    role="listitem"
+                    tabIndex={0}
+                    onKeyDown={e => e.key === 'Enter' && s.stato === 'nuovo' && handleSegnaVisto(s.id)}
+                  >
+                    <span className="suggerimento-card__tipo">{
+                      s.tipo === 'risparmio' ? '💰' :
+                      s.tipo === 'percorso' ? '🗺️' :
+                      s.tipo === 'abbonamento' ? '📅' :
+                      s.tipo === 'orario' ? '🕐' :
+                      s.tipo === 'mezzo' ? '🚲' : '💡'
+                    } {s.tipo.charAt(0).toUpperCase() + s.tipo.slice(1)}</span>
+                    <span className="suggerimento-card__testo">{s.testo}</span>
+                    {s.stato === 'nuovo' && <span className="suggerimento-card__badge">Nuovo</span>}
+                  </li>
+                ))}
+              </ul>
+            ) : !generaInCorso && suggerimenti && suggerimenti.length === 0 && !erroreSuggerimenti ? (
+              <p className="suggerimenti-banner__vuoto">Premi "Genera" per ottenere suggerimenti personalizzati.</p>
+            ) : null}
+          </div>
+        )}
+      </div>
 
       {/* ── Bottom sheet: prenota / selezione ── */}
       {panelAperto && (
@@ -644,6 +763,14 @@ export default function VistaHomePageUtente() {
               >
                 <span className="sidebar-voce__testo">Invia segnalazione</span>
                 <span className="sidebar-voce__icona">⚠️</span>
+              </button>
+
+              <button
+                className="sidebar-voce"
+                onClick={() => { setSidebarAperta(false); navigate('/utente/recensione') }}
+              >
+                <span className="sidebar-voce__testo">Lascia recensione</span>
+                <span className="sidebar-voce__icona">⭐</span>
               </button>
             </nav>
 

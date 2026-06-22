@@ -110,9 +110,9 @@ def test_lista_mezzi_tutti(db):
             s.commit()
 
 
-def test_servizio_gis_crea_zona_valida(db):
-    from bll.servizio_gis import ServizioGIS
-    svc = ServizioGIS(db)
+def test_servizio_mappa_crea_zona_valida(db):
+    from bll.servizio_mappa import ServizioMappa
+    svc = ServizioMappa(db)
     # Zona operativa contenitore
     operativa = [
         [16.84, 41.10], [16.88, 41.10],
@@ -129,16 +129,16 @@ def test_servizio_gis_crea_zona_valida(db):
     assert zona["perimetro"]["type"] == "Polygon"
 
 
-def test_servizio_gis_poligono_insufficiente(db):
-    from bll.servizio_gis import ServizioGIS, PoligonoNonValidoException
-    svc = ServizioGIS(db)
+def test_servizio_mappa_poligono_insufficiente(db):
+    from bll.servizio_mappa import ServizioMappa, PoligonoNonValidoException
+    svc = ServizioMappa(db)
     with pytest.raises(PoligonoNonValidoException):
         svc.crea_zona("test_err", "vietata", [[16.85, 41.11], [16.86, 41.11]], None)
 
 
-def test_servizio_gis_lista_zone(db):
-    from bll.servizio_gis import ServizioGIS
-    svc = ServizioGIS(db)
+def test_servizio_mappa_lista_zone(db):
+    from bll.servizio_mappa import ServizioMappa
+    svc = ServizioMappa(db)
     operativa = [
         [16.84, 41.10], [16.88, 41.10],
         [16.88, 41.14], [16.84, 41.14], [16.84, 41.10],
@@ -276,10 +276,10 @@ def test_repo_esiste_zona_operativa_contenente_false(db):
     assert repo.esiste_zona_operativa_contenente(esterno) is False
 
 
-def test_servizio_gis_vincolo_zona_operativa_ok(db):
+def test_servizio_mappa_vincolo_zona_operativa_ok(db):
     """Zona non-operativa dentro una zona operativa → crea correttamente."""
-    from bll.servizio_gis import ServizioGIS
-    svc = ServizioGIS(db)
+    from bll.servizio_mappa import ServizioMappa
+    svc = ServizioMappa(db)
     operativa = [
         [16.84, 41.10], [16.88, 41.10],
         [16.88, 41.14], [16.84, 41.14], [16.84, 41.10],
@@ -293,10 +293,10 @@ def test_servizio_gis_vincolo_zona_operativa_ok(db):
     assert zona["nome"] == "test_vietata_interna"
 
 
-def test_servizio_gis_vincolo_zona_operativa_fuori(db):
+def test_servizio_mappa_vincolo_zona_operativa_fuori(db):
     """Zona non-operativa fuori da qualsiasi zona operativa → PoligonoFuoriZonaOperativaException."""
-    from bll.servizio_gis import ServizioGIS, PoligonoFuoriZonaOperativaException
-    svc = ServizioGIS(db)
+    from bll.servizio_mappa import ServizioMappa, PoligonoFuoriZonaOperativaException
+    svc = ServizioMappa(db)
     esterno = [
         [16.90, 41.15], [16.91, 41.15],
         [16.91, 41.16], [16.90, 41.16], [16.90, 41.15],

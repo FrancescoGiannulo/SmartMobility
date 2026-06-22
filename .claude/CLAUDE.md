@@ -168,7 +168,7 @@ backend/
 | `utente_controller.py` | segnalazioni utente |
 | `ap_controller.py` | report AP, mappa AP, segnalazioni OP, gestione utenti OP |
 
-**BLL** (11 servizi in `backend/bll/`): `ServizioMobilità`, `ServizioPrenotazione`, `ServizioPricing`, `ServizioAbbonamento`, `ServizioGIS`, `ServizioReport`, `ServizioOfferta`, `ServizioRegoleFineCorsa`, `ServizioParametri`, `ServizioUtenti`, `ServizioSegnalazione`
+**BLL** (11 servizi in `backend/bll/`): `ServizioMobilità`, `ServizioPrenotazione`, `ServizioPricing`, `ServizioAbbonamento`, `ServizioMappa`, `ServizioReport`, `ServizioOfferta`, `ServizioRegoleFineCorsa`, `ServizioParametri`, `ServizioUtenti`, `ServizioSegnalazione`
 
 **DAL** (15 repository in `backend/dal/`): `MezzoRepository`, `CorsaRepository`, `PrenotazioneRepository`, `PagamentoRepository`, `TariffaRepository`, `ZonaRepository`, `UtenteRepository`, `OperatoreRepository`, `AttoreRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`, `RegoleFIneCorsaRepository`, `ParametriSistemaRepository`, `SegnalazioneRepository`
 
@@ -252,7 +252,7 @@ Servizi Esterni
 - **DAL**: solo accesso ai dati. Nessuna logica di business.
 - **View/ApiService**: nessuna logica di business lato client.
 - **model/**: ORM SQLAlchemy 2.0 puri — nessuna logica, nessun Pydantic. I `CheckConstraint` vanno in `__table_args__`, non come argomenti di `mapped_column`. Usare `create_type=False` su tutti i `SAEnum` (gli enum esistono già nella migrazione SQL).
-- La precedenza tra tipi di zona (`vietata > limitata > operativa`) è applicata a runtime in `ServizioGIS`, non tramite vincoli DB. Le zone sono create dall'Operatore (IF-OP.07).
+- La precedenza tra tipi di zona (`vietata > limitata > operativa`) è applicata a runtime in `ServizioMappa`, non tramite vincoli DB. Le zone sono create dall'Operatore (IF-OP.07).
 
 ---
 
@@ -262,6 +262,7 @@ Servizi Esterni
 - Ogni file, classe, metodo implementato deve essere ricondotto a un ID del Product Backlog.
 - Usare commenti di tracciabilità solo nei punti architetturalmente rilevanti, nel formato: `// [IF-UT.02] Prenota mezzo`.
 - Non aggiungere commenti ovunque — solo dove la connessione al requisito non è ovvia dal codice.
+- **Prima di scrivere o citare un ID (`IF-UT.xx`, `IF-OP.xx`, `IF-AP.xx`) in codice, commenti, diagrammi o documentazione, verificare SEMPRE la corrispondenza nome↔ID in `docs/Sprint3_SMART_Mobility.md` (§ 1.4) — non riusare un ID visto in un commento esistente, nel nome di un file, o in un altro diagramma senza controllare il backlog. I commenti già presenti nel codice possono essere essi stessi sbagliati (es. caso reale 2026-06-20: `IF-UT.12` usato per "Salva Metodi Pagamento" invece di `IF-UT.06`, e `IF-UT.15` usato per "Invia Segnalazione" invece di `IF-UT.12`, in collisione con `IF-UT.15` reale = "Scrive una recensione"). Se un ID citato nel codice non si trova nel backlog (es. `IF-UT.21`), segnalarlo come discrepanza in `docs/CoerenzaDiagrammaClassi.md` invece di darlo per buono.
 
 ### Modularità e separazione delle responsabilità
 - Un controller per entità/funzione principale (vedere lista controller sopra).
@@ -346,7 +347,7 @@ I termini tecnici del dominio sono definiti in `docs/SprintZero.md § 4.2`. Usar
 
 ## Cosa fare prima di scrivere codice
 
-1. Verificare che l'item da implementare abbia un ID nel Product Backlog (`Sprint3_SMART_Mobility.md § 1.4`).
+1. Verificare che l'item da implementare abbia un ID nel Product Backlog (`Sprint3_SMART_Mobility.md § 1.4`) e che il nome dell'item corrisponda esattamente a quell'ID — non assumere che un ID visto altrove (commento nel codice, nome file, altro diagramma) sia corretto: va sempre riverificato lì.
 2. Verificare che esista o creare la specifica del caso d'uso nello sprint corrente.
 3. Identificare il layer corretto in cui il codice va scritto (Controller / BLL / Model / DAL).
 4. Verificare che non esista già logica simile in un altro service (evitare ridondanza).

@@ -86,7 +86,7 @@ class PrenotazioneRequest(BaseModel):
     mezzo_ids: list[UUID]
 
 
-# [IF-UT.15] Invia Segnalazione / [IF-OP.08] Gestisce Segnalazione
+# [IF-UT.12] Invia Segnalazione / [IF-OP.08] Gestisce Segnalazione
 class InviaSegnalazioneRequest(BaseModel):
     tipologia: str
     descrizione: str
@@ -100,6 +100,19 @@ class SegnalazioneOut(BaseModel):
     stato: str
     created_at: str
     nome_utente: str | None = None
+
+
+# [IF-UT.15] Scrive Recensione
+class ScriviRecensioneRequest(BaseModel):
+    voto: int
+    commento: str | None = None
+
+
+class RecensioneOut(BaseModel):
+    id: str
+    voto: int
+    commento: str | None = None
+    created_at: str
 
 
 class SbloccoRequest(BaseModel):
@@ -276,3 +289,13 @@ class ParametriSistemaOut(BaseModel):
     addebito_pausa_min: Decimal
 
     model_config = {"from_attributes": True}
+
+
+# [IF-UT.14] Suggerimenti Intelligenti
+class SuggerimentoOut(BaseModel):
+    id: str
+    tipo: str
+    testo: str
+    dati_contesto: dict = {}
+    stato: str
+    creato_at: str | None = None
