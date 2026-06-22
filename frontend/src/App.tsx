@@ -22,6 +22,7 @@ import VistaProfiloUtente from './views/utente/VistaProfiloUtente'
 import VistaStoricoCorse from './views/utente/VistaStoricoCorse'
 import VistaRecensione from './views/utente/VistaRecensione'
 import VistaGestioneUtentiOperatore from './views/operatore/VistaGestioneUtentiOperatore'
+import VistaRecensioniOperatore from './views/operatore/VistaRecensioniOperatore'
 import PrivacyPolicy from './views/PrivacyPolicy'
 import { TourProvider } from './tour/TourProvider'
 import { TourOverlay } from './tour/TourOverlay'
@@ -228,6 +229,14 @@ function App() {
           element={
             <RoutaProtetta ruoloRichiesto="OP">
               <VistaParametriSistema />
+            </RoutaProtetta>
+          }
+        />
+        <Route
+          path="/operatore/recensioni"
+          element={
+            <RoutaProtetta ruoloRichiesto="OP">
+              <VistaRecensioniOperatore />
             </RoutaProtetta>
           }
         />

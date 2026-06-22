@@ -115,7 +115,13 @@ class RecensioneOut(BaseModel):
     created_at: str
 
 
-# [IF-OP.12] Mostra Storico Modifiche
+# [IF-OP.12] Visualizza Recensioni — serializza l'Object {recensioni, votoMedio}
+class RecensioniOperatoreOut(BaseModel):
+    recensioni: list[RecensioneOut]
+    voto_medio: float
+
+
+# [IF-OP.13] Mostra Storico Modifiche
 class StoricoModificaOut(BaseModel):
     id: str
     tipo_configurazione: str

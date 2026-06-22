@@ -1,4 +1,4 @@
-"""[IF-OP.12] Test Mostra Storico Modifiche — repository, servizio e controller."""
+"""[IF-OP.13] Test Mostra Storico Modifiche — repository, servizio e controller."""
 import uuid as _uuid
 import pytest
 from fastapi.testclient import TestClient
@@ -106,7 +106,7 @@ class TestStoricoModificheControllerAuth:
 
 @pytest.mark.integration
 class TestIntegrazioneServiziEsistenti:
-    """[IF-OP.12] I servizi che modificano configurazioni registrano la modifica nello storico."""
+    """[IF-OP.13] I servizi che modificano configurazioni registrano la modifica nello storico."""
 
     def test_aggiorna_parametri_registra_modifica_nello_storico(self, db):
         from bll.servizio_parametri import ServizioParametri

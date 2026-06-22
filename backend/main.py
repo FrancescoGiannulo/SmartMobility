@@ -18,7 +18,10 @@ from controllers.pricing_controller import router as pricing_router
 from controllers.abbonamento_controller import router as abbonamento_router
 from controllers.configurazione_controller import router as configurazione_router, router_sicurezza
 from controllers.suggerimento_controller import router as suggerimento_router
-from controllers.recensione_controller import router as recensione_router
+from controllers.recensione_controller import (
+    router as recensione_router,
+    router_operatore as recensione_operatore_router,
+)
 from controllers.utenti_op_controller import router as utenti_op_router
 from controllers.storico_modifiche_controller import router as storico_modifiche_router
 
@@ -55,6 +58,7 @@ app.include_router(configurazione_router)
 app.include_router(router_sicurezza)
 app.include_router(suggerimento_router)
 app.include_router(recensione_router)
+app.include_router(recensione_operatore_router)
 app.include_router(utenti_op_router)
 app.include_router(storico_modifiche_router)
 
