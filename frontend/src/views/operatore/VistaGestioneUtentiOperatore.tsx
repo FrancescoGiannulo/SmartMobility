@@ -23,6 +23,7 @@ export default function VistaGestioneUtentiOperatore() {
   const [messaggio, setMessaggio] = useState('')
 
   const caricaUtenti = useCallback(async () => {
+    setErrore('')
     try {
       const res = await getUtenti()
       setUtenti(res.data)
@@ -36,6 +37,7 @@ export default function VistaGestioneUtentiOperatore() {
   useEffect(() => { caricaUtenti() }, [caricaUtenti])
 
   const selezionaUtente = async (id: string) => {
+    setErrore('')
     setDialogoAperto(false)
     setMotivazione('')
     try {
@@ -48,6 +50,7 @@ export default function VistaGestioneUtentiOperatore() {
 
   const confermaSospensione = async () => {
     if (!selezionato || !motivazione.trim()) return
+    setErrore('')
     setAzioneInCorso(true)
     try {
       const res = await sospendiAccount(selezionato.id, motivazione.trim())
