@@ -36,6 +36,7 @@ def crea_offerta(
             data_inizio=body.data_inizio,
             data_scadenza=body.data_scadenza,
             db=db,
+            operatore_id=uuid.UUID(str(_op["id"])),
             tipo_mezzo=body.tipo_mezzo,
         )
     except OffertaDuplicataException as e:
@@ -56,6 +57,7 @@ def modifica_offerta(
         return _servizio.modifica_offerta(
             offerta_id=offerta_id,
             db=db,
+            operatore_id=uuid.UUID(str(_op["id"])),
             nome=body.nome,
             descrizione=body.descrizione,
             sconto_percentuale=body.sconto_percentuale,
@@ -80,6 +82,6 @@ def elimina_offerta(
     db=Depends(get_db),
 ):
     try:
-        _servizio.elimina_offerta(offerta_id, db)
+        _servizio.elimina_offerta(offerta_id, db, operatore_id=uuid.UUID(str(_op["id"])))
     except OffertaValidazioneException as e:
         raise HTTPException(status_code=404, detail=str(e))

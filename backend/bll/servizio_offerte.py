@@ -5,6 +5,7 @@ from typing import Optional
 from sqlalchemy.orm import Session
 from dal.offerta_repository import OffertaRepository, NomeDuplicatoException, OffertaNonTrovataException
 from model.offerta import Offerta, Promozione, Abbonamento
+from bll.servizio_storico_modifiche import ServizioStoricoModifiche
 
 
 class OffertaValidazioneException(Exception):
@@ -19,9 +20,20 @@ class ServizioOfferta:
 
     def __init__(self) -> None:
         self._repo = OffertaRepository()
+        self._storico = ServizioStoricoModifiche()
 
     def lista_offerte(self, db: Session) -> list[Offerta]:
         return self._repo.lista(db)
+
+    @staticmethod
+    def _serializza(offerta: Offerta) -> str:
+        return (
+            f"nome={offerta.nome}, tipo={offerta.tipo}, stato={offerta.stato}, "
+            f"descrizione={offerta.descrizione}, sconto_percentuale={offerta.sconto_percentuale}, "
+            f"prezzo={offerta.prezzo}, durata_giorni={offerta.durata_giorni}, "
+            f"data_inizio={offerta.data_inizio}, data_scadenza={offerta.data_scadenza}, "
+            f"tipo_mezzo={offerta.tipo_mezzo}"
+        )
 
     def crea_offerta(
         self,
@@ -34,6 +46,7 @@ class ServizioOfferta:
         data_inizio: Optional[datetime],
         data_scadenza: Optional[datetime],
         db: Session,
+        operatore_id: uuid.UUID,
         tipo_mezzo: Optional[str] = None,
     ) -> Offerta:
         self._valida(
@@ -47,7 +60,7 @@ class ServizioOfferta:
             data_inizio=data_inizio,
         )
         try:
-            return self._repo.crea(
+            offerta = self._repo.crea(
                 nome=nome,
                 tipo=tipo,
                 descrizione=descrizione,
@@ -61,11 +74,20 @@ class ServizioOfferta:
             )
         except NomeDuplicatoException:
             raise OffertaDuplicataException(f"Esiste già un'offerta con nome '{nome}'")
+        self._storico.registra_modifica(
+            tipo_configurazione="offerta_creata",
+            descrizione=f"Creazione offerta '{nome}'",
+            valore_precedente=None,
+            valore_nuovo=self._serializza(offerta),
+            operatore_id=operatore_id,
+        )
+        return offerta
 
     def modifica_offerta(
         self,
         offerta_id: uuid.UUID,
         db: Session,
+        operatore_id: uuid.UUID,
         nome: Optional[str] = None,
         descrizione: Optional[str] = None,
         sconto_percentuale: Optional[Decimal] = None,
@@ -80,6 +102,8 @@ class ServizioOfferta:
             offerta_corrente = self._repo.trova_per_id(offerta_id, db)
         except OffertaNonTrovataException:
             raise OffertaValidazioneException(f"Offerta {offerta_id} non trovata")
+        valore_precedente = self._serializza(offerta_corrente)
+        nome_precedente = offerta_corrente.nome
         tipo = offerta_corrente.tipo
         self._valida(
             nome=nome or offerta_corrente.nome,
@@ -92,7 +116,7 @@ class ServizioOfferta:
             data_inizio=data_inizio if data_inizio is not None else offerta_corrente.data_inizio,
         )
         try:
-            return self._repo.aggiorna(
+            aggiornata = self._repo.aggiorna(
                 offerta_id=offerta_id,
                 db=db,
                 nome=nome,
@@ -107,12 +131,30 @@ class ServizioOfferta:
             )
         except NomeDuplicatoException:
             raise OffertaDuplicataException(f"Esiste già un'offerta con nome '{nome}'")
+        self._storico.registra_modifica(
+            tipo_configurazione="offerta_modificata",
+            descrizione=f"Modifica offerta '{nome_precedente}'",
+            valore_precedente=valore_precedente,
+            valore_nuovo=self._serializza(aggiornata),
+            operatore_id=operatore_id,
+        )
+        return aggiornata
 
-    def elimina_offerta(self, offerta_id: uuid.UUID, db: Session) -> None:
+    def elimina_offerta(self, offerta_id: uuid.UUID, db: Session, operatore_id: uuid.UUID) -> None:
         try:
-            self._repo.elimina(offerta_id, db)
+            offerta = self._repo.trova_per_id(offerta_id, db)
         except OffertaNonTrovataException:
             raise OffertaValidazioneException(f"Offerta {offerta_id} non trovata")
+        valore_precedente = self._serializza(offerta)
+        nome = offerta.nome
+        self._repo.elimina(offerta_id, db)
+        self._storico.registra_modifica(
+            tipo_configurazione="offerta_eliminata",
+            descrizione=f"Eliminazione offerta '{nome}'",
+            valore_precedente=valore_precedente,
+            valore_nuovo=None,
+            operatore_id=operatore_id,
+        )
 
     def _valida(
         self,
