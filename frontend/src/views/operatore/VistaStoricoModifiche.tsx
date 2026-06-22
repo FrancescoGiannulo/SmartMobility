@@ -18,6 +18,10 @@ interface CategoriaConfig {
 const EURO = (v: string) => `${Number(v).toFixed(2)}€`
 const PERCENTO = (v: string) => `${v}%`
 const MINUTI = (v: string) => `${v} min`
+const DATA = (v: string) => {
+  const d = new Date(v)
+  return Number.isNaN(d.getTime()) ? v : formatData(v)
+}
 
 const CATEGORIE: CategoriaConfig[] = [
   {
@@ -76,8 +80,8 @@ const CATEGORIE: CategoriaConfig[] = [
       sconto_percentuale: { label: 'Sconto', formatta: PERCENTO },
       prezzo: { label: 'Prezzo', formatta: EURO },
       durata_giorni: { label: 'Durata', formatta: v => `${v} giorni` },
-      data_inizio: { label: 'Data inizio' },
-      data_scadenza: { label: 'Data scadenza' },
+      data_inizio: { label: 'Data inizio', formatta: DATA },
+      data_scadenza: { label: 'Data scadenza', formatta: DATA },
       tipo_mezzo: {
         label: 'Valido per',
         valori: { monopattino: 'Monopattino', bicicletta: 'Bicicletta', automobile: 'Automobile' },
@@ -128,6 +132,7 @@ function calcolaDiff(precedente: string | null, nuovo: string | null): RigaDiff[
 }
 
 function formattaValore(categoria: CategoriaConfig | undefined, campo: string, valore: string): string {
+  if (valore === 'None') return '—'
   const config = categoria?.campi[campo]
   if (!config) return valore
   if (config.valori) return config.valori[valore] ?? valore
