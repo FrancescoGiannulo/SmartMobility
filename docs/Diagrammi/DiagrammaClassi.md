@@ -6,9 +6,9 @@
 
 ## Indice delle classi
 
-Totale elementi identificati: **122**.
+Totale elementi identificati: **123**.
 
-- **CLIENT - View (Presentation)** (20): `VistaLogin`, `VistaProfiloUtente`, `CallbackOAuth`, `PrivacyPolicy`, `VistaGestioneUtentiOperatore`, `VistaRecensione`, `VistaSegnalazioneUtente`, `VistaSegnalazioniOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaParametriSistema`, `VistaImpostazioniRegole`, `VistaAbbonamenti`, `VistaTariffeOfferte`, `VistaCorsa`, `VistaStoricoCorse`, `VistaMezziOperatore`, `VistaPagamenti`, `VistaHomePageUtente`, `VistaDefinisciZona`
+- **CLIENT - View (Presentation)** (21): `VistaLogin`, `VistaProfiloUtente`, `CallbackOAuth`, `PrivacyPolicy`, `VistaGestioneUtentiOperatore`, `VistaRecensione`, `VistaRecensioniOperatore`, `VistaSegnalazioneUtente`, `VistaSegnalazioniOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaParametriSistema`, `VistaImpostazioniRegole`, `VistaAbbonamenti`, `VistaTariffeOfferte`, `VistaCorsa`, `VistaStoricoCorse`, `VistaMezziOperatore`, `VistaPagamenti`, `VistaHomePageUtente`, `VistaDefinisciZona`
 - **CLIENT - Service (API Service Layer)** (16): `AuthService`, `GestioneUtentiService`, `RecensioneService`, `SegnalazioneService`, `ReportService`, `RegoleFineCorsaService`, `ConfigurazioneService`, `ApiService`, `AbbonamentoService`, `OffertaService`, `CorsaService`, `PrenotazioneService`, `FlottaService`, `PaymentService`, `ZonaService`, `MapService`
 - **SERVER - Controller (MVC / FrontController)** (16): `AccountController`, `UtentiOPController`, `RecensioneController`, `SegnalazioneUtenteController`, `SegnalazioneOPController`, `AmministrazionePubblicaController`, `ConfigurazioneController`, `RegoleFineCorsaController`, `FrontController (router FastAPI + auth middleware)`, `AbbonamentoController`, `OffertaController`, `CorsaController`, `MezzoOperatoreController`, `PagamentoController`, `ZoneController`, `HomePageUtenteController`
 - **Contratti Controller -> BLL (interfacce)** (12): `IServizioUtenti`, `IServizioRecensione`, `IServizioSegnalazione`, `IServizioReport`, `IServizioRegoleFineCorsa`, `IServizioParametri`, `IServizioAbbonamento`, `IServizioOfferta`, `IServizioPrenotazione`, `IServizioMobilita`, `IServizioPricing`, `IServizioGIS`
@@ -113,6 +113,15 @@ Totale elementi identificati: **122**.
 + confermaScrivi(voto: int, commento: String): void
 + mostraConfermaRecensione(): void
 + mostraErrore(msg: String): void
+```
+
+### `VistaRecensioniOperatore`
+
+**Metodi**
+
+```
++ apriRecensioni(): void
++ mostraRecensioni(recensioni: List, votoMedio: float): void
 ```
 
 ### `VistaSegnalazioneUtente`
@@ -425,7 +434,8 @@ Totale elementi identificati: **122**.
 **Metodi**
 
 ```
-+ scriviRecensione(voto: int, commento: String): void
++ scriviRecensione(voto: int, commento: String): Recensione
++ getRecensioni(): Object
 ```
 
 ### `SegnalazioneService`
@@ -527,7 +537,6 @@ Totale elementi identificati: **122**.
 + creaPrenotazione(idMezzo: String[], idUtente: String): Prenotazione
 + annullaPrenotazione(idPrenotazione: String): void
 + getPrenotazioniAttive(idUtente: String): List
-+ getCaratteristiche(idMezzo: String): Mezzo
 ```
 
 ### `FlottaService`
@@ -625,6 +634,7 @@ Totale elementi identificati: **122**.
 
 ```
 + scriviRecensione(idUtente: String, voto: int, commento: String): Response
++ getRecensioni(): Response
 ```
 
 ### `SegnalazioneUtenteController`
@@ -653,8 +663,6 @@ Totale elementi identificati: **122**.
 ```
 + visualizzaReport(periodo: Object): Response
 + esportaCSV(idReport: String): Response
-+ mappaMezziAP(): Response
-+ mappaZoneAP(): Response
 ```
 
 ### `ConfigurazioneController`
@@ -720,7 +728,6 @@ Totale elementi identificati: **122**.
 + getStorico(idUtente: String): Response
 + getRiepilogo(idCorsa: String): Response
 + getMezzo(idMezzo: String): Response
-+ getMezziSbloccabili(pos: Coordinate): Response
 ```
 
 ### `MezzoOperatoreController`
@@ -761,6 +768,7 @@ Totale elementi identificati: **122**.
 + zoneParcheggio(): Response
 + zoneLimitate(): Response
 + zoneVietate(): Response
++ getDatiMappaAP(): Response
 ```
 
 ### `HomePageUtenteController`
@@ -798,6 +806,7 @@ Totale elementi identificati: **122**.
 ```
 + scriviRecensione(idUtente: String, voto: int, commento: String): Recensione
 + validaVoto(voto: int): boolean
++ getRecensioni(): Object
 ```
 
 ### `IServizioSegnalazione`
@@ -964,6 +973,7 @@ Totale elementi identificati: **122**.
 ```
 + scriviRecensione(idUtente: String, voto: int, commento: String): Recensione
 + validaVoto(voto: int): boolean
++ getRecensioni(): Object
 ```
 
 ### `ServizioSegnalazione`
@@ -1291,7 +1301,6 @@ Totale elementi identificati: **122**.
 
 ```
 + findById(idCorsa: String): Corsa
-+ findRiepilogo(idCorsa: String, idUtente: String): Corsa
 + findAttiva(idMezzo: String): Corsa
 + findByUtenteOrderByData(idUtente: String): List
 + findByPeriodo(periodo: Periodo): List
@@ -1672,13 +1681,13 @@ I repository sono l'unico livello che conosce le entita' ORM: convertono ORM ↔
 
 ## Relazioni tra layer
 
-Il diagramma contiene **161** relazioni (in prevalenza dipendenze d'uso `Use`).
+Il diagramma contiene **162** relazioni (in prevalenza dipendenze d'uso `Use`).
 Riepilogo delle dipendenze direzionali tra layer (origine -> destinazione):
 
 | Da (layer) | A (layer) | N. dipendenze |
 |---|---|---|
 | SERVER - Service (Business Logic Layer) | SERVER - Repository (Data Access Layer) | 27 |
-| CLIENT - View (Presentation) | CLIENT - Service (API Service Layer) | 20 |
+| CLIENT - View (Presentation) | CLIENT - Service (API Service Layer) | 21 |
 | SERVER - Model (Domain / Entity) | SERVER - Model (Domain / Entity) | 19 |
 | SERVER - Controller (MVC / FrontController) | Contratti Controller -> BLL (interfacce) | 15 |
 | SERVER - Repository (Data Access Layer) | SERVER - Repository (Data Access Layer) | 15 |

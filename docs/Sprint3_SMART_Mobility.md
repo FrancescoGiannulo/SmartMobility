@@ -4359,6 +4359,111 @@ mezzi.</p></td>
 </tbody>
 </table>
 
+#### OP-13 Visualizza Recensioni
+
+<table style="width:99%;">
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 70%" />
+</colgroup>
+<tbody>
+<tr>
+<td>Nome</td>
+<td>Visualizza Recensioni</td>
+</tr>
+<tr>
+<td>ID</td>
+<td>OP-13</td>
+</tr>
+<tr>
+<td>Breve descrizione</td>
+<td>Il sistema consente all'Operatore autenticato di consultare l'elenco
+delle recensioni lasciate dagli utenti (voto da 1 a 5, commento testuale
+e data di creazione), insieme al voto medio aggregato, così da avere un
+riscontro sulle migliorie da apportare al servizio.</td>
+</tr>
+<tr>
+<td>Attori Primari</td>
+<td>Operatore</td>
+</tr>
+<tr>
+<td>Attori Secondari</td>
+<td>Nessuno</td>
+</tr>
+<tr>
+<td>Precondizioni</td>
+<td>L'Operatore è autenticato alla piattaforma con il ruolo OP.</td>
+</tr>
+<tr>
+<td>Sequenza principale degli eventi</td>
+<td><p>1. Il caso d'uso inizia quando l'Operatore accede alla sezione
+"Recensioni".</p>
+<p>2. Il sistema recupera l'elenco delle recensioni pubblicate dagli
+utenti e calcola il voto medio aggregato.</p>
+<p>3. Il sistema presenta l'elenco delle recensioni, indicando per
+ciascuna il voto, il commento e la data, insieme al voto medio
+complessivo.</p>
+<p>4. L'Operatore consulta le recensioni visualizzate.</p></td>
+</tr>
+<tr>
+<td>Post-condizioni</td>
+<td>L'elenco delle recensioni e il voto medio sono visualizzati;
+l'Operatore ha consultato i feedback degli utenti.</td>
+</tr>
+<tr>
+<td>Sequenza alternativa degli eventi</td>
+<td>NessunaRecensione</td>
+</tr>
+</tbody>
+</table>
+
+<table style="width:99%;">
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 70%" />
+</colgroup>
+<tbody>
+<tr>
+<td>Nome</td>
+<td>Visualizza Recensioni: NessunaRecensione</td>
+</tr>
+<tr>
+<td>ID</td>
+<td>OP-13.01</td>
+</tr>
+<tr>
+<td>Breve descrizione</td>
+<td>Non è presente alcuna recensione pubblicata dagli utenti al momento
+della richiesta.</td>
+</tr>
+<tr>
+<td>Attori Primari</td>
+<td>Operatore</td>
+</tr>
+<tr>
+<td>Attori Secondari</td>
+<td>Nessuno</td>
+</tr>
+<tr>
+<td>Precondizioni</td>
+<td>Non sono presenti recensioni nel sistema.</td>
+</tr>
+<tr>
+<td>Postcondizioni</td>
+<td>L'elenco delle recensioni non viene mostrato; l'Operatore è informato
+che non sono ancora presenti recensioni.</td>
+</tr>
+<tr>
+<td>Sequenza alternativa degli eventi</td>
+<td><p>1. La sequenza alternativa sostituisce i passi 2 e 3 della sequenza
+principale.</p>
+<p>2. Il sistema verifica che non sia presente alcuna recensione.</p>
+<p>3. Il sistema notifica all'Operatore che non sono ancora disponibili
+recensioni.</p></td>
+</tr>
+</tbody>
+</table>
+
 ## System Architecture
 
 ### Diagramma delle Componenti – Diagramma Generale
