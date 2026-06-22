@@ -5,7 +5,7 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: #155e52;
+  background: var(--sm-primary, #155e52);
   color: #fff;
   border: none;
   font-size: 22px;
@@ -29,7 +29,7 @@
 }
 
 .tour-trigger:focus-visible {
-  outline: 2px solid #06d6a0;
+  outline: 2px solid var(--sm-accent, #06d6a0);
   outline-offset: 3px;
 }
 
