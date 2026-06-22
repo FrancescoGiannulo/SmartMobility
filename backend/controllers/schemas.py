@@ -115,6 +115,12 @@ class RecensioneOut(BaseModel):
     created_at: str
 
 
+# [IF-OP.13] Visualizza Recensioni — serializza l'Object {recensioni, votoMedio}
+class RecensioniOperatoreOut(BaseModel):
+    recensioni: list[RecensioneOut]
+    voto_medio: float
+
+
 class SbloccoRequest(BaseModel):
     mezzo_ids: list[UUID]
     lat: float | None = None

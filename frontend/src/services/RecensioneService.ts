@@ -17,3 +17,12 @@ export const scriviRecensione = (
 // [IF-UT.15] Le mie recensioni
 export const getMieRecensioni = (): Promise<{ data: Recensione[] }> =>
   api.get('/utente/recensioni')
+
+export interface RecensioniOperatore {
+  recensioni: Recensione[]
+  voto_medio: number
+}
+
+// [IF-OP.13] Visualizza Recensioni (lato Operatore)
+export const getRecensioni = (): Promise<{ data: RecensioniOperatore }> =>
+  api.get('/operatore/recensioni')

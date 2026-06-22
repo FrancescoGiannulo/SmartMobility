@@ -6,10 +6,16 @@ from bll.servizio_recensione import (
     CorsaNonConclusaException,
 )
 from middleware.auth_middleware import verify_token
-from controllers.schemas import ScriviRecensioneRequest, RecensioneOut
+from controllers.schemas import (
+    ScriviRecensioneRequest,
+    RecensioneOut,
+    RecensioniOperatoreOut,
+)
 
 # [IF-UT.15] RecensioneController
 router = APIRouter(prefix="/utente", tags=["Recensioni"])
+# [IF-OP.13] RecensioneController — lato Operatore
+router_operatore = APIRouter(prefix="/operatore", tags=["Recensioni"])
 _servizio = ServizioRecensione()
 
 
@@ -33,3 +39,11 @@ def scrivi_recensione(
         raise HTTPException(status_code=422, detail=str(e))
     except CorsaNonConclusaException as e:
         raise HTTPException(status_code=422, detail=str(e))
+
+
+@router_operatore.get("/recensioni", response_model=RecensioniOperatoreOut)
+def get_recensioni(
+    _: dict = Depends(verify_token(["OP"])),
+):
+    """[IF-OP.13] Visualizza Recensioni — elenco recensioni + voto medio."""
+    return _servizio.get_recensioni()
