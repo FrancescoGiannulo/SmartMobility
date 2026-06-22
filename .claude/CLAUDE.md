@@ -283,7 +283,13 @@ Servizi Esterni
 ### Gestione degli stati del mezzo
 Lo stato di un mezzo (`Disponibile`, `Prenotato`, `In uso`, `In pausa`, `In manutenzione`, `Fuori servizio`) è un concetto centrale. Qualsiasi operazione che modifica lo stato deve passare per `ServizioMobilità` e rispettare le transizioni valide. Non aggiornare lo stato direttamente dal Controller o dal DAL.
 
-**Prenotazione scaduta**: non esiste un job di cleanup automatico. Se `scade_at < now()` ma il mezzo è ancora in stato `Prenotato`, `_sblocca_singolo` in `ServizioMobilita` rileva la scadenza (nessuna prenotazione attiva per qualsiasi utente) e resetta il mezzo a `Disponibile` prima di procedere con lo sblocco.
+**Prenotazione scaduta**: il cleanup avviene su due livelli complementari:
+1. **Proattivo (pg_cron)**: la funzione `cleanup_prenotazioni_scadute()` (migrazione `016_cleanup_scadenze.sql`) gira ogni 5 minuti, marca le prenotazioni scadute come `scaduta`, rilascia i mezzi a `Disponibile` e inserisce una notifica per l'utente.
+2. **Lazy (fallback)**: `_sblocca_singolo` in `ServizioMobilita` rileva comunque la scadenza al momento dello sblocco, come sicurezza nel caso il job non sia ancora passato.
+
+**Abbonamento scaduto**: la funzione `cleanup_abbonamenti_scaduti()` (stessa migrazione) gira ogni giorno a mezzanotte, marca gli abbonamenti con `data_fine < now()` come `scaduto` e notifica l'utente. Il check lazy in `ServizioAbbonamento` resta attivo come doppia sicurezza.
+
+Entrambe le funzioni usano l'entità `Notifica` già modellata nel Diagramma Classi e implementata in `NotificaRepository.crea()`. Non introducono nuove classi o interfacce. Per abilitare pg_cron su Supabase: Dashboard → Database → Extensions → pg_cron.
 
 ### Logica pagamento a fine corsa [IF-UT.05]
 

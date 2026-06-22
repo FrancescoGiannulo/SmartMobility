@@ -737,6 +737,8 @@ Contiene l’elenco e la specifica di tutti gli eventuali requisiti non funziona
 
 - Il sistema deve completare l'operazione di prenotazione di un mezzo entro x secondi dalla richiesta dell'utente (da testare)
 
+- Il sistema deve mantenere la coerenza dei dati temporali in modo proattivo: le prenotazioni scadute (IF-UT.02) e gli abbonamenti scaduti (IF-UT.13) vengono aggiornati automaticamente tramite job schedulati nel database (pg_cron), senza dipendere dall'interazione dell'utente. I mezzi con prenotazioni scadute vengono riportati a stato `Disponibile`. Gli utenti interessati ricevono una notifica persistita nella tabella `notifiche` (entità `Notifica` già presente nel Diagramma Classi). Migrazione di riferimento: `016_cleanup_scadenze.sql`.
+
 #### IIN-2 Sicurezza
 
 - Tutte le comunicazioni tra client e server devono essere cifrate mediante protocolli di sicurezza standard
