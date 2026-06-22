@@ -1,3 +1,4 @@
+from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 from database import get_db
 from middleware.auth_middleware import verify_token
@@ -32,6 +33,7 @@ def salva_regole(
             bonus_parcheggi_corretti=body.bonus_parcheggi_corretti,
             bonus_valore=body.bonus_valore,
             db=db,
+            operatore_id=UUID(str(_op["id"])),
         )
     except RegolaFinecorsaValidazioneException as e:
         raise HTTPException(status_code=422, detail=str(e))

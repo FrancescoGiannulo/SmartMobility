@@ -121,6 +121,17 @@ class RecensioniOperatoreOut(BaseModel):
     voto_medio: float
 
 
+# [IF-OP.12] Mostra Storico Modifiche
+class StoricoModificaOut(BaseModel):
+    id: str
+    tipo_configurazione: str
+    descrizione: str
+    valore_precedente: str | None = None
+    valore_nuovo: str | None = None
+    operatore_id: str
+    created_at: str
+
+
 class SbloccoRequest(BaseModel):
     mezzo_ids: list[UUID]
     lat: float | None = None

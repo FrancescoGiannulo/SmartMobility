@@ -1,9 +1,11 @@
 from decimal import Decimal
 from typing import Optional
+from uuid import UUID
 from sqlalchemy.orm import Session
 
 from dal.regola_fine_corsa_repository import RegoleFineCorsaRepository
 from model.regola_fine_corsa import RegolaFinecorsa, TipoVincoloFinecorsa
+from bll.servizio_storico_modifiche import ServizioStoricoModifiche
 
 _VALORI_TIPO_VINCOLO = {v.value for v in TipoVincoloFinecorsa}
 
@@ -17,6 +19,7 @@ class ServizioRegolaFinecorsa:
 
     def __init__(self):
         self._repo = RegoleFineCorsaRepository()
+        self._storico = ServizioStoricoModifiche()
 
     def get_corrente(self, db: Session) -> Optional[RegolaFinecorsa]:
         """Restituisce la configurazione globale corrente, o None se non ancora impostata."""
@@ -30,6 +33,7 @@ class ServizioRegolaFinecorsa:
         bonus_parcheggi_corretti: Optional[int],
         bonus_valore: Optional[Decimal],
         db: Session,
+        operatore_id: UUID,
     ) -> RegolaFinecorsa:
         """Valida e persiste (upsert) la configurazione globale delle regole di fine corsa."""
         if tipo_vincolo not in _VALORI_TIPO_VINCOLO:
@@ -64,8 +68,9 @@ class ServizioRegolaFinecorsa:
                 "bonus_parcheggi_corretti e bonus_valore devono essere forniti insieme."
             )
 
+        precedente = self._repo.get_corrente(db)
         tipo_vincolo_enum = TipoVincoloFinecorsa(tipo_vincolo)
-        return self._repo.salva(
+        aggiornata = self._repo.salva(
             tipo_vincolo=tipo_vincolo_enum,
             penale_fuori_zona=penale_fuori_zona,
             batteria_minima=batteria_minima,
@@ -73,3 +78,23 @@ class ServizioRegolaFinecorsa:
             bonus_valore=bonus_valore,
             db=db,
         )
+        self._storico.registra_modifica(
+            tipo_configurazione="regole_fine_corsa",
+            descrizione="Modifica delle regole di fine corsa",
+            valore_precedente=(
+                f"tipo_vincolo={precedente.tipo_vincolo.value}, "
+                f"penale_fuori_zona={precedente.penale_fuori_zona}, "
+                f"batteria_minima={precedente.batteria_minima}, "
+                f"bonus_parcheggi_corretti={precedente.bonus_parcheggi_corretti}, "
+                f"bonus_valore={precedente.bonus_valore}"
+            ) if precedente is not None else None,
+            valore_nuovo=(
+                f"tipo_vincolo={aggiornata.tipo_vincolo.value}, "
+                f"penale_fuori_zona={aggiornata.penale_fuori_zona}, "
+                f"batteria_minima={aggiornata.batteria_minima}, "
+                f"bonus_parcheggi_corretti={aggiornata.bonus_parcheggi_corretti}, "
+                f"bonus_valore={aggiornata.bonus_valore}"
+            ),
+            operatore_id=operatore_id,
+        )
+        return aggiornata
