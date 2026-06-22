@@ -299,3 +299,20 @@ class SuggerimentoOut(BaseModel):
     dati_contesto: dict = {}
     stato: str
     creato_at: str | None = None
+
+
+# [IF-OP.09] Sospende Account Utente
+class UtenteListItemOut(BaseModel):
+    id: str
+    nome: str
+    cognome: str
+    email: str
+    sospeso: bool
+
+
+class UtenteDettaglioOut(UtenteListItemOut):
+    pass
+
+
+class SospensioneRequest(BaseModel):
+    motivazione: str
