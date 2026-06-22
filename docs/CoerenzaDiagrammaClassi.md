@@ -3,7 +3,7 @@
 Documento di tracciamento delle discrepanze tra `docs/Diagrammi/DiagrammaClassi.md` e il codice sorgente.
 Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 
-**Ultima revisione:** 2026-06-20
+**Ultima revisione:** 2026-06-21
 
 **Legenda:** ✅ Coerente | ⚠️ Nome/struttura diverge | ❌ Mancante o problema critico
 
@@ -19,7 +19,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | `VistaDashboardAP` | `views/amministrazione/VistaDashboardAP.tsx` | ✅ | |
 | `VistaDashboardOperatore` | `views/operatore/VistaMappaOperatore.tsx` | ⚠️ | Nome diverso |
 | `VistaDefinisciZona` | non trovata | ❌ | Probabilmente da creare o da integrare in `VistaMappaOperatore` |
-| `VistaGestioneUtentiOperatore` | non trovata | ❌ | IF-OP.09 Sospende Account Utente — pianificata nel diagramma, non implementata (come `Recensione`) |
+| `VistaGestioneUtentiOperatore` | `views/operatore/VistaGestioneUtentiOperatore.tsx` | ✅ | Implementata 2026-06-21 (IF-OP.09) |
 | `VistaHomepageUtente` | `views/utente/VistaMappa.tsx` | ⚠️ | Nome diverso |
 | `VistaImpostazioniRegole` | `views/operatore/VistaImpostazioniRegole.tsx` | ✅ | |
 | `VistaMezziOperatore` | `views/operatore/VistaMezziOperatore.tsx` | ✅ | |
@@ -74,7 +74,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | `ServizioReport` | `bll/servizio_report.py` | ✅ | |
 | `ServizioSegnalazione` | `bll/servizio_segnalazione.py` | ✅ | Creato il 2026-06-08 |
 | `ServizioUtenti` | `bll/servizio_utenti.py` | ✅ | |
-| `NotificaService` | non trovato | ❌ | Creato 2026-06-20 nel diagramma (IF-OP.08/IF-OP.09 richiedono notifica all'Utente); non implementato nel codice — nessun canale notifiche esiste oggi |
+| `NotificaService` | `bll/notifica_service.py` | ✅ | Implementata 2026-06-21 (IF-OP.09) — solo persistenza, nessuna UI di lettura |
 | `AbbonamentoService` | *(duplicato nel diagramma)* | ⚠️ | Duplicato di `ServizioAbbonamento` — rimuovere dal diagramma |
 | `CorsaService` | *(duplicato nel diagramma)* | ⚠️ | Duplicato di parte di `ServizioMobilità` — rimuovere dal diagramma |
 | `ConfigurazioneService` | *(duplicato nel diagramma)* | ⚠️ | Duplicato di `ServizioParametri` — rimuovere dal diagramma |
@@ -108,7 +108,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | `Tariffa` | `model/tariffa.py` | ✅ | |
 | `Utente` | `model/orm.py` + `model/utente.py` (dataclass) | ✅ | |
 | `Zona` | `model/zona.py` | ✅ | |
-| `Notifica` | non trovato | ❌ | Creato 2026-06-20 nel diagramma insieme a `NotificaService`/`NotificaRepository` — non implementato |
+| `Notifica` | `model/notifica.py` + `model/orm.py` | ✅ | Implementata 2026-06-21 (IF-OP.09) |
 
 ---
 
@@ -128,7 +128,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | `TariffaRepository` | `dal/tariffa_repository.py` | ✅ | |
 | `UtenteRepository` | `dal/utente_repository.py` | ❌ | File esiste ma la classe è vuota (`pass`) — implementazione assente |
 | `ZonaRepository` | `dal/zona_repository.py` | ✅ | |
-| `NotificaRepository` | non trovato | ❌ | Creato 2026-06-20 nel diagramma — non implementato |
+| `NotificaRepository` | `dal/notifica_repository.py` | ✅ | Implementata 2026-06-21 (IF-OP.09) |
 | *(non previsto)* | `dal/attore_repository.py` (`AttoreRepository`) | ⚠️ | Extra — aggiungere al diagramma |
 | *(non previsto)* | `dal/operatore_repository.py` (`OperatoreRepository`) | ⚠️ | Extra — aggiungere al diagramma |
 | *(non previsto)* | `dal/promozione_repository.py` (`PromozioneRepository`) | ⚠️ | Extra — aggiungere al diagramma |
@@ -153,7 +153,7 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | `RegoleFineCorsaController` | `controllers/regola_fine_corsa_controller.py` | ✅ | |
 | `SegnalazioneOPController` | `controllers/segnalazione_op_controller.py` | ✅ | Creato il 2026-06-08 |
 | `SegnalazioneUtenteController` | `controllers/segnalazione_utente_controller.py` | ✅ | Creato il 2026-06-08 |
-| `UtentiOPController` | non trovato | ❌ | IF-OP.09 Sospende Account Utente — pianificato nel diagramma, non implementato |
+| `UtentiOPController` | `controllers/utenti_op_controller.py` | ✅ | Implementata 2026-06-21 (IF-OP.09) |
 | `ZoneController` | `controllers/zona_operatore_controller.py` | ✅ | |
 
 ---
@@ -167,10 +167,8 @@ Aggiornare questo file ad ogni fix fino a raggiungere piena coerenza.
 | 1 | `Abbonamento` ORM mancante | Decidere: creare modello separato O aggiornare diagramma per riflettere la fusione con `Offerta` |
 | 2 | `UtenteRepository` vuoto (`pass`) | Implementare i metodi previsti dal diagramma |
 | 3 | `VistaDefinisciZona` mancante | Creare la view O integrare funzionalità in `VistaMappaOperatore` e aggiornare diagramma |
-| 4 | `VistaGestioneUtentiOperatore` mancante | Creare la view |
-| 5 | `DashBoardOPController` mancante | Creare controller dedicato O aggiornare diagramma |
-| 6 | `HomePageUtenteController` mancante | Estrarre da `utente_controller.py` O aggiornare diagramma |
-| 7 | `UtentiOPController` mancante | Creare controller dedicato O aggiornare diagramma |
+| 4 | `DashBoardOPController` mancante | Creare controller dedicato O aggiornare diagramma |
+| 5 | `HomePageUtenteController` mancante | Estrarre da `utente_controller.py` O aggiornare diagramma |
 
 ### ⚠️ Nomi divergenti (da allineare — codice O diagramma)
 
@@ -218,3 +216,4 @@ Le seguenti classi BLL compaiono due volte nel diagramma (una volta con nome ita
 | 2026-06-08 | Rimossi metodi segnalazione da `ServizioMobilita` | `bll/servizio_mobilita.py` |
 | 2026-06-08 | Rimosso `segnalazione_router` da `utente_controller.py` | `controllers/utente_controller.py` |
 | 2026-06-08 | Aggiornato `main.py` con nuovi router segnalazione | `main.py` |
+| 2026-06-21 | Implementato IF-OP.09 (Sospende Account Utente): `model/notifica.py`+`model/orm.py::Notifica`, `dal/notifica_repository.py`, `bll/notifica_service.py`, `AttoreRepository.lista_utenti/trova_utente_per_id/sospendi`, `ServizioUtenti.get_utenti/get_dettaglio_utente/sospendi_account`, `controllers/utenti_op_controller.py`, `GestioneUtentiService.ts`, `VistaGestioneUtentiOperatore.tsx`. Riattivazione e invalidazione sessione attiva escluse dallo scope (vedi spec). Corrette anche le post-condizioni errate di OP-09 in `Sprintn3.md` (testo copiato dal caso d'uso Segnalazione) | `backend/migrations/015_sospensione_account.sql`, `backend/model/notifica.py`, `backend/model/orm.py`, `backend/dal/notifica_repository.py`, `backend/bll/notifica_service.py`, `backend/dal/attore_repository.py`, `backend/bll/servizio_utenti.py`, `backend/controllers/utenti_op_controller.py`, `backend/controllers/schemas.py`, `backend/main.py`, `frontend/src/services/GestioneUtentiService.ts`, `frontend/src/views/operatore/VistaGestioneUtentiOperatore.tsx`, `App.tsx`, `VistaMappaOperatore.tsx`, `Sprintn3.md` |
