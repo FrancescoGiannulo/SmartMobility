@@ -58,4 +58,4 @@ Flusso (dal diagramma di sequenza): `VistaRecensione.confermaScrivi(voto, commen
 ## Note di scope
 
 - Nessuna modifica/cancellazione recensione: non richiesta dallo use case né dal diagramma.
-- Nessun endpoint di lettura per l'AP/operatore in questo slice (IF-OP.13 "Visualizza Recensioni" è fuori scope, non specificato nel diagramma fornito).
+- Nessun endpoint di lettura per l'AP/operatore in questo slice (IF-OP.12 "Visualizza Recensioni" è fuori scope, non specificato nel diagramma fornito).

@@ -17,7 +17,7 @@ function formatData(iso: string) {
   })
 }
 
-// [IF-OP.12] Mostra Storico Modifiche
+// [IF-OP.13] Mostra Storico Modifiche
 export default function VistaStoricoModifiche() {
   const navigate = useNavigate()
   const [storico, setStorico] = useState<StoricoModifica[]>([])

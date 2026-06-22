@@ -14,7 +14,7 @@ from controllers.schemas import (
 
 # [IF-UT.15] RecensioneController
 router = APIRouter(prefix="/utente", tags=["Recensioni"])
-# [IF-OP.13] RecensioneController — lato Operatore
+# [IF-OP.12] RecensioneController — lato Operatore
 router_operatore = APIRouter(prefix="/operatore", tags=["Recensioni"])
 _servizio = ServizioRecensione()
 
@@ -45,5 +45,5 @@ def scrivi_recensione(
 def get_recensioni(
     _: dict = Depends(verify_token(["OP"])),
 ):
-    """[IF-OP.13] Visualizza Recensioni — elenco recensioni + voto medio."""
+    """[IF-OP.12] Visualizza Recensioni — elenco recensioni + voto medio."""
     return _servizio.get_recensioni()

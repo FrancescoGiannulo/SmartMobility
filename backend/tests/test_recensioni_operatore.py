@@ -1,4 +1,4 @@
-"""[IF-OP.13] Test Visualizza Recensioni (lato Operatore) — scenari base e alternativi."""
+"""[IF-OP.12] Test Visualizza Recensioni (lato Operatore) — scenari base e alternativi."""
 import uuid as _uuid
 import pytest
 from sqlalchemy import text
@@ -40,11 +40,11 @@ def _elimina_recensione(db, recensione_id: str) -> None:
         s.commit()
 
 
-# ── Scenario base OP-13 ──────────────────────────────────────────────────────
+# ── Scenario base OP-12 ──────────────────────────────────────────────────────
 
 @pytest.mark.integration
 def test_visualizza_recensioni_scenario_base(operatore_test, db):
-    """[IF-OP.13] OP autenticato ottiene l'elenco recensioni + voto medio aggregato → 200."""
+    """[IF-OP.12] OP autenticato ottiene l'elenco recensioni + voto medio aggregato → 200."""
     id1 = _inserisci_recensione(db, 5, "Ottimo servizio")
     id2 = _inserisci_recensione(db, 3, None)
     try:
@@ -66,11 +66,11 @@ def test_visualizza_recensioni_scenario_base(operatore_test, db):
         _elimina_recensione(db, id2)
 
 
-# ── Scenario alternativo OP-13.01 NessunaRecensione ──────────────────────────
+# ── Scenario alternativo OP-12.01 NessunaRecensione ──────────────────────────
 
 @pytest.mark.integration
 def test_visualizza_recensioni_nessuna_recensione(operatore_test, monkeypatch):
-    """[IF-OP.13.01] Nessuna recensione presente → 200, elenco vuoto e voto medio 0.0."""
+    """[IF-OP.12.01] Nessuna recensione presente → 200, elenco vuoto e voto medio 0.0."""
     monkeypatch.setattr(rec_ctrl._servizio._repo, "find_all", lambda: [])
     token = _login(operatore_test["email"], operatore_test["password"])
     resp = http.get("/operatore/recensioni", headers=_auth(token))

@@ -14,7 +14,7 @@ class CorsaNonConclusaException(Exception):
 
 class ServizioRecensione:
     """[IF-UT.15] BLL per la scrittura di recensioni utente.
-    [IF-OP.13] BLL per la consultazione recensioni lato Operatore."""
+    [IF-OP.12] BLL per la consultazione recensioni lato Operatore."""
 
     def __init__(self) -> None:
         self._repo = RecensioneRepository()
@@ -56,13 +56,13 @@ class ServizioRecensione:
             for r in self._repo.find_by_utente_id(utente_id)
         ]
 
-    # [IF-OP.13] Visualizza Recensioni — calcolo voto medio (self-call del SD)
+    # [IF-OP.12] Visualizza Recensioni — calcolo voto medio (self-call del SD)
     def _calcola_voto_medio(self, recensioni: list) -> float:
         if not recensioni:
             return 0.0
         return round(sum(r.voto for r in recensioni) / len(recensioni), 1)
 
-    # [IF-OP.13] Visualizza Recensioni — elenco recensioni + voto medio aggregato
+    # [IF-OP.12] Visualizza Recensioni — elenco recensioni + voto medio aggregato
     def get_recensioni(self) -> dict:
         recensioni = self._repo.find_all()
         return {

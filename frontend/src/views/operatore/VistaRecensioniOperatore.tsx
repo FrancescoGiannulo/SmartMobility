@@ -14,7 +14,7 @@ function stelle(voto: number) {
   return '★'.repeat(voto) + '☆'.repeat(5 - voto)
 }
 
-// [IF-OP.13] Visualizza Recensioni
+// [IF-OP.12] Visualizza Recensioni
 export default function VistaRecensioniOperatore() {
   const navigate = useNavigate()
 
@@ -23,7 +23,7 @@ export default function VistaRecensioniOperatore() {
   const [caricamento, setCaricamento] = useState(true)
   const [errore, setErrore] = useState('')
 
-  // [IF-OP.13] apriRecensioni()
+  // [IF-OP.12] apriRecensioni()
   const apriRecensioni = useCallback(async () => {
     try {
       const res = await getRecensioni()
@@ -38,7 +38,7 @@ export default function VistaRecensioniOperatore() {
 
   useEffect(() => { apriRecensioni() }, [apriRecensioni])
 
-  // [IF-OP.13] mostraRecensioni(recensioni, votoMedio)
+  // [IF-OP.12] mostraRecensioni(recensioni, votoMedio)
   return (
     <div className="vista-rec-op-wrap">
       <button type="button" className="btn-back-rec-op" onClick={() => navigate(-1)}>
@@ -52,7 +52,7 @@ export default function VistaRecensioniOperatore() {
       {caricamento ? (
         <p className="rec-op-vuoto">Caricamento...</p>
       ) : recensioni.length === 0 ? (
-        // [IF-OP.13.01] NessunaRecensione
+        // [IF-OP.12.01] NessunaRecensione
         <p className="rec-op-vuoto">Nessuna recensione presente.</p>
       ) : (
         <>

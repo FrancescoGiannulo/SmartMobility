@@ -790,7 +790,7 @@ git commit -m "feat(recensione): collega route e voce sidebar Lascia recensione 
 
 - [ ] **Step 1: Update CLAUDE.md**
 
-In `.claude\CLAUDE.md`, find the paragraph under "Feature pianificate (progettate ma non ancora implementate)" about `Recensione` and update it to reflect that UT-15 (Scrive Recensione) is now implemented; OP-13 (Visualizza Recensioni, operator-side) remains pending.
+In `.claude\CLAUDE.md`, find the paragraph under "Feature pianificate (progettate ma non ancora implementate)" about `Recensione` and update it to reflect that UT-15 (Scrive Recensione) is now implemented; OP-12 (Visualizza Recensioni, operator-side) remains pending.
 
 - [ ] **Step 2: Add an implementation note to Sprint3_SMART_Mobility.md**
 

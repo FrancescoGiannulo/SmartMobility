@@ -6,7 +6,7 @@ from model.storico_modifiche import StoricoModifiche
 
 
 class StoricoModificheRepository:
-    """[IF-OP.12] Persistenza dello storico delle modifiche alle configurazioni del servizio."""
+    """[IF-OP.13] Persistenza dello storico delle modifiche alle configurazioni del servizio."""
 
     def crea(
         self,

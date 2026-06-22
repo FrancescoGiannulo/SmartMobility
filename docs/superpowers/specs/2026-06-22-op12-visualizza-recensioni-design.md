@@ -1,6 +1,6 @@
-# Design — OP-13 Visualizza Recensioni
+# Design — OP-12 Visualizza Recensioni
 
-**ID Product Backlog:** IF-OP.13 (Sprint 3)
+**ID Product Backlog:** IF-OP.12 (Sprint 3)
 **Data:** 2026-06-22
 **Autore:** Francesco
 
@@ -13,7 +13,7 @@ implementato.
 
 ## Fonti di verità (aderenza stretta)
 
-- **Use case:** `docs/Sprintn3.md` § OP-13 (scenario base) + OP-13.01
+- **Use case:** `docs/Sprintn3.md` § OP-12 (scenario base) + OP-12.01
   (NessunaRecensione).
 - **Diagramma classi:** `docs/Diagrammi/Diagramma Classi.drawio` →
   `VistaRecensioniOperatore`, `RecensioneService.getRecensioni()`,
@@ -33,7 +33,7 @@ Già presente (write-side IF-UT.15):
 - `backend/migrations/014_recensioni.sql` — tabella `recensioni`.
 - `frontend/src/services/RecensioneService.ts` — `scriviRecensione`, `getMieRecensioni`.
 
-Da implementare per OP-13: vedi sotto.
+Da implementare per OP-12: vedi sotto.
 
 ## Decisione architetturale
 
@@ -62,7 +62,7 @@ alla stessa classe) e riusa il pattern di prefisso già adottato da
    - calcola la media con helper privato `_calcola_voto_medio(lista)`
      (arrotondata a 1 decimale; `0.0` se lista vuota);
    - ritorna `{"recensioni": [...], "voto_medio": x}`.
-   - Nessuna eccezione: la lista vuota è il caso OP-13.01, gestito dalla View.
+   - Nessuna eccezione: la lista vuota è il caso OP-12.01, gestito dalla View.
    - `_calcola_voto_medio` è privato perché non compare nel diagramma classi
      (compare solo come self-call `calcolaVotoMedio` nel diagramma di sequenza);
      i metodi privati non sono vincolati dal diagramma classi.
@@ -73,7 +73,7 @@ alla stessa classe) e riusa il pattern di prefisso già adottato da
 
    @router_operatore.get("/recensioni", response_model=RecensioniOperatoreOut)
    def get_recensioni(_=Depends(verify_token(["OP"]))):
-       # [IF-OP.13] Visualizza Recensioni
+       # [IF-OP.12] Visualizza Recensioni
        return _servizio.get_recensioni()
    ```
 
@@ -87,7 +87,7 @@ alla stessa classe) e riusa il pattern di prefisso già adottato da
      recensioni: Recensione[]
      voto_medio: number
    }
-   // [IF-OP.13] Visualizza Recensioni
+   // [IF-OP.12] Visualizza Recensioni
    export const getRecensioni = (): Promise<{ data: RecensioniOperatore }> =>
      api.get('/operatore/recensioni')
    ```
@@ -97,7 +97,7 @@ alla stessa classe) e riusa il pattern di prefisso già adottato da
    - `mostraRecensioni(recensioni, votoMedio)` — rendering.
    - **alt** (dal diagramma): se `recensioni.length > 0` mostra voto medio +
      lista (voto/stelle, commento, data); altrimenti messaggio "Nessuna
-     recensione presente" (OP-13.01).
+     recensione presente" (OP-12.01).
    - Bottone "Indietro" e stile coerenti con `VistaSegnalazioniOperatore`.
 
 7. **`App.tsx`**: rotta `/operatore/recensioni` protetta `ruoloRichiesto="OP"`.
@@ -124,9 +124,9 @@ Operatore → VistaRecensioniOperatore.apriRecensioni()
 ## Test (`backend/tests/`)
 
 File `test_recensioni_operatore.py`:
-- **Base OP-13**: OP autenticato, recensioni in DB → 200, `recensioni` non
+- **Base OP-12**: OP autenticato, recensioni in DB → 200, `recensioni` non
   vuoto, `voto_medio` calcolato correttamente.
-- **OP-13.01 NessunaRecensione**: nessuna recensione → 200, `recensioni` vuoto,
+- **OP-12.01 NessunaRecensione**: nessuna recensione → 200, `recensioni` vuoto,
   `voto_medio == 0.0`.
 - **Guardia ruolo (IIN-2)**: utente non-OP → 403.
 
@@ -135,7 +135,7 @@ Test indipendenti, con cleanup delle recensioni inserite (pattern già usato in
 
 ## Tracciabilità
 
-Tutti i nuovi punti architetturalmente rilevanti commentati `# [IF-OP.13]`.
+Tutti i nuovi punti architetturalmente rilevanti commentati `# [IF-OP.12]`.
 
 ## Fuori scope
 

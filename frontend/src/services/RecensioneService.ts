@@ -23,6 +23,6 @@ export interface RecensioniOperatore {
   voto_medio: number
 }
 
-// [IF-OP.13] Visualizza Recensioni (lato Operatore)
+// [IF-OP.12] Visualizza Recensioni (lato Operatore)
 export const getRecensioni = (): Promise<{ data: RecensioniOperatore }> =>
   api.get('/operatore/recensioni')
