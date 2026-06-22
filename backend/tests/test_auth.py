@@ -141,6 +141,14 @@ class TestServizioUtenti:
                 utente_sospeso["email"], utente_sospeso["password"]
             )
 
+    def test_login_account_sospeso_motivazione_nel_messaggio(self, utente_test):
+        AttoreRepository().sospendi(utente_test["id"], "Comportamento scorretto")
+        with pytest.raises(AccountSospesoException) as exc_info:
+            ServizioUtenti().autentica_account(
+                utente_test["email"], utente_test["password"]
+            )
+        assert "Comportamento scorretto" in str(exc_info.value)
+
     def test_login_op_non_bloccato_da_sospeso(self, operatore_test):
         # [IIN-2] Operatori non hanno campo sospeso — non devono essere bloccati
         result = ServizioUtenti().autentica_account(

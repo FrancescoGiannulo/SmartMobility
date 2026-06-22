@@ -22,12 +22,21 @@ class AttoreRepository:
         """Cerca in utenti → operatori → amministratori. Restituisce (profilo, ruolo)."""
         with Session(engine) as session:
             row = session.execute(
-                text("SELECT nome, cognome, sospeso FROM utenti WHERE id = :id"),
+                text(
+                    "SELECT nome, cognome, sospeso, motivazione_sospensione "
+                    "FROM utenti WHERE id = :id"
+                ),
                 {"id": str(id)},
             ).fetchone()
             if row:
                 return (
-                    Utente(id=id, nome=row.nome, cognome=row.cognome, sospeso=row.sospeso),
+                    Utente(
+                        id=id,
+                        nome=row.nome,
+                        cognome=row.cognome,
+                        sospeso=row.sospeso,
+                        motivazione_sospensione=row.motivazione_sospensione,
+                    ),
                     "UT",
                 )
 
