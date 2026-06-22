@@ -952,7 +952,7 @@ export default function VistaHomePageUtente() {
 
 
 
-      <TourTrigger tourId="homepage-ut" />
+      {!sidebarAperta && <TourTrigger tourId="homepage-ut" />}
 
       {errore && <div className="mappa-errore">{errore}</div>}
     </div>
