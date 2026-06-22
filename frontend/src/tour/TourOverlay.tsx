@@ -101,34 +101,24 @@ export function TourOverlay({ tours }: TourOverlayProps) {
   const tooltipRef = useRef<HTMLDivElement>(null);
   const [posizione, setPosizione] = useState<{ top: number; left: number } | null>(null);
   const [pronto, setPronto] = useState(false);
+  const [targetTrovato, setTargetTrovato] = useState(false);
+  const retryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const config = tourAttivo ? tours[tourAttivo] : null;
   const step = config?.steps[stepCorrente] ?? null;
 
-  // Scroll to target + position tooltip
-  const posizionaSpotlight = useCallback(() => {
-    if (!step || step.type === 'modal' || !step.target) {
-      setPronto(true);
-      return;
-    }
+  // Lock body scroll when tour is active
+  useEffect(() => {
+    if (!tourAttivo) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, [tourAttivo]);
 
-    // Remove previous spotlight
-    document.querySelectorAll('[data-tour-active]').forEach(el => {
-      el.removeAttribute('data-tour-active');
-    });
-
-    const el = document.querySelector(`[data-tour="${step.target}"]`) as HTMLElement | null;
-    if (!el) {
-      prossimoStep();
-      return;
-    }
-
+  const applicaSpotlight = useCallback((el: HTMLElement) => {
     el.setAttribute('data-tour-active', '');
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    el.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'center' });
-
-    setTimeout(() => {
+    setTargetTrovato(true);
+    requestAnimationFrame(() => {
       if (!tooltipRef.current) {
         setPronto(true);
         return;
@@ -138,17 +128,47 @@ export function TourOverlay({ tours }: TourOverlayProps) {
         setPosizione(null);
       } else {
         const rect = el.getBoundingClientRect();
-        const pos = calcolaPosizioneTooltip(rect, step.tooltipPosition, tooltipRef.current);
+        const pos = calcolaPosizioneTooltip(rect, step?.tooltipPosition, tooltipRef.current);
         setPosizione(pos);
       }
       setPronto(true);
-    }, 400);
-  }, [step, prossimoStep]);
+    });
+  }, [step?.tooltipPosition]);
+
+  // Position tooltip near spotlight target, with retry for targets
+  // that appear after a state update (e.g. auto-selected mezzo panel)
+  const posizionaSpotlight = useCallback((tentativo = 0) => {
+    document.querySelectorAll('[data-tour-active]').forEach(el => {
+      el.removeAttribute('data-tour-active');
+    });
+
+    if (!step || step.type === 'modal' || !step.target) {
+      setTargetTrovato(false);
+      setPronto(true);
+      return;
+    }
+
+    const el = document.querySelector(`[data-tour="${step.target}"]`) as HTMLElement | null;
+    if (!el) {
+      if (tentativo < 3) {
+        retryTimerRef.current = setTimeout(() => posizionaSpotlight(tentativo + 1), 200);
+        return;
+      }
+      setTargetTrovato(false);
+      setPronto(true);
+      return;
+    }
+
+    applicaSpotlight(el);
+  }, [step, applicaSpotlight]);
 
   useEffect(() => {
+    if (retryTimerRef.current) clearTimeout(retryTimerRef.current);
     setPronto(false);
     setPosizione(null);
-    if (step) posizionaSpotlight();
+    setTargetTrovato(false);
+    if (step) posizionaSpotlight(0);
+    return () => { if (retryTimerRef.current) clearTimeout(retryTimerRef.current); };
   }, [step, posizionaSpotlight]);
 
   // Cleanup spotlight on unmount or tour end
@@ -211,8 +231,10 @@ export function TourOverlay({ tours }: TourOverlayProps) {
 
   if (!tourAttivo || !step || !config) return null;
 
-  // Modal step
-  if (step.type === 'modal') {
+  const mostraComeModale = step.type === 'modal' || (step.type === 'spotlight' && !targetTrovato);
+
+  // Modal step (or spotlight fallback when target not found)
+  if (mostraComeModale) {
     return createPortal(
       <div className="tour-overlay-backdrop" role="dialog" aria-modal="true" aria-label="Tour guidato">
         <div className="tour-modal" ref={tooltipRef} tabIndex={-1}>
@@ -238,13 +260,14 @@ export function TourOverlay({ tours }: TourOverlayProps) {
     );
   }
 
-  // Spotlight step
+  // Spotlight step (target exists in DOM)
   const tooltipStyle: React.CSSProperties = posizione
     ? { top: posizione.top, left: posizione.left }
     : {};
 
   return createPortal(
     <>
+      <div className="tour-spotlight-backdrop" onClick={(e) => e.stopPropagation()} />
       <div
         className="tour-tooltip"
         ref={tooltipRef}

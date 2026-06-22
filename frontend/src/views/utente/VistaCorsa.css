@@ -555,3 +555,17 @@
   color: #94a3b8;
   text-decoration: line-through;
 }
+
+/* Mobile */
+@media (max-width: 480px) {
+  .vista-corsa-wrap { padding: 16px 12px 24px; }
+  .corsa-titolo { font-size: 20px; }
+  .corsa-card, .corsa-multi-card { max-width: 100%; }
+  .corsa-mezzo-hero { font-size: 48px; }
+  .corsa-stat-label { font-size: 11px; }
+  .corsa-stat-val { font-size: 16px; }
+  .corsa-azioni { gap: 8px; }
+  .corsa-btn { padding: 12px 0; font-size: 13px; }
+  .riepilogo-card { max-width: 100%; padding: 20px 16px 22px; }
+  .promo-modal-card { max-width: 100%; }
+}

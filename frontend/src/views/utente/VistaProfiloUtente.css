@@ -213,3 +213,11 @@
   font-size: 14px;
   font-weight: 500;
 }
+
+/* Mobile */
+@media (max-width: 480px) {
+  .vista-profilo-wrap { padding: 16px 12px 32px; }
+  .profilo-titolo { font-size: 20px; }
+  .profilo-container { max-width: 100%; }
+  .profilo-card { padding: 16px; }
+}

@@ -214,3 +214,11 @@
   color: #555;
   margin: 0;
 }
+
+/* Mobile */
+@media (max-width: 480px) {
+  .vista-segn-wrap { padding: 16px 12px 32px; }
+  .segn-titolo { font-size: 20px; }
+  .segn-card, .segn-conferma-card { max-width: 100%; }
+  .segn-input, .segn-textarea { font-size: 14px; }
+}

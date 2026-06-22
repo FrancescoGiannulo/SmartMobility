@@ -12,16 +12,9 @@ function lsKey(tourId: string, userId: string): string {
 function trovaStepValido(
   steps: TourConfig['steps'],
   indice: number,
-  direzione: 1 | -1,
 ): number {
-  let i = indice;
-  while (i >= 0 && i < steps.length) {
-    const step = steps[i];
-    if (step.type === 'modal' || !step.target) return i;
-    if (document.querySelector(`[data-tour="${step.target}"]`)) return i;
-    i += direzione;
-  }
-  return -1;
+  if (indice < 0 || indice >= steps.length) return -1;
+  return indice;
 }
 
 interface TourProviderProps {
@@ -68,7 +61,7 @@ export function TourProvider({ tours, children }: TourProviderProps) {
 
   const prossimoStep = useCallback(() => {
     if (!configCorrente) return;
-    const prossimo = trovaStepValido(configCorrente.steps, stepCorrente + 1, 1);
+    const prossimo = trovaStepValido(configCorrente.steps, stepCorrente + 1);
     if (prossimo === -1) {
       chiudiTour();
     } else {
@@ -78,7 +71,7 @@ export function TourProvider({ tours, children }: TourProviderProps) {
 
   const stepPrecedente = useCallback(() => {
     if (!configCorrente) return;
-    const precedente = trovaStepValido(configCorrente.steps, stepCorrente - 1, -1);
+    const precedente = trovaStepValido(configCorrente.steps, stepCorrente - 1);
     if (precedente !== -1) {
       setStepCorrente(precedente);
     }

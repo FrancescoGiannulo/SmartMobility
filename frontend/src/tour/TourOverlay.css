@@ -2,13 +2,28 @@
    Tour Guidato — Overlay, Spotlight, Tooltip
    ============================================================ */
 
-/* Spotlight: applied to target element via data-tour-active attribute */
+/* Spotlight: applied to target element via data-tour-active attribute.
+   Do NOT force position: relative — it breaks absolutely-positioned elements
+   like the suggerimenti banner. The z-index + box-shadow work regardless. */
 [data-tour-active] {
-  position: relative !important;
   z-index: 10001 !important;
   box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.7) !important;
   border-radius: 8px;
   pointer-events: auto;
+}
+
+/* Lift parent stacking contexts that trap spotlighted children
+   (e.g. topbar with backdrop-filter creates its own stacking context) */
+.mappa-topbar:has([data-tour-active]),
+.suggerimenti-banner:has([data-tour-active]) {
+  z-index: 10001 !important;
+}
+
+/* Transparent backdrop for spotlight steps — blocks interaction with page */
+.tour-spotlight-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
 }
 
 /* Modal overlay backdrop */

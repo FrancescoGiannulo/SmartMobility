@@ -27,8 +27,8 @@
 }
 
 .login-logo img {
-  width: 80px;
-  height: 80px;
+  width: 180px;
+  height: auto;
 }
 
 .login-logo h1 {
@@ -59,6 +59,45 @@ form {
 
 .login-input:focus {
   border-color: #155e52;
+}
+
+.login-password-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.login-password-wrap .login-input {
+  padding-right: 48px;
+}
+
+.btn-mostra-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  line-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 150ms;
+}
+
+.btn-mostra-password:hover {
+  background: rgba(21, 94, 82, 0.08);
+}
+
+.btn-mostra-password:focus-visible {
+  outline: 2px solid #155e52;
+  outline-offset: 2px;
+}
+
+.btn-mostra-password svg {
+  display: block;
 }
 
 .link-recupero {

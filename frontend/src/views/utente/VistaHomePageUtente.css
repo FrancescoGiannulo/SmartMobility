@@ -67,30 +67,12 @@ body {
   z-index: 10;
 }
 
-.mappa-topbar h2 {
-  margin: 0;
+.topbar-logo {
+  height: 50px;
+  width: auto;
   flex: 1;
-  font-family: var(--sm-font);
-  font-size: 17px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--sm-dark);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.mappa-topbar h2::before {
-  content: "";
-  display: inline-block;
-  width: 34px;
-  height: 34px;
-  border-radius: 11px;
-  background:
-    radial-gradient(circle at 30% 30%, #7eecd6, transparent 60%),
-    linear-gradient(135deg, var(--sm-primary), var(--sm-primary-700));
-  box-shadow: 0 6px 14px rgba(76, 175, 154, 0.4),
-              inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  object-fit: contain;
+  object-position: left center;
 }
 
 /* ── Pannello mezzo (stile mockup 5) ─────────────────────────────── */
@@ -575,6 +557,13 @@ body {
   color: var(--sm-dark);
 }
 .sidebar-logo-accent { color: var(--sm-primary); }
+.sidebar-logo-img {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  flex: 1;
+  text-align: center;
+}
 .sidebar-chiudi {
   background: none;
   border: none;
@@ -627,6 +616,7 @@ body {
   flex-direction: column;
   padding: 12px 0;
   flex: 1;
+  overflow-y: auto;
 }
 .sidebar-voce {
   display: flex;
@@ -1147,13 +1137,114 @@ body {
   box-shadow: 0 1px 4px rgba(6, 214, 160, 0.3);
 }
 
-/* Mobile: banner a tutta larghezza, sopra il bottom sheet */
+/* ============================================================
+   Mobile responsive (smartphone)
+   ============================================================ */
 @media (max-width: 480px) {
+  /* Topbar: più compatta */
+  .mappa-topbar {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    height: 50px;
+    padding: 0 12px;
+    gap: 8px;
+    border-radius: var(--sm-radius);
+  }
+
+  .topbar-logo {
+    height: 36px;
+  }
+
+  /* Mappa: padding ridotto per topbar più bassa */
+  .mappa-container {
+    padding-top: 66px !important;
+  }
+
+  /* Pin mezzi più piccoli */
+  .sm-pin { width: 34px; height: 42px; }
+  .sm-pin__body { width: 34px; height: 34px; }
+  .sm-pin__icon { font-size: 13px; }
+  .sm-pin__badge { width: 16px; height: 16px; font-size: 9px; top: -4px; right: -4px; }
+
+  /* Pannello mezzo: padding ridotto */
+  .pannello-mezzo {
+    padding: 16px 16px 24px;
+    border-radius: 18px 18px 0 0;
+    max-height: 55vh;
+    overflow-y: auto;
+  }
+
+  .pannello-titolo { font-size: 16px; }
+  .pannello-tipo { font-size: 14px; }
+  .pannello-emoji { font-size: 28px; }
+  .pannello-codice { font-size: 15px; }
+
+  .pannello-azioni { gap: 8px; }
+
+  .btn-prenota,
+  .btn-sblocca-panel {
+    padding: 12px 0;
+    font-size: 13px;
+  }
+
+  /* Selezione chips */
+  .selezione-sezione { margin-bottom: 10px; }
+  .chip-mezzo { font-size: 12px; padding: 3px 8px 3px 6px; }
+  .selezione-badge { font-size: 11px; padding: 2px 8px; }
+
+  /* Sidebar: full width su mobile */
+  .sidebar {
+    width: 100vw;
+    max-width: none;
+  }
+
+  .sidebar-header { padding: 16px 16px 14px; }
+  .sidebar-logo-img { height: 48px; }
+
+  .sidebar-profilo { padding: 14px 16px; gap: 10px; }
+  .sidebar-avatar { width: 38px; height: 38px; font-size: 16px; }
+  .sidebar-nome { font-size: 14px; }
+  .sidebar-email { font-size: 11px; }
+
+  .sidebar-voce { padding: 14px 18px; }
+  .sidebar-voce__testo { font-size: 15px; }
+  .sidebar-voce__icona { font-size: 18px; }
+
+  .sidebar-divider { margin: 0 16px; }
+
+  /* Prenotazioni nella sidebar */
+  .sidebar-back-header { padding: 14px 16px 10px; }
+  .sidebar-pren-item { padding: 12px 16px; }
+  .sidebar-pren-azioni { padding: 10px 16px 14px; gap: 6px; }
+  .sidebar-pren-azioni .btn-prenota,
+  .sidebar-pren-azioni .btn-sblocca-panel {
+    padding: 10px 0;
+    font-size: 12px;
+  }
+
+  /* Pricing drawer nella sidebar */
+  .sidebar-pricing-body { padding: 12px; }
+  .pricing-card { padding: 10px 12px; }
+
+  /* Banner suggerimenti: tutta larghezza */
   .suggerimenti-banner {
     right: 8px;
     left: 8px;
     bottom: 16px;
     width: auto;
     border-radius: 14px;
+  }
+
+  .suggerimenti-banner__body { max-height: 200px; }
+  .suggerimento-card { padding: 10px; }
+  .suggerimento-card__testo { font-size: 12px; }
+
+  /* Errore floating */
+  .mappa-errore {
+    bottom: 16px;
+    max-width: calc(100vw - 32px);
+    font-size: 13px;
+    padding: 10px 16px;
   }
 }
