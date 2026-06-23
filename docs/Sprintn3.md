@@ -4535,6 +4535,10 @@ Caso d'uso da analizzare: \[NOME CASO D’USO\]
 
 - **Storico corsa**: L’insieme delle corse effettuate da un Utente.
 
+- **Storico Modifiche**: Registro cronologico delle modifiche apportate dall'Operatore alle configurazioni del servizio, che consente di ricostruirne l'evoluzione nel tempo. Comprende le variazioni a: parametri numerici di sistema, regole di fine corsa, zone operative, tariffe e offerte.
+
+  > *L'insieme delle configurazioni tracciate è aperto a future estensioni: il caso d'uso non cambia, cambia solo a livello implementativo quando una nuova categoria di configurazione viene aggiunta al registro.*
+
 - **Suggerimenti Intelligenti:** Insieme di indicazioni personalizzate prodotte da un servizio esterno di intelligenza artificiale (ServizioAI) a partire dai dati di utilizzo dell'Utente: storico corse, abitudini orarie, zone frequentate, prenotazioni effettuate, abbonamenti attivi e pagamenti. Il ServizioAI valuta autonomamente se i dati disponibili sono sufficienti a produrre indicazioni significative; in caso contrario non genera alcun suggerimento. I suggerimenti possono riguardare l'orario ottimale di prenotazione, la convenienza di un abbonamento rispetto alla tariffa ordinaria, o l'esistenza di promozioni compatibili con le abitudini dell'Utente. La generazione dei suggerimenti non modifica alcuno stato del sistema.
 
 - **Tariffa**: Struttura di pricing applicata a una corsa. La tipologia (es. costo al minuto, alla distanza, tariffa fissa per fascia oraria) è definita e modificabile dall'operatore. La tariffa applicabile è mostrata all'utente prima dell'avvio della corsa.
