@@ -75,11 +75,14 @@ class PagamentoRepository:
             predefinito=row.predefinito,
         )
 
-    def exists_by_token(self, token_esterno: str) -> bool:
+    def exists_by_token(self, token_esterno: str, utente_id: uuid.UUID) -> bool:
         with Session(engine) as session:
             result = session.execute(
-                text("SELECT 1 FROM metodi_pagamento WHERE token_esterno = :tok LIMIT 1"),
-                {"tok": token_esterno},
+                text(
+                    "SELECT 1 FROM metodi_pagamento WHERE token_esterno = :tok "
+                    "AND utente_id = :uid LIMIT 1"
+                ),
+                {"tok": token_esterno, "uid": str(utente_id)},
             ).fetchone()
         return result is not None
 
