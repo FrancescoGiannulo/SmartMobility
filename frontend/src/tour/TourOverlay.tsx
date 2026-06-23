@@ -269,7 +269,7 @@ export function TourOverlay({ tours }: TourOverlayProps) {
     <>
       <div className="tour-spotlight-backdrop" onClick={(e) => e.stopPropagation()} />
       <div
-        className="tour-tooltip"
+        className={`tour-tooltip${step.tooltipPosition === 'top' ? ' tour-tooltip--top' : ''}`}
         ref={tooltipRef}
         tabIndex={-1}
         role="dialog"

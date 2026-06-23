@@ -15,7 +15,8 @@
 /* Lift parent stacking contexts that trap spotlighted children
    (e.g. topbar with backdrop-filter creates its own stacking context) */
 .mappa-topbar:has([data-tour-active]),
-.suggerimenti-banner:has([data-tour-active]) {
+.suggerimenti-banner:has([data-tour-active]),
+.pannello-mezzo:has([data-tour-active]) {
   z-index: 10001 !important;
 }
 
@@ -201,23 +202,59 @@
 
 .tour-btn--salta:hover { color: #475569; }
 
-/* Mobile bottom-sheet for tooltip */
+/* Mobile: tour compatto */
 @media (max-width: 767px) {
+  .tour-modal {
+    padding: 20px 16px 16px;
+    border-radius: 16px;
+    max-width: calc(100% - 32px);
+    width: calc(100% - 32px);
+    box-sizing: border-box;
+  }
+
+  .tour-modal__titolo { font-size: 17px; margin-bottom: 8px; }
+  .tour-modal__testo { font-size: 13px; line-height: 1.45; margin-bottom: 16px; }
+
   .tour-tooltip {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     top: auto;
-    max-width: none;
+    max-width: 100%;
     width: 100%;
-    border-radius: 20px 20px 0 0;
-    padding: 24px 20px calc(env(safe-area-inset-bottom, 0px) + 20px);
+    border-radius: 16px 16px 0 0;
+    padding: 14px 16px calc(env(safe-area-inset-bottom, 0px) + 14px);
+    box-sizing: border-box;
     animation: tour-slideUp 250ms ease;
+  }
+
+  .tour-tooltip__titolo { font-size: 14px; margin-bottom: 4px; }
+  .tour-tooltip__testo { font-size: 12px; line-height: 1.4; margin-bottom: 10px; }
+
+  .tour-dots { gap: 4px; margin-bottom: 10px; }
+  .tour-dot { width: 6px; height: 6px; }
+
+  .tour-nav { gap: 6px; flex-wrap: wrap; justify-content: center; }
+  .tour-btn { padding: 8px 14px; font-size: 12px; white-space: nowrap; }
+  .tour-btn--salta { padding: 8px 8px; font-size: 11px; }
+
+  /* When target is at the bottom (prenota/sblocca), show tooltip at top */
+  .tour-tooltip--top {
+    top: 0;
+    bottom: auto;
+    border-radius: 0 0 16px 16px;
+    padding: 14px 16px;
+    animation: tour-slideDown 250ms ease;
   }
 
   @keyframes tour-slideUp {
     from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+
+  @keyframes tour-slideDown {
+    from { transform: translateY(-100%); }
     to { transform: translateY(0); }
   }
 }

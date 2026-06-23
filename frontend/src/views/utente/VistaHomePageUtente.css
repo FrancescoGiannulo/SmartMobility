@@ -39,10 +39,11 @@ body {
 /* ---------- Layout ---------- */
 .vista-mappa {
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
   position: relative;
   font-family: var(--sm-font);
   background: #eef2f6;
+  overflow: hidden;
 }
 
 .mappa-container { width: 100%; height: 100%; }
@@ -1141,6 +1142,22 @@ body {
    Mobile responsive (smartphone)
    ============================================================ */
 @media (max-width: 480px) {
+  /* Blocco viewport: no scroll, layout fisso */
+  html, body {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .vista-mappa {
+    height: 100dvh;
+    width: 100%;
+    overflow: hidden;
+    touch-action: none;
+  }
+
   /* Topbar: più compatta */
   .mappa-topbar {
     top: 8px;
@@ -1156,9 +1173,12 @@ body {
     height: 36px;
   }
 
-  /* Mappa: padding ridotto per topbar più bassa */
+  /* Mappa: centrata, padding ridotto per topbar più bassa */
   .mappa-container {
     padding-top: 66px !important;
+    touch-action: pan-x pan-y pinch-zoom;
+    width: 100% !important;
+    margin: 0 !important;
   }
 
   /* Pin mezzi più piccoli */
@@ -1167,12 +1187,13 @@ body {
   .sm-pin__icon { font-size: 13px; }
   .sm-pin__badge { width: 16px; height: 16px; font-size: 9px; top: -4px; right: -4px; }
 
-  /* Pannello mezzo: padding ridotto */
+  /* Pannello mezzo: padding ridotto, altezza limitata */
   .pannello-mezzo {
     padding: 16px 16px 24px;
     border-radius: 18px 18px 0 0;
-    max-height: 55vh;
+    max-height: 45dvh;
     overflow-y: auto;
+    touch-action: pan-y;
   }
 
   .pannello-titolo { font-size: 16px; }
@@ -1227,18 +1248,32 @@ body {
   .sidebar-pricing-body { padding: 12px; }
   .pricing-card { padding: 10px 12px; }
 
-  /* Banner suggerimenti: tutta larghezza */
+  /* Banner suggerimenti: pillola compatta in basso a destra */
   .suggerimenti-banner {
-    right: 8px;
-    left: 8px;
-    bottom: 16px;
+    left: auto;
+    right: 10px;
+    top: auto;
+    bottom: 90px;
     width: auto;
-    border-radius: 14px;
+    border-radius: 12px;
+    z-index: 15;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid var(--sm-primary);
+    box-shadow: 0 2px 12px rgba(21, 94, 82, 0.25);
   }
 
-  .suggerimenti-banner__body { max-height: 200px; }
-  .suggerimento-card { padding: 10px; }
-  .suggerimento-card__testo { font-size: 12px; }
+  .suggerimenti-banner__header { padding-right: 6px; gap: 4px; }
+  .suggerimenti-banner__toggle { padding: 8px 10px; font-size: 12px; gap: 6px; }
+  .suggerimenti-banner__toggle-icon { font-size: 15px; width: 24px; height: 24px; border-radius: 6px; }
+  .suggerimenti-banner__toggle-label { font-size: 12px; font-weight: 700; }
+  .suggerimenti-banner__chevron { font-size: 10px; }
+  .btn-genera-suggerimenti { padding: 4px 10px; font-size: 11px; }
+
+  .suggerimenti-banner--aperto { max-width: calc(100% - 20px); left: 10px; }
+  .suggerimenti-banner__body { max-height: 25dvh; padding: 0 10px 10px; }
+  .suggerimento-card { padding: 8px; }
+  .suggerimento-card__tipo { font-size: 10px; }
+  .suggerimento-card__testo { font-size: 11px; }
 
   /* Errore floating */
   .mappa-errore {
