@@ -151,10 +151,82 @@ class TestIntegrazioneServiziEsistenti:
                 )
             storico = ServizioStoricoModifiche().get_storico()
             assert any(
-                v["tipo_configurazione"] == "regole_fine_corsa"
+                v["tipo_configurazione"] in ("regole_fine_corsa_creata", "regole_fine_corsa_modificata")
                 and v["operatore_id"] == str(operatore_id)
                 for v in storico
             )
+        finally:
+            _pulisci(db, operatore_id)
+
+    def test_prima_definizione_regole_fine_corsa_genera_evento_creata(self, db):
+        from decimal import Decimal
+        from bll.servizio_regole_fine_corsa import ServizioRegolaFinecorsa
+        from dal.regola_fine_corsa_repository import RegoleFineCorsaRepository
+
+        operatore_id = _uuid.uuid4()
+        with Session(db) as session:
+            regola_corrente = RegoleFineCorsaRepository().get_corrente(session)
+        if regola_corrente is not None:
+            pytest.skip("Esiste già una configurazione di regole fine corsa: impossibile testare la prima definizione")
+        try:
+            with Session(db) as session:
+                ServizioRegolaFinecorsa().salva(
+                    tipo_vincolo="avviso",
+                    penale_fuori_zona=Decimal("0"),
+                    batteria_minima=None,
+                    bonus_parcheggi_corretti=None,
+                    bonus_valore=None,
+                    db=session,
+                    operatore_id=operatore_id,
+                )
+            storico = ServizioStoricoModifiche().get_storico()
+            assert any(
+                v["tipo_configurazione"] == "regole_fine_corsa_creata"
+                and v["operatore_id"] == str(operatore_id)
+                for v in storico
+            )
+        finally:
+            _pulisci(db, operatore_id)
+
+    def test_seconda_modifica_regole_fine_corsa_genera_evento_modificata(self, db):
+        from decimal import Decimal
+        from bll.servizio_regole_fine_corsa import ServizioRegolaFinecorsa
+
+        operatore_id = _uuid.uuid4()
+        try:
+            with Session(db) as session:
+                # prima chiamata: definisce (o ridefinisce) la configurazione corrente
+                ServizioRegolaFinecorsa().salva(
+                    tipo_vincolo="avviso",
+                    penale_fuori_zona=Decimal("0"),
+                    batteria_minima=None,
+                    bonus_parcheggi_corretti=None,
+                    bonus_valore=None,
+                    db=session,
+                    operatore_id=_uuid.uuid4(),
+                )
+            with Session(db) as session:
+                # seconda chiamata: la configurazione esiste già → è una modifica
+                ServizioRegolaFinecorsa().salva(
+                    tipo_vincolo="penale",
+                    penale_fuori_zona=Decimal("5"),
+                    batteria_minima=None,
+                    bonus_parcheggi_corretti=None,
+                    bonus_valore=None,
+                    db=session,
+                    operatore_id=operatore_id,
+                )
+            storico = ServizioStoricoModifiche().get_storico()
+            voce = next(
+                v for v in storico
+                if v["tipo_configurazione"] == "regole_fine_corsa_modificata"
+                and v["operatore_id"] == str(operatore_id)
+            )
+            assert voce["valore_precedente"] != voce["valore_nuovo"], (
+                "valore_precedente e valore_nuovo non devono essere identici dopo una modifica reale"
+            )
+            assert "tipo_vincolo=avviso" in voce["valore_precedente"]
+            assert "tipo_vincolo=penale" in voce["valore_nuovo"]
         finally:
             _pulisci(db, operatore_id)
 

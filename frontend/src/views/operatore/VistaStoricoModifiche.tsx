@@ -36,7 +36,7 @@ const CATEGORIE: CategoriaConfig[] = [
   },
   {
     label: 'Regole di fine corsa',
-    tipi: ['regole_fine_corsa'],
+    tipi: ['regole_fine_corsa_creata', 'regole_fine_corsa_modificata'],
     campi: {
       tipo_vincolo: {
         label: 'Vincolo rilascio fuori zona parcheggio',
