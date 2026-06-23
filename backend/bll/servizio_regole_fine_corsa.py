@@ -69,6 +69,18 @@ class ServizioRegolaFinecorsa:
             )
 
         precedente = self._repo.get_corrente(db)
+        # Snapshot dei valori precedenti in stringhe semplici PRIMA di chiamare salva():
+        # get_corrente() e salva() condividono la stessa Session, quindi per l'identity
+        # map di SQLAlchemy restituiscono lo stesso oggetto Python — se teniamo solo il
+        # riferimento all'oggetto, salva() lo muta e "precedente" finisce per coincidere
+        # con il nuovo valore.
+        valore_precedente_snapshot = (
+            f"tipo_vincolo={precedente.tipo_vincolo.value}, "
+            f"penale_fuori_zona={precedente.penale_fuori_zona}, "
+            f"batteria_minima={precedente.batteria_minima}, "
+            f"bonus_parcheggi_corretti={precedente.bonus_parcheggi_corretti}, "
+            f"bonus_valore={precedente.bonus_valore}"
+        ) if precedente is not None else None
         tipo_vincolo_enum = TipoVincoloFinecorsa(tipo_vincolo)
         aggiornata = self._repo.salva(
             tipo_vincolo=tipo_vincolo_enum,
@@ -79,15 +91,9 @@ class ServizioRegolaFinecorsa:
             db=db,
         )
         self._storico.registra_modifica(
-            tipo_configurazione="regole_fine_corsa",
-            descrizione="Modifica delle regole di fine corsa",
-            valore_precedente=(
-                f"tipo_vincolo={precedente.tipo_vincolo.value}, "
-                f"penale_fuori_zona={precedente.penale_fuori_zona}, "
-                f"batteria_minima={precedente.batteria_minima}, "
-                f"bonus_parcheggi_corretti={precedente.bonus_parcheggi_corretti}, "
-                f"bonus_valore={precedente.bonus_valore}"
-            ) if precedente is not None else None,
+            tipo_configurazione="regole_fine_corsa_creata" if precedente is None else "regole_fine_corsa_modificata",
+            descrizione="Definizione delle regole di fine corsa" if precedente is None else "Modifica delle regole di fine corsa",
+            valore_precedente=valore_precedente_snapshot,
             valore_nuovo=(
                 f"tipo_vincolo={aggiornata.tipo_vincolo.value}, "
                 f"penale_fuori_zona={aggiornata.penale_fuori_zona}, "
