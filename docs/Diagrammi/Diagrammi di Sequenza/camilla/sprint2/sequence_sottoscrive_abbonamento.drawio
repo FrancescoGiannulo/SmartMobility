@@ -348,7 +348,7 @@
                 <mxCell id="59" value="EffettuaPagamento (UC «incluso» — UT-05)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;" vertex="1" parent="1">
                     <mxGeometry x="210" y="1679" width="1300" height="52" as="geometry"/>
                 </mxCell>
-                <mxCell id="60" value="39: crea(idUtente, idOfferta)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="60" value="39: crea(idUtente, idOfferta, dataFine): AbbonamentoUtente" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1320" y="1747" as="sourcePoint"/>
                         <mxPoint x="1515" y="1747" as="targetPoint"/>
