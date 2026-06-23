@@ -2,6 +2,10 @@
 .DS_Store
 Thumbs.db
 
+# Log locali dei server di sviluppo
+backend.log
+frontend.log
+
 # Backend — ambienti e dipendenze
 backend/.venv/
 backend/venv/
