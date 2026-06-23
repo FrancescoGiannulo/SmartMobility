@@ -8,6 +8,7 @@ export interface StoricoModifica {
   valore_nuovo: string | null
   operatore_id: string
   created_at: string
+  operatore_nome: string | null
 }
 
 export const getStoricoModifiche = async (): Promise<StoricoModifica[]> => {

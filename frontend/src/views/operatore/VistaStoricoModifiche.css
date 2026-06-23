@@ -105,13 +105,21 @@
 
 .storico-mod-card-header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
   margin-bottom: 6px;
 }
 
 .storico-mod-data {
   font-size: 12px;
   color: #888;
+}
+
+.storico-mod-operatore {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
 }
 
 .storico-mod-descrizione {

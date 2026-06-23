@@ -216,6 +216,9 @@ export default function VistaStoricoModifiche() {
                       <div key={v.id} className="storico-mod-card">
                         <div className="storico-mod-card-header">
                           <span className="storico-mod-data">{formatData(v.created_at)}</span>
+                          <span className="storico-mod-operatore">
+                            Modificato da: {v.operatore_nome ?? 'Operatore non disponibile'}
+                          </span>
                         </div>
                         <p className="storico-mod-descrizione">{v.descrizione}</p>
                         <div className="storico-mod-valori">

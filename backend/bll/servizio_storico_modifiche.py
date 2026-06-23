@@ -36,6 +36,7 @@ class ServizioStoricoModifiche:
                 "valore_nuovo": v.valore_nuovo,
                 "operatore_id": str(v.operatore_id),
                 "created_at": v.created_at.isoformat() if v.created_at else None,
+                "operatore_nome": v.operatore_nome,
             }
             for v in self._repo.find_all()
         ]

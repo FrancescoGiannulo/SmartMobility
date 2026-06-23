@@ -47,6 +47,40 @@ class TestStoricoModificheRepository:
         finally:
             _pulisci(db, operatore_id)
 
+    def test_find_all_risolve_il_nome_dell_operatore(self, db, operatore_test):
+        operatore_id = operatore_test["id"]
+        repo = StoricoModificheRepository()
+        try:
+            voce = repo.crea(
+                tipo_configurazione="parametri_sistema",
+                descrizione="Aggiornamento parametri di sistema",
+                valore_precedente=None,
+                valore_nuovo=None,
+                operatore_id=operatore_id,
+            )
+            storico = repo.find_all()
+            trovata = next(v for v in storico if v.id == voce.id)
+            assert trovata.operatore_nome == "OperatoreTest"
+        finally:
+            _pulisci(db, operatore_id)
+
+    def test_find_all_restituisce_nome_nullo_se_operatore_non_esiste(self, db):
+        operatore_id = _uuid.uuid4()
+        repo = StoricoModificheRepository()
+        try:
+            voce = repo.crea(
+                tipo_configurazione="parametri_sistema",
+                descrizione="Modifica con operatore inesistente",
+                valore_precedente=None,
+                valore_nuovo=None,
+                operatore_id=operatore_id,
+            )
+            storico = repo.find_all()
+            trovata = next(v for v in storico if v.id == voce.id)
+            assert trovata.operatore_nome is None
+        finally:
+            _pulisci(db, operatore_id)
+
     def test_find_all_ordina_dalla_piu_recente(self, db):
         operatore_id = _uuid.uuid4()
         repo = StoricoModificheRepository()

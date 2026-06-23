@@ -130,6 +130,7 @@ class StoricoModificaOut(BaseModel):
     valore_nuovo: str | None = None
     operatore_id: str
     created_at: str
+    operatore_nome: str | None = None
 
 
 class SbloccoRequest(BaseModel):

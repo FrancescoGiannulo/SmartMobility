@@ -48,9 +48,11 @@ class StoricoModificheRepository:
         with Session(engine) as session:
             rows = session.execute(
                 text(
-                    "SELECT id, tipo_configurazione, descrizione, valore_precedente, valore_nuovo, "
-                    "operatore_id, created_at "
-                    "FROM storico_modifiche ORDER BY created_at DESC"
+                    "SELECT sm.id, sm.tipo_configurazione, sm.descrizione, sm.valore_precedente, "
+                    "sm.valore_nuovo, sm.operatore_id, sm.created_at, o.nome AS operatore_nome "
+                    "FROM storico_modifiche sm "
+                    "LEFT JOIN operatori o ON o.id = sm.operatore_id "
+                    "ORDER BY sm.created_at DESC"
                 )
             ).fetchall()
             return [
@@ -62,6 +64,7 @@ class StoricoModificheRepository:
                     valore_nuovo=row.valore_nuovo,
                     operatore_id=row.operatore_id,
                     created_at=row.created_at,
+                    operatore_nome=row.operatore_nome,
                 )
                 for row in rows
             ]

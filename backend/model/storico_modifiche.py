@@ -14,3 +14,4 @@ class StoricoModifiche:
     valore_nuovo: str | None
     operatore_id: UUID
     created_at: datetime | None = None
+    operatore_nome: str | None = None
