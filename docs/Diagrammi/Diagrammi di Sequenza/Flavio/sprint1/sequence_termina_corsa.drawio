@@ -194,7 +194,7 @@
                         <mxPoint x="1315" y="530" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="245" value="8: findById(idCorsa)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="245" value="8: trovaPerId(idCorsa)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1325" y="570" as="sourcePoint"/>
                         <mxPoint x="1880" y="570" as="targetPoint"/>
@@ -206,7 +206,7 @@
                         <mxPoint x="1325" y="610" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="247" value="10: findById(idMezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="247" value="10: trovaPerId(idMezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1325" y="650" as="sourcePoint"/>
                         <mxPoint x="2070" y="650" as="targetPoint"/>
@@ -246,7 +246,7 @@
                         <mxPoint x="1325" y="885" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="254" value="15: update(mezzo) [stato = Disponibile]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="254" value="15: aggiornaStato(idMezzo, 'Disponibile')" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1325" y="940" as="sourcePoint"/>
                         <mxPoint x="2070" y="940" as="targetPoint"/>
@@ -258,7 +258,7 @@
                         <mxPoint x="1325" y="980" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="256" value="17: update(corsa) [stato = Completata, oraFine, distanzaPercorsa]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="256" value="17: aggiornaStato(idCorsa, 'terminata')" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1325" y="1020" as="sourcePoint"/>
                         <mxPoint x="1880" y="1020" as="targetPoint"/>
@@ -315,7 +315,7 @@
                         <mxPoint x="1315" y="1490" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="268" value="29: findById(idCorsa)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="268" value="29: trovaPerId(idCorsa)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1325" y="1530" as="sourcePoint"/>
                         <mxPoint x="1880" y="1530" as="targetPoint"/>

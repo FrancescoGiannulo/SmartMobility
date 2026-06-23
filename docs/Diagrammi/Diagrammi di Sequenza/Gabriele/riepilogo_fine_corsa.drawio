@@ -195,7 +195,7 @@
                         <mxPoint x="1420" y="663" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="rf-m8" value="8: findRiepilogo(idCorsa, idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="rf-m8" value="8: trovaRiepilogo(idCorsa, idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1430" y="703" as="sourcePoint"/>
                         <mxPoint x="1625" y="703" as="targetPoint"/>

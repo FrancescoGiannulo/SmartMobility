@@ -11,7 +11,7 @@ import ClusterLayerAP from '../../components/ClusterLayerAP'
 import PopupStatsZona from '../../components/PopupStatsZona'
 import { COLORI_ZONA } from '../../utils/coloriZona'
 import VistaReportAP from './VistaReportAP'
-import { DATI_SETTIMANALI } from './datiReportMock'
+import { esportaCSV } from '../../services/ReportService'
 import './VistaDashboardAP.css'
 
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
@@ -34,21 +34,6 @@ const CHIP_CONFIG = [
   { tipo: 'bicicletta',  emoji: '🚲', colore: '#3b82f6', bg: '#eff6ff' },
   { tipo: 'automobile',  emoji: '🚗', colore: '#e91e8c', bg: '#fdf2f8' },
 ] as const
-
-function esportaCsv(): void {
-  const intestazione = 'Giorno,Monopattino,Bicicletta,Automobile'
-  const righe = DATI_SETTIMANALI.map(
-    d => `${d.giorno},${d.monopattino},${d.bicicletta},${d.automobile}`
-  )
-  const contenuto = [intestazione, ...righe].join('\n')
-  const blob = new Blob(['﻿' + contenuto], { type: 'text/csv;charset=utf-8;' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = 'report_smartmobility.csv'
-  a.click()
-  URL.revokeObjectURL(url)
-}
 
 const RAGGIO = 38
 const STROKE = 8
@@ -217,7 +202,7 @@ export default function VistaDashboardAP() {
 
           {vista === 'report' && (
             <div className="ap-topbar-actions">
-              <button type="button" className="btn-export-csv" onClick={esportaCsv}>CSV</button>
+              <button type="button" className="btn-export-csv" onClick={() => esportaCSV()}>CSV</button>
               <button type="button" className="btn-export-pdf" onClick={() => window.print()}>PDF</button>
             </div>
           )}

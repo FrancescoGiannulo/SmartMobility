@@ -170,7 +170,7 @@
                         <mxPoint x="1360.000000000001" y="474" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="41" value="8: findCorrente()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="41" value="8: getCorrente()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1370.000000000001" y="510" as="sourcePoint"/>
                         <mxPoint x="1595" y="510" as="targetPoint"/>
@@ -280,7 +280,7 @@
                 <mxCell id="59" value="[else / parametri non validi: valori fuori intervallo]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
                     <mxGeometry x="215" y="1364" width="380" height="22" as="geometry"/>
                 </mxCell>
-                <mxCell id="60" value="23: save(regola: RegolaFineCorsa)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="60" value="23: salva(regola: RegolaFineCorsa)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1370.000000000001" y="1076" as="sourcePoint"/>
                         <mxPoint x="1595" y="1076" as="targetPoint"/>

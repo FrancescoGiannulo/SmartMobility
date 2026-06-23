@@ -188,7 +188,7 @@
                         <mxPoint x="1255" y="464" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="396" value="8: findDisponibili()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="396" value="8: listaPerMappa(soloDisponibili)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1265" y="496" as="sourcePoint"/>
                         <mxPoint x="1455" y="496" as="targetPoint"/>

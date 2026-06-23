@@ -10,8 +10,6 @@ from dal.zona_repository import ZonaRepository
 from dal.regola_fine_corsa_repository import RegoleFineCorsaRawRepository
 from dal.operatore_repository import OperatoreRepository
 from dal.parametri_sistema_repository import ParametriSistemaRepository
-from dal.segnalazione_repository import SegnalazioneRepository
-from model.segnalazione import StatoSegnalazione
 from bll.servizio_mappa import ServizioMappa
 
 
@@ -52,10 +50,6 @@ class MezzoInMissioneException(Exception):
     pass
 
 
-class SegnalazioneNonTrovata(Exception):
-    pass
-
-
 # [IF-UT.04] CS-05 — raggio massimo (km) entro cui l'utente può sbloccare un mezzo
 RAGGIO_SBLOCCO_KM = 0.5
 
@@ -79,7 +73,6 @@ class ServizioMobilita:
         self._regola_repo = RegoleFineCorsaRawRepository(db)
         self._op_repo = OperatoreRepository(db)
         self._parametri_repo = ParametriSistemaRepository()
-        self._segnalazione_repo = SegnalazioneRepository()
 
     # [IF-UT.04] CS-05 — lista mezzi sbloccabili (msg4 diagramma di sequenza)
     def get_mezzi_sbloccabili(
@@ -222,69 +215,6 @@ class ServizioMobilita:
         self._corsa_repo.aggiorna_stato(corsa_id, "terminata")
         self._mezzo_repo.aggiorna_stato(UUID(corsa["mezzo_id"]), "Disponibile")
 
-    # [IF-UT.12] Le mie segnalazioni
-    def get_mie_segnalazioni(self, utente_id: UUID) -> list[dict]:
-        return [
-            {
-                "id": str(s.id),
-                "tipologia": s.tipologia,
-                "descrizione": s.descrizione,
-                "stato": s.stato,
-                "created_at": s.created_at.isoformat(),
-            }
-            for s in self._segnalazione_repo.find_by_utente(utente_id)
-        ]
-
-    # [IF-UT.12] Invia Segnalazione
-    def registra_segnalazione(self, utente_id: UUID, tipologia: str, descrizione: str) -> dict:
-        segnalazione = self._segnalazione_repo.crea(utente_id, tipologia, descrizione)
-        return {
-            "id": str(segnalazione.id),
-            "tipologia": segnalazione.tipologia,
-            "descrizione": segnalazione.descrizione,
-            "stato": segnalazione.stato,
-            "created_at": segnalazione.created_at.isoformat(),
-        }
-
-    # [IF-OP.08] Gestisce Segnalazione — lista
-    def get_segnalazioni(self) -> list[dict]:
-        return [
-            {
-                "id": str(s["id"]),
-                "utente_id": str(s["utente_id"]),
-                "tipologia": s["tipologia"],
-                "descrizione": s["descrizione"],
-                "stato": s["stato"],
-                "created_at": s["created_at"].isoformat(),
-                "nome_utente": s["nome_utente"],
-            }
-            for s in self._segnalazione_repo.find_all()
-        ]
-
-    # [IF-OP.08] Gestisce Segnalazione — dettaglio
-    def get_dettaglio_segnalazione(self, segnalazione_id: UUID) -> dict:
-        s = self._segnalazione_repo.find_by_id(segnalazione_id)
-        if not s:
-            raise SegnalazioneNonTrovata(f"Segnalazione {segnalazione_id} non trovata")
-        return {
-            "id": str(s["id"]),
-            "utente_id": str(s["utente_id"]),
-            "tipologia": s["tipologia"],
-            "descrizione": s["descrizione"],
-            "stato": s["stato"],
-            "created_at": s["created_at"].isoformat(),
-            "nome_utente": s["nome_utente"],
-        }
-
-    # [IF-OP.08] Gestisce Segnalazione — presa in carico
-    def prendi_in_carico(self, segnalazione_id: UUID) -> dict:
-        aggiornato = self._segnalazione_repo.aggiorna_stato(
-            segnalazione_id, StatoSegnalazione.in_carico
-        )
-        if not aggiornato:
-            raise SegnalazioneNonTrovata(f"Segnalazione {segnalazione_id} non trovata")
-        return self.get_dettaglio_segnalazione(segnalazione_id)
-
     # [IF-UT.10] SD SospendeCorsa — msg4: sospendiCorsa(idCorsa)
     def sospendiCorsa(self, corsa_id: UUID, utente_id: UUID) -> dict:
         corsa = self._corsa_repo.trova_per_id(corsa_id)
@@ -358,6 +288,20 @@ class ServizioMobilita:
                 "mezzo": mezzo,
             }
         return {"dismettibile": True, "motivo": None, "mezzo": mezzo}
+
+    # [IF-OP.04] Modifica Stato Mezzo — cambio stato manuale dell'operatore
+    def modifica_stato_mezzo(self, mezzo_id: UUID, nuovo_stato: str) -> dict:
+        mezzo = self._mezzo_repo.trova_per_id(mezzo_id)
+        if mezzo is None:
+            raise MezzoNonTrovatoException(f"Mezzo {mezzo_id} non trovato")
+        # La transizione manuale è vietata se il mezzo è impegnato in una missione
+        stati_bloccanti = {"In uso", "In pausa", "Prenotato"}
+        if mezzo["stato"] in stati_bloccanti or self._mezzo_repo.ha_corse_attive(mezzo_id):
+            raise MezzoInMissioneException(
+                f"Mezzo {mezzo_id} impegnato: stato non modificabile manualmente"
+            )
+        self._mezzo_repo.aggiorna_stato(mezzo_id, nuovo_stato)
+        return self._mezzo_repo.trova_per_id(mezzo_id)
 
     # [IF-OP.12] CS-12 — Dismette il mezzo impostando lo stato a "Dismesso"
     def dismetti_mezzo(self, mezzo_id: UUID) -> None:

@@ -343,7 +343,7 @@
                 <mxCell id="1141" value="[else dati non validi o nome duplicato]" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;fontStyle=2;" vertex="1" parent="1138">
                     <mxGeometry x="10" y="255" width="290" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="1142" value="25a: save(o: Offerta): Offerta" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" edge="1" parent="1">
+                <mxCell id="1142" value="25a: crea(o: Offerta): Offerta" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1157" y="1270" as="sourcePoint"/>
                         <mxPoint x="1340" y="1270" as="targetPoint"/>
@@ -507,7 +507,7 @@
                 <mxCell id="1169" value="[else dati non validi o nome duplicato]" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;fontStyle=2;" vertex="1" parent="1166">
                     <mxGeometry x="10" y="265" width="290" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="1170" value="25b: save(o: Offerta): Offerta" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" edge="1" parent="1">
+                <mxCell id="1170" value="25b: crea(o: Offerta): Offerta" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1157" y="2140" as="sourcePoint"/>
                         <mxPoint x="1340" y="2140" as="targetPoint"/>

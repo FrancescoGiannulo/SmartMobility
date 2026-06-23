@@ -175,7 +175,7 @@
                         <mxPoint x="1255" y="460" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m8" value="8: getMetodiByUtente(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m8" value="8: listaMetodi(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1265" y="500" as="sourcePoint"/>
                         <mxPoint x="1735" y="500" as="targetPoint"/>
@@ -287,7 +287,7 @@
                     <mxGeometry x="65" y="2713" width="190" height="22" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="m23" value="23: getMetodiByUtente(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m23" value="23: listaMetodi(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1265" y="1120" as="sourcePoint"/>
                         <mxPoint x="1735" y="1120" as="targetPoint"/>
@@ -328,7 +328,7 @@
                     <mxGeometry x="85" y="2433" width="150" height="22" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="m27" value="27: salvaMetodo(metodo) [nuovo MetodoPagamento(tipo, dati)]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m27" value="27: aggiungiMetodo(idUtente, tipo, token, lastFour)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1265" y="1310" as="sourcePoint"/>
                         <mxPoint x="1735" y="1310" as="targetPoint"/>
@@ -357,7 +357,7 @@
                         <mxPoint x="1265" y="1440" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m30" value="30: salvaMetodo(metodo) [predefinito = true]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m30" value="30: impostaPredefinito(idMetodo, idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1265" y="1460" as="sourcePoint"/>
                         <mxPoint x="1735" y="1460" as="targetPoint"/>
@@ -475,7 +475,7 @@
                         <mxPoint x="1255" y="2100" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m38h" value="38h: salvaMetodo(metodo) [predefinito = true]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m38h" value="38h: impostaPredefinito(idMetodo, idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1265" y="2135" as="sourcePoint"/>
                         <mxPoint x="1735" y="2135" as="targetPoint"/>

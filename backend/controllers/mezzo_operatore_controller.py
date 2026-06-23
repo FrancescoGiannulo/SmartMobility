@@ -10,6 +10,7 @@ from controllers.schemas import (
     MezzoMappaOut,
     ConfigurazioneFineCorsaRequest,
     AggiungiMezzoRequest,
+    ModificaStatoMezzoRequest,
     MezzoFlottaOut,
 )
 
@@ -58,6 +59,23 @@ def aggiungi_mezzo(
         raise HTTPException(status_code=409, detail=str(e))
     except PosizioneNonOperativaException as e:
         raise HTTPException(status_code=422, detail=str(e))
+
+
+# [IF-OP.04] Modifica Stato Mezzo — cambio stato manuale dell'operatore
+@router.put("/mezzi/{mezzo_id}/stato", response_model=MezzoFlottaOut)
+def modifica_stato_mezzo(
+    mezzo_id: UUID,
+    body: ModificaStatoMezzoRequest,
+    _=Depends(verify_token(["OP"])),
+    db: Session = Depends(get_db),
+):
+    from bll.servizio_mobilita import MezzoNonTrovatoException, MezzoInMissioneException
+    try:
+        return ServizioMobilita(db).modifica_stato_mezzo(mezzo_id, body.stato)
+    except MezzoNonTrovatoException as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except MezzoInMissioneException as e:
+        raise HTTPException(status_code=409, detail=str(e))
 
 
 # [IF-OP.12] CS-12 — Verifica se un mezzo può essere dismesso (no side-effects)

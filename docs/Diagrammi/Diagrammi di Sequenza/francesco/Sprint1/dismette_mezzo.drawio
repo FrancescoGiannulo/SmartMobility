@@ -183,7 +183,7 @@
                         <mxPoint x="1255" y="506" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m8" value="8: findById(idMezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
+                <mxCell id="m8" value="8: trovaPerId(idMezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1265" y="538" as="sourcePoint"/>
                         <mxPoint x="1450" y="538" as="targetPoint"/>
@@ -273,7 +273,7 @@
                         <mxPoint x="1255" y="994" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m23" value="23: findById(idMezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
+                <mxCell id="m23" value="23: trovaPerId(idMezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1265" y="1026" as="sourcePoint"/>
                         <mxPoint x="1450" y="1026" as="targetPoint"/>

@@ -168,7 +168,7 @@
                         <mxPoint x="1435" y="630" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="38" value="10: findById(idMezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="38" value="10: trovaPerId(idMezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1445" y="670" as="sourcePoint"/>
                         <mxPoint x="1655" y="670" as="targetPoint"/>
@@ -195,7 +195,7 @@
                 <mxCell id="43" value="[ mezzo In uso o Prenotato]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
                     <mxGeometry x="245" y="1103" width="280" height="22" as="geometry"/>
                 </mxCell>
-                <mxCell id="44" value="12: update(mezzo) [stato = nuovoStato]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="44" value="12: aggiornaStato(idMezzo, nuovoStato)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1445" y="780" as="sourcePoint"/>
                         <mxPoint x="1655" y="780" as="targetPoint"/>

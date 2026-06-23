@@ -178,6 +178,37 @@ class CorsaRepository:
             "importo_pieno": float(row.importo_pieno) if row.importo_pieno is not None else None,
         }
 
+    # [IF-AP.01] Accede Report — corse terminate in un intervallo temporale, con tipo mezzo
+    def find_by_periodo(self, da: datetime, a: datetime) -> list[dict]:
+        sql = text("""
+            SELECT
+                c.id,
+                c.inizio_at,
+                c.fine_at,
+                c.distanza_km,
+                m.tipo AS tipo_mezzo,
+                EXTRACT(EPOCH FROM (c.fine_at - c.inizio_at)) / 60 AS durata_min
+            FROM corse c
+            JOIN mezzi m ON c.mezzo_id = m.id
+            WHERE c.stato = 'terminata'
+              AND c.inizio_at >= :da
+              AND c.inizio_at < :a
+            ORDER BY c.inizio_at ASC
+        """)
+        with self._sessione() as s:
+            rows = s.execute(sql, {"da": da, "a": a}).fetchall()
+        return [
+            {
+                "id": str(r.id),
+                "tipo_mezzo": r.tipo_mezzo,
+                "inizio_at": r.inizio_at,
+                "fine_at": r.fine_at,
+                "distanza_km": float(r.distanza_km) if r.distanza_km is not None else 0.0,
+                "durata_min": float(r.durata_min) if r.durata_min is not None else 0.0,
+            }
+            for r in rows
+        ]
+
     # [IF-UT.14] UT-11 — storico corse per utente, ordinate per data decrescente
     def find_by_utente_order_by_data(self, utente_id: UUID) -> list[dict]:
         sql = text("""

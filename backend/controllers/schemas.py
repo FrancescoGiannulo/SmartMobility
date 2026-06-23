@@ -251,6 +251,11 @@ class AggiungiMezzoRequest(BaseModel):
     stato: Literal["Disponibile", "In manutenzione", "Fuori servizio"] = "Disponibile"
 
 
+# [IF-OP.04] Modifica Stato Mezzo
+class ModificaStatoMezzoRequest(BaseModel):
+    stato: Literal["Disponibile", "In manutenzione", "Fuori servizio"]
+
+
 class MezzoFlottaOut(BaseModel):
     id: UUID
     codice: str
@@ -333,3 +338,25 @@ class UtenteDettaglioOut(UtenteListItemOut):
 
 class SospensioneRequest(BaseModel):
     motivazione: str
+
+
+# [IF-AP.01] Accede Report — statistiche aggregate per l'Amministrazione Pubblica
+class DatoSettimanaleOut(BaseModel):
+    giorno: str
+    monopattino: int
+    bicicletta: int
+    automobile: int
+
+
+class DatoTortaOut(BaseModel):
+    name: str
+    value: float
+    colore: str
+
+
+class ReportOut(BaseModel):
+    corse_totali: int
+    durata_media_h: float
+    distanza_totale_km: float
+    dati_settimanali: list[DatoSettimanaleOut]
+    dati_torta: list[DatoTortaOut]

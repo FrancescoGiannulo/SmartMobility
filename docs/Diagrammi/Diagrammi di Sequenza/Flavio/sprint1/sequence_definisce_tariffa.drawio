@@ -279,7 +279,7 @@
                         <mxPoint x="1264.9999999999995" y="1250" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="124" value="26: save(tariffa) [nuova Tariffa(tipoMezzo, costoMinuto, costoKm)]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="124" value="26: crea(tipoMezzo, costoMinuto, costoKm)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1264.9999999999995" y="1290" as="sourcePoint"/>
                         <mxPoint x="1474.9999999999995" y="1290" as="targetPoint"/>

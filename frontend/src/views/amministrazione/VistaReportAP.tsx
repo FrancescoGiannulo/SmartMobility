@@ -1,8 +1,9 @@
+import { useEffect, useState } from 'react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   PieChart, Pie, Cell, ResponsiveContainer,
 } from 'recharts'
-import { DATI_SETTIMANALI, DATI_TORTA, type DatoTorta } from './datiReportMock'
+import { recuperaReport, type Report, type DatoTorta } from '../../services/ReportService'
 import './VistaReportAP.css'
 
 function LabelTorta({ cx, cy, midAngle, outerRadius, name, value }: {
@@ -19,32 +20,43 @@ function LabelTorta({ cx, cy, midAngle, outerRadius, name, value }: {
   )
 }
 
-const corseTotali = DATI_SETTIMANALI.reduce(
-  (acc, d) => acc + d.monopattino + d.bicicletta + d.automobile,
-  0
-)
-
-const quotaDominante = DATI_TORTA.reduce(
-  (max, d) => d.value > max.value ? d : max,
-  DATI_TORTA[0]
-)
-
 export default function VistaReportAP() {
+  const [report, setReport] = useState<Report | null>(null)
+  const [errore, setErrore] = useState('')
+
+  useEffect(() => {
+    recuperaReport()
+      .then(setReport)
+      .catch(() => setErrore('Statistiche non disponibili, riprovare'))
+  }, [])
+
+  if (errore) {
+    return <div className="vista-report-ap"><div className="ap-errore">{errore}</div></div>
+  }
+  if (!report) {
+    return <div className="vista-report-ap"><div className="report-body">Caricamento…</div></div>
+  }
+
+  const quotaDominante = report.dati_torta.reduce(
+    (max, d) => d.value > max.value ? d : max,
+    report.dati_torta[0] ?? { name: '—', value: 0, colore: '#999' }
+  )
+
   return (
     <div className="vista-report-ap">
       <div className="report-body">
 
         <div className="report-kpi-row">
           <div className="report-kpi-card">
-            <span className="report-kpi-valore" style={{ color: '#155e52' }}>{corseTotali}</span>
+            <span className="report-kpi-valore" style={{ color: '#155e52' }}>{report.corse_totali}</span>
             <span className="report-kpi-label">Corse totali</span>
           </div>
           <div className="report-kpi-card">
-            <span className="report-kpi-valore" style={{ color: '#3b82f6' }}>26.4h</span>
+            <span className="report-kpi-valore" style={{ color: '#3b82f6' }}>{report.durata_media_h}h</span>
             <span className="report-kpi-label">Durata media</span>
           </div>
           <div className="report-kpi-card">
-            <span className="report-kpi-valore" style={{ color: '#8b5cf6' }}>142 km</span>
+            <span className="report-kpi-valore" style={{ color: '#8b5cf6' }}>{report.distanza_totale_km} km</span>
             <span className="report-kpi-label">Distanza totale</span>
           </div>
           <div className="report-kpi-card">
@@ -57,7 +69,7 @@ export default function VistaReportAP() {
           <div className="report-chart-card grande">
             <div className="report-chart-titolo">Corse settimanali per tipologia</div>
             <ResponsiveContainer width="100%" height={240}>
-              <BarChart data={DATI_SETTIMANALI} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
+              <BarChart data={report.dati_settimanali} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="giorno" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} />
@@ -75,7 +87,7 @@ export default function VistaReportAP() {
             <ResponsiveContainer width="100%" height={240}>
               <PieChart>
                 <Pie
-                  data={DATI_TORTA}
+                  data={report.dati_torta}
                   cx="50%"
                   cy="50%"
                   outerRadius={80}
@@ -83,7 +95,7 @@ export default function VistaReportAP() {
                   labelLine={false}
                   label={(props) => <LabelTorta {...(props as Parameters<typeof LabelTorta>[0])} />}
                 >
-                  {DATI_TORTA.map((d: DatoTorta) => (
+                  {report.dati_torta.map((d: DatoTorta) => (
                     <Cell key={d.name} fill={d.colore} />
                   ))}
                 </Pie>

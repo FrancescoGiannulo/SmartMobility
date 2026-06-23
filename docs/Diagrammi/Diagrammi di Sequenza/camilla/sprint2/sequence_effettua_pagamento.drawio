@@ -156,7 +156,7 @@
                         <mxPoint x="965" y="549.9999999999995" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="36" value="7: getMetodiByUtente(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="36" value="7: listaMetodi(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="965" y="569.9999999999995" as="sourcePoint"/>
                         <mxPoint x="1150" y="569.9999999999995" as="targetPoint"/>
@@ -180,7 +180,7 @@
                         <mxPoint x="965" y="699.9999999999995" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="40" value="11: save(idCorsa, idUtente, importo, transactionId, COMPLETATO)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="40" value="11: creaPagamento(idCorsa, idUtente, importo, transactionId, COMPLETATO)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="965" y="738.0000000000005" as="sourcePoint"/>
                         <mxPoint x="1150" y="738.0000000000005" as="targetPoint"/>

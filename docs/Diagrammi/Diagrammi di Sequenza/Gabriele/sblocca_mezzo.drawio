@@ -233,7 +233,7 @@
                         <mxPoint x="1390.0001220703125" y="613.0001220703125" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="58" value="8: findByStatoAndPosizione(pos)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
+                <mxCell id="58" value="8: trovaSbloccabili(idUtente, pos)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1400.0001220703125" y="653.0001220703125" as="sourcePoint"/>
                         <mxPoint x="1595.0001220703125" y="653.0001220703125" as="targetPoint"/>
@@ -353,7 +353,7 @@
                         <mxPoint x="1395.0001220703125" y="1384.0001220703125" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="76" value="26: findById(idMezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
+                <mxCell id="76" value="26: trovaPerId(idMezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1400.0001220703125" y="1408.0001220703125" as="sourcePoint"/>
                         <mxPoint x="1595.0001220703125" y="1408.0001220703125" as="targetPoint"/>
@@ -375,7 +375,7 @@
                         <mxPoint x="1395.0001220703125" y="1504" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="78" value="29: findAttiva(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
+                <mxCell id="78" value="29: trovaAttivaPerUtenteEMezzo(idUtente, idMezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1400.0001220703125" y="1598" as="sourcePoint"/>
                         <mxPoint x="1800.0001220703125" y="1598" as="targetPoint"/>
@@ -387,7 +387,7 @@
                         <mxPoint x="1400.0001220703125" y="1638" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="80" value="31: save(corsa)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
+                <mxCell id="80" value="31: crea(corsa)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1400.0001220703125" y="1698" as="sourcePoint"/>
                         <mxPoint x="2005.0001220703125" y="1698" as="targetPoint"/>
@@ -399,13 +399,13 @@
                         <mxPoint x="1400.0001220703125" y="1738" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="82" value="33: update(prenotazione) «stato: convertita»" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
+                <mxCell id="82" value="33: aggiornaStato(idPrenotazione, 'convertita')" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1400.0001220703125" y="1798" as="sourcePoint"/>
                         <mxPoint x="1800.0001220703125" y="1798" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="83" value="34: update(mezzo) «stato: In uso»  /  sbloccati.append(...)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
+                <mxCell id="83" value="34: aggiornaStato(idMezzo, 'In uso')  /  sbloccati.append(...)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1400.0001220703125" y="1858" as="sourcePoint"/>
                         <mxPoint x="1595.0001220703125" y="1858" as="targetPoint"/>

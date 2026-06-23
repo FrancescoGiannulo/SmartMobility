@@ -209,7 +209,7 @@
                         <mxPoint x="1665" y="810" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="sg-m8" value="8: findByUtenteOrderByData(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=15;" parent="1" edge="1">
+                <mxCell id="sg-m8" value="8: findByUtente(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=15;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1675" y="860" as="sourcePoint"/>
                         <mxPoint x="1915" y="860" as="targetPoint"/>
@@ -294,7 +294,7 @@
                         <mxPoint x="1675" y="1455" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="sg-m19" value="19: save(suggerimenti)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=15;" parent="1" edge="1">
+                <mxCell id="sg-m19" value="19: saveBatch(suggerimenti)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=15;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1675" y="1510" as="sourcePoint"/>
                         <mxPoint x="2665" y="1510" as="targetPoint"/>

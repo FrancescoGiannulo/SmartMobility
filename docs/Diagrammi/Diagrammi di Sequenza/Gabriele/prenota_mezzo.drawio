@@ -204,7 +204,7 @@
             <mxPoint x="5352.7999267578125" y="2672" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="50" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="8: findById(idMezzo)">
+        <mxCell id="50" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="8: trovaPerId(idMezzo)">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="5362.7999267578125" y="2712" as="sourcePoint" />
             <mxPoint x="5762.7999267578125" y="2712" as="targetPoint" />
@@ -298,7 +298,7 @@
             <mxPoint x="5352.7999267578125" y="3291" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="65" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="23: findCorrente(): :parametri">
+        <mxCell id="65" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="23: get(): :parametri">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="5362.7999267578125" y="3331" as="sourcePoint" />
             <mxPoint x="5557.7999267578125" y="3331" as="targetPoint" />
@@ -310,7 +310,7 @@
             <mxPoint x="5362.7999267578125" y="3371" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="67" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="25: findDisponibili(idMezzo[])">
+        <mxCell id="67" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="25: trovaDisponibiliDaLista(idMezzo[])">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="5362.7999267578125" y="3411" as="sourcePoint" />
             <mxPoint x="5762.7999267578125" y="3411" as="targetPoint" />
@@ -344,13 +344,13 @@
         <mxCell id="73" parent="1" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" value="[per ogni mezzo selezionato]" vertex="1">
           <mxGeometry height="22" width="240" x="5342.7999267578125" y="3582" as="geometry" />
         </mxCell>
-        <mxCell id="74" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="28: update(mezzo) «stato: Prenotato»">
+        <mxCell id="74" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="28: aggiornaStato(idMezzo, 'Prenotato')">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="5362.7999267578125" y="3611" as="sourcePoint" />
             <mxPoint x="5762.7999267578125" y="3611" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="75" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="29: save(prenotazione)">
+        <mxCell id="75" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" value="29: crea(idUtente, idMezzo, durataMin)">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="5362.7999267578125" y="3651" as="sourcePoint" />
             <mxPoint x="5967.7999267578125" y="3651" as="targetPoint" />

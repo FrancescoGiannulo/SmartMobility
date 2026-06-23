@@ -309,7 +309,7 @@
                     </mxGeometry>
                 </mxCell>
                 <!-- ================= INNER ALT else: posizione valida ================= -->
-                <mxCell id="m25" value="25: save(mezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m25" value="25: crea(mezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1265" y="1174" as="sourcePoint"/>
                         <mxPoint x="1645" y="1174" as="targetPoint"/>

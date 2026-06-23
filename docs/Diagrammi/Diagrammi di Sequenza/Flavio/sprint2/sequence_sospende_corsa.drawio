@@ -161,7 +161,7 @@
                         <mxPoint x="1365" y="480" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="37" value="8: findById(idCorsa)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="37" value="8: trovaPerId(idCorsa)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1375" y="520" as="sourcePoint"/>
                         <mxPoint x="1744.9999999999995" y="520" as="targetPoint"/>
@@ -173,7 +173,7 @@
                         <mxPoint x="1375" y="560" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="39" value="10: findById(idMezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="39" value="10: trovaPerId(idMezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1375" y="600" as="sourcePoint"/>
                         <mxPoint x="1554.9999999999995" y="600" as="targetPoint"/>
@@ -185,7 +185,7 @@
                         <mxPoint x="1375" y="640" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="41" value="12: update(mezzo) [stato = &quot;In Pausa&quot;]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="41" value="12: bloccaMezzo(idMezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1375" y="680" as="sourcePoint"/>
                         <mxPoint x="1554.9999999999995" y="680" as="targetPoint"/>
@@ -197,7 +197,7 @@
                         <mxPoint x="1375" y="720" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="43" value="14: update(corsa) [oraInizioPausa registrato]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="43" value="14: registraInizioPausa(idCorsa)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1375" y="760" as="sourcePoint"/>
                         <mxPoint x="1744.9999999999995" y="760" as="targetPoint"/>
