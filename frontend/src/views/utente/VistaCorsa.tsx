@@ -351,6 +351,26 @@ export default function VistaCorsa() {
                     ))}
                   </ul>
 
+                  {/* CO2 risparmiata rispetto a mezzo a combustione (stima basata su durata) */}
+                  {(() => {
+                    const VEL_MEDIA_CITTA_KMH = 20
+                    const CO2_COMBUSTIONE_G_KM = 120
+                    const CO2_SHARING_G_KM: Record<string, number> = { bicicletta: 0, monopattino: 5, automobile: 40 }
+                    const kmStimati = (durataMin / 60) * VEL_MEDIA_CITTA_KMH
+                    const emissioneMedia = riepilogoData.daTerminate.length > 0
+                      ? riepilogoData.daTerminate.reduce((acc, c) => acc + (CO2_SHARING_G_KM[c.mezzo.tipo] ?? 0), 0) / riepilogoData.daTerminate.length
+                      : 0
+                    const co2Grammi = Math.round((CO2_COMBUSTIONE_G_KM - emissioneMedia) * kmStimati)
+                    return co2Grammi > 0 ? (
+                      <div className="riepilogo-co2">
+                        <span className="riepilogo-co2-label">CO₂ risparmiata</span>
+                        <span className="riepilogo-co2-valore">
+                          {co2Grammi >= 1000 ? `${(co2Grammi / 1000).toFixed(1)} kg` : `${co2Grammi} g`}
+                        </span>
+                      </div>
+                    ) : null
+                  })()}
+
                   {/* [IF-UT.07] mostraTotaleComplessivo(Corsa[]) */}
                   <div className="riepilogo-totale">
                     {r.importo_pieno !== null && r.costo_totale === 0 ? (
