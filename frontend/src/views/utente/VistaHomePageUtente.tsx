@@ -23,6 +23,8 @@ import { COLORI_ZONA } from '../../utils/coloriZona'
 import { TourTrigger } from '../../tour/TourTrigger'
 import { useTour } from '../../tour/useTour'
 import { tourHomepageUtente } from '../../tour/tours/tourHomepageUtente'
+import BottomNavUtente from '../../components/layout/BottomNavUtente'
+import { FORESTA_MAP_STYLE } from '../../styles/maps'
 import './VistaHomePageUtente.css'
 
 const CENTRO_DEFAULT = { lat: 41.1087, lng: 16.8781 }
@@ -58,13 +60,13 @@ function PinMezzo({ tipo, selected, dim }: { tipo: string; selected?: boolean; d
 function Batteria({ valore }: { valore: number | null }) {
   if (valore == null) return <span className="batteria-nd">—</span>
   const barre = Math.min(4, Math.ceil(valore / 25))
-  const colore = valore > 50 ? '#155e52' : valore > 20 ? '#f59e0b' : '#ef4444'
+  const colore = valore > 50 ? 'var(--accent)' : valore > 20 ? 'var(--warn)' : 'var(--danger)'
   return (
     <span className="batteria-barre">
       {[1, 2, 3, 4].map(i => (
         <span key={i} className="batteria-barra" style={{
           height: 6 + i * 4,
-          background: i <= barre ? colore : '#e0e0e0',
+          background: i <= barre ? colore : 'var(--surface-3)',
         }} />
       ))}
     </span>
@@ -441,6 +443,7 @@ export default function VistaHomePageUtente() {
         defaultCenter={centro}
         defaultZoom={14}
         mapId="mappa-utente"
+        styles={FORESTA_MAP_STYLE}
         gestureHandling="greedy"
         disableDefaultUI={false}
         style={{ paddingTop: 88 }}
@@ -913,7 +916,7 @@ export default function VistaHomePageUtente() {
             <div className="sidebar-divider" />
             <div className="sidebar-pricing-body">
               {loadingDrawer && <p className="sidebar-empty">Caricamento...</p>}
-              {erroreDrawer && <p className="sidebar-empty" style={{ color: '#e53935' }}>{erroreDrawer}</p>}
+              {erroreDrawer && <p className="sidebar-empty" style={{ color: 'var(--danger)' }}>{erroreDrawer}</p>}
               {!loadingDrawer && !erroreDrawer && sidebarSezione === 'tariffe' && (
                 tariffe && tariffe.length > 0 ? (
                   <ul className="pricing-lista">
@@ -958,6 +961,8 @@ export default function VistaHomePageUtente() {
       {!sidebarAperta && <TourTrigger tourId="homepage-ut" />}
 
       {errore && <div className="mappa-errore">{errore}</div>}
+
+      <BottomNavUtente />
     </div>
   )
 }
