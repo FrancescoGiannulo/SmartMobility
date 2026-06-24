@@ -6,9 +6,9 @@
 
 ## Indice delle classi
 
-Totale elementi identificati: **144**.
+Totale elementi identificati: **145**.
 
-- **CLIENT - View (Presentation)** (23): `VistaLogin`, `VistaProfiloUtente`, `CallbackOAuth`, `PrivacyPolicy`, `VistaRecensione`, `VistaGestioneUtentiOperatore`, `VistaRecensioniOperatore`, `VistaSegnalazioneUtente`, `VistaSegnalazioniOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaParametriSistema`, `VistaImpostazioniRegole`, `VistaAbbonamenti`, `VistaStoricoModifiche`, `VistaOfferte`, `VistaTariffe`, `VistaCorsa`, `VistaStoricoCorse`, `VistaMezziOperatore`, `VistaPagamenti`, `VistaHomePageUtente`, `VistaDefinisciZona`
+- **CLIENT - View (Presentation)** (24): `VistaLogin`, `VistaProfiloUtente`, `CallbackOAuth`, `PrivacyPolicy`, `VistaRecensione`, `VistaGestioneUtentiOperatore`, `VistaRecensioniOperatore`, `VistaSegnalazioneUtente`, `VistaSegnalazioniOperatore`, `VistaDashboardAP`, `VistaReportAP`, `VistaParametriSistema`, `VistaImpostazioniRegole`, `VistaAbbonamenti`, `VistaStoricoModifiche`, `VistaOfferte`, `VistaTariffe`, `VistaCorsa`, `VistaStoricoCorse`, `VistaMezziOperatore`, `VistaPagamenti`, `VistaDashboardOperatore`, `VistaHomePageUtente`, `VistaDefinisciZona`
 - **CLIENT - Service (API Service Layer)** (19): `AuthService`, `RecensioneService`, `GestioneUtentiService`, `SegnalazioneService`, `ReportService`, `SuggerimentiService`, `RegoleFineCorsaService`, `ConfigurazioneService`, `StoricoModificheService`, `ApiService`, `AbbonamentoService`, `OffertaService`, `TariffaService`, `CorsaService`, `PrenotazioneService`, `FlottaService`, `PaymentService`, `ZonaService`, `MapService`
 - **SERVER - Controller (MVC / FrontController)** (19): `AccountController`, `UtentiOPController`, `RecensioneController`, `SegnalazioneUtenteController`, `SegnalazioneOPController`, `AmministrazionePubblicaController`, `SuggerimentoController`, `ConfigurazioneController`, `RegoleFineCorsaController`, `FrontController`, `StoricoModificheController`, `AbbonamentoController`, `OffertaController`, `CorsaController`, `MezzoOperatoreController`, `PagamentoController`, `ZoneController`, `TariffaController`, `HomePageUtenteController`
 - **Contratti Controller -> BLL (interfacce)** (15): `IServizioUtenti`, `IServizioRecensione`, `IServizioSegnalazione`, `IServizioSuggerimenti`, `IServizioReport`, `IServizioRegoleFineCorsa`, `IServizioParametri`, `IServizioAbbonamento`, `IServizioStoricoModifiche`, `IServizioOfferta`, `IServizioTariffa`, `IServizioPrenotazione`, `IServizioMobilita`, `IServizioPricing`, `IServizioMappa`
@@ -403,6 +403,22 @@ Totale elementi identificati: **144**.
 + mostraErrorePagamento(): void
 + chiediImpostaPredefinito(): void
 + confermaImpostaPredefinito(idMetodo: String): void
+```
+
+### `VistaDashboardOperatore`
+
+**Attributi**
+
+```
+- flotta: List
+- zoneOperative: List
+```
+
+**Metodi**
+
+```
++ selezionaMappaOperatore(): void
++ mostraMappaOperatore(): void
 ```
 
 ### `VistaHomePageUtente`
@@ -1948,7 +1964,7 @@ Riepilogo delle dipendenze direzionali tra layer (origine -> destinazione):
 | Da (layer) | A (layer) | N. dipendenze |
 |---|---|---|
 | SERVER - Service (Business Logic Layer) | SERVER - Repository (Data Access Layer) | 30 |
-| CLIENT - View (Presentation) | CLIENT - Service (API Service Layer) | 22 |
+| CLIENT - View (Presentation) | CLIENT - Service (API Service Layer) | 24 |
 | SERVER - Model (Domain / Entity) | SERVER - Model (Domain / Entity) | 22 |
 | SERVER - Controller (MVC / FrontController) | Contratti Controller -> BLL (interfacce) | 19 |
 | SERVER - Repository (Data Access Layer) | SERVER - Model (Domain / Entity) | 17 |
