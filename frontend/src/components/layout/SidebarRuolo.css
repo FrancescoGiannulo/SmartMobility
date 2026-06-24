@@ -1,0 +1,50 @@
+/* SidebarRuolo.css — Sidebar navigazione operatore/AP (redesign Foresta) */
+
+.sm-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 0;
+}
+
+.sm-sidebar__item {
+  display: flex;
+  gap: 11px;
+  align-items: center;
+  padding: 11px 12px;
+  border-radius: 13px;
+  color: var(--text-dim);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--ff-body);
+  text-decoration: none;
+  transition: background .15s var(--ease), color .15s var(--ease);
+}
+
+.sm-sidebar__item:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.sm-sidebar__item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.sm-sidebar__item--active,
+.sm-sidebar__item[aria-current="page"] {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.sm-sidebar__item--active svg,
+.sm-sidebar__item[aria-current="page"] svg {
+  color: var(--accent);
+}
+
+.sm-sidebar__item svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transition: color .15s var(--ease);
+}
