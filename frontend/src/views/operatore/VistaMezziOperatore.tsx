@@ -6,6 +6,7 @@ import {
   aggiungiMezzo,
   verificaDismissione,
   dismetti,
+  modificaStato,
   type MezzoFlotta,
   type AggiungiMezzoPayload,
 } from '../../services/FlottaService'
@@ -25,6 +26,9 @@ const STATO_PILL_CLASS: Record<string, string> = {
   'In manutenzione':'vmezzi__pill--manutenzione',
   'Fuori servizio': 'vmezzi__pill--fuori',
 }
+
+const STATI_MODIFICABILI = ['Disponibile', 'In manutenzione', 'Fuori servizio']
+const STATI_BLOCCATI = new Set(['In uso', 'In pausa', 'Prenotato'])
 
 interface FormState {
   tipo: string
@@ -55,6 +59,7 @@ export default function VistaMezziOperatore() {
   const [submitting, setSubmitting] = useState(false)
   const [confermaDismissione, setConfermaDismissione] = useState<MezzoFlotta | null>(null)
   const [controllando, setControllando] = useState(false)
+  const [aggiornandoStato, setAggiornandoStato] = useState<string | null>(null)
 
   const mostraToast = (msg: string, tipo: 'ok' | 'err') => {
     setToast({ msg, tipo })
@@ -137,6 +142,25 @@ export default function VistaMezziOperatore() {
     }
   }
 
+  // [IF-OP.04] Modifica stato mezzo dall'operatore
+  const handleCambiaStato = async (mezzo: MezzoFlotta, nuovoStato: string) => {
+    if (nuovoStato === mezzo.stato) return
+    setAggiornandoStato(mezzo.id)
+    try {
+      await modificaStato(mezzo.id, nuovoStato)
+      ricarica()
+      mostraToast('Stato del mezzo aggiornato', 'ok')
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.status === 409) {
+        mostraToast(String(err.response.data?.detail ?? 'Mezzo attualmente in uso o prenotato'), 'err')
+      } else {
+        mostraToast('Errore durante l\'aggiornamento dello stato', 'err')
+      }
+    } finally {
+      setAggiornandoStato(null)
+    }
+  }
+
   const handleConfermaDismissione = async () => {
     if (!confermaDismissione) return
     try {
@@ -195,9 +219,22 @@ export default function VistaMezziOperatore() {
                     <td>{TIPO_EMOJI[m.tipo] ?? '●'} {m.tipo}</td>
                     <td><strong>{m.codice}</strong></td>
                     <td>
-                      <span className={`vmezzi__pill ${STATO_PILL_CLASS[m.stato] ?? ''}`}>
-                        {m.stato}
-                      </span>
+                      {STATI_BLOCCATI.has(m.stato) ? (
+                        <span className={`vmezzi__pill ${STATO_PILL_CLASS[m.stato] ?? ''}`}>
+                          {m.stato}
+                        </span>
+                      ) : (
+                        <select
+                          className={`vmezzi__pill vmezzi__pill--select ${STATO_PILL_CLASS[m.stato] ?? ''}`}
+                          value={m.stato}
+                          disabled={aggiornandoStato === m.id}
+                          onChange={e => handleCambiaStato(m, e.target.value)}
+                        >
+                          {STATI_MODIFICABILI.map(s => (
+                            <option key={s} value={s}>{s}</option>
+                          ))}
+                        </select>
+                      )}
                     </td>
                     <td>{m.batteria != null ? `${m.batteria}%` : '—'}</td>
                     <td>
