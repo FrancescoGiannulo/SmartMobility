@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../../services/ApiService'
-import { logout, utenteCorrente } from '../../services/AuthService'
+import { logout, utenteCorrente, modificaDatiAccount } from '../../services/AuthService'
 import './VistaProfiloUtente.css'
 
 export default function VistaProfiloUtente() {
@@ -10,6 +10,39 @@ export default function VistaProfiloUtente() {
   const [statoExport, setStatoExport] = useState<'idle' | 'loading' | 'done' | 'error'>('idle')
   const [statoElimina, setStatoElimina] = useState<'idle' | 'confirm' | 'loading' | 'error'>('idle')
   const [errore, setErrore] = useState('')
+
+  // Modifica dati account
+  const [modificaAttiva, setModificaAttiva] = useState(false)
+  const [nome, setNome] = useState(utente?.profilo.nome ?? '')
+  const [cognome, setCognome] = useState(utente?.profilo.cognome ?? '')
+  const [statoModifica, setStatoModifica] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [erroreModifica, setErroreModifica] = useState('')
+
+  const handleModifica = async () => {
+    if (!nome.trim() || !cognome.trim()) {
+      setErroreModifica('Nome e cognome sono obbligatori.')
+      return
+    }
+    setStatoModifica('loading')
+    setErroreModifica('')
+    try {
+      await modificaDatiAccount({ nome: nome.trim(), cognome: cognome.trim() })
+      setStatoModifica('success')
+      setModificaAttiva(false)
+      setTimeout(() => setStatoModifica('idle'), 2000)
+    } catch {
+      setStatoModifica('error')
+      setErroreModifica('Impossibile aggiornare i dati. Riprova.')
+    }
+  }
+
+  const handleAnnullaModifica = () => {
+    setNome(utente?.profilo.nome ?? '')
+    setCognome(utente?.profilo.cognome ?? '')
+    setModificaAttiva(false)
+    setErroreModifica('')
+    setStatoModifica('idle')
+  }
 
   const handleExport = async () => {
     setStatoExport('loading')
@@ -43,6 +76,8 @@ export default function VistaProfiloUtente() {
     }
   }
 
+  const profiloAggiornato = utenteCorrente()
+
   return (
     <div className="profilo-container">
       <div className="profilo-card">
@@ -52,24 +87,93 @@ export default function VistaProfiloUtente() {
 
         <h1 className="profilo-titolo">Il mio profilo</h1>
 
-        {utente && (
-          <div className="profilo-info">
-            <div className="profilo-info-row">
-              <span className="profilo-label">Nome</span>
-              <span className="profilo-valore">{utente.profilo.nome} {utente.profilo.cognome}</span>
-            </div>
-            <div className="profilo-info-row">
-              <span className="profilo-label">Email</span>
-              <span className="profilo-valore">{utente.profilo.email}</span>
-            </div>
-            <div className="profilo-info-row">
-              <span className="profilo-label">Ruolo</span>
-              <span className="profilo-badge">{utente.ruolo}</span>
+        {/* Avatar */}
+        {profiloAggiornato && (
+          <div className="profilo-avatar-sezione">
+            <div className="profilo-avatar-grande">
+              {(profiloAggiornato.profilo.nome?.[0] ?? '?').toUpperCase()}
             </div>
           </div>
         )}
 
-        {/* ── GDPR ───────────────────────────────────────────── */}
+        {/* Dati account */}
+        {profiloAggiornato && (
+          <div className="profilo-info">
+            {modificaAttiva ? (
+              <>
+                <div className="profilo-campo">
+                  <label className="profilo-label" htmlFor="profilo-nome">Nome</label>
+                  <input
+                    id="profilo-nome"
+                    className="profilo-input"
+                    type="text"
+                    value={nome}
+                    onChange={e => setNome(e.target.value)}
+                    disabled={statoModifica === 'loading'}
+                  />
+                </div>
+                <div className="profilo-campo">
+                  <label className="profilo-label" htmlFor="profilo-cognome">Cognome</label>
+                  <input
+                    id="profilo-cognome"
+                    className="profilo-input"
+                    type="text"
+                    value={cognome}
+                    onChange={e => setCognome(e.target.value)}
+                    disabled={statoModifica === 'loading'}
+                  />
+                </div>
+                {erroreModifica && <p className="profilo-errore" role="alert">{erroreModifica}</p>}
+                <div className="profilo-modifica-azioni">
+                  <button
+                    className="profilo-btn-salva"
+                    onClick={handleModifica}
+                    disabled={statoModifica === 'loading'}
+                  >
+                    {statoModifica === 'loading' ? 'Salvataggio...' : 'Salva'}
+                  </button>
+                  <button
+                    className="profilo-btn-annulla"
+                    onClick={handleAnnullaModifica}
+                    disabled={statoModifica === 'loading'}
+                  >
+                    Annulla
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="profilo-info-row">
+                  <span className="profilo-label">Nome</span>
+                  <span className="profilo-valore">{profiloAggiornato.profilo.nome} {profiloAggiornato.profilo.cognome}</span>
+                </div>
+                <div className="profilo-info-row">
+                  <span className="profilo-label">Email</span>
+                  <span className="profilo-valore">{profiloAggiornato.profilo.email}</span>
+                </div>
+                <div className="profilo-info-row">
+                  <span className="profilo-label">Ruolo</span>
+                  <span className="profilo-badge">{profiloAggiornato.ruolo}</span>
+                </div>
+                {statoModifica === 'success' && (
+                  <p className="profilo-successo" role="status">Dati aggiornati con successo.</p>
+                )}
+                <button
+                  className="profilo-btn-modifica"
+                  onClick={() => {
+                    setNome(profiloAggiornato.profilo.nome)
+                    setCognome(profiloAggiornato.profilo.cognome ?? '')
+                    setModificaAttiva(true)
+                  }}
+                >
+                  Modifica dati
+                </button>
+              </>
+            )}
+          </div>
+        )}
+
+        {/* GDPR */}
         <section className="profilo-sezione">
           <h2 className="profilo-sezione-titolo">Privacy e dati personali</h2>
           <p className="profilo-sezione-desc">
@@ -93,8 +197,8 @@ export default function VistaProfiloUtente() {
                 onClick={handleExport}
                 disabled={statoExport === 'loading'}
               >
-                {statoExport === 'loading' ? 'Scaricamento…' :
-                 statoExport === 'done' ? '✓ Scaricato' : 'Scarica'}
+                {statoExport === 'loading' ? 'Scaricamento...' :
+                 statoExport === 'done' ? 'Scaricato' : 'Scarica'}
               </button>
             </div>
 
@@ -127,7 +231,7 @@ export default function VistaProfiloUtente() {
                 </div>
               )}
               {statoElimina === 'loading' && (
-                <button className="profilo-btn-danger" disabled>Eliminazione…</button>
+                <button className="profilo-btn-danger" disabled>Eliminazione...</button>
               )}
             </div>
           </div>

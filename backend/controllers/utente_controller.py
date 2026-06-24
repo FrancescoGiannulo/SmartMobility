@@ -7,7 +7,7 @@ from bll.servizio_utenti import (
 )
 from database import get_db
 from middleware.auth_middleware import verify_token
-from controllers.schemas import RegistrazioneRequest, AuthResponse
+from controllers.schemas import RegistrazioneRequest, AuthResponse, ModificaProfiloRequest
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 _servizio = ServizioUtenti()
@@ -36,6 +36,20 @@ def registra(body: RegistrazioneRequest):
 # ── GDPR ─────────────────────────────────────────────────────────────────────
 
 gdpr_router = APIRouter(prefix="/utente", tags=["GDPR"])
+
+
+@gdpr_router.put("/profilo")
+def modifica_profilo(
+    body: ModificaProfiloRequest,
+    utente_corrente: dict = Depends(verify_token(["UT"])),
+):
+    try:
+        aggiornato = _servizio.modifica_dati_account(
+            utente_corrente["id"], body.nome, body.cognome
+        )
+        return aggiornato
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
 
 
 @gdpr_router.get("/dati-personali")

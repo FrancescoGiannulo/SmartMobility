@@ -60,6 +60,21 @@ export const gestisciCallbackOAuth = async (accessToken: string, consensoPrivacy
   return resp.data
 }
 
+export const modificaDatiAccount = async (dati: {
+  nome: string
+  cognome: string
+}): Promise<{ nome: string; cognome: string }> => {
+  const resp = await api.put<{ nome: string; cognome: string }>('/utente/profilo', dati)
+  const profiloStr = localStorage.getItem('profilo:v1')
+  if (profiloStr) {
+    const profilo = JSON.parse(profiloStr)
+    profilo.nome = resp.data.nome
+    profilo.cognome = resp.data.cognome
+    localStorage.setItem('profilo:v1', JSON.stringify(profilo))
+  }
+  return resp.data
+}
+
 export const logout = async (): Promise<void> => {
   localStorage.removeItem('token')
   localStorage.removeItem('ruolo')

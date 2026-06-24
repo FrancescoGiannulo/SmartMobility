@@ -341,6 +341,11 @@ class SospensioneRequest(BaseModel):
     motivazione: str
 
 
+class ModificaProfiloRequest(BaseModel):
+    nome: str
+    cognome: str
+
+
 # [IF-AP.01] Accede Report — statistiche aggregate per l'Amministrazione Pubblica
 class DatoSettimanaleOut(BaseModel):
     giorno: str

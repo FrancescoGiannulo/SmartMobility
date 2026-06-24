@@ -152,6 +152,15 @@ class ServizioUtenti:
         profilo, ruolo = self._repo.trova_per_id(utente_id)
         return {"ruolo": ruolo, "profilo": self._build_profilo(profilo, ruolo, email)}
 
+    def modifica_dati_account(self, utente_id: UUID, nome: str, cognome: str) -> dict:
+        if not nome or not nome.strip():
+            raise ValueError("Il nome è obbligatorio")
+        if not cognome or not cognome.strip():
+            raise ValueError("Il cognome è obbligatorio")
+        self._repo.aggiorna_utente(utente_id, nome.strip(), cognome.strip())
+        profilo, _ = self._repo.trova_per_id(utente_id)
+        return {"nome": profilo.nome, "cognome": profilo.cognome}
+
     # ── GDPR ──────────────────────────────────────────────────────────────────
 
     def esporta_dati(self, utente_id: UUID, email: str) -> dict:

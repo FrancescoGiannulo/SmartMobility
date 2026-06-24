@@ -736,7 +736,10 @@ export default function VistaHomePageUtente() {
           <>
             {/* Profilo */}
             {utente && (
-              <div className="sidebar-profilo">
+              <button
+                className="sidebar-profilo sidebar-profilo--cliccabile"
+                onClick={() => { setSidebarAperta(false); navigate('/utente/profilo') }}
+              >
                 <div className="sidebar-avatar">
                   {(utente.profilo.nome?.[0] ?? '?').toUpperCase()}
                 </div>
@@ -744,7 +747,7 @@ export default function VistaHomePageUtente() {
                   <p className="sidebar-nome">{utente.profilo.nome}</p>
                   <p className="sidebar-email">{utente.profilo.email}</p>
                 </div>
-              </div>
+              </button>
             )}
 
             <div className="sidebar-divider" />

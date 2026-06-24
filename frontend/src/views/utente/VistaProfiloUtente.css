@@ -214,6 +214,100 @@
   font-weight: 500;
 }
 
+/* Avatar grande */
+.profilo-avatar-sezione {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.profilo-avatar-grande {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #155e52, #2a7a6a);
+  color: #fff;
+  font-size: 28px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Form modifica */
+.profilo-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profilo-input {
+  border: 1.5px solid #d0d5dd;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 15px;
+  color: #1a1a2e;
+  background: #fff;
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.profilo-input:focus {
+  border-color: #155e52;
+  box-shadow: 0 0 0 3px rgba(21, 94, 82, 0.12);
+}
+
+.profilo-input:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.profilo-modifica-azioni {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.profilo-btn-salva {
+  background: #155e52;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.profilo-btn-salva:disabled { opacity: 0.6; cursor: default; }
+.profilo-btn-salva:hover:not(:disabled) { opacity: 0.85; }
+
+.profilo-btn-modifica {
+  background: none;
+  border: 1.5px solid #155e52;
+  color: #155e52;
+  border-radius: 10px;
+  padding: 8px 18px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.profilo-btn-modifica:hover {
+  background: #155e52;
+  color: #fff;
+}
+
+.profilo-successo {
+  color: #155e52;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 4px 0 0;
+}
+
 /* Mobile */
 @media (max-width: 480px) {
   .vista-profilo-wrap { padding: 16px 12px 32px; }

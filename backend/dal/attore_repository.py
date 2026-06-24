@@ -228,6 +228,16 @@ class AttoreRepository:
             )
             session.commit()
 
+    def aggiorna_utente(self, id: UUID, nome: str, cognome: str) -> None:
+        with Session(engine) as session:
+            result = session.execute(
+                text("UPDATE utenti SET nome = :nome, cognome = :cognome WHERE id = :id"),
+                {"id": str(id), "nome": nome, "cognome": cognome},
+            )
+            if result.rowcount == 0:
+                raise AttoreNonTrovatoException(f"Utente {id} non trovato")
+            session.commit()
+
     # ── GDPR ──────────────────────────────────────────────────────────────────
 
     def esporta_dati_utente(self, utente_id: UUID) -> dict:

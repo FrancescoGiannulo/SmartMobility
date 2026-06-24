@@ -583,6 +583,21 @@ body {
   align-items: center;
   gap: 14px;
   padding: 18px 22px;
+  width: 100%;
+  background: none;
+  border: none;
+  font-family: inherit;
+  text-align: left;
+}
+
+.sidebar-profilo--cliccabile {
+  cursor: pointer;
+  border-radius: 12px;
+  transition: background 150ms;
+}
+
+.sidebar-profilo--cliccabile:hover {
+  background: rgba(21, 94, 82, 0.06);
 }
 .sidebar-avatar {
   width: 44px;
