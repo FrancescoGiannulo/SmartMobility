@@ -290,9 +290,9 @@ body {
 }
 .btn-logout-mappa:hover {
   background: var(--danger);
-  color: var(--text);
+  color: var(--accent-ink);
   transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(255, 138, 122, 0.35);
+  box-shadow: 0 8px 18px var(--glow);
 }
 .btn-logout-mappa:active { transform: translateY(0); }
 

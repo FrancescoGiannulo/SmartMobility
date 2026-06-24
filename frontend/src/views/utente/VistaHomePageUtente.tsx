@@ -799,22 +799,6 @@ export default function VistaHomePageUtente() {
 
               <button
                 className="sidebar-voce"
-                onClick={() => { setSidebarAperta(false); navigate('/utente/abbonamenti') }}
-              >
-                <span className="sidebar-voce__testo">Abbonamenti</span>
-                <span className="sidebar-voce__icona">📅</span>
-              </button>
-
-              <button
-                className="sidebar-voce"
-                onClick={() => { setSidebarAperta(false); navigate('/utente/storico') }}
-              >
-                <span className="sidebar-voce__testo">Cronologia</span>
-                <span className="sidebar-voce__icona">📋</span>
-              </button>
-
-              <button
-                className="sidebar-voce"
                 onClick={() => { setSidebarAperta(false); navigate('/utente/segnalazione') }}
               >
                 <span className="sidebar-voce__testo">Invia segnalazione</span>
