@@ -2,7 +2,7 @@
 
 .vista-login {
   min-height: 100vh;
-  background: #ffffff;
+  background: var(--bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,8 +35,18 @@
   font-size: 20px;
   font-weight: 700;
   letter-spacing: 1px;
-  color: #222;
+  color: var(--text);
+  font-family: var(--ff-display);
   margin: 0;
+}
+
+.login-heading {
+  font-family: var(--ff-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 4px 0;
+  align-self: flex-start;
 }
 
 form {
@@ -49,16 +59,23 @@ form {
 .login-input {
   width: 100%;
   padding: 14px 18px;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 24px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-pill);
   font-size: 15px;
+  font-family: var(--ff-body);
   outline: none;
+  background: var(--surface);
+  color: var(--text);
   transition: border-color 0.2s;
   box-sizing: border-box;
 }
 
+.login-input::placeholder {
+  color: var(--text-mute);
+}
+
 .login-input:focus {
-  border-color: #155e52;
+  border-color: var(--accent);
 }
 
 .login-password-wrap {
@@ -84,15 +101,16 @@ form {
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--accent);
   transition: background 150ms;
 }
 
 .btn-mostra-password:hover {
-  background: rgba(21, 94, 82, 0.08);
+  background: var(--glow);
 }
 
 .btn-mostra-password:focus-visible {
-  outline: 2px solid #155e52;
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
@@ -103,26 +121,31 @@ form {
 .link-recupero {
   text-align: center;
   font-size: 13px;
-  color: #777;
+  color: var(--text-dim);
   text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--ff-body);
 }
 
 .btn-primario {
   width: 100%;
   padding: 14px;
-  background: #155e52;
-  color: #fff;
+  background: var(--accent);
+  color: var(--accent-ink);
   border: none;
-  border-radius: 24px;
+  border-radius: var(--r-pill);
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 1px;
   cursor: pointer;
-  transition: background 0.2s;
+  font-family: var(--ff-body);
+  transition: opacity 0.2s;
 }
 
 .btn-primario:hover:not(:disabled) {
-  background: #0f4a3f;
+  opacity: 0.88;
 }
 
 .btn-primario:disabled {
@@ -140,7 +163,7 @@ form {
 
 .signup-section p {
   font-size: 14px;
-  color: #555;
+  color: var(--text-dim);
   margin: 0;
 }
 
@@ -148,23 +171,25 @@ form {
   width: 100%;
   padding: 14px;
   background: transparent;
-  color: #155e52;
-  border: 2px solid #155e52;
-  border-radius: 24px;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: var(--r-pill);
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 1px;
   cursor: pointer;
+  font-family: var(--ff-body);
 }
 
 .btn-link {
   background: none;
   border: none;
-  color: #155e52;
+  color: var(--accent);
   font-size: 14px;
   cursor: pointer;
   text-decoration: underline;
   padding: 0;
+  font-family: var(--ff-body);
 }
 
 .social-login {
@@ -175,10 +200,10 @@ form {
 .btn-google {
   width: 100%;
   padding: 13px 18px;
-  background: #fff;
-  color: #3c4043;
-  border: 1.5px solid #dadce0;
-  border-radius: 24px;
+  background: var(--surface);
+  color: var(--text);
+  border: 1.5px solid var(--border-2);
+  border-radius: var(--r-pill);
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
@@ -187,33 +212,33 @@ form {
   justify-content: center;
   gap: 12px;
   transition: background 0.2s, box-shadow 0.2s;
-  font-family: inherit;
+  font-family: var(--ff-body);
 }
 
 .btn-google:hover {
-  background: #f8f9fa;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.12);
+  background: var(--surface-2);
+  box-shadow: var(--shadow);
 }
 
 .login-errore {
-  color: #d32f2f;
+  color: var(--danger);
   font-size: 13px;
   text-align: center;
   margin: 0;
 }
 
-/* ── Desktop (≥768px) — IUI-10: card centrata, no SIGN UP ── */
+/* ── Desktop (≥768px) — IUI-10: card centrata ── */
 @media (min-width: 768px) {
   .vista-login {
-    background: #f5f5f5;
+    background: var(--bg);
   }
 
   .login-card {
-    background: #ffffff;
-    border-radius: 16px;
+    background: var(--surface);
+    border-radius: var(--r-md);
     padding: 48px 40px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
     max-width: 480px;
   }
-
 }
