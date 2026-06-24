@@ -114,6 +114,13 @@
 .vmezzi__pill--manutenzione{ background: #ffedd5; color: #c2410c; }
 .vmezzi__pill--fuori       { background: #fee2e2; color: #991b1b; }
 
+.vmezzi__pill--select {
+  border: none;
+  cursor: pointer;
+  appearance: none;
+}
+.vmezzi__pill--select:disabled { cursor: wait; opacity: 0.6; }
+
 .vmezzi__btn-dismetti {
   background: none;
   border: 1px solid #e2e8f0;
