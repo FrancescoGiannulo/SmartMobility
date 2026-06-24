@@ -25,13 +25,13 @@ function formatTime(sec: number): string {
 function Batteria({ valore }: { valore: number | null | undefined }) {
   if (valore == null) return <span>N/D</span>
   const barre = Math.min(4, Math.ceil(valore / 25))
-  const colore = valore > 50 ? '#155e52' : valore > 20 ? '#f59e0b' : '#ef4444'
+  const colore = valore > 50 ? 'var(--accent)' : valore > 20 ? 'var(--warn)' : 'var(--danger)'
   return (
     <span style={{ display: 'inline-flex', alignItems: 'flex-end', gap: 3 }}>
       {[1, 2, 3, 4].map(i => (
         <span key={i} style={{
           display: 'inline-block', width: 7, height: 6 + i * 4,
-          background: i <= barre ? colore : '#e0e0e0', borderRadius: 2,
+          background: i <= barre ? colore : 'var(--surface-3)', borderRadius: 2,
         }} />
       ))}
     </span>
@@ -256,7 +256,7 @@ export default function VistaCorsa() {
   if (!corse.length) return (
     <div className="vista-corsa-wrap">
       <button type="button" className="btn-back-corsa" onClick={() => navigate(-1)}>← Torna alla mappa</button>
-      <p style={{ color: '#888', marginTop: 32, textAlign: 'center' }}>Nessuna corsa attiva.</p>
+      <p style={{ color: 'var(--text-mute)', marginTop: 32, textAlign: 'center' }}>Nessuna corsa attiva.</p>
     </div>
   )
 
@@ -306,12 +306,19 @@ export default function VistaCorsa() {
         </div>
       </div>
 
+      {/* Status chip */}
+      <div style={{ marginBottom: 12 }}>
+        <span className={`sm-chip${inPausa ? '' : ' sm-chip--ok'}`}>
+          {inPausa ? '⏸ In pausa' : '● Corsa attiva'}
+        </span>
+      </div>
+
       {/* Tabella info */}
       <table className="corsa-tabella">
         <tbody>
           <tr><td>ID Mezzo:</td><td>{selCorsa?.mezzo.codice}</td></tr>
           <tr><td>Carica rimanente:</td><td><Batteria valore={selCorsa?.mezzo.batteria} /></td></tr>
-          <tr><td>Tempo trascorso:</td><td>{formatTime(elapsed)}</td></tr>
+          <tr><td>Tempo trascorso:</td><td style={{ fontFamily: 'var(--ff-mono)' }}>{formatTime(elapsed)}</td></tr>
           <tr><td>Km percorsi:</td><td>0,0</td></tr>
         </tbody>
       </table>
