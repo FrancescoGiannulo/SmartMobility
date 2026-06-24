@@ -399,6 +399,42 @@
 .pausa-banner--gratis .pausa-banner-testo span { color: #0369a1; }
 .pausa-banner--addebito .pausa-banner-testo span { color: #c2410c; }
 
+/* ── Avviso fuori zona operativa ─────────────── */
+.zona-warning-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 340px;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  background: #fef2f2;
+  border: 1.5px solid #f87171;
+  animation: corsaFadeIn 260ms ease;
+}
+
+.zona-warning-icona {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.zona-warning-testo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+}
+
+.zona-warning-testo strong {
+  font-size: 13px;
+  color: #991b1b;
+}
+
+.zona-warning-testo span {
+  color: #b91c1c;
+}
+
 .promo-info {
   display: flex;
   flex-direction: column;

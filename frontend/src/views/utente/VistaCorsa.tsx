@@ -1,10 +1,12 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { terminaCorsa, sospendiCorsa, riprendiCorsa, getRiepilogoCorsa, type Corsa, type RispostaSospensione } from '../../services/CorsaService'
 import type { MezzoMappa } from '../../services/MapService'
+import { getZoneUtente, type ZonaMappa } from '../../services/MapService'
 import { effettuaPagamento, getMetodiPagamento, getPromozioni, type Promozione } from '../../services/PaymentService'
 import { getAbbonamentoCorrente } from '../../services/AbbonamentoService'
+import { puntoInPoligono, distanzaDaPoligono } from '../../utils/geoUtils'
 import './VistaCorsa.css'
 
 interface DatiCorsa {
@@ -87,6 +89,12 @@ export default function VistaCorsa() {
     daTerminate: DatiCorsa[]
   } | null>(null)
 
+  const [zoneOperative, setZoneOperative] = useState<ZonaMappa[]>([])
+  const [fuoriZona, setFuoriZona] = useState(false)
+  const watchIdRef = useRef<number | null>(null)
+
+  const MARGINE_FUORI_ZONA_M = 200
+
   const selCorsa = corse.find(c => c.mezzo.id === selId) ?? corse[0]
 
   useEffect(() => {
@@ -104,6 +112,33 @@ export default function VistaCorsa() {
     const t = setInterval(() => setGraziaResiduaSec(prev => (prev !== null && prev > 0) ? prev - 1 : 0), 1000)
     return () => clearInterval(t)
   }, [inPausa, graziaResiduaSec])
+
+  useEffect(() => {
+    getZoneUtente()
+      .then(zone => setZoneOperative(zone.filter(z => z.tipo === 'operativa' && z.attiva)))
+      .catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    if (zoneOperative.length === 0) return
+    const onPosition = (pos: GeolocationPosition) => {
+      const { latitude, longitude } = pos.coords
+      const dentroAlmenoUna = zoneOperative.some(z => puntoInPoligono(latitude, longitude, z.perimetro))
+      if (dentroAlmenoUna) {
+        setFuoriZona(false)
+        return
+      }
+      const distMin = Math.min(...zoneOperative.map(z => distanzaDaPoligono(latitude, longitude, z.perimetro)))
+      setFuoriZona(distMin > MARGINE_FUORI_ZONA_M)
+    }
+    watchIdRef.current = navigator.geolocation.watchPosition(onPosition, () => {}, {
+      enableHighAccuracy: true,
+      maximumAge: 5000,
+    })
+    return () => {
+      if (watchIdRef.current !== null) navigator.geolocation.clearWatch(watchIdRef.current)
+    }
+  }, [zoneOperative, MARGINE_FUORI_ZONA_M])
 
   const toggleTermina = (corsaId: string) => {
     setDaTerminare(prev => {
@@ -315,6 +350,16 @@ export default function VistaCorsa() {
           <tr><td>Km percorsi:</td><td>0,0</td></tr>
         </tbody>
       </table>
+
+      {fuoriZona && (
+        <div className="zona-warning-banner">
+          <span className="zona-warning-icona">⚠️</span>
+          <div className="zona-warning-testo">
+            <strong>Fuori dalla zona operativa</strong>
+            <span>Torna indietro per continuare a usufruire del servizio.</span>
+          </div>
+        </div>
+      )}
 
       <div className="corsa-logo">
         <span className="corsa-logo-icona">🔄</span>
