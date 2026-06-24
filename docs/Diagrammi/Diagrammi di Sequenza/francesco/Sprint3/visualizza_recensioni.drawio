@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="SD - Visualizza Recensioni" id="visualizza-recensioni-op12">
-        <mxGraphModel dx="514" dy="642" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
+        <mxGraphModel dx="944" dy="611" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -214,9 +214,10 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="m16" value="16: mostraInfo(&quot;Nessuna recensione presente&quot;)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="280" y="826" as="sourcePoint"/>
-                        <mxPoint x="120" y="826" as="targetPoint"/>
+                    <mxGeometry x="0.125" relative="1" as="geometry">
+                        <mxPoint x="280" y="850" as="sourcePoint"/>
+                        <mxPoint x="120" y="850" as="targetPoint"/>
+                        <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
             </root>
