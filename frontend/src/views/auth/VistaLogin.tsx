@@ -51,17 +51,21 @@ export default function VistaLogin() {
       const response = (err as { response?: { status?: number; data?: { detail?: string } } })?.response
       const status = response?.status ?? 0
       if (status === 403) {
-        // [IF-OP.09] Il backend include la motivazione della sospensione nel detail
-        // come "Account sospeso: <motivazione>" — la estraiamo per mostrarla all'utente.
+        // [IF-OP.09] Il backend invia il detail nel formato
+        // "Account sospeso[: <motivazione>][. Tempo rimanente: <X>]".
+        // Estraiamo motivazione e tempo residuo per mostrarli all'utente.
         const detail = response?.data?.detail ?? ''
-        const motivazione = detail.startsWith('Account sospeso: ')
-          ? detail.slice('Account sospeso: '.length)
+        const matchTempo = detail.match(/\.\s*Tempo rimanente:\s*(.+)$/)
+        const tempo = matchTempo ? matchTempo[1].trim() : null
+        const resto = matchTempo ? detail.slice(0, matchTempo.index) : detail
+        const motivazione = resto.startsWith('Account sospeso: ')
+          ? resto.slice('Account sospeso: '.length).trim()
           : null
-        setErrore(
-          motivazione
-            ? `Account sospeso. Motivo: ${motivazione}. Contatta il supporto.`
-            : ERRORI[403],
-        )
+        let msg = 'Account sospeso.'
+        if (motivazione) msg += ` Motivo: ${motivazione}.`
+        if (tempo) msg += ` Tempo rimanente: ${tempo}.`
+        msg += ' Contatta il supporto.'
+        setErrore(msg)
       } else {
         setErrore(ERRORI[status] ?? 'Servizio temporaneamente non disponibile')
       }

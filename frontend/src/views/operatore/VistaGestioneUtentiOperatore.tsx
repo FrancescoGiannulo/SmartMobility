@@ -9,6 +9,21 @@ import {
 } from '../../services/GestioneUtentiService'
 import './VistaGestioneUtentiOperatore.css'
 
+// Formatta il tempo che manca alla fine della sospensione (giorni/ore/minuti)
+function tempoResiduo(fine: string): string {
+  const ms = new Date(fine).getTime() - Date.now()
+  if (ms <= 0) return 'meno di un minuto'
+  const minutiTot = Math.floor(ms / 60000)
+  const giorni = Math.floor(minutiTot / 1440)
+  const ore = Math.floor((minutiTot % 1440) / 60)
+  const minuti = minutiTot % 60
+  const parti: string[] = []
+  if (giorni) parti.push(giorni === 1 ? '1 giorno' : `${giorni} giorni`)
+  if (ore) parti.push(ore === 1 ? '1 ora' : `${ore} ore`)
+  if (minuti && !giorni) parti.push(minuti === 1 ? '1 minuto' : `${minuti} minuti`)
+  return parti.length ? parti.join(' e ') : 'meno di un minuto'
+}
+
 // [IF-OP.09] Sospende Account Utente
 export default function VistaGestioneUtentiOperatore() {
   const navigate = useNavigate()
@@ -150,10 +165,17 @@ export default function VistaGestioneUtentiOperatore() {
             {selezionato.sospeso ? (
               <div className="gest-ut-sospeso-info">
                 <p className="gest-ut-sospeso-msg">⚠️ Account sospeso</p>
-                {selezionato.sospensione_fine && (
-                  <p className="gest-ut-scadenza">
-                    Riattivazione: {new Date(selezionato.sospensione_fine).toLocaleDateString('it-IT', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
-                  </p>
+                {selezionato.sospensione_fine ? (
+                  <>
+                    <p className="gest-ut-scadenza">
+                      Tempo rimanente: <strong>{tempoResiduo(selezionato.sospensione_fine)}</strong>
+                    </p>
+                    <p className="gest-ut-scadenza">
+                      Riattivazione: {new Date(selezionato.sospensione_fine).toLocaleDateString('it-IT', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                    </p>
+                  </>
+                ) : (
+                  <p className="gest-ut-scadenza">Durata: indeterminata</p>
                 )}
               </div>
             ) : (
