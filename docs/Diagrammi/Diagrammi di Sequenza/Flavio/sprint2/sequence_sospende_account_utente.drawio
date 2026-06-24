@@ -346,13 +346,13 @@
                         <mxPoint x="75" y="1480" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m33" value="33: confermaSospensione(idUtente, motivazione)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m33" value="33: confermaSospensione(idUtente, motivazione, durata)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="75" y="1520" as="sourcePoint"/>
                         <mxPoint x="260" y="1520" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m34" value="34: sospendiAccount(idUtente, motivazione)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m34" value="34: sospendiAccount(idUtente, motivazione, durata)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="270" y="1560" as="sourcePoint"/>
                         <mxPoint x="475" y="1560" as="targetPoint"/>
@@ -386,13 +386,13 @@
                         <mxPoint x="1020" y="1740" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m39" value="39: sospendiAccount(idUtente, motivazione)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m39" value="39: sospendiAccount(idUtente, motivazione, durata)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1030" y="1780" as="sourcePoint"/>
                         <mxPoint x="1210" y="1780" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m40" value="40: sospendi(idUtente, motivazione)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m40" value="40: sospendi(idUtente, motivazione, durata)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1220" y="1820" as="sourcePoint"/>
                         <mxPoint x="1390" y="1820" as="targetPoint"/>

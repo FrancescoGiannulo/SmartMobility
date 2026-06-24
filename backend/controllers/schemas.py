@@ -331,6 +331,7 @@ class UtenteListItemOut(BaseModel):
     cognome: str
     email: str
     sospeso: bool
+    sospensione_fine: str | None = None
 
 
 class UtenteDettaglioOut(UtenteListItemOut):
@@ -339,6 +340,7 @@ class UtenteDettaglioOut(UtenteListItemOut):
 
 class SospensioneRequest(BaseModel):
     motivazione: str
+    durata_giorni: int
 
 
 class ModificaProfiloRequest(BaseModel):

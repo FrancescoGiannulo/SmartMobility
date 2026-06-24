@@ -1,4 +1,5 @@
 from uuid import UUID
+from datetime import datetime, timezone
 import httpx
 from supabase import create_client
 from supabase.lib.client_options import SyncClientOptions
@@ -110,10 +111,18 @@ class ServizioUtenti:
             raise CredenzialNonValideException("Credenziali non valide")
 
         if ruolo == "UT" and profilo.sospeso:
-            messaggio = "Account sospeso"
-            if profilo.motivazione_sospensione:
-                messaggio += f": {profilo.motivazione_sospensione}"
-            raise AccountSospesoException(messaggio)
+            if profilo.sospensione_fine and profilo.sospensione_fine <= datetime.now(timezone.utc):
+                self._repo.riattiva(profilo.id)
+                profilo.sospeso = False
+                profilo.motivazione_sospensione = None
+                profilo.sospensione_fine = None
+            else:
+                messaggio = "Account sospeso"
+                if profilo.motivazione_sospensione:
+                    messaggio += f": {profilo.motivazione_sospensione}"
+                if profilo.sospensione_fine:
+                    messaggio += f". Tempo rimanente: {self._formatta_tempo_residuo(profilo.sospensione_fine)}"
+                raise AccountSospesoException(messaggio)
 
         self._repo.registra_tentativo(email, riuscito=True)
 
@@ -192,13 +201,37 @@ class ServizioUtenti:
     def get_dettaglio_utente(self, utente_id: UUID) -> dict:
         return self._repo.trova_utente_per_id(utente_id)
 
-    def sospendi_account(self, utente_id: UUID, motivazione: str) -> None:
+    def sospendi_account(self, utente_id: UUID, motivazione: str, durata_giorni: int) -> None:
         if not motivazione or not motivazione.strip():
             raise ValueError("La motivazione della sospensione è obbligatoria")
-        self._repo.sospendi(utente_id, motivazione)
+        if durata_giorni < 1:
+            raise ValueError("La durata della sospensione deve essere almeno 1 giorno")
+        self._repo.sospendi(utente_id, motivazione, durata_giorni)
         NotificaService().notifica(
-            utente_id, f"Il tuo account è stato sospeso. Motivo: {motivazione}"
+            utente_id,
+            f"Il tuo account è stato sospeso per {durata_giorni} giorni. Motivo: {motivazione}",
         )
+
+    @staticmethod
+    def _formatta_tempo_residuo(fine: datetime) -> str:
+        """Formatta il tempo che manca alla fine della sospensione (giorni/ore/minuti)."""
+        delta = fine - datetime.now(timezone.utc)
+        secondi_totali = int(delta.total_seconds())
+        if secondi_totali <= 0:
+            return "meno di un minuto"
+        giorni, resto = divmod(secondi_totali, 86400)
+        ore, resto = divmod(resto, 3600)
+        minuti = resto // 60
+        parti = []
+        if giorni:
+            parti.append(f"{giorni} giorno" if giorni == 1 else f"{giorni} giorni")
+        if ore:
+            parti.append(f"{ore} ora" if ore == 1 else f"{ore} ore")
+        if minuti and not giorni:
+            parti.append(f"{minuti} minuto" if minuti == 1 else f"{minuti} minuti")
+        if not parti:
+            return "meno di un minuto"
+        return " e ".join(parti)
 
     def _build_profilo(self, profilo, ruolo: str, email: str) -> dict:
         base = {"id": str(profilo.id), "nome": profilo.nome, "email": email}

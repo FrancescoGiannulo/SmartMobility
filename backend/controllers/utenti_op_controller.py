@@ -33,7 +33,7 @@ def sospendi_account(
 ):
     """[IF-OP.09] Sospende l'account di un Utente, con motivazione."""
     try:
-        _servizio.sospendi_account(utente_id, body.motivazione)
+        _servizio.sospendi_account(utente_id, body.motivazione, body.durata_giorni)
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e))
     except AccountGiaSospesoException as e:
