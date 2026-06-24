@@ -104,12 +104,29 @@ export default function VistaPagamenti() {
     try {
       let dati: Record<string, string> | undefined
       if (nuovoTipo === 'carta') {
+        const scadenzaVal = cartaScadenza.trim()
+        const match = scadenzaVal.match(/^(\d{2})\/(\d{2})$/)
+        if (match) {
+          const mese = parseInt(match[1], 10)
+          const annoCompleto = 2000 + parseInt(match[2], 10)
+          const now = new Date()
+          if (mese < 1 || mese > 12) {
+            setErroreForm('Mese di scadenza non valido.')
+            setAggiungiInCorso(false)
+            return
+          }
+          if (annoCompleto < now.getFullYear() || (annoCompleto === now.getFullYear() && mese < now.getMonth() + 1)) {
+            setErroreForm('La carta è scaduta.')
+            setAggiungiInCorso(false)
+            return
+          }
+        }
         dati = {
           nome_titolare: cartaNomeTitolare.trim(),
           cognome_titolare: cartaCognomeTitolare.trim(),
           numero: cartaNumero.replace(/\s/g, ''),
           cvc: cartaCvc.trim(),
-          scadenza: cartaScadenza.trim(),
+          scadenza: scadenzaVal,
         }
       }
       await aggiungiMetodo(nuovoTipo, dati)
