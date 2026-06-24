@@ -40,10 +40,10 @@ export const getMetodiPagamento = async (): Promise<MetodoPagamento[]> => {
 // [IF-UT.06] Aggiungi metodo di pagamento
 export const aggiungiMetodo = async (
   tipo: string,
-  last_four?: string,
+  dati?: Record<string, string>,
 ): Promise<MetodoPagamento> => {
-  const body: { tipo: string; last_four?: string } = { tipo }
-  if (last_four) body.last_four = last_four
+  const body: { tipo: string; dati?: Record<string, string> } = { tipo }
+  if (dati) body.dati = dati
   const r = await api.post<MetodoPagamento>('/utente/pagamenti/metodi', body)
   return r.data
 }

@@ -301,6 +301,25 @@
   cursor: not-allowed;
 }
 
+/* ── Campi carta ── */
+.pag-carta-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pag-carta-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.pag-carta-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 /* Mobile */
 @media (max-width: 480px) {
   .vista-pagamenti-wrap { padding: 16px 12px 32px; }

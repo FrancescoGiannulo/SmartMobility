@@ -32,9 +32,7 @@ def aggiungi_metodo(
     body: AggiungiMetodoRequest,
     utente: dict = Depends(verify_token(required_roles=["UT"])),
 ):
-    dati = {}
-    if body.last_four:
-        dati["last_four"] = body.last_four
+    dati = body.dati or {}
     try:
         return _servizio.aggiungi_metodo(UUID(str(utente["id"])), body.tipo, dati)
     except DatiNonValidi as e:

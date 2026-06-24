@@ -37,7 +37,11 @@ export default function VistaPagamenti() {
 
   const [mostraForm, setMostraForm] = useState(false)
   const [nuovoTipo, setNuovoTipo] = useState<string>('carta')
-  const [nuovoLastFour, setNuovoLastFour] = useState('')
+  const [cartaNomeTitolare, setCartaNomeTitolare] = useState('')
+  const [cartaCognomeTitolare, setCartaCognomeTitolare] = useState('')
+  const [cartaNumero, setCartaNumero] = useState('')
+  const [cartaCvc, setCartaCvc] = useState('')
+  const [cartaScadenza, setCartaScadenza] = useState('')
   const [aggiungiInCorso, setAggiungiInCorso] = useState(false)
   const [erroreForm, setErroreForm] = useState('')
 
@@ -56,16 +60,33 @@ export default function VistaPagamenti() {
 
   useEffect(() => { caricaMetodi() }, [caricaMetodi])
 
+  const resetFormCarta = () => {
+    setCartaNomeTitolare('')
+    setCartaCognomeTitolare('')
+    setCartaNumero('')
+    setCartaCvc('')
+    setCartaScadenza('')
+  }
+
   const handleAggiungi = async (e: React.FormEvent) => {
     e.preventDefault()
     setAggiungiInCorso(true)
     setErroreForm('')
     try {
-      const lastFour = nuovoTipo === 'carta' ? nuovoLastFour.trim() || undefined : undefined
-      await aggiungiMetodo(nuovoTipo, lastFour)
+      let dati: Record<string, string> | undefined
+      if (nuovoTipo === 'carta') {
+        dati = {
+          nome_titolare: cartaNomeTitolare.trim(),
+          cognome_titolare: cartaCognomeTitolare.trim(),
+          numero: cartaNumero.replace(/\s/g, ''),
+          cvc: cartaCvc.trim(),
+          scadenza: cartaScadenza.trim(),
+        }
+      }
+      await aggiungiMetodo(nuovoTipo, dati)
       setMostraForm(false)
       setNuovoTipo('carta')
-      setNuovoLastFour('')
+      resetFormCarta()
       setMessaggio('Metodo aggiunto.')
       setTimeout(() => setMessaggio(''), 3000)
       await caricaMetodi()
@@ -73,7 +94,8 @@ export default function VistaPagamenti() {
       if (axios.isAxiosError(err) && err.response?.status === 409) {
         setErroreForm('Metodo già presente.')
       } else if (axios.isAxiosError(err) && err.response?.status === 422) {
-        setErroreForm('Dati non validi. Verifica le informazioni inserite.')
+        const detail = err.response?.data?.detail
+        setErroreForm(typeof detail === 'string' ? detail : 'Dati non validi. Verifica le informazioni inserite.')
       } else {
         setErroreForm('Errore durante l\'aggiunta. Riprova.')
       }
@@ -180,7 +202,7 @@ export default function VistaPagamenti() {
         <button
           type="button"
           className="btn-pag-primario"
-          onClick={() => { setMostraForm(true); setErroreForm('') }}
+          onClick={() => { setMostraForm(true); setErroreForm(''); resetFormCarta() }}
         >
           + Aggiungi metodo
         </button>
@@ -201,19 +223,80 @@ export default function VistaPagamenti() {
           </select>
 
           {nuovoTipo === 'carta' && (
-            <>
-              <label className="pag-label" htmlFor="last-four">Ultime 4 cifre</label>
+            <div className="pag-carta-fields">
+              <label className="pag-label" htmlFor="carta-nome">Nome titolare</label>
               <input
-                id="last-four"
+                id="carta-nome"
                 type="text"
                 className="pag-input"
-                placeholder="es. 1234"
-                maxLength={4}
-                pattern="\d{4}"
-                value={nuovoLastFour}
-                onChange={e => setNuovoLastFour(e.target.value.replace(/\D/g, ''))}
+                placeholder="Mario"
+                value={cartaNomeTitolare}
+                onChange={e => setCartaNomeTitolare(e.target.value)}
+                required
               />
-            </>
+
+              <label className="pag-label" htmlFor="carta-cognome">Cognome titolare</label>
+              <input
+                id="carta-cognome"
+                type="text"
+                className="pag-input"
+                placeholder="Rossi"
+                value={cartaCognomeTitolare}
+                onChange={e => setCartaCognomeTitolare(e.target.value)}
+                required
+              />
+
+              <label className="pag-label" htmlFor="carta-numero">Numero carta</label>
+              <input
+                id="carta-numero"
+                type="text"
+                className="pag-input"
+                placeholder="1234 5678 9012 3456"
+                maxLength={19}
+                value={cartaNumero}
+                onChange={e => {
+                  const solo = e.target.value.replace(/\D/g, '').slice(0, 16)
+                  const formattato = solo.replace(/(\d{4})(?=\d)/g, '$1 ')
+                  setCartaNumero(formattato)
+                }}
+                required
+              />
+
+              <div className="pag-carta-row">
+                <div className="pag-carta-col">
+                  <label className="pag-label" htmlFor="carta-scadenza">Scadenza</label>
+                  <input
+                    id="carta-scadenza"
+                    type="text"
+                    className="pag-input"
+                    placeholder="MM/AA"
+                    maxLength={5}
+                    value={cartaScadenza}
+                    onChange={e => {
+                      let v = e.target.value.replace(/[^\d/]/g, '')
+                      if (v.length === 2 && !v.includes('/') && cartaScadenza.length < v.length) {
+                        v = v + '/'
+                      }
+                      setCartaScadenza(v.slice(0, 5))
+                    }}
+                    required
+                  />
+                </div>
+                <div className="pag-carta-col">
+                  <label className="pag-label" htmlFor="carta-cvc">CVC</label>
+                  <input
+                    id="carta-cvc"
+                    type="password"
+                    className="pag-input"
+                    placeholder="•••"
+                    maxLength={4}
+                    value={cartaCvc}
+                    onChange={e => setCartaCvc(e.target.value.replace(/\D/g, ''))}
+                    required
+                  />
+                </div>
+              </div>
+            </div>
           )}
 
           {erroreForm && <p className="pag-errore">{erroreForm}</p>}
@@ -225,7 +308,7 @@ export default function VistaPagamenti() {
             <button
               type="button"
               className="btn-pag-annulla"
-              onClick={() => { setMostraForm(false); setErroreForm('') }}
+              onClick={() => { setMostraForm(false); setErroreForm(''); resetFormCarta() }}
               disabled={aggiungiInCorso}
             >
               Annulla

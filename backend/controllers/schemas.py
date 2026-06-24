@@ -25,7 +25,7 @@ class AuthResponse(BaseModel):
 
 class AggiungiMetodoRequest(BaseModel):
     tipo: str
-    last_four: str | None = None
+    dati: dict[str, Any] | None = None
 
 
 class EffettuaPagamentoRequest(BaseModel):
