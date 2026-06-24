@@ -3185,16 +3185,17 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <td><p>1. Il caso d'uso inizia quando l'Operatore accede alla sezione per la gestione degli utenti.</p>
 <p>2. Il sistema presenta l'elenco degli utenti registrati. 3. L'Operatore seleziona l'Utente di cui intende sospendere l'account.</p>
 <p>4. Il sistema mostra il dettaglio del profilo dell'Utente selezionato.</p>
-<p>5. L’operatore aggiunge una descrizione sulla motivazione della sospensione dell’account</p>
-<p>5. L'Operatore seleziona l'opzione per sospendere Account.</p>
-<p>6. Il sistema richiede conferma dell'operazione.</p>
-<p>7. L'Operatore conferma la sospensione.</p>
-<p>8. Il sistema sospende l'account dell'Utente e gli impedisce l'accesso alla piattaforma.</p>
-<p>9. Il sistema notifica l'Utente dell'avvenuta sospensione del proprio account.</p></td>
+<p>5. L'Operatore aggiunge una descrizione sulla motivazione della sospensione dell'account e seleziona la durata della sospensione (in giorni).</p>
+<p>6. L'Operatore seleziona l'opzione per sospendere Account.</p>
+<p>7. Il sistema richiede conferma dell'operazione.</p>
+<p>8. L'Operatore conferma la sospensione.</p>
+<p>9. Il sistema sospende l'account dell'Utente per la durata indicata, calcolando la data di fine sospensione, e gli impedisce l'accesso alla piattaforma.</p>
+<p>10. Il sistema notifica l'Utente dell'avvenuta sospensione del proprio account.</p>
+<p>11. Allo scadere della durata, il sistema riattiva automaticamente l'account e notifica l'Utente della riattivazione.</p></td>
 </tr>
 <tr>
 <td>Post-condizioni</td>
-<td>L'account dell'Utente è sospeso; l'Utente non può più accedere alla piattaforma; l'Utente è stato notificato dell'avvenuta sospensione.</td>
+<td>L'account dell'Utente è sospeso fino alla data di fine sospensione; l'Utente non può più accedere alla piattaforma finché la sospensione è attiva; l'Utente è stato notificato dell'avvenuta sospensione. Allo scadere della durata l'account torna automaticamente attivo.</td>
 </tr>
 <tr>
 <td>Sequenza alternativa degli eventi</td>

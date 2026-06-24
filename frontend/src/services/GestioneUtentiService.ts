@@ -6,6 +6,7 @@ export interface UtenteListItem {
   cognome: string
   email: string
   sospeso: boolean
+  sospensione_fine: string | null
 }
 
 // [IF-OP.09] Sospende Account Utente
@@ -18,5 +19,6 @@ export const getDettaglioUtente = (id: string): Promise<{ data: UtenteListItem }
 export const sospendiAccount = (
   id: string,
   motivazione: string,
+  durata_giorni: number,
 ): Promise<{ data: UtenteListItem }> =>
-  api.patch(`/operatore/utenti/${id}/stato`, { motivazione })
+  api.patch(`/operatore/utenti/${id}/stato`, { motivazione, durata_giorni })

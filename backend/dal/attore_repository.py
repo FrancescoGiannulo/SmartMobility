@@ -1,5 +1,5 @@
 from uuid import UUID
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from config import engine
@@ -23,7 +23,7 @@ class AttoreRepository:
         with Session(engine) as session:
             row = session.execute(
                 text(
-                    "SELECT nome, cognome, sospeso, motivazione_sospensione "
+                    "SELECT nome, cognome, sospeso, motivazione_sospensione, sospensione_fine "
                     "FROM utenti WHERE id = :id"
                 ),
                 {"id": str(id)},
@@ -36,6 +36,7 @@ class AttoreRepository:
                         cognome=row.cognome,
                         sospeso=row.sospeso,
                         motivazione_sospensione=row.motivazione_sospensione,
+                        sospensione_fine=row.sospensione_fine,
                     ),
                     "UT",
                 )
@@ -99,7 +100,7 @@ class AttoreRepository:
         with Session(engine) as session:
             rows = session.execute(
                 text(
-                    "SELECT u.id, u.nome, u.cognome, u.sospeso, a.email "
+                    "SELECT u.id, u.nome, u.cognome, u.sospeso, u.sospensione_fine, a.email "
                     "FROM utenti u JOIN auth.users a ON a.id = u.id "
                     "ORDER BY u.cognome, u.nome"
                 )
@@ -111,6 +112,7 @@ class AttoreRepository:
                     "cognome": row.cognome,
                     "email": row.email,
                     "sospeso": row.sospeso,
+                    "sospensione_fine": row.sospensione_fine.isoformat() if row.sospensione_fine else None,
                 }
                 for row in rows
             ]
@@ -120,7 +122,7 @@ class AttoreRepository:
         with Session(engine) as session:
             row = session.execute(
                 text(
-                    "SELECT u.id, u.nome, u.cognome, u.sospeso, a.email "
+                    "SELECT u.id, u.nome, u.cognome, u.sospeso, u.sospensione_fine, a.email "
                     "FROM utenti u JOIN auth.users a ON a.id = u.id "
                     "WHERE u.id = :id"
                 ),
@@ -134,10 +136,11 @@ class AttoreRepository:
                 "cognome": row.cognome,
                 "email": row.email,
                 "sospeso": row.sospeso,
+                "sospensione_fine": row.sospensione_fine.isoformat() if row.sospensione_fine else None,
             }
 
-    def sospendi(self, id: UUID, motivazione: str) -> None:
-        """[IF-OP.09] Sospende l'account di un Utente attivo."""
+    def sospendi(self, id: UUID, motivazione: str, durata_giorni: int) -> None:
+        """[IF-OP.09] Sospende l'account di un Utente attivo per una durata specificata."""
         with Session(engine) as session:
             row = session.execute(
                 text("SELECT sospeso FROM utenti WHERE id = :id"),
@@ -148,13 +151,29 @@ class AttoreRepository:
             if row.sospeso:
                 raise AccountGiaSospesoException(f"Utente {id} è già sospeso")
 
+            sospensione_fine = datetime.now(timezone.utc) + timedelta(days=durata_giorni)
             session.execute(
                 text(
                     "UPDATE utenti SET sospeso = true, "
-                    "motivazione_sospensione = :motivazione, sospeso_at = NOW() "
+                    "motivazione_sospensione = :motivazione, sospeso_at = NOW(), "
+                    "sospensione_fine = :sospensione_fine "
                     "WHERE id = :id"
                 ),
-                {"id": str(id), "motivazione": motivazione},
+                {"id": str(id), "motivazione": motivazione, "sospensione_fine": sospensione_fine},
+            )
+            session.commit()
+
+    def riattiva(self, id: UUID) -> None:
+        """Riattiva un account sospeso la cui sospensione è scaduta."""
+        with Session(engine) as session:
+            session.execute(
+                text(
+                    "UPDATE utenti SET sospeso = false, "
+                    "motivazione_sospensione = NULL, sospeso_at = NULL, "
+                    "sospensione_fine = NULL "
+                    "WHERE id = :id"
+                ),
+                {"id": str(id)},
             )
             session.commit()
 

@@ -111,7 +111,7 @@ Totale elementi identificati: **145**.
 + mostraDettaglioUtente(u: Utente): void
 + avviaSospensione(idUtente: String): void
 + mostraDialogoConferma(): void
-+ confermaSospensione(idUtente: String, motivazione: String): void
++ confermaSospensione(idUtente: String, motivazione: String, durata: int): void
 + mostraConfermaSospensione(): void
 ```
 
@@ -501,7 +501,7 @@ Totale elementi identificati: **145**.
 ```
 + getUtenti(): List
 + getDettaglioUtente(idUtente: String): Utente
-+ sospendiAccount(idUtente: String, motivazione: String): void
++ sospendiAccount(idUtente: String, motivazione: String, durata: int): void
 ```
 
 ### `SegnalazioneService`
@@ -909,7 +909,7 @@ Totale elementi identificati: **145**.
 + cancellaAccount(idUtente): void
 + getUtenti(): List
 + getDettaglioUtente(idUtente): Utente
-+ sospendiAccount(idUtente, motivazione): void
++ sospendiAccount(idUtente, motivazione, durata): void
 ```
 
 ### `IServizioRecensione`
@@ -1098,7 +1098,7 @@ Totale elementi identificati: **145**.
 + cancellaAccount(idUtente: String): void
 + getUtenti(): List
 + getDettaglioUtente(idUtente: String): Utente
-+ sospendiAccount(idUtente: String, motivazione: String): void
++ sospendiAccount(idUtente: String, motivazione: String, durata: int): void
 - buildProfilo(profilo: Object, ruolo: String, email: String): Utente
 ```
 
@@ -1407,7 +1407,7 @@ Totale elementi identificati: **145**.
 + creaUtente(id, nome, cognome, consensoPrivacy): void
 + listaUtenti(): List
 + trovaUtentePerId(id: String): Utente
-+ sospendi(id: String, motivazione: String): void
++ sospendi(id: String, motivazione: String, durata: int): void
 ```
 
 ### `RecensioneRepository`
@@ -1634,6 +1634,7 @@ Totale elementi identificati: **145**.
 
 ```
 - statoAccount: StatoAccount
+- sospensioneFine: DateTime
 ```
 
 ### `Operatore`
