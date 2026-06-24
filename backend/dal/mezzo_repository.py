@@ -156,8 +156,8 @@ class MezzoRepository:
 
     def crea(self, tipo: str, codice: str, lat: float, lng: float, stato: str) -> dict:
         sql = text("""
-            INSERT INTO mezzi (codice, tipo, stato, lat, lng)
-            VALUES (:codice, :tipo, :stato, :lat, :lng)
+            INSERT INTO mezzi (codice, tipo, stato, lat, lng, batteria)
+            VALUES (:codice, :tipo, :stato, :lat, :lng, 100)
             RETURNING id, codice, tipo, stato, lat, lng, batteria
         """)
         with self._sessione() as s:
