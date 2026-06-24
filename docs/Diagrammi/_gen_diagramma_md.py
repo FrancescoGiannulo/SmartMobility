@@ -47,10 +47,17 @@ def strip_tags(s):
     return s
 
 
+def _has_bold(value):
+    """True se la cella contiene un nome in grassetto (<b> oppure font-weight:700/bold)."""
+    return "<b>" in value or re.search(r"font-weight:\s*(700|bold)", value, re.I) is not None
+
+
 def parse_value(value):
     """Ritorna (nome, [attributi], [metodi]) da una cella classe."""
     raw = html.unescape(value)
     m = re.search(r"<b>(.*?)</b>", raw, flags=re.S | re.I)
+    if not m:
+        m = re.search(r'font-weight:\s*(?:700|bold)[^>]*>(.*?)</span>', raw, flags=re.S | re.I)
     name = strip_tags(m.group(1)).strip() if m else None
     body = raw[m.end():] if m else raw
     parts = re.split(r"<\s*hr[^>]*>", body, flags=re.I)
@@ -81,7 +88,7 @@ for c in root.iter("mxCell"):
         continue
     raw = c.get("value") or ""
     g = c.find("mxGeometry")
-    if g is None or "<b>" in raw:        # i box-classe hanno <b>Nome</b>: non sono banner
+    if g is None or _has_bold(raw):      # i box-classe hanno nome in grassetto: non sono banner
         continue
     w, h = float(g.get("width", 0)), float(g.get("height", 0))
     if w < 800 and h < 1000:             # i banner sono grandi contenitori
@@ -112,7 +119,7 @@ for c in root.iter("mxCell"):
     if c.get("edge") == "1":
         edges.append((c.get("source"), c.get("target")))
         continue
-    if c.get("vertex") != "1" or "<b>" not in value:
+    if c.get("vertex") != "1" or not _has_bold(value):
         continue
     geom = c.find("mxGeometry")
     if geom is None:
