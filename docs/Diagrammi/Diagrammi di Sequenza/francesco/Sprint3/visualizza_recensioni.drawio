@@ -115,7 +115,7 @@
                 <mxCell id="alt-g2" value="[else / nessuna recensione — NessunaRecensione]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="260" y="806" width="420" height="22" as="geometry"/>
                 </mxCell>
-                <mxCell id="m1" value="1: apriRecensioni() [seleziona sezione &quot;Recensioni&quot;]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
+                <mxCell id="m1" value="1: apriRecensioni()&amp;nbsp;" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="120" y="310" as="sourcePoint"/>
                         <mxPoint x="280" y="310" as="targetPoint"/>

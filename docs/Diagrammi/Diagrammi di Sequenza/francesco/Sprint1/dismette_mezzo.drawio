@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="SD - Dismette Mezzo" id="dismette-mezzo-op03">
-        <mxGraphModel dx="1948" dy="367" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
+        <mxGraphModel dx="514" dy="642" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -136,7 +136,7 @@
                 <mxCell id="alt-g2" value="[else / non dismettibile — MezzoInUso]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="260" y="1302" width="380" height="22" as="geometry"/>
                 </mxCell>
-                <mxCell id="m1" value="1: selezionaMezzo(idMezzo) e clicca &quot;Dismetti&quot;" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
+                <mxCell id="m1" value="1: selezionaMezzo(idMezzo)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="120" y="310" as="sourcePoint"/>
                         <mxPoint x="280" y="310" as="targetPoint"/>
@@ -231,7 +231,7 @@
                         <mxPoint x="290" y="762" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m16" value="16: mostra dialog conferma dismissione (dettagli mezzo)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
+                <mxCell id="m16" value="16: mostradialog(dettagli mezzo)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="280" y="802" as="sourcePoint"/>
                         <mxPoint x="120" y="802" as="targetPoint"/>
@@ -327,7 +327,7 @@
                         <mxPoint x="120" y="1282" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m32" value="32: mostraErrore(esito.motivo) [&quot;Mezzo impegnato in una corsa&quot;]" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
+                <mxCell id="m32" value="32: mostraErrore(esito.motivo)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry x="1" y="-2" relative="1" as="geometry">
                         <mxPoint x="280" y="1322" as="sourcePoint"/>
                         <mxPoint x="120" y="1322" as="targetPoint"/>

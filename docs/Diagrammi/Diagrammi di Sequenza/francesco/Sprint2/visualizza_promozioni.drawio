@@ -1,152 +1,148 @@
 <mxfile host="65bd71144e">
     <diagram name="SD - Visualizza Promozioni" id="visualizza-promozioni-ut10">
-        <mxGraphModel dx="1422" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
+        <mxGraphModel dx="514" dy="642" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="frame" value="SD - Visualizza Promozioni" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=320;height=30;" vertex="1" parent="1">
+                <mxCell id="frame" value="SD - Visualizza Promozioni" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=320;height=30;" parent="1" vertex="1">
                     <mxGeometry x="45" y="80" width="1500" height="910" as="geometry"/>
                 </mxCell>
-                <mxCell id="note" value="Precondizione: l'Utente è autenticato (ruolo UT). Il caso d'uso inizia quando l'Utente apre la sezione «Bonus e Promozioni» dal menu laterale della Home." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="1">
+                <mxCell id="note" value="Precondizione: l'Utente è autenticato (ruolo UT). Il caso d'uso inizia quando l'Utente apre la sezione «Bonus e Promozioni» dal menu laterale della Home." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" parent="1" vertex="1">
                     <mxGeometry x="320" y="116" width="1060" height="44" as="geometry"/>
                 </mxCell>
-                <!-- ================= LIFELINES ================= -->
-                <mxCell id="ll-actor-h" value=":Utente" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+                <mxCell id="ll-actor-h" value=":Utente" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="105" y="170" width="30" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="ll-actor" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+                <mxCell id="ll-actor" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="120" y="230" as="sourcePoint"/>
                         <mxPoint x="120" y="960" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ll-view-h" value="&lt;b&gt;&lt;u&gt;:VistaHomePageUtente&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+                <mxCell id="ll-view-h" value="&lt;b&gt;&lt;u&gt;:VistaHomePageUtente&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" parent="1" vertex="1">
                     <mxGeometry x="205" y="186" width="160" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="ll-view" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                <mxCell id="ll-view" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="285" y="230" as="sourcePoint"/>
                         <mxPoint x="285" y="960" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ll-pay-h" value="&lt;b&gt;&lt;u&gt;:PaymentService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+                <mxCell id="ll-pay-h" value="&lt;b&gt;&lt;u&gt;:PaymentService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" parent="1" vertex="1">
                     <mxGeometry x="400" y="186" width="160" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="ll-pay" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                <mxCell id="ll-pay" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="480" y="230" as="sourcePoint"/>
                         <mxPoint x="480" y="960" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ll-api-h" value="&lt;b&gt;&lt;u&gt;:ApiService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+                <mxCell id="ll-api-h" value="&lt;b&gt;&lt;u&gt;:ApiService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" parent="1" vertex="1">
                     <mxGeometry x="595" y="186" width="160" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="ll-api" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                <mxCell id="ll-api" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="675" y="230" as="sourcePoint"/>
                         <mxPoint x="675" y="960" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ll-fc-h" value="&lt;b&gt;&lt;u&gt;:FrontController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+                <mxCell id="ll-fc-h" value="&lt;b&gt;&lt;u&gt;:FrontController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" parent="1" vertex="1">
                     <mxGeometry x="790" y="186" width="160" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="ll-fc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                <mxCell id="ll-fc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="870" y="230" as="sourcePoint"/>
                         <mxPoint x="870" y="960" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ll-pc-h" value="&lt;b&gt;&lt;u&gt;:PagamentoController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+                <mxCell id="ll-pc-h" value="&lt;b&gt;&lt;u&gt;:PagamentoController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" parent="1" vertex="1">
                     <mxGeometry x="985" y="186" width="160" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="ll-pc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                <mxCell id="ll-pc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1065" y="230" as="sourcePoint"/>
                         <mxPoint x="1065" y="960" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ll-sp-h" value="&lt;b&gt;&lt;u&gt;:ServizioPricing&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+                <mxCell id="ll-sp-h" value="&lt;b&gt;&lt;u&gt;:ServizioPricing&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" parent="1" vertex="1">
                     <mxGeometry x="1180" y="186" width="160" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="ll-sp" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                <mxCell id="ll-sp" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1260" y="230" as="sourcePoint"/>
                         <mxPoint x="1260" y="960" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ll-pr-h" value="&lt;b&gt;&lt;u&gt;:PromozioneRepository&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+                <mxCell id="ll-pr-h" value="&lt;b&gt;&lt;u&gt;:PromozioneRepository&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" parent="1" vertex="1">
                     <mxGeometry x="1375" y="186" width="160" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="ll-pr" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
+                <mxCell id="ll-pr" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1455" y="230" as="sourcePoint"/>
                         <mxPoint x="1455" y="960" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <!-- ================= ACTIVATION BARS ================= -->
-                <mxCell id="act-view" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                <mxCell id="act-view" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
                     <mxGeometry x="280" y="310" width="10" height="620" as="geometry"/>
                 </mxCell>
-                <mxCell id="act-pay" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                <mxCell id="act-pay" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="475" y="344" width="10" height="572" as="geometry"/>
                 </mxCell>
-                <mxCell id="act-api" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                <mxCell id="act-api" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
                     <mxGeometry x="670" y="378" width="10" height="502" as="geometry"/>
                 </mxCell>
-                <mxCell id="act-fc" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                <mxCell id="act-fc" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
                     <mxGeometry x="865" y="412" width="10" height="84" as="geometry"/>
                 </mxCell>
-                <mxCell id="act-pc" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                <mxCell id="act-pc" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
                     <mxGeometry x="1060" y="486" width="10" height="360" as="geometry"/>
                 </mxCell>
-                <mxCell id="act-sp" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                <mxCell id="act-sp" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
                     <mxGeometry x="1255" y="520" width="10" height="112" as="geometry"/>
                 </mxCell>
-                <mxCell id="act-pr" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                <mxCell id="act-pr" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
                     <mxGeometry x="1450" y="554" width="10" height="46" as="geometry"/>
                 </mxCell>
-                <!-- ================= ALT FRAGMENT ================= -->
-                <mxCell id="alt" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="alt" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="250" y="638" width="1290" height="302" as="geometry"/>
                 </mxCell>
-                <mxCell id="alt-g1" value="[promozioni attive presenti]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="alt-g1" value="[promozioni attive presenti]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="315" y="632" width="240" height="22" as="geometry"/>
                 </mxCell>
-                <mxCell id="alt-sep" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+                <mxCell id="alt-sep" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="250" y="788" as="sourcePoint"/>
                         <mxPoint x="1540" y="788" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="alt-g2" value="[else / nessuna promozione attiva — NessunPromozioneAttiva]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="alt-g2" value="[else / nessuna promozione attiva — NessunPromozioneAttiva]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="260" y="792" width="480" height="22" as="geometry"/>
                 </mxCell>
-                <!-- ================= MESSAGES (pre-alt) ================= -->
-                <mxCell id="m1" value="1: consultaPromozioni() [seleziona &quot;Bonus e Promozioni&quot; dal menu laterale]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m1" value="1: consultaPromozioni()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="120" y="310" as="sourcePoint"/>
                         <mxPoint x="280" y="310" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m2" value="2: getPromozioniAttive()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m2" value="2: getPromozioniAttive()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="290" y="344" as="sourcePoint"/>
                         <mxPoint x="475" y="344" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m3" value="3: inviaRichiesta(GET /promozioni)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m3" value="3: inviaRichiesta(GET /promozioni)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="485" y="378" as="sourcePoint"/>
                         <mxPoint x="670" y="378" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m4" value="4: GET /promozioni  (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m4" value="4: GET /promozioni  (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="680" y="412" as="sourcePoint"/>
                         <mxPoint x="865" y="412" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m5" value="5: validaAutenticazione([&quot;UT&quot;])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
+                <mxCell id="m5" value="5: validaAutenticazione([&quot;UT&quot;])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="935" y="446"/>
@@ -156,81 +152,79 @@
                         <mxPoint x="875" y="462" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m6" value="6: instrada(): getPromozioniAttive()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m6" value="6: instrada(): getPromozioniAttive()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="875" y="486" as="sourcePoint"/>
                         <mxPoint x="1060" y="486" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m7" value="7: getPromozioniAttive()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m7" value="7: getPromozioniAttive()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1070" y="520" as="sourcePoint"/>
                         <mxPoint x="1255" y="520" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m8" value="8: findAttive()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m8" value="8: findAttive()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1265" y="554" as="sourcePoint"/>
                         <mxPoint x="1450" y="554" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m9" value="9: :listaPromozioni" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m9" value="9: :listaPromozioni" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1450" y="588" as="sourcePoint"/>
                         <mxPoint x="1265" y="588" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m10" value="10: :listaPromozioni" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m10" value="10: :listaPromozioni" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1255" y="622" as="sourcePoint"/>
                         <mxPoint x="1070" y="622" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <!-- ================= ALT: promozioni presenti ================= -->
-                <mxCell id="m11" value="11: 200 OK + promozioni" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m11" value="11: 200 OK + promozioni" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1060" y="662" as="sourcePoint"/>
                         <mxPoint x="680" y="662" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m12" value="12: gestisciRisposta(): :listaPromozioni" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m12" value="12: gestisciRisposta(): :listaPromozioni" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="670" y="696" as="sourcePoint"/>
                         <mxPoint x="485" y="696" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m13" value="13: :listaPromozioni" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m13" value="13: :listaPromozioni" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="475" y="730" as="sourcePoint"/>
                         <mxPoint x="290" y="730" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m14" value="14: mostra elenco promozioni (tipologia, descrizione, condizioni, scadenza)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m14" value="14: mostra elenco promozioni (tipologia, descrizione, condizioni, scadenza)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="280" y="764" as="sourcePoint"/>
                         <mxPoint x="120" y="764" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <!-- ================= ALT: NessunPromozioneAttiva ================= -->
-                <mxCell id="m15" value="15: 204 No Content (nessuna promozione attiva)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m15" value="15: 204 No Content (nessuna promozione attiva)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1060" y="812" as="sourcePoint"/>
                         <mxPoint x="680" y="812" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m16" value="16: gestisciRisposta(): :vuoto" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m16" value="16: gestisciRisposta(): :vuoto" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="670" y="846" as="sourcePoint"/>
                         <mxPoint x="485" y="846" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m17" value="17: :listaVuota" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m17" value="17: :listaVuota" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="475" y="880" as="sourcePoint"/>
                         <mxPoint x="290" y="880" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m18" value="18: mostraInfo(&quot;Nessuna promozione attiva al momento&quot;)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m18" value="18: mostraInfo(&quot;Nessuna promozione attiva al momento&quot;)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="280" y="914" as="sourcePoint"/>
                         <mxPoint x="120" y="914" as="targetPoint"/>

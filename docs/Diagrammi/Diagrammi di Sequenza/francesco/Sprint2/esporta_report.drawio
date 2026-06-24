@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="SD - Esporta Report" id="esporta-report-ap02">
-        <mxGraphModel dx="721" dy="833" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
+        <mxGraphModel dx="514" dy="642" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -106,7 +106,7 @@
                 <mxCell id="alt-guard2" value="[else / erroreGenerazioneFile]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="260" y="794" width="320" height="22" as="geometry"/>
                 </mxCell>
-                <mxCell id="m1" value="1: esportaCSV() [seleziona formato CSV dal menu Esporta]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
+                <mxCell id="m1" value="1: esportaCSV()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="120" y="300" as="sourcePoint"/>
                         <mxPoint x="280" y="300" as="targetPoint"/>
