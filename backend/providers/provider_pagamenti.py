@@ -23,9 +23,11 @@ class ProviderPagamentiStub:
         if self.deve_fallire:
             raise DatiNonValidiException("Dati di pagamento non validi")
         if tipo == "carta":
-            # Le ultime 4 cifre non identificano univocamente la carta fisica;
-            # in produzione il provider riceverebbe il numero completo.
-            return f"carta-{uuid.uuid4()}"
+            # Token deterministico su last_four: è l'unico dato disponibile per
+            # rilevare duplicati nello stub (in produzione il provider userebbe
+            # il numero completo della carta).
+            last_four = dati.get("last_four") or ""
+            return f"carta-{last_four}" if last_four else f"carta-{uuid.uuid4()}"
         # Per wallet digitali (paypal, google_pay, apple_pay) un utente ha un solo account:
         # token deterministico per tipo → rileva duplicati correttamente.
         return str(uuid.uuid5(uuid.NAMESPACE_DNS, tipo))

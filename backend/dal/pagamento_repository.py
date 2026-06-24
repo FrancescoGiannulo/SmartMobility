@@ -86,6 +86,17 @@ class PagamentoRepository:
             ).fetchone()
         return result is not None
 
+    def exists_carta(self, last_four: str, utente_id: uuid.UUID) -> bool:
+        with Session(engine) as session:
+            result = session.execute(
+                text(
+                    "SELECT 1 FROM metodi_pagamento WHERE tipo = 'carta' "
+                    "AND last_four = :lf AND utente_id = :uid LIMIT 1"
+                ),
+                {"lf": last_four, "uid": str(utente_id)},
+            ).fetchone()
+        return result is not None
+
     # [IF-UT.21] Imposta Metodo di Pagamento predefinito
     def imposta_predefinito(self, metodo_id: uuid.UUID, utente_id: uuid.UUID) -> None:
         with Session(engine) as session:

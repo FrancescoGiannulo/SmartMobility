@@ -78,10 +78,15 @@ class ServizioPricing:
         except DatiNonValidiException as exc:
             raise DatiNonValidi(str(exc)) from exc
 
-        if self._repo.exists_by_token(token, utente_id):
+        last_four = dati.get("last_four")
+        duplicato = (
+            self._repo.exists_carta(last_four, utente_id)
+            if tipo == "carta" and last_four
+            else self._repo.exists_by_token(token, utente_id)
+        )
+        if duplicato:
             raise MetodoDuplicato("Metodo di pagamento già presente")
 
-        last_four = dati.get("last_four")
         metodo = self._repo.aggiungi_metodo(utente_id, tipo, token, last_four)
         return {
             "id": str(metodo.id),

@@ -79,7 +79,7 @@ def _servizio(repo=None, provider=None) -> ServizioPricing:
 # CS-13 — scenario base: aggiungi metodo OK
 def test_aggiungi_metodo_ok():
     repo = MagicMock()
-    repo.exists_by_token.return_value = False
+    repo.exists_carta.return_value = False
     uid = uuid.uuid4()
     metodo = _make_metodo(utente_id=uid)
     repo.aggiungi_metodo.return_value = metodo
@@ -104,7 +104,7 @@ def test_aggiungi_metodo_dati_non_validi():
 # CS-13 — alternativo: token già presente (duplicato)
 def test_aggiungi_metodo_duplicato():
     repo = MagicMock()
-    repo.exists_by_token.return_value = True
+    repo.exists_carta.return_value = True
     svc = _servizio(repo=repo)
     with pytest.raises(MetodoDuplicato):
         svc.aggiungi_metodo(uuid.uuid4(), "carta", {"last_four": "1234"})
