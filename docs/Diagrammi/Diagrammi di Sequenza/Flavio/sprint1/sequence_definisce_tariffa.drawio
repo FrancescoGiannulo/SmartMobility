@@ -357,6 +357,12 @@
                         <mxPoint x="250" y="1820" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
+                <mxCell id="138" value="39: mostraErroreTariffaEsistente()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="240" y="1860" as="sourcePoint"/>
+                        <mxPoint x="75" y="1860" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
                 <mxCell id="137" value="i&amp;nbsp;" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
                     <mxGeometry x="1100" y="1180" width="60" height="30" as="geometry"/>
                 </mxCell>
