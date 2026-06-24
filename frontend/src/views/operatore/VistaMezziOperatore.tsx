@@ -28,7 +28,7 @@ const STATO_PILL_CLASS: Record<string, string> = {
 }
 
 const STATI_MODIFICABILI = ['Disponibile', 'In manutenzione', 'Fuori servizio']
-const STATI_BLOCCATI = new Set(['In uso', 'In pausa', 'Prenotato'])
+const STATI_BLOCCATI = new Set(['In uso', 'In pausa'])
 
 interface FormState {
   tipo: string
@@ -230,6 +230,9 @@ export default function VistaMezziOperatore() {
                           disabled={aggiornandoStato === m.id}
                           onChange={e => handleCambiaStato(m, e.target.value)}
                         >
+                          {m.stato === 'Prenotato' && (
+                            <option value="Prenotato" disabled>Prenotato</option>
+                          )}
                           {STATI_MODIFICABILI.map(s => (
                             <option key={s} value={s}>{s}</option>
                           ))}

@@ -294,8 +294,10 @@ class ServizioMobilita:
         mezzo = self._mezzo_repo.trova_per_id(mezzo_id)
         if mezzo is None:
             raise MezzoNonTrovatoException(f"Mezzo {mezzo_id} non trovato")
-        # La transizione manuale è vietata se il mezzo è impegnato in una missione
-        stati_bloccanti = {"In uso", "In pausa", "Prenotato"}
+        # La transizione manuale è vietata solo se il mezzo è effettivamente in missione:
+        # "Prenotato" è consentito perché il mezzo non è ancora nelle mani dell'utente
+        # (es. si rompe mentre è prenotato, prima del ritiro)
+        stati_bloccanti = {"In uso", "In pausa"}
         if mezzo["stato"] in stati_bloccanti or self._mezzo_repo.ha_corse_attive(mezzo_id):
             raise MezzoInMissioneException(
                 f"Mezzo {mezzo_id} impegnato: stato non modificabile manualmente"

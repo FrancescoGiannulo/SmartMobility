@@ -48,6 +48,20 @@ class TestServizioMobilitaModificaStato:
             with pytest.raises(MezzoNonTrovatoException):
                 ServizioMobilita(s).modifica_stato_mezzo(_uuid.uuid4(), "Disponibile")
 
+    # OP-04 — un mezzo "Prenotato" non è ancora in mano all'utente: la modifica è permessa
+    @pytest.mark.integration
+    def test_modifica_stato_mezzo_prenotato_consentita(self, db):
+        from bll.servizio_mobilita import ServizioMobilita
+        from dal.mezzo_repository import MezzoRepository
+        codice = f"TEST-MP-{_uuid.uuid4().hex[:6]}"
+        mezzo_id = _inserisci_mezzo(db, codice, "Prenotato")
+        try:
+            with Session(db) as s:
+                ServizioMobilita(s).modifica_stato_mezzo(_uuid.UUID(mezzo_id), "In manutenzione")
+            assert MezzoRepository(db).trova_per_id(_uuid.UUID(mezzo_id))["stato"] == "In manutenzione"
+        finally:
+            _elimina_mezzo(db, mezzo_id)
+
     # OP-04.1 — sequenza alternativa: mezzo in uso/prenotato
     @pytest.mark.integration
     def test_modifica_stato_mezzo_in_missione(self, db):
