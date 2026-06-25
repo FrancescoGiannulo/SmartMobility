@@ -172,6 +172,7 @@ class ServizioPricing:
         durata_min: float,
         distanza_km: float,
         offerta_id: uuid.UUID | None = None,
+        penale_fuori_zona: bool = False,
     ) -> dict:
         # [CS-15 / IF-OP.09/14] Calcola addebito pausa e sottrai tempo di pausa dalla tariffa base
         pausa_accumulata_sec: int = 0
@@ -229,6 +230,23 @@ class ServizioPricing:
                 importo_pieno = importo
                 importo = importo * (1 - offerta.sconto_percentuale / 100)
                 offerta_applicata_id = offerta.id
+
+        # [IF-OP.06 / UT-04] Penale obbligatoria se la corsa è transitata in zona vietata /
+        # fuori dalla zona operativa. Si applica sopra l'importo (anche con abbonamento/promo).
+        if penale_fuori_zona:
+            with Session(engine) as s:
+                row = s.execute(
+                    text(
+                        "SELECT penale_fuori_zona FROM regole_fine_corsa "
+                        "WHERE tipo_vincolo = 'penale' ORDER BY created_at DESC LIMIT 1"
+                    )
+                ).fetchone()
+            penale = Decimal(str(row.penale_fuori_zona)) if row and row.penale_fuori_zona else Decimal("0.00")
+            if penale > 0:
+                if importo_pieno is None:
+                    importo_pieno = importo
+                importo += penale
+                importo_pieno += penale
 
         return self.paga_importo(
             utente_id=utente_id,
