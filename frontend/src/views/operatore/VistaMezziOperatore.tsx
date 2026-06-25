@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {
   getMezziFlotta,
@@ -10,6 +9,8 @@ import {
   type MezzoFlotta,
   type AggiungiMezzoPayload,
 } from '../../services/FlottaService'
+import SidebarRuolo from '../../components/layout/SidebarRuolo'
+import '../../styles/primitives.css'
 import './VistaMezziOperatore.css'
 
 const TIPO_EMOJI: Record<string, string> = {
@@ -18,13 +19,13 @@ const TIPO_EMOJI: Record<string, string> = {
   automobile: '🚗',
 }
 
-const STATO_PILL_CLASS: Record<string, string> = {
-  'Disponibile':    'vmezzi__pill--disponibile',
-  'Prenotato':      'vmezzi__pill--prenotato',
-  'In uso':         'vmezzi__pill--in-uso',
-  'In pausa':       'vmezzi__pill--in-pausa',
-  'In manutenzione':'vmezzi__pill--manutenzione',
-  'Fuori servizio': 'vmezzi__pill--fuori',
+const STATO_CHIP_CLASS: Record<string, string> = {
+  'Disponibile':    'vmezzi__state--disponibile',
+  'Prenotato':      'vmezzi__state--prenotato',
+  'In uso':         'vmezzi__state--in-uso',
+  'In pausa':       'vmezzi__state--in-pausa',
+  'In manutenzione':'vmezzi__state--manutenzione',
+  'Fuori servizio': 'vmezzi__state--fuori',
 }
 
 const STATI_MODIFICABILI = ['Disponibile', 'In manutenzione', 'Fuori servizio']
@@ -48,8 +49,9 @@ const FORM_VUOTO: FormState = {
 
 interface Toast { msg: string; tipo: 'ok' | 'err' }
 
+const TUTTI_STATI = ['Tutti', 'Disponibile', 'Prenotato', 'In uso', 'In pausa', 'In manutenzione', 'Fuori servizio']
+
 export default function VistaMezziOperatore() {
-  const navigate = useNavigate()
   const [mezzi, setMezzi] = useState<MezzoFlotta[]>([])
   const [caricamento, setCaricamento] = useState(true)
   const [toast, setToast] = useState<Toast | null>(null)
@@ -60,6 +62,7 @@ export default function VistaMezziOperatore() {
   const [confermaDismissione, setConfermaDismissione] = useState<MezzoFlotta | null>(null)
   const [controllando, setControllando] = useState(false)
   const [aggiornandoStato, setAggiornandoStato] = useState<string | null>(null)
+  const [filtroStato, setFiltroStato] = useState('Tutti')
 
   const mostraToast = (msg: string, tipo: 'ok' | 'err') => {
     setToast({ msg, tipo })
@@ -173,202 +176,235 @@ export default function VistaMezziOperatore() {
     }
   }
 
+  const mezziFiltrati = filtroStato === 'Tutti'
+    ? mezzi
+    : mezzi.filter(m => m.stato === filtroStato)
+
   return (
-    <div className="vmezzi">
-      <header className="vmezzi__header">
-        <div className="vmezzi__header-left">
-          <button className="vmezzi__back" onClick={() => navigate('/operatore/dashboard')}>
-            ←
-          </button>
+    <div className="sm-op-shell">
+      <SidebarRuolo ruolo="OP" />
+
+      <div className="sm-op-main">
+        <header className="vmezzi__header">
           <h1 className="vmezzi__titolo">Gestione Flotta</h1>
-        </div>
-        <button className="vmezzi__btn-aggiungi" onClick={apriModal}>
-          + Aggiungi mezzo
-        </button>
-      </header>
+          <button className="sm-btn sm-btn--primary vmezzi__btn-aggiungi" onClick={apriModal}>
+            + Aggiungi mezzo
+          </button>
+        </header>
 
-      <main className="vmezzi__body">
-        <div className="vmezzi__tabella-wrapper">
-          <table className="vmezzi__tabella">
-            <thead>
-              <tr>
-                <th>Tipo</th>
-                <th>Codice</th>
-                <th>Stato</th>
-                <th>Batteria</th>
-                <th>Coordinate</th>
-                <th>Azioni</th>
-              </tr>
-            </thead>
-            <tbody>
-              {caricamento ? (
-                Array.from({ length: 4 }).map((_, i) => (
-                  <tr key={i} className="vmezzi__skeleton">
-                    {Array.from({ length: 6 }).map((_, j) => <td key={j}>&nbsp;</td>)}
-                  </tr>
-                ))
-              ) : mezzi.length === 0 ? (
+        <main className="vmezzi__body">
+          {/* Filtri stato come chip */}
+          <div className="vmezzi__filtri" role="group" aria-label="Filtra per stato">
+            {TUTTI_STATI.map(s => (
+              <button
+                key={s}
+                className={`sm-chip vmezzi__filtro-chip${filtroStato === s ? ' vmezzi__filtro-chip--attivo' : ''}`}
+                onClick={() => setFiltroStato(s)}
+                aria-pressed={filtroStato === s}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+
+          <div className="vmezzi__tabella-wrapper sm-card">
+            <table className="vmezzi__tabella">
+              <thead>
                 <tr>
-                  <td colSpan={6} className="vmezzi__empty">
-                    Nessun mezzo in flotta
-                  </td>
+                  <th>Tipo</th>
+                  <th>Codice</th>
+                  <th>Stato</th>
+                  <th>Batteria</th>
+                  <th>Coordinate</th>
+                  <th>Azioni</th>
                 </tr>
-              ) : (
-                mezzi.map(m => (
-                  <tr key={m.id}>
-                    <td>{TIPO_EMOJI[m.tipo] ?? '●'} {m.tipo}</td>
-                    <td><strong>{m.codice}</strong></td>
-                    <td>
-                      {STATI_BLOCCATI.has(m.stato) ? (
-                        <span className={`vmezzi__pill ${STATO_PILL_CLASS[m.stato] ?? ''}`}>
-                          {m.stato}
-                        </span>
-                      ) : (
-                        <select
-                          className={`vmezzi__pill vmezzi__pill--select ${STATO_PILL_CLASS[m.stato] ?? ''}`}
-                          value={m.stato}
-                          disabled={aggiornandoStato === m.id}
-                          onChange={e => handleCambiaStato(m, e.target.value)}
-                        >
-                          {m.stato === 'Prenotato' && (
-                            <option value="Prenotato" disabled>Prenotato</option>
-                          )}
-                          {STATI_MODIFICABILI.map(s => (
-                            <option key={s} value={s}>{s}</option>
-                          ))}
-                        </select>
-                      )}
-                    </td>
-                    <td>{m.batteria != null ? `${m.batteria}%` : '—'}</td>
-                    <td>
-                      {m.lat != null && m.lng != null
-                        ? `${m.lat.toFixed(4)}, ${m.lng.toFixed(4)}`
-                        : '—'}
-                    </td>
-                    <td>
-                      <button
-                        className="vmezzi__btn-dismetti"
-                        disabled={controllando}
-                        onClick={() => handleCliccaDismetti(m)}
-                      >
-                        Dismetti
-                      </button>
+              </thead>
+              <tbody>
+                {caricamento ? (
+                  Array.from({ length: 4 }).map((_, i) => (
+                    <tr key={i} className="vmezzi__skeleton">
+                      {Array.from({ length: 6 }).map((_, j) => <td key={j}>&nbsp;</td>)}
+                    </tr>
+                  ))
+                ) : mezziFiltrati.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="vmezzi__empty">
+                      Nessun mezzo{filtroStato !== 'Tutti' ? ` con stato "${filtroStato}"` : ' in flotta'}
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-      </main>
+                ) : (
+                  mezziFiltrati.map(m => {
+                    const battPct = m.batteria ?? null
+                    const battClass = battPct !== null && battPct === 0
+                      ? 'vmezzi__batt--critica'
+                      : battPct !== null && battPct < 20
+                      ? 'vmezzi__batt--bassa'
+                      : ''
+                    return (
+                      <tr key={m.id}>
+                        <td>{TIPO_EMOJI[m.tipo] ?? '●'} {m.tipo}</td>
+                        <td><span className="sm-mono vmezzi__codice">{m.codice}</span></td>
+                        <td>
+                          {STATI_BLOCCATI.has(m.stato) ? (
+                            <span className={`sm-chip vmezzi__state ${STATO_CHIP_CLASS[m.stato] ?? ''}`}>
+                              {m.stato}
+                            </span>
+                          ) : (
+                            <select
+                              className={`sm-chip vmezzi__state vmezzi__state--select ${STATO_CHIP_CLASS[m.stato] ?? ''}`}
+                              value={m.stato}
+                              disabled={aggiornandoStato === m.id}
+                              onChange={e => handleCambiaStato(m, e.target.value)}
+                              aria-label={`Stato del mezzo ${m.codice}`}
+                            >
+                              {m.stato === 'Prenotato' && (
+                                <option value="Prenotato" disabled>Prenotato</option>
+                              )}
+                              {STATI_MODIFICABILI.map(s => (
+                                <option key={s} value={s}>{s}</option>
+                              ))}
+                            </select>
+                          )}
+                        </td>
+                        <td>
+                          {battPct != null
+                            ? <span className={`sm-mono vmezzi__batt ${battClass}`}>{battPct}%</span>
+                            : <span className="vmezzi__dash">—</span>}
+                        </td>
+                        <td>
+                          {m.lat != null && m.lng != null
+                            ? <span className="sm-mono vmezzi__coords">{m.lat.toFixed(4)}, {m.lng.toFixed(4)}</span>
+                            : <span className="vmezzi__dash">—</span>}
+                        </td>
+                        <td>
+                          <button
+                            className="sm-btn sm-btn--ghost vmezzi__btn-dismetti"
+                            disabled={controllando}
+                            onClick={() => handleCliccaDismetti(m)}
+                          >
+                            Dismetti
+                          </button>
+                        </td>
+                      </tr>
+                    )
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
+        </main>
 
-      {/* Modal aggiunta mezzo */}
-      {mostraModal && (
-        <div className="vmezzi__overlay" onClick={() => setMostraModal(false)}>
-          <div className="vmezzi__modal" onClick={e => e.stopPropagation()}>
-            <h2>Aggiungi nuovo mezzo</h2>
+        {/* Modal aggiunta mezzo */}
+        {mostraModal && (
+          <div className="vmezzi__overlay" onClick={() => setMostraModal(false)}>
+            <div className="vmezzi__modal" onClick={e => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="modal-aggiungi-titolo">
+              <h2 id="modal-aggiungi-titolo">Aggiungi nuovo mezzo</h2>
 
-            <div className="vmezzi__campo">
-              <label>Tipologia</label>
-              <select value={form.tipo} onChange={e => handleCampo('tipo', e.target.value)}>
-                <option value="monopattino">🛴 Monopattino</option>
-                <option value="bicicletta">🚲 Bicicletta</option>
-                <option value="automobile">🚗 Automobile</option>
-              </select>
-            </div>
+              <div className="vmezzi__campo">
+                <label htmlFor="vm-tipo">Tipologia</label>
+                <select id="vm-tipo" value={form.tipo} onChange={e => handleCampo('tipo', e.target.value)}>
+                  <option value="monopattino">🛴 Monopattino</option>
+                  <option value="bicicletta">🚲 Bicicletta</option>
+                  <option value="automobile">🚗 Automobile</option>
+                </select>
+              </div>
 
-            <div className="vmezzi__campo">
-              <label>Codice identificativo</label>
-              <input
-                type="text"
-                placeholder="es. MON-001"
-                value={form.codice}
-                onChange={e => handleCampo('codice', e.target.value)}
-              />
-            </div>
+              <div className="vmezzi__campo">
+                <label htmlFor="vm-codice">Codice identificativo</label>
+                <input
+                  id="vm-codice"
+                  type="text"
+                  placeholder="es. MON-001"
+                  value={form.codice}
+                  onChange={e => handleCampo('codice', e.target.value)}
+                />
+              </div>
 
-            <div className="vmezzi__campo">
-              <label>Latitudine</label>
-              <input
-                type="number"
-                step="0.0001"
-                placeholder="es. 41.1177"
-                value={form.lat}
-                onChange={e => handleCampo('lat', e.target.value)}
-              />
-            </div>
+              <div className="vmezzi__campo">
+                <label htmlFor="vm-lat">Latitudine</label>
+                <input
+                  id="vm-lat"
+                  type="number"
+                  step="0.0001"
+                  placeholder="es. 41.1177"
+                  value={form.lat}
+                  onChange={e => handleCampo('lat', e.target.value)}
+                />
+              </div>
 
-            <div className="vmezzi__campo">
-              <label>Longitudine</label>
-              <input
-                type="number"
-                step="0.0001"
-                placeholder="es. 16.8719"
-                value={form.lng}
-                onChange={e => handleCampo('lng', e.target.value)}
-            />
-            </div>
+              <div className="vmezzi__campo">
+                <label htmlFor="vm-lng">Longitudine</label>
+                <input
+                  id="vm-lng"
+                  type="number"
+                  step="0.0001"
+                  placeholder="es. 16.8719"
+                  value={form.lng}
+                  onChange={e => handleCampo('lng', e.target.value)}
+                />
+              </div>
 
-            <div className="vmezzi__campo">
-              <label>Stato iniziale</label>
-              <select value={form.stato} onChange={e => handleCampo('stato', e.target.value)}>
-                <option value="Disponibile">Disponibile</option>
-                <option value="In manutenzione">In manutenzione</option>
-                <option value="Fuori servizio">Fuori servizio</option>
-              </select>
-            </div>
+              <div className="vmezzi__campo">
+                <label htmlFor="vm-stato">Stato iniziale</label>
+                <select id="vm-stato" value={form.stato} onChange={e => handleCampo('stato', e.target.value)}>
+                  <option value="Disponibile">Disponibile</option>
+                  <option value="In manutenzione">In manutenzione</option>
+                  <option value="Fuori servizio">Fuori servizio</option>
+                </select>
+              </div>
 
-            {erroreForm && <p className="vmezzi__errore">{erroreForm}</p>}
+              {erroreForm && <p className="vmezzi__errore" role="alert">{erroreForm}</p>}
 
-            <div className="vmezzi__modal-footer">
-              <button className="vmezzi__btn-annulla" onClick={() => setMostraModal(false)}>
-                Annulla
-              </button>
-              <button
-                className="vmezzi__btn-conferma"
-                onClick={handleSubmitAggiungi}
-                disabled={submitting}
-              >
-                {submitting ? 'Salvataggio…' : 'Aggiungi'}
-              </button>
+              <div className="vmezzi__modal-footer">
+                <button className="sm-btn sm-btn--ghost" onClick={() => setMostraModal(false)}>
+                  Annulla
+                </button>
+                <button
+                  className="sm-btn sm-btn--primary"
+                  onClick={handleSubmitAggiungi}
+                  disabled={submitting}
+                >
+                  {submitting ? 'Salvataggio…' : 'Aggiungi'}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Dialog conferma dismissione */}
-      {confermaDismissione && (
-        <div className="vmezzi__overlay">
-          <div className="vmezzi__modal">
-            <h2>Conferma dismissione</h2>
-            <p style={{ color: '#475569', marginBottom: 24 }}>
-              Vuoi dismettere il mezzo <strong>{confermaDismissione.codice}</strong>?
-              L'operazione è irreversibile e il mezzo non sarà più disponibile per nuove corse.
-            </p>
-            <div className="vmezzi__modal-footer">
-              <button
-                className="vmezzi__btn-annulla"
-                onClick={() => setConfermaDismissione(null)}
-              >
-                Annulla
-              </button>
-              <button
-                className="vmezzi__btn-conferma vmezzi__btn-conferma--danger"
-                onClick={handleConfermaDismissione}
-              >
-                Dismetti
-              </button>
+        {/* Dialog conferma dismissione */}
+        {confermaDismissione && (
+          <div className="vmezzi__overlay">
+            <div className="vmezzi__modal" role="dialog" aria-modal="true" aria-labelledby="modal-dismetti-titolo">
+              <h2 id="modal-dismetti-titolo">Conferma dismissione</h2>
+              <p className="vmezzi__modal-desc">
+                Vuoi dismettere il mezzo <strong>{confermaDismissione.codice}</strong>?
+                L'operazione è irreversibile e il mezzo non sarà più disponibile per nuove corse.
+              </p>
+              <div className="vmezzi__modal-footer">
+                <button
+                  className="sm-btn sm-btn--ghost"
+                  onClick={() => setConfermaDismissione(null)}
+                >
+                  Annulla
+                </button>
+                <button
+                  className="sm-btn sm-btn--primary vmezzi__btn--danger"
+                  onClick={handleConfermaDismissione}
+                >
+                  Dismetti
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Toast */}
-      {toast && (
-        <div className={`vmezzi__toast vmezzi__toast--${toast.tipo}`}>
-          {toast.msg}
-        </div>
-      )}
+        {/* Toast */}
+        {toast && (
+          <div className={`vmezzi__toast vmezzi__toast--${toast.tipo}`} role="status" aria-live="polite">
+            {toast.msg}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
