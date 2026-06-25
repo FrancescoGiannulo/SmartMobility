@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {
   getUtenti,
@@ -7,12 +6,11 @@ import {
   sospendiAccount,
   type UtenteListItem,
 } from '../../services/GestioneUtentiService'
+import SidebarRuolo from '../../components/layout/SidebarRuolo'
 import './VistaGestioneUtentiOperatore.css'
 
 // [IF-OP.09] Sospende Account Utente
 export default function VistaGestioneUtentiOperatore() {
-  const navigate = useNavigate()
-
   const [utenti, setUtenti] = useState<UtenteListItem[]>([])
   const [caricamento, setCaricamento] = useState(true)
   const [errore, setErrore] = useState('')
@@ -73,98 +71,99 @@ export default function VistaGestioneUtentiOperatore() {
   }
 
   return (
-    <div className="vista-gest-ut-wrap">
-      <button type="button" className="btn-back-gest-ut" onClick={() => navigate(-1)}>
-        ← Torna alla mappa
-      </button>
+    <div className="sm-op-shell">
+      <SidebarRuolo ruolo="OP" />
+      <div className="sm-op-main">
+        <div className="vgest__body">
+          <h1 className="vgest__titolo">Gestione Utenti</h1>
 
-      <h1 className="gest-ut-titolo">Gestione Utenti</h1>
+          {messaggio && <div className="vgest__messaggio">{messaggio}</div>}
+          {errore && <p className="vgest__errore">{errore}</p>}
 
-      {messaggio && <div className="gest-ut-messaggio">{messaggio}</div>}
-      {errore && <p className="gest-ut-errore">{errore}</p>}
+          <div className="vgest__layout">
+            <div className="vgest__lista">
+              {caricamento ? (
+                <p className="vgest__vuoto">Caricamento...</p>
+              ) : utenti.length === 0 ? (
+                <p className="vgest__vuoto">Nessun utente registrato.</p>
+              ) : (
+                utenti.map(u => (
+                  <div
+                    key={u.id}
+                    className={`vgest__card${selezionato?.id === u.id ? ' vgest__card--attiva' : ''}`}
+                    onClick={() => selezionaUtente(u.id)}
+                  >
+                    <div className="vgest__card-header">
+                      <span className="vgest__nome">{u.nome} {u.cognome}</span>
+                      {u.sospeso && <span className="vgest__badge">Sospeso</span>}
+                    </div>
+                    <span className="vgest__email">{u.email}</span>
+                  </div>
+                ))
+              )}
+            </div>
 
-      <div className="gest-ut-layout">
-        <div className="gest-ut-lista">
-          {caricamento ? (
-            <p className="gest-ut-vuoto">Caricamento...</p>
-          ) : utenti.length === 0 ? (
-            <p className="gest-ut-vuoto">Nessun utente registrato.</p>
-          ) : (
-            utenti.map(u => (
-              <div
-                key={u.id}
-                className={`gest-ut-card${selezionato?.id === u.id ? ' gest-ut-card--attiva' : ''}`}
-                onClick={() => selezionaUtente(u.id)}
-              >
-                <div className="gest-ut-card-header">
-                  <span className="gest-ut-nome">{u.nome} {u.cognome}</span>
-                  {u.sospeso && <span className="gest-ut-badge">Sospeso</span>}
+            {selezionato && (
+              <div className="vgest__dettaglio">
+                <h2 className="vgest__det-titolo">Dettaglio</h2>
+                <div className="vgest__det-row">
+                  <span className="vgest__det-label">Nome</span>
+                  <span>{selezionato.nome} {selezionato.cognome}</span>
                 </div>
-                <span className="gest-ut-email">{u.email}</span>
-              </div>
-            ))
-          )}
-        </div>
+                <div className="vgest__det-row">
+                  <span className="vgest__det-label">Email</span>
+                  <span>{selezionato.email}</span>
+                </div>
+                <div className="vgest__det-row">
+                  <span className="vgest__det-label">Stato</span>
+                  <span>{selezionato.sospeso ? 'Sospeso' : 'Attivo'}</span>
+                </div>
 
-        {selezionato && (
-          <div className="gest-ut-dettaglio">
-            <h2 className="gest-ut-det-titolo">Dettaglio</h2>
-            <div className="gest-ut-det-row">
-              <span className="gest-ut-det-label">Nome</span>
-              <span>{selezionato.nome} {selezionato.cognome}</span>
-            </div>
-            <div className="gest-ut-det-row">
-              <span className="gest-ut-det-label">Email</span>
-              <span>{selezionato.email}</span>
-            </div>
-            <div className="gest-ut-det-row">
-              <span className="gest-ut-det-label">Stato</span>
-              <span>{selezionato.sospeso ? 'Sospeso' : 'Attivo'}</span>
-            </div>
-
-            {selezionato.sospeso ? (
-              <p className="gest-ut-sospeso-msg">⚠️ Account già sospeso</p>
-            ) : !dialogoAperto ? (
-              <button
-                type="button"
-                className="btn-gest-ut-danger"
-                onClick={() => setDialogoAperto(true)}
-              >
-                Sospendi account
-              </button>
-            ) : (
-              <div className="gest-ut-conferma">
-                <label className="gest-ut-det-label" htmlFor="motivazione-sospensione">
-                  Motivazione della sospensione
-                </label>
-                <textarea
-                  id="motivazione-sospensione"
-                  className="gest-ut-textarea"
-                  value={motivazione}
-                  onChange={e => setMotivazione(e.target.value)}
-                  placeholder="Descrivi il motivo della sospensione"
-                  rows={4}
-                />
-                <button
-                  type="button"
-                  className="btn-gest-ut-danger"
-                  onClick={confermaSospensione}
-                  disabled={azioneInCorso || !motivazione.trim()}
-                >
-                  {azioneInCorso ? 'Sospensione...' : 'Conferma sospensione'}
-                </button>
-                <button
-                  type="button"
-                  className="btn-gest-ut-secondario"
-                  onClick={() => { setDialogoAperto(false); setMotivazione('') }}
-                  disabled={azioneInCorso}
-                >
-                  Annulla
-                </button>
+                {selezionato.sospeso ? (
+                  <p className="vgest__sospeso-msg">⚠️ Account già sospeso</p>
+                ) : !dialogoAperto ? (
+                  <button
+                    type="button"
+                    className="sm-btn vgest__btn-danger"
+                    onClick={() => setDialogoAperto(true)}
+                  >
+                    Sospendi account
+                  </button>
+                ) : (
+                  <div className="vgest__conferma">
+                    <label className="vgest__det-label" htmlFor="motivazione-sospensione">
+                      Motivazione della sospensione
+                    </label>
+                    <textarea
+                      id="motivazione-sospensione"
+                      className="vgest__textarea"
+                      value={motivazione}
+                      onChange={e => setMotivazione(e.target.value)}
+                      placeholder="Descrivi il motivo della sospensione"
+                      rows={4}
+                    />
+                    <button
+                      type="button"
+                      className="sm-btn vgest__btn-danger"
+                      onClick={confermaSospensione}
+                      disabled={azioneInCorso || !motivazione.trim()}
+                    >
+                      {azioneInCorso ? 'Sospensione...' : 'Conferma sospensione'}
+                    </button>
+                    <button
+                      type="button"
+                      className="sm-btn sm-btn--ghost vgest__btn-secondario"
+                      onClick={() => { setDialogoAperto(false); setMotivazione('') }}
+                      disabled={azioneInCorso}
+                    >
+                      Annulla
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   )
