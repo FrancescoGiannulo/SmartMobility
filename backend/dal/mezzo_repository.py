@@ -144,6 +144,12 @@ class MezzoRepository:
             s.execute(sql, {"stato": nuovo_stato, "id": str(mezzo_id)})
             s.commit()
 
+    def aggiorna_posizione(self, mezzo_id: UUID, lat: float, lng: float) -> None:
+        sql = text("UPDATE mezzi SET lat = :lat, lng = :lng WHERE id = :id")
+        with self._sessione() as s:
+            s.execute(sql, {"lat": lat, "lng": lng, "id": str(mezzo_id)})
+            s.commit()
+
     def bloccaMezzo(self, mezzo_id: UUID) -> None:
         """[IF-UT.10] SD SospendeCorsa — msg5/6: bloccaMezzo() + save(this)."""
         self.aggiorna_stato(mezzo_id, "In pausa")
