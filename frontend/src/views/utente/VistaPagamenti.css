@@ -75,7 +75,7 @@
 }
 
 .pag-avviso {
-  background: rgba(255, 201, 113, .10);
+  background: color-mix(in srgb, var(--warn) 10%, var(--surface));
   border: 1px solid var(--warn);
   border-radius: 8px;
   color: var(--warn);

@@ -3,45 +3,13 @@
    Modern glassmorphism topbar + clean accent pins
    ============================================================ */
 
-:root {
-  --sm-primary: #155e52;
-  --sm-primary-600: #0f4a3f;
-  --sm-primary-700: #2a7a6a;
-  --sm-accent: #06d6a0;
-  --sm-dark: #0f172a;
-  --sm-surface: #1e293b;
-  --sm-surface-2: #334155;
-  --sm-muted: #64748b;
-  --sm-line: rgba(15, 23, 42, 0.08);
-  --sm-error: #f43f5e;
-  --sm-warning: #f59e0b;
-  --sm-info: #3b82f6;
-
-  --sm-radius-sm: 8px;
-  --sm-radius: 14px;
-  --sm-radius-lg: 20px;
-  --sm-radius-xl: 28px;
-
-  --sm-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.05);
-  --sm-shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08), 0 2px 4px rgba(15, 23, 42, 0.04);
-  --sm-shadow-lg: 0 20px 40px -12px rgba(15, 23, 42, 0.18), 0 8px 16px -8px rgba(15, 23, 42, 0.1);
-  --sm-shadow-glow: 0 0 0 4px rgba(76, 175, 154, 0.18);
-
-  --sm-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-}
-
-body {
-  font-family: var(--sm-font);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 
 /* ---------- Layout ---------- */
 .vista-mappa {
   width: 100%;
   height: 100dvh;
   position: relative;
-  font-family: var(--sm-font);
+  font-family: var(--ff-body);
   background: var(--bg);
   overflow: hidden;
 }
@@ -63,7 +31,7 @@ body {
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border: 1px solid var(--border-2);
-  border-radius: var(--sm-radius-lg);
+  border-radius: var(--r-md);
   box-shadow: var(--shadow);
   z-index: 10;
 }
@@ -259,7 +227,7 @@ body {
   color: var(--accent);
   border: 1px solid var(--border-2);
   border-radius: 999px;
-  font-family: var(--sm-font);
+  font-family: var(--ff-body);
   font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -281,7 +249,7 @@ body {
   color: var(--danger);
   border: 1px solid var(--border);
   border-radius: 999px;
-  font-family: var(--sm-font);
+  font-family: var(--ff-body);
   font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -306,10 +274,10 @@ body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border);
-  border-radius: var(--sm-radius);
+  border-radius: var(--r-sm);
   padding: 14px 22px;
   box-shadow: var(--shadow);
-  font-family: var(--sm-font);
+  font-family: var(--ff-body);
   font-size: 14px;
   font-weight: 600;
   z-index: 9;
@@ -352,7 +320,7 @@ body {
   height: 40px;
   border-radius: 50% 50% 50% 10%;
   transform: rotate(45deg);
-  background: linear-gradient(135deg, var(--sm-c1, var(--sm-primary)), var(--sm-c2, var(--sm-primary-700)));
+  background: linear-gradient(135deg, var(--accent), var(--accent));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -371,7 +339,7 @@ body {
 /* ---------- InfoWindow restyling (Google Maps) ---------- */
 .gm-style .gm-style-iw-c {
   padding: 6px !important;
-  border-radius: var(--sm-radius) !important;
+  border-radius: var(--r-sm) !important;
   box-shadow: var(--shadow) !important;
   border: 1px solid var(--border);
   background: var(--surface) !important;
@@ -484,7 +452,7 @@ body {
 .item-prenotazione {
   background: var(--surface-2);
   border: 1px solid var(--border);
-  border-radius: var(--sm-radius-sm);
+  border-radius: var(--r-sm);
   padding: 6px 10px;
   font-size: 13px;
   color: var(--text);
@@ -502,7 +470,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  border-radius: var(--sm-radius-sm);
+  border-radius: var(--r-sm);
   transition: background 150ms;
 }
 .btn-hamburger:hover { background: var(--surface-2); }
@@ -551,7 +519,7 @@ body {
   border-bottom: 1px solid var(--border);
 }
 .sidebar-logo {
-  font-family: var(--sm-font);
+  font-family: var(--ff-body);
   font-size: 16px;
   font-weight: 900;
   letter-spacing: 0.04em;
@@ -647,7 +615,7 @@ body {
 }
 .sidebar-voce:hover { background: var(--surface-2); }
 .sidebar-voce__testo {
-  font-family: var(--sm-font);
+  font-family: var(--ff-body);
   font-size: 17px;
   font-weight: 700;
   font-style: italic;
@@ -759,7 +727,7 @@ body {
   background: var(--surface);
   color: var(--accent);
   border: 2px solid var(--accent);
-  border-radius: var(--sm-radius);
+  border-radius: var(--r-sm);
   font-weight: 700;
   font-size: 13px;
   cursor: pointer;
@@ -845,7 +813,7 @@ body {
 .pricing-card {
   background: var(--surface-2);
   border: 1px solid var(--border);
-  border-radius: var(--sm-radius);
+  border-radius: var(--r-sm);
   padding: 14px 16px;
   display: flex;
   flex-direction: column;
@@ -1181,7 +1149,7 @@ body {
     height: 50px;
     padding: 0 12px;
     gap: 8px;
-    border-radius: var(--sm-radius);
+    border-radius: var(--r-sm);
   }
 
   .topbar-logo {
