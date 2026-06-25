@@ -133,6 +133,8 @@ export default function VistaCorsa() {
   const [statoZonaDemo, setStatoZonaDemo] = useState<{ tipo: TipoZonaCorrente; limiteVelocita?: number } | null>(null)
   const demoTimerRef = useRef<number | null>(null)
   const penaleRef = useRef(false)
+  const inPausaRef = useRef(false)
+  const terminatiRef = useRef<Set<string>>(new Set())
   const routesLib = useMapsLibrary('routes')
   const [kmDemo, setKmDemo] = useState(0)
   const demoAttivo = statoZonaDemo !== null
@@ -308,6 +310,8 @@ export default function VistaCorsa() {
       setFase('idle')
       return
     }
+    // Demo: i mezzi terminati si fermano subito (non vengono più mossi dal driver)
+    da.forEach(c => terminatiRef.current.add(c.corsa_id))
     // [IF-UT.16] Abbonamento attivo → corsa gratuita (non si applica alle corse di gruppo)
     const isGruppo = da.some(c => c.gruppo_corsa_id)
     if (!isGruppo) {
@@ -387,14 +391,21 @@ export default function VistaCorsa() {
     const startBatt = corse.map(c => c.mezzo.batteria ?? 100)
     const CONSUMO_DEMO_PER_KM = 15  // calo batteria ben visibile durante la demo
 
+    const avvioCorse = corse
+    terminatiRef.current = new Set()
     penaleRef.current = false
     setKmDemo(0)
     let d = 0
     demoTimerRef.current = window.setInterval(() => {
+      // Pausa: i mezzi si fermano finché la corsa è in pausa (come nell'app reale)
+      if (inPausaRef.current) return
       let aggregato: { tipo: TipoZonaCorrente; limiteVelocita?: number } = { tipo: 'operativa' }
       const nuoveBatt: Record<string, number> = {}
-      corse.forEach((c, i) => {
+      let qualcunoSiMuove = false
+      avvioCorse.forEach((c, i) => {
+        if (terminatiRef.current.has(c.corsa_id)) return  // mezzo terminato dall'utente: resta fermo
         const dm = Math.max(0, Math.min(totale, d - i * GAP_M))
+        if (d - i * GAP_M < totale) qualcunoSiMuove = true
         const p = puntoADistanzaM(path, cum, dm)
         const z = zonaCorrente(p.lat, p.lng, zoneTutte)
         if (z.tipo === 'vietata' || z.tipo === 'fuori') penaleRef.current = true
@@ -409,8 +420,8 @@ export default function VistaCorsa() {
       setStatoZonaDemo(aggregato)
       setKmDemo(Math.min(totale, d) / 1000)
       d += passoM
-      // Fine quando anche l'ultimo mezzo del convoglio ha completato il giro (rientro allo start).
-      if (d - (corse.length - 1) * GAP_M >= totale && demoTimerRef.current !== null) {
+      // Fine quando nessun mezzo (non terminato) è più in movimento: tutti arrivati o terminati.
+      if (!qualcunoSiMuove && demoTimerRef.current !== null) {
         clearInterval(demoTimerRef.current)
         demoTimerRef.current = null
         setStatoZonaDemo(null)
@@ -422,6 +433,9 @@ export default function VistaCorsa() {
   useEffect(() => () => {
     if (demoTimerRef.current !== null) clearInterval(demoTimerRef.current)
   }, [])
+
+  // Sincronizza lo stato di pausa col driver demo (i mezzi si fermano in pausa)
+  useEffect(() => { inPausaRef.current = inPausa }, [inPausa])
 
   if (!corse.length) return (
     <div className="vista-corsa-wrap">
