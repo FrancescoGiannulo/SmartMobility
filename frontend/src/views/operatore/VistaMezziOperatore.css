@@ -12,7 +12,7 @@
    #ef4444 → var(--danger)
    #94a3b8 → var(--text-mute)
    rgba(0,0,0,.45) → var(--glass)
-   rgba(0,0,0,.15) → color-mix(in srgb, var(--bg) 85%, #000)
+   rgba(0,0,0,.15) → color-mix(in srgb, var(--bg) 85%, black)
 */
 
 /* ── Header ── */
