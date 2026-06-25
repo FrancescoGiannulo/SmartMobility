@@ -299,7 +299,7 @@ export default function VistaMappaOperatore() {
             {/* Zone legend */}
             <div className="mappa-op-legenda" aria-label="Legenda zone">
               <span className="leg-item">
-                <i className="leg-dot" style={{ background: '#4caf50', opacity: .8 }} />
+                <i className="leg-dot" style={{ background: COLORI_ZONA.parcheggio.stroke, opacity: .8 }} />
                 Parcheggio
               </span>
               <span className="leg-item">
@@ -307,11 +307,11 @@ export default function VistaMappaOperatore() {
                 Operativa
               </span>
               <span className="leg-item">
-                <i className="leg-dot" style={{ background: '#f44336', opacity: .8 }} />
+                <i className="leg-dot" style={{ background: COLORI_ZONA.vietata.stroke, opacity: .8 }} />
                 Vietata
               </span>
               <span className="leg-item">
-                <i className="leg-dot" style={{ background: '#ff9800', opacity: .8 }} />
+                <i className="leg-dot" style={{ background: COLORI_ZONA.limitata.stroke, opacity: .8 }} />
                 Limitata
               </span>
             </div>

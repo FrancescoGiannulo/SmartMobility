@@ -19,7 +19,7 @@
 .mappa-op-sidebar {
   width: 220px;
   flex-shrink: 0;
-  background: rgba(7,38,36,.33);
+  background: var(--bg-2);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
@@ -351,7 +351,7 @@
 }
 
 .state-chip--disp { background: var(--glow); color: var(--accent); }
-.state-chip--uso  { background: rgba(91,157,255,.16); color: #7fb4ff; }
+.state-chip--uso  { background: rgba(91,157,255,.16); color: var(--info); }
 .state-chip--pausa { background: rgba(142,182,155,.15); color: var(--text-dim); }
 .state-chip--man  { background: rgba(255,201,113,.16); color: var(--warn); }
 .state-chip--pren { background: rgba(255,201,113,.1); color: var(--warn); }
@@ -389,7 +389,7 @@
 .btn-zona--accent  { border-color: var(--border-2); color: var(--accent); }
 .btn-zona--accent:hover  { background: var(--glow); }
 
-.btn-zona--info    { border-color: color-mix(in srgb, #7fb4ff 40%, transparent); color: #7fb4ff; }
+.btn-zona--info    { border-color: color-mix(in srgb, var(--info) 40%, transparent); color: var(--info); }
 .btn-zona--info:hover    { background: rgba(91,157,255,.12); }
 
 /* ---------- Mezzo / Zona info card (in zone-tools overlay) ---------- */
@@ -461,7 +461,7 @@
 
 .mezzo-stato--disponibile     { background: var(--glow); color: var(--accent); }
 .mezzo-stato--prenotato       { background: rgba(255,201,113,.14); color: var(--warn); }
-.mezzo-stato--in-uso          { background: rgba(91,157,255,.16); color: #7fb4ff; }
+.mezzo-stato--in-uso          { background: rgba(91,157,255,.16); color: var(--info); }
 .mezzo-stato--in-pausa        { background: rgba(142,182,155,.14); color: var(--text-dim); }
 .mezzo-stato--in-manutenzione { background: rgba(255,201,113,.14); color: var(--warn); }
 .mezzo-stato--fuori-servizio  { background: color-mix(in srgb, var(--danger) 12%, var(--surface)); color: var(--danger); }
@@ -525,7 +525,7 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(5, 31, 32, 0.75);
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: flex;
@@ -642,6 +642,6 @@
   transform: rotate(-45deg);
   font-size: 15px;
   line-height: 1;
-  color: #fff;
+  color: var(--text);
 }
 .sm-pin--dim { opacity: 0.45; }

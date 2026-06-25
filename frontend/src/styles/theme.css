@@ -6,7 +6,7 @@
   /* testo */
   --text:#DAF1DE; --text-dim:#8EB69B; --text-mute:#5d7a6a;
   /* accento */
-  --accent:#5FF0C4; --accent-2:#8EB69B; --accent-ink:#04201c;
+  --accent:#5FF0C4; --accent-2:#8EB69B; --accent-ink:#04201c; --info:#7fb4ff;
   /* bordi / stati */
   --border:rgba(142,182,155,.16); --border-2:rgba(142,182,155,.28);
   --pin:#5FF0C4; --warn:#FFC971; --danger:#FF8A7A;
