@@ -1344,7 +1344,6 @@ Totale elementi identificati: **145**.
 **Attributi**
 
 ```
-- strategie: Map
 - provider: ProviderPagamentiAdapter
 - pagamentoRepo: IPagamentoRepository
 - tariffaRepo: ITariffaRepository

@@ -51,8 +51,11 @@ proprio dominio in chiamate ad `ApiService`. Le View consumano i service tramite
 `ServizioSuggerimenti`, `ServizioTariffa`, `ServizioNotifica`, `ServizioStoricoModifiche`.
 
 Espone al Controller l'interfaccia `BLLToController` (realizzazione delle `IServizio*` del
-diagramma delle classi). Lo stato del `Mezzo` cambia solo tramite `ServizioMobilita`
-(pattern State); il calcolo tariffa usa il pattern Strategy (IIN-4).
+diagramma delle classi). Lo stato del `Mezzo` cambia solo tramite `ServizioMobilita`,
+che centralizza tutte le transizioni valide (nessun altro componente aggiorna lo stato
+direttamente); il calcolo tariffa (`ServizioPricing.calcola_importo`) usa un'unica formula
+generica parametrizzata dai valori di `Tariffa` letti dal DB in base al tipo di mezzo,
+non un pattern Strategy con classi intercambiabili.
 
 ### 2.3 `«component» DAL` (Repository) — 20 classi
 `MezzoRepository`, `CorsaRepository`, `PrenotazioneRepository`, `PagamentoRepository`,
