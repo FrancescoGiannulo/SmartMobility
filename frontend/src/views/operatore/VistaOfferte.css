@@ -1,158 +1,219 @@
-.vista-offerte {
-  min-height: 100vh;
-  background: #f1f5f9;
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-}
+/*
+ * VistaOfferte — Foresta dark theme
+ * Tokens: --bg --surface --surface-2 --surface-3
+ *         --text --text-dim --text-mute
+ *         --accent --accent-2 --accent-ink --info
+ *         --border --border-2
+ *         --warn --danger
+ *         --glass --shadow
+ *         --r-lg --r-md --r-sm --r-pill
+ *         --ff-display --ff-body --ff-mono
+ */
 
-.offerte-topbar {
+/* ── Header bar ─────────────────────────────────────────── */
+
+.vofferte__header {
   height: 64px;
-  background: #fff;
+  background: var(--surface);
   display: flex;
   align-items: center;
-  padding: 0 24px;
+  padding: 0 28px;
   gap: 14px;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
 }
 
-.offerte-topbar h2 {
+.vofferte__header h2 {
   margin: 0;
   flex: 1;
+  font-family: var(--ff-display);
   font-size: 16px;
-  font-weight: 800;
-  color: #0f172a;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
 }
 
-.offerte-body {
+/* ── Body ───────────────────────────────────────────────── */
+
+.vofferte__body {
+  flex: 1;
   max-width: 860px;
+  width: 100%;
   margin: 0 auto;
   padding: 32px 24px;
 }
 
-.offerte-header-row {
+.vofferte__header-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 24px;
 }
 
-.offerte-header-row h3 {
+.vofferte__header-row h3 {
   margin: 0;
+  font-family: var(--ff-display);
   font-size: 20px;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-.btn-nuova-offerta {
-  padding: 11px 22px;
-  background: #155e52;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-size: 13px;
   font-weight: 700;
-  cursor: pointer;
-  transition: background 160ms ease;
+  color: var(--text);
+  letter-spacing: -0.02em;
 }
-.btn-nuova-offerta:hover { background: #0f4a3f; }
 
-.offerte-lista {
+/* ── New offer button (inherits sm-btn sm-btn--primary) ── */
+
+.vofferte__btn-nuova {
+  font-size: 13px;
+}
+
+/* ── List ───────────────────────────────────────────────── */
+
+.vofferte__lista {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.offerta-card {
-  background: #fff;
-  border-radius: 16px;
+.vofferte__vuote {
+  text-align: center;
+  padding: 48px;
+  color: var(--text-mute);
+  font-family: var(--ff-body);
+  font-size: 15px;
+}
+
+/* ── Card ───────────────────────────────────────────────── */
+
+.vofferte__card {
+  background: var(--surface);
+  border-radius: var(--r-md);
   padding: 18px 20px;
   display: flex;
   align-items: center;
   gap: 16px;
-  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
-  border: 1px solid rgba(15, 23, 42, 0.06);
+  border: 1px solid var(--border);
+  transition: border-color 160ms ease;
 }
 
-.offerta-tipo-badge {
+.vofferte__card:hover {
+  border-color: var(--border-2);
+}
+
+/* tipo badge */
+
+.vofferte__tipo-badge {
   width: 44px;
   height: 44px;
-  border-radius: 12px;
+  border-radius: var(--r-sm);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
   flex-shrink: 0;
 }
-.offerta-tipo-badge.promozione { background: #fef3c7; }
-.offerta-tipo-badge.abbonamento { background: #dbeafe; }
 
-.offerta-info { flex: 1; min-width: 0; }
-.offerta-nome {
+.vofferte__tipo-badge--promozione {
+  background: color-mix(in srgb, var(--warn) 18%, var(--surface));
+}
+
+.vofferte__tipo-badge--abbonamento {
+  background: color-mix(in srgb, var(--info) 18%, var(--surface));
+}
+
+/* info */
+
+.vofferte__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.vofferte__nome {
+  font-family: var(--ff-body);
   font-size: 15px;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text);
   margin-bottom: 4px;
 }
-.offerta-dettaglio {
+
+.vofferte__dettaglio {
+  font-family: var(--ff-body);
   font-size: 12px;
-  color: #64748b;
+  color: var(--text-dim);
 }
 
-.offerta-tipo-mezzo-badge {
+.vofferte__tipo-mezzo-badge {
   display: inline-block;
   margin-left: 8px;
-  background: #e0f2fe;
-  color: #0369a1;
+  background: color-mix(in srgb, var(--info) 15%, var(--surface));
+  color: var(--info);
   font-size: 11px;
   font-weight: 600;
   padding: 1px 7px;
-  border-radius: 99px;
+  border-radius: var(--r-pill);
 }
 
-.offerta-stato {
+/* stato chip */
+
+.vofferte__stato {
   font-size: 11px;
   font-weight: 700;
   padding: 3px 10px;
-  border-radius: 99px;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
 }
-.offerta-stato.attiva  { background: #dcfce7; color: #16a34a; }
-.offerta-stato.scaduta { background: #f1f5f9; color: #64748b; }
-.offerta-stato.bozza   { background: #fef9c3; color: #a16207; }
 
-.btn-modifica-offerta {
+.vofferte__stato--attiva {
+  background: color-mix(in srgb, var(--accent) 18%, var(--surface));
+  color: var(--accent);
+}
+
+.vofferte__stato--scaduta {
+  background: color-mix(in srgb, var(--text-mute) 18%, var(--surface));
+  color: var(--text-mute);
+}
+
+.vofferte__stato--bozza {
+  background: color-mix(in srgb, var(--warn) 18%, var(--surface));
+  color: var(--warn);
+}
+
+/* action buttons (extend sm-btn) */
+
+.vofferte__btn-modifica {
   background: none;
   border: none;
   font-size: 18px;
   cursor: pointer;
-  padding: 4px 6px;
-  border-radius: 8px;
-  transition: background 140ms;
+  padding: 6px 8px;
+  border-radius: var(--r-sm);
+  transition: background 140ms ease;
+  color: var(--text-dim);
 }
-.btn-modifica-offerta:hover { background: rgba(99, 102, 241, 0.08); }
 
-.btn-elimina-offerta {
+.vofferte__btn-modifica:hover {
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+}
+
+.vofferte__btn-elimina {
   background: none;
   border: none;
-  color: #f43f5e;
   font-size: 18px;
   cursor: pointer;
-  padding: 4px 6px;
-  border-radius: 8px;
-  transition: background 140ms;
-}
-.btn-elimina-offerta:hover { background: rgba(244, 63, 94, 0.08); }
-
-.offerte-vuote {
-  text-align: center;
-  padding: 48px;
-  color: #94a3b8;
-  font-size: 15px;
+  padding: 6px 8px;
+  border-radius: var(--r-sm);
+  transition: background 140ms ease;
+  color: var(--danger);
 }
 
-.modal-overlay-offerta {
+.vofferte__btn-elimina:hover {
+  background: color-mix(in srgb, var(--danger) 12%, var(--surface));
+}
+
+/* ── Modal overlay ──────────────────────────────────────── */
+
+.vofferte__overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.5);
+  background: var(--glass);
   backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
@@ -160,99 +221,90 @@
   z-index: 100;
 }
 
-.modal-offerta {
-  background: #fff;
-  border-radius: 20px;
+/* ── Modal panel ────────────────────────────────────────── */
+
+.vofferte__modal {
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-lg);
   padding: 28px 26px;
   width: 420px;
   max-width: 95vw;
   display: flex;
   flex-direction: column;
   gap: 14px;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.2);
+  box-shadow: var(--shadow);
 }
 
-.modal-offerta h3 {
+.vofferte__modal h3 {
   margin: 0;
+  font-family: var(--ff-display);
   font-size: 18px;
-  font-weight: 800;
-  color: #0f172a;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
 }
 
-.modal-offerta label {
+.vofferte__modal label {
+  font-family: var(--ff-body);
   font-size: 12px;
   font-weight: 700;
-  color: #64748b;
+  color: var(--text-dim);
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.modal-offerta input,
-.modal-offerta select {
+.vofferte__modal input,
+.vofferte__modal select {
   padding: 10px 12px;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
   font-size: 14px;
-  font-family: inherit;
-  background: #f8fafc;
-  color: #0f172a;
+  font-family: var(--ff-body);
+  background: var(--surface-2);
+  color: var(--text);
   outline: none;
-  transition: border-color 160ms;
-}
-.modal-offerta input:focus,
-.modal-offerta select:focus {
-  border-color: #155e52;
-  background: #fff;
+  transition: border-color 160ms ease;
 }
 
-.modal-errore-offerta {
+.vofferte__modal input:focus,
+.vofferte__modal select:focus {
+  border-color: var(--accent);
+  background: var(--surface-2);
+}
+
+.vofferte__modal option {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+/* ── Error text ─────────────────────────────────────────── */
+
+.vofferte__errore {
+  font-family: var(--ff-body);
   font-size: 12.5px;
-  color: #f43f5e;
+  color: var(--danger);
   margin: 0;
 }
 
-.modal-azioni-offerta {
+/* ── Modal actions ──────────────────────────────────────── */
+
+.vofferte__modal-azioni {
   display: flex;
   gap: 10px;
   margin-top: 4px;
 }
 
-.btn-conferma-offerta {
+.vofferte__btn-annulla {
   flex: 1;
-  padding: 12px;
-  background: #155e52;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-  font-family: inherit;
-}
-.btn-conferma-offerta:disabled { opacity: 0.6; cursor: not-allowed; }
-
-.btn-annulla-offerta {
-  flex: 1;
-  padding: 12px;
-  background: #f1f5f9;
-  color: #64748b;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-  font-family: inherit;
 }
 
-.offerte-topbar .btn-indietro {
-  padding: 8px 16px;
-  background: transparent;
-  color: #155e52;
-  border: 2px solid #155e52;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
+.vofferte__btn-conferma {
+  flex: 1;
+}
+
+.vofferte__btn-conferma:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
