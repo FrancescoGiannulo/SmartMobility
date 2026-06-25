@@ -9,7 +9,7 @@ router = APIRouter(prefix="/operatore", tags=["Operatore - Regole Fine Corsa"])
 _servizio = ServizioRegolaFinecorsa()
 
 
-# [IF-OP.13] — leggi config corrente
+# [IF-OP.06] — leggi config corrente
 @router.get("/regole-fine-corsa", response_model=RegolaFinecorsaOut | None)
 def get_regole(
     _op=Depends(verify_token(["OP"])),
@@ -18,7 +18,7 @@ def get_regole(
     return _servizio.get_corrente(db)
 
 
-# [IF-OP.13] — salva (upsert) config
+# [IF-OP.06] — salva (upsert) config
 @router.put("/regole-fine-corsa", response_model=RegolaFinecorsaOut)
 def salva_regole(
     body: RegolaFinecorsaRequest,

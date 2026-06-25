@@ -43,3 +43,28 @@ export function distanzaDaPoligono(
   }
   return minDist
 }
+
+import type { ZonaMappa } from '../services/MapService'
+
+export type TipoZonaCorrente = 'vietata' | 'limitata' | 'operativa' | 'fuori'
+
+// Precedenza zone: vietata > limitata > operativa (docs/Sprintn3.md §4.2).
+// Calcolo lato client riusando la logica già usata in VistaCorsa per la zona operativa.
+export function zonaCorrente(
+  lat: number,
+  lng: number,
+  zone: ZonaMappa[],
+  margineFuoriM = 200,
+): { tipo: TipoZonaCorrente; limiteVelocita?: number } {
+  const attive = zone.filter(z => z.attiva)
+  if (attive.some(z => z.tipo === 'vietata' && puntoInPoligono(lat, lng, z.perimetro))) {
+    return { tipo: 'vietata' }
+  }
+  const limitata = attive.find(z => z.tipo === 'limitata' && puntoInPoligono(lat, lng, z.perimetro))
+  if (limitata) return { tipo: 'limitata', limiteVelocita: limitata.limite_velocita ?? undefined }
+  const operative = attive.filter(z => z.tipo === 'operativa')
+  if (operative.length === 0) return { tipo: 'operativa' }
+  if (operative.some(z => puntoInPoligono(lat, lng, z.perimetro))) return { tipo: 'operativa' }
+  const distMin = Math.min(...operative.map(z => distanzaDaPoligono(lat, lng, z.perimetro)))
+  return distMin > margineFuoriM ? { tipo: 'fuori' } : { tipo: 'operativa' }
+}

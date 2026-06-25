@@ -613,6 +613,15 @@
   text-decoration: line-through;
 }
 
+.zona-warning-limitata { background: #fef3c7; border-color: #f59e0b; }
+.zona-warning-vietata { background: #fee2e2; border-color: #ef4444; }
+.btn-demo-movimento {
+  margin: 12px auto; display: block; padding: 10px 18px;
+  background: #155e52; color: #fff; border: none; border-radius: 999px;
+  font-weight: 600; cursor: pointer;
+}
+.btn-demo-movimento:disabled { opacity: .6; cursor: default; }
+
 /* Mobile */
 @media (max-width: 480px) {
   .vista-corsa-wrap { padding: 16px 12px 24px; }

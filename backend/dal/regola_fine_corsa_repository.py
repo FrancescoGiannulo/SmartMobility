@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from model.regola_fine_corsa import RegolaFinecorsa, TipoVincoloFinecorsa
 
 
-# [IF-OP.13] — repository ORM
+# [IF-OP.06] — repository ORM
 class RegoleFineCorsaRepository:
 
     def get_corrente(self, db: Session) -> Optional[RegolaFinecorsa]:
@@ -41,7 +41,7 @@ class RegoleFineCorsaRepository:
         return regola
 
 
-# [IF-OP.13] — repository raw-SQL (operazioni bulk su zone parcheggio)
+# [IF-OP.06] — repository raw-SQL (operazioni bulk su zone parcheggio)
 class RegoleFineCorsaRawRepository:
 
     def __init__(self, db: Session | Engine) -> None:
@@ -81,6 +81,28 @@ class RegoleFineCorsaRawRepository:
         with self._sessione() as s:
             s.execute(sql)
             s.commit()
+
+    # [IF-OP.06] Legge la riga di configurazione globale (zona_parcheggio_id IS NULL) via raw SQL,
+    # tollerante sia a Session che a Engine (a differenza di RegoleFineCorsaRepository ORM-based).
+    def get_corrente_globale(self) -> Optional[dict]:
+        sql = text("""
+            SELECT tipo_vincolo, penale_fuori_zona, batteria_minima,
+                   bonus_parcheggi_corretti, bonus_valore
+            FROM regole_fine_corsa
+            WHERE zona_parcheggio_id IS NULL
+            ORDER BY created_at DESC LIMIT 1
+        """)
+        with self._sessione() as s:
+            row = s.execute(sql).fetchone()
+        if row is None:
+            return None
+        return {
+            "tipo_vincolo": row.tipo_vincolo,
+            "penale_fuori_zona": Decimal(str(row.penale_fuori_zona)),
+            "batteria_minima": row.batteria_minima,
+            "bonus_parcheggi_corretti": row.bonus_parcheggi_corretti,
+            "bonus_valore": Decimal(str(row.bonus_valore)) if row.bonus_valore is not None else None,
+        }
 
     def crea(
         self,

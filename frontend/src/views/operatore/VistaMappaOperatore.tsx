@@ -123,7 +123,11 @@ export default function VistaMappaOperatore() {
       .catch(() => {})
   }, [])
 
-  useEffect(() => { ricaricaDati() }, [ricaricaDati])
+  useEffect(() => {
+    ricaricaDati()
+    const t = setInterval(ricaricaDati, 2000)  // [IF-OP.01] aggiornamento posizioni mezzi in tempo reale
+    return () => clearInterval(t)
+  }, [ricaricaDati])
 
   const handleLogout = useCallback(async () => {
     await logout()
