@@ -10,6 +10,7 @@ from dal.zona_repository import ZonaRepository
 from dal.regola_fine_corsa_repository import RegoleFineCorsaRawRepository
 from dal.operatore_repository import OperatoreRepository
 from dal.parametri_sistema_repository import ParametriSistemaRepository
+from dal.attore_repository import AttoreRepository
 from bll.servizio_mappa import ServizioMappa
 
 # Consumo batteria realistico: punti percentuali per minuto di guida effettiva.
@@ -53,6 +54,10 @@ class MezzoInMissioneException(Exception):
     pass
 
 
+class ParcheggioVietatoException(Exception):
+    pass
+
+
 # [IF-UT.04] CS-05 — raggio massimo (km) entro cui l'utente può sbloccare un mezzo
 RAGGIO_SBLOCCO_KM = 0.5
 
@@ -74,6 +79,7 @@ class ServizioMobilita:
         self._pren_repo = PrenotazioneRepository(db)
         self._zona_repo = ZonaRepository(db)
         self._regola_repo = RegoleFineCorsaRawRepository(db)
+        self._attore_repo = AttoreRepository()
         self._op_repo = OperatoreRepository(db)
         self._parametri_repo = ParametriSistemaRepository()
 
@@ -209,15 +215,57 @@ class ServizioMobilita:
         return row
 
     # [IF-UT.06] CS-11 — Termina Corsa (minimale: aggiorna stati)
-    def termina_corsa(self, corsa_id: UUID, utente_id: UUID) -> None:
+    def termina_corsa(self, corsa_id: UUID, utente_id: UUID) -> dict:
         corsa = self._corsa_repo.trova_per_id(corsa_id)
         if corsa is None:
             raise CorsaNonTrovataException(f"Corsa {corsa_id} non trovata")
+        mezzo_id = UUID(corsa["mezzo_id"])
+
+        # [IF-OP.13] Verifica parcheggio PRIMA di chiudere la corsa: se il vincolo è
+        # 'divieto' la corsa resta attiva finché il mezzo non è in zona di parcheggio.
+        avviso_parcheggio = self._valida_parcheggio_fine_corsa(corsa_id, UUID(corsa["utente_id"]), mezzo_id)
+
         # Finalizza eventuale pausa attiva prima di terminare
         self._corsa_repo.finalizza_pausa(corsa_id)
         self._corsa_repo.aggiorna_stato(corsa_id, "terminata")
         # Consumo batteria proporzionale alla durata di guida effettiva, poi rilascia il mezzo.
-        self._consuma_batteria_fine_corsa(corsa_id, UUID(corsa["mezzo_id"]))
+        self._consuma_batteria_fine_corsa(corsa_id, mezzo_id)
+        return {"avviso_parcheggio": avviso_parcheggio}
+
+    # [IF-OP.13] Verifica il parcheggio a fine corsa contro le regole correnti.
+    # Aggiorna il contatore/credito bonus dell'utente ed eventualmente marca la
+    # penale da applicare al pagamento. Restituisce un avviso testuale o None.
+    def _valida_parcheggio_fine_corsa(self, corsa_id: UUID, utente_id: UUID, mezzo_id: UUID) -> str | None:
+        if not self._zona_repo.esiste_zona_parcheggio_attiva():
+            return None
+        regola = self._regola_repo.get_corrente_globale()
+        if regola is None:
+            return None
+        mezzo = self._mezzo_repo.trova_per_id(mezzo_id)
+        if mezzo is None or mezzo["lat"] is None or mezzo["lng"] is None:
+            return None
+
+        parcheggio_corretto = self._zona_repo.punto_in_zona_parcheggio(mezzo["lat"], mezzo["lng"])
+
+        if regola["bonus_parcheggi_corretti"] is not None and regola["bonus_valore"] is not None:
+            self._attore_repo.applica_esito_parcheggio(
+                utente_id, parcheggio_corretto, regola["bonus_parcheggi_corretti"], regola["bonus_valore"]
+            )
+
+        if parcheggio_corretto:
+            return None
+
+        if regola["tipo_vincolo"] == "divieto":
+            raise ParcheggioVietatoException(
+                "Il mezzo non è in una zona di parcheggio consentita. Spostalo per poter terminare la corsa."
+            )
+        if regola["tipo_vincolo"] == "penale":
+            self._corsa_repo.imposta_esito_parcheggio(corsa_id, True, None)
+            return None
+        # avviso: nessun addebito, solo messaggio informativo nel riepilogo
+        avviso = "Mezzo non parcheggiato in una zona di parcheggio consentita."
+        self._corsa_repo.imposta_esito_parcheggio(corsa_id, False, avviso)
+        return avviso
 
     def _consuma_batteria_fine_corsa(self, corsa_id: UUID, mezzo_id: UUID) -> None:
         durata_min = self._corsa_repo.durata_effettiva_sec(corsa_id) / 60

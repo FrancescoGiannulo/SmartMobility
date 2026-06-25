@@ -10,6 +10,7 @@ from dal.promozione_repository import PromozioneRepository
 from dal.abbonamento_repository import AbbonamentoRepository
 from dal.corsa_repository import CorsaRepository
 from dal.parametri_sistema_repository import ParametriSistemaRepository
+from dal.attore_repository import AttoreRepository
 from model.offerta import Offerta
 from model.pagamento import StatoPagamento
 from providers.provider_pagamenti import ProviderPagamentiStub, DatiNonValidiException
@@ -232,8 +233,16 @@ class ServizioPricing:
                 offerta_applicata_id = offerta.id
 
         # [IF-OP.06 / UT-04] Penale obbligatoria se la corsa è transitata in zona vietata /
-        # fuori dalla zona operativa. Si applica sopra l'importo (anche con abbonamento/promo).
-        if penale_fuori_zona:
+        # fuori dalla zona operativa. [IF-OP.13] Penale aggiuntiva se il mezzo non è stato
+        # parcheggiato in una zona di parcheggio consentita (le due penali si sommano).
+        with Session(engine) as s:
+            row_corsa = s.execute(
+                text("SELECT penale_parcheggio_applicata FROM corse WHERE id = :id"),
+                {"id": str(corsa_id)},
+            ).fetchone()
+        penale_parcheggio = bool(row_corsa and row_corsa.penale_parcheggio_applicata)
+
+        if penale_fuori_zona or penale_parcheggio:
             with Session(engine) as s:
                 row = s.execute(
                     text(
@@ -241,12 +250,19 @@ class ServizioPricing:
                         "WHERE tipo_vincolo = 'penale' ORDER BY created_at DESC LIMIT 1"
                     )
                 ).fetchone()
-            penale = Decimal(str(row.penale_fuori_zona)) if row and row.penale_fuori_zona else Decimal("0.00")
+            penale_unitaria = Decimal(str(row.penale_fuori_zona)) if row and row.penale_fuori_zona else Decimal("0.00")
+            penale = penale_unitaria * (int(penale_fuori_zona) + int(penale_parcheggio))
             if penale > 0:
                 if importo_pieno is None:
                     importo_pieno = importo
                 importo += penale
                 importo_pieno += penale
+
+        # [IF-OP.13] Scala l'eventuale credito bonus accumulato per parcheggi corretti.
+        if importo > 0:
+            credito_usato = AttoreRepository().scala_credito_bonus(utente_id, importo)
+            if credito_usato > 0:
+                importo -= credito_usato
 
         return self.paga_importo(
             utente_id=utente_id,

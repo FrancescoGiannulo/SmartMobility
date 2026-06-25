@@ -17,6 +17,7 @@ from bll.servizio_mobilita import (
     CorsaNonTrovataException,
     CorsaNonInUsaException,
     CorsaNonInPausaException,
+    ParcheggioVietatoException,
 )
 from bll.servizio_prenotazione import (
     ServizioPrenotazione,
@@ -176,10 +177,12 @@ def termina_corsa(
     db=Depends(get_db),
 ):
     try:
-        ServizioMobilita(db).termina_corsa(corsa_id, utente["id"])
-        return {"status": "ok"}
+        esito = ServizioMobilita(db).termina_corsa(corsa_id, utente["id"])
+        return {"status": "ok", **esito}
     except CorsaNonTrovataException:
         raise HTTPException(status_code=404, detail="Corsa non trovata")
+    except ParcheggioVietatoException as e:
+        raise HTTPException(status_code=409, detail=str(e))
 
 
 # [IF-UT.14] UT-11 — Storico corse dell'utente (statica prima della dinamica)

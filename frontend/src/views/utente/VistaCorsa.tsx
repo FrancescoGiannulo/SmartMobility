@@ -305,8 +305,12 @@ export default function VistaCorsa() {
     } catch { /* errore rete: il backend gestirà il 400 se necessario */ }
     try {
       for (const c of da) await terminaCorsa(c.corsa_id)
-    } catch {
-      setErrore('Errore durante la chiusura. Riprova.')
+    } catch (err) {
+      // [IF-OP.13] 409: mezzo non in zona di parcheggio consentita (tipo_vincolo 'divieto')
+      const messaggio = axios.isAxiosError(err) && typeof err.response?.data?.detail === 'string'
+        ? err.response.data.detail
+        : 'Errore durante la chiusura. Riprova.'
+      setErrore(messaggio)
       setFase('idle')
       return
     }

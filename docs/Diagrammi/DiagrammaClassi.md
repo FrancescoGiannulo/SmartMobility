@@ -1637,7 +1637,13 @@ Totale elementi identificati: **145**.
 ```
 - statoAccount: StatoAccount
 - sospensioneFine: DateTime
+- contatoreParcheggiCorretti: int
+- creditoBonus: Decimal
 ```
+
+`contatoreParcheggiCorretti`/`creditoBonus` [IF-OP.13]: tracciano la serie consecutiva di parcheggi
+corretti a fine corsa e il credito accumulato (in €) erogato al raggiungimento di
+`RegolaFineCorsa.bonusParcheggiCorretti`, scalato automaticamente al pagamento della corsa successiva.
 
 ### `Operatore`
 

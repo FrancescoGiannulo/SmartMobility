@@ -163,6 +163,69 @@ class AttoreRepository:
             )
             session.commit()
 
+    # [IF-OP.13] Aggiorna contatore parcheggi corretti e credito bonus dopo una corsa.
+    # parcheggio_corretto=True: incrementa il contatore; se raggiunge la soglia, azzera
+    # il contatore e accredita bonus_valore. parcheggio_corretto=False: azzera il contatore
+    # (serie consecutiva). Restituisce True se il bonus è stato appena accreditato.
+    def applica_esito_parcheggio(
+        self, id: UUID, parcheggio_corretto: bool, soglia: int | None, bonus_valore
+    ) -> bool:
+        with Session(engine) as session:
+            row = session.execute(
+                text("SELECT contatore_parcheggi_corretti FROM utenti WHERE id = :id"),
+                {"id": str(id)},
+            ).fetchone()
+            if not row:
+                raise AttoreNonTrovatoException(f"Utente {id} non trovato")
+
+            if not parcheggio_corretto:
+                session.execute(
+                    text("UPDATE utenti SET contatore_parcheggi_corretti = 0 WHERE id = :id"),
+                    {"id": str(id)},
+                )
+                session.commit()
+                return False
+
+            nuovo_contatore = (row.contatore_parcheggi_corretti or 0) + 1
+            bonus_accreditato = soglia is not None and bonus_valore is not None and nuovo_contatore >= soglia
+            if bonus_accreditato:
+                session.execute(
+                    text(
+                        "UPDATE utenti SET contatore_parcheggi_corretti = 0, "
+                        "credito_bonus = credito_bonus + :bonus WHERE id = :id"
+                    ),
+                    {"id": str(id), "bonus": bonus_valore},
+                )
+            else:
+                session.execute(
+                    text("UPDATE utenti SET contatore_parcheggi_corretti = :n WHERE id = :id"),
+                    {"id": str(id), "n": nuovo_contatore},
+                )
+            session.commit()
+            return bonus_accreditato
+
+    # [IF-OP.13] Scala il credito bonus disponibile da un importo (fino a concorrenza).
+    # Restituisce l'ammontare di credito effettivamente utilizzato.
+    def scala_credito_bonus(self, id: UUID, importo_massimo) -> "Decimal":
+        from decimal import Decimal
+        with Session(engine) as session:
+            row = session.execute(
+                text("SELECT credito_bonus FROM utenti WHERE id = :id"),
+                {"id": str(id)},
+            ).fetchone()
+            if not row:
+                # Difensivo: in caso di utente non trovato non blocca il pagamento, nessun credito da scalare.
+                return Decimal("0")
+            disponibile = Decimal(str(row.credito_bonus or 0))
+            usato = min(disponibile, Decimal(str(importo_massimo)))
+            if usato > 0:
+                session.execute(
+                    text("UPDATE utenti SET credito_bonus = credito_bonus - :usato WHERE id = :id"),
+                    {"id": str(id), "usato": usato},
+                )
+                session.commit()
+            return usato
+
     def riattiva(self, id: UUID) -> None:
         """Riattiva un account sospeso la cui sospensione è scaduta."""
         with Session(engine) as session:
