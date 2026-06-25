@@ -25,6 +25,14 @@ function formatTime(sec: number): string {
   return `${m}:${s}`
 }
 
+// Distanza in km tra due punti (haversine) — usata per il contatore km durante la demo.
+function distanzaKm(aLat: number, aLng: number, bLat: number, bLng: number): number {
+  const R = 6371, toRad = Math.PI / 180
+  const dLat = (bLat - aLat) * toRad, dLng = (bLng - aLng) * toRad
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(aLat * toRad) * Math.cos(bLat * toRad) * Math.sin(dLng / 2) ** 2
+  return 2 * R * Math.asin(Math.sqrt(h))
+}
+
 function Batteria({ valore }: { valore: number | null | undefined }) {
   if (valore == null) return <span>N/D</span>
   const barre = Math.min(4, Math.ceil(valore / 25))
@@ -97,6 +105,7 @@ export default function VistaCorsa() {
   const [zoneTutte, setZoneTutte] = useState<ZonaMappa[]>([])
   const [statoZonaDemo, setStatoZonaDemo] = useState<{ tipo: TipoZonaCorrente; limiteVelocita?: number } | null>(null)
   const demoTimerRef = useRef<number | null>(null)
+  const [kmDemo, setKmDemo] = useState(0)
   const demoAttivo = statoZonaDemo !== null
   const emailDemo = import.meta.env.VITE_DEMO_EMAIL as string | undefined
   const isAccountDemo = !!emailDemo && utenteCorrente()?.profilo.email === emailDemo
@@ -333,6 +342,8 @@ export default function VistaCorsa() {
 
     const ordine: Record<TipoZonaCorrente, number> = { vietata: 0, fuori: 1, limitata: 2, operativa: 3 }
     let tick = 0
+    let kmAcc = 0
+    setKmDemo(0)
     demoTimerRef.current = window.setInterval(() => {
       let tuttiFermi = true
       let aggregato: { tipo: TipoZonaCorrente; limiteVelocita?: number } = { tipo: 'operativa' }
@@ -345,6 +356,13 @@ export default function VistaCorsa() {
         if (ordine[z.tipo] < ordine[aggregato.tipo]) aggregato = z
         aggiornaPosizioneDemo(c.corsa_id, p.lat, p.lng).catch(() => {})
       })
+      // Contatore km: distanza percorsa dal capofila (mezzo 0) tra il tick precedente e questo
+      const idxPrev = Math.min(percorso.length - 1, Math.max(0, tick - 1))
+      const idxCur = Math.min(percorso.length - 1, tick)
+      if (idxCur > idxPrev) {
+        kmAcc += distanzaKm(percorso[idxPrev].lat, percorso[idxPrev].lng, percorso[idxCur].lat, percorso[idxCur].lng)
+        setKmDemo(kmAcc)
+      }
       setStatoZonaDemo(aggregato)
       tick += 1
       if (tuttiFermi && demoTimerRef.current !== null) {
@@ -419,7 +437,7 @@ export default function VistaCorsa() {
           <tr><td>ID Mezzo:</td><td>{selCorsa?.mezzo.codice}</td></tr>
           <tr><td>Carica rimanente:</td><td><Batteria valore={selCorsa?.mezzo.batteria} /></td></tr>
           <tr><td>Tempo trascorso:</td><td>{formatTime(elapsed)}</td></tr>
-          <tr><td>Km percorsi:</td><td>0,0</td></tr>
+          <tr><td>Km percorsi:</td><td>{kmDemo.toFixed(2).replace('.', ',')}</td></tr>
         </tbody>
       </table>
 
