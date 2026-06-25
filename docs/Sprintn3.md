@@ -4123,6 +4123,12 @@ Questa organizzazione garantisce che:
 
 <img src="media/image52.png" style="width:6.26806in;height:4.86875in" />
 
+### Note di implementazione — Demo movimento mezzi
+
+- Demo movimento mezzi (helper di presentazione, account demo): `ServizioMappa.aggiornaPosizioneMezzo`
+  + endpoint `PATCH /utente/corse/{id}/demo/posizione`, geofencing client-side (`geoUtils.zonaCorrente`),
+  mappa operatore in polling. Tracciabilità IF-OP.01 / IF-UT.01 / IF-UT.08.
+
 ## Data modeling and design
 
 Qui va fornita la specifica di tutti i dati e le informazioni scambiate dal sistema in corso di realizzazione con l’utenza di riferimento e/o gli eventuali altri sistemi con cui esso comunica. Deve essere descritto il modello logico della base di dati e la sua struttura fisica.

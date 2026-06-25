@@ -1071,6 +1071,7 @@ Totale elementi identificati: **145**.
 + creaZona(nome, tipo, coordinate[], limiteVelocita): Zona
 + eliminaZona(idZona): void
 + verificaPosizioneInZonaOperativa(lat, lng): boolean
++ aggiornaPosizioneMezzo(idMezzo, lat, lng): void
 ```
 
 ---
@@ -1383,6 +1384,7 @@ Totale elementi identificati: **145**.
 + creaZona(nome: String, tipo: TipoZona, coordinate: Coordinate[], limiteVelocita: int): Zona
 + eliminaZona(idZona: String): void
 + verificaPosizioneInZonaOperativa(lat: float, lng: float): boolean
++ aggiornaPosizioneMezzo(idMezzo, lat, lng): void
 ```
 
 ---
