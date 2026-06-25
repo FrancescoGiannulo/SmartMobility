@@ -79,7 +79,7 @@ body {
 /* ── Pannello mezzo (stile mockup 5) ─────────────────────────────── */
 
 .pannello-mezzo {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
@@ -948,7 +948,8 @@ body {
 
 .suggerimenti-banner {
   position: absolute;
-  bottom: 24px;
+  /* Sopra la bottom-nav flottante (bottom 12px + altezza 60px) */
+  bottom: 88px;
   right: 16px;
   width: 340px;
   max-width: calc(100vw - 32px);
@@ -1157,11 +1158,11 @@ body {
    Mobile responsive (smartphone)
    ============================================================ */
 @media (max-width: 480px) {
-  /* Blocco viewport: no scroll, layout fisso */
-  html, body {
-    overflow: hidden;
-    height: 100%;
-    width: 100%;
+  /* Reset margini soltanto. NON bloccare overflow su html/body:
+     questo file CSS non è scoped, quindi `html,body{overflow:hidden}`
+     romperebbe lo scroll su TUTTE le pagine una volta caricata la home.
+     Il blocco viewport appartiene solo alla vista mappa qui sotto. */
+  body {
     margin: 0;
     padding: 0;
   }
@@ -1170,12 +1171,11 @@ body {
     height: 100dvh;
     width: 100%;
     overflow: hidden;
-    touch-action: none;
   }
 
-  /* Topbar: più compatta */
+  /* Topbar: più compatta, sotto la safe-area (notch) */
   .mappa-topbar {
-    top: 8px;
+    top: calc(env(safe-area-inset-top, 0px) + 8px);
     left: 8px;
     right: 8px;
     height: 50px;
@@ -1202,11 +1202,12 @@ body {
   .sm-pin__icon { font-size: 13px; }
   .sm-pin__badge { width: 16px; height: 16px; font-size: 9px; top: -4px; right: -4px; }
 
-  /* Pannello mezzo: padding ridotto, altezza limitata */
+  /* Pannello mezzo: padding ridotto, altezza limitata.
+     Bottom = safe-area (home indicator) + 14px: niente spazio vuoto. */
   .pannello-mezzo {
-    padding: 16px 16px 24px;
+    padding: 16px 16px calc(env(safe-area-inset-bottom, 0px) + 14px);
     border-radius: 18px 18px 0 0;
-    max-height: 45dvh;
+    max-height: 80dvh;
     overflow-y: auto;
     touch-action: pan-y;
   }
@@ -1263,29 +1264,64 @@ body {
   .sidebar-pricing-body { padding: 12px; }
   .pricing-card { padding: 10px 12px; }
 
-  /* Banner suggerimenti: pillola compatta in basso a destra */
+  /* Banner suggerimenti — collassato = bolla 💡 tonda, sopra la bottom-nav */
   .suggerimenti-banner {
     left: auto;
-    right: 10px;
+    right: 12px;
     top: auto;
-    bottom: 90px;
+    bottom: 84px;
     width: auto;
-    border-radius: 12px;
     z-index: 15;
     background: var(--glass);
-    border: 2px solid var(--accent);
-    box-shadow: 0 2px 12px var(--glow);
+    border: 1px solid var(--accent);
+    box-shadow: 0 4px 16px var(--glow);
   }
 
-  .suggerimenti-banner__header { padding-right: 6px; gap: 4px; }
-  .suggerimenti-banner__toggle { padding: 8px 10px; font-size: 12px; gap: 6px; }
-  .suggerimenti-banner__toggle-icon { font-size: 15px; width: 24px; height: 24px; border-radius: 6px; }
-  .suggerimenti-banner__toggle-label { font-size: 12px; font-weight: 700; }
-  .suggerimenti-banner__chevron { font-size: 10px; }
-  .btn-genera-suggerimenti { padding: 4px 10px; font-size: 11px; }
+  /* — Stato collassato: solo l'emoji lampadina in una bolla circolare — */
+  .suggerimenti-banner:not(.suggerimenti-banner--aperto) {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .suggerimenti-banner:not(.suggerimenti-banner--aperto) .suggerimenti-banner__header {
+    padding: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .suggerimenti-banner:not(.suggerimenti-banner--aperto) .suggerimenti-banner__toggle {
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+  }
+  .suggerimenti-banner:not(.suggerimenti-banner--aperto) .suggerimenti-banner__toggle-icon {
+    background: none;
+    width: auto;
+    height: auto;
+    font-size: 24px;
+  }
+  .suggerimenti-banner:not(.suggerimenti-banner--aperto) .suggerimenti-banner__toggle-label,
+  .suggerimenti-banner:not(.suggerimenti-banner--aperto) .suggerimenti-banner__chevron,
+  .suggerimenti-banner:not(.suggerimenti-banner--aperto) .btn-genera-suggerimenti {
+    display: none;
+  }
 
-  .suggerimenti-banner--aperto { max-width: calc(100% - 20px); left: 10px; }
-  .suggerimenti-banner__body { max-height: 25dvh; padding: 0 10px 10px; }
+  /* — Stato espanso: card a piena larghezza — */
+  .suggerimenti-banner--aperto {
+    left: 10px;
+    right: 10px;
+    width: auto;
+    max-width: none;
+    border-radius: 16px;
+  }
+  .suggerimenti-banner--aperto .suggerimenti-banner__header { padding-right: 8px; gap: 6px; }
+  .suggerimenti-banner--aperto .suggerimenti-banner__toggle { padding: 12px 14px; font-size: 13px; gap: 8px; }
+  .suggerimenti-banner--aperto .suggerimenti-banner__toggle-icon { font-size: 16px; width: 28px; height: 28px; border-radius: 8px; }
+  .suggerimenti-banner--aperto .suggerimenti-banner__toggle-label { font-size: 13px; font-weight: 700; }
+  .suggerimenti-banner--aperto .btn-genera-suggerimenti { padding: 5px 12px; font-size: 11px; }
+
+  .suggerimenti-banner__body { max-height: 30dvh; padding: 0 12px 12px; }
   .suggerimento-card { padding: 8px; }
   .suggerimento-card__tipo { font-size: 10px; }
   .suggerimento-card__testo { font-size: 11px; }

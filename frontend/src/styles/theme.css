@@ -23,6 +23,11 @@
   /* motion / layer */
   --ease:cubic-bezier(.22,.61,.36,1);
 }
+/* Reset globale: border-box evita che width:100% + padding sfori il
+   viewport (causa di scroll orizzontale / "offset al lato" su mobile).
+   margin:0 azzera il margine di default del body su tutte le pagine. */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
 html, body { background: var(--bg); color: var(--text); }
 body { font-family: var(--ff-body); }
 h1,h2,h3,h4 { font-family: var(--ff-display); letter-spacing:-.02em; }

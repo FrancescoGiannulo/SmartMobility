@@ -238,8 +238,9 @@ export default function VistaHomePageUtente() {
   const [bannerAperto, setBannerAperto] = useState(false)
 
   useEffect(() => {
+    // Il banner parte sempre collassato (bolla 💡): è l'utente a espanderlo.
     getSuggerimenti()
-      .then(r => { setSuggerimenti(r.data ?? []); if ((r.data ?? []).length > 0) setBannerAperto(true) })
+      .then(r => { setSuggerimenti(r.data ?? []) })
       .catch(() => {})
   }, [])
 
@@ -942,11 +943,14 @@ export default function VistaHomePageUtente() {
 
 
 
-      {!sidebarAperta && <TourTrigger tourId="homepage-ut" />}
+      {!sidebarAperta && !panelAperto && <TourTrigger tourId="homepage-ut" />}
 
       {errore && <div className="mappa-errore">{errore}</div>}
 
-      <BottomNavUtente />
+      {/* La bottom-nav si nasconde quando il pannello azioni mezzo è aperto:
+          il pannello è la superficie d'azione (prenota/sblocca) e i suoi
+          bottoni devono restare raggiungibili sopra la barra flottante. */}
+      {!panelAperto && <BottomNavUtente />}
     </div>
   )
 }

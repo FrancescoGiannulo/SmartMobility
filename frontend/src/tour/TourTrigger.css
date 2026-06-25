@@ -1,6 +1,7 @@
 .tour-trigger {
   position: fixed;
-  bottom: 24px;
+  /* Sopra la bottom-nav flottante (bottom 12px + altezza 60px) */
+  bottom: 84px;
   left: 24px;
   width: 48px;
   height: 48px;
