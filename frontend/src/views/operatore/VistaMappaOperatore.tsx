@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Map as GoogleMap,
@@ -9,6 +9,7 @@ import { getMezziOperatore, getZoneOperatore, type MezzoMappa, type ZonaMappa } 
 import { creaZona, eliminaZona } from '../../services/ZonaService'
 import { logout } from '../../services/AuthService'
 import ZonaPoligono from '../../components/ZonaPoligono'
+import SidebarRuolo from '../../components/layout/SidebarRuolo'
 import { COLORI_ZONA } from '../../utils/coloriZona'
 import './VistaMappaOperatore.css'
 
@@ -27,7 +28,7 @@ const GLYPH_MEZZO: Record<string, string> = {
 }
 
 function PinMezzo({ tipo, stato }: { tipo: string; stato: string }) {
-  const c = COLORI_MEZZO[tipo] ?? { c1: '#64748b', c2: '#334155' }
+  const c = COLORI_MEZZO[tipo] ?? { c1: '#155e52', c2: '#2a7a6a' }
   const glyph = GLYPH_MEZZO[tipo] ?? '●'
   const dim = stato !== 'Disponibile'
   return (
@@ -100,6 +101,18 @@ function DrawingManager({
   }, [mappa, tipoAttivo, onCompletato])
 
   return null
+}
+
+/* derive a CSS class suffix from stato string */
+function statoChipClass(stato: string): string {
+  const s = stato.toLowerCase().replace(/\s+/g, '-')
+  if (s === 'disponibile') return 'state-chip--disp'
+  if (s === 'in-uso') return 'state-chip--uso'
+  if (s === 'in-pausa') return 'state-chip--pausa'
+  if (s === 'in-manutenzione') return 'state-chip--man'
+  if (s === 'prenotato') return 'state-chip--pren'
+  if (s === 'fuori-servizio') return 'state-chip--fs'
+  return ''
 }
 
 export default function VistaMappaOperatore() {
@@ -186,155 +199,261 @@ export default function VistaMappaOperatore() {
     }
   }
 
+  /* ── KPI derivati dai dati reali ── */
+  const totale   = mezzi.length
+  const inUso    = mezzi.filter(m => m.stato === 'In uso').length
+  const battBassa = mezzi.filter(m => m.batteria != null && m.batteria < 20).length
+  const inManutenzione = mezzi.filter(m => m.stato === 'In manutenzione').length
+
   return (
     <div className="vista-mappa-op">
-      <div className="mappa-op-topbar">
-        <h2>
-          <img src="/logo.png" alt="Smart Mobility" className="topbar-logo" />
-          <span className="role-tag">Operatore</span>
-        </h2>
-        <button type="button" className="btn-logout-mappa" onClick={handleLogout}>Logout</button>
+      {/* ── Left sidebar: logo + nav ── */}
+      <div className="mappa-op-sidebar">
+        <div className="mappa-op-sidebar-logo">
+          <img src="/logo.png" alt="Smart Mobility" />
+          <span className="role-tag">OP</span>
+        </div>
+        <SidebarRuolo ruolo="OP" />
       </div>
 
-      <div className="mappa-op-body">
-        <div className="mappa-op-mappa">
-          <GoogleMap
-            style={{ width: '100%', height: '100%' }}
-            defaultCenter={CENTRO_DEFAULT}
-            defaultZoom={14}
-            mapId="mappa-operatore"
-            gestureHandling="greedy"
-          >
-            <DrawingManager
-              tipoAttivo={tipoDisegno}
-              onCompletato={handlePoligonoCompletato}
-            />
+      {/* ── Right content column ── */}
+      <div className="mappa-op-content">
 
-            {mezzi.map(m => (
-              <AdvancedMarker
-                key={m.id}
-                position={{ lat: m.lat, lng: m.lng }}
-                onClick={e => { e.stop(); setMezzoSelezionato(m); setZonaSelezionata(null) }}
-              >
-                <PinMezzo tipo={m.tipo} stato={m.stato} />
-              </AdvancedMarker>
-            ))}
-
-            {zone.map(z => {
-              const colori = COLORI_ZONA[z.tipo] ?? COLORI_ZONA.operativa
-              return (
-                <ZonaPoligono
-                  key={z.id}
-                  zona={z}
-                  fillColor={colori.fill}
-                  strokeColor={colori.stroke}
-                  onClick={tipoDisegno ? undefined : zona => {
-                    setZonaSelezionata(zona)
-                    setMezzoSelezionato(null)
-                  }}
-                />
-              )
-            })}
-          </GoogleMap>
+        {/* Topbar */}
+        <div className="mappa-op-topbar">
+          <h2>
+            <img src="/logo.png" alt="Smart Mobility" className="topbar-logo" />
+            <span className="role-tag">Operatore</span>
+          </h2>
+          <button type="button" className="btn-logout-mappa" onClick={handleLogout}>Logout</button>
         </div>
 
-        <div className="mappa-op-pannello">
-          <div className="logo">Control Center</div>
+        {/* KPI row */}
+        <div className="mappa-op-kpis">
+          <div className="mappa-op-kpi mappa-op-kpi--grad">
+            <div className="kpi-label">Mezzi totali</div>
+            <div className="kpi-value sm-mono">{totale}</div>
+            <div className="kpi-sub">in flotta</div>
+          </div>
+          <div className="mappa-op-kpi">
+            <div className="kpi-label">In uso ora</div>
+            <div className="kpi-value sm-mono">{inUso}</div>
+            <div className="kpi-sub">{totale > 0 ? `${Math.round(inUso / totale * 100)}% flotta` : '—'}</div>
+          </div>
+          <div className="mappa-op-kpi">
+            <div className="kpi-label">Batteria &lt; 20%</div>
+            <div className={`kpi-value sm-mono${battBassa > 0 ? ' kpi-value--warn' : ''}`}>{battBassa}</div>
+            <div className="kpi-sub">da raccogliere</div>
+          </div>
+          <div className="mappa-op-kpi">
+            <div className="kpi-label">In manutenzione</div>
+            <div className="kpi-value sm-mono">{inManutenzione}</div>
+            <div className="kpi-sub">fuori servizio</div>
+          </div>
+        </div>
 
-          {mezzoSelezionato && (
-            <div className="mezzo-info-card">
-              <div className="mezzo-info-header">
-                <span className="mezzo-info-titolo">
-                  {mezzoSelezionato.tipo === 'monopattino' ? '🛴'
-                    : mezzoSelezionato.tipo === 'bicicletta' ? '🚲' : '🚗'}{' '}
-                  {mezzoSelezionato.codice}
-                </span>
-                <button className="mezzo-info-chiudi" onClick={() => setMezzoSelezionato(null)}>✕</button>
-              </div>
-              <div className="mezzo-info-riga">
-                <span className="mezzo-info-label">Tipo</span>
-                <span>{mezzoSelezionato.tipo.charAt(0).toUpperCase() + mezzoSelezionato.tipo.slice(1)}</span>
-              </div>
-              <div className="mezzo-info-riga">
-                <span className="mezzo-info-label">Stato</span>
-                <span className={`mezzo-stato mezzo-stato--${mezzoSelezionato.stato.toLowerCase().replace(' ', '-')}`}>
-                  {mezzoSelezionato.stato}
-                </span>
-              </div>
-              <div className="mezzo-info-riga">
-                <span className="mezzo-info-label">Batteria</span>
-                <span>{mezzoSelezionato.batteria != null ? `${mezzoSelezionato.batteria}%` : '—'}</span>
-              </div>
-              <div className="mezzo-info-riga">
-                <span className="mezzo-info-label">Posizione</span>
-                <span>{mezzoSelezionato.lat.toFixed(5)}, {mezzoSelezionato.lng.toFixed(5)}</span>
-              </div>
+        {/* Map + Fleet split */}
+        <div className="mappa-op-body">
+
+          {/* Map */}
+          <div className="mappa-op-mappa">
+            <GoogleMap
+              style={{ width: '100%', height: '100%' }}
+              defaultCenter={CENTRO_DEFAULT}
+              defaultZoom={14}
+              mapId="mappa-operatore"
+              gestureHandling="greedy"
+            >
+              <DrawingManager
+                tipoAttivo={tipoDisegno}
+                onCompletato={handlePoligonoCompletato}
+              />
+
+              {mezzi.map(m => (
+                <AdvancedMarker
+                  key={m.id}
+                  position={{ lat: m.lat, lng: m.lng }}
+                  onClick={e => { e.stop(); setMezzoSelezionato(m); setZonaSelezionata(null) }}
+                >
+                  <PinMezzo tipo={m.tipo} stato={m.stato} />
+                </AdvancedMarker>
+              ))}
+
+              {zone.map(z => {
+                const colori = COLORI_ZONA[z.tipo] ?? COLORI_ZONA.operativa
+                return (
+                  <ZonaPoligono
+                    key={z.id}
+                    zona={z}
+                    fillColor={colori.fill}
+                    strokeColor={colori.stroke}
+                    onClick={tipoDisegno ? undefined : zona => {
+                      setZonaSelezionata(zona)
+                      setMezzoSelezionato(null)
+                    }}
+                  />
+                )
+              })}
+            </GoogleMap>
+
+            {/* Zone legend */}
+            <div className="mappa-op-legenda" aria-label="Legenda zone">
+              <span className="leg-item">
+                <i className="leg-dot" style={{ background: '#4caf50', opacity: .8 }} />
+                Parcheggio
+              </span>
+              <span className="leg-item">
+                <i className="leg-dot" style={{ border: '1px dashed rgba(142,182,155,.5)', background: 'transparent' }} />
+                Operativa
+              </span>
+              <span className="leg-item">
+                <i className="leg-dot" style={{ background: '#f44336', opacity: .8 }} />
+                Vietata
+              </span>
+              <span className="leg-item">
+                <i className="leg-dot" style={{ background: '#ff9800', opacity: .8 }} />
+                Limitata
+              </span>
             </div>
-          )}
 
-          {zonaSelezionata && (
-            <div className="mezzo-info-card">
-              <div className="mezzo-info-header">
-                <span className="mezzo-info-titolo">
-                  {zonaSelezionata.tipo === 'vietata' ? '🚫'
-                    : zonaSelezionata.tipo === 'limitata' ? '⚠️'
-                    : zonaSelezionata.tipo === 'parcheggio' ? 'P'
-                    : '◉'}{' '}
-                  {zonaSelezionata.nome}
-                </span>
-                <button className="mezzo-info-chiudi" onClick={() => { setZonaSelezionata(null); setErroreEliminazione('') }}>✕</button>
-              </div>
-              <div className="mezzo-info-riga">
-                <span className="mezzo-info-label">Tipo</span>
-                <span>{zonaSelezionata.tipo.charAt(0).toUpperCase() + zonaSelezionata.tipo.slice(1)}</span>
-              </div>
-              {zonaSelezionata.limite_velocita && (
-                <div className="mezzo-info-riga">
-                  <span className="mezzo-info-label">Limite velocità</span>
-                  <span>{zonaSelezionata.limite_velocita} km/h</span>
+            {/* Zone draw tools + info cards overlay */}
+            <div className="mappa-op-zone-tools">
+              {/* Mezzo info card */}
+              {mezzoSelezionato && (
+                <div className="mezzo-info-card">
+                  <div className="mezzo-info-header">
+                    <span className="mezzo-info-titolo">
+                      {mezzoSelezionato.tipo === 'monopattino' ? '🛴'
+                        : mezzoSelezionato.tipo === 'bicicletta' ? '🚲' : '🚗'}{' '}
+                      {mezzoSelezionato.codice}
+                    </span>
+                    <button className="mezzo-info-chiudi" onClick={() => setMezzoSelezionato(null)} aria-label="Chiudi">✕</button>
+                  </div>
+                  <div className="mezzo-info-riga">
+                    <span className="mezzo-info-label">Tipo</span>
+                    <span>{mezzoSelezionato.tipo.charAt(0).toUpperCase() + mezzoSelezionato.tipo.slice(1)}</span>
+                  </div>
+                  <div className="mezzo-info-riga">
+                    <span className="mezzo-info-label">Stato</span>
+                    <span className={`mezzo-stato mezzo-stato--${mezzoSelezionato.stato.toLowerCase().replace(' ', '-')}`}>
+                      {mezzoSelezionato.stato}
+                    </span>
+                  </div>
+                  <div className="mezzo-info-riga">
+                    <span className="mezzo-info-label">Batteria</span>
+                    <span>{mezzoSelezionato.batteria != null ? `${mezzoSelezionato.batteria}%` : '—'}</span>
+                  </div>
+                  <div className="mezzo-info-riga">
+                    <span className="mezzo-info-label">Pos.</span>
+                    <span style={{ fontFamily: 'var(--ff-mono)', fontSize: 10 }}>
+                      {mezzoSelezionato.lat.toFixed(4)}, {mezzoSelezionato.lng.toFixed(4)}
+                    </span>
+                  </div>
                 </div>
               )}
-              {erroreEliminazione && <p style={{ fontSize: 12, color: '#f43f5e', margin: 0 }}>{erroreEliminazione}</p>}
-              <button
-                className="btn-pannello danger"
-                style={{ marginTop: 4 }}
-                onClick={handleEliminaZona}
-                disabled={eliminazione}
-              >
-                {eliminazione ? 'Eliminazione…' : 'Elimina zona'}
+
+              {/* Zona info card */}
+              {zonaSelezionata && (
+                <div className="mezzo-info-card">
+                  <div className="mezzo-info-header">
+                    <span className="mezzo-info-titolo">
+                      {zonaSelezionata.tipo === 'vietata' ? '🚫'
+                        : zonaSelezionata.tipo === 'limitata' ? '⚠️'
+                        : zonaSelezionata.tipo === 'parcheggio' ? 'P'
+                        : '◉'}{' '}
+                      {zonaSelezionata.nome}
+                    </span>
+                    <button className="mezzo-info-chiudi" onClick={() => { setZonaSelezionata(null); setErroreEliminazione('') }} aria-label="Chiudi">✕</button>
+                  </div>
+                  <div className="mezzo-info-riga">
+                    <span className="mezzo-info-label">Tipo</span>
+                    <span>{zonaSelezionata.tipo.charAt(0).toUpperCase() + zonaSelezionata.tipo.slice(1)}</span>
+                  </div>
+                  {zonaSelezionata.limite_velocita && (
+                    <div className="mezzo-info-riga">
+                      <span className="mezzo-info-label">Limite</span>
+                      <span>{zonaSelezionata.limite_velocita} km/h</span>
+                    </div>
+                  )}
+                  {erroreEliminazione && <p className="info-card-error">{erroreEliminazione}</p>}
+                  <button
+                    className="btn-zona btn-zona--danger"
+                    style={{ marginTop: 2 }}
+                    onClick={handleEliminaZona}
+                    disabled={eliminazione}
+                  >
+                    {eliminazione ? 'Eliminazione…' : 'Elimina zona'}
+                  </button>
+                </div>
+              )}
+
+              {/* Draw zone buttons */}
+              <button type="button" className="btn-zona btn-zona--danger" onClick={() => avviaDisegno('vietata')}>
+                + Zona vietata
+              </button>
+              <button type="button" className="btn-zona btn-zona--warn" onClick={() => avviaDisegno('limitata')}>
+                + Zona limitata
+              </button>
+              <button type="button" className="btn-zona btn-zona--accent" onClick={() => avviaDisegno('parcheggio')}>
+                + Parcheggio
+              </button>
+              <button type="button" className="btn-zona btn-zona--info" onClick={() => avviaDisegno('operativa')}>
+                + Confine operativo
               </button>
             </div>
-          )}
+          </div>
 
-          <div className="section-label">Definisci zone</div>
-
-          <button type="button" className="btn-pannello danger" onClick={() => avviaDisegno('vietata')}>
-            Zona vietata
-          </button>
-          <button type="button" className="btn-pannello warning" onClick={() => avviaDisegno('limitata')}>
-            Zona limitata
-          </button>
-          <button type="button" className="btn-pannello success" onClick={() => avviaDisegno('parcheggio')}>
-            Zona parcheggio
-          </button>
-          <button type="button" className="btn-pannello info" onClick={() => avviaDisegno('operativa')}>
-            Confine operativo
-          </button>
-
-          <div className="section-label">Gestione</div>
-
-          <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/segnalazioni')}>Gestisci segnalazioni</button>
-          <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/recensioni')}>Recensioni</button>
-          <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/utenti')}>Gestisci utenti</button>
-          <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/impostazioni-regole')}>Impostazione regole fine corsa</button>
-          <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/tariffe')}>Tariffe</button>
-          <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/offerte')}>Offerte e promozioni</button>
-          <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/parametri-sistema')}>Parametri di sistema</button>
-          <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/storico-modifiche')}>Storico modifiche</button>
-          <button type="button" className="btn-pannello secondario" onClick={() => navigate('/operatore/mezzi')}>Gestisci mezzi</button>
+          {/* Fleet table */}
+          <div className="mappa-op-flotta">
+            <div className="mappa-op-flotta-header">
+              <span className="mappa-op-flotta-title">Stato flotta</span>
+              <span className="mappa-op-flotta-count">{mezzi.length} mezzi</span>
+            </div>
+            <div className="mappa-op-flotta-table-wrap">
+              <table className="tbl-flotta" aria-label="Lista mezzi della flotta">
+                <thead>
+                  <tr>
+                    <th>Mezzo</th>
+                    <th>Tipo</th>
+                    <th>Batt.</th>
+                    <th>Stato</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {mezzi.length === 0 && (
+                    <tr>
+                      <td colSpan={4} style={{ textAlign: 'center', color: 'var(--text-mute)', padding: '24px 12px', fontFamily: 'var(--ff-mono)', fontSize: 12 }}>
+                        Nessun mezzo disponibile
+                      </td>
+                    </tr>
+                  )}
+                  {mezzi.map(m => (
+                    <tr
+                      key={m.id}
+                      onClick={() => { setMezzoSelezionato(m); setZonaSelezionata(null) }}
+                      style={{ cursor: 'pointer' }}
+                      aria-label={`Mezzo ${m.codice}`}
+                    >
+                      <td className="mono">{m.codice}</td>
+                      <td>{m.tipo.charAt(0).toUpperCase() + m.tipo.slice(1)}</td>
+                      <td className={m.batteria != null && m.batteria < 20 ? 'batt-warn' : 'mono'}>
+                        {m.batteria != null ? `${m.batteria}%` : '—'}
+                      </td>
+                      <td>
+                        <span className={`state-chip ${statoChipClass(m.stato)}`}>
+                          {m.stato}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
 
+      {/* Drawing hint banner */}
       {tipoDisegno && (
         <div className="mappa-op-hint">
           <span>Disegna il poligono sulla mappa: doppio click per chiudere</span>
@@ -342,6 +461,7 @@ export default function VistaMappaOperatore() {
         </div>
       )}
 
+      {/* Modal: nuova zona */}
       {modalZona && (
         <div className="modal-overlay">
           <div className="modal-card">
@@ -363,16 +483,17 @@ export default function VistaMappaOperatore() {
               />
             )}
             {erroreModal && <p className="modal-errore">{erroreModal}</p>}
-            <button type="button" className="btn-pannello" onClick={handleConfermaZona} disabled={caricamento}>
+            <button type="button" className="sm-btn sm-btn--primary" onClick={handleConfermaZona} disabled={caricamento}>
               {caricamento ? 'Salvataggio…' : 'Salva zona'}
             </button>
-            <button type="button" className="btn-pannello secondario" onClick={() => setModalZona(null)}>
+            <button type="button" className="sm-btn sm-btn--ghost" onClick={() => setModalZona(null)}>
               Annulla
             </button>
           </div>
         </div>
       )}
 
+      {/* Modal: conferma eliminazione zona */}
       {zonaSelezionata && (
         <div className="modal-overlay">
           <div className="modal-card">
@@ -383,7 +504,8 @@ export default function VistaMappaOperatore() {
             {erroreEliminazione && <p className="modal-errore">{erroreEliminazione}</p>}
             <button
               type="button"
-              className="btn-pannello danger"
+              className="sm-btn sm-btn--primary"
+              style={{ background: 'var(--danger)', color: 'var(--bg)', boxShadow: 'none' }}
               onClick={handleEliminaZona}
               disabled={eliminazione}
             >
@@ -391,7 +513,7 @@ export default function VistaMappaOperatore() {
             </button>
             <button
               type="button"
-              className="btn-pannello secondario"
+              className="sm-btn sm-btn--ghost"
               onClick={() => { setZonaSelezionata(null); setErroreEliminazione('') }}
             >
               Annulla

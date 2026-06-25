@@ -1,255 +1,531 @@
 /* ============================================================
-   VistaMappaOperatore — dark sidebar + modern modal/buttons
-   Relies on design tokens defined in VistaMappa.css (:root)
+   VistaMappaOperatore — Foresta dark theme redesign
+   Layout: sidebar (nav) | topbar + KPI row + map+fleet split
    ============================================================ */
 
+/* ---------- Shell ---------- */
 .vista-mappa-op {
   width: 100%;
   height: 100vh;
   display: flex;
-  flex-direction: column;
-  font-family: var(--sm-font, 'Plus Jakarta Sans', system-ui, sans-serif);
-  background: #f1f5f9;
+  flex-direction: row;
   overflow: hidden;
+  font-family: var(--ff-body);
+  background: var(--bg);
+  color: var(--text);
 }
 
-/* ---------- Topbar (light) ---------- */
-.mappa-op-topbar {
-  height: 64px;
-  background: #fff;
+/* ---------- Sidebar wrapper (receives <SidebarRuolo>) ---------- */
+.mappa-op-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: rgba(7,38,36,.33);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px 10px;
+  overflow-y: auto;
+}
+
+.mappa-op-sidebar::-webkit-scrollbar { width: 3px; }
+.mappa-op-sidebar::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 99px; }
+
+.mappa-op-sidebar-logo {
   display: flex;
   align-items: center;
-  padding: 0 24px;
+  gap: 10px;
+  padding: 16px 10px 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+
+.mappa-op-sidebar-logo img {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+
+.mappa-op-sidebar-logo .role-tag {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--glow);
+  border: 1px solid var(--border-2);
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+}
+
+/* ---------- Right content column ---------- */
+.mappa-op-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* ---------- Topbar (within content) ---------- */
+.mappa-op-topbar {
+  height: 56px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
   gap: 14px;
-  z-index: 10;
   flex-shrink: 0;
-  border-bottom: 1px solid var(--sm-line, rgba(15, 23, 42, 0.08));
-  box-shadow: var(--sm-shadow-md, 0 4px 12px rgba(15,23,42,0.08));
+  z-index: 10;
 }
 
 .mappa-op-topbar h2 {
   margin: 0;
   flex: 1;
-  font-size: 16px;
-  font-weight: 800;
+  font-family: var(--ff-display);
+  font-size: 14px;
+  font-weight: 700;
   letter-spacing: -0.01em;
-  color: var(--sm-dark, #0f172a);
+  color: var(--text);
   display: flex;
   align-items: center;
-  gap: 12px;
-}
-.mappa-op-topbar h2 .topbar-logo {
-  height: 46px;
-  width: auto;
-  object-fit: contain;
-}
-.mappa-op-topbar h2 .role-tag {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--sm-primary, #155e52);
-  background: rgba(76, 175, 154, 0.1);
-  border: 1px solid rgba(76, 175, 154, 0.25);
-  padding: 4px 10px;
-  border-radius: 999px;
-  text-transform: uppercase;
+  gap: 10px;
 }
 
-.mappa-op-topbar .btn-logout-mappa {
-  padding: 9px 18px;
-  background: rgba(244, 63, 94, 0.06);
-  color: var(--sm-error, #f43f5e);
-  border: 1px solid rgba(244, 63, 94, 0.25);
-  border-radius: 999px;
-  font-family: inherit;
-  font-size: 12.5px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
+.mappa-op-topbar h2 .topbar-logo {
+  display: none; /* logo is now in sidebar */
 }
-.mappa-op-topbar .btn-logout-mappa:hover {
-  background: var(--sm-error, #f43f5e);
-  color: #fff;
+
+.mappa-op-topbar h2 .role-tag {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--glow);
+  border: 1px solid var(--border-2);
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+}
+
+.btn-logout-mappa {
+  padding: 8px 16px;
+  background: color-mix(in srgb, var(--danger) 12%, var(--surface));
+  color: var(--danger);
+  border: 1px solid color-mix(in srgb, var(--danger) 30%, transparent);
+  border-radius: var(--r-pill);
+  font-family: var(--ff-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  cursor: pointer;
+  transition: all .18s var(--ease);
+}
+.btn-logout-mappa:hover {
+  background: var(--danger);
+  color: var(--bg);
   border-color: transparent;
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(244, 63, 94, 0.35);
+  box-shadow: 0 6px 18px -6px var(--danger);
 }
 
-/* ---------- Body 70/30 ---------- */
+/* ---------- KPI row ---------- */
+.mappa-op-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding: 14px 16px;
+  flex-shrink: 0;
+  background: var(--bg);
+}
+
+.mappa-op-kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+}
+
+.mappa-op-kpi--grad {
+  background: linear-gradient(160deg, var(--surface-2), var(--surface));
+  position: relative;
+  overflow: hidden;
+}
+.mappa-op-kpi--grad::after {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  right: -40px;
+  top: -50px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--glow), transparent 70%);
+  pointer-events: none;
+}
+
+.mappa-op-kpi .kpi-label {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.mappa-op-kpi .kpi-value {
+  font-family: var(--ff-mono);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -.02em;
+  margin-top: 8px;
+  color: var(--text);
+}
+
+.mappa-op-kpi .kpi-value--warn { color: var(--warn); }
+
+.mappa-op-kpi .kpi-sub {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+/* ---------- Body (map + fleet split) ---------- */
 .mappa-op-body {
   flex: 1;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 12px;
+  padding: 0 16px 14px;
   overflow: hidden;
-  background: #f1f5f9;
+  background: var(--bg);
+  min-height: 0;
 }
 
+/* ---------- Map area ---------- */
 .mappa-op-mappa {
-  flex: 70%;
-  height: 100%;
   position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
 }
 
-/* ---------- Sidebar (light) ---------- */
-.mappa-op-pannello {
-  flex: 30%;
-  min-width: 300px;
-  background: #fff;
-  border-left: 1px solid var(--sm-line, rgba(15, 23, 42, 0.08));
+/* zone legend overlay */
+.mappa-op-legenda {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 5;
+  background: var(--glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-sm);
+  padding: 8px 12px;
   display: flex;
-  flex-direction: column;
-  padding: 22px 18px 24px;
-  gap: 10px;
-  overflow-y: auto;
-  color: var(--sm-dark, #0f172a);
-  box-shadow: -4px 0 20px rgba(15, 23, 42, 0.04);
-}
-
-.mappa-op-pannello::-webkit-scrollbar { width: 4px; }
-.mappa-op-pannello::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
-
-.mappa-op-pannello .logo {
+  gap: 14px;
+  flex-wrap: wrap;
+  font-family: var(--ff-mono);
   font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  color: var(--sm-muted, #64748b);
-  text-align: left;
-  margin: 0 4px 4px;
-  text-transform: uppercase;
+  color: var(--text-dim);
 }
 
-/* Section labels inside sidebar */
-.mappa-op-pannello .section-label {
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: var(--sm-muted, #64748b);
-  text-transform: uppercase;
-  padding: 10px 6px 2px;
+.mappa-op-legenda .leg-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-.mappa-op-pannello .section-label::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, #e2e8f0, transparent);
+  gap: 6px;
 }
 
-/* ---------- Button system ---------- */
-.btn-pannello {
-  --btn-bg: var(--sm-primary, #155e52);
-  --btn-bg-hover: var(--sm-primary-600, #3a9a86);
-  --btn-fg: #fff;
-
-  width: 100%;
-  padding: 12px 16px;
-  background: var(--btn-bg);
-  color: var(--btn-fg);
-  border: 1px solid transparent;
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  text-align: left;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  position: relative;
-  transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.2) inset, 0 2px 8px rgba(0,0,0,0.1);
-}
-.btn-pannello::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.7);
+.mappa-op-legenda .leg-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
   flex-shrink: 0;
 }
-.btn-pannello:hover {
-  background: var(--btn-bg-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
-}
-.btn-pannello:active { transform: translateY(0); }
-.btn-pannello:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-  transform: none;
+
+/* Zone-tools overlay (draw buttons + info cards) */
+.mappa-op-zone-tools {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 180px;
 }
 
-.btn-pannello.danger   { --btn-bg: #ef4444; --btn-bg-hover: #dc2626; }
-.btn-pannello.warning  { --btn-bg: #f59e0b; --btn-bg-hover: #d97706; }
-.btn-pannello.success  { --btn-bg: #22c55e; --btn-bg-hover: #16a34a; }
-.btn-pannello.info     { --btn-bg: #3b82f6; --btn-bg-hover: #2563eb; }
-
-/* Secondary (ghost) — light mode */
-.btn-pannello.secondario {
-  background: #f8fafc;
-  color: var(--sm-muted, #64748b);
-  border: 1px solid #e2e8f0;
-  box-shadow: none;
-}
-.btn-pannello.secondario::before {
-  background: var(--sm-primary, #155e52);
-}
-.btn-pannello.secondario:hover {
-  background: rgba(76, 175, 154, 0.06);
-  border-color: rgba(76, 175, 154, 0.35);
-  color: var(--sm-primary-700, #2a7a6a);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(76, 175, 154, 0.12);
+/* ---------- Fleet panel ---------- */
+.mappa-op-flotta {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
 }
 
-/* ---------- Drawing-hint floating banner (light) ---------- */
+.mappa-op-flotta-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.mappa-op-flotta-title {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.mappa-op-flotta-count {
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.mappa-op-flotta-table-wrap {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.mappa-op-flotta-table-wrap::-webkit-scrollbar { width: 3px; }
+.mappa-op-flotta-table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+.tbl-flotta {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.tbl-flotta th {
+  text-align: left;
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+}
+
+.tbl-flotta td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.tbl-flotta tr:last-child td { border-bottom: none; }
+
+.tbl-flotta td.mono {
+  font-family: var(--ff-mono);
+  color: var(--text);
+}
+
+.tbl-flotta td.batt-warn {
+  font-family: var(--ff-mono);
+  color: var(--warn);
+}
+
+.tbl-flotta tr:hover td { background: var(--surface-2); }
+
+/* fleet state chips */
+.state-chip {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  display: inline-block;
+}
+
+.state-chip--disp { background: var(--glow); color: var(--accent); }
+.state-chip--uso  { background: rgba(91,157,255,.16); color: #7fb4ff; }
+.state-chip--pausa { background: rgba(142,182,155,.15); color: var(--text-dim); }
+.state-chip--man  { background: rgba(255,201,113,.16); color: var(--warn); }
+.state-chip--pren { background: rgba(255,201,113,.1); color: var(--warn); }
+.state-chip--fs   { background: color-mix(in srgb, var(--danger) 12%, var(--surface)); color: var(--danger); }
+
+/* ---------- Zone tools buttons ---------- */
+.btn-zona {
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  font-family: var(--ff-body);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: all .15s var(--ease);
+  white-space: nowrap;
+}
+
+.btn-zona:hover { background: var(--surface-2); border-color: var(--border-2); transform: translateY(-1px); }
+.btn-zona:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+.btn-zona--danger  { border-color: color-mix(in srgb, var(--danger) 40%, transparent); color: var(--danger); }
+.btn-zona--danger:hover  { background: color-mix(in srgb, var(--danger) 15%, var(--surface)); }
+
+.btn-zona--warn    { border-color: color-mix(in srgb, var(--warn) 40%, transparent); color: var(--warn); }
+.btn-zona--warn:hover    { background: color-mix(in srgb, var(--warn) 15%, var(--surface)); }
+
+.btn-zona--accent  { border-color: var(--border-2); color: var(--accent); }
+.btn-zona--accent:hover  { background: var(--glow); }
+
+.btn-zona--info    { border-color: color-mix(in srgb, #7fb4ff 40%, transparent); color: #7fb4ff; }
+.btn-zona--info:hover    { background: rgba(91,157,255,.12); }
+
+/* ---------- Mezzo / Zona info card (in zone-tools overlay) ---------- */
+.mezzo-info-card {
+  background: var(--glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: var(--text);
+  max-width: 200px;
+}
+
+.mezzo-info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.mezzo-info-titolo {
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: .02em;
+}
+
+.mezzo-info-chiudi {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: var(--text-mute);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 2px;
+  transition: color .15s;
+}
+.mezzo-info-chiudi:hover { color: var(--danger); }
+
+.mezzo-info-riga {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text);
+  gap: 8px;
+}
+
+.mezzo-info-label {
+  color: var(--text-dim);
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.mezzo-stato {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+}
+
+.mezzo-stato--disponibile     { background: var(--glow); color: var(--accent); }
+.mezzo-stato--prenotato       { background: rgba(255,201,113,.14); color: var(--warn); }
+.mezzo-stato--in-uso          { background: rgba(91,157,255,.16); color: #7fb4ff; }
+.mezzo-stato--in-pausa        { background: rgba(142,182,155,.14); color: var(--text-dim); }
+.mezzo-stato--in-manutenzione { background: rgba(255,201,113,.14); color: var(--warn); }
+.mezzo-stato--fuori-servizio  { background: color-mix(in srgb, var(--danger) 12%, var(--surface)); color: var(--danger); }
+
+/* error text in info card */
+.info-card-error {
+  font-size: 11px;
+  color: var(--danger);
+  margin: 0;
+  padding: 6px 8px;
+  background: color-mix(in srgb, var(--danger) 10%, var(--surface));
+  border-left: 2px solid var(--danger);
+  border-radius: 6px;
+}
+
+/* ---------- Drawing-hint floating banner ---------- */
 .mappa-op-hint {
   position: fixed;
   bottom: 28px;
-  left: 35%;
+  left: 50%;
   transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--glass);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  color: var(--sm-dark, #0f172a);
-  border: 1px solid var(--sm-line, rgba(15,23,42,0.08));
-  border-radius: 999px;
+  color: var(--text);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-pill);
   padding: 12px 22px;
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 600;
   z-index: 50;
-  box-shadow: var(--sm-shadow-lg);
+  box-shadow: var(--shadow);
   display: flex;
   align-items: center;
   gap: 14px;
   animation: smFloatIn 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .mappa-op-hint button {
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  color: var(--sm-muted, #64748b);
-  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  border-radius: var(--r-pill);
   padding: 5px 14px;
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   font-family: inherit;
-  transition: all 160ms ease;
+  transition: all .16s ease;
 }
 .mappa-op-hint button:hover {
-  background: var(--sm-error, #f43f5e);
+  background: var(--danger);
   border-color: transparent;
-  color: #fff;
+  color: var(--bg);
+}
+@keyframes smFloatIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
 /* ---------- Modal ---------- */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.55);
+  background: rgba(5, 31, 32, 0.75);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: flex;
@@ -261,38 +537,39 @@
 @keyframes smFade { from { opacity: 0 } to { opacity: 1 } }
 
 .modal-card {
-  background: #fff;
-  border-radius: 22px;
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-lg);
   padding: 28px 26px 24px;
   width: 380px;
   display: flex;
   flex-direction: column;
   gap: 14px;
-  box-shadow: 0 32px 80px -16px rgba(0, 0, 0, 0.4),
-              0 0 0 1px rgba(15, 23, 42, 0.06);
+  box-shadow: var(--shadow), 0 0 0 1px var(--border);
   animation: smPop 240ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  color: var(--sm-dark, #0f172a);
+  color: var(--text);
 }
 @keyframes smPop {
   from { opacity: 0; transform: translateY(12px) scale(0.97); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 .modal-card h3 {
   margin: 0 0 4px;
+  font-family: var(--ff-display);
   font-size: 20px;
   font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--sm-dark, #0f172a);
+  letter-spacing: -.02em;
+  color: var(--text);
   text-transform: capitalize;
 }
 .modal-card p {
   margin: 0;
-  color: var(--sm-muted, #64748b);
+  color: var(--text-dim);
   font-size: 14px;
   line-height: 1.5;
 }
 .modal-card p strong {
-  color: var(--sm-dark, #0f172a);
+  color: var(--text);
   font-weight: 700;
 }
 
@@ -300,117 +577,43 @@
 .modal-card select {
   width: 100%;
   padding: 12px 14px;
-  background: #f8fafc;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 12px;
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
   font-size: 14px;
-  font-family: inherit;
+  font-family: var(--ff-body);
   font-weight: 500;
-  color: var(--sm-dark, #0f172a);
+  color: var(--text);
   box-sizing: border-box;
   transition: all 150ms ease;
   outline: none;
 }
-.modal-card input::placeholder { color: #94a3b8; }
+.modal-card input::placeholder { color: var(--text-mute); }
 .modal-card input:focus,
 .modal-card select:focus {
-  border-color: var(--sm-primary, #155e52);
-  background: #fff;
-  box-shadow: var(--sm-shadow-glow, 0 0 0 4px rgba(76, 175, 154, 0.18));
+  border-color: var(--accent);
+  background: var(--surface-3);
+  box-shadow: 0 0 0 4px var(--glow);
 }
 
 .modal-errore {
   margin: 0 !important;
   padding: 10px 12px;
-  color: var(--sm-error, #f43f5e) !important;
-  background: rgba(244, 63, 94, 0.08);
-  border-left: 3px solid var(--sm-error, #f43f5e);
+  color: var(--danger) !important;
+  background: color-mix(in srgb, var(--danger) 10%, var(--surface));
+  border-left: 3px solid var(--danger);
   border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
 }
 
-/* Modal action buttons keep the .btn-pannello base but render light-themed */
-.modal-card .btn-pannello {
-  text-align: center;
+/* ---------- Modal buttons (use sm-btn primitives) ---------- */
+.modal-card .sm-btn {
+  width: 100%;
   justify-content: center;
-  padding: 13px 18px;
 }
 
-/* ---------- Mezzo info card ---------- */
-.mezzo-info-card {
-  background: #f8fafc;
-  border: 1.5px solid rgba(76, 175, 154, 0.4);
-  border-radius: 14px;
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.mezzo-info-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 4px;
-}
-
-.mezzo-info-titolo {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--sm-dark, #0f172a);
-}
-
-.mezzo-info-chiudi {
-  background: none;
-  border: none;
-  font-size: 16px;
-  color: var(--sm-muted, #64748b);
-  cursor: pointer;
-  line-height: 1;
-  padding: 0 2px;
-}
-
-.mezzo-info-riga {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-  color: var(--sm-dark, #0f172a);
-}
-
-.mezzo-info-label {
-  color: var(--sm-muted, #64748b);
-  font-weight: 600;
-}
-
-.mezzo-stato {
-  font-weight: 700;
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 10px;
-}
-
-.mezzo-stato--disponibile     { background: #dcfce7; color: #16a34a; }
-.mezzo-stato--prenotato       { background: #fef3c7; color: #d97706; }
-.mezzo-stato--in-uso          { background: #dbeafe; color: #2563eb; }
-.mezzo-stato--in-pausa        { background: #f3e8ff; color: #9333ea; }
-.mezzo-stato--in-manutenzione { background: #fce7f3; color: #db2777; }
-.mezzo-stato--fuori-servizio  { background: #f1f5f9; color: #64748b; }
-.modal-card .btn-pannello::before { display: none; }
-.modal-card .btn-pannello.secondario {
-  background: #fff;
-  color: var(--sm-muted, #64748b);
-  border: 1.5px solid #e2e8f0;
-  box-shadow: none;
-}
-.modal-card .btn-pannello.secondario:hover {
-  background: #f1f5f9;
-  color: var(--sm-dark, #0f172a);
-  border-color: #cbd5e1;
-}
-
-/* ---------- Modern pin (mirror of utente, for operator) ---------- */
+/* ---------- Pin (map marker for operator) ---------- */
 .sm-pin {
   position: relative;
   width: 38px;
@@ -418,7 +621,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  filter: drop-shadow(0 4px 8px rgba(15, 23, 42, 0.4));
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
   cursor: pointer;
   transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -432,8 +635,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2.5px solid #fff;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  border: 2px solid rgba(255,255,255,.25);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 .sm-pin__icon {
   transform: rotate(-45deg);
@@ -441,46 +644,4 @@
   line-height: 1;
   color: #fff;
 }
-.sm-pin--dim { opacity: 0.5; }
-
-/* ---------- Zona/Mezzo info card nel pannello ---------- */
-.mezzo-info-card {
-  background: #f8fafc;
-  border: 1.5px solid rgba(76, 175, 154, 0.4);
-  border-radius: 14px;
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.mezzo-info-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 4px;
-}
-.mezzo-info-titolo {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--sm-dark, #0f172a);
-}
-.mezzo-info-chiudi {
-  background: none;
-  border: none;
-  font-size: 16px;
-  color: var(--sm-muted, #64748b);
-  cursor: pointer;
-  line-height: 1;
-  padding: 0 2px;
-}
-.mezzo-info-riga {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-  color: var(--sm-dark, #0f172a);
-}
-.mezzo-info-label {
-  color: var(--sm-muted, #64748b);
-  font-weight: 600;
-}
+.sm-pin--dim { opacity: 0.45; }
