@@ -4,9 +4,9 @@ import { MarkerClusterer } from '@googlemaps/markerclusterer'
 import type { MezzoMappa } from '../services/MapService'
 
 const COLORI_MEZZO: Record<string, string> = {
-  monopattino: '#155e52',
-  bicicletta: '#2196f3',
-  automobile: '#e91e8c',
+  monopattino: '#5FF0C4',
+  bicicletta: '#7fb4ff',
+  automobile: '#FF8A7A',
 }
 const EMOJI_MEZZO: Record<string, string> = {
   monopattino: '🛴',
@@ -37,7 +37,7 @@ export default function ClusterLayerAP({ mezzi }: { mezzi: MezzoMappa[] }) {
     const nuoviMarker = mezzi.map(m => {
       const el = document.createElement('div')
       el.style.cssText = [
-        `background:${COLORI_MEZZO[m.tipo] ?? '#888'}`,
+        `background:${COLORI_MEZZO[m.tipo] ?? '#8EB69B'}`,
         'border-radius:50%',
         'width:32px',
         'height:32px',
@@ -45,8 +45,8 @@ export default function ClusterLayerAP({ mezzi }: { mezzi: MezzoMappa[] }) {
         'align-items:center',
         'justify-content:center',
         'font-size:16px',
-        'box-shadow:0 2px 6px rgba(0,0,0,0.3)',
-        'border:2px solid #fff',
+        'box-shadow:0 2px 6px rgba(0,0,0,0.5)',
+        'border:2px solid rgba(11,43,38,0.4)',
         `opacity:${m.stato === 'Disponibile' ? 1 : 0.45}`,
       ].join(';')
       el.textContent = EMOJI_MEZZO[m.tipo] ?? '●'
