@@ -621,7 +621,7 @@ export default function VistaCorsa() {
             })()}
 
             <button type="button" className="btn-corsa btn-termina" onClick={handleTornaAllaMappa}>
-              Torna alla mappa
+              {riepilogoData.daTerminate.length < corse.length ? 'Torna alla corsa' : 'Torna alla mappa'}
             </button>
           </div>
         </div>
@@ -751,7 +751,7 @@ export default function VistaCorsa() {
               >
                 {fase === 'termina' ? 'Chiusura...'
                   : fase === 'paga' ? 'Addebito...'
-                  : daTerminare.size === corse.length ? 'TERMINA TUTTI' : 'TERMINA'}
+                  : corse.length > 1 && daTerminare.size === corse.length ? 'TERMINA TUTTI' : 'TERMINA'}
               </button>
               <button
                 type="button"
