@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useMapsLibrary } from '@vis.gl/react-google-maps'
 import axios from 'axios'
 import { terminaCorsa, sospendiCorsa, riprendiCorsa, getRiepilogoCorsa, aggiornaPosizioneDemo, type Corsa, type RispostaSospensione } from '../../services/CorsaService'
 import type { MezzoMappa } from '../../services/MapService'
@@ -31,6 +32,32 @@ function distanzaKm(aLat: number, aLng: number, bLat: number, bLng: number): num
   const dLat = (bLat - aLat) * toRad, dLng = (bLng - aLng) * toRad
   const h = Math.sin(dLat / 2) ** 2 + Math.cos(aLat * toRad) * Math.cos(bLat * toRad) * Math.sin(dLng / 2) ** 2
   return 2 * R * Math.asin(Math.sqrt(h))
+}
+
+type PuntoLL = { lat: number; lng: number }
+
+// Lunghezze cumulative (in metri) lungo una polilinea, per muoversi a velocità costante.
+function lunghezzeCumulativeM(path: PuntoLL[]): number[] {
+  const cum = [0]
+  for (let i = 1; i < path.length; i++) {
+    cum[i] = cum[i - 1] + distanzaKm(path[i - 1].lat, path[i - 1].lng, path[i].lat, path[i].lng) * 1000
+  }
+  return cum
+}
+
+// Punto sulla polilinea a distanza `d` metri dall'inizio (interpolazione sul segmento).
+function puntoADistanzaM(path: PuntoLL[], cum: number[], d: number): PuntoLL {
+  const totale = cum[cum.length - 1]
+  if (d <= 0) return path[0]
+  if (d >= totale) return path[path.length - 1]
+  let i = 1
+  while (i < cum.length && cum[i] < d) i++
+  const segLen = (cum[i] - cum[i - 1]) || 1
+  const t = (d - cum[i - 1]) / segLen
+  return {
+    lat: path[i - 1].lat + (path[i].lat - path[i - 1].lat) * t,
+    lng: path[i - 1].lng + (path[i].lng - path[i - 1].lng) * t,
+  }
 }
 
 function Batteria({ valore }: { valore: number | null | undefined }) {
@@ -105,6 +132,8 @@ export default function VistaCorsa() {
   const [zoneTutte, setZoneTutte] = useState<ZonaMappa[]>([])
   const [statoZonaDemo, setStatoZonaDemo] = useState<{ tipo: TipoZonaCorrente; limiteVelocita?: number } | null>(null)
   const demoTimerRef = useRef<number | null>(null)
+  const penaleRef = useRef(false)
+  const routesLib = useMapsLibrary('routes')
   const [kmDemo, setKmDemo] = useState(0)
   const demoAttivo = statoZonaDemo !== null
   const emailDemo = import.meta.env.VITE_DEMO_EMAIL as string | undefined
@@ -175,7 +204,7 @@ export default function VistaCorsa() {
       // [IF-UT.20] Per corse di gruppo ogni mezzo ha il proprio pagamento; somma i totali
       let totaleImporto = 0
       for (const corsa of da) {
-        const res = await effettuaPagamento(corsa.corsa_id, corsa.mezzo?.tipo ?? '', elapsed / 60, 0, offertaId)
+        const res = await effettuaPagamento(corsa.corsa_id, corsa.mezzo?.tipo ?? '', elapsed / 60, 0, offertaId, penaleRef.current)
         totaleImporto += res.importo
       }
       setImportoPagato(totaleImporto)
@@ -309,69 +338,77 @@ export default function VistaCorsa() {
   }, [corse, daTerminare, handlePaga])
 
   // --- Demo movimento (helper di presentazione, solo account demo) ---
-  const avviaDemoMovimento = useCallback(() => {
+  // Giro su strada (Google Directions) a velocità realistica: attraversa zona limitata e
+  // vietata, esce dalla zona operativa e rientra a parcheggiare dove il mezzo è stato preso.
+  const avviaDemoMovimento = useCallback(async () => {
     if (corse.length === 0 || zoneTutte.length === 0 || demoTimerRef.current !== null) return
 
-    type P = { lat: number; lng: number }
-    const CAMPUS: P = { lat: 41.1095, lng: 16.8806 }       // "Campus universitario" (limitata, vmax 15)
-    const POLITECNICO: P = { lat: 41.1093, lng: 16.8791 }  // "Politecnico" (vietata, dentro Campus)
-    const OPERATIVA_CENTRO: P = { lat: 41.11033, lng: 16.86814 }
-    const LAG = 2
+    const CAMPUS: PuntoLL = { lat: 41.1095, lng: 16.8806 }       // limitata (vmax 15)
+    const POLITECNICO: PuntoLL = { lat: 41.1093, lng: 16.8791 }  // vietata (dentro Campus)
+    const OPERATIVA_CENTRO: PuntoLL = { lat: 41.11033, lng: 16.86814 }
+    const start: PuntoLL = { lat: corse[0].mezzo.lat, lng: corse[0].mezzo.lng }
 
-    const interpola = (a: P, b: P, n: number): P[] => {
-      const out: P[] = []
-      for (let k = 1; k <= n; k++) out.push({ lat: a.lat + (b.lat - a.lat) * k / n, lng: a.lng + (b.lng - a.lng) * k / n })
-      return out
-    }
-
-    const start: P = { lat: corse[0].mezzo.lat, lng: corse[0].mezzo.lng }
-    const percorso: P[] = [start, ...interpola(start, CAMPUS, 6), ...interpola(CAMPUS, POLITECNICO, 4)]
-    // Marcia oltre il Politecnico nella direzione centro→Politecnico finché si esce dall'operativa.
+    // Primo punto appena fuori dalla zona operativa, oltre il Politecnico (escursione minima).
     const dLat = POLITECNICO.lat - OPERATIVA_CENTRO.lat
     const dLng = POLITECNICO.lng - OPERATIVA_CENTRO.lng
     const norm = Math.hypot(dLat, dLng) || 1
-    const stepLat = (dLat / norm) * 0.0015
-    const stepLng = (dLng / norm) * 0.0015
-    let cur: P = POLITECNICO
-    let fuoriContati = 0
-    for (let s = 0; s < 50 && fuoriContati < 3; s++) {
-      cur = { lat: cur.lat + stepLat, lng: cur.lng + stepLng }
-      percorso.push(cur)
-      if (zonaCorrente(cur.lat, cur.lng, zoneTutte).tipo === 'fuori') fuoriContati++
+    let fuori: PuntoLL = { ...POLITECNICO }
+    for (let s = 0; s < 120; s++) {
+      fuori = { lat: fuori.lat + (dLat / norm) * 0.0015, lng: fuori.lng + (dLng / norm) * 0.0015 }
+      if (zonaCorrente(fuori.lat, fuori.lng, zoneTutte).tipo === 'fuori') break
     }
 
+    // Percorso su strada (round trip). Fallback a linea retta se Directions non è disponibile.
+    let path: PuntoLL[] = []
+    if (routesLib) {
+      try {
+        const ds = new routesLib.DirectionsService()
+        const res = await ds.route({
+          origin: start,
+          destination: start,
+          waypoints: [CAMPUS, POLITECNICO, fuori].map(w => ({ location: w, stopover: false })),
+          travelMode: google.maps.TravelMode.DRIVING,
+        })
+        const op = res.routes[0]?.overview_path
+        if (op?.length) path = op.map(p => ({ lat: p.lat(), lng: p.lng() }))
+      } catch { /* fallback sotto */ }
+    }
+    if (path.length < 2) {
+      const interp = (a: PuntoLL, b: PuntoLL, n: number): PuntoLL[] =>
+        Array.from({ length: n }, (_, k) => ({ lat: a.lat + (b.lat - a.lat) * (k + 1) / n, lng: a.lng + (b.lng - a.lng) * (k + 1) / n }))
+      path = [start, ...interp(start, CAMPUS, 6), ...interp(CAMPUS, POLITECNICO, 3), ...interp(POLITECNICO, fuori, 6), ...interp(fuori, start, 10)]
+    }
+
+    const cum = lunghezzeCumulativeM(path)
+    const totale = cum[cum.length - 1]
+    const VEL_KMH = 22, TICK_SEC = 1.5, GAP_M = 25
+    const passoM = (VEL_KMH / 3.6) * TICK_SEC
     const ordine: Record<TipoZonaCorrente, number> = { vietata: 0, fuori: 1, limitata: 2, operativa: 3 }
-    let tick = 0
-    let kmAcc = 0
+
+    penaleRef.current = false
     setKmDemo(0)
+    let d = 0
     demoTimerRef.current = window.setInterval(() => {
-      let tuttiFermi = true
       let aggregato: { tipo: TipoZonaCorrente; limiteVelocita?: number } = { tipo: 'operativa' }
       corse.forEach((c, i) => {
-        const idxReale = tick - i * LAG
-        if (idxReale < percorso.length - 1) tuttiFermi = false
-        const idx = Math.min(percorso.length - 1, Math.max(0, idxReale))
-        const p = percorso[idx]
+        const dm = Math.max(0, Math.min(totale, d - i * GAP_M))
+        const p = puntoADistanzaM(path, cum, dm)
         const z = zonaCorrente(p.lat, p.lng, zoneTutte)
+        if (z.tipo === 'vietata' || z.tipo === 'fuori') penaleRef.current = true
         if (ordine[z.tipo] < ordine[aggregato.tipo]) aggregato = z
         aggiornaPosizioneDemo(c.corsa_id, p.lat, p.lng).catch(() => {})
       })
-      // Contatore km: distanza percorsa dal capofila (mezzo 0) tra il tick precedente e questo
-      const idxPrev = Math.min(percorso.length - 1, Math.max(0, tick - 1))
-      const idxCur = Math.min(percorso.length - 1, tick)
-      if (idxCur > idxPrev) {
-        kmAcc += distanzaKm(percorso[idxPrev].lat, percorso[idxPrev].lng, percorso[idxCur].lat, percorso[idxCur].lng)
-        setKmDemo(kmAcc)
-      }
       setStatoZonaDemo(aggregato)
-      tick += 1
-      if (tuttiFermi && demoTimerRef.current !== null) {
+      setKmDemo(Math.min(totale, d) / 1000)
+      d += passoM
+      // Fine quando anche l'ultimo mezzo del convoglio ha completato il giro (rientro allo start).
+      if (d - (corse.length - 1) * GAP_M >= totale && demoTimerRef.current !== null) {
         clearInterval(demoTimerRef.current)
         demoTimerRef.current = null
         setStatoZonaDemo(null)
       }
-    }, 2000)
-  }, [corse, zoneTutte])
+    }, TICK_SEC * 1000)
+  }, [corse, zoneTutte, routesLib])
 
   // Cleanup del timer demo allo smontaggio
   useEffect(() => () => {
