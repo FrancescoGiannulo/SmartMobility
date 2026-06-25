@@ -11,6 +11,7 @@ SUPABASE_URL: str = os.environ["SUPABASE_URL"]
 SUPABASE_KEY: str = os.environ["SUPABASE_KEY"]
 SUPABASE_JWT_SECRET: str = os.environ["SUPABASE_JWT_SECRET"]
 DATABASE_URL: str = os.environ["DATABASE_URL"]
+DEMO_ACCOUNT_EMAIL: str = os.getenv("DEMO_ACCOUNT_EMAIL", "")
 
 def _ssl_funziona(url: str) -> bool:
     try:

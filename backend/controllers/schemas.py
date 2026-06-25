@@ -17,6 +17,11 @@ class LoginRequest(BaseModel):
     password: str
 
 
+class PosizioneDemoRequest(BaseModel):
+    lat: float
+    lng: float
+
+
 class AuthResponse(BaseModel):
     access_token: str
     ruolo: str
