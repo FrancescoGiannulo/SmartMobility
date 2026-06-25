@@ -14,7 +14,7 @@ function LabelTorta({ cx, cy, midAngle, outerRadius, name, value }: {
   const x = cx + r * Math.cos(-midAngle * RAD)
   const y = cy + r * Math.sin(-midAngle * RAD)
   return (
-    <text x={x} y={y} textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central" fontSize={12} fill="#444">
+    <text x={x} y={y} textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central" fontSize={12} fill="#8EB69B">
       {name} {value}%
     </text>
   )
@@ -48,19 +48,19 @@ export default function VistaReportAP() {
 
         <div className="report-kpi-row">
           <div className="report-kpi-card">
-            <span className="report-kpi-valore" style={{ color: '#155e52' }}>{report.corse_totali}</span>
+            <span className="report-kpi-valore report-kpi-valore--1">{report.corse_totali}</span>
             <span className="report-kpi-label">Corse totali</span>
           </div>
           <div className="report-kpi-card">
-            <span className="report-kpi-valore" style={{ color: '#3b82f6' }}>{report.durata_media_h}h</span>
+            <span className="report-kpi-valore report-kpi-valore--2">{report.durata_media_h}h</span>
             <span className="report-kpi-label">Durata media</span>
           </div>
           <div className="report-kpi-card">
-            <span className="report-kpi-valore" style={{ color: '#8b5cf6' }}>{report.distanza_totale_km} km</span>
+            <span className="report-kpi-valore report-kpi-valore--3">{report.distanza_totale_km} km</span>
             <span className="report-kpi-label">Distanza totale</span>
           </div>
           <div className="report-kpi-card">
-            <span className="report-kpi-valore" style={{ color: '#f59e0b' }}>{quotaDominante.value}%</span>
+            <span className="report-kpi-valore report-kpi-valore--4">{quotaDominante.value}%</span>
             <span className="report-kpi-label">{quotaDominante.name}</span>
           </div>
         </div>
@@ -70,14 +70,14 @@ export default function VistaReportAP() {
             <div className="report-chart-titolo">Corse settimanali per tipologia</div>
             <ResponsiveContainer width="100%" height={240}>
               <BarChart data={report.dati_settimanali} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="giorno" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(142,182,155,.16)" />
+                <XAxis dataKey="giorno" tick={{ fontSize: 12, fill: '#8EB69B' }} />
+                <YAxis tick={{ fontSize: 12, fill: '#8EB69B' }} />
                 <Tooltip />
-                <Legend iconType="circle" wrapperStyle={{ fontSize: 12 }} />
-                <Bar dataKey="monopattino" name="Monopattino" stackId="a" fill="#155e52" />
-                <Bar dataKey="bicicletta"  name="Bicicletta"  stackId="a" fill="#2196f3" />
-                <Bar dataKey="automobile"  name="Automobile"  stackId="a" fill="#e91e8c" radius={[4, 4, 0, 0]} />
+                <Legend iconType="circle" wrapperStyle={{ fontSize: 12, color: '#8EB69B' }} />
+                <Bar dataKey="monopattino" name="Monopattino" stackId="a" fill="#5FF0C4" />
+                <Bar dataKey="bicicletta"  name="Bicicletta"  stackId="a" fill="#7fb4ff" />
+                <Bar dataKey="automobile"  name="Automobile"  stackId="a" fill="#FF8A7A" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
