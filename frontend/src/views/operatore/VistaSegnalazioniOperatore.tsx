@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {
   getSegnalazioni,
@@ -7,6 +6,7 @@ import {
   aggiornaStatoSegnalazione,
   type Segnalazione,
 } from '../../services/SegnalazioneService'
+import SidebarRuolo from '../../components/layout/SidebarRuolo'
 import './VistaSegnalazioniOperatore.css'
 
 const STATO_LABEL: Record<string, string> = {
@@ -15,8 +15,8 @@ const STATO_LABEL: Record<string, string> = {
 }
 
 const STATO_CLASS: Record<string, string> = {
-  aperta: 'badge-aperta',
-  in_carico: 'badge-in-carico',
+  aperta: 'vsegn__badge--aperta',
+  in_carico: 'vsegn__badge--in-carico',
 }
 
 function formatData(iso: string) {
@@ -28,8 +28,6 @@ function formatData(iso: string) {
 
 // [IF-OP.08] Gestisce Segnalazione
 export default function VistaSegnalazioniOperatore() {
-  const navigate = useNavigate()
-
   const [segnalazioni, setSegnalazioni] = useState<Segnalazione[]>([])
   const [caricamento, setCaricamento] = useState(true)
   const [errore, setErrore] = useState('')
@@ -82,91 +80,92 @@ export default function VistaSegnalazioniOperatore() {
   }
 
   return (
-    <div className="vista-segn-op-wrap">
-      <button type="button" className="btn-back-segn-op" onClick={() => navigate(-1)}>
-        ← Torna alla mappa
-      </button>
+    <div className="sm-op-shell">
+      <SidebarRuolo ruolo="OP" />
+      <div className="sm-op-main">
+        <div className="vsegn__body">
+          <h1 className="vsegn__titolo">Segnalazioni</h1>
 
-      <h1 className="segn-op-titolo">Segnalazioni</h1>
+          {messaggio && <div className="vsegn__messaggio">{messaggio}</div>}
+          {errore && <p className="vsegn__errore">{errore}</p>}
 
-      {messaggio && <div className="segn-op-messaggio">{messaggio}</div>}
-      {errore && <p className="segn-op-errore">{errore}</p>}
+          <div className="vsegn__layout">
+            {/* Lista */}
+            <div className="vsegn__lista">
+              {caricamento ? (
+                <p className="vsegn__vuoto">Caricamento...</p>
+              ) : segnalazioni.length === 0 ? (
+                <p className="vsegn__vuoto">Nessuna segnalazione ricevuta.</p>
+              ) : (
+                segnalazioni.map(s => (
+                  <div
+                    key={s.id}
+                    className={`vsegn__card${selezionata?.id === s.id ? ' vsegn__card--attiva' : ''}`}
+                    onClick={() => selezionaSegnalazione(s.id)}
+                  >
+                    <div className="vsegn__card-header">
+                      <span className="vsegn__tipologia">{s.tipologia}</span>
+                      <span className={`vsegn__badge ${STATO_CLASS[s.stato] ?? ''}`}>
+                        {STATO_LABEL[s.stato] ?? s.stato}
+                      </span>
+                    </div>
+                    {s.nome_utente && (
+                      <span className="vsegn__utente">👤 {s.nome_utente}</span>
+                    )}
+                    <p className="vsegn__descrizione-anteprima">
+                      {s.descrizione.length > 80 ? s.descrizione.slice(0, 80) + '…' : s.descrizione}
+                    </p>
+                    <span className="vsegn__data">{formatData(s.created_at)}</span>
+                  </div>
+                ))
+              )}
+            </div>
 
-      <div className="segn-op-layout">
-        {/* Lista */}
-        <div className="segn-op-lista">
-          {caricamento ? (
-            <p className="segn-op-vuoto">Caricamento...</p>
-          ) : segnalazioni.length === 0 ? (
-            <p className="segn-op-vuoto">Nessuna segnalazione ricevuta.</p>
-          ) : (
-            segnalazioni.map(s => (
-              <div
-                key={s.id}
-                className={`segn-op-card${selezionata?.id === s.id ? ' segn-op-card--attiva' : ''}`}
-                onClick={() => selezionaSegnalazione(s.id)}
-              >
-                <div className="segn-op-card-header">
-                  <span className="segn-op-tipologia">{s.tipologia}</span>
-                  <span className={`segn-badge ${STATO_CLASS[s.stato] ?? ''}`}>
-                    {STATO_LABEL[s.stato] ?? s.stato}
+            {/* Dettaglio */}
+            {selezionata && (
+              <div className="vsegn__dettaglio">
+                <h2 className="vsegn__det-titolo">Dettaglio</h2>
+                {selezionata.nome_utente && (
+                  <div className="vsegn__det-row">
+                    <span className="vsegn__det-label">Utente</span>
+                    <span>{selezionata.nome_utente}</span>
+                  </div>
+                )}
+                <div className="vsegn__det-row">
+                  <span className="vsegn__det-label">Tipologia</span>
+                  <span>{selezionata.tipologia}</span>
+                </div>
+                <div className="vsegn__det-row">
+                  <span className="vsegn__det-label">Stato</span>
+                  <span className={`vsegn__badge ${STATO_CLASS[selezionata.stato] ?? ''}`}>
+                    {STATO_LABEL[selezionata.stato] ?? selezionata.stato}
                   </span>
                 </div>
-                {s.nome_utente && (
-                  <span className="segn-op-utente">👤 {s.nome_utente}</span>
+                <div className="vsegn__det-row">
+                  <span className="vsegn__det-label">Data</span>
+                  <span>{formatData(selezionata.created_at)}</span>
+                </div>
+                <div className="vsegn__det-descrizione">
+                  <span className="vsegn__det-label">Descrizione</span>
+                  <p>{selezionata.descrizione}</p>
+                </div>
+                {selezionata.stato === 'aperta' && (
+                  <button
+                    type="button"
+                    className="sm-btn sm-btn--primary vsegn__btn-primario"
+                    onClick={prendiInCarico}
+                    disabled={azioneInCorso}
+                  >
+                    {azioneInCorso ? 'Aggiornamento...' : 'PRENDI IN CARICO'}
+                  </button>
                 )}
-                <p className="segn-op-descrizione-anteprima">
-                  {s.descrizione.length > 80 ? s.descrizione.slice(0, 80) + '…' : s.descrizione}
-                </p>
-                <span className="segn-op-data">{formatData(s.created_at)}</span>
+                {selezionata.stato === 'in_carico' && (
+                  <p className="vsegn__in-carico-msg">✅ Già presa in carico</p>
+                )}
               </div>
-            ))
-          )}
-        </div>
-
-        {/* Dettaglio */}
-        {selezionata && (
-          <div className="segn-op-dettaglio">
-            <h2 className="segn-op-det-titolo">Dettaglio</h2>
-            {selezionata.nome_utente && (
-              <div className="segn-op-det-row">
-                <span className="segn-op-det-label">Utente</span>
-                <span>{selezionata.nome_utente}</span>
-              </div>
-            )}
-            <div className="segn-op-det-row">
-              <span className="segn-op-det-label">Tipologia</span>
-              <span>{selezionata.tipologia}</span>
-            </div>
-            <div className="segn-op-det-row">
-              <span className="segn-op-det-label">Stato</span>
-              <span className={`segn-badge ${STATO_CLASS[selezionata.stato] ?? ''}`}>
-                {STATO_LABEL[selezionata.stato] ?? selezionata.stato}
-              </span>
-            </div>
-            <div className="segn-op-det-row">
-              <span className="segn-op-det-label">Data</span>
-              <span>{formatData(selezionata.created_at)}</span>
-            </div>
-            <div className="segn-op-det-descrizione">
-              <span className="segn-op-det-label">Descrizione</span>
-              <p>{selezionata.descrizione}</p>
-            </div>
-            {selezionata.stato === 'aperta' && (
-              <button
-                type="button"
-                className="btn-segn-op-primario"
-                onClick={prendiInCarico}
-                disabled={azioneInCorso}
-              >
-                {azioneInCorso ? 'Aggiornamento...' : 'PRENDI IN CARICO'}
-              </button>
-            )}
-            {selezionata.stato === 'in_carico' && (
-              <p className="segn-op-in-carico-msg">✅ Già presa in carico</p>
             )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   )
