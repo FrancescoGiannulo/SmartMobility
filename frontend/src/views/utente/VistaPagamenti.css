@@ -5,12 +5,12 @@
 
 .vista-pagamenti-wrap {
   min-height: 100vh;
-  background: #f7f7f7;
+  background: var(--bg);
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 32px 24px 48px;
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--ff-body, 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
 }
 
 /* ── Navigazione ── */
@@ -18,7 +18,7 @@
   align-self: flex-start;
   background: none;
   border: none;
-  color: #155e52;
+  color: var(--accent);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -32,7 +32,7 @@
   font-size: 24px;
   font-weight: 700;
   font-style: italic;
-  color: #155e52;
+  color: var(--accent);
   margin: 0 0 28px;
   align-self: flex-start;
 }
@@ -41,8 +41,8 @@
 .pag-messaggio {
   width: 100%;
   max-width: 380px;
-  background: #e0f2ee;
-  color: #2a7a6a;
+  background: var(--surface-3);
+  color: var(--accent);
   border-radius: 10px;
   padding: 10px 16px;
   font-size: 14px;
@@ -57,7 +57,7 @@
 }
 
 .pag-errore {
-  color: #e53935;
+  color: var(--danger);
   font-size: 13px;
   text-align: center;
   margin: 0 0 16px;
@@ -67,7 +67,7 @@
 
 .pag-caricamento,
 .pag-vuoto {
-  color: #888;
+  color: var(--text-mute);
   font-size: 14px;
   text-align: center;
   margin-top: 24px;
@@ -75,10 +75,10 @@
 }
 
 .pag-avviso {
-  background: #fff8e1;
-  border: 1px solid #ffe082;
+  background: rgba(255, 201, 113, .10);
+  border: 1px solid var(--warn);
   border-radius: 8px;
-  color: #7a5c00;
+  color: var(--warn);
   font-size: 13px;
   padding: 10px 14px;
   margin: 0 0 16px;
@@ -98,16 +98,16 @@
 }
 
 .pag-card {
-  background: #fff;
+  background: var(--surface-2);
   border-radius: 16px;
   padding: 16px 18px;
-  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.07);
+  box-shadow: var(--shadow);
   border: 2px solid transparent;
   transition: border-color 0.15s;
 }
 
 .pag-card--predefinito {
-  border-color: #155e52;
+  border-color: var(--accent);
 }
 
 .pag-card-info {
@@ -136,21 +136,22 @@
 .pag-card-tipo {
   font-size: 15px;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text);
 }
 
 .pag-card-last-four {
   font-size: 13px;
-  color: #64748b;
+  color: var(--text-dim);
   font-weight: 500;
   letter-spacing: 1px;
+  font-family: var(--ff-mono);
 }
 
 .pag-badge-predefinito {
   font-size: 12px;
   font-weight: 700;
-  color: #155e52;
-  background: #e0f2ee;
+  color: var(--accent-ink);
+  background: var(--accent);
   border-radius: 20px;
   padding: 3px 10px;
   white-space: nowrap;
@@ -167,10 +168,10 @@
   width: 100%;
   max-width: 380px;
   padding: 15px 0;
-  border-radius: 50px;
+  border-radius: var(--r-pill);
   border: none;
-  background: #155e52;
-  color: #fff;
+  background: var(--accent);
+  color: var(--accent-ink);
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 1px;
@@ -188,10 +189,10 @@
 .btn-pag-secondario {
   flex: 1;
   padding: 9px 0;
-  border-radius: 50px;
-  border: 2px solid #155e52;
+  border-radius: var(--r-pill);
+  border: 2px solid var(--accent);
   background: transparent;
-  color: #155e52;
+  color: var(--accent);
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
@@ -208,9 +209,9 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 2px solid #f43f5e;
+  border: 2px solid var(--danger);
   background: transparent;
-  color: #f43f5e;
+  color: var(--danger);
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
@@ -231,10 +232,10 @@
 .pag-form {
   width: 100%;
   max-width: 380px;
-  background: #fff;
-  border-radius: 20px;
+  background: var(--surface-2);
+  border-radius: var(--r-md);
   padding: 24px 22px 28px;
-  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
+  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -245,7 +246,7 @@
   font-size: 17px;
   font-weight: 700;
   font-style: italic;
-  color: #155e52;
+  color: var(--accent);
   margin: 0 0 16px;
 }
 
@@ -253,7 +254,7 @@
   font-size: 13px;
   font-weight: 700;
   font-style: italic;
-  color: #155e52;
+  color: var(--accent);
   margin-bottom: 4px;
   margin-top: 8px;
 }
@@ -262,12 +263,12 @@
 .pag-input {
   width: 100%;
   padding: 12px 14px;
-  border: 1.5px solid #e2e8f0;
+  border: 1.5px solid var(--border);
   border-radius: 10px;
   font-size: 14px;
   font-family: inherit;
-  color: #0f172a;
-  background: #f8fafc;
+  color: var(--text);
+  background: var(--surface);
   outline: none;
   transition: border-color 0.15s;
   box-sizing: border-box;
@@ -276,7 +277,7 @@
 
 .pag-select:focus,
 .pag-input:focus {
-  border-color: #155e52;
+  border-color: var(--accent);
 }
 
 .pag-form-azioni {
@@ -289,10 +290,10 @@
 .btn-pag-annulla {
   width: 100%;
   padding: 13px 0;
-  border-radius: 50px;
-  border: 2px solid #64748b;
+  border-radius: var(--r-pill);
+  border: 2px solid var(--border-2);
   background: transparent;
-  color: #64748b;
+  color: var(--text-dim);
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;

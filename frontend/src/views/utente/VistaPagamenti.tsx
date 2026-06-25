@@ -11,7 +11,7 @@ import {
 import './VistaPagamenti.css'
 
 const IconaCarta = () => (
-  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#155e52" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--accent)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <rect x="1" y="4" width="22" height="16" rx="3" />
     <line x1="1" y1="10" x2="23" y2="10" />
   </svg>
