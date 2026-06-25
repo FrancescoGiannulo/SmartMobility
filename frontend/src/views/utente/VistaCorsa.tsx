@@ -1,12 +1,13 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { terminaCorsa, sospendiCorsa, riprendiCorsa, getRiepilogoCorsa, type Corsa, type RispostaSospensione } from '../../services/CorsaService'
+import { terminaCorsa, sospendiCorsa, riprendiCorsa, getRiepilogoCorsa, aggiornaPosizioneDemo, type Corsa, type RispostaSospensione } from '../../services/CorsaService'
 import type { MezzoMappa } from '../../services/MapService'
 import { getZoneUtente, type ZonaMappa } from '../../services/MapService'
 import { effettuaPagamento, getMetodiPagamento, getPromozioni, type Promozione } from '../../services/PaymentService'
 import { getAbbonamentoCorrente } from '../../services/AbbonamentoService'
-import { puntoInPoligono, distanzaDaPoligono } from '../../utils/geoUtils'
+import { puntoInPoligono, distanzaDaPoligono, zonaCorrente, type TipoZonaCorrente } from '../../utils/geoUtils'
+import { utenteCorrente } from '../../services/AuthService'
 import './VistaCorsa.css'
 
 interface DatiCorsa {
@@ -93,6 +94,13 @@ export default function VistaCorsa() {
   const [fuoriZona, setFuoriZona] = useState(false)
   const watchIdRef = useRef<number | null>(null)
 
+  const [zoneTutte, setZoneTutte] = useState<ZonaMappa[]>([])
+  const [statoZonaDemo, setStatoZonaDemo] = useState<{ tipo: TipoZonaCorrente; limiteVelocita?: number } | null>(null)
+  const demoTimerRef = useRef<number | null>(null)
+  const demoAttivo = statoZonaDemo !== null
+  const emailDemo = import.meta.env.VITE_DEMO_EMAIL as string | undefined
+  const isAccountDemo = !!emailDemo && utenteCorrente()?.profilo.email === emailDemo
+
   const MARGINE_FUORI_ZONA_M = 200
 
   const selCorsa = corse.find(c => c.mezzo.id === selId) ?? corse[0]
@@ -115,7 +123,10 @@ export default function VistaCorsa() {
 
   useEffect(() => {
     getZoneUtente()
-      .then(zone => setZoneOperative(zone.filter(z => z.tipo === 'operativa' && z.attiva)))
+      .then(zone => {
+        setZoneOperative(zone.filter(z => z.tipo === 'operativa' && z.attiva))
+        setZoneTutte(zone.filter(z => z.attiva))
+      })
       .catch(() => {})
   }, [])
 
@@ -288,6 +299,66 @@ export default function VistaCorsa() {
     await handlePaga(da)
   }, [corse, daTerminare, handlePaga])
 
+  // --- Demo movimento (helper di presentazione, solo account demo) ---
+  const avviaDemoMovimento = useCallback(() => {
+    if (corse.length === 0 || zoneTutte.length === 0 || demoTimerRef.current !== null) return
+
+    type P = { lat: number; lng: number }
+    const CAMPUS: P = { lat: 41.1095, lng: 16.8806 }       // "Campus universitario" (limitata, vmax 15)
+    const POLITECNICO: P = { lat: 41.1093, lng: 16.8791 }  // "Politecnico" (vietata, dentro Campus)
+    const OPERATIVA_CENTRO: P = { lat: 41.11033, lng: 16.86814 }
+    const LAG = 2
+
+    const interpola = (a: P, b: P, n: number): P[] => {
+      const out: P[] = []
+      for (let k = 1; k <= n; k++) out.push({ lat: a.lat + (b.lat - a.lat) * k / n, lng: a.lng + (b.lng - a.lng) * k / n })
+      return out
+    }
+
+    const start: P = { lat: corse[0].mezzo.lat, lng: corse[0].mezzo.lng }
+    const percorso: P[] = [start, ...interpola(start, CAMPUS, 6), ...interpola(CAMPUS, POLITECNICO, 4)]
+    // Marcia oltre il Politecnico nella direzione centro→Politecnico finché si esce dall'operativa.
+    const dLat = POLITECNICO.lat - OPERATIVA_CENTRO.lat
+    const dLng = POLITECNICO.lng - OPERATIVA_CENTRO.lng
+    const norm = Math.hypot(dLat, dLng) || 1
+    const stepLat = (dLat / norm) * 0.0015
+    const stepLng = (dLng / norm) * 0.0015
+    let cur: P = POLITECNICO
+    let fuoriContati = 0
+    for (let s = 0; s < 50 && fuoriContati < 3; s++) {
+      cur = { lat: cur.lat + stepLat, lng: cur.lng + stepLng }
+      percorso.push(cur)
+      if (zonaCorrente(cur.lat, cur.lng, zoneTutte).tipo === 'fuori') fuoriContati++
+    }
+
+    const ordine: Record<TipoZonaCorrente, number> = { vietata: 0, fuori: 1, limitata: 2, operativa: 3 }
+    let tick = 0
+    demoTimerRef.current = window.setInterval(() => {
+      let tuttiFermi = true
+      let aggregato: { tipo: TipoZonaCorrente; limiteVelocita?: number } = { tipo: 'operativa' }
+      corse.forEach((c, i) => {
+        const idxReale = tick - i * LAG
+        if (idxReale < percorso.length - 1) tuttiFermi = false
+        const idx = Math.min(percorso.length - 1, Math.max(0, idxReale))
+        const p = percorso[idx]
+        const z = zonaCorrente(p.lat, p.lng, zoneTutte)
+        if (ordine[z.tipo] < ordine[aggregato.tipo]) aggregato = z
+        aggiornaPosizioneDemo(c.corsa_id, p.lat, p.lng).catch(() => {})
+      })
+      setStatoZonaDemo(aggregato)
+      tick += 1
+      if (tuttiFermi && demoTimerRef.current !== null) {
+        clearInterval(demoTimerRef.current)
+        demoTimerRef.current = null
+      }
+    }, 2000)
+  }, [corse, zoneTutte])
+
+  // Cleanup del timer demo allo smontaggio
+  useEffect(() => () => {
+    if (demoTimerRef.current !== null) clearInterval(demoTimerRef.current)
+  }, [])
+
   if (!corse.length) return (
     <div className="vista-corsa-wrap">
       <button type="button" className="btn-back-corsa" onClick={() => navigate(-1)}>← Torna alla mappa</button>
@@ -351,7 +422,27 @@ export default function VistaCorsa() {
         </tbody>
       </table>
 
-      {fuoriZona && (
+      {demoAttivo && statoZonaDemo?.tipo === 'limitata' && (
+        <div className="zona-warning-banner zona-warning-limitata">
+          <span className="zona-warning-icona">🐢</span>
+          <div className="zona-warning-testo">
+            <strong>Zona a velocità limitata</strong>
+            <span>Velocità massima consentita: {statoZonaDemo.limiteVelocita ?? '—'} km/h.</span>
+          </div>
+        </div>
+      )}
+
+      {demoAttivo && statoZonaDemo?.tipo === 'vietata' && (
+        <div className="zona-warning-banner zona-warning-vietata">
+          <span className="zona-warning-icona">⛔</span>
+          <div className="zona-warning-testo">
+            <strong>Zona vietata</strong>
+            <span>Esci dall'area: a fine corsa verrà applicata una penale.</span>
+          </div>
+        </div>
+      )}
+
+      {((demoAttivo && statoZonaDemo?.tipo === 'fuori') || (!demoAttivo && fuoriZona)) && (
         <div className="zona-warning-banner">
           <span className="zona-warning-icona">⚠️</span>
           <div className="zona-warning-testo">
@@ -359,6 +450,12 @@ export default function VistaCorsa() {
             <span>Torna indietro per continuare a usufruire del servizio.</span>
           </div>
         </div>
+      )}
+
+      {isAccountDemo && corse.length > 0 && fase === 'idle' && (
+        <button type="button" className="btn-demo-movimento" onClick={avviaDemoMovimento} disabled={demoTimerRef.current !== null}>
+          ▶ Avvia demo movimento
+        </button>
       )}
 
       <div className="corsa-logo">
