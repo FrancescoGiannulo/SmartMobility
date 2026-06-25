@@ -75,3 +75,8 @@ class ServizioMappa:
     # [IF-OP.11] Verifica che la posizione ricada in una zona operativa attiva
     def verifica_posizione_in_zona_operativa(self, lat: float, lng: float) -> bool:
         return self._zone_repo.punto_in_zona_operativa(lat, lng)
+
+    # [IF-OP.01] Helper demo di presentazione: aggiorna la posizione di un mezzo.
+    # La posizione non è uno stato del mezzo: resta in ServizioMappa (servizio geografico).
+    def aggiorna_posizione_mezzo(self, id_mezzo: UUID, lat: float, lng: float) -> None:
+        self._mezzo_repo.aggiorna_posizione(id_mezzo, lat, lng)
