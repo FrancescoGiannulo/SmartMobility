@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { getStoricoModifiche, type StoricoModifica } from '../../services/StoricoModificheService'
+import SidebarRuolo from '../../components/layout/SidebarRuolo'
 import './VistaStoricoModifiche.css'
 
 interface CampoConfig {
@@ -153,7 +153,6 @@ function formatData(iso: string) {
 
 // [IF-OP.13] Mostra Storico Modifiche
 export default function VistaStoricoModifiche() {
-  const navigate = useNavigate()
   const [storico, setStorico] = useState<StoricoModifica[]>([])
   const [caricamento, setCaricamento] = useState(true)
   const [errore, setErrore] = useState('')
@@ -180,76 +179,77 @@ export default function VistaStoricoModifiche() {
     .filter(s => s.voci.length > 0)
 
   return (
-    <div className="vista-storico-mod-wrap">
-      <button type="button" className="btn-back-storico-mod" onClick={() => navigate(-1)}>
-        ← Torna alla mappa
-      </button>
+    <div className="sm-op-shell">
+      <SidebarRuolo ruolo="OP" />
+      <div className="sm-op-main">
+        <div className="vstorico__body">
+          <h1 className="vstorico__titolo">Storico Modifiche</h1>
 
-      <h1 className="storico-mod-titolo">Storico Modifiche</h1>
+          {errore && <p className="vstorico__errore">{errore}</p>}
 
-      {errore && <p className="storico-mod-errore">{errore}</p>}
-
-      {caricamento ? (
-        <p className="storico-mod-vuoto">Caricamento...</p>
-      ) : sezioni.length === 0 ? (
-        <p className="storico-mod-vuoto">Nessuna modifica registrata.</p>
-      ) : (
-        <div className="storico-mod-sezioni">
-          {sezioni.map(({ categoria, voci }) => {
-            const aperta = categoriaAperta === categoria.label
-            return (
-              <div key={categoria.label} className="storico-mod-sezione">
-                <button
-                  type="button"
-                  className="storico-mod-sezione-header"
-                  onClick={() => setCategoriaAperta(aperta ? null : categoria.label)}
-                >
-                  <span className="storico-mod-sezione-titolo">
-                    {categoria.label}
-                    <span className="storico-mod-sezione-badge">{voci.length}</span>
-                  </span>
-                  <span className={`storico-mod-chevron ${aperta ? 'aperta' : ''}`}>▾</span>
-                </button>
-                {aperta && (
-                  <div className="storico-mod-lista">
-                    {voci.map(v => (
-                      <div key={v.id} className="storico-mod-card">
-                        <div className="storico-mod-card-header">
-                          <span className="storico-mod-data">{formatData(v.created_at)}</span>
-                          <span className="storico-mod-operatore">
-                            Modificato da: {v.operatore_nome ?? 'Operatore non disponibile'}
-                          </span>
-                        </div>
-                        <p className="storico-mod-descrizione">{v.descrizione}</p>
-                        <div className="storico-mod-valori">
-                          {calcolaDiff(v.valore_precedente, v.valore_nuovo).map(riga => (
-                            <div key={riga.campo} className="storico-mod-riga-diff">
-                              <span className="storico-mod-riga-etichetta">{etichettaCampo(categoria, riga.campo)}:</span>
-                              {riga.prima !== undefined && (
-                                <span className="storico-mod-valore-precedente">
-                                  {formattaValore(categoria, riga.campo, riga.prima)}
-                                </span>
-                              )}
-                              {riga.prima !== undefined && riga.dopo !== undefined && (
-                                <span className="storico-mod-freccia">→</span>
-                              )}
-                              {riga.dopo !== undefined && (
-                                <span className="storico-mod-valore-nuovo">
-                                  {formattaValore(categoria, riga.campo, riga.dopo)}
-                                </span>
-                              )}
+          {caricamento ? (
+            <p className="vstorico__vuoto">Caricamento...</p>
+          ) : sezioni.length === 0 ? (
+            <p className="vstorico__vuoto">Nessuna modifica registrata.</p>
+          ) : (
+            <div className="vstorico__sezioni">
+              {sezioni.map(({ categoria, voci }) => {
+                const aperta = categoriaAperta === categoria.label
+                return (
+                  <div key={categoria.label} className="vstorico__sezione">
+                    <button
+                      type="button"
+                      className="vstorico__sezione-header"
+                      onClick={() => setCategoriaAperta(aperta ? null : categoria.label)}
+                    >
+                      <span className="vstorico__sezione-titolo">
+                        {categoria.label}
+                        <span className="vstorico__sezione-badge">{voci.length}</span>
+                      </span>
+                      <span className={`vstorico__chevron${aperta ? ' vstorico__chevron--aperta' : ''}`}>▾</span>
+                    </button>
+                    {aperta && (
+                      <div className="vstorico__lista">
+                        {voci.map(v => (
+                          <div key={v.id} className="vstorico__card">
+                            <div className="vstorico__card-header">
+                              <span className="vstorico__data">{formatData(v.created_at)}</span>
+                              <span className="vstorico__operatore">
+                                Modificato da: {v.operatore_nome ?? 'Operatore non disponibile'}
+                              </span>
                             </div>
-                          ))}
-                        </div>
+                            <p className="vstorico__descrizione">{v.descrizione}</p>
+                            <div className="vstorico__valori">
+                              {calcolaDiff(v.valore_precedente, v.valore_nuovo).map(riga => (
+                                <div key={riga.campo} className="vstorico__riga-diff">
+                                  <span className="vstorico__riga-etichetta">{etichettaCampo(categoria, riga.campo)}:</span>
+                                  {riga.prima !== undefined && (
+                                    <span className="vstorico__valore-precedente">
+                                      {formattaValore(categoria, riga.campo, riga.prima)}
+                                    </span>
+                                  )}
+                                  {riga.prima !== undefined && riga.dopo !== undefined && (
+                                    <span className="vstorico__freccia">→</span>
+                                  )}
+                                  {riga.dopo !== undefined && (
+                                    <span className="vstorico__valore-nuovo">
+                                      {formattaValore(categoria, riga.campo, riga.dopo)}
+                                    </span>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    )}
                   </div>
-                )}
-              </div>
-            )
-          })}
+                )
+              })}
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   )
 }
