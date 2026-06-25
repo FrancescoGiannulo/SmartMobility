@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {
   getRegolaFinecorsa,
   salvaRegolaFinecorsa,
   type SalvaRegolaPayload,
 } from '../../services/RegolaFinecorsaService'
+import SidebarRuolo from '../../components/layout/SidebarRuolo'
 import './VistaImpostazioniRegole.css'
 
 const LABEL_VINCOLO: Record<string, string> = {
@@ -15,7 +15,6 @@ const LABEL_VINCOLO: Record<string, string> = {
 }
 
 export default function VistaImpostazioniRegole() {
-  const navigate = useNavigate()
   const [tipoVincolo, setTipoVincolo] = useState<'penale' | 'divieto' | 'avviso'>('avviso')
   const [penale, setPenale] = useState('')
   const [batteria, setBatteria] = useState('')
@@ -67,94 +66,94 @@ export default function VistaImpostazioniRegole() {
   }
 
   return (
-    <div className="vista-regole">
-      <div className="regole-topbar">
-        <h2>Impostazioni Regole Fine Corsa</h2>
-        <button className="btn-indietro" onClick={() => navigate('/operatore/dashboard')}>
-          ← Torna alla mappa
-        </button>
-      </div>
+    <div className="sm-op-shell">
+      <SidebarRuolo ruolo="OP" />
+      <div className="sm-op-main">
+        <div className="vregole__header">
+          <h2>Impostazioni Regole Fine Corsa</h2>
+        </div>
 
-      <div className="regole-body">
-        <div className="regole-card">
-          <h3>Politica sanzionatoria</h3>
-          <div className="regole-campo">
-            <label>Vincolo rilascio fuori zona parcheggio</label>
-            <select value={tipoVincolo} onChange={e => setTipoVincolo(e.target.value as typeof tipoVincolo)}>
-              {Object.entries(LABEL_VINCOLO).map(([val, label]) => (
-                <option key={val} value={val}>{label}</option>
-              ))}
-            </select>
-          </div>
-          {tipoVincolo === 'penale' && (
-            <div className="regole-campo">
-              <label>Importo penale (€)</label>
-              <input
-                type="number"
-                min="0.01"
-                step="0.01"
-                value={penale}
-                onChange={e => setPenale(e.target.value)}
-                placeholder="es. 5.00"
-              />
+        <div className="vregole__body">
+          <div className="vregole__card sm-card">
+            <h3>Politica sanzionatoria</h3>
+            <div className="vregole__campo">
+              <label>Vincolo rilascio fuori zona parcheggio</label>
+              <select value={tipoVincolo} onChange={e => setTipoVincolo(e.target.value as typeof tipoVincolo)}>
+                {Object.entries(LABEL_VINCOLO).map(([val, label]) => (
+                  <option key={val} value={val}>{label}</option>
+                ))}
+              </select>
             </div>
-          )}
-        </div>
-
-        <div className="regole-card">
-          <h3>Vincoli aggiuntivi</h3>
-          <div className="regole-campo">
-            <label>Batteria minima richiesta (%)</label>
-            <input
-              type="number"
-              min="0"
-              max="100"
-              value={batteria}
-              onChange={e => setBatteria(e.target.value)}
-              placeholder="Lascia vuoto per nessun vincolo"
-            />
-          </div>
-        </div>
-
-        <div className="regole-card">
-          <h3>Incentivo parcheggio corretto</h3>
-          <label className="bonus-toggle">
-            <input type="checkbox" checked={bonusAttivo} onChange={e => setBonusAttivo(e.target.checked)} />
-            Attiva bonus per parcheggi corretti
-          </label>
-          {bonusAttivo && (
-            <>
-              <div className="regole-campo">
-                <label>Numero parcheggi corretti necessari</label>
-                <input
-                  type="number"
-                  min="1"
-                  value={bonusParcheggi}
-                  onChange={e => setBonusParcheggi(e.target.value)}
-                  placeholder="es. 5"
-                />
-              </div>
-              <div className="regole-campo">
-                <label>Valore bonus (€)</label>
+            {tipoVincolo === 'penale' && (
+              <div className="vregole__campo">
+                <label>Importo penale (€)</label>
                 <input
                   type="number"
                   min="0.01"
                   step="0.01"
-                  value={bonusValore}
-                  onChange={e => setBonusValore(e.target.value)}
-                  placeholder="es. 2.50"
+                  value={penale}
+                  onChange={e => setPenale(e.target.value)}
+                  placeholder="es. 5.00"
                 />
               </div>
-            </>
-          )}
+            )}
+          </div>
+
+          <div className="vregole__card sm-card">
+            <h3>Vincoli aggiuntivi</h3>
+            <div className="vregole__campo">
+              <label>Batteria minima richiesta (%)</label>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                value={batteria}
+                onChange={e => setBatteria(e.target.value)}
+                placeholder="Lascia vuoto per nessun vincolo"
+              />
+            </div>
+          </div>
+
+          <div className="vregole__card sm-card">
+            <h3>Incentivo parcheggio corretto</h3>
+            <label className="vregole__bonus-toggle">
+              <input type="checkbox" checked={bonusAttivo} onChange={e => setBonusAttivo(e.target.checked)} />
+              Attiva bonus per parcheggi corretti
+            </label>
+            {bonusAttivo && (
+              <>
+                <div className="vregole__campo">
+                  <label>Numero parcheggi corretti necessari</label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={bonusParcheggi}
+                    onChange={e => setBonusParcheggi(e.target.value)}
+                    placeholder="es. 5"
+                  />
+                </div>
+                <div className="vregole__campo">
+                  <label>Valore bonus (€)</label>
+                  <input
+                    type="number"
+                    min="0.01"
+                    step="0.01"
+                    value={bonusValore}
+                    onChange={e => setBonusValore(e.target.value)}
+                    placeholder="es. 2.50"
+                  />
+                </div>
+              </>
+            )}
+          </div>
+
+          {errore && <p className="vregole__errore">{errore}</p>}
+          {conferma && <p className="vregole__conferma">{conferma}</p>}
+
+          <button className="vregole__btn-salva sm-btn sm-btn--primary" onClick={handleSalva} disabled={caricamento}>
+            {caricamento ? '...' : 'Salva regole'}
+          </button>
         </div>
-
-        {errore && <p className="regole-errore">{errore}</p>}
-        {conferma && <p className="regole-conferma">{conferma}</p>}
-
-        <button className="btn-salva-regole" onClick={handleSalva} disabled={caricamento}>
-          {caricamento ? '...' : 'Salva regole'}
-        </button>
       </div>
     </div>
   )
