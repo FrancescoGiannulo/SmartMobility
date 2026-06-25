@@ -342,17 +342,18 @@ export default function VistaCorsa() {
   }, [corse, daTerminare, handlePaga])
 
   // --- Demo movimento (helper di presentazione, solo account demo) ---
-  // Giro su strada (Google Directions) a velocità realistica: attraversa zona limitata e
-  // vietata, esce dalla zona operativa e rientra a parcheggiare dove il mezzo è stato preso.
+  // Giro piccolo su strada (Google Directions): attraversa zona limitata e vietata (un solo
+  // passaggio), esce dalla zona operativa verso Via Padre Pio e rientra a parcheggiare allo start.
+  // Velocità scalata per durare ~90s (sempre sotto i 2 minuti).
   const avviaDemoMovimento = useCallback(async () => {
     if (corse.length === 0 || zoneTutte.length === 0 || demoTimerRef.current !== null) return
 
-    const CAMPUS: PuntoLL = { lat: 41.1095, lng: 16.8806 }       // limitata (vmax 15)
-    const POLITECNICO: PuntoLL = { lat: 41.1093, lng: 16.8791 }  // vietata (dentro Campus)
+    const POLITECNICO: PuntoLL = { lat: 41.1093, lng: 16.8791 }  // vietata (dentro la limitata Campus)
     const OPERATIVA_CENTRO: PuntoLL = { lat: 41.11033, lng: 16.86814 }
     const start: PuntoLL = { lat: corse[0].mezzo.lat, lng: corse[0].mezzo.lng }
+    const USCITA_ADDR = 'Via Padre Pio, Bari, Italia'  // punto di uscita dalla zona operativa
 
-    // Primo punto appena fuori dalla zona operativa, oltre il Politecnico (escursione minima).
+    // Punto di uscita per il fallback (linea retta): primo punto fuori operativa dal Politecnico.
     const dLat = POLITECNICO.lat - OPERATIVA_CENTRO.lat
     const dLng = POLITECNICO.lng - OPERATIVA_CENTRO.lng
     const norm = Math.hypot(dLat, dLng) || 1
@@ -362,7 +363,8 @@ export default function VistaCorsa() {
       if (zonaCorrente(fuori.lat, fuori.lng, zoneTutte).tipo === 'fuori') break
     }
 
-    // Percorso su strada (round trip). Fallback a linea retta se Directions non è disponibile.
+    // Giro piccolo su strada: start → Politecnico (zona vietata, un solo passaggio) →
+    // uscita a Via Padre Pio → rientro allo start. Fallback a linea retta se Directions non c'è.
     let path: PuntoLL[] = []
     if (routesLib) {
       try {
@@ -370,7 +372,10 @@ export default function VistaCorsa() {
         const res = await ds.route({
           origin: start,
           destination: start,
-          waypoints: [CAMPUS, POLITECNICO, fuori].map(w => ({ location: w, stopover: false })),
+          waypoints: [
+            { location: POLITECNICO, stopover: false },
+            { location: USCITA_ADDR, stopover: false },
+          ],
           travelMode: google.maps.TravelMode.DRIVING,
         })
         const op = res.routes[0]?.overview_path
@@ -380,13 +385,14 @@ export default function VistaCorsa() {
     if (path.length < 2) {
       const interp = (a: PuntoLL, b: PuntoLL, n: number): PuntoLL[] =>
         Array.from({ length: n }, (_, k) => ({ lat: a.lat + (b.lat - a.lat) * (k + 1) / n, lng: a.lng + (b.lng - a.lng) * (k + 1) / n }))
-      path = [start, ...interp(start, CAMPUS, 6), ...interp(CAMPUS, POLITECNICO, 3), ...interp(POLITECNICO, fuori, 6), ...interp(fuori, start, 10)]
+      path = [start, ...interp(start, POLITECNICO, 4), ...interp(POLITECNICO, fuori, 6), ...interp(fuori, start, 8)]
     }
 
     const cum = lunghezzeCumulativeM(path)
     const totale = cum[cum.length - 1]
-    const VEL_KMH = 22, TICK_SEC = 1.5, GAP_M = 25
-    const passoM = (VEL_KMH / 3.6) * TICK_SEC
+    // Velocità scalata per completare il giro in ~90s (sempre sotto i 2 minuti), più veloce di prima.
+    const TICK_SEC = 1.2, GAP_M = 15, DURATA_TARGET_SEC = 90
+    const passoM = Math.max(8, (totale / DURATA_TARGET_SEC) * TICK_SEC)
     const ordine: Record<TipoZonaCorrente, number> = { vietata: 0, fuori: 1, limitata: 2, operativa: 3 }
     const startBatt = corse.map(c => c.mezzo.batteria ?? 100)
     const CONSUMO_DEMO_PER_KM = 15  // calo batteria ben visibile durante la demo
