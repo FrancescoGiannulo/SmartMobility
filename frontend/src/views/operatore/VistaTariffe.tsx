@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { getTariffe, creaTariffa, aggiornaTariffa, type Tariffa } from '../../services/TariffaService'
+import SidebarRuolo from '../../components/layout/SidebarRuolo'
+import '../../styles/primitives.css'
 import './VistaTariffe.css'
 
 const TIPI_MEZZO = ['monopattino', 'bicicletta', 'automobile'] as const
@@ -10,6 +11,12 @@ const TIPO_LABEL: Record<string, string> = {
   monopattino: 'Monopattino',
   bicicletta: 'Bicicletta',
   automobile: 'Automobile',
+}
+
+const TIPO_EMOJI: Record<string, string> = {
+  monopattino: '🛴',
+  bicicletta: '🚲',
+  automobile: '🚗',
 }
 
 interface FormState {
@@ -34,7 +41,6 @@ function tariffaToForm(t: Tariffa): FormState {
 
 // [IF-OP.07] Definisce Tariffa / [IF-OP.08] Modifica Tariffa
 export default function VistaTariffe() {
-  const navigate = useNavigate()
   const [tariffe, setTariffe] = useState<Tariffa[]>([])
   const [mostraModal, setMostraModal] = useState(false)
   const [tariffaInModifica, setTariffaInModifica] = useState<Tariffa | null>(null)
@@ -109,81 +115,123 @@ export default function VistaTariffe() {
     setForm(prev => ({ ...prev, [field]: e.target.value }))
 
   return (
-    <div className="vista-tariffe">
-      <div className="tariffe-topbar">
-        <h2>Tariffe</h2>
-        <button className="btn-indietro" onClick={() => navigate('/operatore/dashboard')}>
-          ← Torna alla mappa
-        </button>
-      </div>
-
-      <div className="tariffe-body">
-        <div className="tariffe-header-row">
-          <h3>Tariffe per tipologia di mezzo</h3>
-          <button className="btn-nuova-tariffa" onClick={apriNuova} disabled={tipiDisponibili.length === 0}>
+    <div className="sm-op-shell">
+      <SidebarRuolo ruolo="OP" />
+      <div className="sm-op-main">
+        <div className="vtariffe__header">
+          <h2 className="vtariffe__titolo">Tariffe</h2>
+          <button
+            className="sm-btn sm-btn--primary vtariffe__btn-nuova"
+            onClick={apriNuova}
+            disabled={tipiDisponibili.length === 0}
+          >
             + Nuova tariffa
           </button>
         </div>
 
-        <div className="tariffe-lista">
-          {tariffe.length === 0 ? (
-            <div className="tariffe-vuote">Nessuna tariffa definita. Crea la prima!</div>
-          ) : (
-            tariffe.map(t => (
-              <div className="tariffa-card" key={t.id}>
-                <div className="tariffa-tipo-badge">{TIPO_LABEL[t.tipo_mezzo] ?? t.tipo_mezzo}</div>
-                <div className="tariffa-info">
-                  <div className="tariffa-nome">{TIPO_LABEL[t.tipo_mezzo] ?? t.tipo_mezzo}</div>
-                  <div className="tariffa-dettaglio">
-                    €{t.costo_al_minuto}/min · €{t.costo_al_km}/km
+        <div className="vtariffe__body">
+          <p className="vtariffe__sezione-label">Tariffe per tipologia di mezzo</p>
+
+          <div className="vtariffe__lista">
+            {tariffe.length === 0 ? (
+              <div className="vtariffe__vuote">Nessuna tariffa definita. Crea la prima!</div>
+            ) : (
+              tariffe.map(t => (
+                <div className="vtariffe__card sm-card" key={t.id}>
+                  <div className="vtariffe__badge">
+                    {TIPO_EMOJI[t.tipo_mezzo] ?? '🚗'}
                   </div>
+                  <div className="vtariffe__info">
+                    <div className="vtariffe__nome">{TIPO_LABEL[t.tipo_mezzo] ?? t.tipo_mezzo}</div>
+                    <div className="vtariffe__prezzi sm-mono">
+                      €{t.costo_al_minuto}/min · €{t.costo_al_km}/km
+                    </div>
+                  </div>
+                  <button
+                    className="vtariffe__btn-modifica"
+                    onClick={() => apriModifica(t)}
+                    title="Modifica"
+                  >
+                    ✏️
+                  </button>
                 </div>
-                <button className="btn-modifica-tariffa" onClick={() => apriModifica(t)} title="Modifica">✏️</button>
-              </div>
-            ))
-          )}
-        </div>
-      </div>
-
-      {mostraModal && (
-        <div className="modal-overlay-tariffa" onClick={chiudiModal}>
-          <div className="modal-tariffa" onClick={e => e.stopPropagation()}>
-            <h3>{tariffaInModifica ? 'Modifica tariffa' : 'Nuova tariffa'}</h3>
-
-            <label>
-              Tipologia mezzo *
-              {tariffaInModifica ? (
-                <input value={TIPO_LABEL[form.tipo_mezzo] ?? form.tipo_mezzo} disabled />
-              ) : (
-                <select value={form.tipo_mezzo} onChange={set('tipo_mezzo')}>
-                  {tipiDisponibili.map(t => (
-                    <option key={t} value={t}>{TIPO_LABEL[t]}</option>
-                  ))}
-                </select>
-              )}
-            </label>
-
-            <label>
-              Costo al minuto (€) *
-              <input type="number" min="0" step="0.01" value={form.costo_al_minuto} onChange={set('costo_al_minuto')} placeholder="es. 0.15" />
-            </label>
-
-            <label>
-              Costo al km (€) *
-              <input type="number" min="0" step="0.01" value={form.costo_al_km} onChange={set('costo_al_km')} placeholder="es. 0.20" />
-            </label>
-
-            {errore && <p className="modal-errore-tariffa">{errore}</p>}
-
-            <div className="modal-azioni-tariffa">
-              <button className="btn-annulla-tariffa" onClick={chiudiModal}>Annulla</button>
-              <button className="btn-conferma-tariffa" onClick={handleConferma} disabled={caricamento || !datiValidi}>
-                {caricamento ? '...' : tariffaInModifica ? 'Salva modifiche' : 'Salva tariffa'}
-              </button>
-            </div>
+              ))
+            )}
           </div>
         </div>
-      )}
+
+        {mostraModal && (
+          <div className="vtariffe__overlay" onClick={chiudiModal}>
+            <div className="vtariffe__modal" onClick={e => e.stopPropagation()}>
+              <h3 className="vtariffe__modal-titolo">
+                {tariffaInModifica ? 'Modifica tariffa' : 'Nuova tariffa'}
+              </h3>
+
+              <label className="vtariffe__label">
+                Tipologia mezzo *
+                {tariffaInModifica ? (
+                  <input
+                    className="vtariffe__input"
+                    value={TIPO_LABEL[form.tipo_mezzo] ?? form.tipo_mezzo}
+                    disabled
+                  />
+                ) : (
+                  <select
+                    className="vtariffe__input"
+                    value={form.tipo_mezzo}
+                    onChange={set('tipo_mezzo')}
+                  >
+                    {tipiDisponibili.map(t => (
+                      <option key={t} value={t}>{TIPO_LABEL[t]}</option>
+                    ))}
+                  </select>
+                )}
+              </label>
+
+              <label className="vtariffe__label">
+                Costo al minuto (€) *
+                <input
+                  className="vtariffe__input sm-mono"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={form.costo_al_minuto}
+                  onChange={set('costo_al_minuto')}
+                  placeholder="es. 0.15"
+                />
+              </label>
+
+              <label className="vtariffe__label">
+                Costo al km (€) *
+                <input
+                  className="vtariffe__input sm-mono"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={form.costo_al_km}
+                  onChange={set('costo_al_km')}
+                  placeholder="es. 0.20"
+                />
+              </label>
+
+              {errore && <p className="vtariffe__errore">{errore}</p>}
+
+              <div className="vtariffe__modal-azioni">
+                <button className="sm-btn sm-btn--ghost vtariffe__btn-modale" onClick={chiudiModal}>
+                  Annulla
+                </button>
+                <button
+                  className="sm-btn sm-btn--primary vtariffe__btn-modale"
+                  onClick={handleConferma}
+                  disabled={caricamento || !datiValidi}
+                >
+                  {caricamento ? '...' : tariffaInModifica ? 'Salva modifiche' : 'Salva tariffa'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

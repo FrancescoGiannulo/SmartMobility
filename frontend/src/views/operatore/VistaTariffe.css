@@ -1,128 +1,143 @@
-.vista-tariffe {
-  min-height: 100vh;
-  background: #f1f5f9;
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-}
+/* VistaTariffe — redesign Foresta
+   Token inventory (replaces hardcoded hex):
+   #f1f5f9 / #f8fafc  → var(--bg)
+   #fff / #ffffff      → var(--surface)
+   #0f172a / #1e293b  → var(--text)
+   #64748b / #475569  → var(--text-dim)
+   #94a3b8            → var(--text-mute)
+   #155e52 / #0f4a3f  → var(--accent) / var(--accent-2)
+   #dbeafe / #1d4ed8  → color-mix(in srgb, var(--accent) 15%, var(--surface)) / var(--accent)
+   rgba(15,23,42,.08) → var(--border)
+   #e2e8f0            → var(--border)
+   rgba(0,0,0,.5)     → var(--glass)
+   rgba(0,0,0,.2)     → var(--shadow)
+   #f43f5e            → var(--danger)
+*/
 
-.tariffe-topbar {
-  height: 64px;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  padding: 0 24px;
-  gap: 14px;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
-}
-
-.tariffe-topbar h2 {
-  margin: 0;
-  flex: 1;
-  font-size: 16px;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-.tariffe-body {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 32px 24px;
-}
-
-.tariffe-header-row {
+/* ── Header ── */
+.vtariffe__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  padding: 20px 32px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  gap: 16px;
+  flex-shrink: 0;
 }
 
-.tariffe-header-row h3 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-.btn-nuova-tariffa {
-  padding: 11px 22px;
-  background: #155e52;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-size: 13px;
+.vtariffe__titolo {
+  font-family: var(--ff-display);
+  font-size: 22px;
   font-weight: 700;
-  cursor: pointer;
-  transition: background 160ms ease;
+  color: var(--text);
+  margin: 0;
 }
-.btn-nuova-tariffa:hover { background: #0f4a3f; }
-.btn-nuova-tariffa:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.tariffe-lista {
+.vtariffe__btn-nuova {
+  font-size: 14px;
+  padding: 10px 22px;
+}
+
+/* ── Body ── */
+.vtariffe__body {
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 32px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.vtariffe__sezione-label {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+/* ── Lista tariffe ── */
+.vtariffe__lista {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.tariffa-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 18px 20px;
+.vtariffe__card {
   display: flex;
   align-items: center;
   gap: 16px;
-  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
-  border: 1px solid rgba(15, 23, 42, 0.06);
+  padding: 18px 20px;
+  transition: background .18s, border-color .18s;
 }
 
-.tariffa-tipo-badge {
+.vtariffe__card:hover {
+  background: var(--surface-2);
+  border-color: var(--border-2);
+}
+
+.vtariffe__badge {
   width: 44px;
   height: 44px;
-  border-radius: 12px;
+  border-radius: var(--r-sm);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-  text-align: center;
+  font-size: 22px;
   flex-shrink: 0;
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: color-mix(in srgb, var(--accent) 15%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--surface));
 }
 
-.tariffa-info { flex: 1; min-width: 0; }
-.tariffa-nome {
+.vtariffe__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.vtariffe__nome {
+  font-family: var(--ff-display);
   font-size: 15px;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text);
   margin-bottom: 4px;
 }
-.tariffa-dettaglio {
-  font-size: 12px;
-  color: #64748b;
+
+.vtariffe__prezzi {
+  font-size: 13px;
+  color: var(--accent);
 }
 
-.btn-modifica-tariffa {
+.vtariffe__btn-modifica {
   background: none;
   border: none;
   font-size: 18px;
   cursor: pointer;
-  padding: 4px 6px;
-  border-radius: 8px;
-  transition: background 140ms;
+  padding: 6px 8px;
+  border-radius: var(--r-sm);
+  transition: background .14s;
+  color: var(--text-dim);
 }
-.btn-modifica-tariffa:hover { background: rgba(99, 102, 241, 0.08); }
 
-.tariffe-vuote {
+.vtariffe__btn-modifica:hover {
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+}
+
+.vtariffe__vuote {
   text-align: center;
   padding: 48px;
-  color: #94a3b8;
+  color: var(--text-mute);
+  font-family: var(--ff-body);
   font-size: 15px;
 }
 
-.modal-overlay-tariffa {
+/* ── Modal overlay ── */
+.vtariffe__overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.5);
+  background: var(--glass);
   backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
@@ -130,103 +145,81 @@
   z-index: 100;
 }
 
-.modal-tariffa {
-  background: #fff;
-  border-radius: 20px;
+.vtariffe__modal {
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-lg);
   padding: 28px 26px;
-  width: 380px;
+  width: 400px;
   max-width: 95vw;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.2);
+  gap: 16px;
+  box-shadow: var(--shadow);
 }
 
-.modal-tariffa h3 {
+.vtariffe__modal-titolo {
+  font-family: var(--ff-display);
   margin: 0;
   font-size: 18px;
-  font-weight: 800;
-  color: #0f172a;
+  font-weight: 700;
+  color: var(--text);
 }
 
-.modal-tariffa label {
-  font-size: 12px;
+.vtariffe__label {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
   font-weight: 700;
-  color: #64748b;
+  color: var(--text-dim);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
-.modal-tariffa input,
-.modal-tariffa select {
+.vtariffe__input {
   padding: 10px 12px;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
   font-size: 14px;
-  font-family: inherit;
-  background: #f8fafc;
-  color: #0f172a;
+  font-family: var(--ff-body);
+  background: var(--surface-2);
+  color: var(--text);
   outline: none;
   transition: border-color 160ms;
 }
-.modal-tariffa input:focus,
-.modal-tariffa select:focus {
-  border-color: #155e52;
-  background: #fff;
-}
-.modal-tariffa input:disabled {
-  color: #94a3b8;
-  cursor: not-allowed;
+
+.vtariffe__input:focus {
+  border-color: var(--accent);
+  background: var(--surface-3);
 }
 
-.modal-errore-tariffa {
+.vtariffe__input:disabled {
+  color: var(--text-mute);
+  cursor: not-allowed;
+  opacity: .7;
+}
+
+.vtariffe__input option {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.vtariffe__errore {
   font-size: 12.5px;
-  color: #f43f5e;
+  color: var(--danger);
   margin: 0;
 }
 
-.modal-azioni-tariffa {
+.vtariffe__modal-azioni {
   display: flex;
   gap: 10px;
   margin-top: 4px;
 }
 
-.btn-conferma-tariffa {
+.vtariffe__btn-modale {
   flex: 1;
-  padding: 12px;
-  background: #155e52;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
   font-size: 14px;
-  cursor: pointer;
-  font-family: inherit;
-}
-.btn-conferma-tariffa:disabled { opacity: 0.6; cursor: not-allowed; }
-
-.btn-annulla-tariffa {
-  flex: 1;
   padding: 12px;
-  background: #f1f5f9;
-  color: #64748b;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.tariffe-topbar .btn-indietro {
-  padding: 8px 16px;
-  background: transparent;
-  color: #155e52;
-  border: 2px solid #155e52;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
 }
