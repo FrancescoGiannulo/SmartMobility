@@ -350,6 +350,7 @@ export default function VistaCorsa() {
       if (tuttiFermi && demoTimerRef.current !== null) {
         clearInterval(demoTimerRef.current)
         demoTimerRef.current = null
+        setStatoZonaDemo(null)
       }
     }, 2000)
   }, [corse, zoneTutte])
