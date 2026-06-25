@@ -15,7 +15,7 @@ class RegolaFinecorsaValidazioneException(Exception):
 
 
 class ServizioRegolaFinecorsa:
-    """BLL per la gestione delle regole di fine corsa [IF-OP.13]."""
+    """BLL per la gestione delle regole di fine corsa [IF-OP.06]."""
 
     def __init__(self):
         self._repo = RegoleFineCorsaRepository()

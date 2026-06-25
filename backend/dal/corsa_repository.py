@@ -40,7 +40,7 @@ class CorsaRepository:
             "penale_parcheggio_applicata": row.penale_parcheggio_applicata,
         }
 
-    # [IF-OP.13] Persiste l'esito della verifica parcheggio fatta a fine corsa
+    # [IF-OP.06] Persiste l'esito della verifica parcheggio fatta a fine corsa
     def imposta_esito_parcheggio(self, corsa_id: UUID, penale_applicata: bool, avviso: str | None) -> None:
         sql = text("""
             UPDATE corse SET penale_parcheggio_applicata = :penale, avviso_parcheggio = :avviso

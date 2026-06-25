@@ -163,7 +163,7 @@ class AttoreRepository:
             )
             session.commit()
 
-    # [IF-OP.13] Aggiorna contatore parcheggi corretti e credito bonus dopo una corsa.
+    # [IF-OP.06] Aggiorna contatore parcheggi corretti e credito bonus dopo una corsa.
     # parcheggio_corretto=True: incrementa il contatore; se raggiunge la soglia, azzera
     # il contatore e accredita bonus_valore. parcheggio_corretto=False: azzera il contatore
     # (serie consecutiva). Restituisce True se il bonus è stato appena accreditato.
@@ -204,7 +204,7 @@ class AttoreRepository:
             session.commit()
             return bonus_accreditato
 
-    # [IF-OP.13] Scala il credito bonus disponibile da un importo (fino a concorrenza).
+    # [IF-OP.06] Scala il credito bonus disponibile da un importo (fino a concorrenza).
     # Restituisce l'ammontare di credito effettivamente utilizzato.
     def scala_credito_bonus(self, id: UUID, importo_massimo) -> "Decimal":
         from decimal import Decimal

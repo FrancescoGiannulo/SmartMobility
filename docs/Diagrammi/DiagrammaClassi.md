@@ -1641,7 +1641,7 @@ Totale elementi identificati: **145**.
 - creditoBonus: Decimal
 ```
 
-`contatoreParcheggiCorretti`/`creditoBonus` [IF-OP.13]: tracciano la serie consecutiva di parcheggi
+`contatoreParcheggiCorretti`/`creditoBonus` [IF-OP.06]: tracciano la serie consecutiva di parcheggi
 corretti a fine corsa e il credito accumulato (in €) erogato al raggiungimento di
 `RegolaFineCorsa.bonusParcheggiCorretti`, scalato automaticamente al pagamento della corsa successiva.
 

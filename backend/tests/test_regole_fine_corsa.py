@@ -1,4 +1,4 @@
-"""[IF-OP.13] Test Definisce Regole Fine Corsa — scenari base e alternativi."""
+"""[IF-OP.06] Test Definisce Regole Fine Corsa — scenari base e alternativi."""
 import pytest
 from fastapi.testclient import TestClient
 from main import app
@@ -23,7 +23,7 @@ def test_get_regole_non_autenticato():
 
 
 def test_get_regole_autenticato(operatore_test):
-    """[IF-OP.13] GET ritorna None o configurazione corrente."""
+    """[IF-OP.06] GET ritorna None o configurazione corrente."""
     token = _login(operatore_test["email"], operatore_test["password"])
     resp = http.get("/operatore/regole-fine-corsa", headers=_auth(token))
     assert resp.status_code == 200
@@ -31,7 +31,7 @@ def test_get_regole_autenticato(operatore_test):
 
 
 def test_salva_regole_avviso(operatore_test):
-    """[IF-OP.13] Salva config con vincolo 'avviso' → 200."""
+    """[IF-OP.06] Salva config con vincolo 'avviso' → 200."""
     token = _login(operatore_test["email"], operatore_test["password"])
     payload = {"tipo_vincolo": "avviso", "penale_fuori_zona": "0.00"}
     resp = http.put("/operatore/regole-fine-corsa", json=payload, headers=_auth(token))
@@ -42,7 +42,7 @@ def test_salva_regole_avviso(operatore_test):
 
 
 def test_salva_regole_penale(operatore_test):
-    """[IF-OP.13] Salva config penale con importo positivo → 200."""
+    """[IF-OP.06] Salva config penale con importo positivo → 200."""
     token = _login(operatore_test["email"], operatore_test["password"])
     payload = {"tipo_vincolo": "penale", "penale_fuori_zona": "5.00"}
     resp = http.put("/operatore/regole-fine-corsa", json=payload, headers=_auth(token))
@@ -53,7 +53,7 @@ def test_salva_regole_penale(operatore_test):
 
 
 def test_salva_regole_con_bonus(operatore_test):
-    """[IF-OP.13] Salva config con bonus → 200."""
+    """[IF-OP.06] Salva config con bonus → 200."""
     token = _login(operatore_test["email"], operatore_test["password"])
     payload = {
         "tipo_vincolo": "avviso",
@@ -69,7 +69,7 @@ def test_salva_regole_con_bonus(operatore_test):
 
 
 def test_salva_regole_upsert(operatore_test):
-    """[IF-OP.13] Seconda PUT aggiorna la config (non ne crea una nuova)."""
+    """[IF-OP.06] Seconda PUT aggiorna la config (non ne crea una nuova)."""
     token = _login(operatore_test["email"], operatore_test["password"])
     http.put("/operatore/regole-fine-corsa", json={"tipo_vincolo": "avviso", "penale_fuori_zona": "0.00"}, headers=_auth(token))
     http.put("/operatore/regole-fine-corsa", json={"tipo_vincolo": "divieto", "penale_fuori_zona": "0.00"}, headers=_auth(token))
@@ -78,7 +78,7 @@ def test_salva_regole_upsert(operatore_test):
 
 
 def test_penale_importo_zero(operatore_test):
-    """[IF-OP.13] Penale con importo = 0 → 422."""
+    """[IF-OP.06] Penale con importo = 0 → 422."""
     token = _login(operatore_test["email"], operatore_test["password"])
     payload = {"tipo_vincolo": "penale", "penale_fuori_zona": "0.00"}
     resp = http.put("/operatore/regole-fine-corsa", json=payload, headers=_auth(token))
@@ -86,7 +86,7 @@ def test_penale_importo_zero(operatore_test):
 
 
 def test_batteria_fuori_range(operatore_test):
-    """[IF-OP.13] Batteria minima > 100 → 422."""
+    """[IF-OP.06] Batteria minima > 100 → 422."""
     token = _login(operatore_test["email"], operatore_test["password"])
     payload = {"tipo_vincolo": "avviso", "penale_fuori_zona": "0.00", "batteria_minima": 150}
     resp = http.put("/operatore/regole-fine-corsa", json=payload, headers=_auth(token))
@@ -94,7 +94,7 @@ def test_batteria_fuori_range(operatore_test):
 
 
 def test_bonus_incompleto(operatore_test):
-    """[IF-OP.13] Bonus con solo parcheggi_corretti (senza valore) → 422."""
+    """[IF-OP.06] Bonus con solo parcheggi_corretti (senza valore) → 422."""
     token = _login(operatore_test["email"], operatore_test["password"])
     payload = {"tipo_vincolo": "avviso", "penale_fuori_zona": "0.00", "bonus_parcheggi_corretti": 5}
     resp = http.put("/operatore/regole-fine-corsa", json=payload, headers=_auth(token))
@@ -102,7 +102,7 @@ def test_bonus_incompleto(operatore_test):
 
 
 def test_tipo_vincolo_non_valido(operatore_test):
-    """[IF-OP.13] Tipo vincolo non riconosciuto → 422."""
+    """[IF-OP.06] Tipo vincolo non riconosciuto → 422."""
     token = _login(operatore_test["email"], operatore_test["password"])
     payload = {"tipo_vincolo": "multa", "penale_fuori_zona": "0.00"}
     resp = http.put("/operatore/regole-fine-corsa", json=payload, headers=_auth(token))

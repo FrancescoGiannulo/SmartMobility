@@ -153,7 +153,7 @@ class ServizioMobilita:
         self._mezzo_repo.aggiorna_stato(mezzo_id, "In uso")
         return corsa
 
-    # [IF-OP.13] — Ottieni zone parcheggio e configurazione attuale
+    # [IF-OP.06] — Ottieni zone parcheggio e configurazione attuale
     def get_zona_parcheggio_e_regole(self, operatore_id: UUID) -> dict:
         zone = [z for z in self._zona_repo.lista_zone() if z["tipo"] == "parcheggio"]
         regole = self._regola_repo.trova_tutte()
@@ -176,7 +176,7 @@ class ServizioMobilita:
             "zone_parcheggio": [{"id": str(z["id"]), "nome": z["nome"]} for z in zone],
         }
 
-    # [IF-OP.13] — Salva regole fine corsa (params globali su tutte le zone parcheggio)
+    # [IF-OP.06] — Salva regole fine corsa (params globali su tutte le zone parcheggio)
     def salva_regole_fine_corsa(
         self,
         operatore_id: UUID,
@@ -221,7 +221,7 @@ class ServizioMobilita:
             raise CorsaNonTrovataException(f"Corsa {corsa_id} non trovata")
         mezzo_id = UUID(corsa["mezzo_id"])
 
-        # [IF-OP.13] Verifica parcheggio PRIMA di chiudere la corsa: se il vincolo è
+        # [IF-OP.06] Verifica parcheggio PRIMA di chiudere la corsa: se il vincolo è
         # 'divieto' la corsa resta attiva finché il mezzo non è in zona di parcheggio.
         avviso_parcheggio = self._valida_parcheggio_fine_corsa(corsa_id, UUID(corsa["utente_id"]), mezzo_id)
 
@@ -232,7 +232,7 @@ class ServizioMobilita:
         self._consuma_batteria_fine_corsa(corsa_id, mezzo_id)
         return {"avviso_parcheggio": avviso_parcheggio}
 
-    # [IF-OP.13] Verifica il parcheggio a fine corsa contro le regole correnti.
+    # [IF-OP.06] Verifica il parcheggio a fine corsa contro le regole correnti.
     # Aggiorna il contatore/credito bonus dell'utente ed eventualmente marca la
     # penale da applicare al pagamento. Restituisce un avviso testuale o None.
     def _valida_parcheggio_fine_corsa(self, corsa_id: UUID, utente_id: UUID, mezzo_id: UUID) -> str | None:

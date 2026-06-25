@@ -109,7 +109,7 @@ def dismetti_mezzo(
         raise HTTPException(status_code=409, detail=str(e))
 
 
-# [IF-OP.13] CS-XX — Leggi configurazione regole fine corsa
+# [IF-OP.06] CS-XX — Leggi configurazione regole fine corsa
 @router.get("/configurazione/fine-corsa")
 def get_configurazione_fine_corsa(
     operatore=Depends(verify_token(["OP"])),
@@ -118,7 +118,7 @@ def get_configurazione_fine_corsa(
     return ServizioMobilita(db).get_zona_parcheggio_e_regole(UUID(operatore["id"]))
 
 
-# [IF-OP.13] CS-XX — Salva configurazione regole fine corsa
+# [IF-OP.06] CS-XX — Salva configurazione regole fine corsa
 @router.post("/configurazione/fine-corsa", status_code=201)
 def salva_configurazione_fine_corsa(
     body: ConfigurazioneFineCorsaRequest,

@@ -233,7 +233,7 @@ class ServizioPricing:
                 offerta_applicata_id = offerta.id
 
         # [IF-OP.06 / UT-04] Penale obbligatoria se la corsa è transitata in zona vietata /
-        # fuori dalla zona operativa. [IF-OP.13] Penale aggiuntiva se il mezzo non è stato
+        # fuori dalla zona operativa. [IF-OP.06] Penale aggiuntiva se il mezzo non è stato
         # parcheggiato in una zona di parcheggio consentita (le due penali si sommano).
         with Session(engine) as s:
             row_corsa = s.execute(
@@ -258,7 +258,7 @@ class ServizioPricing:
                 importo += penale
                 importo_pieno += penale
 
-        # [IF-OP.13] Scala l'eventuale credito bonus accumulato per parcheggi corretti.
+        # [IF-OP.06] Scala l'eventuale credito bonus accumulato per parcheggi corretti.
         if importo > 0:
             credito_usato = AttoreRepository().scala_credito_bonus(utente_id, importo)
             if credito_usato > 0:

@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from model.regola_fine_corsa import RegolaFinecorsa, TipoVincoloFinecorsa
 
 
-# [IF-OP.13] — repository ORM
+# [IF-OP.06] — repository ORM
 class RegoleFineCorsaRepository:
 
     def get_corrente(self, db: Session) -> Optional[RegolaFinecorsa]:
@@ -41,7 +41,7 @@ class RegoleFineCorsaRepository:
         return regola
 
 
-# [IF-OP.13] — repository raw-SQL (operazioni bulk su zone parcheggio)
+# [IF-OP.06] — repository raw-SQL (operazioni bulk su zone parcheggio)
 class RegoleFineCorsaRawRepository:
 
     def __init__(self, db: Session | Engine) -> None:
@@ -82,7 +82,7 @@ class RegoleFineCorsaRawRepository:
             s.execute(sql)
             s.commit()
 
-    # [IF-OP.13] Legge la riga di configurazione globale (zona_parcheggio_id IS NULL) via raw SQL,
+    # [IF-OP.06] Legge la riga di configurazione globale (zona_parcheggio_id IS NULL) via raw SQL,
     # tollerante sia a Session che a Engine (a differenza di RegoleFineCorsaRepository ORM-based).
     def get_corrente_globale(self) -> Optional[dict]:
         sql = text("""

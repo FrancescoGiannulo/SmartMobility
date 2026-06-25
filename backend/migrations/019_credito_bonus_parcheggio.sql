@@ -1,4 +1,4 @@
--- [IF-OP.13] Contatore parcheggi corretti consecutivi e credito bonus accumulato dall'utente.
+-- [IF-OP.06] Contatore parcheggi corretti consecutivi e credito bonus accumulato dall'utente.
 ALTER TABLE utenti
   ADD COLUMN IF NOT EXISTS contatore_parcheggi_corretti INTEGER NOT NULL DEFAULT 0,
   ADD COLUMN IF NOT EXISTS credito_bonus NUMERIC(10, 2) NOT NULL DEFAULT 0.00;
@@ -12,7 +12,7 @@ WHERE id NOT IN (
 
 UPDATE regole_fine_corsa SET zona_parcheggio_id = NULL;
 
--- [IF-OP.13] Esito della verifica parcheggio a fine corsa, persistito sulla corsa così che
+-- [IF-OP.06] Esito della verifica parcheggio a fine corsa, persistito sulla corsa così che
 -- il pagamento (endpoint separato) applichi la penale indipendentemente da cosa invia il client.
 ALTER TABLE corse
   ADD COLUMN IF NOT EXISTS penale_parcheggio_applicata BOOLEAN NOT NULL DEFAULT false,

@@ -1,4 +1,4 @@
-# Regole Fine Corsa — enforcement parcheggio + bonus [IF-OP.13]
+# Regole Fine Corsa — enforcement parcheggio + bonus [IF-OP.06]
 
 ## Problema
 `RegolaFinecorsa` (tipo_vincolo, penale_fuori_zona, bonus_parcheggi_corretti, bonus_valore) viene salvata dall'operatore ma non è mai applicata: nessuno verifica se il mezzo è parcheggiato in una `ZonaParcheggio` a fine corsa. La penale "fuori zona" già applicata in `ServizioPricing` riguarda un'altra regola (IF-OP.06, transito in zona vietata/operativa durante la corsa). Inoltre `salva_regole_fine_corsa` duplica la stessa riga di config per ogni zona di parcheggio invece di salvarla una volta.
