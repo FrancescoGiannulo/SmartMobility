@@ -99,6 +99,6 @@ export const getRiepilogoCorsa = async (corsaId: string): Promise<Corsa> => {
 }
 
 // Helper demo di presentazione: aggiorna la posizione del mezzo della corsa.
-export const aggiornaPosizioneDemo = async (corsaId: string, lat: number, lng: number): Promise<void> => {
-  await api.patch(`/utente/corse/${corsaId}/demo/posizione`, { lat, lng })
+export const aggiornaPosizioneDemo = async (corsaId: string, lat: number, lng: number, batteria?: number): Promise<void> => {
+  await api.patch(`/utente/corse/${corsaId}/demo/posizione`, { lat, lng, batteria: batteria ?? null })
 }

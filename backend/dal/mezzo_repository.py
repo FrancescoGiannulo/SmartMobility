@@ -150,6 +150,12 @@ class MezzoRepository:
             s.execute(sql, {"lat": lat, "lng": lng, "id": str(mezzo_id)})
             s.commit()
 
+    def aggiorna_batteria(self, mezzo_id: UUID, batteria: int) -> None:
+        sql = text("UPDATE mezzi SET batteria = :bat WHERE id = :id")
+        with self._sessione() as s:
+            s.execute(sql, {"bat": max(0, min(100, int(batteria))), "id": str(mezzo_id)})
+            s.commit()
+
     def bloccaMezzo(self, mezzo_id: UUID) -> None:
         """[IF-UT.10] SD SospendeCorsa — msg5/6: bloccaMezzo() + save(this)."""
         self.aggiorna_stato(mezzo_id, "In pausa")

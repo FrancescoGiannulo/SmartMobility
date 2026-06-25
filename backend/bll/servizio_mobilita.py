@@ -12,6 +12,9 @@ from dal.operatore_repository import OperatoreRepository
 from dal.parametri_sistema_repository import ParametriSistemaRepository
 from bll.servizio_mappa import ServizioMappa
 
+# Consumo batteria realistico: punti percentuali per minuto di guida effettiva.
+CONSUMO_BATTERIA_PER_MIN = 1.0
+
 
 class MezzoNonTrovatoException(Exception):
     pass
@@ -213,7 +216,21 @@ class ServizioMobilita:
         # Finalizza eventuale pausa attiva prima di terminare
         self._corsa_repo.finalizza_pausa(corsa_id)
         self._corsa_repo.aggiorna_stato(corsa_id, "terminata")
-        self._mezzo_repo.aggiorna_stato(UUID(corsa["mezzo_id"]), "Disponibile")
+        # Consumo batteria proporzionale alla durata di guida effettiva, poi rilascia il mezzo.
+        self._consuma_batteria_fine_corsa(corsa_id, UUID(corsa["mezzo_id"]))
+
+    def _consuma_batteria_fine_corsa(self, corsa_id: UUID, mezzo_id: UUID) -> None:
+        durata_min = self._corsa_repo.durata_effettiva_sec(corsa_id) / 60
+        consumo = round(CONSUMO_BATTERIA_PER_MIN * durata_min)
+        mezzo = self._mezzo_repo.trova_per_id(mezzo_id)
+        batteria = mezzo["batteria"] if mezzo and mezzo["batteria"] is not None else 100
+        nuova = max(0, batteria - consumo)
+        self._mezzo_repo.aggiorna_batteria(mezzo_id, nuova)
+        regole = self._regola_repo.trova_tutte()
+        bmin = regole[0]["batteria_minima"] if regole else None
+        # Un mezzo troppo scarico va ricaricato: non torna disponibile.
+        nuovo_stato = "In manutenzione" if (bmin is not None and nuova < bmin) else "Disponibile"
+        self._mezzo_repo.aggiorna_stato(mezzo_id, nuovo_stato)
 
     # [IF-UT.10] SD SospendeCorsa — msg4: sospendiCorsa(idCorsa)
     def sospendiCorsa(self, corsa_id: UUID, utente_id: UUID) -> dict:

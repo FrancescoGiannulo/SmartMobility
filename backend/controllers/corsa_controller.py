@@ -227,4 +227,4 @@ def aggiorna_posizione_demo(
     corsa = CorsaRepository(db).trova_per_id(corsa_id)
     if corsa is None or corsa["utente_id"] != str(utente["id"]):
         raise HTTPException(status_code=403, detail="Corsa non appartenente all'utente")
-    ServizioMappa(db).aggiorna_posizione_mezzo(UUID(corsa["mezzo_id"]), body.lat, body.lng)
+    ServizioMappa(db).aggiorna_posizione_mezzo(UUID(corsa["mezzo_id"]), body.lat, body.lng, body.batteria)

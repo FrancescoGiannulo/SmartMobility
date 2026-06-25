@@ -113,6 +113,19 @@ class CorsaRepository:
             row = s.execute(sql, {"id": str(corsa_id)}).fetchone()
         return row.pausa_durata_accumulata_sec if row else 0
 
+    # Durata effettiva di guida in secondi: (fine - inizio) meno il tempo in pausa.
+    def durata_effettiva_sec(self, corsa_id: UUID) -> int:
+        sql = text("""
+            SELECT GREATEST(0,
+                EXTRACT(EPOCH FROM (COALESCE(fine_at, now()) - inizio_at))
+                - COALESCE(pausa_durata_accumulata_sec, 0)
+            ) AS sec
+            FROM corse WHERE id = :id
+        """)
+        with self._sessione() as s:
+            row = s.execute(sql, {"id": str(corsa_id)}).fetchone()
+        return int(row.sec) if row and row.sec is not None else 0
+
     # [IF-UT.04] CS-05 — crea corsa all'avvio del mezzo
     def crea(
         self,

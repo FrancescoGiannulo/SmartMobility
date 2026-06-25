@@ -20,6 +20,7 @@ class LoginRequest(BaseModel):
 class PosizioneDemoRequest(BaseModel):
     lat: float
     lng: float
+    batteria: int | None = None  # batteria che cala col movimento (demo)
 
 
 class AuthResponse(BaseModel):

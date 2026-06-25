@@ -4128,6 +4128,25 @@ Questa organizzazione garantisce che:
 - Demo movimento mezzi (helper di presentazione, account demo): `ServizioMappa.aggiornaPosizioneMezzo`
   + endpoint `PATCH /utente/corse/{id}/demo/posizione`, geofencing client-side (`geoUtils.zonaCorrente`),
   mappa operatore in polling. Tracciabilità IF-OP.01 / IF-UT.01 / IF-UT.08.
+- Penale fuori zona/vietata nel costo finale: `ServizioPricing.effettua_pagamento(..., penale_fuori_zona)`
+  somma `regole_fine_corsa.penale_fuori_zona` all'importo se la corsa transita in zona vietata/fuori
+  operativa. Tracciabilità IF-OP.06 (Definisce Regole Fine Corsa) / caso d'uso UT-04.
+
+### Consumo batteria mezzo (comportamento di sistema)
+
+Il livello di batteria (`Mezzo.batteria`) cala con l'uso del mezzo. Implementazione su due livelli,
+senza nuove classi (riusa `Mezzo`, `ServizioMobilità`, `ServizioMappa`, repository esistenti):
+- **A fine corsa (reale, tutte le corse):** `ServizioMobilità.termina_corsa` decrementa la batteria in
+  proporzione alla durata di guida effettiva (`CONSUMO_BATTERIA_PER_MIN = 1.0` punti/min, da
+  `CorsaRepository.durata_effettiva_sec`) tramite `MezzoRepository.aggiorna_batteria`. Se la carica scende
+  sotto `regole_fine_corsa.batteria_minima` (se configurata) il mezzo va `In manutenzione` invece di
+  `Disponibile` (necessita ricarica), altrimenti torna `Disponibile`.
+- **Durante la demo (live, visivo):** il calo per-movimento è calcolato dal frontend in base ai km percorsi
+  e persistito dall'endpoint demo (campo `batteria` opzionale su `aggiornaPosizioneMezzo`), così cala in
+  tempo reale anche sulla mappa Operatore.
+
+Lo stato del mezzo è modificato solo da `ServizioMobilità`. Comportamento legato al ciclo di vita di
+`Mezzo` / regole fine corsa (IF-OP.06).
 
 ## Data modeling and design
 

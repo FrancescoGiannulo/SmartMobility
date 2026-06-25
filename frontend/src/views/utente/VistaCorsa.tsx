@@ -384,20 +384,28 @@ export default function VistaCorsa() {
     const VEL_KMH = 22, TICK_SEC = 1.5, GAP_M = 25
     const passoM = (VEL_KMH / 3.6) * TICK_SEC
     const ordine: Record<TipoZonaCorrente, number> = { vietata: 0, fuori: 1, limitata: 2, operativa: 3 }
+    const startBatt = corse.map(c => c.mezzo.batteria ?? 100)
+    const CONSUMO_DEMO_PER_KM = 15  // calo batteria ben visibile durante la demo
 
     penaleRef.current = false
     setKmDemo(0)
     let d = 0
     demoTimerRef.current = window.setInterval(() => {
       let aggregato: { tipo: TipoZonaCorrente; limiteVelocita?: number } = { tipo: 'operativa' }
+      const nuoveBatt: Record<string, number> = {}
       corse.forEach((c, i) => {
         const dm = Math.max(0, Math.min(totale, d - i * GAP_M))
         const p = puntoADistanzaM(path, cum, dm)
         const z = zonaCorrente(p.lat, p.lng, zoneTutte)
         if (z.tipo === 'vietata' || z.tipo === 'fuori') penaleRef.current = true
         if (ordine[z.tipo] < ordine[aggregato.tipo]) aggregato = z
-        aggiornaPosizioneDemo(c.corsa_id, p.lat, p.lng).catch(() => {})
+        const batt = Math.max(5, Math.round(startBatt[i] - CONSUMO_DEMO_PER_KM * (dm / 1000)))
+        nuoveBatt[c.corsa_id] = batt
+        aggiornaPosizioneDemo(c.corsa_id, p.lat, p.lng, batt).catch(() => {})
       })
+      // Aggiorna la batteria mostrata (cala col movimento)
+      setCorse(prev => prev.map(c => c.corsa_id in nuoveBatt
+        ? { ...c, mezzo: { ...c.mezzo, batteria: nuoveBatt[c.corsa_id] } } : c))
       setStatoZonaDemo(aggregato)
       setKmDemo(Math.min(totale, d) / 1000)
       d += passoM
