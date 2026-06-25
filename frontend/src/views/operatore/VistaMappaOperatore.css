@@ -352,9 +352,9 @@
 
 .state-chip--disp { background: var(--glow); color: var(--accent); }
 .state-chip--uso  { background: color-mix(in srgb, var(--info) 16%, var(--surface)); color: var(--info); }
-.state-chip--pausa { background: rgba(142,182,155,.15); color: var(--text-dim); }
-.state-chip--man  { background: rgba(255,201,113,.16); color: var(--warn); }
-.state-chip--pren { background: rgba(255,201,113,.1); color: var(--warn); }
+.state-chip--pausa { background: color-mix(in srgb, var(--accent-2) 15%, var(--surface)); color: var(--text-dim); }
+.state-chip--man  { background: color-mix(in srgb, var(--warn) 16%, var(--surface)); color: var(--warn); }
+.state-chip--pren { background: color-mix(in srgb, var(--warn) 10%, var(--surface)); color: var(--warn); }
 .state-chip--fs   { background: color-mix(in srgb, var(--danger) 12%, var(--surface)); color: var(--danger); }
 
 /* ---------- Zone tools buttons ---------- */
@@ -460,10 +460,10 @@
 }
 
 .mezzo-stato--disponibile     { background: var(--glow); color: var(--accent); }
-.mezzo-stato--prenotato       { background: rgba(255,201,113,.14); color: var(--warn); }
+.mezzo-stato--prenotato       { background: color-mix(in srgb, var(--warn) 14%, var(--surface)); color: var(--warn); }
 .mezzo-stato--in-uso          { background: color-mix(in srgb, var(--info) 16%, var(--surface)); color: var(--info); }
-.mezzo-stato--in-pausa        { background: rgba(142,182,155,.14); color: var(--text-dim); }
-.mezzo-stato--in-manutenzione { background: rgba(255,201,113,.14); color: var(--warn); }
+.mezzo-stato--in-pausa        { background: color-mix(in srgb, var(--accent-2) 14%, var(--surface)); color: var(--text-dim); }
+.mezzo-stato--in-manutenzione { background: color-mix(in srgb, var(--warn) 14%, var(--surface)); color: var(--warn); }
 .mezzo-stato--fuori-servizio  { background: color-mix(in srgb, var(--danger) 12%, var(--surface)); color: var(--danger); }
 
 /* error text in info card */
