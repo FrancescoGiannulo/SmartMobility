@@ -308,7 +308,7 @@ Totale elementi identificati: **145**.
 + apriTariffe(): void
 + mostraListaTariffe(listaTariffe: List): void
 + selezionaCreaNuovaTariffa(): void
-+ confermaNuovaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float, costoKm: float): void
++ confermaNuovaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float?, costoKm: float?): void
 + mostraConfermaTariffa(): void
 ```
 
@@ -605,7 +605,7 @@ Totale elementi identificati: **145**.
 
 ```
 + getTariffe(): List
-+ creaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float, costoKm: float): void
++ creaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float?, costoKm: float?): void
 ```
 
 ### `CorsaService`
@@ -1008,8 +1008,8 @@ Totale elementi identificati: **145**.
 
 ```
 + getTariffe(): List
-+ creaTariffa(tipoMezzo, costoMin, costoKm): Tariffa
-+ aggiornaTariffa(tipoMezzo, costoMin, costoKm): Tariffa
++ creaTariffa(tipoMezzo, costoMin?, costoKm?): Tariffa
++ aggiornaTariffa(tipoMezzo, costoMin?, costoKm?): Tariffa
 ```
 
 ### `IServizioPrenotazione`
@@ -1283,8 +1283,8 @@ Totale elementi identificati: **145**.
 
 ```
 + getTariffe(): List
-+ creaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float, costoKm: float): Tariffa
-+ aggiornaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float, costoKm: float): Tariffa
++ creaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float?, costoKm: float?): Tariffa
++ aggiornaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float?, costoKm: float?): Tariffa
 ```
 
 ### `ServizioPrenotazione`
@@ -1344,7 +1344,6 @@ Totale elementi identificati: **145**.
 **Attributi**
 
 ```
-- strategie: Map
 - provider: ProviderPagamentiAdapter
 - pagamentoRepo: IPagamentoRepository
 - tariffaRepo: ITariffaRepository
@@ -1596,8 +1595,8 @@ Totale elementi identificati: **145**.
 ```
 + findAll(): List
 + existsByTipologia(tipoMezzo): boolean
-+ crea(tipoMezzo, costoMin, costoKm): Tariffa
-+ aggiorna(tipoMezzo, costoMin, costoKm): Tariffa
++ crea(tipoMezzo, costoMin?, costoKm?): Tariffa
++ aggiorna(tipoMezzo, costoMin?, costoKm?): Tariffa
 ```
 
 ### `ZonaRepository`
@@ -1819,9 +1818,10 @@ Totale elementi identificati: **145**.
 ```
 - id: String
 - tipoMezzo: TipoMezzo
-- costoPerMinuto: float
-- costoPerKm: float
+- costoPerMinuto: float?
+- costoPerKm: float?
 - aggiornataAt: DateTime
+Vincolo: esattamente uno tra costoPerMinuto e costoPerKm è non-null
 ```
 
 ### `Pagamento`
