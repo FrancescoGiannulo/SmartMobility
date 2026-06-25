@@ -95,9 +95,23 @@ class AttoreRepository:
 
     # [IF-OP.09] ──────────────────────────────────────────────────────────────
 
+    @staticmethod
+    def _riattiva_sospensioni_scadute(session: Session) -> None:
+        """Riattiva lazily gli account la cui sospensione_fine è già passata,
+        cosi la vista operatore è coerente senza aspettare il job pg_cron."""
+        session.execute(
+            text(
+                "UPDATE utenti SET sospeso = false, motivazione_sospensione = NULL, "
+                "sospeso_at = NULL, sospensione_fine = NULL "
+                "WHERE sospeso = true AND sospensione_fine IS NOT NULL AND sospensione_fine < NOW()"
+            )
+        )
+        session.commit()
+
     def lista_utenti(self) -> list[dict]:
         """Elenco di tutti gli Utenti registrati, con email da auth.users."""
         with Session(engine) as session:
+            self._riattiva_sospensioni_scadute(session)
             rows = session.execute(
                 text(
                     "SELECT u.id, u.nome, u.cognome, u.sospeso, u.sospensione_fine, a.email "
@@ -120,6 +134,7 @@ class AttoreRepository:
     def trova_utente_per_id(self, id: UUID) -> dict:
         """Dettaglio di un singolo Utente, con email da auth.users."""
         with Session(engine) as session:
+            self._riattiva_sospensioni_scadute(session)
             row = session.execute(
                 text(
                     "SELECT u.id, u.nome, u.cognome, u.sospeso, u.sospensione_fine, a.email "
@@ -142,6 +157,7 @@ class AttoreRepository:
     def sospendi(self, id: UUID, motivazione: str, durata_giorni: int) -> None:
         """[IF-OP.09] Sospende l'account di un Utente attivo per una durata specificata."""
         with Session(engine) as session:
+            self._riattiva_sospensioni_scadute(session)
             row = session.execute(
                 text("SELECT sospeso FROM utenti WHERE id = :id"),
                 {"id": str(id)},
