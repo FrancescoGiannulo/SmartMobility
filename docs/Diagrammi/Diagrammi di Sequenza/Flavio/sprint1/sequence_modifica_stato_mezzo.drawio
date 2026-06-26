@@ -140,7 +140,7 @@
                         <mxPoint x="685" y="410" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="89" value="6: PATCH /operatore/mezzi/{idMezzo}/stato (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="89" value="6: PUT /operatore/mezzi/{idMezzo}/stato (HTTPS + JWT)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="695" y="450" as="sourcePoint"/>
                         <mxPoint x="885" y="450" as="targetPoint"/>
@@ -183,7 +183,7 @@
                 <mxCell id="95" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;fillColor=none;" vertex="1" parent="1">
                     <mxGeometry x="105" y="700" width="1545" height="640" as="geometry"/>
                 </mxCell>
-                <mxCell id="96" value="[transizione consentita: mezzo non in uso]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="96" value="[mezzo non impegnato]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
                     <mxGeometry x="170" y="695" width="340" height="22" as="geometry"/>
                 </mxCell>
                 <mxCell id="97" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
@@ -192,7 +192,7 @@
                         <mxPoint x="1650" y="1060" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="98" value="[ mezzo In uso]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="98" value="[else / mezzo impegnato: In uso, In pausa o con corsa attiva]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
                     <mxGeometry x="115" y="1063" width="280" height="22" as="geometry"/>
                 </mxCell>
                 <mxCell id="99" value="12: aggiornaStato(idMezzo, nuovoStato)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
@@ -243,7 +243,7 @@
                         <mxPoint x="125" y="1020" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="107" value="20: :erroreTransizioneNonConsentita" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="107" value="20: :erroreMezzoImpegnato" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1305" y="1100" as="sourcePoint"/>
                         <mxPoint x="1105" y="1100" as="targetPoint"/>
@@ -273,7 +273,7 @@
                         <mxPoint x="295" y="1260" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="112" value="25: mostraErrore(&quot;Mezzo in uso o prenotato&quot;)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="112" value="25: mostraErrore(&quot;Mezzo impegnato: stato non modificabile manualmente&quot;)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="285" y="1300" as="sourcePoint"/>
                         <mxPoint x="125" y="1300" as="targetPoint"/>

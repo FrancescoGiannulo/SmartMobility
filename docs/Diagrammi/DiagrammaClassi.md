@@ -960,7 +960,7 @@ Totale elementi identificati: **145**.
 
 ```
 + getCorrente(): RegolaFineCorsa
-+ salva(tipoVincolo, penaleFuoriZona, batteriaMinima, bonusParcheggi, bonusValore): RegolaFineCorsa
++ salva(tipoVincolo, penaleFuoriZona, bonusParcheggi, bonusValore): RegolaFineCorsa
 ```
 
 ### `IServizioParametri`
@@ -1038,7 +1038,7 @@ Totale elementi identificati: **145**.
 + verificaDismissione(idMezzo): boolean
 + dismettiMezzo(idMezzo): void
 + modificaStatoMezzo(idMezzo, stato): Mezzo
-+ salvaRegoleFineCorsa(idOperatore, durataMax, grazia, maxMezzi, tipoVincolo, batteriaMin, penale): void
++ salvaRegoleFineCorsa(idOperatore, durataMax, grazia, maxMezzi, tipoVincolo, penale): void
 + getStorico(idUtente): List
 + calcolaRiepilogoSessione(idCorsa, idUtente): Corsa
 + getZonaParcheggioERegole(idOperatore): Object
@@ -1203,7 +1203,7 @@ Totale elementi identificati: **145**.
 
 ```
 + getCorrente(): RegolaFineCorsa
-+ salva(tipoVincolo: String, penaleFuoriZona: Decimal, batteriaMinima: int, bonusParcheggiCorretti: int, bonusValore: Decimal): RegolaFineCorsa
++ salva(tipoVincolo: String, penaleFuoriZona: Decimal, bonusParcheggiCorretti: int, bonusValore: Decimal): RegolaFineCorsa
 ```
 
 ### `ServizioParametri`
@@ -1333,7 +1333,7 @@ Totale elementi identificati: **145**.
 + verificaDismissione(idMezzo: String): boolean
 + dismettiMezzo(idMezzo: String): void
 + modificaStatoMezzo(idMezzo: String, stato: StatoMezzo): Mezzo
-+ salvaRegoleFineCorsa(idOperatore: String, durataMax: int, grazia: int, maxMezzi: int, tipoVincolo: String, batteriaMin: int, penale: float): void
++ salvaRegoleFineCorsa(idOperatore: String, durataMax: int, grazia: int, maxMezzi: int, tipoVincolo: String, penale: float): void
 + getStorico(idUtente: String): List
 + calcolaRiepilogoSessione(idCorsa: String, idUtente: String): Corsa
 + getZonaParcheggioERegole(idOperatore: String): Object
@@ -1481,10 +1481,10 @@ Totale elementi identificati: **145**.
 
 ```
 + getCorrente(): RegolaFineCorsa
-+ salva(tipoVincolo, penale, batteriaMin, bonusParcheggi, bonusValore): RegolaFineCorsa
++ salva(tipoVincolo, penale, bonusParcheggi, bonusValore): RegolaFineCorsa
 + trovaTutte(): List
 + eliminaTutto(): void
-+ crea(zonaId, batteriaMin, penale, tipoVincolo): Object
++ crea(zonaId, penale, tipoVincolo): Object
 ```
 
 ### `ParametriSistemaRepository`
