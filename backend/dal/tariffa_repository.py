@@ -19,8 +19,8 @@ class TariffaRepository:
             {
                 "id": str(r.id),
                 "tipo_mezzo": r.tipo_mezzo.value,
-                "costo_al_minuto": f"{r.costo_al_minuto:.4f}",
-                "costo_al_km": f"{r.costo_al_km:.4f}",
+                "costo_al_minuto": f"{r.costo_al_minuto:.4f}" if r.costo_al_minuto is not None else None,
+                "costo_al_km": f"{r.costo_al_km:.4f}" if r.costo_al_km is not None else None,
             }
             for r in rows
         ]
@@ -52,7 +52,9 @@ class TariffaRepository:
             ).fetchone()
         return result is not None
 
-    def aggiorna(self, tipo_mezzo: str, costo_al_minuto: Decimal, costo_al_km: Decimal) -> Tariffa | None:
+    def aggiorna(
+        self, tipo_mezzo: str, costo_al_minuto: Decimal | None, costo_al_km: Decimal | None
+    ) -> Tariffa | None:
         with Session(engine) as session:
             row = session.execute(
                 text(
@@ -60,14 +62,20 @@ class TariffaRepository:
                     "WHERE tipo_mezzo = :tipo "
                     "RETURNING id, tipo_mezzo, costo_al_minuto, costo_al_km"
                 ),
-                {"minuto": str(costo_al_minuto), "km": str(costo_al_km), "tipo": tipo_mezzo},
+                {
+                    "minuto": str(costo_al_minuto) if costo_al_minuto is not None else None,
+                    "km": str(costo_al_km) if costo_al_km is not None else None,
+                    "tipo": tipo_mezzo,
+                },
             ).fetchone()
             session.commit()
         if not row:
             return None
         return Tariffa(id=row.id, tipo_mezzo=row.tipo_mezzo, costo_al_minuto=row.costo_al_minuto, costo_al_km=row.costo_al_km)
 
-    def crea(self, tipo_mezzo: str, costo_al_minuto: Decimal, costo_al_km: Decimal) -> Tariffa:
+    def crea(
+        self, tipo_mezzo: str, costo_al_minuto: Decimal | None, costo_al_km: Decimal | None
+    ) -> Tariffa:
         with Session(engine) as session:
             tariffa = Tariffa(
                 tipo_mezzo=tipo_mezzo,
