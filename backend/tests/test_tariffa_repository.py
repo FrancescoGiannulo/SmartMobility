@@ -38,3 +38,23 @@ class TestTariffaRepositoryFindAll:
         assert added.tipo_mezzo == "automobile"
         assert added.costo_al_minuto is None
         assert added.costo_al_km == Decimal("0.20")
+
+    def test_aggiorna_passa_none_non_la_stringa_none_nel_binding_sql(self):
+        from dal.tariffa_repository import TariffaRepository
+
+        riga = MagicMock()
+        riga.id = uuid.uuid4()
+        riga.tipo_mezzo = "monopattino"
+        riga.costo_al_minuto = None
+        riga.costo_al_km = Decimal("0.20")
+
+        mock_session = MagicMock()
+        mock_session.execute.return_value.fetchone.return_value = riga
+
+        with patch("dal.tariffa_repository.Session") as MockSession:
+            MockSession.return_value.__enter__.return_value = mock_session
+            TariffaRepository().aggiorna("monopattino", None, Decimal("0.20"))
+
+        params = mock_session.execute.call_args[0][1]
+        assert params["minuto"] is None
+        assert params["km"] == "0.20"
