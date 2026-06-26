@@ -631,12 +631,6 @@
                 <mxCell id="567" value="" style="endArrow=none;html=1;fontSize=12;fontStyle=1;strokeColor=#555555;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="566" target="372">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="568" value="batteria_minima" style="ellipse;html=1;fillColor=#FFFFFF;strokeColor=#000000;labelPosition=left;align=right;verticalLabelPosition=middle;verticalAlign=middle;labelBackgroundColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
-                    <mxGeometry x="940.999755859375" y="1685.0001220703125" width="16" height="16" as="geometry"/>
-                </mxCell>
-                <mxCell id="569" value="" style="endArrow=none;html=1;fontSize=12;fontStyle=1;strokeColor=#555555;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="568" target="372">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
                 <mxCell id="570" value="penale_fuori_zona" style="ellipse;html=1;fillColor=#FFFFFF;strokeColor=#000000;labelPosition=left;align=right;verticalLabelPosition=middle;verticalAlign=middle;labelBackgroundColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
                     <mxGeometry x="873.999755859375" y="1623.0001220703125" width="16" height="16" as="geometry"/>
                 </mxCell>

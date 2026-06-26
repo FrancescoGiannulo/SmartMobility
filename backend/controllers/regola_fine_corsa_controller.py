@@ -29,7 +29,6 @@ def salva_regole(
         return _servizio.salva(
             tipo_vincolo=body.tipo_vincolo,
             penale_fuori_zona=body.penale_fuori_zona,
-            batteria_minima=body.batteria_minima,
             bonus_parcheggi_corretti=body.bonus_parcheggi_corretti,
             bonus_valore=body.bonus_valore,
             db=db,

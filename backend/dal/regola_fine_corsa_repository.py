@@ -22,7 +22,6 @@ class RegoleFineCorsaRepository:
         self,
         tipo_vincolo: TipoVincoloFinecorsa,
         penale_fuori_zona: Decimal,
-        batteria_minima: Optional[int],
         bonus_parcheggi_corretti: Optional[int],
         bonus_valore: Optional[Decimal],
         db: Session,
@@ -33,7 +32,6 @@ class RegoleFineCorsaRepository:
             db.add(regola)
         regola.tipo_vincolo = tipo_vincolo
         regola.penale_fuori_zona = penale_fuori_zona
-        regola.batteria_minima = batteria_minima
         regola.bonus_parcheggi_corretti = bonus_parcheggi_corretti
         regola.bonus_valore = bonus_valore
         db.commit()
@@ -58,7 +56,7 @@ class RegoleFineCorsaRawRepository:
 
     def trova_tutte(self) -> list[dict]:
         sql = text("""
-            SELECT id, zona_parcheggio_id, batteria_minima,
+            SELECT id, zona_parcheggio_id,
                    penale_fuori_zona, tipo_vincolo
             FROM regole_fine_corsa
             ORDER BY created_at DESC
@@ -69,7 +67,6 @@ class RegoleFineCorsaRawRepository:
             {
                 "id": str(row.id),
                 "zona_parcheggio_id": str(row.zona_parcheggio_id),
-                "batteria_minima": row.batteria_minima,
                 "penale_fuori_zona": float(row.penale_fuori_zona),
                 "tipo_vincolo": row.tipo_vincolo,
             }
@@ -86,7 +83,7 @@ class RegoleFineCorsaRawRepository:
     # tollerante sia a Session che a Engine (a differenza di RegoleFineCorsaRepository ORM-based).
     def get_corrente_globale(self) -> Optional[dict]:
         sql = text("""
-            SELECT tipo_vincolo, penale_fuori_zona, batteria_minima,
+            SELECT tipo_vincolo, penale_fuori_zona,
                    bonus_parcheggi_corretti, bonus_valore
             FROM regole_fine_corsa
             WHERE zona_parcheggio_id IS NULL
@@ -99,7 +96,6 @@ class RegoleFineCorsaRawRepository:
         return {
             "tipo_vincolo": row.tipo_vincolo,
             "penale_fuori_zona": Decimal(str(row.penale_fuori_zona)),
-            "batteria_minima": row.batteria_minima,
             "bonus_parcheggi_corretti": row.bonus_parcheggi_corretti,
             "bonus_valore": Decimal(str(row.bonus_valore)) if row.bonus_valore is not None else None,
         }
@@ -107,20 +103,18 @@ class RegoleFineCorsaRawRepository:
     def crea(
         self,
         zona_id: UUID,
-        batteria_minima: int | None,
         penale_fuori_zona: float,
         tipo_vincolo: str,
     ) -> dict:
         sql = text("""
             INSERT INTO regole_fine_corsa
-                (zona_parcheggio_id, batteria_minima, penale_fuori_zona, tipo_vincolo)
-            VALUES (:zona_id, :batteria_minima, :penale_fuori_zona, :tipo_vincolo)
-            RETURNING id, zona_parcheggio_id, batteria_minima, penale_fuori_zona, tipo_vincolo
+                (zona_parcheggio_id, penale_fuori_zona, tipo_vincolo)
+            VALUES (:zona_id, :penale_fuori_zona, :tipo_vincolo)
+            RETURNING id, zona_parcheggio_id, penale_fuori_zona, tipo_vincolo
         """)
         with self._sessione() as s:
             row = s.execute(sql, {
                 "zona_id": str(zona_id),
-                "batteria_minima": batteria_minima,
                 "penale_fuori_zona": penale_fuori_zona,
                 "tipo_vincolo": tipo_vincolo,
             }).fetchone()
@@ -128,7 +122,6 @@ class RegoleFineCorsaRawRepository:
         return {
             "id": str(row.id),
             "zona_parcheggio_id": str(row.zona_parcheggio_id),
-            "batteria_minima": row.batteria_minima,
             "penale_fuori_zona": float(row.penale_fuori_zona),
             "tipo_vincolo": row.tipo_vincolo,
         }

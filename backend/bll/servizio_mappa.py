@@ -44,7 +44,7 @@ class ServizioMappa:
             raise PoligonoNonValidoException("Il poligono deve avere almeno 3 vertici distinti")
         if coordinate[0] != coordinate[-1]:
             coordinate = coordinate + [coordinate[0]]
-        # [IF-OP.02] Zone non-operative devono essere contenute in una zona operativa
+        # [IF-OP.07] Zone non-operative devono essere contenute in una zona operativa
         if tipo != "operativa":
             if not self._zone_repo.esiste_zona_operativa_contenente(coordinate):
                 raise PoligonoFuoriZonaOperativaException(
@@ -72,7 +72,7 @@ class ServizioMappa:
             operatore_id=operatore_id,
         )
 
-    # [IF-OP.11] Verifica che la posizione ricada in una zona operativa attiva
+    # [IF-OP.02] Verifica che la posizione ricada in una zona operativa attiva
     def verifica_posizione_in_zona_operativa(self, lat: float, lng: float) -> bool:
         return self._zone_repo.punto_in_zona_operativa(lat, lng)
 

@@ -177,7 +177,6 @@ class TestIntegrazioneServiziEsistenti:
                 ServizioRegolaFinecorsa().salva(
                     tipo_vincolo="avviso",
                     penale_fuori_zona=Decimal("0"),
-                    batteria_minima=None,
                     bonus_parcheggi_corretti=None,
                     bonus_valore=None,
                     db=session,
@@ -207,7 +206,6 @@ class TestIntegrazioneServiziEsistenti:
                 ServizioRegolaFinecorsa().salva(
                     tipo_vincolo="avviso",
                     penale_fuori_zona=Decimal("0"),
-                    batteria_minima=None,
                     bonus_parcheggi_corretti=None,
                     bonus_valore=None,
                     db=session,
@@ -233,7 +231,6 @@ class TestIntegrazioneServiziEsistenti:
                 ServizioRegolaFinecorsa().salva(
                     tipo_vincolo="avviso",
                     penale_fuori_zona=Decimal("0"),
-                    batteria_minima=None,
                     bonus_parcheggi_corretti=None,
                     bonus_valore=None,
                     db=session,
@@ -244,7 +241,6 @@ class TestIntegrazioneServiziEsistenti:
                 ServizioRegolaFinecorsa().salva(
                     tipo_vincolo="penale",
                     penale_fuori_zona=Decimal("5"),
-                    batteria_minima=None,
                     bonus_parcheggi_corretti=None,
                     bonus_valore=None,
                     db=session,

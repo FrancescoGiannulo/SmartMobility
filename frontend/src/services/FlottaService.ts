@@ -28,7 +28,6 @@ export interface ConfigurazioneFinecorsa {
   durata_periodo_grazia_min: number
   max_mezzi_per_utente: number
   tipo_vincolo: 'penale' | 'divieto' | 'avviso'
-  batteria_minima: number | null
   penale_fuori_zona: number
   zone_parcheggio: ZonaParcheggio[]
 }

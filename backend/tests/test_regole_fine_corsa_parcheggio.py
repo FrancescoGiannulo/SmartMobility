@@ -79,7 +79,6 @@ def regola_originale(db):
             valori = dict(
                 tipo_vincolo=originale.tipo_vincolo,
                 penale_fuori_zona=originale.penale_fuori_zona,
-                batteria_minima=originale.batteria_minima,
                 bonus_parcheggi_corretti=originale.bonus_parcheggi_corretti,
                 bonus_valore=originale.bonus_valore,
             )
@@ -98,7 +97,6 @@ def _imposta_regola(db, tipo_vincolo: str, penale_fuori_zona=Decimal("0"), bonus
         RegoleFineCorsaRepository().salva(
             tipo_vincolo=TipoVincoloFinecorsa(tipo_vincolo),
             penale_fuori_zona=penale_fuori_zona,
-            batteria_minima=None,
             bonus_parcheggi_corretti=bonus_n,
             bonus_valore=bonus_valore,
             db=s,

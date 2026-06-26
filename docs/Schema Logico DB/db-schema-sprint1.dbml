@@ -142,7 +142,6 @@ Table corse [note: 'IF-UT.04/06/07 — sessione di utilizzo mezzo'] {
 Table regole_fine_corsa [note: 'IF-OP.14 — sanzioni per rilascio fuori zona parcheggio'] {
   id uuid [pk, default: `gen_random_uuid()`]
   zona_parcheggio_id uuid [not null, ref: > zone.id, note: 'deve avere tipo=parcheggio — verificato in ServizioMobilità; ON DELETE CASCADE']
-  batteria_minima integer [note: 'nullable — CHECK 0-100']
   penale_fuori_zona numeric(10,2) [not null, default: 0]
   tipo_vincolo tipo_vincolo_fine_corsa [not null, default: 'avviso', note: 'penale | divieto | avviso']
   created_at timestamptz [not null, default: `now()`]

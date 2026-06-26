@@ -16,6 +16,10 @@ from bll.servizio_mappa import ServizioMappa
 # Consumo batteria realistico: punti percentuali per minuto di guida effettiva.
 CONSUMO_BATTERIA_PER_MIN = 1.0
 
+# [IF-OP.06] Soglia fissa sotto la quale un mezzo va "In manutenzione" a fine corsa
+# invece di "Disponibile". Non configurabile dall'Operatore.
+BATTERIA_MINIMA_MANUTENZIONE = 20
+
 
 class MezzoNonTrovatoException(Exception):
     pass
@@ -166,12 +170,10 @@ class ServizioMobilita:
         }
         # ricava params globali dalla prima regola esistente (se presente)
         tipo_vincolo = regole[0]["tipo_vincolo"] if regole else "avviso"
-        batteria_minima = regole[0]["batteria_minima"] if regole else None
         penale_fuori_zona = regole[0]["penale_fuori_zona"] if regole else 0.0
         return {
             **impostazioni,
             "tipo_vincolo": tipo_vincolo,
-            "batteria_minima": batteria_minima,
             "penale_fuori_zona": penale_fuori_zona,
             "zone_parcheggio": [{"id": str(z["id"]), "nome": z["nome"]} for z in zone],
         }
@@ -184,7 +186,6 @@ class ServizioMobilita:
         durata_periodo_grazia_min: int,
         max_mezzi_per_utente: int,
         tipo_vincolo: str,
-        batteria_minima: int | None,
         penale_fuori_zona: float,
     ) -> None:
         self._op_repo.aggiorna_impostazioni(
@@ -198,7 +199,6 @@ class ServizioMobilita:
         for zona in zone_parcheggio:
             self._regola_repo.crea(
                 UUID(str(zona["id"])),
-                batteria_minima,
                 penale_fuori_zona,
                 tipo_vincolo,
             )
@@ -274,10 +274,8 @@ class ServizioMobilita:
         batteria = mezzo["batteria"] if mezzo and mezzo["batteria"] is not None else 100
         nuova = max(0, batteria - consumo)
         self._mezzo_repo.aggiorna_batteria(mezzo_id, nuova)
-        regole = self._regola_repo.trova_tutte()
-        bmin = regole[0]["batteria_minima"] if regole else None
         # Un mezzo troppo scarico va ricaricato: non torna disponibile.
-        nuovo_stato = "In manutenzione" if (bmin is not None and nuova < bmin) else "Disponibile"
+        nuovo_stato = "In manutenzione" if nuova < BATTERIA_MINIMA_MANUTENZIONE else "Disponibile"
         self._mezzo_repo.aggiorna_stato(mezzo_id, nuovo_stato)
 
     # [IF-UT.10] SD SospendeCorsa — msg4: sospendiCorsa(idCorsa)
@@ -325,7 +323,7 @@ class ServizioMobilita:
     def get_mezzi_flotta(self) -> list[dict]:
         return self._mezzo_repo.lista_tutti()
 
-    # [IF-OP.11] CS-11 — Aggiunge un nuovo mezzo alla flotta
+    # [IF-OP.02] CS-11 — Aggiunge un nuovo mezzo alla flotta
     def aggiungi_mezzo(
         self,
         tipo: str,
@@ -340,7 +338,7 @@ class ServizioMobilita:
             raise PosizioneNonOperativaException("La posizione non ricade in nessuna zona operativa")
         return self._mezzo_repo.crea(tipo, codice, lat, lng, stato)
 
-    # [IF-OP.12] CS-12 — Verifica se un mezzo può essere dismesso (senza effetti collaterali)
+    # [IF-OP.03] CS-12 — Verifica se un mezzo può essere dismesso (senza effetti collaterali)
     def verifica_dismissione(self, mezzo_id: UUID) -> dict:
         mezzo = self._mezzo_repo.trova_per_id(mezzo_id)
         if mezzo is None:

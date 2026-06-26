@@ -85,14 +85,6 @@ def test_penale_importo_zero(operatore_test):
     assert resp.status_code == 422
 
 
-def test_batteria_fuori_range(operatore_test):
-    """[IF-OP.06] Batteria minima > 100 → 422."""
-    token = _login(operatore_test["email"], operatore_test["password"])
-    payload = {"tipo_vincolo": "avviso", "penale_fuori_zona": "0.00", "batteria_minima": 150}
-    resp = http.put("/operatore/regole-fine-corsa", json=payload, headers=_auth(token))
-    assert resp.status_code == 422
-
-
 def test_bonus_incompleto(operatore_test):
     """[IF-OP.06] Bonus con solo parcheggi_corretti (senza valore) → 422."""
     token = _login(operatore_test["email"], operatore_test["password"])

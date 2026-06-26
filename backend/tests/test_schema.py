@@ -177,7 +177,7 @@ def test_regola_fine_corsa_columns():
     from model.regola_fine_corsa import RegolaFinecorsa
     cols = {c.name for c in RegolaFinecorsa.__table__.columns}
     assert cols == {
-        "id", "zona_parcheggio_id", "batteria_minima",
+        "id", "zona_parcheggio_id",
         "penale_fuori_zona", "tipo_vincolo", "created_at",
         "bonus_parcheggi_corretti", "bonus_valore",
     }

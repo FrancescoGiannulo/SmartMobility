@@ -4188,14 +4188,15 @@ senza nuove classi (riusa `Mezzo`, `ServizioMobilità`, `ServizioMappa`, reposit
 - **A fine corsa (reale, tutte le corse):** `ServizioMobilità.termina_corsa` decrementa la batteria in
   proporzione alla durata di guida effettiva (`CONSUMO_BATTERIA_PER_MIN = 1.0` punti/min, da
   `CorsaRepository.durata_effettiva_sec`) tramite `MezzoRepository.aggiorna_batteria`. Se la carica scende
-  sotto `regole_fine_corsa.batteria_minima` (se configurata) il mezzo va `In manutenzione` invece di
-  `Disponibile` (necessita ricarica), altrimenti torna `Disponibile`.
+  sotto la soglia fissa `ServizioMobilità.BATTERIA_MINIMA_MANUTENZIONE` (non configurabile dall'Operatore)
+  il mezzo va `In manutenzione` invece di `Disponibile` (necessita ricarica), altrimenti torna `Disponibile`.
 - **Durante la demo (live, visivo):** il calo per-movimento è calcolato dal frontend in base ai km percorsi
   e persistito dall'endpoint demo (campo `batteria` opzionale su `aggiornaPosizioneMezzo`), così cala in
   tempo reale anche sulla mappa Operatore.
 
-Lo stato del mezzo è modificato solo da `ServizioMobilità`. Comportamento legato al ciclo di vita di
-`Mezzo` / regole fine corsa (IF-OP.06).
+Lo stato del mezzo è modificato solo da `ServizioMobilità`. Comportamento di sistema indipendente dalle
+regole di fine corsa (IF-OP.06), che riguardano esclusivamente la politica sanzionatoria/incentivante sul
+parcheggio.
 
 ## Data modeling and design
 
