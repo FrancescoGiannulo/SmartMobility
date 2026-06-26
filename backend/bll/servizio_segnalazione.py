@@ -8,6 +8,10 @@ class SegnalazioneNonTrovata(Exception):
     pass
 
 
+class TransizioneNonValida(Exception):
+    pass
+
+
 class ServizioSegnalazione:
     """[IF-UT.12 / IF-OP.08] BLL per la gestione delle segnalazioni utente."""
 
@@ -73,4 +77,14 @@ class ServizioSegnalazione:
         aggiornato = self._repo.aggiorna_stato(segnalazione_id, StatoSegnalazione.in_carico)
         if not aggiornato:
             raise SegnalazioneNonTrovata(f"Segnalazione {segnalazione_id} non trovata")
+        return self.get_dettaglio_segnalazione(segnalazione_id)
+
+    # [IF-OP.08] Segna come risolta
+    def risolvi(self, segnalazione_id: UUID) -> dict:
+        dettaglio = self.get_dettaglio_segnalazione(segnalazione_id)
+        if dettaglio["stato"] != StatoSegnalazione.in_carico.value:
+            raise TransizioneNonValida(
+                f"Impossibile risolvere una segnalazione con stato '{dettaglio['stato']}'"
+            )
+        self._repo.aggiorna_stato(segnalazione_id, StatoSegnalazione.risolta)
         return self.get_dettaglio_segnalazione(segnalazione_id)
