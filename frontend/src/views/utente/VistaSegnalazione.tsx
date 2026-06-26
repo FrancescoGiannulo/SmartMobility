@@ -7,11 +7,13 @@ import './VistaSegnalazione.css'
 const STATO_LABEL: Record<string, string> = {
   aperta: 'Aperta',
   in_carico: 'In carico',
+  risolta: 'Risolta',
 }
 
 const STATO_CLASS: Record<string, string> = {
   aperta: 'segn-badge--aperta',
   in_carico: 'segn-badge--in-carico',
+  risolta: 'segn-badge--risolta',
 }
 
 function formatData(iso: string) {
