@@ -73,6 +73,25 @@ class TestTariffaRepository:
 
         assert result == []
 
+    def test_findAll_propaga_costo_al_km_none(self):
+        from dal.tariffa_repository import TariffaRepository
+        from model.tariffa import Tariffa, TipoMezzo as TMezzo
+
+        row = MagicMock(spec=Tariffa)
+        row.id = uuid.uuid4()
+        row.tipo_mezzo = TMezzo.automobile
+        row.costo_al_minuto = Decimal("0.05")
+        row.costo_al_km = None
+
+        db = MagicMock()
+        db.query.return_value.all.return_value = [row]
+
+        repo = TariffaRepository(db)
+        result = repo.findAll()
+
+        assert result[0]["costo_al_minuto"] == "0.0500"
+        assert result[0]["costo_al_km"] is None
+
 
 # ── Task 3: PromozioneRepository ─────────────────────────────────────────────
 
@@ -214,6 +233,32 @@ class TestPricingController:
         body = r.json()
         assert len(body) == 1
         assert body[0]["tipo_mezzo"] == "monopattino"
+
+    def test_get_tariffe_200_con_costo_al_km_none(self):
+        from controllers.pricing_controller import router, _auth_utente
+        from fastapi import FastAPI
+        from fastapi.testclient import TestClient
+        from database import get_db
+
+        tariffa = {
+            "id": str(uuid.uuid4()),
+            "tipo_mezzo": "automobile",
+            "costo_al_minuto": "0.0500",
+            "costo_al_km": None,
+        }
+
+        app = FastAPI()
+        app.dependency_overrides[get_db] = lambda: MagicMock()
+        app.dependency_overrides[_auth_utente] = lambda: {"id": str(uuid.uuid4()), "ruolo": "UT"}
+        app.include_router(router)
+
+        with patch("controllers.pricing_controller.ServizioPricing") as MockSvc:
+            MockSvc.return_value.getTariffe.return_value = [tariffa]
+            r = TestClient(app).get("/tariffe")
+
+        assert r.status_code == 200, r.text
+        body = r.json()
+        assert body[0]["costo_al_km"] is None
 
     def test_get_tariffe_404_quando_vuoto(self):
         from controllers.pricing_controller import router, _auth_utente

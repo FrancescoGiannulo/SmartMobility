@@ -158,6 +158,29 @@
   gap: 4px;
 }
 
+.tariffa-tipo-costo-radios {
+  display: flex;
+  gap: 16px;
+  flex-direction: row !important;
+}
+
+.tariffa-radio {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+}
+
+.tariffa-radio input[type="radio"] {
+  width: auto;
+  padding: 0;
+  cursor: pointer;
+}
+
 .modal-tariffa input,
 .modal-tariffa select {
   padding: 10px 12px;

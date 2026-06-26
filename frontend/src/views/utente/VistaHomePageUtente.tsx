@@ -930,8 +930,11 @@ export default function VistaHomePageUtente() {
                           {t.tipo_mezzo === 'monopattino' ? '🛴' : t.tipo_mezzo === 'bicicletta' ? '🚲' : '🚗'}{' '}
                           {t.tipo_mezzo.charAt(0).toUpperCase() + t.tipo_mezzo.slice(1)}
                         </span>
-                        <span className="pricing-card__riga">{parseFloat(t.costo_al_minuto).toFixed(2)} €/min</span>
-                        <span className="pricing-card__riga">{parseFloat(t.costo_al_km).toFixed(2)} €/km</span>
+                        <span className="pricing-card__riga">
+                          {t.costo_al_minuto !== null
+                            ? `${parseFloat(t.costo_al_minuto).toFixed(2)} €/min`
+                            : `${parseFloat(t.costo_al_km!).toFixed(2)} €/km`}
+                        </span>
                       </li>
                     ))}
                   </ul>

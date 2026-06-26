@@ -1,15 +1,6 @@
-INFO:     Will watch for changes in these directories: ['C:\\Users\\flavi\\SmartMobility\\backend']
+INFO:     Will watch for changes in these directories: ['C:\\Users\\camil_53qael0\\SmartMobility\\backend']
 INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
-INFO:     Started reloader process [34404] using WatchFiles
-INFO:     Started server process [20220]
+INFO:     Started reloader process [19352] using WatchFiles
+INFO:     Started server process [18240]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
-WARNING:  WatchFiles detected changes in 'tests\test_storico_modifiche.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [20220]
-INFO:     Started server process [33100]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-WARNING:  WatchFiles detected changes in 'bll\servizio_regole_fine_corsa.py'. Reloading...

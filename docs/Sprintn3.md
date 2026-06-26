@@ -2936,7 +2936,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td>Breve descrizione</td>
-<td>Il sistema consente all'operatore autenticato di definire una nuova tariffa per una specifica tipologia di mezzo, specificando il costo al minuto e il costo al chilometro, così da permettere la configurazione del modello di costo del servizio.</td>
+<td>Il sistema consente all'operatore autenticato di definire una nuova tariffa per una specifica tipologia di mezzo, scegliendo se applicare un costo al minuto oppure un costo al chilometro, così da permettere la configurazione del modello di costo del servizio.</td>
 </tr>
 <tr>
 <td>Attori Primari</td>
@@ -2952,22 +2952,69 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td>Sequenza principale degli eventi</td>
-<td style="text-align: left;"><p>1. Il caso d'uso inizia quando l'operatore accede alla sezione dedicate alle tariffe.</p>
+<td style="text-align: left;"><p>1. Il caso d'uso inizia quando l'operatore accede alla sezione dedicata alle tariffe.</p>
 <p>2. Il sistema mostra le tariffe attualmente definite per ciascuna tipologia di mezzo disponibile.</p>
 <p>3. L'operatore seleziona la tipologia di mezzo per cui intende definire una nuova tariffa (monopattino, bicicletta, automobile).</p>
-<p>4. Il sistema mostra il form di inserimento con i campi: costo al minuto e costo al chilometro.</p>
-<p>5. L'operatore inserisce i valori richiesti.</p>
-<p>6. Il sistema valida i dati inseriti verificando che i valori siano numerici e maggiori di zero.</p>
-<p>7. Il sistema salva la nuova tariffa associandola alla tipologia di mezzo selezionata.</p>
+<p>4. Il sistema mostra il form di inserimento, chiedendo all'operatore di scegliere il tipo di tariffa: costo al minuto o costo al chilometro.</p>
+<p>5. L'operatore seleziona il tipo di tariffa e inserisce il valore del costo richiesto.</p>
+<p>6. Il sistema valida il dato inserito verificando che il valore sia numerico e maggiore di zero.</p>
+<p>7. Il sistema salva la nuova tariffa, associandola alla tipologia di mezzo selezionata e al tipo di costo scelto.</p>
 <p>8. Il sistema mostra un messaggio di conferma all'operatore.</p></td>
 </tr>
 <tr>
 <td>Post-condizioni</td>
-<td>La nuova tariffa è stata salvata nel sistema e sarà applicata alle corse successive effettuate con la tipologia di mezzo selezionata.</td>
+<td>La nuova tariffa è stata salvata nel sistema, con il tipo di costo scelto dall'operatore, e sarà applicata alle corse successive effettuate con la tipologia di mezzo selezionata.</td>
 </tr>
 <tr>
 <td>Sequenza alternativa degli eventi</td>
-<td>Nessuna</td>
+<td>TariffaGiaEsistente</td>
+</tr>
+</tbody>
+</table>
+
+#### OP-05.1 Definisce Tariffa: TariffaGiaEsistente
+
+<table style="width:100%;">
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 73%" />
+</colgroup>
+<thead>
+<tr>
+<th><strong>Nome</strong></th>
+<th><strong>Definisce Tariffa: TariffaGiaEsistente</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID</td>
+<td>OP-05.1</td>
+</tr>
+<tr>
+<td>Breve descrizione</td>
+<td>L'Operatore tenta di definire una tariffa per una tipologia di mezzo che ne ha già una attiva; il sistema rifiuta l'operazione.</td>
+</tr>
+<tr>
+<td>Attori Primari</td>
+<td>Operatore</td>
+</tr>
+<tr>
+<td>Attori Secondari</td>
+<td>Nessuno</td>
+</tr>
+<tr>
+<td>Precondizioni</td>
+<td>Al passo 6 (validazione) della sequenza principale di OP-05: esiste già una tariffa definita per la tipologia di mezzo selezionata.</td>
+</tr>
+<tr>
+<td>Post-condizioni</td>
+<td>Nessuna nuova tariffa viene salvata; la tariffa esistente resta invariata; l'Operatore è informato dell'errore.</td>
+</tr>
+<tr>
+<td>Sequenza alternativa degli eventi</td>
+<td style="text-align: left;"><p>6a. Il sistema rileva che esiste già una tariffa per la tipologia selezionata.</p>
+<p>6b. Il sistema rifiuta la richiesta.</p>
+<p>6c. Il sistema informa l'Operatore che la tariffa esiste già e lo invita a usare la funzione di modifica.</p></td>
 </tr>
 </tbody>
 </table>

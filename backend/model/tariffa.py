@@ -12,8 +12,11 @@ from database import Base
 class Tariffa(Base):
     __tablename__ = "tariffe"
     __table_args__ = (
-        CheckConstraint("costo_al_minuto > 0", name="tariffa_costo_minuto_positivo"),
-        CheckConstraint("costo_al_km > 0", name="tariffa_costo_km_positivo"),
+        CheckConstraint(
+            "(costo_al_minuto IS NOT NULL AND costo_al_km IS NULL AND costo_al_minuto > 0) "
+            "OR (costo_al_km IS NOT NULL AND costo_al_minuto IS NULL AND costo_al_km > 0)",
+            name="tariffa_costo_xor",
+        ),
     )
 
     id: Mapped[uuid.UUID] = mapped_column(
@@ -24,8 +27,8 @@ class Tariffa(Base):
         unique=True,
         nullable=False,
     )
-    costo_al_minuto: Mapped[Decimal] = mapped_column(Numeric(10, 4), nullable=False)
-    costo_al_km: Mapped[Decimal] = mapped_column(Numeric(10, 4), nullable=False)
+    costo_al_minuto: Mapped[Decimal | None] = mapped_column(Numeric(10, 4), nullable=True)
+    costo_al_km: Mapped[Decimal | None] = mapped_column(Numeric(10, 4), nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=text("now()")
     )

@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { getTariffe, creaTariffa, aggiornaTariffa, type Tariffa } from '../../services/TariffaService'
+import { getTariffe, creaTariffa, aggiornaTariffa, type Tariffa, type TipoCostoTariffa } from '../../services/TariffaService'
 import './VistaTariffe.css'
 
 const TIPI_MEZZO = ['monopattino', 'bicicletta', 'automobile'] as const
@@ -14,21 +14,23 @@ const TIPO_LABEL: Record<string, string> = {
 
 interface FormState {
   tipo_mezzo: string
-  costo_al_minuto: string
-  costo_al_km: string
+  tipo_costo: TipoCostoTariffa
+  valore: string
 }
 
 const FORM_VUOTO: FormState = {
-  tipo_mezzo: '',
-  costo_al_minuto: '',
-  costo_al_km: '',
+  tipo_mezzo: TIPI_MEZZO[0],
+  tipo_costo: 'minuto',
+  valore: '',
 }
 
 function tariffaToForm(t: Tariffa): FormState {
+  const tipo_costo: TipoCostoTariffa = t.costo_al_minuto !== null ? 'minuto' : 'km'
+  const valore = tipo_costo === 'minuto' ? t.costo_al_minuto : t.costo_al_km
   return {
     tipo_mezzo: t.tipo_mezzo,
-    costo_al_minuto: String(t.costo_al_minuto),
-    costo_al_km: String(t.costo_al_km),
+    tipo_costo,
+    valore: valore !== null && valore !== undefined ? String(valore) : '',
   }
 }
 
@@ -48,13 +50,9 @@ export default function VistaTariffe() {
 
   useEffect(() => { ricarica() }, [ricarica])
 
-  const tipiDisponibili = TIPI_MEZZO.filter(
-    t => !tariffe.some(tariffa => tariffa.tipo_mezzo === t)
-  )
-
   const apriNuova = () => {
     setTariffaInModifica(null)
-    setForm({ ...FORM_VUOTO, tipo_mezzo: tipiDisponibili[0] ?? '' })
+    setForm(FORM_VUOTO)
     setErrore('')
     setMostraModal(true)
   }
@@ -72,16 +70,19 @@ export default function VistaTariffe() {
     setErrore('')
   }
 
+  // [OP-05.1] tipo mezzo già tariffato: blocca la creazione e invita a modificare
+  const tipoGiaEsistente =
+    !tariffaInModifica && tariffe.some(t => t.tipo_mezzo === form.tipo_mezzo)
+
   const handleConferma = async () => {
     setErrore('')
     setCaricamento(true)
-    const costoMinuto = parseFloat(form.costo_al_minuto)
-    const costoKm = parseFloat(form.costo_al_km)
+    const valore = parseFloat(form.valore)
     try {
       if (tariffaInModifica) {
-        await aggiornaTariffa(tariffaInModifica.tipo_mezzo, costoMinuto, costoKm)
+        await aggiornaTariffa(tariffaInModifica.tipo_mezzo, form.tipo_costo, valore)
       } else {
-        await creaTariffa(form.tipo_mezzo, costoMinuto, costoKm)
+        await creaTariffa(form.tipo_mezzo, form.tipo_costo, valore)
       }
       chiudiModal()
       ricarica()
@@ -102,11 +103,17 @@ export default function VistaTariffe() {
 
   const datiValidi =
     !!form.tipo_mezzo &&
-    form.costo_al_minuto !== '' && parseFloat(form.costo_al_minuto) >= 0 &&
-    form.costo_al_km !== '' && parseFloat(form.costo_al_km) >= 0
+    !tipoGiaEsistente &&
+    form.valore !== '' && parseFloat(form.valore) > 0
 
-  const set = (field: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
-    setForm(prev => ({ ...prev, [field]: e.target.value }))
+  const setTipoMezzo = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    setForm(prev => ({ ...prev, tipo_mezzo: e.target.value }))
+
+  const setTipoCosto = (tipo_costo: TipoCostoTariffa) =>
+    setForm(prev => ({ ...prev, tipo_costo }))
+
+  const setValore = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setForm(prev => ({ ...prev, valore: e.target.value }))
 
   return (
     <div className="vista-tariffe">
@@ -120,7 +127,7 @@ export default function VistaTariffe() {
       <div className="tariffe-body">
         <div className="tariffe-header-row">
           <h3>Tariffe per tipologia di mezzo</h3>
-          <button className="btn-nuova-tariffa" onClick={apriNuova} disabled={tipiDisponibili.length === 0}>
+          <button className="btn-nuova-tariffa" onClick={apriNuova}>
             + Nuova tariffa
           </button>
         </div>
@@ -135,7 +142,7 @@ export default function VistaTariffe() {
                 <div className="tariffa-info">
                   <div className="tariffa-nome">{TIPO_LABEL[t.tipo_mezzo] ?? t.tipo_mezzo}</div>
                   <div className="tariffa-dettaglio">
-                    €{t.costo_al_minuto}/min · €{t.costo_al_km}/km
+                    {t.costo_al_minuto !== null ? `€${t.costo_al_minuto}/min` : `€${t.costo_al_km}/km`}
                   </div>
                 </div>
                 <button className="btn-modifica-tariffa" onClick={() => apriModifica(t)} title="Modifica">✏️</button>
@@ -155,22 +162,54 @@ export default function VistaTariffe() {
               {tariffaInModifica ? (
                 <input value={TIPO_LABEL[form.tipo_mezzo] ?? form.tipo_mezzo} disabled />
               ) : (
-                <select value={form.tipo_mezzo} onChange={set('tipo_mezzo')}>
-                  {tipiDisponibili.map(t => (
+                <select value={form.tipo_mezzo} onChange={setTipoMezzo}>
+                  {TIPI_MEZZO.map(t => (
                     <option key={t} value={t}>{TIPO_LABEL[t]}</option>
                   ))}
                 </select>
               )}
             </label>
 
+            {tipoGiaEsistente && (
+              <p className="modal-errore-tariffa">
+                Tariffa già esistente per questa tipologia. Usa Modifica Tariffa.
+              </p>
+            )}
+
             <label>
-              Costo al minuto (€) *
-              <input type="number" min="0" step="0.01" value={form.costo_al_minuto} onChange={set('costo_al_minuto')} placeholder="es. 0.15" />
+              Tipo di tariffa *
+              <div className="tariffa-tipo-costo-radios">
+                <label className="tariffa-radio">
+                  <input
+                    type="radio"
+                    name="tipo_costo"
+                    checked={form.tipo_costo === 'minuto'}
+                    onChange={() => setTipoCosto('minuto')}
+                  />
+                  Costo al minuto
+                </label>
+                <label className="tariffa-radio">
+                  <input
+                    type="radio"
+                    name="tipo_costo"
+                    checked={form.tipo_costo === 'km'}
+                    onChange={() => setTipoCosto('km')}
+                  />
+                  Costo al chilometro
+                </label>
+              </div>
             </label>
 
             <label>
-              Costo al km (€) *
-              <input type="number" min="0" step="0.01" value={form.costo_al_km} onChange={set('costo_al_km')} placeholder="es. 0.20" />
+              {form.tipo_costo === 'minuto' ? 'Costo al minuto (€) *' : 'Costo al km (€) *'}
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                value={form.valore}
+                onChange={setValore}
+                placeholder={form.tipo_costo === 'minuto' ? 'es. 0.15' : 'es. 0.20'}
+              />
             </label>
 
             {errore && <p className="modal-errore-tariffa">{errore}</p>}

@@ -70,7 +70,9 @@ class ServizioPricing:
             ).fetchone()
         if not row:
             raise TariffaNonTrovata(f"Nessuna tariffa per {tipo_mezzo}")
-        return Decimal(str(durata_min)) * row.costo_al_minuto + Decimal(str(distanza_km)) * row.costo_al_km
+        costo_al_minuto = row.costo_al_minuto if row.costo_al_minuto is not None else Decimal("0")
+        costo_al_km = row.costo_al_km if row.costo_al_km is not None else Decimal("0")
+        return Decimal(str(durata_min)) * costo_al_minuto + Decimal(str(distanza_km)) * costo_al_km
 
     # [IF-UT.06] Salva Metodi di Pagamento
     def aggiungi_metodo(self, utente_id: uuid.UUID, tipo: str, dati: dict) -> dict:
