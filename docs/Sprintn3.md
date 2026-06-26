@@ -683,6 +683,8 @@ Contiene l’elenco e la specifica di tutti i requisiti funzionali espressi attr
 
 *Così* *da* pianificare gli interventi di manutenzione.
 
+**Nota di implementazione (Sprint 3):** il flusso di gestione segue le transizioni di stato `aperta → in_carico → risolta`. L'operatore prende in carico una segnalazione (`PATCH /operatore/segnalazioni/{id}/prendi-in-carico`) e solo da `in_carico` può segnarla come risolta (`PATCH /operatore/segnalazioni/{id}/risolvi`); un tentativo di risolvere una segnalazione ancora `aperta` viene rifiutato con HTTP 422. Lo stato `risolta` è visibile anche lato utente nello storico delle proprie segnalazioni (`VistaSegnalazione.tsx`), senza notifica push dedicata — l'utente lo vede ricaricando/rivisitando la pagina.
+
 ### IF-OP.09– Sospende Account Utente
 
 *Come* operatore,

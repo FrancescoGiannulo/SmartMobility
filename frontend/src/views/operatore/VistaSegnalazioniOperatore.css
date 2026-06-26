@@ -136,6 +136,11 @@
   color: #2e7d32;
 }
 
+.badge-risolta {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
 /* Dettaglio */
 .segn-op-dettaglio {
   width: 320px;

@@ -1,7 +1,7 @@
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
-from bll.servizio_segnalazione import ServizioSegnalazione, SegnalazioneNonTrovata
+from bll.servizio_segnalazione import ServizioSegnalazione, SegnalazioneNonTrovata, TransizioneNonValida
 from database import get_db
 from middleware.auth_middleware import verify_token
 from controllers.schemas import SegnalazioneOut
@@ -43,3 +43,18 @@ def prendi_in_carico(
         return ServizioSegnalazione(db).prendi_in_carico(segnalazione_id)
     except SegnalazioneNonTrovata as e:
         raise HTTPException(status_code=404, detail=str(e))
+
+
+@router.patch("/segnalazioni/{segnalazione_id}/risolvi", response_model=SegnalazioneOut)
+def risolvi_segnalazione(
+    segnalazione_id: UUID,
+    _=Depends(verify_token(["OP"])),
+    db: Session = Depends(get_db),
+):
+    """[IF-OP.08] Segna una segnalazione come risolta."""
+    try:
+        return ServizioSegnalazione(db).risolvi(segnalazione_id)
+    except SegnalazioneNonTrovata as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except TransizioneNonValida as e:
+        raise HTTPException(status_code=422, detail=str(e))
