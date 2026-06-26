@@ -11,8 +11,8 @@ export interface MetodoPagamento {
 export interface Tariffa {
   id: string
   tipo_mezzo: string
-  costo_al_minuto: string
-  costo_al_km: string
+  costo_al_minuto: string | null
+  costo_al_km: string | null
 }
 
 // [IF-UT.13]

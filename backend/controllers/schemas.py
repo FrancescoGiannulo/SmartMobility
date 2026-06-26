@@ -251,8 +251,8 @@ class RegolaFinecorsaOut(BaseModel):
 class TariffaOut(BaseModel):
     id: UUID
     tipo_mezzo: str
-    costo_al_minuto: str
-    costo_al_km: str
+    costo_al_minuto: str | None
+    costo_al_km: str | None
 
 
 class PromozioneOut(BaseModel):
