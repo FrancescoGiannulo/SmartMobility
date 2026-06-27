@@ -20,7 +20,8 @@ class Segnalazione(Base):
     id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4
     )
-    utente_id: Mapped[uuid.UUID] = mapped_column(PGUUID(as_uuid=True), nullable=False)
+    # [GDPR art. 17] nullable: anonimizzazione alla cancellazione account (utente_id → NULL)
+    utente_id: Mapped[uuid.UUID | None] = mapped_column(PGUUID(as_uuid=True), nullable=True)
     tipologia: Mapped[str] = mapped_column(String, nullable=False)
     descrizione: Mapped[str] = mapped_column(Text, nullable=False)
     stato: Mapped[StatoSegnalazione] = mapped_column(

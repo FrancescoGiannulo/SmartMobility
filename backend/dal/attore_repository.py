@@ -342,7 +342,7 @@ class AttoreRepository:
         """Raccoglie i dati personali dell'utente per il diritto di portabilità (art. 20 GDPR)."""
         with Session(engine) as session:
             profilo = session.execute(
-                text("SELECT nome, cognome, consenso_privacy_at FROM utenti WHERE id = :id"),
+                text("SELECT nome, cognome, telefono, created_at FROM utenti WHERE id = :id"),
                 {"id": str(utente_id)},
             ).fetchone()
             if not profilo:
@@ -350,9 +350,12 @@ class AttoreRepository:
 
             corse = session.execute(
                 text(
-                    "SELECT id, mezzo_id, inizio_corsa, fine_corsa, "
-                    "distanza_km, costo_totale "
-                    "FROM corse WHERE utente_id = :id ORDER BY inizio_corsa DESC"
+                    "SELECT c.id, c.mezzo_id, "
+                    "c.inizio_at AS inizio_corsa, c.fine_at AS fine_corsa, "
+                    "c.distanza_km, p.importo AS costo_totale "
+                    "FROM corse c "
+                    "LEFT JOIN pagamenti p ON p.corsa_id = c.id AND p.stato = 'completato' "
+                    "WHERE c.utente_id = :id ORDER BY c.inizio_at DESC"
                 ),
                 {"id": str(utente_id)},
             ).fetchall()
@@ -362,7 +365,8 @@ class AttoreRepository:
                 "id": str(utente_id),
                 "nome": profilo.nome,
                 "cognome": profilo.cognome,
-                "consenso_privacy_at": str(profilo.consenso_privacy_at) if profilo.consenso_privacy_at else None,
+                "telefono": profilo.telefono,
+                "registrato_il": str(profilo.created_at) if profilo.created_at else None,
             },
             "corse": [
                 {
@@ -376,6 +380,22 @@ class AttoreRepository:
                 for c in corse
             ],
         }
+
+    def anonimizza_dati_utente(self, utente_id: UUID) -> None:
+        """Scollega i dati storici da conservare dall'identità dell'utente (art. 17 GDPR).
+
+        Imposta utente_id = NULL su corse, pagamenti, segnalazioni e recensioni: i record
+        restano per i report aggregati e i contenuti, ma non sono più riconducibili a una
+        persona. Va chiamata PRIMA di eliminare la riga utenti, così la FK ON DELETE RESTRICT
+        su corse/pagamenti è soddisfatta.
+        """
+        with Session(engine) as session:
+            for tabella in ("corse", "pagamenti", "segnalazioni", "recensioni"):
+                session.execute(
+                    text(f"UPDATE {tabella} SET utente_id = NULL WHERE utente_id = :id"),
+                    {"id": str(utente_id)},
+                )
+            session.commit()
 
     def elimina_utente(self, utente_id: UUID) -> None:
         """Elimina i dati dell'utente dalla tabella utenti (diritto all'oblio, art. 17 GDPR)."""

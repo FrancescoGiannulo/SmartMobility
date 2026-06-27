@@ -15,7 +15,8 @@ class Recensione(Base):
     id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4
     )
-    utente_id: Mapped[uuid.UUID] = mapped_column(PGUUID(as_uuid=True), nullable=False)
+    # [GDPR art. 17] nullable: anonimizzazione alla cancellazione account (utente_id → NULL)
+    utente_id: Mapped[uuid.UUID | None] = mapped_column(PGUUID(as_uuid=True), nullable=True)
     voto: Mapped[int] = mapped_column(Integer, nullable=False)
     commento: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(

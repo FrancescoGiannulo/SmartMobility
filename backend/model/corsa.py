@@ -21,10 +21,12 @@ class Corsa(Base):
     id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4
     )
-    utente_id: Mapped[uuid.UUID] = mapped_column(
+    # [GDPR art. 17] nullable: alla cancellazione account la corsa viene anonimizzata
+    # (utente_id → NULL) per conservare i dati aggregati dei report AP scollegati dall'identità.
+    utente_id: Mapped[uuid.UUID | None] = mapped_column(
         PGUUID(as_uuid=True),
         ForeignKey("utenti.id", ondelete="RESTRICT"),
-        nullable=False,
+        nullable=True,
     )
     mezzo_id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True),

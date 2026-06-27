@@ -179,15 +179,24 @@ class ServizioUtenti:
         return dati
 
     def cancella_account(self, utente_id: UUID) -> None:
-        """Elimina l'account dall'auth provider e i dati personali (art. 17 GDPR — diritto all'oblio)."""
-        # Prima elimina da auth.users (Supabase), poi il record locale viene
-        # eliminato in cascata tramite FK ON DELETE CASCADE (007_gdpr_cascade.sql).
-        # Se la cascade non è attiva, l'eliminazione locale è gestita da elimina_utente().
+        """Elimina l'account dall'auth provider e i dati personali (art. 17 GDPR — diritto all'oblio).
+
+        I dati storici da conservare (corse, pagamenti) e i contenuti (segnalazioni, recensioni)
+        vengono ANONIMIZZATI (utente_id → NULL): restano disponibili per i report aggregati
+        dell'AP ma scollegati dall'identità. Le tabelle puramente personali
+        (metodi_pagamento, prenotazioni, abbonamenti, notifiche, suggerimenti) sono in
+        ON DELETE CASCADE e vengono eliminate con la riga utenti.
+        """
+        # 1) Anonimizza i dati da conservare PRIMA della cancellazione: scollega i riferimenti
+        #    così la FK ON DELETE RESTRICT su corse/pagamenti non blocca la delete dell'utente.
+        self._repo.anonimizza_dati_utente(utente_id)
+        # 2) Elimina da auth.users (Supabase); la riga locale utenti viene rimossa in cascata
+        #    tramite FK ON DELETE CASCADE (007_gdpr_cascade.sql), con le sue tabelle personali.
         try:
             supabase.auth.admin.delete_user(str(utente_id))
         except Exception as e:
             raise ServizioAuthException(f"Impossibile eliminare l'account: {e}") from e
-        # Tentativo di eliminazione esplicita (no-op se la cascade è già attiva)
+        # 3) Tentativo di eliminazione esplicita (no-op se la cascade è già attiva)
         try:
             self._repo.elimina_utente(utente_id)
         except Exception:

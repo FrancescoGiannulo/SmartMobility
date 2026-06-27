@@ -30,10 +30,12 @@ import './VistaHomePageUtente.css'
 
 const CENTRO_DEFAULT = { lat: 41.1087, lng: 16.8781 }
 
+// Stessi colori-tipo della mappa AP (VistaDashboardAP) per coerenza visiva
+// tra le viste; c2 è una tonalità più scura per il gradiente del pin.
 const COLORI_MEZZO: Record<string, { c1: string; c2: string }> = {
-  monopattino: { c1: '#22d3ee', c2: '#0e7490' },
-  bicicletta:  { c1: '#f97316', c2: '#c2410c' },
-  automobile:  { c1: '#a855f7', c2: '#7c3aed' },
+  monopattino: { c1: '#5FF0C4', c2: '#42A889' },
+  bicicletta:  { c1: '#7fb4ff', c2: '#597EB2' },
+  automobile:  { c1: '#FF8A7A', c2: '#B26155' },
 }
 
 const GLYPH_MEZZO: Record<string, string> = {
@@ -46,11 +48,11 @@ function PinMezzo({ tipo, selected, dim }: { tipo: string; selected?: boolean; d
   const c = COLORI_MEZZO[tipo] ?? { c1: '#64748b', c2: '#334155' }
   const glyph = GLYPH_MEZZO[tipo] ?? '●'
   return (
-    <div
-      className={`sm-pin${dim ? ' sm-pin--dim' : ''}${selected ? ' sm-pin--selected' : ''}`}
-      style={{ ['--sm-c1' as string]: c.c1, ['--sm-c2' as string]: c.c2 }}
-    >
-      <div className="sm-pin__body">
+    <div className={`sm-pin${dim ? ' sm-pin--dim' : ''}${selected ? ' sm-pin--selected' : ''}`}>
+      <div
+        className="sm-pin__body"
+        style={{ background: `linear-gradient(135deg, ${c.c1}, ${c.c2})` }}
+      >
         <span className="sm-pin__icon">{glyph}</span>
       </div>
       {selected && <span className="sm-pin__badge">✓</span>}

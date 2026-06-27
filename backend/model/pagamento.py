@@ -68,9 +68,11 @@ class Pagamento(Base):
         PGUUID(as_uuid=True),
         nullable=True,
     )
-    utente_id: Mapped[uuid.UUID] = mapped_column(
+    # [GDPR art. 17] nullable: anonimizzazione alla cancellazione account (utente_id → NULL),
+    # mantenendo il pagamento per la contabilità/report scollegato dall'identità.
+    utente_id: Mapped[uuid.UUID | None] = mapped_column(
         PGUUID(as_uuid=True),
-        nullable=False,
+        nullable=True,
     )
     # [IF-UT.20] nullable: CS-12.1 il metodo potrebbe essere rimosso dopo un pagamento rifiutato
     metodo_pagamento_id: Mapped[uuid.UUID | None] = mapped_column(
