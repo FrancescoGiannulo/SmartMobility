@@ -2,12 +2,13 @@
 // [IF-AP.03] Dashboard mappa Amministrazione Pubblica
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Map, AdvancedMarker } from '@vis.gl/react-google-maps'
+import { Map, AdvancedMarker, useMap } from '@vis.gl/react-google-maps'
 import { getMezziAP, getZoneAP, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
 import { logout } from '../../services/AuthService'
 import ZonaPoligono from '../../components/ZonaPoligono'
 import HeatmapLayerAP from '../../components/HeatmapLayerAP'
-import ClusterLayerAP from '../../components/ClusterLayerAP'
+import { useMezziCluster } from '../../hooks/useMezziCluster'
+import ClusterBlob from '../../components/ClusterBlob'
 import PopupStatsZona from '../../components/PopupStatsZona'
 import { COLORI_ZONA } from '../../utils/coloriZona'
 import VistaReportAP from './VistaReportAP'
@@ -79,6 +80,39 @@ function PinMezzo({ tipo, stato }: { tipo: string; stato: string }) {
     }}>
       {emoji}
     </div>
+  )
+}
+
+function MezziClusterLayerAP({ mezzi }: { mezzi: MezzoMappa[] }) {
+  const map = useMap()
+  const { items, getExpansionZoom } = useMezziCluster(mezzi, map)
+
+  return (
+    <>
+      {items.map(item => {
+        if (item.type === 'cluster') {
+          return (
+            <AdvancedMarker
+              key={`cluster-${item.id}`}
+              position={{ lat: item.lat, lng: item.lng }}
+              onClick={() => {
+                if (!map) return
+                map.setZoom(getExpansionZoom(item.id))
+                map.panTo({ lat: item.lat, lng: item.lng })
+              }}
+            >
+              <ClusterBlob count={item.count} tipoDominante={item.tipoDominante} />
+            </AdvancedMarker>
+          )
+        }
+        const m = item.mezzo
+        return (
+          <AdvancedMarker key={m.id} position={{ lat: m.lat, lng: m.lng }}>
+            <PinMezzo tipo={m.tipo} stato={m.stato} />
+          </AdvancedMarker>
+        )
+      })}
+    </>
   )
 }
 
@@ -252,7 +286,7 @@ export default function VistaDashboardAP() {
                 ))}
 
                 {vistaMode === 'heatmap' && <HeatmapLayerAP mezzi={mezziVisibili} />}
-                {vistaMode === 'cluster' && <ClusterLayerAP mezzi={mezziVisibili} />}
+                {vistaMode === 'cluster' && <MezziClusterLayerAP mezzi={mezziVisibili} />}
               </Map>
             </div>
 
