@@ -30,9 +30,9 @@ import './VistaHomePageUtente.css'
 const CENTRO_DEFAULT = { lat: 41.1087, lng: 16.8781 }
 
 const COLORI_MEZZO: Record<string, { c1: string; c2: string }> = {
-  monopattino: { c1: '#155e52', c2: '#2a7a6a' },
-  bicicletta:  { c1: '#3b82f6', c2: '#1d4ed8' },
-  automobile:  { c1: '#ec4899', c2: '#be185d' },
+  monopattino: { c1: '#22d3ee', c2: '#0e7490' },
+  bicicletta:  { c1: '#f97316', c2: '#c2410c' },
+  automobile:  { c1: '#a855f7', c2: '#7c3aed' },
 }
 
 const GLYPH_MEZZO: Record<string, string> = {
