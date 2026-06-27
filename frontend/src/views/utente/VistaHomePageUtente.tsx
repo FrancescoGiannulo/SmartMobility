@@ -422,7 +422,9 @@ export default function VistaHomePageUtente() {
     <div className="vista-mappa">
       {/* ── Topbar ── */}
       <div className="mappa-topbar">
-        <img src="/logo.png" alt="Smart Mobility" className="topbar-logo" />
+        <div className="topbar-logo-wrapper">
+          <img src="/logo.png" alt="Smart Mobility" className="topbar-logo" />
+        </div>
         {selezione.length > 0 && (
           <span className="selezione-badge">{selezione.length}/{nMax}</span>
         )}

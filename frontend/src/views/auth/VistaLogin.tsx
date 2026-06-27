@@ -82,7 +82,9 @@ export default function VistaLogin() {
     <div className="vista-login">
       <div className="login-card">
         <div className="login-logo">
-          <img src="/logo.png" alt="Smart Mobility" style={{ width: 180, height: 'auto' }} />
+          <div className="logo-wrapper">
+            <img src="/logo.png" alt="Smart Mobility" style={{ width: 180, height: 'auto' }} />
+          </div>
         </div>
 
         <h1 className="login-heading">
