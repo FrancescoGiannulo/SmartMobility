@@ -106,9 +106,9 @@ export default function VistaLogin() {
           </div>
         </div>
 
-        <h1 className="login-heading">
-          {modalita === 'login' ? 'Bentornato.' : 'Registrati.'}
-        </h1>
+        {modalita === 'registrazione' && (
+          <h1 className="login-heading">Registrati.</h1>
+        )}
 
         <form onSubmit={handleSubmit}>
           {modalita === 'registrazione' && (
