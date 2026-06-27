@@ -7,7 +7,7 @@
                 <mxCell id="201" value="sd TerminaCorsa" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=200;height=30;" vertex="1" parent="1">
                     <mxGeometry x="140" y="90" width="2100" height="2090" as="geometry"/>
                 </mxCell>
-                <mxCell id="202" value="Precondizione: l'Utente ha una Corsa attiva (stato In uso). L'addebito è orchestrato dal CorsaController, che invoca ServizioPricing.elaboraPagamento dopo che ServizioMobilita ha chiuso la corsa. Se il mezzo si trova in Zona Vietata viene applicata una penale obbligatoria; se il pagamento è rifiutato, 402 Payment Required." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="1">
+                <mxCell id="202" value="Precondizione: l'Utente ha una o più Corse attive (stato In uso), eventualmente di gruppo, e seleziona uno o più mezzi da terminare. Il passo terminaCorsa(idCorsa) viene ripetuto per ciascun mezzo selezionato (loop). L'addebito è orchestrato dal CorsaController, che invoca ServizioPricing.elaboraPagamento dopo che ServizioMobilita ha chiuso le corse. Se un mezzo si trova fuori Zona Operativa viene applicata una penale obbligatoria per quella corsa; se il pagamento è rifiutato, 402 Payment Required." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="1">
                     <mxGeometry x="160" y="125" width="2060" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="203" value=":Utente" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
@@ -148,7 +148,7 @@
                 <mxCell id="237" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
                     <mxGeometry x="2070" y="940" width="10" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="238" value="1: terminaEPaga()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="238" value="1: terminaEPaga(idMezziSelezionati[])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="195" y="270" as="sourcePoint"/>
                         <mxPoint x="340" y="270" as="targetPoint"/>
@@ -276,7 +276,13 @@
                         <mxPoint x="1120" y="1100" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="259" value="20: elaboraPagamento(idCorsa, idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="500" value="loop" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="290" width="1780" height="830" as="geometry"/>
+                </mxCell>
+                <mxCell id="501" value="[per ciascun mezzo selezionato dall'Utente]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="395" y="285" width="280" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="259" value="20: elaboraPagamento(idCorse[], idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1120" y="1140" as="sourcePoint"/>
                         <mxPoint x="1690" y="1140" as="targetPoint"/>
@@ -309,7 +315,7 @@
                         <mxPoint x="1120" y="1450" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="267" value="28: calcolaRiepilogoSessione(idCorsa, idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="267" value="28: calcolaRiepilogoSessione(idCorse[], idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1120" y="1490" as="sourcePoint"/>
                         <mxPoint x="1315" y="1490" as="targetPoint"/>

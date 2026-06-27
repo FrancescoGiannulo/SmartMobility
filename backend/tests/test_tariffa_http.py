@@ -31,9 +31,42 @@ class TestTariffaHTTP:
         assert isinstance(r.json(), list)
 
     @pytest.mark.integration
-    def test_post_tariffa_201(self, db, operatore_test):
+    def test_post_tariffa_201_costo_al_minuto(self, db, operatore_test):
         token = _login_op(operatore_test["email"], operatore_test["password"])
-        tipo_mezzo = f"automobile"
+        tipo_mezzo = "automobile"
+        _elimina_tariffa(db, tipo_mezzo)
+        try:
+            r = httpx.post(
+                f"{BASE}/operatore/tariffe",
+                json={"tipo_mezzo": tipo_mezzo, "costo_al_minuto": 0.05, "costo_al_km": None},
+                headers={"Authorization": f"Bearer {token}"},
+            )
+            assert r.status_code == 201, r.text
+            assert r.json()["tipo_mezzo"] == tipo_mezzo
+            assert r.json()["costo_al_km"] is None
+        finally:
+            _elimina_tariffa(db, tipo_mezzo)
+
+    @pytest.mark.integration
+    def test_post_tariffa_201_costo_al_km(self, db, operatore_test):
+        token = _login_op(operatore_test["email"], operatore_test["password"])
+        tipo_mezzo = "automobile"
+        _elimina_tariffa(db, tipo_mezzo)
+        try:
+            r = httpx.post(
+                f"{BASE}/operatore/tariffe",
+                json={"tipo_mezzo": tipo_mezzo, "costo_al_minuto": None, "costo_al_km": 0.10},
+                headers={"Authorization": f"Bearer {token}"},
+            )
+            assert r.status_code == 201, r.text
+            assert r.json()["costo_al_minuto"] is None
+        finally:
+            _elimina_tariffa(db, tipo_mezzo)
+
+    @pytest.mark.integration
+    def test_post_tariffa_422_entrambi_i_costi(self, db, operatore_test):
+        token = _login_op(operatore_test["email"], operatore_test["password"])
+        tipo_mezzo = "automobile"
         _elimina_tariffa(db, tipo_mezzo)
         try:
             r = httpx.post(
@@ -41,8 +74,7 @@ class TestTariffaHTTP:
                 json={"tipo_mezzo": tipo_mezzo, "costo_al_minuto": 0.05, "costo_al_km": 0.10},
                 headers={"Authorization": f"Bearer {token}"},
             )
-            assert r.status_code == 201, r.text
-            assert r.json()["tipo_mezzo"] == tipo_mezzo
+            assert r.status_code == 422
         finally:
             _elimina_tariffa(db, tipo_mezzo)
 
@@ -55,7 +87,7 @@ class TestTariffaHTTP:
             s.execute(
                 text(
                     "INSERT INTO tariffe (tipo_mezzo, costo_al_minuto, costo_al_km) "
-                    "VALUES (:t, 0.05, 0.10)"
+                    "VALUES (:t, 0.05, NULL)"
                 ),
                 {"t": tipo_mezzo},
             )
@@ -63,7 +95,7 @@ class TestTariffaHTTP:
         try:
             r = httpx.post(
                 f"{BASE}/operatore/tariffe",
-                json={"tipo_mezzo": tipo_mezzo, "costo_al_minuto": 0.05, "costo_al_km": 0.10},
+                json={"tipo_mezzo": tipo_mezzo, "costo_al_minuto": 0.05, "costo_al_km": None},
                 headers={"Authorization": f"Bearer {token}"},
             )
             assert r.status_code == 409
@@ -79,7 +111,7 @@ class TestTariffaHTTP:
             s.execute(
                 text(
                     "INSERT INTO tariffe (tipo_mezzo, costo_al_minuto, costo_al_km) "
-                    "VALUES (:t, 0.05, 0.10)"
+                    "VALUES (:t, 0.05, NULL)"
                 ),
                 {"t": tipo_mezzo},
             )
@@ -87,7 +119,7 @@ class TestTariffaHTTP:
         try:
             r = httpx.put(
                 f"{BASE}/operatore/tariffe/{tipo_mezzo}",
-                json={"tipo_mezzo": tipo_mezzo, "costo_al_minuto": 0.07, "costo_al_km": 0.12},
+                json={"tipo_mezzo": tipo_mezzo, "costo_al_minuto": 0.07, "costo_al_km": None},
                 headers={"Authorization": f"Bearer {token}"},
             )
             assert r.status_code == 200, r.text
@@ -101,7 +133,7 @@ class TestTariffaHTTP:
         tipo_mezzo = f"inesistente-{_uuid.uuid4().hex[:6]}"
         r = httpx.put(
             f"{BASE}/operatore/tariffe/{tipo_mezzo}",
-            json={"tipo_mezzo": tipo_mezzo, "costo_al_minuto": 0.07, "costo_al_km": 0.12},
+            json={"tipo_mezzo": tipo_mezzo, "costo_al_minuto": 0.07, "costo_al_km": None},
             headers={"Authorization": f"Bearer {token}"},
         )
         assert r.status_code == 404

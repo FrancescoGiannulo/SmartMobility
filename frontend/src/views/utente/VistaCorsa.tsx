@@ -1,10 +1,14 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useMapsLibrary } from '@vis.gl/react-google-maps'
 import axios from 'axios'
-import { terminaCorsa, sospendiCorsa, riprendiCorsa, getRiepilogoCorsa, type Corsa, type RispostaSospensione } from '../../services/CorsaService'
+import { terminaCorsa, sospendiCorsa, riprendiCorsa, getRiepilogoCorsa, aggiornaPosizioneDemo, type Corsa, type RispostaSospensione } from '../../services/CorsaService'
 import type { MezzoMappa } from '../../services/MapService'
+import { getZoneUtente, type ZonaMappa } from '../../services/MapService'
 import { effettuaPagamento, getMetodiPagamento, getPromozioni, type Promozione } from '../../services/PaymentService'
 import { getAbbonamentoCorrente } from '../../services/AbbonamentoService'
+import { puntoInPoligono, distanzaDaPoligono, zonaCorrente, type TipoZonaCorrente } from '../../utils/geoUtils'
+import { utenteCorrente } from '../../services/AuthService'
 import './VistaCorsa.css'
 
 interface DatiCorsa {
@@ -20,6 +24,40 @@ function formatTime(sec: number): string {
   const m = Math.floor(sec / 60).toString().padStart(2, '0')
   const s = (sec % 60).toString().padStart(2, '0')
   return `${m}:${s}`
+}
+
+// Distanza in km tra due punti (haversine) — usata per il contatore km durante la demo.
+function distanzaKm(aLat: number, aLng: number, bLat: number, bLng: number): number {
+  const R = 6371, toRad = Math.PI / 180
+  const dLat = (bLat - aLat) * toRad, dLng = (bLng - aLng) * toRad
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(aLat * toRad) * Math.cos(bLat * toRad) * Math.sin(dLng / 2) ** 2
+  return 2 * R * Math.asin(Math.sqrt(h))
+}
+
+type PuntoLL = { lat: number; lng: number }
+
+// Lunghezze cumulative (in metri) lungo una polilinea, per muoversi a velocità costante.
+function lunghezzeCumulativeM(path: PuntoLL[]): number[] {
+  const cum = [0]
+  for (let i = 1; i < path.length; i++) {
+    cum[i] = cum[i - 1] + distanzaKm(path[i - 1].lat, path[i - 1].lng, path[i].lat, path[i].lng) * 1000
+  }
+  return cum
+}
+
+// Punto sulla polilinea a distanza `d` metri dall'inizio (interpolazione sul segmento).
+function puntoADistanzaM(path: PuntoLL[], cum: number[], d: number): PuntoLL {
+  const totale = cum[cum.length - 1]
+  if (d <= 0) return path[0]
+  if (d >= totale) return path[path.length - 1]
+  let i = 1
+  while (i < cum.length && cum[i] < d) i++
+  const segLen = (cum[i] - cum[i - 1]) || 1
+  const t = (d - cum[i - 1]) / segLen
+  return {
+    lat: path[i - 1].lat + (path[i].lat - path[i - 1].lat) * t,
+    lng: path[i - 1].lng + (path[i].lng - path[i - 1].lng) * t,
+  }
 }
 
 function Batteria({ valore }: { valore: number | null | undefined }) {
@@ -87,6 +125,24 @@ export default function VistaCorsa() {
     daTerminate: DatiCorsa[]
   } | null>(null)
 
+  const [zoneOperative, setZoneOperative] = useState<ZonaMappa[]>([])
+  const [fuoriZona, setFuoriZona] = useState(false)
+  const watchIdRef = useRef<number | null>(null)
+
+  const [zoneTutte, setZoneTutte] = useState<ZonaMappa[]>([])
+  const [statoZonaDemo, setStatoZonaDemo] = useState<{ tipo: TipoZonaCorrente; limiteVelocita?: number } | null>(null)
+  const demoTimerRef = useRef<number | null>(null)
+  const penaleRef = useRef(false)
+  const inPausaRef = useRef(false)
+  const terminatiRef = useRef<Set<string>>(new Set())
+  const routesLib = useMapsLibrary('routes')
+  const [kmDemo, setKmDemo] = useState(0)
+  const demoAttivo = statoZonaDemo !== null
+  const emailDemo = import.meta.env.VITE_DEMO_EMAIL as string | undefined
+  const isAccountDemo = !!emailDemo && utenteCorrente()?.profilo.email === emailDemo
+
+  const MARGINE_FUORI_ZONA_M = 200
+
   const selCorsa = corse.find(c => c.mezzo.id === selId) ?? corse[0]
 
   useEffect(() => {
@@ -105,6 +161,36 @@ export default function VistaCorsa() {
     return () => clearInterval(t)
   }, [inPausa, graziaResiduaSec])
 
+  useEffect(() => {
+    getZoneUtente()
+      .then(zone => {
+        setZoneOperative(zone.filter(z => z.tipo === 'operativa' && z.attiva))
+        setZoneTutte(zone.filter(z => z.attiva))
+      })
+      .catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    if (zoneOperative.length === 0) return
+    const onPosition = (pos: GeolocationPosition) => {
+      const { latitude, longitude } = pos.coords
+      const dentroAlmenoUna = zoneOperative.some(z => puntoInPoligono(latitude, longitude, z.perimetro))
+      if (dentroAlmenoUna) {
+        setFuoriZona(false)
+        return
+      }
+      const distMin = Math.min(...zoneOperative.map(z => distanzaDaPoligono(latitude, longitude, z.perimetro)))
+      setFuoriZona(distMin > MARGINE_FUORI_ZONA_M)
+    }
+    watchIdRef.current = navigator.geolocation.watchPosition(onPosition, () => {}, {
+      enableHighAccuracy: true,
+      maximumAge: 5000,
+    })
+    return () => {
+      if (watchIdRef.current !== null) navigator.geolocation.clearWatch(watchIdRef.current)
+    }
+  }, [zoneOperative, MARGINE_FUORI_ZONA_M])
+
   const toggleTermina = (corsaId: string) => {
     setDaTerminare(prev => {
       const next = new Set(prev)
@@ -120,7 +206,7 @@ export default function VistaCorsa() {
       // [IF-UT.20] Per corse di gruppo ogni mezzo ha il proprio pagamento; somma i totali
       let totaleImporto = 0
       for (const corsa of da) {
-        const res = await effettuaPagamento(corsa.corsa_id, corsa.mezzo?.tipo ?? '', elapsed / 60, 0, offertaId)
+        const res = await effettuaPagamento(corsa.corsa_id, corsa.mezzo?.tipo ?? '', elapsed / 60, 0, offertaId, penaleRef.current)
         totaleImporto += res.importo
       }
       setImportoPagato(totaleImporto)
@@ -219,11 +305,17 @@ export default function VistaCorsa() {
     } catch { /* errore rete: il backend gestirà il 400 se necessario */ }
     try {
       for (const c of da) await terminaCorsa(c.corsa_id)
-    } catch {
-      setErrore('Errore durante la chiusura. Riprova.')
+    } catch (err) {
+      // [IF-OP.13] 409: mezzo non in zona di parcheggio consentita (tipo_vincolo 'divieto')
+      const messaggio = axios.isAxiosError(err) && typeof err.response?.data?.detail === 'string'
+        ? err.response.data.detail
+        : 'Errore durante la chiusura. Riprova.'
+      setErrore(messaggio)
       setFase('idle')
       return
     }
+    // Demo: i mezzi terminati si fermano subito (non vengono più mossi dal driver)
+    da.forEach(c => terminatiRef.current.add(c.corsa_id))
     // [IF-UT.16] Abbonamento attivo → corsa gratuita (non si applica alle corse di gruppo)
     const isGruppo = da.some(c => c.gruppo_corsa_id)
     if (!isGruppo) {
@@ -252,6 +344,108 @@ export default function VistaCorsa() {
     } catch { /* nessuna promo o errore rete: prosegui senza */ }
     await handlePaga(da)
   }, [corse, daTerminare, handlePaga])
+
+  // --- Demo movimento (helper di presentazione, solo account demo) ---
+  // Giro piccolo su strada (Google Directions): attraversa zona limitata e vietata (un solo
+  // passaggio), esce dalla zona operativa verso Via Padre Pio e rientra a parcheggiare allo start.
+  // Velocità scalata per durare ~90s (sempre sotto i 2 minuti).
+  const avviaDemoMovimento = useCallback(async () => {
+    if (corse.length === 0 || zoneTutte.length === 0 || demoTimerRef.current !== null) return
+
+    const POLITECNICO: PuntoLL = { lat: 41.1093, lng: 16.8791 }  // vietata (dentro la limitata Campus)
+    const OPERATIVA_CENTRO: PuntoLL = { lat: 41.11033, lng: 16.86814 }
+    const start: PuntoLL = { lat: corse[0].mezzo.lat, lng: corse[0].mezzo.lng }
+    const USCITA_ADDR = 'Via Padre Pio, Bari, Italia'  // punto di uscita dalla zona operativa
+
+    // Punto di uscita per il fallback (linea retta): primo punto fuori operativa dal Politecnico.
+    const dLat = POLITECNICO.lat - OPERATIVA_CENTRO.lat
+    const dLng = POLITECNICO.lng - OPERATIVA_CENTRO.lng
+    const norm = Math.hypot(dLat, dLng) || 1
+    let fuori: PuntoLL = { ...POLITECNICO }
+    for (let s = 0; s < 120; s++) {
+      fuori = { lat: fuori.lat + (dLat / norm) * 0.0015, lng: fuori.lng + (dLng / norm) * 0.0015 }
+      if (zonaCorrente(fuori.lat, fuori.lng, zoneTutte).tipo === 'fuori') break
+    }
+
+    // Giro piccolo su strada: start → Politecnico (zona vietata, un solo passaggio) →
+    // uscita a Via Padre Pio → rientro allo start. Fallback a linea retta se Directions non c'è.
+    let path: PuntoLL[] = []
+    if (routesLib) {
+      try {
+        const ds = new routesLib.DirectionsService()
+        const res = await ds.route({
+          origin: start,
+          destination: start,
+          waypoints: [
+            { location: POLITECNICO, stopover: false },
+            { location: USCITA_ADDR, stopover: false },
+          ],
+          travelMode: google.maps.TravelMode.DRIVING,
+        })
+        const op = res.routes[0]?.overview_path
+        if (op?.length) path = op.map(p => ({ lat: p.lat(), lng: p.lng() }))
+      } catch { /* fallback sotto */ }
+    }
+    if (path.length < 2) {
+      const interp = (a: PuntoLL, b: PuntoLL, n: number): PuntoLL[] =>
+        Array.from({ length: n }, (_, k) => ({ lat: a.lat + (b.lat - a.lat) * (k + 1) / n, lng: a.lng + (b.lng - a.lng) * (k + 1) / n }))
+      path = [start, ...interp(start, POLITECNICO, 4), ...interp(POLITECNICO, fuori, 6), ...interp(fuori, start, 8)]
+    }
+
+    const cum = lunghezzeCumulativeM(path)
+    const totale = cum[cum.length - 1]
+    // Velocità scalata per completare il giro in ~90s (sempre sotto i 2 minuti), più veloce di prima.
+    const TICK_SEC = 1.2, GAP_M = 15, DURATA_TARGET_SEC = 90
+    const passoM = Math.max(8, (totale / DURATA_TARGET_SEC) * TICK_SEC)
+    const ordine: Record<TipoZonaCorrente, number> = { vietata: 0, fuori: 1, limitata: 2, operativa: 3 }
+    const startBatt = corse.map(c => c.mezzo.batteria ?? 100)
+    const CONSUMO_DEMO_PER_KM = 15  // calo batteria ben visibile durante la demo
+
+    const avvioCorse = corse
+    terminatiRef.current = new Set()
+    penaleRef.current = false
+    setKmDemo(0)
+    let d = 0
+    demoTimerRef.current = window.setInterval(() => {
+      // Pausa: i mezzi si fermano finché la corsa è in pausa (come nell'app reale)
+      if (inPausaRef.current) return
+      let aggregato: { tipo: TipoZonaCorrente; limiteVelocita?: number } = { tipo: 'operativa' }
+      const nuoveBatt: Record<string, number> = {}
+      let qualcunoSiMuove = false
+      avvioCorse.forEach((c, i) => {
+        if (terminatiRef.current.has(c.corsa_id)) return  // mezzo terminato dall'utente: resta fermo
+        const dm = Math.max(0, Math.min(totale, d - i * GAP_M))
+        if (d - i * GAP_M < totale) qualcunoSiMuove = true
+        const p = puntoADistanzaM(path, cum, dm)
+        const z = zonaCorrente(p.lat, p.lng, zoneTutte)
+        if (z.tipo === 'vietata' || z.tipo === 'fuori') penaleRef.current = true
+        if (ordine[z.tipo] < ordine[aggregato.tipo]) aggregato = z
+        const batt = Math.max(5, Math.round(startBatt[i] - CONSUMO_DEMO_PER_KM * (dm / 1000)))
+        nuoveBatt[c.corsa_id] = batt
+        aggiornaPosizioneDemo(c.corsa_id, p.lat, p.lng, batt).catch(() => {})
+      })
+      // Aggiorna la batteria mostrata (cala col movimento)
+      setCorse(prev => prev.map(c => c.corsa_id in nuoveBatt
+        ? { ...c, mezzo: { ...c.mezzo, batteria: nuoveBatt[c.corsa_id] } } : c))
+      setStatoZonaDemo(aggregato)
+      setKmDemo(Math.min(totale, d) / 1000)
+      d += passoM
+      // Fine quando nessun mezzo (non terminato) è più in movimento: tutti arrivati o terminati.
+      if (!qualcunoSiMuove && demoTimerRef.current !== null) {
+        clearInterval(demoTimerRef.current)
+        demoTimerRef.current = null
+        setStatoZonaDemo(null)
+      }
+    }, TICK_SEC * 1000)
+  }, [corse, zoneTutte, routesLib])
+
+  // Cleanup del timer demo allo smontaggio
+  useEffect(() => () => {
+    if (demoTimerRef.current !== null) clearInterval(demoTimerRef.current)
+  }, [])
+
+  // Sincronizza lo stato di pausa col driver demo (i mezzi si fermano in pausa)
+  useEffect(() => { inPausaRef.current = inPausa }, [inPausa])
 
   if (!corse.length) return (
     <div className="vista-corsa-wrap">
@@ -319,9 +513,45 @@ export default function VistaCorsa() {
           <tr><td>ID Mezzo:</td><td>{selCorsa?.mezzo.codice}</td></tr>
           <tr><td>Carica rimanente:</td><td><Batteria valore={selCorsa?.mezzo.batteria} /></td></tr>
           <tr><td>Tempo trascorso:</td><td style={{ fontFamily: 'var(--ff-mono)' }}>{formatTime(elapsed)}</td></tr>
-          <tr><td>Km percorsi:</td><td>0,0</td></tr>
+          <tr><td>Km percorsi:</td><td>{kmDemo.toFixed(2).replace('.', ',')}</td></tr>
         </tbody>
       </table>
+
+      {demoAttivo && statoZonaDemo?.tipo === 'limitata' && (
+        <div className="zona-warning-banner zona-warning-limitata">
+          <span className="zona-warning-icona">🐢</span>
+          <div className="zona-warning-testo">
+            <strong>Zona a velocità limitata</strong>
+            <span>Velocità massima consentita: {statoZonaDemo.limiteVelocita ?? '—'} km/h.</span>
+          </div>
+        </div>
+      )}
+
+      {demoAttivo && statoZonaDemo?.tipo === 'vietata' && (
+        <div className="zona-warning-banner zona-warning-vietata">
+          <span className="zona-warning-icona">⛔</span>
+          <div className="zona-warning-testo">
+            <strong>Zona vietata</strong>
+            <span>Esci dall'area: a fine corsa verrà applicata una penale.</span>
+          </div>
+        </div>
+      )}
+
+      {((demoAttivo && statoZonaDemo?.tipo === 'fuori') || (!demoAttivo && fuoriZona)) && (
+        <div className="zona-warning-banner">
+          <span className="zona-warning-icona">⚠️</span>
+          <div className="zona-warning-testo">
+            <strong>Fuori dalla zona operativa</strong>
+            <span>Torna indietro per continuare a usufruire del servizio.</span>
+          </div>
+        </div>
+      )}
+
+      {isAccountDemo && corse.length > 0 && fase === 'idle' && (
+        <button type="button" className="btn-demo-movimento" onClick={avviaDemoMovimento} disabled={demoTimerRef.current !== null}>
+          ▶ Avvia demo movimento
+        </button>
+      )}
 
       <div className="corsa-logo">
         <span className="corsa-logo-icona">🔄</span>
@@ -358,6 +588,26 @@ export default function VistaCorsa() {
                     ))}
                   </ul>
 
+                  {/* CO2 risparmiata rispetto a mezzo a combustione (stima basata su durata) */}
+                  {(() => {
+                    const VEL_MEDIA_CITTA_KMH = 20
+                    const CO2_COMBUSTIONE_G_KM = 120
+                    const CO2_SHARING_G_KM: Record<string, number> = { bicicletta: 0, monopattino: 5, automobile: 40 }
+                    const kmStimati = (durataMin / 60) * VEL_MEDIA_CITTA_KMH
+                    const emissioneMedia = riepilogoData.daTerminate.length > 0
+                      ? riepilogoData.daTerminate.reduce((acc, c) => acc + (CO2_SHARING_G_KM[c.mezzo.tipo] ?? 0), 0) / riepilogoData.daTerminate.length
+                      : 0
+                    const co2Grammi = Math.round((CO2_COMBUSTIONE_G_KM - emissioneMedia) * kmStimati)
+                    return co2Grammi > 0 ? (
+                      <div className="riepilogo-co2">
+                        <span className="riepilogo-co2-label">CO₂ risparmiata</span>
+                        <span className="riepilogo-co2-valore">
+                          {co2Grammi >= 1000 ? `${(co2Grammi / 1000).toFixed(1)} kg` : `${co2Grammi} g`}
+                        </span>
+                      </div>
+                    ) : null
+                  })()}
+
                   {/* [IF-UT.07] mostraTotaleComplessivo(Corsa[]) */}
                   <div className="riepilogo-totale">
                     {r.importo_pieno !== null && r.costo_totale === 0 ? (
@@ -388,7 +638,7 @@ export default function VistaCorsa() {
             })()}
 
             <button type="button" className="btn-corsa btn-termina" onClick={handleTornaAllaMappa}>
-              Torna alla mappa
+              {riepilogoData.daTerminate.length < corse.length ? 'Torna alla corsa' : 'Torna alla mappa'}
             </button>
           </div>
         </div>
@@ -518,7 +768,7 @@ export default function VistaCorsa() {
               >
                 {fase === 'termina' ? 'Chiusura...'
                   : fase === 'paga' ? 'Addebito...'
-                  : daTerminare.size === corse.length ? 'TERMINA TUTTI' : 'TERMINA'}
+                  : corse.length > 1 && daTerminare.size === corse.length ? 'TERMINA TUTTI' : 'TERMINA'}
               </button>
               <button
                 type="button"

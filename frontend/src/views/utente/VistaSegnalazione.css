@@ -204,6 +204,11 @@
   color: var(--accent);
 }
 
+.segn-badge--risolta {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
 /* Conferma */
 .segn-conferma {
   display: flex;

@@ -111,7 +111,7 @@ Totale elementi identificati: **145**.
 + mostraDettaglioUtente(u: Utente): void
 + avviaSospensione(idUtente: String): void
 + mostraDialogoConferma(): void
-+ confermaSospensione(idUtente: String, motivazione: String): void
++ confermaSospensione(idUtente: String, motivazione: String, durata: int): void
 + mostraConfermaSospensione(): void
 ```
 
@@ -308,7 +308,7 @@ Totale elementi identificati: **145**.
 + apriTariffe(): void
 + mostraListaTariffe(listaTariffe: List): void
 + selezionaCreaNuovaTariffa(): void
-+ confermaNuovaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float, costoKm: float): void
++ confermaNuovaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float?, costoKm: float?): void
 + mostraConfermaTariffa(): void
 ```
 
@@ -501,7 +501,7 @@ Totale elementi identificati: **145**.
 ```
 + getUtenti(): List
 + getDettaglioUtente(idUtente: String): Utente
-+ sospendiAccount(idUtente: String, motivazione: String): void
++ sospendiAccount(idUtente: String, motivazione: String, durata: int): void
 ```
 
 ### `SegnalazioneService`
@@ -605,7 +605,7 @@ Totale elementi identificati: **145**.
 
 ```
 + getTariffe(): List
-+ creaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float, costoKm: float): void
++ creaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float?, costoKm: float?): void
 ```
 
 ### `CorsaService`
@@ -909,7 +909,7 @@ Totale elementi identificati: **145**.
 + cancellaAccount(idUtente): void
 + getUtenti(): List
 + getDettaglioUtente(idUtente): Utente
-+ sospendiAccount(idUtente, motivazione): void
++ sospendiAccount(idUtente, motivazione, durata): void
 ```
 
 ### `IServizioRecensione`
@@ -960,7 +960,7 @@ Totale elementi identificati: **145**.
 
 ```
 + getCorrente(): RegolaFineCorsa
-+ salva(tipoVincolo, penaleFuoriZona, batteriaMinima, bonusParcheggi, bonusValore): RegolaFineCorsa
++ salva(tipoVincolo, penaleFuoriZona, bonusParcheggi, bonusValore): RegolaFineCorsa
 ```
 
 ### `IServizioParametri`
@@ -1008,8 +1008,8 @@ Totale elementi identificati: **145**.
 
 ```
 + getTariffe(): List
-+ creaTariffa(tipoMezzo, costoMin, costoKm): Tariffa
-+ aggiornaTariffa(tipoMezzo, costoMin, costoKm): Tariffa
++ creaTariffa(tipoMezzo, costoMin?, costoKm?): Tariffa
++ aggiornaTariffa(tipoMezzo, costoMin?, costoKm?): Tariffa
 ```
 
 ### `IServizioPrenotazione`
@@ -1038,7 +1038,7 @@ Totale elementi identificati: **145**.
 + verificaDismissione(idMezzo): boolean
 + dismettiMezzo(idMezzo): void
 + modificaStatoMezzo(idMezzo, stato): Mezzo
-+ salvaRegoleFineCorsa(idOperatore, durataMax, grazia, maxMezzi, tipoVincolo, batteriaMin, penale): void
++ salvaRegoleFineCorsa(idOperatore, durataMax, grazia, maxMezzi, tipoVincolo, penale): void
 + getStorico(idUtente): List
 + calcolaRiepilogoSessione(idCorsa, idUtente): Corsa
 + getZonaParcheggioERegole(idOperatore): Object
@@ -1071,6 +1071,7 @@ Totale elementi identificati: **145**.
 + creaZona(nome, tipo, coordinate[], limiteVelocita): Zona
 + eliminaZona(idZona): void
 + verificaPosizioneInZonaOperativa(lat, lng): boolean
++ aggiornaPosizioneMezzo(idMezzo, lat, lng): void
 ```
 
 ---
@@ -1098,7 +1099,7 @@ Totale elementi identificati: **145**.
 + cancellaAccount(idUtente: String): void
 + getUtenti(): List
 + getDettaglioUtente(idUtente: String): Utente
-+ sospendiAccount(idUtente: String, motivazione: String): void
++ sospendiAccount(idUtente: String, motivazione: String, durata: int): void
 - buildProfilo(profilo: Object, ruolo: String, email: String): Utente
 ```
 
@@ -1202,7 +1203,7 @@ Totale elementi identificati: **145**.
 
 ```
 + getCorrente(): RegolaFineCorsa
-+ salva(tipoVincolo: String, penaleFuoriZona: Decimal, batteriaMinima: int, bonusParcheggiCorretti: int, bonusValore: Decimal): RegolaFineCorsa
++ salva(tipoVincolo: String, penaleFuoriZona: Decimal, bonusParcheggiCorretti: int, bonusValore: Decimal): RegolaFineCorsa
 ```
 
 ### `ServizioParametri`
@@ -1283,8 +1284,8 @@ Totale elementi identificati: **145**.
 
 ```
 + getTariffe(): List
-+ creaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float, costoKm: float): Tariffa
-+ aggiornaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float, costoKm: float): Tariffa
++ creaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float?, costoKm: float?): Tariffa
++ aggiornaTariffa(tipoMezzo: TipoMezzo, costoMinuto: float?, costoKm: float?): Tariffa
 ```
 
 ### `ServizioPrenotazione`
@@ -1332,7 +1333,7 @@ Totale elementi identificati: **145**.
 + verificaDismissione(idMezzo: String): boolean
 + dismettiMezzo(idMezzo: String): void
 + modificaStatoMezzo(idMezzo: String, stato: StatoMezzo): Mezzo
-+ salvaRegoleFineCorsa(idOperatore: String, durataMax: int, grazia: int, maxMezzi: int, tipoVincolo: String, batteriaMin: int, penale: float): void
++ salvaRegoleFineCorsa(idOperatore: String, durataMax: int, grazia: int, maxMezzi: int, tipoVincolo: String, penale: float): void
 + getStorico(idUtente: String): List
 + calcolaRiepilogoSessione(idCorsa: String, idUtente: String): Corsa
 + getZonaParcheggioERegole(idOperatore: String): Object
@@ -1344,7 +1345,6 @@ Totale elementi identificati: **145**.
 **Attributi**
 
 ```
-- strategie: Map
 - provider: ProviderPagamentiAdapter
 - pagamentoRepo: IPagamentoRepository
 - tariffaRepo: ITariffaRepository
@@ -1383,6 +1383,7 @@ Totale elementi identificati: **145**.
 + creaZona(nome: String, tipo: TipoZona, coordinate: Coordinate[], limiteVelocita: int): Zona
 + eliminaZona(idZona: String): void
 + verificaPosizioneInZonaOperativa(lat: float, lng: float): boolean
++ aggiornaPosizioneMezzo(idMezzo, lat, lng): void
 ```
 
 ---
@@ -1407,7 +1408,7 @@ Totale elementi identificati: **145**.
 + creaUtente(id, nome, cognome, consensoPrivacy): void
 + listaUtenti(): List
 + trovaUtentePerId(id: String): Utente
-+ sospendi(id: String, motivazione: String): void
++ sospendi(id: String, motivazione: String, durata: int): void
 ```
 
 ### `RecensioneRepository`
@@ -1480,10 +1481,10 @@ Totale elementi identificati: **145**.
 
 ```
 + getCorrente(): RegolaFineCorsa
-+ salva(tipoVincolo, penale, batteriaMin, bonusParcheggi, bonusValore): RegolaFineCorsa
++ salva(tipoVincolo, penale, bonusParcheggi, bonusValore): RegolaFineCorsa
 + trovaTutte(): List
 + eliminaTutto(): void
-+ crea(zonaId, batteriaMin, penale, tipoVincolo): Object
++ crea(zonaId, penale, tipoVincolo): Object
 ```
 
 ### `ParametriSistemaRepository`
@@ -1596,8 +1597,8 @@ Totale elementi identificati: **145**.
 ```
 + findAll(): List
 + existsByTipologia(tipoMezzo): boolean
-+ crea(tipoMezzo, costoMin, costoKm): Tariffa
-+ aggiorna(tipoMezzo, costoMin, costoKm): Tariffa
++ crea(tipoMezzo, costoMin?, costoKm?): Tariffa
++ aggiorna(tipoMezzo, costoMin?, costoKm?): Tariffa
 ```
 
 ### `ZonaRepository`
@@ -1634,7 +1635,14 @@ Totale elementi identificati: **145**.
 
 ```
 - statoAccount: StatoAccount
+- sospensioneFine: DateTime
+- contatoreParcheggiCorretti: int
+- creditoBonus: Decimal
 ```
+
+`contatoreParcheggiCorretti`/`creditoBonus` [IF-OP.06]: tracciano la serie consecutiva di parcheggi
+corretti a fine corsa e il credito accumulato (in €) erogato al raggiungimento di
+`RegolaFineCorsa.bonusParcheggiCorretti`, scalato automaticamente al pagamento della corsa successiva.
 
 ### `Operatore`
 
@@ -1818,9 +1826,10 @@ Totale elementi identificati: **145**.
 ```
 - id: String
 - tipoMezzo: TipoMezzo
-- costoPerMinuto: float
-- costoPerKm: float
+- costoPerMinuto: float?
+- costoPerKm: float?
 - aggiornataAt: DateTime
+Vincolo: esattamente uno tra costoPerMinuto e costoPerKm è non-null
 ```
 
 ### `Pagamento`

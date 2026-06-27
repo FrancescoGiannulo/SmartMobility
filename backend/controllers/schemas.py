@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, model_validator
 from typing import Any, Literal
 from uuid import UUID
 from decimal import Decimal
@@ -15,6 +15,12 @@ class RegistrazioneRequest(BaseModel):
 class LoginRequest(BaseModel):
     email: str
     password: str
+
+
+class PosizioneDemoRequest(BaseModel):
+    lat: float
+    lng: float
+    batteria: int | None = None  # batteria che cala col movimento (demo)
 
 
 class AuthResponse(BaseModel):
@@ -34,6 +40,7 @@ class EffettuaPagamentoRequest(BaseModel):
     durata_min: float
     distanza_km: float
     offerta_id: str | None = None
+    penale_fuori_zona: bool = False  # [IF-OP.06 / UT-04] corsa transitata in zona vietata/fuori operativa
 
 
 class MetodoPagamentoResponse(BaseModel):
@@ -71,15 +78,27 @@ class ZonaCreate(BaseModel):
 
 class CreaTariffaRequest(BaseModel):
     tipo_mezzo: str
-    costo_al_minuto: float
-    costo_al_km: float
+    costo_al_minuto: float | None = None
+    costo_al_km: float | None = None
+
+    @model_validator(mode="after")
+    def valida_xor_costo(self) -> "CreaTariffaRequest":
+        minuto, km = self.costo_al_minuto, self.costo_al_km
+        if (minuto is None) == (km is None):
+            raise ValueError(
+                "Specificare esattamente uno tra costo_al_minuto e costo_al_km"
+            )
+        valore = minuto if minuto is not None else km
+        if valore is None or valore <= 0:
+            raise ValueError("Il costo deve essere un numero maggiore di zero")
+        return self
 
 
 class TariffaResponse(BaseModel):
     id: str
     tipo_mezzo: str
-    costo_al_minuto: float
-    costo_al_km: float
+    costo_al_minuto: float | None
+    costo_al_km: float | None
 
 
 class PrenotazioneRequest(BaseModel):
@@ -164,7 +183,6 @@ class ConfigurazioneFineCorsaRequest(BaseModel):
     durata_periodo_grazia_min: int
     max_mezzi_per_utente: int
     tipo_vincolo: str
-    batteria_minima: int | None = None
     penale_fuori_zona: float = 0.0
 
 
@@ -212,7 +230,6 @@ class OffertaOut(BaseModel):
 class RegolaFinecorsaRequest(BaseModel):
     tipo_vincolo: str  # 'penale' | 'divieto' | 'avviso'
     penale_fuori_zona: Decimal = Decimal("0.00")
-    batteria_minima: int | None = None
     bonus_parcheggi_corretti: int | None = None
     bonus_valore: Decimal | None = None
 
@@ -221,7 +238,6 @@ class RegolaFinecorsaOut(BaseModel):
     id: UUID
     tipo_vincolo: str
     penale_fuori_zona: Decimal
-    batteria_minima: int | None
     bonus_parcheggi_corretti: int | None
     bonus_valore: Decimal | None
     created_at: datetime
@@ -232,8 +248,8 @@ class RegolaFinecorsaOut(BaseModel):
 class TariffaOut(BaseModel):
     id: UUID
     tipo_mezzo: str
-    costo_al_minuto: str
-    costo_al_km: str
+    costo_al_minuto: str | None
+    costo_al_km: str | None
 
 
 class PromozioneOut(BaseModel):
@@ -331,6 +347,7 @@ class UtenteListItemOut(BaseModel):
     cognome: str
     email: str
     sospeso: bool
+    sospensione_fine: str | None = None
 
 
 class UtenteDettaglioOut(UtenteListItemOut):
@@ -339,6 +356,7 @@ class UtenteDettaglioOut(UtenteListItemOut):
 
 class SospensioneRequest(BaseModel):
     motivazione: str
+    durata_giorni: int
 
 
 class ModificaProfiloRequest(BaseModel):

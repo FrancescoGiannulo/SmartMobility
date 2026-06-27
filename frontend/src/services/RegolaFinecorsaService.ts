@@ -4,7 +4,6 @@ export interface RegolaFinecorsa {
   id: string
   tipo_vincolo: 'penale' | 'divieto' | 'avviso'
   penale_fuori_zona: number
-  batteria_minima: number | null
   bonus_parcheggi_corretti: number | null
   bonus_valore: number | null
   created_at: string
@@ -13,7 +12,6 @@ export interface RegolaFinecorsa {
 export interface SalvaRegolaPayload {
   tipo_vincolo: 'penale' | 'divieto' | 'avviso'
   penale_fuori_zona: number
-  batteria_minima?: number
   bonus_parcheggi_corretti?: number
   bonus_valore?: number
 }

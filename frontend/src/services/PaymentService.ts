@@ -11,8 +11,8 @@ export interface MetodoPagamento {
 export interface Tariffa {
   id: string
   tipo_mezzo: string
-  costo_al_minuto: string
-  costo_al_km: string
+  costo_al_minuto: string | null
+  costo_al_km: string | null
 }
 
 // [IF-UT.13]
@@ -65,6 +65,7 @@ export const effettuaPagamento = async (
   durata_min: number,
   distanza_km: number,
   offerta_id?: string,
+  penale_fuori_zona?: boolean,
 ): Promise<RispostaPagamento> => {
   const r = await api.post<RispostaPagamento>('/utente/pagamenti/', {
     corsa_id,
@@ -72,6 +73,7 @@ export const effettuaPagamento = async (
     durata_min,
     distanza_km,
     offerta_id: offerta_id ?? null,
+    penale_fuori_zona: penale_fuori_zona ?? false,
   })
   return r.data
 }

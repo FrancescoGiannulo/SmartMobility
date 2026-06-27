@@ -4,6 +4,7 @@ import {
   getSegnalazioni,
   getDettaglioSegnalazione,
   aggiornaStatoSegnalazione,
+  risolviSegnalazione,
   type Segnalazione,
 } from '../../services/SegnalazioneService'
 import SidebarRuolo from '../../components/layout/SidebarRuolo'
@@ -12,11 +13,13 @@ import './VistaSegnalazioniOperatore.css'
 const STATO_LABEL: Record<string, string> = {
   aperta: 'Aperta',
   in_carico: 'In carico',
+  risolta: 'Risolta',
 }
 
 const STATO_CLASS: Record<string, string> = {
   aperta: 'vsegn__badge--aperta',
   in_carico: 'vsegn__badge--in-carico',
+  risolta: 'vsegn__badge--risolta',
 }
 
 function formatData(iso: string) {
@@ -63,14 +66,34 @@ export default function VistaSegnalazioniOperatore() {
     try {
       const res = await aggiornaStatoSegnalazione(selezionata.id)
       setSelezionata(res.data)
-      setSegnalazioni(prev =>
-        prev.map(s => s.id === res.data.id ? res.data : s)
-      )
+      setSegnalazioni(prev => prev.map(s => s.id === res.data.id ? res.data : s))
       setMessaggio('Segnalazione presa in carico.')
       setTimeout(() => setMessaggio(''), 3000)
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 404) {
         setErrore('Segnalazione non trovata.')
+      } else {
+        setErrore('Errore durante l\'operazione.')
+      }
+    } finally {
+      setAzioneInCorso(false)
+    }
+  }
+
+  const risolviSegnalazioneLocale = async () => {
+    if (!selezionata) return
+    setAzioneInCorso(true)
+    try {
+      const res = await risolviSegnalazione(selezionata.id)
+      setSelezionata(res.data)
+      setSegnalazioni(prev => prev.map(s => s.id === res.data.id ? res.data : s))
+      setMessaggio('Segnalazione segnata come risolta.')
+      setTimeout(() => setMessaggio(''), 3000)
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.status === 404) {
+        setErrore('Segnalazione non trovata.')
+      } else if (axios.isAxiosError(err) && err.response?.status === 422) {
+        setErrore('La segnalazione deve essere prima presa in carico.')
       } else {
         setErrore('Errore durante l\'operazione.')
       }
@@ -160,7 +183,17 @@ export default function VistaSegnalazioniOperatore() {
                   </button>
                 )}
                 {selezionata.stato === 'in_carico' && (
-                  <p className="vsegn__in-carico-msg">✅ Già presa in carico</p>
+                  <button
+                    type="button"
+                    className="sm-btn sm-btn--primary vsegn__btn-primario"
+                    onClick={risolviSegnalazioneLocale}
+                    disabled={azioneInCorso}
+                  >
+                    {azioneInCorso ? 'Aggiornamento...' : 'SEGNA COME RISOLTA'}
+                  </button>
+                )}
+                {selezionata.stato === 'risolta' && (
+                  <p className="vsegn__in-carico-msg">✅ Segnalazione risolta</p>
                 )}
               </div>
             )}

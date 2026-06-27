@@ -141,6 +141,11 @@
   color: var(--accent);
 }
 
+.vsegn__badge--risolta {
+  background: color-mix(in srgb, var(--info, #7fb4ff) 18%, var(--surface));
+  color: var(--info, #7fb4ff);
+}
+
 /* ── Detail panel ─────────────────────────────────────── */
 .vsegn__dettaglio {
   width: 320px;

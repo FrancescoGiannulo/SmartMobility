@@ -44,7 +44,7 @@ class ServizioMappa:
             raise PoligonoNonValidoException("Il poligono deve avere almeno 3 vertici distinti")
         if coordinate[0] != coordinate[-1]:
             coordinate = coordinate + [coordinate[0]]
-        # [IF-OP.02] Zone non-operative devono essere contenute in una zona operativa
+        # [IF-OP.07] Zone non-operative devono essere contenute in una zona operativa
         if tipo != "operativa":
             if not self._zone_repo.esiste_zona_operativa_contenente(coordinate):
                 raise PoligonoFuoriZonaOperativaException(
@@ -72,6 +72,16 @@ class ServizioMappa:
             operatore_id=operatore_id,
         )
 
-    # [IF-OP.11] Verifica che la posizione ricada in una zona operativa attiva
+    # [IF-OP.02] Verifica che la posizione ricada in una zona operativa attiva
     def verifica_posizione_in_zona_operativa(self, lat: float, lng: float) -> bool:
         return self._zone_repo.punto_in_zona_operativa(lat, lng)
+
+    # [IF-OP.01] Helper demo di presentazione: aggiorna la posizione di un mezzo (e, durante la
+    # demo, la batteria che cala col movimento). La posizione non è uno stato del mezzo: resta
+    # in ServizioMappa (servizio geografico).
+    def aggiorna_posizione_mezzo(
+        self, id_mezzo: UUID, lat: float, lng: float, batteria: int | None = None
+    ) -> None:
+        self._mezzo_repo.aggiorna_posizione(id_mezzo, lat, lng)
+        if batteria is not None:
+            self._mezzo_repo.aggiorna_batteria(id_mezzo, batteria)

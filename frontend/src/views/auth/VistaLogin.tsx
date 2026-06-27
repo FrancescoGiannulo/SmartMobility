@@ -5,10 +5,23 @@ import './VistaLogin.css'
 
 const ERRORI: Record<number, string> = {
   401: 'Email o password non corretti',
-  422: 'Password non valida. Deve contenere almeno 8 caratteri',
   423: 'Account bloccato per troppi tentativi falliti. Riprova più tardi.',
   403: 'Account sospeso. Contatta il supporto',
   409: 'Email già registrata',
+}
+
+// Il 422 copre sia le HTTPException di business (detail = stringa) sia gli errori
+// di validazione Pydantic (detail = lista di { loc, msg }). Deriva il messaggio
+// corretto invece di assumere sempre un problema di password.
+function messaggio422(detail: unknown): string {
+  if (typeof detail === 'string' && detail.trim()) return detail
+  if (Array.isArray(detail)) {
+    const riguarda = (campo: string) =>
+      detail.some(e => Array.isArray((e as { loc?: unknown[] })?.loc) && (e as { loc: unknown[] }).loc.includes(campo))
+    if (riguarda('email')) return 'Indirizzo email non valido'
+    if (riguarda('password')) return 'Password non valida. Deve contenere almeno 8 caratteri'
+  }
+  return 'Dati non validi. Controlla i campi inseriti'
 }
 
 type Modalita = 'login' | 'registrazione'
@@ -48,20 +61,26 @@ export default function VistaLogin() {
         redirectDopoLogin(result.ruolo)
       }
     } catch (err: unknown) {
-      const response = (err as { response?: { status?: number; data?: { detail?: string } } })?.response
+      const response = (err as { response?: { status?: number; data?: { detail?: unknown } } })?.response
       const status = response?.status ?? 0
       if (status === 403) {
-        // [IF-OP.09] Il backend include la motivazione della sospensione nel detail
-        // come "Account sospeso: <motivazione>" — la estraiamo per mostrarla all'utente.
-        const detail = response?.data?.detail ?? ''
-        const motivazione = detail.startsWith('Account sospeso: ')
-          ? detail.slice('Account sospeso: '.length)
+        // [IF-OP.09] Il backend invia il detail nel formato
+        // "Account sospeso[: <motivazione>][. Tempo rimanente: <X>]".
+        // Estraiamo motivazione e tempo residuo per mostrarli all'utente.
+        const detail = String(response?.data?.detail ?? '')
+        const matchTempo = detail.match(/\.\s*Tempo rimanente:\s*(.+)$/)
+        const tempo = matchTempo ? matchTempo[1].trim() : null
+        const resto = matchTempo ? detail.slice(0, matchTempo.index) : detail
+        const motivazione = resto.startsWith('Account sospeso: ')
+          ? resto.slice('Account sospeso: '.length).trim()
           : null
-        setErrore(
-          motivazione
-            ? `Account sospeso. Motivo: ${motivazione}. Contatta il supporto.`
-            : ERRORI[403],
-        )
+        let msg = 'Account sospeso.'
+        if (motivazione) msg += ` Motivo: ${motivazione}.`
+        if (tempo) msg += ` Tempo rimanente: ${tempo}.`
+        msg += ' Contatta il supporto.'
+        setErrore(msg)
+      } else if (status === 422) {
+        setErrore(messaggio422(response?.data?.detail))
       } else {
         setErrore(ERRORI[status] ?? 'Servizio temporaneamente non disponibile')
       }

@@ -109,7 +109,7 @@ def dismetti_mezzo(
         raise HTTPException(status_code=409, detail=str(e))
 
 
-# [IF-OP.13] CS-XX — Leggi configurazione regole fine corsa
+# [IF-OP.06] CS-XX — Leggi configurazione regole fine corsa
 @router.get("/configurazione/fine-corsa")
 def get_configurazione_fine_corsa(
     operatore=Depends(verify_token(["OP"])),
@@ -118,7 +118,7 @@ def get_configurazione_fine_corsa(
     return ServizioMobilita(db).get_zona_parcheggio_e_regole(UUID(operatore["id"]))
 
 
-# [IF-OP.13] CS-XX — Salva configurazione regole fine corsa
+# [IF-OP.06] CS-XX — Salva configurazione regole fine corsa
 @router.post("/configurazione/fine-corsa", status_code=201)
 def salva_configurazione_fine_corsa(
     body: ConfigurazioneFineCorsaRequest,
@@ -127,8 +127,6 @@ def salva_configurazione_fine_corsa(
 ):
     if body.tipo_vincolo not in TIPI_VINCOLO_VALIDI:
         raise HTTPException(status_code=422, detail="tipo_vincolo non valido")
-    if body.batteria_minima is not None and not (0 <= body.batteria_minima <= 100):
-        raise HTTPException(status_code=422, detail="batteria_minima deve essere tra 0 e 100")
     if body.durata_max_prenotazione_min <= 0:
         raise HTTPException(status_code=422, detail="durata_max_prenotazione_min deve essere > 0")
     if body.durata_periodo_grazia_min < 0:
@@ -141,7 +139,6 @@ def salva_configurazione_fine_corsa(
         body.durata_periodo_grazia_min,
         body.max_mezzi_per_utente,
         body.tipo_vincolo,
-        body.batteria_minima,
         body.penale_fuori_zona,
     )
     return {"status": "ok"}

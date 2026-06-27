@@ -31,6 +31,22 @@ export function isRisultatiParziali(err: unknown): err is { response: { data: { 
   )
 }
 
+// [IF-UT.02] CS-04 — risposta 422 quando alcuni mezzi del gruppo sono troppo lontani
+// dal primo selezionato (fuoriRaggio nel diagramma di sequenza, msg 37/38)
+export interface MezziFuoriRaggio {
+  messaggio: string
+  fuori_raggio: string[]
+}
+
+export function isMezziFuoriRaggio(err: unknown): err is { response: { data: { detail: MezziFuoriRaggio } } } {
+  return (
+    axios.isAxiosError(err) &&
+    err.response?.status === 422 &&
+    typeof err.response?.data?.detail === 'object' &&
+    Array.isArray(err.response?.data?.detail?.fuori_raggio)
+  )
+}
+
 // [IF-UT.02] CS-04 — Recupera prenotazioni attive dopo refresh (getPrenotazioniAttive nel diagramma)
 export const getPrenotazioniAttive = async (): Promise<Prenotazione[]> => {
   const r = await api.get<Prenotazione[]>('/utente/prenotazioni/attive')

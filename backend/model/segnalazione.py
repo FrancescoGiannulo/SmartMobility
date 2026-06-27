@@ -11,6 +11,7 @@ from database import Base
 class StatoSegnalazione(str, Enum):
     aperta = "aperta"
     in_carico = "in_carico"
+    risolta = "risolta"
 
 
 class Segnalazione(Base):

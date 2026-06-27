@@ -13,7 +13,7 @@ class TestServizioTariffa:
         riga.id = uuid.uuid4()
         riga.tipo_mezzo = "monopattino"
         riga.costo_al_minuto = Decimal("0.05")
-        riga.costo_al_km = Decimal("0.10")
+        riga.costo_al_km = None
 
         with patch("bll.servizio_tariffa.TariffaRepository") as MockRepo:
             MockRepo.return_value.find_all.return_value = [riga]
@@ -23,7 +23,7 @@ class TestServizioTariffa:
             "id": str(riga.id),
             "tipo_mezzo": "monopattino",
             "costo_al_minuto": 0.05,
-            "costo_al_km": 0.10,
+            "costo_al_km": None,
         }]
 
     def test_get_tariffe_lista_vuota(self):
@@ -35,13 +35,13 @@ class TestServizioTariffa:
 
         assert result == []
 
-    def test_crea_tariffa_delega_al_repository(self):
+    def test_crea_tariffa_solo_costo_al_km(self):
         from bll.servizio_tariffa import ServizioTariffa
 
         tariffa = MagicMock()
         tariffa.id = uuid.uuid4()
         tariffa.tipo_mezzo = "bicicletta"
-        tariffa.costo_al_minuto = Decimal("0.03")
+        tariffa.costo_al_minuto = None
         tariffa.costo_al_km = Decimal("0.08")
         operatore_id = uuid.uuid4()
 
@@ -49,10 +49,12 @@ class TestServizioTariffa:
              patch("bll.servizio_tariffa.ServizioStoricoModifiche") as MockStorico:
             MockRepo.return_value.exists_by_tipologia.return_value = False
             MockRepo.return_value.crea.return_value = tariffa
-            result = ServizioTariffa().crea_tariffa("bicicletta", 0.03, 0.08, operatore_id)
+            result = ServizioTariffa().crea_tariffa("bicicletta", None, 0.08, operatore_id)
 
-        MockRepo.return_value.crea.assert_called_once_with("bicicletta", Decimal("0.03"), Decimal("0.08"))
+        MockRepo.return_value.crea.assert_called_once_with("bicicletta", None, Decimal("0.08"))
         assert result["tipo_mezzo"] == "bicicletta"
+        assert result["costo_al_minuto"] is None
+        assert result["costo_al_km"] == 0.08
         MockStorico.return_value.registra_modifica.assert_called_once()
         kwargs = MockStorico.return_value.registra_modifica.call_args.kwargs
         assert kwargs["tipo_configurazione"] == "tariffa_creata"
@@ -74,28 +76,48 @@ class TestServizioTariffa:
                 pass
         MockRepo.return_value.crea.assert_not_called()
 
+    def test_crea_tariffa_solo_costo_al_minuto(self):
+        from bll.servizio_tariffa import ServizioTariffa
+
+        tariffa = MagicMock()
+        tariffa.id = uuid.uuid4()
+        tariffa.tipo_mezzo = "automobile"
+        tariffa.costo_al_minuto = Decimal("0.25")
+        tariffa.costo_al_km = None
+        operatore_id = uuid.uuid4()
+
+        with patch("bll.servizio_tariffa.TariffaRepository") as MockRepo, \
+             patch("bll.servizio_tariffa.ServizioStoricoModifiche"):
+            MockRepo.return_value.exists_by_tipologia.return_value = False
+            MockRepo.return_value.crea.return_value = tariffa
+            result = ServizioTariffa().crea_tariffa("automobile", 0.25, None, operatore_id)
+
+        MockRepo.return_value.crea.assert_called_once_with("automobile", Decimal("0.25"), None)
+        assert result["costo_al_km"] is None
+
     def test_aggiorna_tariffa_delega_al_repository(self):
         from bll.servizio_tariffa import ServizioTariffa
 
         precedente = MagicMock()
         precedente.tipo_mezzo = "monopattino"
         precedente.costo_al_minuto = Decimal("0.05")
-        precedente.costo_al_km = Decimal("0.10")
+        precedente.costo_al_km = None
 
         tariffa = MagicMock()
         tariffa.id = uuid.uuid4()
         tariffa.tipo_mezzo = "monopattino"
         tariffa.costo_al_minuto = Decimal("0.07")
-        tariffa.costo_al_km = Decimal("0.12")
+        tariffa.costo_al_km = None
         operatore_id = uuid.uuid4()
 
         with patch("bll.servizio_tariffa.TariffaRepository") as MockRepo, \
              patch("bll.servizio_tariffa.ServizioStoricoModifiche") as MockStorico:
             MockRepo.return_value.find_all.return_value = [precedente]
             MockRepo.return_value.aggiorna.return_value = tariffa
-            result = ServizioTariffa().aggiorna_tariffa("monopattino", 0.07, 0.12, operatore_id)
+            result = ServizioTariffa().aggiorna_tariffa("monopattino", 0.07, None, operatore_id)
 
         assert result["costo_al_minuto"] == 0.07
+        assert result["costo_al_km"] is None
         kwargs = MockStorico.return_value.registra_modifica.call_args.kwargs
         assert kwargs["tipo_configurazione"] == "tariffa_modificata"
         assert "costo_al_minuto=0.05" in kwargs["valore_precedente"]

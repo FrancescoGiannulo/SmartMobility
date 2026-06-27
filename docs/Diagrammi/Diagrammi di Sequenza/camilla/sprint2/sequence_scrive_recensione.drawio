@@ -5,7 +5,7 @@
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
                 <mxCell id="87" value="sd Scrive Recensione" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=200;height=30;" vertex="1" parent="1">
-                    <mxGeometry x="60" y="120" width="1530" height="1010" as="geometry"/>
+                    <mxGeometry x="60" y="120" width="1530" height="1340" as="geometry"/>
                 </mxCell>
                 <mxCell id="88" value="Precondizione: l'Utente è autenticato (ruolo UT). La precondizione (almeno una corsa conclusa) è verificata da ServizioRecensione.haCorsaConclusa() al passo 11, prima del salvataggio; se non soddisfatta il sistema risponde 422. Il voto (1-5) è validato lato BLL tramite validaVoto() al passo 10; il commento testuale è facoltativo." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="1">
                     <mxGeometry x="80" y="60" width="1100" height="54" as="geometry"/>
@@ -16,7 +16,7 @@
                 <mxCell id="90" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="110" y="240" as="sourcePoint"/>
-                        <mxPoint x="110" y="1130" as="targetPoint"/>
+                        <mxPoint x="110" y="1430" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="91" value="&lt;b&gt;&lt;u&gt;:VistaRecensione&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
@@ -25,7 +25,7 @@
                 <mxCell id="92" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="240" y="224" as="sourcePoint"/>
-                        <mxPoint x="240" y="1130" as="targetPoint"/>
+                        <mxPoint x="240" y="1430" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="93" value="&lt;b&gt;&lt;u&gt;:RecensioneService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
@@ -34,7 +34,7 @@
                 <mxCell id="94" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="445" y="224" as="sourcePoint"/>
-                        <mxPoint x="445" y="1130" as="targetPoint"/>
+                        <mxPoint x="445" y="1430" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="95" value="&lt;b&gt;&lt;u&gt;:ApiService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
@@ -43,7 +43,7 @@
                 <mxCell id="96" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="650" y="224" as="sourcePoint"/>
-                        <mxPoint x="650" y="1130" as="targetPoint"/>
+                        <mxPoint x="650" y="1430" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="97" value="&lt;b&gt;&lt;u&gt;:FrontController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
@@ -52,7 +52,7 @@
                 <mxCell id="98" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="855" y="224" as="sourcePoint"/>
-                        <mxPoint x="855" y="1130" as="targetPoint"/>
+                        <mxPoint x="855" y="1430" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="99" value="&lt;b&gt;&lt;u&gt;:RecensioneController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
@@ -61,7 +61,7 @@
                 <mxCell id="100" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1060" y="224" as="sourcePoint"/>
-                        <mxPoint x="1060" y="1130" as="targetPoint"/>
+                        <mxPoint x="1060" y="1430" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="101" value="&lt;b&gt;&lt;u&gt;:ServizioRecensione&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
@@ -70,7 +70,7 @@
                 <mxCell id="102" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1265" y="224" as="sourcePoint"/>
-                        <mxPoint x="1265" y="1130" as="targetPoint"/>
+                        <mxPoint x="1265" y="1430" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="103" value="&lt;b&gt;&lt;u&gt;:RecensioneRepository&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
@@ -79,29 +79,29 @@
                 <mxCell id="104" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;entryX=0.922;entryY=1.003;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="87">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1470" y="224" as="sourcePoint"/>
-                        <mxPoint x="1470" y="1130" as="targetPoint"/>
+                        <mxPoint x="1470" y="1430" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="105" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
-                    <mxGeometry x="235" y="335" width="10" height="760" as="geometry"/>
+                    <mxGeometry x="235" y="335" width="10" height="1060" as="geometry"/>
                 </mxCell>
                 <mxCell id="106" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
-                    <mxGeometry x="440" y="455" width="10" height="586" as="geometry"/>
+                    <mxGeometry x="440" y="455" width="10" height="900" as="geometry"/>
                 </mxCell>
                 <mxCell id="107" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
-                    <mxGeometry x="645" y="495" width="10" height="506" as="geometry"/>
+                    <mxGeometry x="645" y="495" width="10" height="820" as="geometry"/>
                 </mxCell>
                 <mxCell id="108" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
-                    <mxGeometry x="850" y="535" width="10" height="426" as="geometry"/>
+                    <mxGeometry x="850" y="535" width="10" height="740" as="geometry"/>
                 </mxCell>
                 <mxCell id="109" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
-                    <mxGeometry x="1055" y="615" width="10" height="306" as="geometry"/>
+                    <mxGeometry x="1055" y="615" width="10" height="620" as="geometry"/>
                 </mxCell>
                 <mxCell id="110" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
-                    <mxGeometry x="1260" y="655" width="10" height="226" as="geometry"/>
+                    <mxGeometry x="1260" y="655" width="10" height="550" as="geometry"/>
                 </mxCell>
                 <mxCell id="111" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
-                    <mxGeometry x="1465" y="735" width="10" height="106" as="geometry"/>
+                    <mxGeometry x="1465" y="755" width="10" height="106" as="geometry"/>
                 </mxCell>
                 <mxCell id="112" value="1: apriFormRecensione()" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
@@ -181,52 +181,103 @@
                         <mxPoint x="1270" y="757" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
+                <mxCell id="140" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="775" width="1410" height="610" as="geometry"/>
+                </mxCell>
+                <mxCell id="141" value="[corsa conclusa]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="145" y="770" width="180" height="22" as="geometry"/>
+                </mxCell>
                 <mxCell id="123" value="12: save(recensione)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1270" y="781" as="sourcePoint"/>
-                        <mxPoint x="1465" y="781" as="targetPoint"/>
+                        <mxPoint x="1270" y="801" as="sourcePoint"/>
+                        <mxPoint x="1465" y="801" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="124" value="13: :recensioneSalvata" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1465" y="821" as="sourcePoint"/>
-                        <mxPoint x="1270" y="821" as="targetPoint"/>
+                        <mxPoint x="1465" y="841" as="sourcePoint"/>
+                        <mxPoint x="1270" y="841" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="125" value="14: :recensione" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1260" y="861" as="sourcePoint"/>
-                        <mxPoint x="1065" y="861" as="targetPoint"/>
+                        <mxPoint x="1260" y="881" as="sourcePoint"/>
+                        <mxPoint x="1065" y="881" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="126" value="15: 201 Created :recensione" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1055" y="901" as="sourcePoint"/>
-                        <mxPoint x="860" y="901" as="targetPoint"/>
+                        <mxPoint x="1055" y="921" as="sourcePoint"/>
+                        <mxPoint x="860" y="921" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="127" value="16: 201 Created (JSON)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="850" y="941" as="sourcePoint"/>
-                        <mxPoint x="655" y="941" as="targetPoint"/>
+                        <mxPoint x="850" y="961" as="sourcePoint"/>
+                        <mxPoint x="655" y="961" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="128" value="17: gestisciRisposta(): :recensione" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="645" y="981" as="sourcePoint"/>
-                        <mxPoint x="450" y="981" as="targetPoint"/>
+                        <mxPoint x="645" y="1001" as="sourcePoint"/>
+                        <mxPoint x="450" y="1001" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="129" value="18: :recensione" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="440" y="1021" as="sourcePoint"/>
-                        <mxPoint x="245" y="1021" as="targetPoint"/>
+                        <mxPoint x="440" y="1041" as="sourcePoint"/>
+                        <mxPoint x="245" y="1041" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="130" value="19: mostraConfermaRecensione()" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="235" y="1061" as="sourcePoint"/>
-                        <mxPoint x="110" y="1061" as="targetPoint"/>
+                        <mxPoint x="235" y="1081" as="sourcePoint"/>
+                        <mxPoint x="110" y="1081" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="142" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="80" y="1121" as="sourcePoint"/>
+                        <mxPoint x="1490" y="1121" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="143" value="[else / nessuna corsa conclusa]" style="text;html=1;align=left;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="90" y="1124" width="280" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="144" value="20: :erroreCorsaNonConclusa" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1270" y="1160" as="sourcePoint"/>
+                        <mxPoint x="1065" y="1160" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="145" value="21: 422 Unprocessable Entity" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1055" y="1200" as="sourcePoint"/>
+                        <mxPoint x="860" y="1200" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="146" value="22: 422 Unprocessable Entity" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="850" y="1240" as="sourcePoint"/>
+                        <mxPoint x="655" y="1240" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="147" value="23: mostraErroreHTTP(422): :errore" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="645" y="1280" as="sourcePoint"/>
+                        <mxPoint x="450" y="1280" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="148" value="24: :errore" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="440" y="1320" as="sourcePoint"/>
+                        <mxPoint x="245" y="1320" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="149" value="25: mostraErrore(&quot;Devi aver concluso almeno una corsa per lasciare una recensione&quot;)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="235" y="1360" as="sourcePoint"/>
+                        <mxPoint x="110" y="1360" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
             </root>

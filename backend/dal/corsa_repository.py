@@ -23,7 +23,7 @@ class CorsaRepository:
     def trova_per_id(self, corsa_id: UUID) -> dict | None:
         sql = text("""
             SELECT id, utente_id, mezzo_id, stato,
-                   pausa_inizio_at, pausa_durata_accumulata_sec
+                   pausa_inizio_at, pausa_durata_accumulata_sec, penale_parcheggio_applicata
             FROM corse WHERE id = :id
         """)
         with self._sessione() as s:
@@ -37,7 +37,18 @@ class CorsaRepository:
             "stato": row.stato,
             "pausa_inizio_at": row.pausa_inizio_at,
             "pausa_durata_accumulata_sec": row.pausa_durata_accumulata_sec,
+            "penale_parcheggio_applicata": row.penale_parcheggio_applicata,
         }
+
+    # [IF-OP.06] Persiste l'esito della verifica parcheggio fatta a fine corsa
+    def imposta_esito_parcheggio(self, corsa_id: UUID, penale_applicata: bool, avviso: str | None) -> None:
+        sql = text("""
+            UPDATE corse SET penale_parcheggio_applicata = :penale, avviso_parcheggio = :avviso
+            WHERE id = :id
+        """)
+        with self._sessione() as s:
+            s.execute(sql, {"id": str(corsa_id), "penale": penale_applicata, "avviso": avviso})
+            s.commit()
 
     # [IF-UT.15] Scrive Recensione — verifica precondizione "almeno una corsa conclusa"
     def ha_corsa_conclusa(self, utente_id: UUID) -> bool:
@@ -112,6 +123,19 @@ class CorsaRepository:
         with self._sessione() as s:
             row = s.execute(sql, {"id": str(corsa_id)}).fetchone()
         return row.pausa_durata_accumulata_sec if row else 0
+
+    # Durata effettiva di guida in secondi: (fine - inizio) meno il tempo in pausa.
+    def durata_effettiva_sec(self, corsa_id: UUID) -> int:
+        sql = text("""
+            SELECT GREATEST(0,
+                EXTRACT(EPOCH FROM (COALESCE(fine_at, now()) - inizio_at))
+                - COALESCE(pausa_durata_accumulata_sec, 0)
+            ) AS sec
+            FROM corse WHERE id = :id
+        """)
+        with self._sessione() as s:
+            row = s.execute(sql, {"id": str(corsa_id)}).fetchone()
+        return int(row.sec) if row and row.sec is not None else 0
 
     # [IF-UT.04] CS-05 — crea corsa all'avvio del mezzo
     def crea(

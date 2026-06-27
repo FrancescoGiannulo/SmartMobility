@@ -5,7 +5,7 @@
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
                 <mxCell id="frame" value="sd SospendeAccountUtente" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;align=left;spacingLeft=8;verticalAlign=top;width=200;height=30;" vertex="1" parent="1">
-                    <mxGeometry x="20" y="20" width="2050" height="2320" as="geometry"/>
+                    <mxGeometry x="20" y="20" width="2050" height="2480" as="geometry"/>
                 </mxCell>
                 <mxCell id="note" value="L'Operatore consulta l'elenco utenti, apre il dettaglio di un Utente, inserisce la motivazione e sospende l'account. Riferimento: IF-OP.09 (OP-09). Precondizione: l'Operatore è autenticato (ruolo OP); l'account dell'Utente è attivo. Alla sospensione il sistema registra una notifica per l'Utente (NotificaService), letta al successivo accesso — nessun canale push attivo." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9B1;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacing=6;" vertex="1" parent="1">
                     <mxGeometry x="40" y="55" width="2010" height="60" as="geometry"/>
@@ -16,7 +16,7 @@
                 <mxCell id="actor_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="75" y="190" as="sourcePoint"/>
-                        <mxPoint x="75" y="2320" as="targetPoint"/>
+                        <mxPoint x="75" y="2480" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="lbl_vista" value="&lt;b&gt;&lt;u&gt;:VistaGestioneUtentiOperatore&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
@@ -25,7 +25,7 @@
                 <mxCell id="line_vista" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="265" y="174" as="sourcePoint"/>
-                        <mxPoint x="265" y="2320" as="targetPoint"/>
+                        <mxPoint x="265" y="2480" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="lbl_svc_client" value="&lt;b&gt;&lt;u&gt;:GestioneUtentiService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
@@ -34,7 +34,7 @@
                 <mxCell id="line_svc_client" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="480" y="174" as="sourcePoint"/>
-                        <mxPoint x="480" y="2320" as="targetPoint"/>
+                        <mxPoint x="480" y="2480" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="lbl_api" value="&lt;b&gt;&lt;u&gt;:ApiService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
@@ -43,7 +43,7 @@
                 <mxCell id="line_api" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="665" y="174" as="sourcePoint"/>
-                        <mxPoint x="665" y="2320" as="targetPoint"/>
+                        <mxPoint x="665" y="2480" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="lbl_front" value="&lt;b&gt;&lt;u&gt;:FrontController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
@@ -52,7 +52,7 @@
                 <mxCell id="line_front" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="835" y="174" as="sourcePoint"/>
-                        <mxPoint x="835" y="2320" as="targetPoint"/>
+                        <mxPoint x="835" y="2480" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="lbl_ctrl" value="&lt;b&gt;&lt;u&gt;:UtentiOPController&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
@@ -61,7 +61,7 @@
                 <mxCell id="line_ctrl" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1025" y="174" as="sourcePoint"/>
-                        <mxPoint x="1025" y="2320" as="targetPoint"/>
+                        <mxPoint x="1025" y="2480" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="lbl_svc" value="&lt;b&gt;&lt;u&gt;:ServizioUtenti&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
@@ -70,7 +70,7 @@
                 <mxCell id="line_svc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1215" y="174" as="sourcePoint"/>
-                        <mxPoint x="1215" y="2320" as="targetPoint"/>
+                        <mxPoint x="1215" y="2480" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="lbl_attore" value="&lt;u&gt;:AttoreRepository&lt;/u&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
@@ -79,7 +79,7 @@
                 <mxCell id="line_attore" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1395" y="174" as="sourcePoint"/>
-                        <mxPoint x="1395" y="2320" as="targetPoint"/>
+                        <mxPoint x="1395" y="2480" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="lbl_utente" value="&lt;u&gt;:UtenteRepository&lt;/u&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
@@ -88,7 +88,7 @@
                 <mxCell id="line_utente" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1580" y="174" as="sourcePoint"/>
-                        <mxPoint x="1580" y="2320" as="targetPoint"/>
+                        <mxPoint x="1580" y="2480" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="lbl_notsvc" value="&lt;b&gt;&lt;u&gt;:NotificaService&lt;/u&gt;&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
@@ -97,7 +97,7 @@
                 <mxCell id="line_notsvc" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1760" y="174" as="sourcePoint"/>
-                        <mxPoint x="1760" y="2320" as="targetPoint"/>
+                        <mxPoint x="1760" y="2480" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="lbl_notrepo" value="&lt;u&gt;:NotificaRepository&lt;/u&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
@@ -106,27 +106,30 @@
                 <mxCell id="line_notrepo" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1945" y="174" as="sourcePoint"/>
-                        <mxPoint x="1945" y="2320" as="targetPoint"/>
+                        <mxPoint x="1945" y="2480" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
 
                 <mxCell id="act_vista" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
-                    <mxGeometry x="260" y="200" width="10" height="2100" as="geometry"/>
+                    <mxGeometry x="260" y="200" width="10" height="2260" as="geometry"/>
                 </mxCell>
                 <mxCell id="act_svc_client" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
-                    <mxGeometry x="475" y="240" width="10" height="2020" as="geometry"/>
+                    <mxGeometry x="475" y="240" width="10" height="2180" as="geometry"/>
                 </mxCell>
                 <mxCell id="act_api" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
-                    <mxGeometry x="660" y="280" width="10" height="1940" as="geometry"/>
+                    <mxGeometry x="660" y="280" width="10" height="2100" as="geometry"/>
                 </mxCell>
                 <mxCell id="act_front" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
-                    <mxGeometry x="830" y="320" width="10" height="1860" as="geometry"/>
+                    <mxGeometry x="830" y="320" width="10" height="2020" as="geometry"/>
                 </mxCell>
                 <mxCell id="act_ctrl" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
-                    <mxGeometry x="1020" y="420" width="10" height="1720" as="geometry"/>
+                    <mxGeometry x="1020" y="420" width="10" height="1880" as="geometry"/>
                 </mxCell>
                 <mxCell id="act_svc" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
-                    <mxGeometry x="1210" y="460" width="10" height="1640" as="geometry"/>
+                    <mxGeometry x="1210" y="460" width="10" height="1800" as="geometry"/>
+                </mxCell>
+                <mxCell id="act_attore_3" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                    <mxGeometry x="1390" y="2140" width="10" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="act_attore_1" value="" style="html=1;points=[];perimeter=mxPerimeter.rectanglePerimeter;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
                     <mxGeometry x="1390" y="500" width="10" height="80" as="geometry"/>
@@ -346,13 +349,13 @@
                         <mxPoint x="75" y="1480" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m33" value="33: confermaSospensione(idUtente, motivazione)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m33" value="33: confermaSospensione(idUtente, motivazione, durata)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="75" y="1520" as="sourcePoint"/>
                         <mxPoint x="260" y="1520" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m34" value="34: sospendiAccount(idUtente, motivazione)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m34" value="34: sospendiAccount(idUtente, motivazione, durata)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="270" y="1560" as="sourcePoint"/>
                         <mxPoint x="475" y="1560" as="targetPoint"/>
@@ -386,13 +389,13 @@
                         <mxPoint x="1020" y="1740" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m39" value="39: sospendiAccount(idUtente, motivazione)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m39" value="39: sospendiAccount(idUtente, motivazione, durata)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1030" y="1780" as="sourcePoint"/>
                         <mxPoint x="1210" y="1780" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m40" value="40: sospendi(idUtente, motivazione)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m40" value="40: sospendi(idUtente, motivazione, durata)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1220" y="1820" as="sourcePoint"/>
                         <mxPoint x="1390" y="1820" as="targetPoint"/>
@@ -434,34 +437,58 @@
                         <mxPoint x="1030" y="2060" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m47" value="47: 200 OK" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m46b" value="47: getDettaglioUtente(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1020" y="2100" as="sourcePoint"/>
-                        <mxPoint x="840" y="2100" as="targetPoint"/>
+                        <mxPoint x="1030" y="2100" as="sourcePoint"/>
+                        <mxPoint x="1210" y="2100" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m48" value="48: 200 OK" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m46c" value="48: trovaUtentePerId(idUtente)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="830" y="2140" as="sourcePoint"/>
-                        <mxPoint x="670" y="2140" as="targetPoint"/>
+                        <mxPoint x="1220" y="2140" as="sourcePoint"/>
+                        <mxPoint x="1390" y="2140" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m49" value="49: gestisciRisposta(): :ok" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m46d" value="49: :utente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="660" y="2180" as="sourcePoint"/>
-                        <mxPoint x="485" y="2180" as="targetPoint"/>
+                        <mxPoint x="1390" y="2180" as="sourcePoint"/>
+                        <mxPoint x="1220" y="2180" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m50" value="50: :ok" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m46e" value="50: :utente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="475" y="2220" as="sourcePoint"/>
-                        <mxPoint x="270" y="2220" as="targetPoint"/>
+                        <mxPoint x="1210" y="2220" as="sourcePoint"/>
+                        <mxPoint x="1030" y="2220" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="m51" value="51: mostraConfermaSospensione()" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                <mxCell id="m47" value="51: 200 OK :utente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="260" y="2260" as="sourcePoint"/>
-                        <mxPoint x="75" y="2260" as="targetPoint"/>
+                        <mxPoint x="1020" y="2260" as="sourcePoint"/>
+                        <mxPoint x="840" y="2260" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m48" value="52: 200 OK :utente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="830" y="2300" as="sourcePoint"/>
+                        <mxPoint x="670" y="2300" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m49" value="53: gestisciRisposta(): :utente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="660" y="2340" as="sourcePoint"/>
+                        <mxPoint x="485" y="2340" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m50" value="54: :utente" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="475" y="2380" as="sourcePoint"/>
+                        <mxPoint x="270" y="2380" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="m51" value="55: mostraConfermaSospensione(utente)" style="html=1;verticalAlign=bottom;dashed=1;endArrow=open;endFill=0;fontSize=11;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="260" y="2420" as="sourcePoint"/>
+                        <mxPoint x="75" y="2420" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
             </root>

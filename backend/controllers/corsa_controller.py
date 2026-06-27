@@ -10,12 +10,14 @@ from controllers.schemas import (
     MezzoSbloccabileOut,
     RisultatoSblocco,
     Corsa,
+    PosizioneDemoRequest,
 )
 from bll.servizio_mobilita import (
     ServizioMobilita,
     CorsaNonTrovataException,
     CorsaNonInUsaException,
     CorsaNonInPausaException,
+    ParcheggioVietatoException,
 )
 from bll.servizio_prenotazione import (
     ServizioPrenotazione,
@@ -27,6 +29,9 @@ from bll.servizio_prenotazione import (
 )
 from dal.parametri_sistema_repository import ParametriSistemaRepository
 from controllers.schemas import ParametriSistemaOut
+import config
+from dal.corsa_repository import CorsaRepository
+from bll.servizio_mappa import ServizioMappa
 
 router = APIRouter(prefix="/utente", tags=["Utente - Corsa"])
 _parametri_repo = ParametriSistemaRepository()
@@ -172,10 +177,12 @@ def termina_corsa(
     db=Depends(get_db),
 ):
     try:
-        ServizioMobilita(db).termina_corsa(corsa_id, utente["id"])
-        return {"status": "ok"}
+        esito = ServizioMobilita(db).termina_corsa(corsa_id, utente["id"])
+        return {"status": "ok", **esito}
     except CorsaNonTrovataException:
         raise HTTPException(status_code=404, detail="Corsa non trovata")
+    except ParcheggioVietatoException as e:
+        raise HTTPException(status_code=409, detail=str(e))
 
 
 # [IF-UT.14] UT-11 — Storico corse dell'utente (statica prima della dinamica)
@@ -207,3 +214,20 @@ def get_riepilogo_corsa(
         return ServizioMobilita(db).calcolaRiepilogoSessione(corsa_id, UUID(str(utente["id"])))
     except CorsaNonTrovataException:
         raise HTTPException(status_code=404, detail="Corsa non trovata")
+
+
+# [IF-OP.01 / IF-UT.08] Helper demo di presentazione (gated all'account demo):
+# aggiorna la posizione del mezzo della corsa per simularne il movimento sulla mappa.
+@router.patch("/corse/{corsa_id}/demo/posizione", status_code=204)
+def aggiorna_posizione_demo(
+    corsa_id: UUID,
+    body: PosizioneDemoRequest,
+    utente=Depends(verify_token(["UT"])),
+    db=Depends(get_db),
+):
+    if not config.DEMO_ACCOUNT_EMAIL or utente["email"] != config.DEMO_ACCOUNT_EMAIL:
+        raise HTTPException(status_code=403, detail="Funzione demo non disponibile per questo account")
+    corsa = CorsaRepository(db).trova_per_id(corsa_id)
+    if corsa is None or corsa["utente_id"] != str(utente["id"]):
+        raise HTTPException(status_code=403, detail="Corsa non appartenente all'utente")
+    ServizioMappa(db).aggiorna_posizione_mezzo(UUID(corsa["mezzo_id"]), body.lat, body.lng, body.batteria)

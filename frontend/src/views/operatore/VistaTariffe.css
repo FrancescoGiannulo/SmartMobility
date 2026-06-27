@@ -178,6 +178,30 @@
   gap: 6px;
 }
 
+.vtariffe__radios {
+  display: flex;
+  gap: 16px;
+  flex-direction: row;
+}
+
+.vtariffe__radio {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.vtariffe__radio input[type="radio"] {
+  width: auto;
+  padding: 0;
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+
 .vtariffe__input {
   padding: 10px 12px;
   border: 1.5px solid var(--border);

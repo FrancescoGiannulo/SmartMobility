@@ -683,6 +683,8 @@ Contiene l’elenco e la specifica di tutti i requisiti funzionali espressi attr
 
 *Così* *da* pianificare gli interventi di manutenzione.
 
+**Nota di implementazione (Sprint 3):** il flusso di gestione segue le transizioni di stato `aperta → in_carico → risolta`. L'operatore prende in carico una segnalazione (`PATCH /operatore/segnalazioni/{id}/prendi-in-carico`) e solo da `in_carico` può segnarla come risolta (`PATCH /operatore/segnalazioni/{id}/risolvi`); un tentativo di risolvere una segnalazione ancora `aperta` viene rifiutato con HTTP 422. Lo stato `risolta` è visibile anche lato utente nello storico delle proprie segnalazioni (`VistaSegnalazione.tsx`), senza notifica push dedicata — l'utente lo vede ricaricando/rivisitando la pagina.
+
 ### IF-OP.09– Sospende Account Utente
 
 *Come* operatore,
@@ -2934,7 +2936,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td>Breve descrizione</td>
-<td>Il sistema consente all'operatore autenticato di definire una nuova tariffa per una specifica tipologia di mezzo, specificando il costo al minuto e il costo al chilometro, così da permettere la configurazione del modello di costo del servizio.</td>
+<td>Il sistema consente all'operatore autenticato di definire una nuova tariffa per una specifica tipologia di mezzo, scegliendo se applicare un costo al minuto oppure un costo al chilometro, così da permettere la configurazione del modello di costo del servizio.</td>
 </tr>
 <tr>
 <td>Attori Primari</td>
@@ -2950,22 +2952,69 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td>Sequenza principale degli eventi</td>
-<td style="text-align: left;"><p>1. Il caso d'uso inizia quando l'operatore accede alla sezione dedicate alle tariffe.</p>
+<td style="text-align: left;"><p>1. Il caso d'uso inizia quando l'operatore accede alla sezione dedicata alle tariffe.</p>
 <p>2. Il sistema mostra le tariffe attualmente definite per ciascuna tipologia di mezzo disponibile.</p>
 <p>3. L'operatore seleziona la tipologia di mezzo per cui intende definire una nuova tariffa (monopattino, bicicletta, automobile).</p>
-<p>4. Il sistema mostra il form di inserimento con i campi: costo al minuto e costo al chilometro.</p>
-<p>5. L'operatore inserisce i valori richiesti.</p>
-<p>6. Il sistema valida i dati inseriti verificando che i valori siano numerici e maggiori di zero.</p>
-<p>7. Il sistema salva la nuova tariffa associandola alla tipologia di mezzo selezionata.</p>
+<p>4. Il sistema mostra il form di inserimento, chiedendo all'operatore di scegliere il tipo di tariffa: costo al minuto o costo al chilometro.</p>
+<p>5. L'operatore seleziona il tipo di tariffa e inserisce il valore del costo richiesto.</p>
+<p>6. Il sistema valida il dato inserito verificando che il valore sia numerico e maggiore di zero.</p>
+<p>7. Il sistema salva la nuova tariffa, associandola alla tipologia di mezzo selezionata e al tipo di costo scelto.</p>
 <p>8. Il sistema mostra un messaggio di conferma all'operatore.</p></td>
 </tr>
 <tr>
 <td>Post-condizioni</td>
-<td>La nuova tariffa è stata salvata nel sistema e sarà applicata alle corse successive effettuate con la tipologia di mezzo selezionata.</td>
+<td>La nuova tariffa è stata salvata nel sistema, con il tipo di costo scelto dall'operatore, e sarà applicata alle corse successive effettuate con la tipologia di mezzo selezionata.</td>
 </tr>
 <tr>
 <td>Sequenza alternativa degli eventi</td>
-<td>Nessuna</td>
+<td>TariffaGiaEsistente</td>
+</tr>
+</tbody>
+</table>
+
+#### OP-05.1 Definisce Tariffa: TariffaGiaEsistente
+
+<table style="width:100%;">
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 73%" />
+</colgroup>
+<thead>
+<tr>
+<th><strong>Nome</strong></th>
+<th><strong>Definisce Tariffa: TariffaGiaEsistente</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID</td>
+<td>OP-05.1</td>
+</tr>
+<tr>
+<td>Breve descrizione</td>
+<td>L'Operatore tenta di definire una tariffa per una tipologia di mezzo che ne ha già una attiva; il sistema rifiuta l'operazione.</td>
+</tr>
+<tr>
+<td>Attori Primari</td>
+<td>Operatore</td>
+</tr>
+<tr>
+<td>Attori Secondari</td>
+<td>Nessuno</td>
+</tr>
+<tr>
+<td>Precondizioni</td>
+<td>Al passo 6 (validazione) della sequenza principale di OP-05: esiste già una tariffa definita per la tipologia di mezzo selezionata.</td>
+</tr>
+<tr>
+<td>Post-condizioni</td>
+<td>Nessuna nuova tariffa viene salvata; la tariffa esistente resta invariata; l'Operatore è informato dell'errore.</td>
+</tr>
+<tr>
+<td>Sequenza alternativa degli eventi</td>
+<td style="text-align: left;"><p>6a. Il sistema rileva che esiste già una tariffa per la tipologia selezionata.</p>
+<p>6b. Il sistema rifiuta la richiesta.</p>
+<p>6c. Il sistema informa l'Operatore che la tariffa esiste già e lo invita a usare la funzione di modifica.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3185,16 +3234,17 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <td><p>1. Il caso d'uso inizia quando l'Operatore accede alla sezione per la gestione degli utenti.</p>
 <p>2. Il sistema presenta l'elenco degli utenti registrati. 3. L'Operatore seleziona l'Utente di cui intende sospendere l'account.</p>
 <p>4. Il sistema mostra il dettaglio del profilo dell'Utente selezionato.</p>
-<p>5. L’operatore aggiunge una descrizione sulla motivazione della sospensione dell’account</p>
-<p>5. L'Operatore seleziona l'opzione per sospendere Account.</p>
-<p>6. Il sistema richiede conferma dell'operazione.</p>
-<p>7. L'Operatore conferma la sospensione.</p>
-<p>8. Il sistema sospende l'account dell'Utente e gli impedisce l'accesso alla piattaforma.</p>
-<p>9. Il sistema notifica l'Utente dell'avvenuta sospensione del proprio account.</p></td>
+<p>5. L'Operatore aggiunge una descrizione sulla motivazione della sospensione dell'account e seleziona la durata della sospensione (in giorni).</p>
+<p>6. L'Operatore seleziona l'opzione per sospendere Account.</p>
+<p>7. Il sistema richiede conferma dell'operazione.</p>
+<p>8. L'Operatore conferma la sospensione.</p>
+<p>9. Il sistema sospende l'account dell'Utente per la durata indicata, calcolando la data di fine sospensione, e gli impedisce l'accesso alla piattaforma.</p>
+<p>10. Il sistema notifica l'Utente dell'avvenuta sospensione del proprio account.</p>
+<p>11. Allo scadere della durata, il sistema riattiva automaticamente l'account e notifica l'Utente della riattivazione.</p></td>
 </tr>
 <tr>
 <td>Post-condizioni</td>
-<td>L'account dell'Utente è sospeso; l'Utente non può più accedere alla piattaforma; l'Utente è stato notificato dell'avvenuta sospensione.</td>
+<td>L'account dell'Utente è sospeso fino alla data di fine sospensione; l'Utente non può più accedere alla piattaforma finché la sospensione è attiva; l'Utente è stato notificato dell'avvenuta sospensione. Allo scadere della durata l'account torna automaticamente attivo.</td>
 </tr>
 <tr>
 <td>Sequenza alternativa degli eventi</td>
@@ -4121,6 +4171,32 @@ Questa organizzazione garantisce che:
 #### OP – 11 Configura Parametri Numerici Sistema
 
 <img src="media/image52.png" style="width:6.26806in;height:4.86875in" />
+
+### Note di implementazione — Demo movimento mezzi
+
+- Demo movimento mezzi (helper di presentazione, account demo): `ServizioMappa.aggiornaPosizioneMezzo`
+  + endpoint `PATCH /utente/corse/{id}/demo/posizione`, geofencing client-side (`geoUtils.zonaCorrente`),
+  mappa operatore in polling. Tracciabilità IF-OP.01 / IF-UT.01 / IF-UT.08.
+- Penale fuori zona/vietata nel costo finale: `ServizioPricing.effettua_pagamento(..., penale_fuori_zona)`
+  somma `regole_fine_corsa.penale_fuori_zona` all'importo se la corsa transita in zona vietata/fuori
+  operativa. Tracciabilità IF-OP.06 (Definisce Regole Fine Corsa) / caso d'uso UT-04.
+
+### Consumo batteria mezzo (comportamento di sistema)
+
+Il livello di batteria (`Mezzo.batteria`) cala con l'uso del mezzo. Implementazione su due livelli,
+senza nuove classi (riusa `Mezzo`, `ServizioMobilità`, `ServizioMappa`, repository esistenti):
+- **A fine corsa (reale, tutte le corse):** `ServizioMobilità.termina_corsa` decrementa la batteria in
+  proporzione alla durata di guida effettiva (`CONSUMO_BATTERIA_PER_MIN = 1.0` punti/min, da
+  `CorsaRepository.durata_effettiva_sec`) tramite `MezzoRepository.aggiorna_batteria`. Se la carica scende
+  sotto la soglia fissa `ServizioMobilità.BATTERIA_MINIMA_MANUTENZIONE` (non configurabile dall'Operatore)
+  il mezzo va `In manutenzione` invece di `Disponibile` (necessita ricarica), altrimenti torna `Disponibile`.
+- **Durante la demo (live, visivo):** il calo per-movimento è calcolato dal frontend in base ai km percorsi
+  e persistito dall'endpoint demo (campo `batteria` opzionale su `aggiornaPosizioneMezzo`), così cala in
+  tempo reale anche sulla mappa Operatore.
+
+Lo stato del mezzo è modificato solo da `ServizioMobilità`. Comportamento di sistema indipendente dalle
+regole di fine corsa (IF-OP.06), che riguardano esclusivamente la politica sanzionatoria/incentivante sul
+parcheggio.
 
 ## Data modeling and design
 

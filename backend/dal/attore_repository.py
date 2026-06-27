@@ -1,5 +1,5 @@
 from uuid import UUID
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from config import engine
@@ -23,7 +23,7 @@ class AttoreRepository:
         with Session(engine) as session:
             row = session.execute(
                 text(
-                    "SELECT nome, cognome, sospeso, motivazione_sospensione "
+                    "SELECT nome, cognome, sospeso, motivazione_sospensione, sospensione_fine "
                     "FROM utenti WHERE id = :id"
                 ),
                 {"id": str(id)},
@@ -36,6 +36,7 @@ class AttoreRepository:
                         cognome=row.cognome,
                         sospeso=row.sospeso,
                         motivazione_sospensione=row.motivazione_sospensione,
+                        sospensione_fine=row.sospensione_fine,
                     ),
                     "UT",
                 )
@@ -94,12 +95,26 @@ class AttoreRepository:
 
     # [IF-OP.09] ──────────────────────────────────────────────────────────────
 
+    @staticmethod
+    def _riattiva_sospensioni_scadute(session: Session) -> None:
+        """Riattiva lazily gli account la cui sospensione_fine è già passata,
+        cosi la vista operatore è coerente senza aspettare il job pg_cron."""
+        session.execute(
+            text(
+                "UPDATE utenti SET sospeso = false, motivazione_sospensione = NULL, "
+                "sospeso_at = NULL, sospensione_fine = NULL "
+                "WHERE sospeso = true AND sospensione_fine IS NOT NULL AND sospensione_fine < NOW()"
+            )
+        )
+        session.commit()
+
     def lista_utenti(self) -> list[dict]:
         """Elenco di tutti gli Utenti registrati, con email da auth.users."""
         with Session(engine) as session:
+            self._riattiva_sospensioni_scadute(session)
             rows = session.execute(
                 text(
-                    "SELECT u.id, u.nome, u.cognome, u.sospeso, a.email "
+                    "SELECT u.id, u.nome, u.cognome, u.sospeso, u.sospensione_fine, a.email "
                     "FROM utenti u JOIN auth.users a ON a.id = u.id "
                     "ORDER BY u.cognome, u.nome"
                 )
@@ -111,6 +126,7 @@ class AttoreRepository:
                     "cognome": row.cognome,
                     "email": row.email,
                     "sospeso": row.sospeso,
+                    "sospensione_fine": row.sospensione_fine.isoformat() if row.sospensione_fine else None,
                 }
                 for row in rows
             ]
@@ -118,9 +134,10 @@ class AttoreRepository:
     def trova_utente_per_id(self, id: UUID) -> dict:
         """Dettaglio di un singolo Utente, con email da auth.users."""
         with Session(engine) as session:
+            self._riattiva_sospensioni_scadute(session)
             row = session.execute(
                 text(
-                    "SELECT u.id, u.nome, u.cognome, u.sospeso, a.email "
+                    "SELECT u.id, u.nome, u.cognome, u.sospeso, u.sospensione_fine, a.email "
                     "FROM utenti u JOIN auth.users a ON a.id = u.id "
                     "WHERE u.id = :id"
                 ),
@@ -134,11 +151,13 @@ class AttoreRepository:
                 "cognome": row.cognome,
                 "email": row.email,
                 "sospeso": row.sospeso,
+                "sospensione_fine": row.sospensione_fine.isoformat() if row.sospensione_fine else None,
             }
 
-    def sospendi(self, id: UUID, motivazione: str) -> None:
-        """[IF-OP.09] Sospende l'account di un Utente attivo."""
+    def sospendi(self, id: UUID, motivazione: str, durata_giorni: int) -> None:
+        """[IF-OP.09] Sospende l'account di un Utente attivo per una durata specificata."""
         with Session(engine) as session:
+            self._riattiva_sospensioni_scadute(session)
             row = session.execute(
                 text("SELECT sospeso FROM utenti WHERE id = :id"),
                 {"id": str(id)},
@@ -148,13 +167,92 @@ class AttoreRepository:
             if row.sospeso:
                 raise AccountGiaSospesoException(f"Utente {id} è già sospeso")
 
+            sospensione_fine = datetime.now(timezone.utc) + timedelta(days=durata_giorni)
             session.execute(
                 text(
                     "UPDATE utenti SET sospeso = true, "
-                    "motivazione_sospensione = :motivazione, sospeso_at = NOW() "
+                    "motivazione_sospensione = :motivazione, sospeso_at = NOW(), "
+                    "sospensione_fine = :sospensione_fine "
                     "WHERE id = :id"
                 ),
-                {"id": str(id), "motivazione": motivazione},
+                {"id": str(id), "motivazione": motivazione, "sospensione_fine": sospensione_fine},
+            )
+            session.commit()
+
+    # [IF-OP.06] Aggiorna contatore parcheggi corretti e credito bonus dopo una corsa.
+    # parcheggio_corretto=True: incrementa il contatore; se raggiunge la soglia, azzera
+    # il contatore e accredita bonus_valore. parcheggio_corretto=False: azzera il contatore
+    # (serie consecutiva). Restituisce True se il bonus è stato appena accreditato.
+    def applica_esito_parcheggio(
+        self, id: UUID, parcheggio_corretto: bool, soglia: int | None, bonus_valore
+    ) -> bool:
+        with Session(engine) as session:
+            row = session.execute(
+                text("SELECT contatore_parcheggi_corretti FROM utenti WHERE id = :id"),
+                {"id": str(id)},
+            ).fetchone()
+            if not row:
+                raise AttoreNonTrovatoException(f"Utente {id} non trovato")
+
+            if not parcheggio_corretto:
+                session.execute(
+                    text("UPDATE utenti SET contatore_parcheggi_corretti = 0 WHERE id = :id"),
+                    {"id": str(id)},
+                )
+                session.commit()
+                return False
+
+            nuovo_contatore = (row.contatore_parcheggi_corretti or 0) + 1
+            bonus_accreditato = soglia is not None and bonus_valore is not None and nuovo_contatore >= soglia
+            if bonus_accreditato:
+                session.execute(
+                    text(
+                        "UPDATE utenti SET contatore_parcheggi_corretti = 0, "
+                        "credito_bonus = credito_bonus + :bonus WHERE id = :id"
+                    ),
+                    {"id": str(id), "bonus": bonus_valore},
+                )
+            else:
+                session.execute(
+                    text("UPDATE utenti SET contatore_parcheggi_corretti = :n WHERE id = :id"),
+                    {"id": str(id), "n": nuovo_contatore},
+                )
+            session.commit()
+            return bonus_accreditato
+
+    # [IF-OP.06] Scala il credito bonus disponibile da un importo (fino a concorrenza).
+    # Restituisce l'ammontare di credito effettivamente utilizzato.
+    def scala_credito_bonus(self, id: UUID, importo_massimo) -> "Decimal":
+        from decimal import Decimal
+        with Session(engine) as session:
+            row = session.execute(
+                text("SELECT credito_bonus FROM utenti WHERE id = :id"),
+                {"id": str(id)},
+            ).fetchone()
+            if not row:
+                # Difensivo: in caso di utente non trovato non blocca il pagamento, nessun credito da scalare.
+                return Decimal("0")
+            disponibile = Decimal(str(row.credito_bonus or 0))
+            usato = min(disponibile, Decimal(str(importo_massimo)))
+            if usato > 0:
+                session.execute(
+                    text("UPDATE utenti SET credito_bonus = credito_bonus - :usato WHERE id = :id"),
+                    {"id": str(id), "usato": usato},
+                )
+                session.commit()
+            return usato
+
+    def riattiva(self, id: UUID) -> None:
+        """Riattiva un account sospeso la cui sospensione è scaduta."""
+        with Session(engine) as session:
+            session.execute(
+                text(
+                    "UPDATE utenti SET sospeso = false, "
+                    "motivazione_sospensione = NULL, sospeso_at = NULL, "
+                    "sospensione_fine = NULL "
+                    "WHERE id = :id"
+                ),
+                {"id": str(id)},
             )
             session.commit()
 

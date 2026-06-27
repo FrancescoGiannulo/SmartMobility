@@ -406,6 +406,42 @@
 .pausa-banner--gratis .pausa-banner-testo span { color: var(--accent); }
 .pausa-banner--addebito .pausa-banner-testo span { color: var(--warn); }
 
+/* ── Avviso fuori zona operativa ─────────────── */
+.zona-warning-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 340px;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  background: #fef2f2;
+  border: 1.5px solid #f87171;
+  animation: corsaFadeIn 260ms ease;
+}
+
+.zona-warning-icona {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.zona-warning-testo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+}
+
+.zona-warning-testo strong {
+  font-size: 13px;
+  color: #991b1b;
+}
+
+.zona-warning-testo span {
+  color: #b91c1c;
+}
+
 .promo-info {
   display: flex;
   flex-direction: column;
@@ -520,6 +556,27 @@
   color: var(--text-dim);
 }
 
+.riepilogo-co2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 12px;
+  padding: 10px 16px;
+}
+.riepilogo-co2-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #065f46;
+}
+.riepilogo-co2-valore {
+  font-size: 16px;
+  font-weight: 800;
+  color: #047857;
+}
+
 .riepilogo-totale {
   border-top: 1.5px solid var(--border);
   padding-top: 16px;
@@ -569,6 +626,15 @@
   text-decoration: line-through;
   font-family: var(--ff-mono);
 }
+
+.zona-warning-limitata { background: #fef3c7; border-color: #f59e0b; }
+.zona-warning-vietata { background: #fee2e2; border-color: #ef4444; }
+.btn-demo-movimento {
+  margin: 12px auto; display: block; padding: 10px 18px;
+  background: #155e52; color: #fff; border: none; border-radius: 999px;
+  font-weight: 600; cursor: pointer;
+}
+.btn-demo-movimento:disabled { opacity: .6; cursor: default; }
 
 /* Mobile */
 @media (max-width: 480px) {

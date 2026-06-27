@@ -144,6 +144,18 @@ class MezzoRepository:
             s.execute(sql, {"stato": nuovo_stato, "id": str(mezzo_id)})
             s.commit()
 
+    def aggiorna_posizione(self, mezzo_id: UUID, lat: float, lng: float) -> None:
+        sql = text("UPDATE mezzi SET lat = :lat, lng = :lng WHERE id = :id")
+        with self._sessione() as s:
+            s.execute(sql, {"lat": lat, "lng": lng, "id": str(mezzo_id)})
+            s.commit()
+
+    def aggiorna_batteria(self, mezzo_id: UUID, batteria: int) -> None:
+        sql = text("UPDATE mezzi SET batteria = :bat WHERE id = :id")
+        with self._sessione() as s:
+            s.execute(sql, {"bat": max(0, min(100, int(batteria))), "id": str(mezzo_id)})
+            s.commit()
+
     def bloccaMezzo(self, mezzo_id: UUID) -> None:
         """[IF-UT.10] SD SospendeCorsa — msg5/6: bloccaMezzo() + save(this)."""
         self.aggiorna_stato(mezzo_id, "In pausa")
@@ -156,8 +168,8 @@ class MezzoRepository:
 
     def crea(self, tipo: str, codice: str, lat: float, lng: float, stato: str) -> dict:
         sql = text("""
-            INSERT INTO mezzi (codice, tipo, stato, lat, lng)
-            VALUES (:codice, :tipo, :stato, :lat, :lng)
+            INSERT INTO mezzi (codice, tipo, stato, lat, lng, batteria)
+            VALUES (:codice, :tipo, :stato, :lat, :lng, 100)
             RETURNING id, codice, tipo, stato, lat, lng, batteria
         """)
         with self._sessione() as s:

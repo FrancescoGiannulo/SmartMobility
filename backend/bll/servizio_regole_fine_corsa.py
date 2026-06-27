@@ -15,7 +15,7 @@ class RegolaFinecorsaValidazioneException(Exception):
 
 
 class ServizioRegolaFinecorsa:
-    """BLL per la gestione delle regole di fine corsa [IF-OP.13]."""
+    """BLL per la gestione delle regole di fine corsa [IF-OP.06]."""
 
     def __init__(self):
         self._repo = RegoleFineCorsaRepository()
@@ -29,7 +29,6 @@ class ServizioRegolaFinecorsa:
         self,
         tipo_vincolo: str,
         penale_fuori_zona: Decimal,
-        batteria_minima: Optional[int],
         bonus_parcheggi_corretti: Optional[int],
         bonus_valore: Optional[Decimal],
         db: Session,
@@ -48,10 +47,6 @@ class ServizioRegolaFinecorsa:
         if tipo_vincolo == "penale" and penale_fuori_zona <= Decimal("0"):
             raise RegolaFinecorsaValidazioneException(
                 "penale_fuori_zona deve essere maggiore di 0 quando tipo_vincolo è 'penale'."
-            )
-        if batteria_minima is not None and not (0 <= batteria_minima <= 100):
-            raise RegolaFinecorsaValidazioneException(
-                "batteria_minima deve essere compresa tra 0 e 100."
             )
         if bonus_parcheggi_corretti is not None and bonus_parcheggi_corretti <= 0:
             raise RegolaFinecorsaValidazioneException(
@@ -77,7 +72,6 @@ class ServizioRegolaFinecorsa:
         valore_precedente_snapshot = (
             f"tipo_vincolo={precedente.tipo_vincolo.value}, "
             f"penale_fuori_zona={precedente.penale_fuori_zona}, "
-            f"batteria_minima={precedente.batteria_minima}, "
             f"bonus_parcheggi_corretti={precedente.bonus_parcheggi_corretti}, "
             f"bonus_valore={precedente.bonus_valore}"
         ) if precedente is not None else None
@@ -85,7 +79,6 @@ class ServizioRegolaFinecorsa:
         aggiornata = self._repo.salva(
             tipo_vincolo=tipo_vincolo_enum,
             penale_fuori_zona=penale_fuori_zona,
-            batteria_minima=batteria_minima,
             bonus_parcheggi_corretti=bonus_parcheggi_corretti,
             bonus_valore=bonus_valore,
             db=db,
@@ -97,7 +90,6 @@ class ServizioRegolaFinecorsa:
             valore_nuovo=(
                 f"tipo_vincolo={aggiornata.tipo_vincolo.value}, "
                 f"penale_fuori_zona={aggiornata.penale_fuori_zona}, "
-                f"batteria_minima={aggiornata.batteria_minima}, "
                 f"bonus_parcheggi_corretti={aggiornata.bonus_parcheggi_corretti}, "
                 f"bonus_valore={aggiornata.bonus_valore}"
             ),

@@ -17,7 +17,6 @@ const LABEL_VINCOLO: Record<string, string> = {
 export default function VistaImpostazioniRegole() {
   const [tipoVincolo, setTipoVincolo] = useState<'penale' | 'divieto' | 'avviso'>('avviso')
   const [penale, setPenale] = useState('')
-  const [batteria, setBatteria] = useState('')
   const [bonusAttivo, setBonusAttivo] = useState(false)
   const [bonusParcheggi, setBonusParcheggi] = useState('')
   const [bonusValore, setBonusValore] = useState('')
@@ -30,7 +29,6 @@ export default function VistaImpostazioniRegole() {
       if (!regola) return
       setTipoVincolo(regola.tipo_vincolo)
       setPenale(regola.penale_fuori_zona > 0 ? String(regola.penale_fuori_zona) : '')
-      setBatteria(regola.batteria_minima != null ? String(regola.batteria_minima) : '')
       if (regola.bonus_parcheggi_corretti != null) {
         setBonusAttivo(true)
         setBonusParcheggi(String(regola.bonus_parcheggi_corretti))
@@ -47,7 +45,6 @@ export default function VistaImpostazioniRegole() {
       const payload: SalvaRegolaPayload = {
         tipo_vincolo: tipoVincolo,
         penale_fuori_zona: penale ? parseFloat(penale) : 0,
-        batteria_minima: batteria ? parseInt(batteria) : undefined,
         bonus_parcheggi_corretti: bonusAttivo && bonusParcheggi ? parseInt(bonusParcheggi) : undefined,
         bonus_valore: bonusAttivo && bonusValore ? parseFloat(bonusValore) : undefined,
       }
@@ -97,21 +94,6 @@ export default function VistaImpostazioniRegole() {
                 />
               </div>
             )}
-          </div>
-
-          <div className="vregole__card sm-card">
-            <h3>Vincoli aggiuntivi</h3>
-            <div className="vregole__campo">
-              <label>Batteria minima richiesta (%)</label>
-              <input
-                type="number"
-                min="0"
-                max="100"
-                value={batteria}
-                onChange={e => setBatteria(e.target.value)}
-                placeholder="Lascia vuoto per nessun vincolo"
-              />
-            </div>
           </div>
 
           <div className="vregole__card sm-card">

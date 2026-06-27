@@ -13,6 +13,7 @@ import {
   annullaPrenotazione,
   getPrenotazioniAttive,
   isRisultatiParziali,
+  isMezziFuoriRaggio,
   type Prenotazione,
 } from '../../services/PrenotazioneService'
 import { logout, utenteCorrente } from '../../services/AuthService'
@@ -338,6 +339,12 @@ export default function VistaHomePageUtente() {
         setNonDisponibili(ids)
         setSelezione(prev => prev.filter(m => !ids.includes(m.id)))
         setErrorePanel(`${ids.length} mezzo/i non più disponibile/i. Puoi procedere con i restanti o aggiungere altri.`)
+      } else if (isMezziFuoriRaggio(err)) {
+        // [IF-UT.02] CS-04 (msg 40-42) — rimuoviMezziNonValidi + mostraErroreSelezione:
+        // i mezzi troppo lontani dal primo selezionato vengono tolti dal gruppo.
+        const ids = err.response.data.detail.fuori_raggio
+        setSelezione(prev => prev.filter(m => !ids.includes(m.id)))
+        setErrorePanel(`${ids.length} mezzo/i troppo lontano/i dal primo selezionato e rimosso/i dal gruppo. I mezzi prenotati insieme devono trovarsi a meno di 500 m dal primo.`)
       } else {
         setErrorePanel('Errore durante la prenotazione. Riprova.')
       }
@@ -913,8 +920,11 @@ export default function VistaHomePageUtente() {
                           {t.tipo_mezzo === 'monopattino' ? '🛴' : t.tipo_mezzo === 'bicicletta' ? '🚲' : '🚗'}{' '}
                           {t.tipo_mezzo.charAt(0).toUpperCase() + t.tipo_mezzo.slice(1)}
                         </span>
-                        <span className="pricing-card__riga">{parseFloat(t.costo_al_minuto).toFixed(2)} €/min</span>
-                        <span className="pricing-card__riga">{parseFloat(t.costo_al_km).toFixed(2)} €/km</span>
+                        <span className="pricing-card__riga">
+                          {t.costo_al_minuto !== null
+                            ? `${parseFloat(t.costo_al_minuto).toFixed(2)} €/min`
+                            : `${parseFloat(t.costo_al_km!).toFixed(2)} €/km`}
+                        </span>
                       </li>
                     ))}
                   </ul>

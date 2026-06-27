@@ -5,7 +5,7 @@ export interface Segnalazione {
   utente_id?: string
   tipologia: string
   descrizione: string
-  stato: 'aperta' | 'in_carico'
+  stato: 'aperta' | 'in_carico' | 'risolta'
   created_at: string
   nome_utente?: string
 }
@@ -39,3 +39,6 @@ export const getDettaglioSegnalazione = (id: string): Promise<{ data: Segnalazio
 
 export const aggiornaStatoSegnalazione = (id: string): Promise<{ data: Segnalazione }> =>
   api.patch(`/operatore/segnalazioni/${id}/prendi-in-carico`, {})
+
+export const risolviSegnalazione = (id: string): Promise<{ data: Segnalazione }> =>
+  api.patch(`/operatore/segnalazioni/${id}/risolvi`, {})
