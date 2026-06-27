@@ -8,6 +8,8 @@ import {
 import { getMezziOperatore, getZoneOperatore, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
 import { creaZona, eliminaZona } from '../../services/ZonaService'
 import { logout } from '../../services/AuthService'
+import { useMezziCluster } from '../../hooks/useMezziCluster'
+import ClusterBlob from '../../components/ClusterBlob'
 import ZonaPoligono from '../../components/ZonaPoligono'
 import SidebarRuolo from '../../components/layout/SidebarRuolo'
 import { COLORI_ZONA } from '../../utils/coloriZona'
@@ -44,6 +46,49 @@ function PinMezzo({ tipo, stato }: { tipo: string; stato: string }) {
   )
 }
 
+function MezziClusterLayer({
+  mezzi,
+  onMezzoClick,
+}: {
+  mezzi: MezzoMappa[]
+  onMezzoClick: (m: MezzoMappa) => void
+}) {
+  const map = useMap()
+  const { items, getExpansionZoom } = useMezziCluster(mezzi, map)
+
+  return (
+    <>
+      {items.map(item => {
+        if (item.type === 'cluster') {
+          return (
+            <AdvancedMarker
+              key={`cluster-${item.id}`}
+              position={{ lat: item.lat, lng: item.lng }}
+              onClick={e => {
+                e.stop()
+                if (!map) return
+                map.setZoom(getExpansionZoom(item.id))
+                map.panTo({ lat: item.lat, lng: item.lng })
+              }}
+            >
+              <ClusterBlob count={item.count} tipoDominante={item.tipoDominante} />
+            </AdvancedMarker>
+          )
+        }
+        const m = item.mezzo
+        return (
+          <AdvancedMarker
+            key={m.id}
+            position={{ lat: m.lat, lng: m.lng }}
+            onClick={e => { e.stop(); onMezzoClick(m) }}
+          >
+            <PinMezzo tipo={m.tipo} stato={m.stato} />
+          </AdvancedMarker>
+        )
+      })}
+    </>
+  )
+}
 
 type TipoZona = 'vietata' | 'limitata' | 'parcheggio' | 'operativa'
 
@@ -273,15 +318,10 @@ export default function VistaMappaOperatore() {
                 onCompletato={handlePoligonoCompletato}
               />
 
-              {mezzi.map(m => (
-                <AdvancedMarker
-                  key={m.id}
-                  position={{ lat: m.lat, lng: m.lng }}
-                  onClick={e => { e.stop(); setMezzoSelezionato(m); setZonaSelezionata(null) }}
-                >
-                  <PinMezzo tipo={m.tipo} stato={m.stato} />
-                </AdvancedMarker>
-              ))}
+              <MezziClusterLayer
+                mezzi={mezzi}
+                onMezzoClick={m => { setMezzoSelezionato(m); setZonaSelezionata(null) }}
+              />
 
               {zone.map(z => {
                 const colori = COLORI_ZONA[z.tipo] ?? COLORI_ZONA.operativa
