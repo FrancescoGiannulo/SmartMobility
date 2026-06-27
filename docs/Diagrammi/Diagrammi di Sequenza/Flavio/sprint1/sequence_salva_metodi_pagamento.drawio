@@ -306,6 +306,16 @@
                         <mxPoint x="1265" y="1330" as="targetPoint" />
                     </mxGeometry>
                 </mxCell>
+                <mxCell id="m26a" value="26.1: lastFour := ultimeQuattroCifre(dati.numero) [self-call, solo se tipo==&quot;carta&quot;]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=11;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1340" y="1340" />
+                            <mxPoint x="1340" y="1360" />
+                        </Array>
+                        <mxPoint x="1265" y="1340" as="sourcePoint" />
+                        <mxPoint x="1265" y="1360" as="targetPoint" />
+                    </mxGeometry>
+                </mxCell>
                 <mxCell id="alt_ext_frame" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;align=left;spacingLeft=6;verticalAlign=top;fillColor=none;" vertex="1" parent="1">
                     <mxGeometry x="75" y="1370" width="1780" height="1430" as="geometry" />
                 </mxCell>
