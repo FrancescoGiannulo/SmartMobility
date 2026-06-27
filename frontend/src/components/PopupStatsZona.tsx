@@ -45,12 +45,12 @@ export default function PopupStatsZona({ zona, mezziVisibili, onChiudi }: Props)
 
   return (
     <InfoWindow position={centroide} onCloseClick={onChiudi}>
-      <div style={{ fontFamily: 'system-ui, sans-serif', minWidth: 200, color: '#0f172a', padding: '2px 4px' }}>
+      <div style={{ fontFamily: 'var(--ff-body)', minWidth: 200, color: 'var(--text)', padding: '2px 4px', background: 'var(--bg)' }}>
         {/* Header zona */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
           <div style={{
             width: 34, height: 34, borderRadius: 9,
-            background: accent, color: '#fff',
+            background: accent, color: 'var(--accent-ink)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontWeight: 800, fontSize: 16, flexShrink: 0,
           }}>
@@ -60,37 +60,37 @@ export default function PopupStatsZona({ zona, mezziVisibili, onChiudi }: Props)
             <div style={{ fontSize: 10, fontWeight: 700, color: accent, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
               {LABEL_TIPO[zona.tipo]}
             </div>
-            <div style={{ fontSize: 14, fontWeight: 800 }}>{zona.nome}</div>
+            <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--text)' }}>{zona.nome}</div>
           </div>
         </div>
 
         {/* Totale mezzi */}
-        <div style={{ background: '#f8fafc', borderRadius: 8, padding: '7px 10px', marginBottom: 8 }}>
-          <div style={{ fontSize: 11, color: '#64748b', fontWeight: 600, marginBottom: 2 }}>Mezzi nella zona</div>
-          <div style={{ fontSize: 22, fontWeight: 800 }}>{mezziInterni.length}</div>
+        <div style={{ background: 'var(--surface-2)', borderRadius: 8, padding: '7px 10px', marginBottom: 8 }}>
+          <div style={{ fontSize: 11, color: 'var(--text-mute)', fontWeight: 600, marginBottom: 2 }}>Mezzi nella zona</div>
+          <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--text)' }}>{mezziInterni.length}</div>
         </div>
 
         {/* Breakdown per tipo */}
         <div style={{ display: 'flex', gap: 5, marginBottom: 8 }}>
           {[
-            { emoji: '🛴', count: perTipo.monopattino, colore: '#155e52' },
-            { emoji: '🚲', count: perTipo.bicicletta, colore: '#2196f3' },
-            { emoji: '🚗', count: perTipo.automobile, colore: '#e91e8c' },
+            { emoji: '🛴', count: perTipo.monopattino, colore: '#5FF0C4' },
+            { emoji: '🚲', count: perTipo.bicicletta, colore: '#7fb4ff' },
+            { emoji: '🚗', count: perTipo.automobile, colore: '#FF8A7A' },
           ].map(({ emoji, count, colore }) => (
             <div key={emoji} style={{
-              flex: 1, textAlign: 'center', background: '#f8fafc',
+              flex: 1, textAlign: 'center', background: 'var(--surface-2)',
               borderRadius: 8, padding: '5px 4px',
               borderTop: `3px solid ${colore}`,
             }}>
               <div style={{ fontSize: 15 }}>{emoji}</div>
-              <div style={{ fontWeight: 800, fontSize: 13 }}>{count}</div>
+              <div style={{ fontWeight: 800, fontSize: 13, color: 'var(--text)' }}>{count}</div>
             </div>
           ))}
         </div>
 
         {/* Stato */}
-        <div style={{ fontSize: 11, color: '#64748b' }}>
-          <span style={{ color: '#155e52', fontWeight: 700 }}>{disponibili} disponibili</span>
+        <div style={{ fontSize: 11, color: 'var(--text-mute)' }}>
+          <span style={{ color: 'var(--accent)', fontWeight: 700 }}>{disponibili} disponibili</span>
           {' · '}
           <span>{mezziInterni.length - disponibili} non disponibili</span>
         </div>

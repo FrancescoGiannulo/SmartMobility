@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {
   getUtenti,
@@ -7,9 +6,9 @@ import {
   sospendiAccount,
   type UtenteListItem,
 } from '../../services/GestioneUtentiService'
+import SidebarRuolo from '../../components/layout/SidebarRuolo'
 import './VistaGestioneUtentiOperatore.css'
 
-// Formatta il tempo che manca alla fine della sospensione (giorni/ore/minuti)
 function tempoResiduo(fine: string): string {
   const ms = new Date(fine).getTime() - Date.now()
   if (ms <= 0) return 'meno di un minuto'
@@ -26,8 +25,6 @@ function tempoResiduo(fine: string): string {
 
 // [IF-OP.09] Sospende Account Utente
 export default function VistaGestioneUtentiOperatore() {
-  const navigate = useNavigate()
-
   const [utenti, setUtenti] = useState<UtenteListItem[]>([])
   const [caricamento, setCaricamento] = useState(true)
   const [errore, setErrore] = useState('')
@@ -115,142 +112,155 @@ export default function VistaGestioneUtentiOperatore() {
   }
 
   return (
-    <div className="vista-gest-ut-wrap">
-      <button type="button" className="btn-back-gest-ut" onClick={() => navigate(-1)}>
-        ← Torna alla mappa
-      </button>
+    <div className="sm-op-shell">
+      <SidebarRuolo ruolo="OP" />
+      <div className="sm-op-main">
+        <div className="vgest__body">
+          <h1 className="vgest__titolo">Gestione Utenti</h1>
 
-      <h1 className="gest-ut-titolo">Gestione Utenti</h1>
+          {messaggio && <div className="vgest__messaggio">{messaggio}</div>}
+          {errore && <p className="vgest__errore">{errore}</p>}
 
-      {messaggio && <div className="gest-ut-messaggio">{messaggio}</div>}
-      {errore && <p className="gest-ut-errore">{errore}</p>}
-
-      <div className="gest-ut-layout">
-        <div className="gest-ut-lista">
-          {caricamento ? (
-            <p className="gest-ut-vuoto">Caricamento...</p>
-          ) : utenti.length === 0 ? (
-            <p className="gest-ut-vuoto">Nessun utente registrato.</p>
-          ) : (
-            utenti.map(u => (
-              <div
-                key={u.id}
-                className={`gest-ut-card${selezionato?.id === u.id ? ' gest-ut-card--attiva' : ''}`}
-                onClick={() => selezionaUtente(u.id)}
-              >
-                <div className="gest-ut-card-header">
-                  <span className="gest-ut-nome">{u.nome} {u.cognome}</span>
-                  {u.sospeso && <span className="gest-ut-badge">Sospeso</span>}
-                </div>
-                <span className="gest-ut-email">{u.email}</span>
-              </div>
-            ))
-          )}
-        </div>
-
-      </div>
-
-      {/* Popup 1 — dettaglio utente (come Riepilogo Corsa) */}
-      {dialogoAperto && selezionato && (
-        <div className="gest-ut-overlay" onClick={chiudiDialogo}>
-          <div className="gest-ut-modal" onClick={e => e.stopPropagation()}>
-            <h2 className="gest-ut-modal-titolo">{selezionato.nome} {selezionato.cognome}</h2>
-            <p className="gest-ut-modal-sub">{selezionato.email}</p>
-
-            <div className="gest-ut-det-row">
-              <span className="gest-ut-det-label">Stato</span>
-              <span>{selezionato.sospeso ? 'Sospeso' : 'Attivo'}</span>
-            </div>
-
-            {selezionato.sospeso ? (
-              <div className="gest-ut-sospeso-info">
-                <p className="gest-ut-sospeso-msg">⚠️ Account sospeso</p>
-                {selezionato.sospensione_fine ? (
-                  <>
-                    <p className="gest-ut-scadenza">
-                      Tempo rimanente: <strong>{tempoResiduo(selezionato.sospensione_fine)}</strong>
-                    </p>
-                    <p className="gest-ut-scadenza">
-                      Riattivazione: {new Date(selezionato.sospensione_fine).toLocaleDateString('it-IT', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
-                    </p>
-                  </>
-                ) : (
-                  <p className="gest-ut-scadenza">Durata: indeterminata</p>
-                )}
-              </div>
+          <div className="vgest__lista">
+            {caricamento ? (
+              <p className="vgest__vuoto">Caricamento...</p>
+            ) : utenti.length === 0 ? (
+              <p className="vgest__vuoto">Nessun utente registrato.</p>
             ) : (
-              <button
-                type="button"
-                className="btn-gest-ut-danger"
-                onClick={apriSospensione}
-              >
-                Sospendi account
-              </button>
+              utenti.map(u => (
+                <div
+                  key={u.id}
+                  className="vgest__card"
+                  onClick={() => selezionaUtente(u.id)}
+                >
+                  <div className="vgest__card-header">
+                    <span className="vgest__nome">{u.nome} {u.cognome}</span>
+                    {u.sospeso && <span className="vgest__badge">Sospeso</span>}
+                  </div>
+                  <span className="vgest__email">{u.email}</span>
+                </div>
+              ))
             )}
-            <button
-              type="button"
-              className="btn-gest-ut-secondario"
-              onClick={chiudiDialogo}
-            >
-              Chiudi
-            </button>
           </div>
         </div>
-      )}
 
-      {/* Popup 2 — form di sospensione, sopra il dettaglio */}
-      {sospensioneAperta && selezionato && (
-        <div className="gest-ut-overlay" onClick={chiudiSospensione}>
-          <div className="gest-ut-modal" onClick={e => e.stopPropagation()}>
-            <h2 className="gest-ut-modal-titolo">Sospendi account</h2>
-            <p className="gest-ut-modal-sub">{selezionato.nome} {selezionato.cognome}</p>
+        {/* Popup 1 — dettaglio utente */}
+        {dialogoAperto && selezionato && (
+          <div className="vgest__overlay" onClick={chiudiDialogo}>
+            <div className="vgest__modale" onClick={e => e.stopPropagation()}>
+              <div className="vgest__modale-header">
+                <h2 className="vgest__det-titolo">{selezionato.nome} {selezionato.cognome}</h2>
+                <button type="button" className="vgest__modale-chiudi" onClick={chiudiDialogo}>✕</button>
+              </div>
+              <div className="vgest__modale-body">
+                <div className="vgest__det-row">
+                  <span className="vgest__det-label">Email</span>
+                  <span>{selezionato.email}</span>
+                </div>
+                <div className="vgest__det-row">
+                  <span className="vgest__det-label">Stato</span>
+                  <span>{selezionato.sospeso ? '🔴 Sospeso' : 'Attivo'}</span>
+                </div>
 
-            <label className="gest-ut-det-label" htmlFor="motivazione-sospensione">
-              Motivazione della sospensione
-            </label>
-            <textarea
-              id="motivazione-sospensione"
-              className="gest-ut-textarea"
-              value={motivazione}
-              onChange={e => setMotivazione(e.target.value)}
-              placeholder="Descrivi il motivo della sospensione"
-              rows={4}
-            />
-            <label className="gest-ut-det-label" htmlFor="durata-sospensione">
-              Durata (giorni)
-            </label>
-            <select
-              id="durata-sospensione"
-              className="gest-ut-select"
-              value={durataGiorni}
-              onChange={e => setDurataGiorni(Number(e.target.value))}
-            >
-              <option value={1}>1 giorno</option>
-              <option value={3}>3 giorni</option>
-              <option value={7}>7 giorni</option>
-              <option value={14}>14 giorni</option>
-              <option value={30}>30 giorni</option>
-              <option value={90}>90 giorni</option>
-            </select>
-            <button
-              type="button"
-              className="btn-gest-ut-danger"
-              onClick={confermaSospensione}
-              disabled={azioneInCorso || !motivazione.trim()}
-            >
-              {azioneInCorso ? 'Sospensione...' : 'Conferma sospensione'}
-            </button>
-            <button
-              type="button"
-              className="btn-gest-ut-secondario"
-              onClick={chiudiSospensione}
-              disabled={azioneInCorso}
-            >
-              Annulla
-            </button>
+                <div className="vgest__modale-divider" />
+
+                {selezionato.sospeso ? (
+                  <div className="vgest__sospeso-info">
+                    <p className="vgest__sospeso-msg">⚠️ Account sospeso</p>
+                    {(selezionato as UtenteListItem & { sospensione_fine?: string }).sospensione_fine ? (
+                      <>
+                        <p className="vgest__scadenza">
+                          Tempo rimanente: <strong>{tempoResiduo((selezionato as UtenteListItem & { sospensione_fine?: string }).sospensione_fine!)}</strong>
+                        </p>
+                        <p className="vgest__scadenza">
+                          Riattivazione: {new Date((selezionato as UtenteListItem & { sospensione_fine?: string }).sospensione_fine!).toLocaleDateString('it-IT', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                        </p>
+                      </>
+                    ) : (
+                      <p className="vgest__scadenza">Durata: indeterminata</p>
+                    )}
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    className="sm-btn vgest__btn-danger"
+                    onClick={apriSospensione}
+                  >
+                    Sospendi account
+                  </button>
+                )}
+                <button
+                  type="button"
+                  className="sm-btn sm-btn--ghost vgest__btn-secondario"
+                  onClick={chiudiDialogo}
+                >
+                  Chiudi
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {/* Popup 2 — form sospensione */}
+        {sospensioneAperta && selezionato && (
+          <div className="vgest__overlay" onClick={chiudiSospensione}>
+            <div className="vgest__modale" onClick={e => e.stopPropagation()}>
+              <div className="vgest__modale-header">
+                <h2 className="vgest__det-titolo">Sospendi account</h2>
+                <button type="button" className="vgest__modale-chiudi" onClick={chiudiSospensione}>✕</button>
+              </div>
+              <div className="vgest__modale-body">
+                <p className="vgest__modal-sub">{selezionato.nome} {selezionato.cognome}</p>
+                <div className="vgest__conferma">
+                  <label className="vgest__det-label" htmlFor="motivazione-sospensione">
+                    Motivazione della sospensione
+                  </label>
+                  <textarea
+                    id="motivazione-sospensione"
+                    className="vgest__textarea"
+                    value={motivazione}
+                    onChange={e => setMotivazione(e.target.value)}
+                    placeholder="Descrivi il motivo della sospensione"
+                    rows={4}
+                  />
+                  <label className="vgest__det-label" htmlFor="durata-sospensione">
+                    Durata (giorni)
+                  </label>
+                  <select
+                    id="durata-sospensione"
+                    className="vgest__select"
+                    value={durataGiorni}
+                    onChange={e => setDurataGiorni(Number(e.target.value))}
+                  >
+                    <option value={1}>1 giorno</option>
+                    <option value={3}>3 giorni</option>
+                    <option value={7}>7 giorni</option>
+                    <option value={14}>14 giorni</option>
+                    <option value={30}>30 giorni</option>
+                    <option value={90}>90 giorni</option>
+                  </select>
+                  <button
+                    type="button"
+                    className="sm-btn vgest__btn-danger"
+                    onClick={confermaSospensione}
+                    disabled={azioneInCorso || !motivazione.trim()}
+                  >
+                    {azioneInCorso ? 'Sospensione...' : 'Conferma sospensione'}
+                  </button>
+                  <button
+                    type="button"
+                    className="sm-btn sm-btn--ghost vgest__btn-secondario"
+                    onClick={chiudiSospensione}
+                    disabled={azioneInCorso}
+                  >
+                    Annulla
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

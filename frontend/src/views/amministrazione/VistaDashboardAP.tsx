@@ -17,9 +17,9 @@ import './VistaDashboardAP.css'
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
 
 const COLORI_MEZZO: Record<string, string> = {
-  monopattino: '#155e52',
-  bicicletta:  '#2196f3',
-  automobile:  '#e91e8c',
+  monopattino: '#5FF0C4',
+  bicicletta:  '#7fb4ff',
+  automobile:  '#FF8A7A',
 }
 const EMOJI_MEZZO: Record<string, string> = {
   monopattino: '🛴',
@@ -30,9 +30,9 @@ const EMOJI_MEZZO: Record<string, string> = {
 type VistaMode = 'pin' | 'cluster' | 'heatmap'
 
 const CHIP_CONFIG = [
-  { tipo: 'monopattino', emoji: '🛴', colore: '#155e52', bg: '#ecfdf5' },
-  { tipo: 'bicicletta',  emoji: '🚲', colore: '#3b82f6', bg: '#eff6ff' },
-  { tipo: 'automobile',  emoji: '🚗', colore: '#e91e8c', bg: '#fdf2f8' },
+  { tipo: 'monopattino', emoji: '🛴' },
+  { tipo: 'bicicletta',  emoji: '🚲' },
+  { tipo: 'automobile',  emoji: '🚗' },
 ] as const
 
 const RAGGIO = 38
@@ -41,11 +41,12 @@ const CIRCONFERENZA = 2 * Math.PI * RAGGIO
 
 function GaugeMezzi({ perc }: { perc: number }) {
   const offset = CIRCONFERENZA - (perc / 100) * CIRCONFERENZA
-  const colore = perc >= 60 ? '#155e52' : perc >= 30 ? '#ff9800' : '#f44336'
+  // Remap: green >= 60, orange >= 30, red < 30
+  const colore = perc >= 60 ? '#5FF0C4' : perc >= 30 ? '#FFC971' : '#FF8A7A'
   return (
     <div className="ap-gauge-container">
       <svg width={140} height={140} viewBox="0 0 96 96">
-        <circle cx={48} cy={48} r={RAGGIO} fill="none" stroke="#e8ecef" strokeWidth={STROKE} />
+        <circle cx={48} cy={48} r={RAGGIO} fill="none" stroke="#163832" strokeWidth={STROKE} />
         <circle
           cx={48} cy={48} r={RAGGIO} fill="none"
           stroke={colore} strokeWidth={STROKE}
@@ -55,15 +56,15 @@ function GaugeMezzi({ perc }: { perc: number }) {
           transform="rotate(-90 48 48)"
           style={{ transition: 'stroke-dashoffset 0.5s ease, stroke 0.5s ease' }}
         />
-        <text x={48} y={45} textAnchor="middle" fontSize={15} fontWeight={800} fill="#0f172a">{perc}%</text>
-        <text x={48} y={61} textAnchor="middle" fontSize={8} fontWeight={600} fill="#94a3b8">DISPONIBILI</text>
+        <text x={48} y={45} textAnchor="middle" fontSize={15} fontWeight={800} fill="#DAF1DE">{perc}%</text>
+        <text x={48} y={61} textAnchor="middle" fontSize={8} fontWeight={600} fill="#5d7a6a">DISPONIBILI</text>
       </svg>
     </div>
   )
 }
 
 function PinMezzo({ tipo, stato }: { tipo: string; stato: string }) {
-  const colore = COLORI_MEZZO[tipo] ?? '#888'
+  const colore = COLORI_MEZZO[tipo] ?? '#8EB69B'
   const emoji  = EMOJI_MEZZO[tipo]  ?? '●'
   return (
     <div style={{
@@ -73,8 +74,8 @@ function PinMezzo({ tipo, stato }: { tipo: string; stato: string }) {
       width: 32, height: 32,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       fontSize: 16,
-      boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
-      border: '2px solid #fff',
+      boxShadow: '0 2px 6px rgba(0,0,0,0.5)',
+      border: '2px solid rgba(11,43,38,0.4)',
     }}>
       {emoji}
     </div>
@@ -183,17 +184,17 @@ export default function VistaDashboardAP() {
 
           {vista === 'mappa' && (
             <div className="ap-kpi-pills">
-              <span className="ap-kpi-pill" style={{ color: '#155e52' }}>
+              <span className="ap-kpi-pill ap-kpi-pill--dispo">
                 <strong>{errVal ?? kpi.disponibili}</strong>{' '}
                 <span>disp</span>
               </span>
               <span className="ap-kpi-divider">|</span>
-              <span className="ap-kpi-pill" style={{ color: '#3b82f6' }}>
+              <span className="ap-kpi-pill ap-kpi-pill--uso">
                 <strong>{errVal ?? kpi.inUso}</strong>{' '}
                 <span>uso</span>
               </span>
               <span className="ap-kpi-divider">|</span>
-              <span className="ap-kpi-pill" style={{ color: '#f59e0b' }}>
+              <span className="ap-kpi-pill ap-kpi-pill--man">
                 <strong>{errVal ?? kpi.manutenzione}</strong>{' '}
                 <span>man</span>
               </span>
@@ -274,14 +275,13 @@ export default function VistaDashboardAP() {
 
               <div className="ap-pannello-sezione">
                 <div className="ap-pannello-label">Mezzi</div>
-                {CHIP_CONFIG.map(({ tipo, emoji, colore, bg }) => {
+                {CHIP_CONFIG.map(({ tipo, emoji }) => {
                   const attivo = layerAttivi.has(tipo)
                   return (
                     <button
                       key={tipo}
                       type="button"
-                      className={`ap-chip-mezzo${attivo ? ' attivo' : ''}`}
-                      style={attivo ? { background: bg, borderColor: colore, color: colore } : undefined}
+                      className={`ap-chip-mezzo ap-chip-mezzo--${tipo}${attivo ? ' attivo' : ''}`}
                       onClick={() => toggleLayer(tipo)}
                     >
                       <span>{emoji}</span>

@@ -1,18 +1,18 @@
 .vista-abb {
   min-height: 100vh;
-  background: #f1f5f9;
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background: var(--bg);
+  font-family: var(--ff-body);
 }
 
 .abb-topbar {
   height: 64px;
-  background: #fff;
+  background: var(--surface);
   display: flex;
   align-items: center;
   padding: 0 24px;
   gap: 14px;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
 }
 
 .abb-topbar h2 {
@@ -20,19 +20,26 @@
   flex: 1;
   font-size: 16px;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--text);
+  font-family: var(--ff-display);
 }
 
 .btn-indietro-abb {
   padding: 8px 16px;
   background: transparent;
-  color: #4caf9a;
-  border: 2px solid #4caf9a;
-  border-radius: 10px;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: var(--r-md);
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
   font-family: inherit;
+  transition: background 160ms, color 160ms;
+}
+
+.btn-indietro-abb:hover {
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
 .abb-body {
@@ -45,10 +52,12 @@
 }
 
 .abb-corrente {
-  background: linear-gradient(135deg, #4caf9a, #3a9a86);
-  border-radius: 18px;
+  background: linear-gradient(135deg, var(--surface-3), var(--surface-2));
+  border-radius: var(--r-md);
   padding: 20px 24px;
-  color: #fff;
+  color: var(--text);
+  border: 1px solid var(--accent);
+  box-shadow: var(--glow);
 }
 
 .abb-corrente-label {
@@ -56,30 +65,32 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  opacity: 0.85;
+  color: var(--accent);
   margin-bottom: 6px;
 }
 
 .abb-corrente-info {
   font-size: 16px;
   font-weight: 600;
+  color: var(--text);
 }
 
 .abb-sezione-titolo {
   margin: 0;
   font-size: 15px;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--text);
+  font-family: var(--ff-display);
 }
 
 .abb-vuoti {
-  color: #64748b;
+  color: var(--text-dim);
   font-size: 14px;
   padding: 24px;
-  background: #fff;
-  border-radius: 14px;
+  background: var(--surface);
+  border-radius: var(--r-md);
   text-align: center;
-  border: 1px solid rgba(15, 23, 42, 0.06);
+  border: 1px solid var(--border);
 }
 
 .abb-piani {
@@ -89,34 +100,36 @@
 }
 
 .abb-piano-card {
-  background: #fff;
-  border-radius: 16px;
+  background: var(--surface);
+  border-radius: var(--r-md);
   padding: 20px;
-  border: 2px solid rgba(15, 23, 42, 0.06);
+  border: 2px solid var(--border);
   cursor: pointer;
   transition: border-color 160ms, box-shadow 160ms;
 }
 
 .abb-piano-card:hover {
-  border-color: #4caf9a;
-  box-shadow: 0 2px 12px rgba(76, 175, 154, 0.15);
+  border-color: var(--border-2);
+  box-shadow: var(--glow);
 }
 
 .abb-piano-card.selezionato {
-  border-color: #4caf9a;
-  box-shadow: 0 0 0 3px rgba(76, 175, 154, 0.15);
+  background: linear-gradient(160deg, var(--surface-2), var(--surface));
+  border-color: var(--accent);
+  box-shadow: var(--glow);
 }
 
 .abb-piano-nome {
   font-size: 15px;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--text);
   margin-bottom: 4px;
+  font-family: var(--ff-display);
 }
 
 .abb-piano-desc {
   font-size: 13px;
-  color: #64748b;
+  color: var(--text-dim);
   margin-bottom: 10px;
 }
 
@@ -129,32 +142,35 @@
 .abb-piano-prezzo {
   font-size: 20px;
   font-weight: 800;
-  color: #4caf9a;
+  color: var(--accent);
+  font-family: var(--ff-mono);
 }
 
 .abb-piano-durata {
   font-size: 13px;
-  color: #64748b;
-  background: #f1f5f9;
+  color: var(--text-dim);
+  background: var(--surface-2);
   padding: 3px 10px;
-  border-radius: 20px;
+  border-radius: var(--r-pill);
   font-weight: 600;
+  border: 1px solid var(--border);
 }
 
 .abb-piano-mezzo {
   font-size: 12px;
-  color: #0369a1;
-  background: #e0f2fe;
+  color: var(--accent);
+  background: var(--surface-3);
   padding: 3px 10px;
-  border-radius: 20px;
+  border-radius: var(--r-pill);
   font-weight: 600;
+  border: 1px solid var(--border-2);
 }
 
 .abb-riepilogo {
-  background: #fff;
-  border-radius: 16px;
+  background: var(--surface);
+  border-radius: var(--r-md);
   padding: 24px;
-  border: 1px solid rgba(15, 23, 42, 0.06);
+  border: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -164,18 +180,19 @@
   margin: 0 0 8px;
   font-size: 14px;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--text);
+  font-family: var(--ff-display);
 }
 
 .abb-riepilogo p {
   margin: 0;
   font-size: 14px;
-  color: #334155;
+  color: var(--text-dim);
 }
 
 .abb-riepilogo-nota {
   font-size: 12px !important;
-  color: #64748b !important;
+  color: var(--text-mute) !important;
   margin-top: 4px !important;
 }
 
@@ -188,50 +205,56 @@
 .btn-annulla-abb {
   flex: 1;
   padding: 12px;
-  background: #f1f5f9;
-  color: #64748b;
-  border: none;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.btn-conferma-abb {
-  flex: 2;
-  padding: 12px;
-  background: #4caf9a;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
+  background: var(--surface-2);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   font-family: inherit;
   transition: background 160ms;
 }
-.btn-conferma-abb:hover { background: #3a9a86; }
-.btn-conferma-abb:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.btn-annulla-abb:hover {
+  background: var(--surface-3);
+}
+
+.btn-conferma-abb {
+  flex: 2;
+  padding: 12px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: none;
+  border-radius: var(--r-md);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 160ms;
+}
+
+.btn-conferma-abb:hover { opacity: 0.88; }
+.btn-conferma-abb:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .abb-errore {
   font-size: 13px;
-  color: #f43f5e;
+  color: var(--danger);
   margin: 0;
   padding: 10px 14px;
-  background: rgba(244, 63, 94, 0.06);
-  border-radius: 10px;
-  border: 1px solid rgba(244, 63, 94, 0.2);
+  background: color-mix(in srgb, var(--danger) 8%, var(--surface));
+  border-radius: var(--r-md);
+  border: 1px solid color-mix(in srgb, var(--danger) 25%, var(--surface));
 }
 
 .abb-conferma {
   font-size: 13px;
-  color: #16a34a;
+  color: var(--accent);
   margin: 0;
   padding: 10px 14px;
-  background: rgba(22, 163, 74, 0.06);
-  border-radius: 10px;
-  border: 1px solid rgba(22, 163, 74, 0.2);
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+  border-radius: var(--r-md);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--surface));
 }
 
 /* Mobile */

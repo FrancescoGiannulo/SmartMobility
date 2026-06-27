@@ -1,88 +1,83 @@
-.vista-gest-ut-wrap {
-  min-height: 100vh;
-  background: #f5f6fa;
+/*
+ * VistaGestioneUtentiOperatore — Foresta dark theme
+ * Tokens used:
+ *   --bg, --surface, --surface-2, --surface-3
+ *   --text, --text-dim, --text-mute
+ *   --accent, --accent-ink
+ *   --border, --border-2
+ *   --danger
+ *   --r-lg, --r-md, --r-sm, --r-pill
+ *   --ff-display, --ff-body
+ */
+
+/* ── body ─────────────────────────────────────────────── */
+.vgest__body {
+  padding: 28px 32px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 24px 20px 48px;
+  gap: 16px;
+  flex: 1;
 }
 
-.btn-back-gest-ut {
-  background: none;
-  border: none;
-  color: #4caf9a;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-  margin-bottom: 20px;
-}
-
-.gest-ut-titolo {
+/* ── title ────────────────────────────────────────────── */
+.vgest__titolo {
+  font-family: var(--ff-display);
   font-size: 22px;
   font-weight: 700;
-  color: #1a1a2e;
-  margin: 0 0 16px;
+  color: var(--text);
+  margin: 0;
 }
 
-.gest-ut-messaggio {
-  background: #e8f5e9;
-  border: 1px solid #a5d6a7;
-  border-radius: 8px;
-  color: #2e7d32;
+/* ── feedback messages ────────────────────────────────── */
+.vgest__messaggio {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--surface));
+  border-radius: var(--r-sm);
   font-size: 13px;
   padding: 10px 14px;
-  margin-bottom: 12px;
-  width: 100%;
   max-width: 860px;
 }
 
-.gest-ut-errore {
-  color: #e53935;
+.vgest__errore {
+  color: var(--danger);
   font-size: 13px;
-  margin: 0 0 12px;
+  margin: 0;
 }
 
-.gest-ut-vuoto {
-  color: #888;
-  font-size: 14px;
-}
-
-.gest-ut-layout {
-  display: flex;
-  gap: 20px;
-  width: 100%;
-  max-width: 920px;
-  align-items: flex-start;
-}
-
-.gest-ut-lista {
-  flex: 1;
+/* ── user list ────────────────────────────────────────── */
+.vgest__lista {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  min-width: 0;
+  max-width: 640px;
 }
 
-.gest-ut-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+.vgest__vuoto {
+  color: var(--text-mute);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* ── user card ────────────────────────────────────────── */
+.vgest__card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
   padding: 14px 16px;
   cursor: pointer;
-  border: 2px solid transparent;
   transition: border-color 0.15s;
 }
 
-.gest-ut-card:hover {
-  border-color: #4caf9a;
+.vgest__card:hover {
+  border-color: var(--accent);
 }
 
-.gest-ut-card--attiva {
-  border-color: #4caf9a;
+.vgest__card--attiva {
+  border-color: var(--accent);
 }
 
-.gest-ut-card-header {
+.vgest__card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -90,125 +85,212 @@
   margin-bottom: 4px;
 }
 
-.gest-ut-nome {
+.vgest__nome {
   font-size: 14px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: var(--text);
 }
 
-.gest-ut-email {
+.vgest__email {
   font-size: 12px;
-  color: #666;
+  color: var(--text-dim);
 }
 
-.gest-ut-badge {
+.vgest__badge {
   font-size: 11px;
   font-weight: 700;
-  border-radius: 20px;
+  border-radius: var(--r-pill);
   padding: 3px 10px;
   white-space: nowrap;
-  background: #ffebee;
-  color: #c62828;
+  background: color-mix(in srgb, var(--danger) 18%, var(--surface));
+  color: var(--danger);
 }
 
-.gest-ut-dettaglio {
-  width: 320px;
-  flex-shrink: 0;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+.vgest__det-titolo {
+  font-family: var(--ff-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.vgest__det-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.vgest__det-label {
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+/* ── sospeso warning ──────────────────────────────────── */
+.vgest__sospeso-msg {
+  font-size: 13px;
+  color: var(--danger);
+  text-align: center;
+  margin: 0;
+}
+
+/* ── danger button ────────────────────────────────────── */
+.vgest__btn-danger {
+  background: var(--danger);
+  color: var(--accent-ink);
+  border: none;
+  border-radius: var(--r-pill);
+  padding: 12px;
+  font-weight: 700;
+  width: 100%;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.vgest__btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── ghost / cancel button ────────────────────────────── */
+.vgest__btn-secondario {
+  width: 100%;
+}
+
+/* ── confirmation form ────────────────────────────────── */
+.vgest__conferma {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── textarea ─────────────────────────────────────────── */
+.vgest__textarea {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px;
+  font-size: 13px;
+  font-family: var(--ff-body);
+  color: var(--text);
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.vgest__textarea::placeholder {
+  color: var(--text-mute);
+}
+
+.vgest__textarea:focus {
+  border-color: var(--accent);
+}
+
+/* ── modal overlay ────────────────────────────────────────── */
+.vgest__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.vgest__modale {
+  background: var(--surface);
+  border: 1.5px solid var(--border-2);
+  border-radius: var(--r-lg);
+  width: 100%;
+  max-width: 420px;
+  margin: 16px;
+  overflow: hidden;
+}
+
+.vgest__modale-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.vgest__modale-chiudi {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+  border-radius: var(--r-sm);
+  transition: color 0.15s;
+}
+
+.vgest__modale-chiudi:hover {
+  color: var(--text);
+}
+
+.vgest__modale-body {
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.gest-ut-det-titolo {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1a1a2e;
-  margin: 0;
+.vgest__modale-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
 }
 
-.gest-ut-det-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: #333;
-}
-
-.gest-ut-det-label {
-  font-weight: 600;
-  color: #666;
-}
-
-.btn-gest-ut-danger {
-  background: #e53935;
-  color: #fff;
-  border: none;
-  border-radius: 24px;
-  padding: 12px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  width: 100%;
-  margin-top: 4px;
-}
-
-.btn-gest-ut-danger:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.btn-gest-ut-secondario {
-  background: transparent;
-  color: #666;
-  border: 1px solid #ccc;
-  border-radius: 24px;
-  padding: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  width: 100%;
-}
-
-.gest-ut-conferma {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.gest-ut-textarea {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 10px;
-  font-size: 13px;
-  font-family: inherit;
-  resize: vertical;
-}
-
-.gest-ut-sospeso-info {
+/* ── sospeso info block ───────────────────────────────── */
+.vgest__sospeso-info {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
 }
 
-.gest-ut-sospeso-msg {
-  font-size: 13px;
-  color: #c62828;
+.vgest__scadenza {
+  font-size: 12px;
+  color: var(--text-dim);
   text-align: center;
   margin: 0;
 }
 
-.gest-ut-scadenza {
-  font-size: 12px;
-  color: #666;
-  text-align: center;
+.vgest__modal-sub {
+  font-size: 13px;
+  color: var(--text-dim);
   margin: 0;
 }
+
+/* ── select (durata sospensione) ──────────────────────── */
+.vgest__select {
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  font-size: 13px;
+  font-family: var(--ff-body);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+  cursor: pointer;
+}
+
+.vgest__select:focus {
+  border-color: var(--accent);
+}
+
+.vgest__select option {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
 
 .gest-ut-select {
   border: 1px solid #ccc;

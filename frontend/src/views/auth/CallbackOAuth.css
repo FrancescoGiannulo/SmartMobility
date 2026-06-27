@@ -1,0 +1,100 @@
+/*
+ * CallbackOAuth — Foresta dark theme
+ * Tokens: --bg, --surface, --surface-2,
+ *         --text, --text-dim, --text-mute,
+ *         --accent, --accent-ink,
+ *         --border, --shadow,
+ *         --r-lg, --r-pill,
+ *         --ff-display, --ff-body
+ */
+
+.coauth__wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.coauth__card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 40px 32px;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: var(--shadow);
+}
+
+.coauth__titolo {
+  font-family: var(--ff-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+}
+
+.coauth__desc {
+  color: var(--text-dim);
+  font-size: 14px;
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.coauth__label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-dim);
+  cursor: pointer;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.coauth__checkbox {
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+}
+
+.coauth__link {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.coauth__link:hover {
+  text-decoration: underline;
+}
+
+.coauth__btn {
+  width: 100%;
+  padding: 12px 0;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: none;
+  border-radius: var(--r-pill);
+  font-family: var(--ff-body);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.coauth__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.coauth__errore {
+  padding: 32px;
+  text-align: center;
+  color: var(--danger, #FF8A7A);
+}
+
+.coauth__loading {
+  padding: 32px;
+  text-align: center;
+  color: var(--text-dim);
+}

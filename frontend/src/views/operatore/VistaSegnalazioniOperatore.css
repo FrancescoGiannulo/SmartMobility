@@ -1,64 +1,61 @@
-.vista-segn-op-wrap {
-  min-height: 100vh;
-  background: #f5f6fa;
+/*
+ * VistaSegnalazioniOperatore — Foresta dark theme
+ * Tokens: --bg, --surface, --surface-2, --surface-3,
+ *         --text, --text-dim, --text-mute,
+ *         --accent, --accent-2, --accent-ink,
+ *         --border, --border-2,
+ *         --warn, --danger,
+ *         --r-lg, --r-md, --r-sm, --r-pill,
+ *         --ff-display, --ff-body, --ff-mono,
+ *         --shadow
+ */
+
+/* ── Body wrapper ─────────────────────────────────────── */
+.vsegn__body {
+  padding: 28px 32px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 24px 20px 48px;
+  gap: 16px;
+  flex: 1;
 }
 
-.btn-back-segn-op {
-  background: none;
-  border: none;
-  color: #4caf9a;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-  margin-bottom: 20px;
-}
-
-.segn-op-titolo {
+/* ── Title ────────────────────────────────────────────── */
+.vsegn__titolo {
+  font-family: var(--ff-display);
   font-size: 22px;
   font-weight: 700;
-  color: #1a1a2e;
-  margin: 0 0 16px;
+  color: var(--text);
+  margin: 0;
 }
 
-.segn-op-messaggio {
-  background: #e8f5e9;
-  border: 1px solid #a5d6a7;
-  border-radius: 8px;
-  color: #2e7d32;
+/* ── Success message ──────────────────────────────────── */
+.vsegn__messaggio {
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--surface));
+  border-radius: var(--r-sm);
+  color: var(--accent);
   font-size: 13px;
   padding: 10px 14px;
-  margin-bottom: 12px;
-  width: 100%;
   max-width: 860px;
 }
 
-.segn-op-errore {
-  color: #e53935;
+/* ── Error ────────────────────────────────────────────── */
+.vsegn__errore {
+  color: var(--danger);
   font-size: 13px;
-  margin: 0 0 12px;
+  margin: 0;
 }
 
-.segn-op-vuoto {
-  color: #888;
-  font-size: 14px;
-}
-
-/* Layout lista + dettaglio */
-.segn-op-layout {
+/* ── Layout (list + detail side by side) ─────────────── */
+.vsegn__layout {
   display: flex;
   gap: 20px;
-  width: 100%;
-  max-width: 920px;
   align-items: flex-start;
+  max-width: 920px;
 }
 
-/* Lista */
-.segn-op-lista {
+/* ── List ─────────────────────────────────────────────── */
+.vsegn__lista {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -66,149 +63,148 @@
   min-width: 0;
 }
 
-.segn-op-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+.vsegn__vuoto {
+  color: var(--text-mute);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* ── Card ─────────────────────────────────────────────── */
+.vsegn__card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
   padding: 14px 16px;
   cursor: pointer;
-  border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   transition: border-color 0.15s;
 }
 
-.segn-op-card:hover {
-  border-color: #4caf9a;
+.vsegn__card:hover {
+  border-color: var(--accent);
 }
 
-.segn-op-card--attiva {
-  border-color: #4caf9a;
+.vsegn__card--attiva {
+  border-color: var(--accent);
 }
 
-.segn-op-card-header {
+.vsegn__card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 6px;
 }
 
-.segn-op-tipologia {
+.vsegn__tipologia {
   font-size: 14px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: var(--text);
 }
 
-.segn-op-utente {
+.vsegn__utente {
   font-size: 12px;
-  color: #4caf9a;
+  color: var(--accent-2);
   font-weight: 600;
-  margin-bottom: 4px;
   display: block;
 }
 
-.segn-op-descrizione-anteprima {
+.vsegn__descrizione-anteprima {
   font-size: 13px;
-  color: #555;
-  margin: 0 0 6px;
+  color: var(--text-dim);
+  margin: 0;
 }
 
-.segn-op-data {
+.vsegn__data {
   font-size: 11px;
-  color: #999;
+  color: var(--text-mute);
+  font-family: var(--ff-mono);
 }
 
-/* Badge stato */
-.segn-badge {
+/* ── Badge ────────────────────────────────────────────── */
+.vsegn__badge {
   font-size: 11px;
   font-weight: 700;
-  border-radius: 20px;
+  border-radius: var(--r-pill);
   padding: 3px 10px;
   white-space: nowrap;
 }
 
-.badge-aperta {
-  background: #fff3e0;
-  color: #e65100;
+.vsegn__badge--aperta {
+  background: color-mix(in srgb, var(--warn) 18%, var(--surface));
+  color: var(--warn);
 }
 
-.badge-in-carico {
-  background: #e8f5e9;
-  color: #2e7d32;
+.vsegn__badge--in-carico {
+  background: color-mix(in srgb, var(--accent) 18%, var(--surface));
+  color: var(--accent);
 }
 
-.badge-risolta {
-  background: #e3f2fd;
-  color: #1565c0;
+.vsegn__badge--risolta {
+  background: color-mix(in srgb, var(--info, #7fb4ff) 18%, var(--surface));
+  color: var(--info, #7fb4ff);
 }
 
-/* Dettaglio */
-.segn-op-dettaglio {
+/* ── Detail panel ─────────────────────────────────────── */
+.vsegn__dettaglio {
   width: 320px;
   flex-shrink: 0;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.segn-op-det-titolo {
+.vsegn__det-titolo {
+  font-family: var(--ff-display);
   font-size: 16px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: var(--text);
   margin: 0;
 }
 
-.segn-op-det-row {
+.vsegn__det-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  color: #333;
+  color: var(--text);
 }
 
-.segn-op-det-label {
+.vsegn__det-label {
   font-weight: 600;
-  color: #666;
+  color: var(--text-dim);
 }
 
-.segn-op-det-descrizione {
+.vsegn__det-descrizione {
   display: flex;
   flex-direction: column;
   gap: 4px;
   font-size: 13px;
-  color: #333;
+  color: var(--text);
 }
 
-.segn-op-det-descrizione p {
+.vsegn__det-descrizione p {
   margin: 0;
   line-height: 1.5;
+  color: var(--text-dim);
 }
 
-.btn-segn-op-primario {
-  background: #4caf9a;
-  color: #fff;
-  border: none;
-  border-radius: 24px;
-  padding: 12px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
+/* ── Primary action button ────────────────────────────── */
+.vsegn__btn-primario {
   width: 100%;
   margin-top: 4px;
 }
 
-.btn-segn-op-primario:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.segn-op-in-carico-msg {
+/* ── In-carico message ────────────────────────────────── */
+.vsegn__in-carico-msg {
   font-size: 13px;
-  color: #2e7d32;
+  color: var(--accent);
   text-align: center;
   margin: 0;
 }

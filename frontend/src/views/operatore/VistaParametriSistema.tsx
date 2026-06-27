@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {
   getParametriSistema,
   aggiornaParametriSistema,
 } from '../../services/ConfigurazioneService'
+import SidebarRuolo from '../../components/layout/SidebarRuolo'
 import './VistaParametriSistema.css'
 
 export default function VistaParametriSistema() {
-  const navigate = useNavigate()
-
   const [durataPrenotazione, setDurataPrenotazione] = useState('')
   const [durataGrazia, setDurataGrazia] = useState('')
   const [maxMezzi, setMaxMezzi] = useState('')
@@ -54,70 +52,74 @@ export default function VistaParametriSistema() {
   }
 
   return (
-    <div className="vista-params">
-      <div className="params-topbar">
-        <h2>Parametri Numerici di Sistema</h2>
-        <button className="btn-indietro" onClick={() => navigate('/operatore/dashboard')}>
-          ← Torna alla mappa
-        </button>
-      </div>
-
-      <div className="params-body">
-        <div className="params-card">
-          <h3>Prenotazione</h3>
-          <div className="params-campo">
-            <label>Durata massima prenotazione (minuti)</label>
-            <input
-              type="number"
-              min="0"
-              value={durataPrenotazione}
-              onChange={e => setDurataPrenotazione(e.target.value)}
-              placeholder="es. 15"
-            />
-          </div>
-          <div className="params-campo">
-            <label>Numero massimo mezzi per utente</label>
-            <input
-              type="number"
-              min="1"
-              value={maxMezzi}
-              onChange={e => setMaxMezzi(e.target.value)}
-              placeholder="es. 1"
-            />
-          </div>
+    <div className="sm-op-shell">
+      <SidebarRuolo ruolo="OP" />
+      <div className="sm-op-main">
+        <div className="vparams__header">
+          <h2>Parametri Numerici di Sistema</h2>
         </div>
 
-        <div className="params-card">
-          <h3>Pausa corsa</h3>
-          <div className="params-campo">
-            <label>Durata periodo di grazia (minuti — 0 = pausa gratuita disabilitata)</label>
-            <input
-              type="number"
-              min="0"
-              value={durataGrazia}
-              onChange={e => setDurataGrazia(e.target.value)}
-              placeholder="es. 5"
-            />
+        <div className="vparams__body">
+          <div className="vparams__card">
+            <h3>Prenotazione</h3>
+            <div className="vparams__campo">
+              <label>Durata massima prenotazione (minuti)</label>
+              <input
+                type="number"
+                min="0"
+                value={durataPrenotazione}
+                onChange={e => setDurataPrenotazione(e.target.value)}
+                placeholder="es. 15"
+              />
+            </div>
+            <div className="vparams__campo">
+              <label>Numero massimo mezzi per utente</label>
+              <input
+                type="number"
+                min="1"
+                value={maxMezzi}
+                onChange={e => setMaxMezzi(e.target.value)}
+                placeholder="es. 1"
+              />
+            </div>
           </div>
-          <div className="params-campo">
-            <label>Addebito pausa al minuto €/min (0 = nessun addebito)</label>
-            <input
-              type="number"
-              min="0"
-              step="0.01"
-              value={addebitoPausa}
-              onChange={e => setAddebitoPausa(e.target.value)}
-              placeholder="es. 0.50"
-            />
+
+          <div className="vparams__card">
+            <h3>Pausa corsa</h3>
+            <div className="vparams__campo">
+              <label>Durata periodo di grazia (minuti — 0 = pausa gratuita disabilitata)</label>
+              <input
+                type="number"
+                min="0"
+                value={durataGrazia}
+                onChange={e => setDurataGrazia(e.target.value)}
+                placeholder="es. 5"
+              />
+            </div>
+            <div className="vparams__campo">
+              <label>Addebito pausa al minuto €/min (0 = nessun addebito)</label>
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                value={addebitoPausa}
+                onChange={e => setAddebitoPausa(e.target.value)}
+                placeholder="es. 0.50"
+              />
+            </div>
           </div>
+
+          {errore && <p className="vparams__errore">{errore}</p>}
+          {conferma && <p className="vparams__conferma">{conferma}</p>}
+
+          <button
+            className="sm-btn sm-btn--primary vparams__btn-salva"
+            onClick={handleSalva}
+            disabled={caricamento}
+          >
+            {caricamento ? '...' : 'Salva parametri'}
+          </button>
         </div>
-
-        {errore && <p className="params-errore">{errore}</p>}
-        {conferma && <p className="params-conferma">{conferma}</p>}
-
-        <button className="btn-salva-params" onClick={handleSalva} disabled={caricamento}>
-          {caricamento ? '...' : 'Salva parametri'}
-        </button>
       </div>
     </div>
   )

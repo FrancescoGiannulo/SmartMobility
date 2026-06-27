@@ -1,6 +1,6 @@
 .vista-segn-wrap {
   min-height: 100vh;
-  background: #f5f6fa;
+  background: var(--bg);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,7 +11,7 @@
   align-self: flex-start;
   background: none;
   border: none;
-  color: #4caf9a;
+  color: var(--accent);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -22,13 +22,14 @@
 .segn-titolo {
   font-size: 22px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: var(--text);
   margin: 0 0 6px;
+  font-family: var(--ff-display);
 }
 
 .segn-sottotitolo {
   font-size: 14px;
-  color: #666;
+  color: var(--text-dim);
   margin: 0 0 24px;
   text-align: center;
   max-width: 380px;
@@ -40,35 +41,40 @@
   gap: 8px;
   width: 100%;
   max-width: 420px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow);
   padding: 24px 20px;
 }
 
 .segn-label {
   font-size: 13px;
   font-weight: 600;
-  color: #444;
+  color: var(--text-dim);
+  letter-spacing: .04em;
+  text-transform: uppercase;
 }
 
 .segn-select,
 .segn-textarea {
-  border: 1.5px solid #e0e0e0;
+  border: 1.5px solid var(--border);
   border-radius: 8px;
   padding: 10px 12px;
   font-size: 14px;
-  color: #1a1a2e;
-  background: #fafafa;
+  color: var(--text);
+  background: var(--surface-2);
   outline: none;
   width: 100%;
   box-sizing: border-box;
-  font-family: inherit;
+  font-family: var(--ff-body);
+  transition: border-color .15s;
 }
 
 .segn-select:focus,
 .segn-textarea:focus {
-  border-color: #4caf9a;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
 .segn-textarea {
@@ -78,26 +84,28 @@
 
 .segn-contatore {
   font-size: 12px;
-  color: #999;
+  color: var(--text-mute);
   text-align: right;
 }
 
 .segn-errore {
-  color: #e53935;
+  color: var(--danger);
   font-size: 13px;
   margin: 4px 0 0;
 }
 
 .btn-segn-primario {
-  background: #4caf9a;
-  color: #fff;
+  background: var(--accent);
+  color: var(--accent-ink);
   border: none;
-  border-radius: 24px;
+  border-radius: var(--r-pill);
   padding: 14px 32px;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   margin-top: 8px;
+  font-family: var(--ff-body);
+  transition: opacity .15s;
 }
 
 .btn-segn-primario:disabled {
@@ -105,16 +113,23 @@
   cursor: not-allowed;
 }
 
+.btn-segn-secundario,
 .btn-segn-secondario {
   background: transparent;
-  color: #4caf9a;
-  border: 2px solid #4caf9a;
-  border-radius: 24px;
+  color: var(--accent);
+  border: 2px solid var(--border-2);
+  border-radius: var(--r-pill);
   padding: 12px 32px;
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   margin-top: 4px;
+  font-family: var(--ff-body);
+  transition: border-color .15s, color .15s;
+}
+
+.btn-segn-secondario:hover {
+  border-color: var(--accent);
 }
 
 /* Storico */
@@ -127,8 +142,9 @@
 .segn-storico-titolo {
   font-size: 16px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: var(--text);
   margin: 0 0 12px;
+  font-family: var(--ff-display);
 }
 
 .segn-storico-lista {
@@ -138,9 +154,10 @@
 }
 
 .segn-storico-card {
-  background: #fff;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  box-shadow: var(--shadow);
   padding: 12px 16px;
 }
 
@@ -155,18 +172,18 @@
 .segn-storico-tipologia {
   font-size: 13px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: var(--text);
 }
 
 .segn-storico-desc {
   font-size: 13px;
-  color: #555;
+  color: var(--text-dim);
   margin: 0 0 6px;
 }
 
 .segn-storico-data {
   font-size: 11px;
-  color: #999;
+  color: var(--text-mute);
 }
 
 .segn-badge {
@@ -178,13 +195,13 @@
 }
 
 .segn-badge--aperta {
-  background: #fff3e0;
-  color: #e65100;
+  background: color-mix(in srgb, var(--warn) 16%, var(--surface));
+  color: var(--warn);
 }
 
 .segn-badge--in-carico {
-  background: #e8f5e9;
-  color: #2e7d32;
+  background: color-mix(in srgb, var(--accent) 16%, var(--surface));
+  color: var(--accent);
 }
 
 .segn-badge--risolta {
@@ -210,13 +227,14 @@
 .segn-conferma-titolo {
   font-size: 20px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: var(--text);
   margin: 0;
+  font-family: var(--ff-display);
 }
 
 .segn-conferma-testo {
   font-size: 14px;
-  color: #555;
+  color: var(--text-dim);
   margin: 0;
 }
 

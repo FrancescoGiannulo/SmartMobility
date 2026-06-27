@@ -1,41 +1,37 @@
-.vista-regole {
-  min-height: 100vh;
-  background: #f1f5f9;
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-}
+/*
+ * VistaImpostazioniRegole — Foresta dark theme
+ *
+ * Tokens used:
+ *   --bg, --surface, --surface-2, --surface-3
+ *   --text, --text-dim, --text-mute
+ *   --accent, --accent-2, --accent-ink
+ *   --border, --border-2
+ *   --warn, --danger
+ *   --r-lg, --r-md, --r-sm
+ *   --ff-display, --ff-body
+ *   --shadow
+ */
 
-.regole-topbar {
+/* ── Header ─────────────────────────────────────────── */
+.vregole__header {
   height: 64px;
-  background: #fff;
+  background: var(--surface);
   display: flex;
   align-items: center;
-  padding: 0 24px;
-  gap: 14px;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  padding: 0 28px;
+  border-bottom: 1px solid var(--border);
 }
 
-.regole-topbar h2 {
+.vregole__header h2 {
   margin: 0;
-  flex: 1;
+  font-family: var(--ff-display);
   font-size: 16px;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-.regole-topbar .btn-indietro {
-  padding: 8px 16px;
-  background: transparent;
-  color: #155e52;
-  border: 2px solid #155e52;
-  border-radius: 10px;
-  font-size: 13px;
   font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
+  color: var(--text);
 }
 
-.regole-body {
+/* ── Body ────────────────────────────────────────────── */
+.vregole__body {
   max-width: 640px;
   margin: 0 auto;
   padding: 32px 24px;
@@ -44,106 +40,115 @@
   gap: 20px;
 }
 
-.regole-card {
-  background: #fff;
-  border-radius: 18px;
+/* ── Card ────────────────────────────────────────────── */
+.vregole__card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
   padding: 24px;
-  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
-  border: 1px solid rgba(15, 23, 42, 0.06);
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.regole-card h3 {
+.vregole__card h3 {
   margin: 0;
-  font-size: 15px;
-  font-weight: 800;
-  color: #0f172a;
+  font-family: var(--ff-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.01em;
 }
 
-.regole-campo {
+/* ── Campo ───────────────────────────────────────────── */
+.vregole__campo {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.regole-campo label {
-  font-size: 12px;
+.vregole__campo label {
+  font-family: var(--ff-body);
+  font-size: 11px;
   font-weight: 700;
-  color: #64748b;
+  color: var(--text-dim);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.07em;
 }
 
-.regole-campo input,
-.regole-campo select {
+.vregole__campo input,
+.vregole__campo select {
   padding: 10px 14px;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
   font-size: 14px;
-  font-family: inherit;
-  background: #f8fafc;
-  color: #0f172a;
+  font-family: var(--ff-body);
+  background: var(--surface-2);
+  color: var(--text);
   outline: none;
-  transition: border-color 160ms;
-}
-.regole-campo input:focus,
-.regole-campo select:focus {
-  border-color: #155e52;
-  background: #fff;
+  transition: border-color 160ms, background 160ms;
 }
 
-.bonus-toggle {
+.vregole__campo input::placeholder {
+  color: var(--text-mute);
+}
+
+.vregole__campo input:focus,
+.vregole__campo select:focus {
+  border-color: var(--accent);
+  background: var(--surface-3);
+}
+
+.vregole__campo select option {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+/* ── Bonus toggle ────────────────────────────────────── */
+.vregole__bonus-toggle {
   display: flex;
   align-items: center;
   gap: 10px;
+  font-family: var(--ff-body);
   font-size: 14px;
   font-weight: 600;
-  color: #0f172a;
+  color: var(--text);
   cursor: pointer;
   user-select: none;
 }
 
-.bonus-toggle input[type="checkbox"] {
+.vregole__bonus-toggle input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  accent-color: #155e52;
+  accent-color: var(--accent);
   cursor: pointer;
 }
 
-.regole-errore {
+/* ── Feedback messages ───────────────────────────────── */
+.vregole__errore {
+  font-family: var(--ff-body);
   font-size: 13px;
-  color: #f43f5e;
+  color: var(--danger);
   margin: 0;
   padding: 10px 14px;
-  background: rgba(244, 63, 94, 0.06);
-  border-radius: 10px;
-  border: 1px solid rgba(244, 63, 94, 0.2);
+  background: color-mix(in srgb, var(--danger) 8%, var(--surface));
+  border-radius: var(--r-sm);
+  border: 1px solid color-mix(in srgb, var(--danger) 25%, var(--surface));
 }
 
-.regole-conferma {
+.vregole__conferma {
+  font-family: var(--ff-body);
   font-size: 13px;
-  color: #16a34a;
+  color: var(--accent);
   margin: 0;
   padding: 10px 14px;
-  background: rgba(22, 163, 74, 0.06);
-  border-radius: 10px;
-  border: 1px solid rgba(22, 163, 74, 0.2);
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+  border-radius: var(--r-sm);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--surface));
 }
 
-.btn-salva-regole {
+/* ── Save button ─────────────────────────────────────── */
+.vregole__btn-salva {
   width: 100%;
-  padding: 14px;
-  background: #155e52;
-  color: #fff;
-  border: none;
-  border-radius: 14px;
-  font-size: 14px;
-  font-weight: 700;
-  font-family: inherit;
-  cursor: pointer;
-  transition: background 160ms;
+  justify-content: center;
 }
-.btn-salva-regole:hover { background: #0f4a3f; }
-.btn-salva-regole:disabled { opacity: 0.6; cursor: not-allowed; }

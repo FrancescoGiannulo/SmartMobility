@@ -1,109 +1,107 @@
-.vista-rec-op-wrap {
-  min-height: 100vh;
-  background: #f5f6fa;
+/*
+ * VistaRecensioniOperatore — Foresta dark theme
+ * Tokens used:
+ *   --bg, --surface, --border, --r-md
+ *   --text, --text-dim, --text-mute
+ *   --warn, --danger
+ *   --ff-display, --ff-mono
+ */
+
+.vrec__body {
+  padding: 28px 32px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 24px 20px 48px;
+  gap: 16px;
+  flex: 1;
 }
 
-.btn-back-rec-op {
-  background: none;
-  border: none;
-  color: #4caf9a;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-  margin-bottom: 20px;
-}
-
-.rec-op-titolo {
+.vrec__titolo {
+  font-family: var(--ff-display);
   font-size: 22px;
   font-weight: 700;
-  color: #1a1a2e;
-  margin: 0 0 16px;
+  color: var(--text);
+  margin: 0;
 }
 
-.rec-op-errore {
-  color: #e53935;
+.vrec__errore {
+  color: var(--danger);
   font-size: 13px;
-  margin: 0 0 12px;
+  margin: 0;
 }
 
-.rec-op-vuoto {
-  color: #888;
+.vrec__vuoto {
+  color: var(--text-mute);
   font-size: 14px;
+  margin: 0;
 }
 
-/* Riepilogo voto medio */
-.rec-op-media {
+/* Average summary card */
+.vrec__media {
   display: flex;
   align-items: baseline;
   gap: 12px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
   padding: 16px 20px;
-  margin-bottom: 16px;
-  width: 100%;
   max-width: 720px;
 }
 
-.rec-op-media-valore {
+.vrec__media-valore {
+  font-family: var(--ff-display);
   font-size: 32px;
-  font-weight: 800;
-  color: #1a1a2e;
+  font-weight: 700;
+  color: var(--text);
 }
 
-.rec-op-media-stelle {
+.vrec__media-stelle {
   font-size: 20px;
-  color: #f5b301;
+  color: var(--warn);
   letter-spacing: 2px;
 }
 
-.rec-op-media-label {
+.vrec__media-label {
   font-size: 13px;
-  color: #666;
+  color: var(--text-dim);
 }
 
-/* Lista recensioni */
-.rec-op-lista {
+/* Review list */
+.vrec__lista {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 100%;
   max-width: 720px;
 }
 
-.rec-op-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+.vrec__card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
   padding: 14px 16px;
 }
 
-.rec-op-card-header {
+.vrec__card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 6px;
 }
 
-.rec-op-stelle {
+.vrec__stelle {
   font-size: 16px;
-  color: #f5b301;
+  color: var(--warn);
   letter-spacing: 2px;
 }
 
-.rec-op-data {
+.vrec__data {
+  font-family: var(--ff-mono);
   font-size: 12px;
-  color: #999;
+  color: var(--text-mute);
 }
 
-.rec-op-commento {
+.vrec__commento {
   margin: 0;
   font-size: 14px;
-  color: #333;
+  color: var(--text-dim);
   line-height: 1.4;
 }

@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {
   getOfferte,
@@ -10,6 +9,7 @@ import {
   type CreaOffertaPayload,
   type TipoMezzo,
 } from '../../services/OffertaService'
+import SidebarRuolo from '../../components/layout/SidebarRuolo'
 import './VistaOfferte.css'
 
 const STATO_LABEL: Record<string, string> = {
@@ -71,7 +71,6 @@ function offertaToForm(o: Offerta): FormState {
 }
 
 export default function VistaOfferte() {
-  const navigate = useNavigate()
   const [offerte, setOfferte] = useState<Offerta[]>([])
   const [mostraModal, setMostraModal] = useState(false)
   const [offertaInModifica, setOffertaInModifica] = useState<Offerta | null>(null)
@@ -165,146 +164,146 @@ export default function VistaOfferte() {
     setForm(prev => ({ ...prev, [field]: e.target.value }))
 
   return (
-    <div className="vista-offerte">
-      <div className="offerte-topbar">
-        <h2>Offerte e Promozioni</h2>
-        <button className="btn-indietro" onClick={() => navigate('/operatore/dashboard')}>
-          ← Torna alla mappa
-        </button>
-      </div>
-
-      <div className="offerte-body">
-        <div className="offerte-header-row">
-          <h3>Offerte commerciali</h3>
-          <button className="btn-nuova-offerta" onClick={apriNuova}>
-            + Nuova offerta
-          </button>
+    <div className="sm-op-shell">
+      <SidebarRuolo ruolo="OP" />
+      <div className="sm-op-main">
+        <div className="vofferte__header">
+          <h2>Offerte e Promozioni</h2>
         </div>
 
-        <div className="offerte-lista">
-          {offerte.length === 0 ? (
-            <div className="offerte-vuote">Nessuna offerta definita. Crea la prima!</div>
-          ) : (
-            offerte.map(o => (
-              <div className="offerta-card" key={o.id}>
-                <div className={`offerta-tipo-badge ${o.tipo}`}>
-                  {TIPO_EMOJI[o.tipo]}
-                </div>
-                <div className="offerta-info">
-                  <div className="offerta-nome">{o.nome}</div>
-                  <div className="offerta-dettaglio">
-                    {o.tipo === 'promozione'
-                      ? `Sconto ${o.sconto_percentuale}% — scade ${o.data_scadenza ? new Date(o.data_scadenza).toLocaleDateString('it-IT') : '—'}`
-                      : `€${o.prezzo} · ${o.durata_giorni} giorni`}
-                    {o.tipo === 'abbonamento' && (
-                      <span className="offerta-tipo-mezzo-badge">
-                        {o.tipo_mezzo ? o.tipo_mezzo.charAt(0).toUpperCase() + o.tipo_mezzo.slice(1) : 'Tutti i mezzi'}
-                      </span>
-                    )}
+        <div className="vofferte__body">
+          <div className="vofferte__header-row">
+            <h3>Offerte commerciali</h3>
+            <button className="sm-btn sm-btn--primary vofferte__btn-nuova" onClick={apriNuova}>
+              + Nuova offerta
+            </button>
+          </div>
+
+          <div className="vofferte__lista">
+            {offerte.length === 0 ? (
+              <div className="vofferte__vuote">Nessuna offerta definita. Crea la prima!</div>
+            ) : (
+              offerte.map(o => (
+                <div className="vofferte__card" key={o.id}>
+                  <div className={`vofferte__tipo-badge vofferte__tipo-badge--${o.tipo}`}>
+                    {TIPO_EMOJI[o.tipo]}
                   </div>
+                  <div className="vofferte__info">
+                    <div className="vofferte__nome">{o.nome}</div>
+                    <div className="vofferte__dettaglio">
+                      {o.tipo === 'promozione'
+                        ? `Sconto ${o.sconto_percentuale}% — scade ${o.data_scadenza ? new Date(o.data_scadenza).toLocaleDateString('it-IT') : '—'}`
+                        : `€${o.prezzo} · ${o.durata_giorni} giorni`}
+                      {o.tipo === 'abbonamento' && (
+                        <span className="vofferte__tipo-mezzo-badge">
+                          {o.tipo_mezzo ? o.tipo_mezzo.charAt(0).toUpperCase() + o.tipo_mezzo.slice(1) : 'Tutti i mezzi'}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <span className={`vofferte__stato vofferte__stato--${o.stato}`}>{STATO_LABEL[o.stato]}</span>
+                  <button className="sm-btn vofferte__btn-modifica" onClick={() => apriModifica(o)} title="Modifica">✏️</button>
+                  <button className="sm-btn vofferte__btn-elimina" onClick={() => handleElimina(o.id)} title="Elimina">🗑</button>
                 </div>
-                <span className={`offerta-stato ${o.stato}`}>{STATO_LABEL[o.stato]}</span>
-                <button className="btn-modifica-offerta" onClick={() => apriModifica(o)} title="Modifica">✏️</button>
-                <button className="btn-elimina-offerta" onClick={() => handleElimina(o.id)} title="Elimina">🗑</button>
-              </div>
-            ))
-          )}
-        </div>
-      </div>
-
-      {mostraModal && (
-        <div className="modal-overlay-offerta" onClick={chiudiModal}>
-          <div className="modal-offerta" onClick={e => e.stopPropagation()}>
-            <h3>{offertaInModifica ? 'Modifica offerta' : 'Nuova offerta'}</h3>
-
-            <label>
-              Nome *
-              <input value={form.nome} onChange={set('nome')} placeholder="es. Estate 2026" />
-            </label>
-
-            {!offertaInModifica && (
-              <label>
-                Tipo *
-                <select value={form.tipo} onChange={set('tipo')}>
-                  <option value="promozione">Promozione</option>
-                  <option value="abbonamento">Abbonamento</option>
-                </select>
-              </label>
+              ))
             )}
-
-            <label>
-              Descrizione
-              <input value={form.descrizione} onChange={set('descrizione')} placeholder="Descrizione opzionale" />
-            </label>
-
-            {form.tipo === 'promozione' && (
-              <>
-                <label>
-                  Sconto (%) *
-                  <input type="number" min="1" max="100" value={form.sconto_percentuale} onChange={set('sconto_percentuale')} placeholder="es. 20" />
-                </label>
-                <label>
-                  Data scadenza *
-                  <input type="datetime-local" value={form.data_scadenza} onChange={set('data_scadenza')} />
-                </label>
-              </>
-            )}
-
-            {form.tipo === 'abbonamento' && (
-              <>
-                <label>
-                  Prezzo (€) *
-                  <input type="number" min="0.01" step="0.01" value={form.prezzo} onChange={set('prezzo')} placeholder="es. 29.99" />
-                </label>
-                <label>
-                  Durata (giorni) *
-                  <input type="number" min="1" value={form.durata_giorni} onChange={set('durata_giorni')} placeholder="es. 30" />
-                </label>
-                <label>
-                  Valido per
-                  <select value={form.tipo_mezzo} onChange={set('tipo_mezzo')}>
-                    <option value="">Tutti i mezzi</option>
-                    <option value="bicicletta">Bicicletta</option>
-                    <option value="monopattino">Monopattino</option>
-                    <option value="automobile">Automobile</option>
-                  </select>
-                </label>
-                <label>
-                  Data inizio
-                  <input type="datetime-local" value={form.data_inizio} onChange={set('data_inizio')} />
-                </label>
-                <label>
-                  Data scadenza
-                  <input type="datetime-local" value={form.data_scadenza} onChange={set('data_scadenza')} />
-                </label>
-              </>
-            )}
-
-            {offertaInModifica && (
-              <label>
-                Stato
-                <select value={form.stato} onChange={set('stato')}>
-                  <option value="attiva">Attiva</option>
-                  <option value="bozza">Bozza</option>
-                  <option value="scaduta">Scaduta</option>
-                </select>
-              </label>
-            )}
-
-            {dateErrate && (
-              <p className="modal-errore-offerta">La data di scadenza deve essere successiva alla data di inizio.</p>
-            )}
-            {errore && <p className="modal-errore-offerta">{errore}</p>}
-
-            <div className="modal-azioni-offerta">
-              <button className="btn-annulla-offerta" onClick={chiudiModal}>Annulla</button>
-              <button className="btn-conferma-offerta" onClick={handleConferma} disabled={caricamento || dateErrate}>
-                {caricamento ? '...' : offertaInModifica ? 'Salva modifiche' : 'Salva offerta'}
-              </button>
-            </div>
           </div>
         </div>
-      )}
+
+        {mostraModal && (
+          <div className="vofferte__overlay" onClick={chiudiModal}>
+            <div className="vofferte__modal" onClick={e => e.stopPropagation()}>
+              <h3>{offertaInModifica ? 'Modifica offerta' : 'Nuova offerta'}</h3>
+
+              <label>
+                Nome *
+                <input value={form.nome} onChange={set('nome')} placeholder="es. Estate 2026" />
+              </label>
+
+              {!offertaInModifica && (
+                <label>
+                  Tipo *
+                  <select value={form.tipo} onChange={set('tipo')}>
+                    <option value="promozione">Promozione</option>
+                    <option value="abbonamento">Abbonamento</option>
+                  </select>
+                </label>
+              )}
+
+              <label>
+                Descrizione
+                <input value={form.descrizione} onChange={set('descrizione')} placeholder="Descrizione opzionale" />
+              </label>
+
+              {form.tipo === 'promozione' && (
+                <>
+                  <label>
+                    Sconto (%) *
+                    <input type="number" min="1" max="100" value={form.sconto_percentuale} onChange={set('sconto_percentuale')} placeholder="es. 20" />
+                  </label>
+                  <label>
+                    Data scadenza *
+                    <input type="datetime-local" value={form.data_scadenza} onChange={set('data_scadenza')} />
+                  </label>
+                </>
+              )}
+
+              {form.tipo === 'abbonamento' && (
+                <>
+                  <label>
+                    Prezzo (€) *
+                    <input type="number" min="0.01" step="0.01" value={form.prezzo} onChange={set('prezzo')} placeholder="es. 29.99" />
+                  </label>
+                  <label>
+                    Durata (giorni) *
+                    <input type="number" min="1" value={form.durata_giorni} onChange={set('durata_giorni')} placeholder="es. 30" />
+                  </label>
+                  <label>
+                    Valido per
+                    <select value={form.tipo_mezzo} onChange={set('tipo_mezzo')}>
+                      <option value="">Tutti i mezzi</option>
+                      <option value="bicicletta">Bicicletta</option>
+                      <option value="monopattino">Monopattino</option>
+                      <option value="automobile">Automobile</option>
+                    </select>
+                  </label>
+                  <label>
+                    Data inizio
+                    <input type="datetime-local" value={form.data_inizio} onChange={set('data_inizio')} />
+                  </label>
+                  <label>
+                    Data scadenza
+                    <input type="datetime-local" value={form.data_scadenza} onChange={set('data_scadenza')} />
+                  </label>
+                </>
+              )}
+
+              {offertaInModifica && (
+                <label>
+                  Stato
+                  <select value={form.stato} onChange={set('stato')}>
+                    <option value="attiva">Attiva</option>
+                    <option value="bozza">Bozza</option>
+                    <option value="scaduta">Scaduta</option>
+                  </select>
+                </label>
+              )}
+
+              {dateErrate && (
+                <p className="vofferte__errore">La data di scadenza deve essere successiva alla data di inizio.</p>
+              )}
+              {errore && <p className="vofferte__errore">{errore}</p>}
+
+              <div className="vofferte__modal-azioni">
+                <button className="sm-btn sm-btn--ghost vofferte__btn-annulla" onClick={chiudiModal}>Annulla</button>
+                <button className="sm-btn sm-btn--primary vofferte__btn-conferma" onClick={handleConferma} disabled={caricamento || dateErrate}>
+                  {caricamento ? '...' : offertaInModifica ? 'Salva modifiche' : 'Salva offerta'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

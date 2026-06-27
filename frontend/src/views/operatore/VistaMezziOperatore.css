@@ -1,72 +1,83 @@
-.vmezzi {
-  min-height: 100vh;
-  background: #f8fafc;
-  font-family: 'Inter', sans-serif;
-}
+/* VistaMezziOperatore — redesign Foresta
+   Token inventory (replaces hardcoded hex):
+   #f8fafc → var(--bg)
+   #fff    → var(--surface)
+   #e2e8f0 → var(--border)
+   #f1f5f9 → var(--surface-2)
+   #64748b → var(--text-dim)
+   #1e293b / #334155 → var(--text)
+   #475569 → var(--text-dim)
+   #4caf9a / #38a385 → var(--accent) / var(--accent-2)
+   #22c55e → var(--accent)   (toast ok)
+   #ef4444 → var(--danger)
+   #94a3b8 → var(--text-mute)
+   rgba(0,0,0,.45) → var(--glass)
+   rgba(0,0,0,.15) → color-mix(in srgb, var(--bg) 85%, black)
+*/
 
+/* ── Header ── */
 .vmezzi__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 20px 32px;
-  background: #fff;
-  border-bottom: 1px solid #e2e8f0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
   gap: 16px;
-}
-
-.vmezzi__header-left {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.vmezzi__back {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
-  padding: 4px 8px;
-  border-radius: 8px;
-  color: #64748b;
-  transition: background 0.15s;
-}
-
-.vmezzi__back:hover {
-  background: #f1f5f9;
+  flex-shrink: 0;
 }
 
 .vmezzi__titolo {
+  font-family: var(--ff-display);
   font-size: 22px;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--text);
   margin: 0;
 }
 
 .vmezzi__btn-aggiungi {
-  background: #4caf9a;
-  color: #fff;
-  border: none;
-  border-radius: 24px;
-  padding: 10px 24px;
   font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.15s;
+  padding: 10px 22px;
 }
 
-.vmezzi__btn-aggiungi:hover {
-  background: #38a385;
-}
-
+/* ── Body ── */
 .vmezzi__body {
-  padding: 32px;
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
+/* ── Filtri chip ── */
+.vmezzi__filtri {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.vmezzi__filtro-chip {
+  cursor: pointer;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  transition: background .15s, color .15s, border-color .15s;
+}
+
+.vmezzi__filtro-chip:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.vmezzi__filtro-chip--attivo {
+  background: color-mix(in srgb, var(--accent) 15%, var(--surface));
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ── Tabella ── */
 .vmezzi__tabella-wrapper {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(0,0,0,.07);
   overflow-x: auto;
+  padding: 0;
 }
 
 .vmezzi__tabella {
@@ -76,18 +87,22 @@
 }
 
 .vmezzi__tabella th {
-  background: #f8fafc;
-  color: #64748b;
+  background: var(--surface-2);
+  color: var(--text-dim);
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
   font-weight: 600;
   text-align: left;
   padding: 12px 16px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--border);
 }
 
 .vmezzi__tabella td {
   padding: 14px 16px;
-  border-bottom: 1px solid #f1f5f9;
-  color: #334155;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
   vertical-align: middle;
 }
 
@@ -95,60 +110,123 @@
   border-bottom: none;
 }
 
-.vmezzi__tabella tr:hover td {
-  background: #f8fafc;
+.vmezzi__tabella tbody tr:hover td {
+  background: color-mix(in srgb, var(--accent) 5%, var(--surface));
 }
 
-.vmezzi__pill {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 12px;
-  font-size: 12px;
+/* ── Codice mono ── */
+.vmezzi__codice {
+  font-size: 13px;
   font-weight: 600;
+  color: var(--text);
 }
 
-.vmezzi__pill--disponibile { background: #dcfce7; color: #166534; }
-.vmezzi__pill--prenotato   { background: #fef9c3; color: #854d0e; }
-.vmezzi__pill--in-uso      { background: #dbeafe; color: #1e40af; }
-.vmezzi__pill--in-pausa    { background: #e0e7ff; color: #3730a3; }
-.vmezzi__pill--manutenzione{ background: #ffedd5; color: #c2410c; }
-.vmezzi__pill--fuori       { background: #fee2e2; color: #991b1b; }
+/* ── Batteria ── */
+.vmezzi__batt {
+  font-size: 13px;
+  color: var(--text);
+}
 
-.vmezzi__pill--select {
+.vmezzi__batt--bassa {
+  color: var(--warn);
+}
+
+.vmezzi__batt--critica {
+  color: var(--danger);
+}
+
+.vmezzi__coords {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.vmezzi__dash {
+  color: var(--text-mute);
+}
+
+/* ── State chips ── */
+.vmezzi__state {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+}
+
+.vmezzi__state--disponibile {
+  background: color-mix(in srgb, var(--accent) 18%, var(--surface));
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--surface));
+}
+
+.vmezzi__state--prenotato {
+  background: color-mix(in srgb, var(--warn) 18%, var(--surface));
+  color: var(--warn);
+  border-color: color-mix(in srgb, var(--warn) 35%, var(--surface));
+}
+
+.vmezzi__state--in-uso {
+  background: color-mix(in srgb, var(--info) 18%, var(--surface));
+  color: var(--info);
+  border-color: color-mix(in srgb, var(--info) 35%, var(--surface));
+}
+
+.vmezzi__state--in-pausa {
+  background: color-mix(in srgb, var(--accent-2) 18%, var(--surface));
+  color: var(--accent-2);
+  border-color: color-mix(in srgb, var(--accent-2) 35%, var(--surface));
+}
+
+.vmezzi__state--manutenzione {
+  background: color-mix(in srgb, var(--warn) 18%, var(--surface));
+  color: var(--warn);
+  border-color: color-mix(in srgb, var(--warn) 35%, var(--surface));
+}
+
+.vmezzi__state--fuori {
+  background: color-mix(in srgb, var(--danger) 18%, var(--surface));
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 35%, var(--surface));
+}
+
+/* State as select (editable) */
+.vmezzi__state--select {
   border: none;
   cursor: pointer;
   appearance: none;
-}
-.vmezzi__pill--select:disabled { cursor: wait; opacity: 0.6; }
-
-.vmezzi__btn-dismetti {
-  background: none;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 6px 14px;
-  font-size: 13px;
+  font-family: var(--ff-mono);
   font-weight: 600;
-  color: #ef4444;
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
 }
 
-.vmezzi__btn-dismetti:hover {
-  background: #fee2e2;
-  border-color: #ef4444;
+.vmezzi__state--select:disabled {
+  cursor: wait;
+  opacity: 0.6;
 }
 
+/* ── Row action button ── */
+.vmezzi__btn-dismetti {
+  font-size: 13px;
+  padding: 6px 14px;
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 35%, var(--surface));
+}
+
+.vmezzi__btn-dismetti:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--danger) 12%, var(--surface));
+  border-color: var(--danger);
+}
+
+/* ── Empty ── */
 .vmezzi__empty {
   text-align: center;
-  color: #94a3b8;
+  color: var(--text-mute);
   padding: 48px 0;
+  font-size: 14px;
 }
 
-/* ── Modal ── */
+/* ── Modal / Overlay ── */
 .vmezzi__overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.45);
+  background: var(--glass);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -156,19 +234,27 @@
 }
 
 .vmezzi__modal {
-  background: #fff;
-  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-lg);
   padding: 32px;
   width: 440px;
   max-width: 95vw;
-  box-shadow: 0 8px 32px rgba(0,0,0,.15);
+  box-shadow: var(--shadow);
 }
 
 .vmezzi__modal h2 {
   margin: 0 0 24px;
+  font-family: var(--ff-display);
   font-size: 20px;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--text);
+}
+
+.vmezzi__modal-desc {
+  color: var(--text-dim);
+  margin-bottom: 24px;
+  line-height: 1.6;
 }
 
 .vmezzi__campo {
@@ -181,26 +267,29 @@
 .vmezzi__campo label {
   font-size: 13px;
   font-weight: 600;
-  color: #475569;
+  color: var(--text-dim);
 }
 
 .vmezzi__campo input,
 .vmezzi__campo select {
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
   padding: 10px 12px;
   font-size: 14px;
+  color: var(--text);
   outline: none;
-  transition: border-color 0.15s;
+  transition: border-color .15s;
+  font-family: var(--ff-body);
 }
 
 .vmezzi__campo input:focus,
 .vmezzi__campo select:focus {
-  border-color: #4caf9a;
+  border-color: var(--accent);
 }
 
 .vmezzi__errore {
-  color: #ef4444;
+  color: var(--danger);
   font-size: 13px;
   margin: 0 0 12px;
 }
@@ -212,35 +301,10 @@
   margin-top: 8px;
 }
 
-.vmezzi__btn-annulla {
-  background: none;
-  border: 1px solid #e2e8f0;
-  border-radius: 24px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #64748b;
-  cursor: pointer;
-}
-
-.vmezzi__btn-conferma {
-  background: #4caf9a;
-  border: none;
-  border-radius: 24px;
-  padding: 10px 24px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #fff;
-  cursor: pointer;
-}
-
-.vmezzi__btn-conferma:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.vmezzi__btn-conferma--danger {
-  background: #ef4444;
+/* Danger variant for confirm button */
+.vmezzi__btn--danger {
+  background: var(--danger) !important;
+  box-shadow: none !important;
 }
 
 /* ── Toast ── */
@@ -249,27 +313,38 @@
   bottom: 32px;
   right: 32px;
   padding: 14px 22px;
-  border-radius: 10px;
+  border-radius: var(--r-md);
   font-size: 14px;
   font-weight: 600;
-  color: #fff;
+  color: var(--accent-ink);
   z-index: 200;
-  box-shadow: 0 4px 16px rgba(0,0,0,.15);
+  box-shadow: var(--shadow);
 }
 
-.vmezzi__toast--ok  { background: #22c55e; }
-.vmezzi__toast--err { background: #ef4444; }
+.vmezzi__toast--ok  { background: var(--accent); }
+.vmezzi__toast--err { background: var(--danger); }
 
 /* ── Skeleton ── */
 .vmezzi__skeleton td {
-  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background: linear-gradient(
+    90deg,
+    var(--surface-2) 25%,
+    var(--border) 50%,
+    var(--surface-2) 75%
+  );
   background-size: 400% 100%;
-  animation: shimmer 1.2s infinite;
+  animation: vmezzi-shimmer 1.2s infinite;
   height: 18px;
-  border-radius: 4px;
+  border-radius: var(--r-sm);
 }
 
-@keyframes shimmer {
+@keyframes vmezzi-shimmer {
   0%   { background-position: 100% 50%; }
   100% { background-position: 0%   50%; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .vmezzi__header { padding: 16px 16px; }
+  .vmezzi__body   { padding: 16px; }
 }

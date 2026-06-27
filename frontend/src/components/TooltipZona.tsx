@@ -29,11 +29,11 @@ export default function TooltipZona({ zona, onElimina }: TooltipZonaProps) {
   return (
     <div
       style={{
-        fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
+        fontFamily: 'var(--ff-body)',
         padding: '14px 16px',
         minWidth: 220,
         maxWidth: 280,
-        color: '#0f172a',
+        color: 'var(--text)',
       }}
     >
       {/* Header: icon + name + type badge */}
@@ -44,7 +44,7 @@ export default function TooltipZona({ zona, onElimina }: TooltipZonaProps) {
             height: 38,
             borderRadius: 11,
             background: `linear-gradient(135deg, ${accent}, ${accent}cc)`,
-            color: '#fff',
+            color: 'var(--accent-ink)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -74,7 +74,7 @@ export default function TooltipZona({ zona, onElimina }: TooltipZonaProps) {
               fontSize: 15,
               fontWeight: 800,
               letterSpacing: '-0.01em',
-              color: '#0f172a',
+              color: 'var(--text)',
               lineHeight: 1.25,
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -91,8 +91,8 @@ export default function TooltipZona({ zona, onElimina }: TooltipZonaProps) {
           style={{
             marginTop: 12,
             padding: '8px 10px',
-            background: '#f8fafc',
-            border: '1px solid #e2e8f0',
+            background: 'var(--surface-2)',
+            border: '1px solid var(--border)',
             borderRadius: 10,
             display: 'flex',
             alignItems: 'center',
@@ -104,7 +104,7 @@ export default function TooltipZona({ zona, onElimina }: TooltipZonaProps) {
             style={{
               fontSize: 12,
               fontWeight: 700,
-              color: '#64748b',
+              color: 'var(--text-mute)',
               letterSpacing: '0.05em',
               textTransform: 'uppercase',
             }}
@@ -113,13 +113,13 @@ export default function TooltipZona({ zona, onElimina }: TooltipZonaProps) {
           </span>
           <span
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: 'var(--ff-mono)',
               fontSize: 14,
               fontWeight: 700,
-              color: '#0f172a',
+              color: 'var(--text)',
             }}
           >
-            {zona.limite_velocita} <span style={{ color: '#94a3b8', fontSize: 12 }}>km/h</span>
+            {zona.limite_velocita} <span style={{ color: 'var(--text-mute)', fontSize: 12 }}>km/h</span>
           </span>
         </div>
       )}
@@ -136,9 +136,9 @@ export default function TooltipZona({ zona, onElimina }: TooltipZonaProps) {
             marginTop: 12,
             width: '100%',
             padding: '9px 12px',
-            background: 'rgba(244, 63, 94, 0.08)',
-            color: '#f43f5e',
-            border: '1px solid rgba(244, 63, 94, 0.3)',
+            background: 'color-mix(in srgb, var(--danger) 8%, var(--surface))',
+            color: 'var(--danger)',
+            border: '1px solid color-mix(in srgb, var(--danger) 30%, var(--surface))',
             borderRadius: 10,
             fontSize: 12.5,
             fontWeight: 700,
@@ -148,14 +148,14 @@ export default function TooltipZona({ zona, onElimina }: TooltipZonaProps) {
             transition: 'background 160ms ease, color 160ms ease, border-color 160ms ease',
           }}
           onMouseEnter={e => {
-            e.currentTarget.style.background = '#f43f5e'
-            e.currentTarget.style.color = '#fff'
+            e.currentTarget.style.background = 'var(--danger)'
+            e.currentTarget.style.color = 'var(--accent-ink)'
             e.currentTarget.style.borderColor = 'transparent'
           }}
           onMouseLeave={e => {
-            e.currentTarget.style.background = 'rgba(244, 63, 94, 0.08)'
-            e.currentTarget.style.color = '#f43f5e'
-            e.currentTarget.style.borderColor = 'rgba(244, 63, 94, 0.3)'
+            e.currentTarget.style.background = 'color-mix(in srgb, var(--danger) 8%, var(--surface))'
+            e.currentTarget.style.color = 'var(--danger)'
+            e.currentTarget.style.borderColor = 'color-mix(in srgb, var(--danger) 30%, var(--surface))'
           }}
         >
           Elimina zona

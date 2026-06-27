@@ -24,14 +24,16 @@ import { COLORI_ZONA } from '../../utils/coloriZona'
 import { TourTrigger } from '../../tour/TourTrigger'
 import { useTour } from '../../tour/useTour'
 import { tourHomepageUtente } from '../../tour/tours/tourHomepageUtente'
+import BottomNavUtente from '../../components/layout/BottomNavUtente'
+import { FORESTA_MAP_STYLE } from '../../styles/maps'
 import './VistaHomePageUtente.css'
 
 const CENTRO_DEFAULT = { lat: 41.1087, lng: 16.8781 }
 
 const COLORI_MEZZO: Record<string, { c1: string; c2: string }> = {
-  monopattino: { c1: '#155e52', c2: '#2a7a6a' },
-  bicicletta:  { c1: '#3b82f6', c2: '#1d4ed8' },
-  automobile:  { c1: '#ec4899', c2: '#be185d' },
+  monopattino: { c1: '#22d3ee', c2: '#0e7490' },
+  bicicletta:  { c1: '#f97316', c2: '#c2410c' },
+  automobile:  { c1: '#a855f7', c2: '#7c3aed' },
 }
 
 const GLYPH_MEZZO: Record<string, string> = {
@@ -59,13 +61,13 @@ function PinMezzo({ tipo, selected, dim }: { tipo: string; selected?: boolean; d
 function Batteria({ valore }: { valore: number | null }) {
   if (valore == null) return <span className="batteria-nd">—</span>
   const barre = Math.min(4, Math.ceil(valore / 25))
-  const colore = valore > 50 ? '#155e52' : valore > 20 ? '#f59e0b' : '#ef4444'
+  const colore = valore > 50 ? 'var(--accent)' : valore > 20 ? 'var(--warn)' : 'var(--danger)'
   return (
     <span className="batteria-barre">
       {[1, 2, 3, 4].map(i => (
         <span key={i} className="batteria-barra" style={{
           height: 6 + i * 4,
-          background: i <= barre ? colore : '#e0e0e0',
+          background: i <= barre ? colore : 'var(--surface-3)',
         }} />
       ))}
     </span>
@@ -237,8 +239,9 @@ export default function VistaHomePageUtente() {
   const [bannerAperto, setBannerAperto] = useState(false)
 
   useEffect(() => {
+    // Il banner parte sempre collassato (bolla 💡): è l'utente a espanderlo.
     getSuggerimenti()
-      .then(r => { setSuggerimenti(r.data ?? []); if ((r.data ?? []).length > 0) setBannerAperto(true) })
+      .then(r => { setSuggerimenti(r.data ?? []) })
       .catch(() => {})
   }, [])
 
@@ -426,7 +429,9 @@ export default function VistaHomePageUtente() {
     <div className="vista-mappa">
       {/* ── Topbar ── */}
       <div className="mappa-topbar">
-        <img src="/logo.png" alt="Smart Mobility" className="topbar-logo" />
+        <div className="topbar-logo-wrapper">
+          <img src="/logo.png" alt="Smart Mobility" className="topbar-logo" />
+        </div>
         {selezione.length > 0 && (
           <span className="selezione-badge">{selezione.length}/{nMax}</span>
         )}
@@ -448,6 +453,7 @@ export default function VistaHomePageUtente() {
         defaultCenter={centro}
         defaultZoom={14}
         mapId="mappa-utente"
+        styles={FORESTA_MAP_STYLE}
         gestureHandling="greedy"
         disableDefaultUI={false}
         style={{ paddingTop: 88 }}
@@ -803,22 +809,6 @@ export default function VistaHomePageUtente() {
 
               <button
                 className="sidebar-voce"
-                onClick={() => { setSidebarAperta(false); navigate('/utente/abbonamenti') }}
-              >
-                <span className="sidebar-voce__testo">Abbonamenti</span>
-                <span className="sidebar-voce__icona">📅</span>
-              </button>
-
-              <button
-                className="sidebar-voce"
-                onClick={() => { setSidebarAperta(false); navigate('/utente/storico') }}
-              >
-                <span className="sidebar-voce__testo">Cronologia</span>
-                <span className="sidebar-voce__icona">📋</span>
-              </button>
-
-              <button
-                className="sidebar-voce"
                 onClick={() => { setSidebarAperta(false); navigate('/utente/segnalazione') }}
               >
                 <span className="sidebar-voce__testo">Invia segnalazione</span>
@@ -920,7 +910,7 @@ export default function VistaHomePageUtente() {
             <div className="sidebar-divider" />
             <div className="sidebar-pricing-body">
               {loadingDrawer && <p className="sidebar-empty">Caricamento...</p>}
-              {erroreDrawer && <p className="sidebar-empty" style={{ color: '#e53935' }}>{erroreDrawer}</p>}
+              {erroreDrawer && <p className="sidebar-empty" style={{ color: 'var(--danger)' }}>{erroreDrawer}</p>}
               {!loadingDrawer && !erroreDrawer && sidebarSezione === 'tariffe' && (
                 tariffe && tariffe.length > 0 ? (
                   <ul className="pricing-lista">
@@ -965,9 +955,14 @@ export default function VistaHomePageUtente() {
 
 
 
-      {!sidebarAperta && <TourTrigger tourId="homepage-ut" />}
+      {!sidebarAperta && !panelAperto && <TourTrigger tourId="homepage-ut" />}
 
       {errore && <div className="mappa-errore">{errore}</div>}
+
+      {/* La bottom-nav si nasconde quando il pannello azioni mezzo è aperto:
+          il pannello è la superficie d'azione (prenota/sblocca) e i suoi
+          bottoni devono restare raggiungibili sopra la barra flottante. */}
+      {!panelAperto && <BottomNavUtente />}
     </div>
   )
 }

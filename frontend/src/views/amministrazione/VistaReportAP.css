@@ -1,13 +1,22 @@
-/* ── Shell ───────────────────────────────────────────────── */
+/*
+ * VistaReportAP — Foresta dark theme
+ * Tokens: --bg, --surface, --surface-2,
+ *         --text, --text-dim, --text-mute,
+ *         --accent, --info, --warn,
+ *         --border, --r-md, --r-sm,
+ *         --ff-display, --ff-body
+ */
+
+/* Shell */
 .vista-report-ap {
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #f8fafc;
+  background: var(--bg);
 }
 
-/* ── Body ────────────────────────────────────────────────── */
+/* Body */
 .report-body {
   flex: 1;
   display: flex;
@@ -17,7 +26,7 @@
   overflow-y: auto;
 }
 
-/* ── KPI row ─────────────────────────────────────────────── */
+/* KPI row */
 .report-kpi-row {
   display: flex;
   gap: 10px;
@@ -26,30 +35,37 @@
 
 .report-kpi-card {
   flex: 1;
-  background: #ffffff;
-  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
   padding: 12px 16px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
 .report-kpi-valore {
+  font-family: var(--ff-display);
   font-size: 24px;
   font-weight: 900;
   line-height: 1;
   display: block;
 }
 
+/* KPI value color modifiers */
+.report-kpi-valore--1 { color: var(--accent); }
+.report-kpi-valore--2 { color: var(--info); }
+.report-kpi-valore--3 { color: var(--warn); }
+.report-kpi-valore--4 { color: var(--text-dim); }
+
 .report-kpi-label {
   font-size: 9px;
   font-weight: 600;
-  color: #94a3b8;
+  color: var(--text-mute);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-top: 4px;
   display: block;
 }
 
-/* ── Charts row ──────────────────────────────────────────── */
+/* Charts row */
 .report-charts-row {
   display: flex;
   gap: 12px;
@@ -57,44 +73,39 @@
 }
 
 .report-chart-card {
-  background: #ffffff;
-  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
   padding: 16px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.report-chart-card.grande {
-  flex: 2;
-}
-
-.report-chart-card.piccola {
-  flex: 1;
-}
+.report-chart-card.grande { flex: 2; }
+.report-chart-card.piccola { flex: 1; }
 
 .report-chart-titolo {
+  font-family: var(--ff-body);
   font-size: 11px;
   font-weight: 700;
-  color: #64748b;
+  color: var(--text-mute);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   flex-shrink: 0;
 }
 
-/* ── Print ───────────────────────────────────────────────── */
+/* Print */
 @media print {
   .ap-sidebar,
   .ap-topbar {
     display: none !important;
   }
   .vista-report-ap {
-    background: #fff;
+    background: var(--bg);
   }
   .report-chart-card,
   .report-kpi-card {
-    box-shadow: none;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border);
   }
 }

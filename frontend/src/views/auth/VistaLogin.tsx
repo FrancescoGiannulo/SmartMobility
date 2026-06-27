@@ -101,8 +101,14 @@ export default function VistaLogin() {
     <div className="vista-login">
       <div className="login-card">
         <div className="login-logo">
-          <img src="/logo.png" alt="Smart Mobility" style={{ width: 180, height: 'auto' }} />
+          <div className="logo-wrapper">
+            <img src="/logo.png" alt="Smart Mobility" style={{ width: 180, height: 'auto' }} />
+          </div>
         </div>
+
+        <h1 className="login-heading">
+          {modalita === 'login' ? 'Bentornato.' : 'Registrati.'}
+        </h1>
 
         <form onSubmit={handleSubmit}>
           {modalita === 'registrazione' && (
@@ -156,13 +162,13 @@ export default function VistaLogin() {
               aria-label={mostraPassword ? 'Nascondi password' : 'Mostra password'}
             >
               {mostraPassword ? (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#155e52" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
                   <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
                   <line x1="1" y1="1" x2="23" y2="23"/>
                 </svg>
               ) : (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#155e52" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                   <circle cx="12" cy="12" r="3"/>
                 </svg>
@@ -184,7 +190,7 @@ export default function VistaLogin() {
                 alignItems: 'flex-start',
                 gap: 10,
                 fontSize: 13,
-                color: '#555',
+                color: 'var(--text-dim)',
                 cursor: 'pointer',
                 marginTop: 4,
               }}
@@ -194,7 +200,7 @@ export default function VistaLogin() {
                 id="consenso-privacy"
                 checked={consensoPrivacy}
                 onChange={e => setConsensoPrivacy(e.target.checked)}
-                style={{ marginTop: 2, flexShrink: 0, accentColor: '#155e52' }}
+                style={{ marginTop: 2, flexShrink: 0, accentColor: 'var(--accent)' }}
               />
               <span>
                 Acconsento al trattamento dei miei dati personali ai sensi del{' '}
@@ -202,7 +208,7 @@ export default function VistaLogin() {
                   href="/privacy-policy"
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: '#155e52', fontWeight: 600 }}
+                  style={{ color: 'var(--accent)', fontWeight: 600 }}
                 >
                   Regolamento UE 2016/679 (GDPR)
                 </a>.

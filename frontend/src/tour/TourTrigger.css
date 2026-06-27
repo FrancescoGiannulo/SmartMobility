@@ -1,18 +1,19 @@
 .tour-trigger {
   position: fixed;
-  bottom: 24px;
+  /* Sopra la bottom-nav flottante (bottom 12px + altezza 60px) */
+  bottom: 84px;
   left: 24px;
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: var(--sm-primary, #155e52);
-  color: #fff;
+  background: var(--accent);
+  color: var(--accent-ink);
   border: none;
   font-size: 22px;
   font-weight: 700;
   cursor: pointer;
   z-index: 9999;
-  box-shadow: 0 4px 16px rgba(21, 94, 82, 0.4);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--accent) 40%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,7 +22,7 @@
 
 .tour-trigger:hover {
   transform: scale(1.08);
-  box-shadow: 0 6px 24px rgba(21, 94, 82, 0.5);
+  box-shadow: 0 6px 24px color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
 .tour-trigger:active {
@@ -29,7 +30,7 @@
 }
 
 .tour-trigger:focus-visible {
-  outline: 2px solid var(--sm-accent, #06d6a0);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 

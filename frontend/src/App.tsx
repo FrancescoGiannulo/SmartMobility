@@ -46,19 +46,11 @@ function PlaceholderView({ titolo }: { titolo: string }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1>{titolo}</h1>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          {utente && <span style={{ fontSize: 14, color: '#555' }}>{utente.profilo.email}</span>}
+          {utente && <span style={{ fontSize: 14, color: 'var(--text-dim)' }}>{utente.profilo.email}</span>}
           <button
             type="button"
             onClick={handleLogout}
-            style={{
-              padding: '8px 20px',
-              background: 'transparent',
-              color: '#155e52',
-              border: '2px solid #155e52',
-              borderRadius: 24,
-              fontWeight: 700,
-              cursor: 'pointer',
-            }}
+            className="sm-btn sm-btn--ghost"
           >
             LOGOUT
           </button>

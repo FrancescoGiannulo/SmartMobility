@@ -1,57 +1,59 @@
-.vista-storico-mod-wrap {
-  min-height: 100vh;
-  background: #f5f6fa;
+/*
+ * VistaStoricoModifiche — Foresta dark theme
+ * Tokens: --bg, --surface, --surface-2, --surface-3,
+ *         --text, --text-dim, --text-mute,
+ *         --accent, --border, --border-2,
+ *         --warn, --danger,
+ *         --r-lg, --r-md, --r-sm, --r-pill,
+ *         --ff-display, --ff-body, --ff-mono
+ */
+
+.vstorico__body {
+  padding: 28px 32px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 24px 20px 48px;
+  gap: 16px;
+  flex: 1;
 }
 
-.btn-back-storico-mod {
-  background: none;
-  border: none;
-  color: #4caf9a;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-  margin-bottom: 20px;
-}
-
-.storico-mod-titolo {
+.vstorico__titolo {
   font-size: 22px;
   font-weight: 700;
-  color: #1a1a2e;
-  margin: 0 0 16px;
+  color: var(--text);
+  font-family: var(--ff-display);
+  margin: 0;
 }
 
-.storico-mod-errore {
-  color: #e53935;
+.vstorico__errore {
+  color: var(--danger);
   font-size: 13px;
-  margin: 0 0 12px;
+  margin: 0;
 }
 
-.storico-mod-vuoto {
-  color: #888;
+.vstorico__vuoto {
+  color: var(--text-mute);
   font-size: 14px;
+  margin: 0;
 }
 
-.storico-mod-sezioni {
+/* Sections container */
+.vstorico__sezioni {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 100%;
   max-width: 720px;
 }
 
-.storico-mod-sezione {
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
+/* Section wrapper */
+.vstorico__sezione {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
   overflow: hidden;
 }
 
-.storico-mod-sezione-header {
+/* Section header button */
+.vstorico__sezione-header {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -62,48 +64,59 @@
   padding: 14px 16px;
   font-size: 15px;
   font-weight: 600;
-  color: #1a1a2e;
+  color: var(--text);
+  font-family: var(--ff-body);
 }
 
-.storico-mod-sezione-titolo {
+.vstorico__sezione-header:hover {
+  background: color-mix(in srgb, var(--accent) 5%, var(--surface));
+}
+
+/* Section title span */
+.vstorico__sezione-titolo {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.storico-mod-sezione-badge {
-  background: #eef2f1;
-  color: #4caf9a;
+/* Badge */
+.vstorico__sezione-badge {
+  background: color-mix(in srgb, var(--accent) 15%, var(--surface));
+  color: var(--accent);
   font-size: 12px;
   font-weight: 700;
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   padding: 2px 8px;
 }
 
-.storico-mod-chevron {
-  color: #888;
-  transition: transform 0.15s ease;
+/* Chevron */
+.vstorico__chevron {
+  color: var(--text-mute);
+  transition: transform 0.15s;
 }
 
-.storico-mod-chevron.aperta {
+.vstorico__chevron--aperta {
   transform: rotate(180deg);
 }
 
-.storico-mod-lista {
+/* Card list */
+.vstorico__lista {
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 0 16px 16px;
 }
 
-.storico-mod-card {
-  background: #fafbfc;
-  border: 1px solid #ececec;
-  border-radius: 8px;
+/* Card */
+.vstorico__card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
   padding: 12px 14px;
 }
 
-.storico-mod-card-header {
+/* Card header */
+.vstorico__card-header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -111,53 +124,55 @@
   margin-bottom: 6px;
 }
 
-.storico-mod-data {
+.vstorico__data {
   font-size: 12px;
-  color: #888;
+  color: var(--text-mute);
+  font-family: var(--ff-mono);
 }
 
-.storico-mod-operatore {
+.vstorico__operatore {
   font-size: 12px;
-  color: #666;
+  color: var(--text-dim);
   font-weight: 500;
 }
 
-.storico-mod-descrizione {
+.vstorico__descrizione {
   font-size: 13px;
   font-weight: 600;
-  color: #333;
+  color: var(--text);
   margin: 0 0 8px;
 }
 
-.storico-mod-valori {
+/* Diff values */
+.vstorico__valori {
   display: flex;
   flex-direction: column;
   gap: 4px;
   font-size: 13px;
-  color: #444;
+  color: var(--text-dim);
 }
 
-.storico-mod-riga-diff {
+.vstorico__riga-diff {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 6px;
 }
 
-.storico-mod-riga-etichetta {
-  color: #666;
+.vstorico__riga-etichetta {
+  color: var(--text-dim);
   font-weight: 500;
 }
 
-.storico-mod-valore-precedente {
-  color: #c62828;
+.vstorico__valore-precedente {
+  color: var(--danger);
 }
 
-.storico-mod-valore-nuovo {
-  color: #2e7d32;
+.vstorico__freccia {
+  color: var(--text-mute);
+}
+
+.vstorico__valore-nuovo {
+  color: var(--accent);
   font-weight: 600;
-}
-
-.storico-mod-freccia {
-  color: #999;
 }
