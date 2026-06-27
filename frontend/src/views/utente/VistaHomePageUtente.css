@@ -37,21 +37,20 @@
 }
 
 .topbar-logo {
-  height: 50px;
+  height: 56px;
   width: auto;
   flex: 1;
   object-fit: contain;
   object-position: left center;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.18));
 }
 
+/* Nessuno sfondo verde: il logo poggia direttamente sul vetro della topbar */
 .topbar-logo-wrapper {
-  background: linear-gradient(135deg, #1a4a3a, #2d6b52);
-  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-  border-radius: var(--r-md);
-  padding: 6px 12px;
   display: inline-flex;
   align-items: center;
   flex: 1;
+  min-width: 0;
 }
 
 .topbar-logo-wrapper .topbar-logo {
