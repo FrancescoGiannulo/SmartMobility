@@ -1,3 +1,5 @@
+import csv
+import io
 from datetime import datetime, timedelta, timezone
 from sqlalchemy.orm import Session
 from dal.corsa_repository import CorsaRepository
@@ -89,10 +91,38 @@ class ServizioReport:
             "dati_torta": dati_torta,
         }
 
+    @staticmethod
+    def _num(valore: float | int) -> str:
+        """Separatore decimale italiano (virgola) per compatibilità Excel IT."""
+        return str(valore).replace(".", ",")
+
     def _serializza_csv(self, report: dict) -> str:
-        intestazione = "Giorno,Monopattino,Bicicletta,Automobile"
-        righe = [
-            f"{d['giorno']},{d['monopattino']},{d['bicicletta']},{d['automobile']}"
-            for d in report["dati_settimanali"]
-        ]
-        return "\n".join([intestazione, *righe])
+        """Serializza il report in CSV completo (KPI + quote + tabella settimanale).
+
+        Usa il separatore `;` e il BOM UTF-8 così che Excel in locale italiano
+        riconosca codifica e colonne senza importazione manuale.
+        """
+        buffer = io.StringIO()
+        writer = csv.writer(buffer, delimiter=";", lineterminator="\r\n")
+
+        # KPI di sintesi
+        writer.writerow(["Metrica", "Valore"])
+        writer.writerow(["Corse totali", report["corse_totali"]])
+        writer.writerow(["Durata media (h)", self._num(report["durata_media_h"])])
+        writer.writerow(["Distanza totale (km)", self._num(report["distanza_totale_km"])])
+        writer.writerow([])
+
+        # Quote per tipologia
+        writer.writerow(["Quota per tipologia"])
+        writer.writerow(["Tipologia", "Quota (%)"])
+        for d in report["dati_torta"]:
+            writer.writerow([d["name"], self._num(d["value"])])
+        writer.writerow([])
+
+        # Tabella corse settimanali per tipologia
+        writer.writerow(["Corse settimanali per tipologia"])
+        writer.writerow(["Giorno", "Monopattino", "Bicicletta", "Automobile"])
+        for d in report["dati_settimanali"]:
+            writer.writerow([d["giorno"], d["monopattino"], d["bicicletta"], d["automobile"]])
+
+        return "﻿" + buffer.getvalue()

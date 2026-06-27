@@ -95,17 +95,38 @@
   flex-shrink: 0;
 }
 
-/* Print */
+/* Print — export PDF tramite stampa del browser [IF-AP.02] */
 @media print {
+  /* landscape: i due grafici affiancati non entrano in A4 verticale */
+  @page { size: A4 landscape; margin: 12mm; }
+
+  /* stampa fedele di sfondi e riempimenti: senza questo i grafici
+     spariscono (fill scartati) o restano su sfondo bianco illeggibile */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* lascia a video solo il report, senza la chrome dell'app */
   .ap-sidebar,
-  .ap-topbar {
-    display: none !important;
-  }
-  .vista-report-ap {
+  .ap-topbar { display: none !important; }
+  .ap-main { margin: 0 !important; padding: 0 !important; }
+
+  /* niente clipping: il contenuto deve poter traboccare su più pagine */
+  .vista-report-ap,
+  .report-body {
     background: var(--bg);
+    overflow: visible !important;
+    height: auto !important;
   }
+
+  /* impila i grafici per evitare che vengano tagliati a destra */
+  .report-charts-row { flex-direction: column !important; }
+
   .report-chart-card,
   .report-kpi-card {
     border: 1px solid var(--border);
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 }
