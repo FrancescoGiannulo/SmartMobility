@@ -4,7 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import {
   Map as GoogleMap,
   AdvancedMarker,
+  useMap,
 } from '@vis.gl/react-google-maps'
+import { useMezziCluster } from '../../hooks/useMezziCluster'
+import ClusterBlob from '../../components/ClusterBlob'
 import { getMezziUtente, getZoneUtente, type MezzoMappa, type ZonaMappa } from '../../services/MapService'
 import { getTariffe, getPromozioni, type Tariffa, type Promozione } from '../../services/PaymentService'
 import { sbloccaMezzi } from '../../services/CorsaService'
@@ -80,6 +83,56 @@ function Batteria({ valore }: { valore: number | null }) {
 
 function formatTempoRimanente(sec: number): string {
   return `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`
+}
+
+function MezziClusterLayer({
+  mezzi,
+  onMezzoClick,
+  isSelected,
+  isDim,
+}: {
+  mezzi: MezzoMappa[]
+  onMezzoClick: (m: MezzoMappa) => void
+  isSelected: (m: MezzoMappa) => boolean
+  isDim: (m: MezzoMappa) => boolean
+}) {
+  const map = useMap()
+  const { items, getExpansionZoom } = useMezziCluster(mezzi, map)
+  const primoDisponibileId = mezzi.find(m => m.stato === 'Disponibile')?.id
+
+  return (
+    <>
+      {items.map(item => {
+        if (item.type === 'cluster') {
+          return (
+            <AdvancedMarker
+              key={`cluster-${item.id}`}
+              position={{ lat: item.lat, lng: item.lng }}
+              onClick={() => {
+                if (!map) return
+                map.setZoom(getExpansionZoom(item.id))
+                map.panTo({ lat: item.lat, lng: item.lng })
+              }}
+            >
+              <ClusterBlob count={item.count} tipoDominante={item.tipoDominante} />
+            </AdvancedMarker>
+          )
+        }
+        const m = item.mezzo
+        return (
+          <AdvancedMarker
+            key={m.id}
+            position={{ lat: m.lat, lng: m.lng }}
+            onClick={() => onMezzoClick(m)}
+          >
+            <div data-tour={m.id === primoDisponibileId ? 'mezzo-mappa' : undefined}>
+              <PinMezzo tipo={m.tipo} selected={isSelected(m)} dim={isDim(m)} />
+            </div>
+          </AdvancedMarker>
+        )
+      })}
+    </>
+  )
 }
 
 type SidebarSezione = 'menu' | 'prenotazioni' | 'tariffe' | 'promozioni'
@@ -461,21 +514,12 @@ export default function VistaHomePageUtente() {
         style={{ paddingTop: 88 }}
         onClick={chiudiPanel}
       >
-        {mezzi.map((m, i) => {
-          const primoDisponibile = mezzi.findIndex(x => x.stato === 'Disponibile')
-          const isTourTarget = i === (primoDisponibile >= 0 ? primoDisponibile : 0)
-          return (
-            <AdvancedMarker
-              key={m.id}
-              position={{ lat: m.lat, lng: m.lng }}
-              onClick={() => { setMezzoAttivo(m); setErrorePanel('') }}
-            >
-              <div data-tour={isTourTarget ? 'mezzo-mappa' : undefined}>
-                <PinMezzo tipo={m.tipo} selected={isInSelezione(m)} dim={isNonDisponibile(m)} />
-              </div>
-            </AdvancedMarker>
-          )
-        })}
+        <MezziClusterLayer
+          mezzi={mezzi}
+          onMezzoClick={m => { setMezzoAttivo(m); setErrorePanel('') }}
+          isSelected={isInSelezione}
+          isDim={isNonDisponibile}
+        />
 
         {zone.map(z => {
           const colori = COLORI_ZONA[z.tipo] ?? COLORI_ZONA.operativa
