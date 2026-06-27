@@ -631,7 +631,7 @@
   height: 38px;
   border-radius: 50% 50% 50% 10%;
   transform: rotate(45deg);
-  background: linear-gradient(135deg, var(--accent), var(--accent));
+  background: linear-gradient(135deg, var(--sm-c1, var(--accent)), var(--sm-c2, var(--accent)));
   display: flex;
   align-items: center;
   justify-content: center;
