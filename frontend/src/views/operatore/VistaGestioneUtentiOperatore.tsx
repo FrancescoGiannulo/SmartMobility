@@ -80,89 +80,97 @@ export default function VistaGestioneUtentiOperatore() {
           {messaggio && <div className="vgest__messaggio">{messaggio}</div>}
           {errore && <p className="vgest__errore">{errore}</p>}
 
-          <div className="vgest__layout">
-            <div className="vgest__lista">
-              {caricamento ? (
-                <p className="vgest__vuoto">Caricamento...</p>
-              ) : utenti.length === 0 ? (
-                <p className="vgest__vuoto">Nessun utente registrato.</p>
-              ) : (
-                utenti.map(u => (
-                  <div
-                    key={u.id}
-                    className={`vgest__card${selezionato?.id === u.id ? ' vgest__card--attiva' : ''}`}
-                    onClick={() => selezionaUtente(u.id)}
-                  >
-                    <div className="vgest__card-header">
-                      <span className="vgest__nome">{u.nome} {u.cognome}</span>
-                      {u.sospeso && <span className="vgest__badge">Sospeso</span>}
-                    </div>
-                    <span className="vgest__email">{u.email}</span>
+          <div className="vgest__lista">
+            {caricamento ? (
+              <p className="vgest__vuoto">Caricamento...</p>
+            ) : utenti.length === 0 ? (
+              <p className="vgest__vuoto">Nessun utente registrato.</p>
+            ) : (
+              utenti.map(u => (
+                <div
+                  key={u.id}
+                  className="vgest__card"
+                  onClick={() => selezionaUtente(u.id)}
+                >
+                  <div className="vgest__card-header">
+                    <span className="vgest__nome">{u.nome} {u.cognome}</span>
+                    {u.sospeso && <span className="vgest__badge">Sospeso</span>}
                   </div>
-                ))
-              )}
-            </div>
+                  <span className="vgest__email">{u.email}</span>
+                </div>
+              ))
+            )}
+          </div>
 
-            {selezionato && (
-              <div className="vgest__dettaglio">
-                <h2 className="vgest__det-titolo">Dettaglio</h2>
-                <div className="vgest__det-row">
-                  <span className="vgest__det-label">Nome</span>
-                  <span>{selezionato.nome} {selezionato.cognome}</span>
-                </div>
-                <div className="vgest__det-row">
-                  <span className="vgest__det-label">Email</span>
-                  <span>{selezionato.email}</span>
-                </div>
-                <div className="vgest__det-row">
-                  <span className="vgest__det-label">Stato</span>
-                  <span>{selezionato.sospeso ? 'Sospeso' : 'Attivo'}</span>
-                </div>
-
-                {selezionato.sospeso ? (
-                  <p className="vgest__sospeso-msg">⚠️ Account già sospeso</p>
-                ) : !dialogoAperto ? (
+          {selezionato && (
+            <div className="vgest__overlay" onClick={() => { setSelezionato(null); setDialogoAperto(false); setMotivazione('') }}>
+              <div className="vgest__modale" onClick={e => e.stopPropagation()}>
+                <div className="vgest__modale-header">
+                  <h2 className="vgest__det-titolo">{selezionato.nome} {selezionato.cognome}</h2>
                   <button
                     type="button"
-                    className="sm-btn vgest__btn-danger"
-                    onClick={() => setDialogoAperto(true)}
-                  >
-                    Sospendi account
-                  </button>
-                ) : (
-                  <div className="vgest__conferma">
-                    <label className="vgest__det-label" htmlFor="motivazione-sospensione">
-                      Motivazione della sospensione
-                    </label>
-                    <textarea
-                      id="motivazione-sospensione"
-                      className="vgest__textarea"
-                      value={motivazione}
-                      onChange={e => setMotivazione(e.target.value)}
-                      placeholder="Descrivi il motivo della sospensione"
-                      rows={4}
-                    />
+                    className="vgest__modale-chiudi"
+                    onClick={() => { setSelezionato(null); setDialogoAperto(false); setMotivazione('') }}
+                  >✕</button>
+                </div>
+
+                <div className="vgest__modale-body">
+                  <div className="vgest__det-row">
+                    <span className="vgest__det-label">Email</span>
+                    <span>{selezionato.email}</span>
+                  </div>
+                  <div className="vgest__det-row">
+                    <span className="vgest__det-label">Stato</span>
+                    <span>{selezionato.sospeso ? '🔴 Sospeso' : 'Attivo'}</span>
+                  </div>
+
+                  <div className="vgest__modale-divider" />
+
+                  {selezionato.sospeso ? (
+                    <p className="vgest__sospeso-msg">⚠️ Account già sospeso</p>
+                  ) : !dialogoAperto ? (
                     <button
                       type="button"
                       className="sm-btn vgest__btn-danger"
-                      onClick={confermaSospensione}
-                      disabled={azioneInCorso || !motivazione.trim()}
+                      onClick={() => setDialogoAperto(true)}
                     >
-                      {azioneInCorso ? 'Sospensione...' : 'Conferma sospensione'}
+                      Sospendi account
                     </button>
-                    <button
-                      type="button"
-                      className="sm-btn sm-btn--ghost vgest__btn-secondario"
-                      onClick={() => { setDialogoAperto(false); setMotivazione('') }}
-                      disabled={azioneInCorso}
-                    >
-                      Annulla
-                    </button>
-                  </div>
-                )}
+                  ) : (
+                    <div className="vgest__conferma">
+                      <label className="vgest__det-label" htmlFor="motivazione-sospensione">
+                        Motivazione della sospensione
+                      </label>
+                      <textarea
+                        id="motivazione-sospensione"
+                        className="vgest__textarea"
+                        value={motivazione}
+                        onChange={e => setMotivazione(e.target.value)}
+                        placeholder="Descrivi il motivo della sospensione"
+                        rows={4}
+                      />
+                      <button
+                        type="button"
+                        className="sm-btn vgest__btn-danger"
+                        onClick={confermaSospensione}
+                        disabled={azioneInCorso || !motivazione.trim()}
+                      >
+                        {azioneInCorso ? 'Sospensione...' : 'Conferma sospensione'}
+                      </button>
+                      <button
+                        type="button"
+                        className="sm-btn sm-btn--ghost vgest__btn-secondario"
+                        onClick={() => { setDialogoAperto(false); setMotivazione('') }}
+                        disabled={azioneInCorso}
+                      >
+                        Annulla
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
