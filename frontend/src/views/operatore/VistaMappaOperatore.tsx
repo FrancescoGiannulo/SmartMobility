@@ -16,9 +16,9 @@ import './VistaMappaOperatore.css'
 const CENTRO_DEFAULT = { lat: 41.1177, lng: 16.8719 }
 
 const COLORI_MEZZO: Record<string, { c1: string; c2: string }> = {
-  monopattino: { c1: '#155e52', c2: '#2a7a6a' },
-  bicicletta:  { c1: '#3b82f6', c2: '#1d4ed8' },
-  automobile:  { c1: '#ec4899', c2: '#be185d' },
+  monopattino: { c1: '#5FF0C4', c2: '#42A889' },
+  bicicletta:  { c1: '#7fb4ff', c2: '#597EB2' },
+  automobile:  { c1: '#FF8A7A', c2: '#B26155' },
 }
 
 const GLYPH_MEZZO: Record<string, string> = {
