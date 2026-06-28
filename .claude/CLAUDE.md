@@ -30,6 +30,7 @@ Tre ruoli utente distinti:
 | HTTP Client (FE) | Axios + TanStack Query | Chiamate API e cache lato client |
 | Routing (FE) | React Router DOM | Navigazione SPA |
 | Mappe | Google Maps (`@vis.gl/react-google-maps`) | Mappa interattiva e geofencing |
+| AI (suggerimenti) | Groq + Llama 3.3 (`groq` SDK) | `ServizioAIAdapter` — suggerimenti intelligenti [IF-UT.14] |
 | Gestore dipendenze Python | uv | Sostituisce pip+venv; gestisce `.venv` automaticamente |
 
 ### Chiavi Supabase
@@ -38,6 +39,8 @@ Tre ruoli utente distinti:
 
 ### Workaround SSL rete universitaria
 Alcuni membri del team lavorano su rete universitaria con SSL inspection che rifiuta il certificato CA di Supabase. Il workaround è già in `backend/middleware/auth_middleware.py`: il `PyJWKClient` (usato solo per token ES256) viene inizializzato con un `ssl_context` che disabilita `check_hostname` e `verify_mode`. **Non rimuovere questo workaround.** La verifica crittografica del JWT tramite PyJWT rimane attiva — viene saltato solo il chain check del certificato TLS per il JWKS endpoint. Assicurarsi che questo blocco sia presente ad ogni modifica di `auth_middleware.py`.
+
+Lo stesso pattern è applicato in `backend/bll/servizio_ai_adapter.py`: la chiamata a Groq usa un `httpx.Client(verify=False)` **solo** se il probe `_ssl_funziona()` rileva che la rete blocca il certificato (es. SSL inspection universitaria). Su rete normale la verifica resta attiva. Non rendere globale questa disabilitazione — è confinata al client Groq.
 
 ### Ambiente di produzione (deployato)
 
@@ -104,6 +107,8 @@ cd frontend && npm run dev
 SUPABASE_URL=https://xxxx.supabase.co
 SUPABASE_KEY=<secret key>
 DATABASE_URL=postgresql://postgres:<password>@db.xxxx.supabase.co:5432/postgres
+GROQ_API_KEY=<groq api key>          # opzionale — suggerimenti AI [IF-UT.14]; se assente, la generazione non produce nuovi suggerimenti (l'utente vede solo quelli già salvati)
+GROQ_MODEL=llama-3.3-70b-versatile   # opzionale — default già impostato nel codice
 ```
 
 `frontend/.env.local` (non committato — copiare da `.env.example`):
@@ -120,57 +125,74 @@ frontend/src/
 ├── views/
 │   ├── auth/             → VistaLogin, CallbackOAuth
 │   ├── utente/           → VistaHomePageUtente, VistaCorsa, VistaStoricoCorse, VistaPagamenti,
-│   │                        VistaAbbonamenti, VistaSegnalazione, VistaProfiloUtente
-│   ├── operatore/        → VistaMappaOperatore, VistaMezziOperatore, VistaTariffeOfferte,
-│   │                        VistaImpostazioniRegole, VistaParametriSistema, VistaSegnalazioniOperatore
-│   └── amministrazione/  → VistaDashboardAP, VistaReportAP
+│   │                        VistaAbbonamenti, VistaSegnalazione, VistaProfiloUtente, VistaRecensione
+│   ├── operatore/        → VistaMappaOperatore, VistaMezziOperatore, VistaTariffe, VistaOfferte,
+│   │                        VistaImpostazioniRegole, VistaParametriSistema, VistaSegnalazioniOperatore,
+│   │                        VistaRecensioniOperatore, VistaGestioneUtentiOperatore, VistaStoricoModifiche
+│   ├── amministrazione/  → VistaDashboardAP, VistaReportAP
+│   └── PrivacyPolicy     → informativa GDPR (consenso privacy)
 ├── components/           → RoutaProtetta, ZonaPoligono, TooltipZona,
-│                            ClusterLayerAP, HeatmapLayerAP, PopupStatsZona
+│                            ClusterBlob, HeatmapLayerAP, PopupStatsZona
 └── services/
-    ├── ApiService.ts           → gateway HTTP centrale + interceptor JWT
-    ├── AuthService.ts          → login, registrazione, OAuth callback
-    ├── MapService.ts           → mezzi e zone [IF-UT.01, IF-AP.03, IF-OP.01]
-    ├── CorsaService.ts         → sblocco, pausa, termina, storico [IF-UT.03, IF-UT.04, IF-UT.09, IF-UT.11]
-    ├── PrenotazioneService.ts  → prenotazioni: crea, annulla, attive, caratteristiche mezzo [IF-UT.02]
-    ├── PaymentService.ts       → metodi di pagamento [IF-UT.05, IF-UT.06]
-    ├── AbbonamentoService.ts   → abbonamenti [IF-UT.13]
-    ├── OffertaService.ts       → offerte/promozioni [IF-OP.10]
-    ├── FlottaService.ts        → gestione flotta [IF-OP.02, IF-OP.03, IF-OP.04]
-    ├── ZonaService.ts          → CRUD zone [IF-OP.07]
-    ├── SegnalazioneService.ts  → segnalazioni [IF-UT.12, IF-OP.08]
+    ├── ApiService.ts            → gateway HTTP centrale + interceptor JWT
+    ├── AuthService.ts           → login, registrazione, OAuth callback
+    ├── MapService.ts            → mezzi e zone [IF-UT.01, IF-AP.03, IF-OP.01]
+    ├── CorsaService.ts          → sblocco, pausa, termina, storico [IF-UT.03, IF-UT.04, IF-UT.09, IF-UT.11]
+    ├── PrenotazioneService.ts   → prenotazioni: crea, annulla, attive, caratteristiche mezzo [IF-UT.02]
+    ├── PaymentService.ts        → metodi di pagamento [IF-UT.05, IF-UT.06]
+    ├── AbbonamentoService.ts    → abbonamenti [IF-UT.13]
+    ├── TariffaService.ts        → tariffe lato operatore [IF-OP.05]
+    ├── OffertaService.ts        → offerte/promozioni [IF-OP.10]
+    ├── SuggerimentiService.ts   → suggerimenti intelligenti [IF-UT.14]
+    ├── RecensioneService.ts     → recensioni [IF-UT.15, IF-OP.12]
+    ├── FlottaService.ts         → gestione flotta [IF-OP.02, IF-OP.03, IF-OP.04]
+    ├── ZonaService.ts           → CRUD zone [IF-OP.07]
+    ├── SegnalazioneService.ts   → segnalazioni [IF-UT.12, IF-OP.08]
+    ├── GestioneUtentiService.ts → gestione/sospensione utenti lato operatore [IF-OP.09]
     ├── ConfigurazioneService.ts → parametri sistema [IF-OP.11]
-    └── RegolaFinecorsaService.ts → regole fine corsa [IF-OP.06]
+    ├── RegolaFinecorsaService.ts → regole fine corsa [IF-OP.06]
+    ├── StoricoModificheService.ts → storico modifiche [IF-OP.13]
+    └── ReportService.ts         → report e export AP [IF-AP.01, IF-AP.02]
 
 backend/
 ├── database.py       → engine SQLAlchemy, SessionLocal, Base (DeclarativeBase), get_db()
-├── migrations/       → file SQL da eseguire su Supabase (001…013)
-├── model/            → ORM SQLAlchemy 2.0 (Mapped + mapped_column); 17 entità; importare Base da database.py
-├── controllers/      → validazione HTTP (12 controller file)
-├── bll/              → logica applicativa (11 servizi)
-├── dal/              → repository (15, uno per entità)
-└── tests/            → test pytest (18 file); conftest.py crea fixture utente/operatore/AP con cleanup
+├── migrations/       → file SQL da eseguire su Supabase (001…022)
+├── model/            → ORM SQLAlchemy 2.0 (Mapped + mapped_column); ~20 entità; importare Base da database.py
+│                        (`orm.py` è un modulo ORM parallelo usato da test_schema.py e da alcune query del DAL)
+├── controllers/      → validazione HTTP (20 controller file + schemas.py)
+├── bll/              → logica applicativa (17 servizi)
+├── dal/              → repository (19, uno per entità)
+└── tests/            → test pytest (36 file); conftest.py crea fixture utente/operatore/AP con cleanup
 ```
 
-**Controller backend** (12 file in `backend/controllers/`):
+**Controller backend** (20 file in `backend/controllers/`, oltre a `schemas.py` con i Pydantic schema):
 
-| File | Responsabilità |
-|---|---|
-| `login_controller.py` | auth: login, registrazione, OAuth callback |
-| `corsa_controller.py` | prenotazioni, sblocco, corsa, pausa, storico |
-| `pagamenti_controller.py` | metodi di pagamento |
-| `pricing_controller.py` | tariffe e promozioni (lato utente) |
-| `abbonamento_controller.py` | abbonamenti utente |
-| `mezzo_operatore_controller.py` | flotta operatore (aggiungi, dismetti, modifica stato) |
-| `zona_operatore_controller.py` | zone operative, vietate, limitate, parcheggio |
-| `regola_fine_corsa_controller.py` | regole fine corsa |
-| `offerta_controller.py` | offerte/promozioni (lato operatore) |
-| `configurazione_controller.py` | parametri sistema |
-| `utente_controller.py` | segnalazioni utente |
-| `ap_controller.py` | report AP, mappa AP, segnalazioni OP, gestione utenti OP |
+| File | Responsabilità | Prefisso |
+|---|---|---|
+| `login_controller.py` | auth: login, OAuth (`oauth-accedi`), `/me` | `/auth` |
+| `utente_controller.py` | registrazione utente (`/auth`) + consenso/anonimizzazione GDPR (`gdpr_router`, `/utente`) | `/auth`, `/utente` |
+| `homepage_utente_controller.py` | mappa utente: mezzi e zone [IF-UT.01] | `/utente` |
+| `corsa_controller.py` | prenotazioni, sblocco, corsa, pausa, storico | `/utente` |
+| `pagamenti_controller.py` | metodi di pagamento [IF-UT.05, IF-UT.06] | `/utente/pagamenti` |
+| `pricing_controller.py` | tariffe e promozioni (lato utente) [IF-UT.07, IF-UT.10] | `/tariffe`, `/promozioni` |
+| `abbonamento_controller.py` | abbonamenti utente [IF-UT.13] | `/utente` |
+| `suggerimento_controller.py` | suggerimenti intelligenti AI [IF-UT.14] | `/utente/suggerimenti` |
+| `recensione_controller.py` | recensioni: utente scrive [IF-UT.15] + operatore visualizza (`router_operatore`) [IF-OP.12] | `/utente`, `/operatore` |
+| `segnalazione_utente_controller.py` | segnalazioni lato utente [IF-UT.12] | `/utente` |
+| `mezzo_operatore_controller.py` | flotta operatore (aggiungi, dismetti, modifica stato) [IF-OP.02/03/04] | `/operatore` |
+| `tariffa_controller.py` | definizione tariffe lato operatore [IF-OP.05] | `/operatore` |
+| `zona_operatore_controller.py` | zone operative, vietate, limitate, parcheggio [IF-OP.07] | `/operatore/zone` |
+| `regola_fine_corsa_controller.py` | regole fine corsa [IF-OP.06] | `/operatore` |
+| `offerta_controller.py` | offerte/promozioni (lato operatore) [IF-OP.10] | `/operatore` |
+| `configurazione_controller.py` | parametri sistema [IF-OP.11] + config sicurezza/lockout (`router_sicurezza`, `/op/configurazione`) | `/operatore` |
+| `segnalazione_op_controller.py` | gestione segnalazioni lato operatore (`aperta→in_carico→risolta`) [IF-OP.08] | `/operatore` |
+| `utenti_op_controller.py` | gestione e sospensione account utenti lato operatore [IF-OP.09] | `/operatore` |
+| `storico_modifiche_controller.py` | storico modifiche di sistema [IF-OP.13] | `/operatore` |
+| `ap_controller.py` | report, export e mappa AP [IF-AP.01, IF-AP.02, IF-AP.03] | `/ap` |
 
-**BLL** (11 servizi in `backend/bll/`): `ServizioMobilità`, `ServizioPrenotazione`, `ServizioPricing`, `ServizioAbbonamento`, `ServizioMappa`, `ServizioReport`, `ServizioOfferta`, `ServizioRegoleFineCorsa`, `ServizioParametri`, `ServizioUtenti`, `ServizioSegnalazione`
+**BLL** (17 servizi in `backend/bll/`): `ServizioMobilità`, `ServizioPrenotazione`, `ServizioPricing`, `ServizioTariffa`, `ServizioAbbonamento`, `ServizioMappa`, `ServizioReport`, `ServizioOfferta`, `ServizioRegoleFineCorsa`, `ServizioParametri`, `ServizioUtenti`, `ServizioSegnalazione`, `ServizioSuggerimenti`, `ServizioAIAdapter` (adapter Groq/Llama), `ServizioRecensione`, `ServizioStoricoModifiche`, `NotificaService`
 
-**DAL** (15 repository in `backend/dal/`): `MezzoRepository`, `CorsaRepository`, `PrenotazioneRepository`, `PagamentoRepository`, `TariffaRepository`, `ZonaRepository`, `UtenteRepository`, `OperatoreRepository`, `AttoreRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`, `RegoleFIneCorsaRepository`, `ParametriSistemaRepository`, `SegnalazioneRepository`
+**DAL** (19 repository in `backend/dal/`): `MezzoRepository`, `CorsaRepository`, `PrenotazioneRepository`, `PagamentoRepository`, `TariffaRepository`, `ZonaRepository`, `UtenteRepository`, `OperatoreRepository`, `AttoreRepository`, `AbbonamentoRepository`, `OffertaRepository`, `PromozioneRepository`, `RegoleFIneCorsaRepository`, `ParametriSistemaRepository`, `SegnalazioneRepository`, `SuggerimentoRepository`, `RecensioneRepository`, `NotificaRepository`, `StoricoModificheRepository`
 
 ### Git workflow
 
@@ -227,8 +249,10 @@ Il sistema segue il pattern **Client-Server + MVC** su più livelli. Rispetta se
 Client
 ├── View (VistaUtente | VistaOperatore | VistaAmministrazionePubblica)
 └── API Service Layer (ApiService, AuthService, MapService, CorsaService, PaymentService,
-                       AbbonamentoService, OffertaService, FlottaService, ZonaService,
-                       SegnalazioneService, ConfigurazioneService, RegolaFinecorsaService)
+                       AbbonamentoService, TariffaService, OffertaService, FlottaService, ZonaService,
+                       SegnalazioneService, GestioneUtentiService, ConfigurazioneService,
+                       RegolaFinecorsaService, SuggerimentiService, RecensioneService,
+                       StoricoModificheService, ReportService)
 
 Server
 ├── Controller Layer
@@ -318,6 +342,30 @@ Il frontend può avviare lo sblocco da tre punti:
 
 La pausa accumula tempo in `pausa_durata_accumulata_sec` (migrazione `013_pausa_corsa.sql`). Il costo della pausa (`addebito_pausa` da `ParametriSistema`) viene sommato all'importo finale in `ServizioPricing`. Il mezzo resta in stato `In pausa` durante la sosta — non torna `Disponibile`.
 
+### Suggerimenti intelligenti AI [IF-UT.14]
+
+`ServizioSuggerimenti.genera_suggerimenti` raccoglie i dati di utilizzo dell'utente (corse, abbonamento attivo, pagamenti recenti) e li passa a `ServizioAIAdapter`, che chiama **Groq con Llama 3.3** (`GROQ_API_KEY`). Il modello risponde con un array JSON di suggerimenti (`tipo`, `testo`, `dati_contesto`); i tipi non validi vengono normalizzati a `generale`. Alla generazione i suggerimenti precedenti dell'utente vengono eliminati e sostituiti (`elimina_per_utente` + `save_batch`). Se `GROQ_API_KEY` è assente o l'AI restituisce un array vuoto, **non** vengono creati nuovi suggerimenti — l'utente vede solo quelli già salvati. Migrazione: `014_suggerimenti.sql`. Entità `Suggerimento` (stati `nuovo`/`visto`).
+
+### Recensioni [IF-UT.15, IF-OP.12]
+
+L'utente scrive una recensione su una corsa (`recensione_controller.py`, prefisso `/utente`); l'operatore le visualizza in sola lettura (`router_operatore`, prefisso `/operatore`, `VistaRecensioniOperatore.tsx`). Migrazione `014_recensioni.sql`, entità `Recensione`, BLL `ServizioRecensione`.
+
+### Sospensione account utente [IF-OP.09]
+
+`ServizioUtenti` gestisce la sospensione (`sospeso`, `motivazione_sospensione`, `sospeso_at`) e la sospensione temporanea con scadenza (migrazioni `015_sospensione_account.sql`, `018_sospensione_temporanea.sql`). Endpoint `PATCH /operatore/utenti/{id}/stato` (`utenti_op_controller.py`). Un utente sospeso non può accedere alle funzionalità del proprio ruolo (IIN-2).
+
+### Notifiche
+
+L'entità `Notifica` (modellata nel Diagramma Classi, `NotificaRepository.crea()`, `NotificaService`) è usata dai job di cleanup (prenotazioni/abbonamenti scaduti) e da altri eventi di sistema. Non è un canale push real-time: l'utente la vede ricaricando le pagine pertinenti.
+
+### Storico modifiche [IF-OP.13]
+
+`ServizioStoricoModifiche` registra le modifiche alle configurazioni di sistema (parametri, regole fine corsa, zone, tariffe, offerte) con la convenzione testuale `"campo1=valore1, campo2=valore2"` per `valore_precedente`/`valore_nuovo`. Migrazione `017_storico_modifiche.sql`. Vedere la nota di implementazione in `docs/Sprintn3.md` (IF-OP.13) per l'elenco aggiornato degli eventi loggati e la UI ad accordion.
+
+### GDPR / privacy
+
+`utente_controller.py` espone `gdpr_router` per consenso privacy e anonimizzazione/cancellazione account (migrazioni `007_gdpr_cascade.sql`, `008_consenso_privacy.sql`, `020_anonimizza_account.sql`). La vista `PrivacyPolicy.tsx` mostra l'informativa.
+
 ---
 
 ## Documentazione continua
@@ -343,6 +391,9 @@ I termini tecnici del dominio sono definiti in `docs/SprintZero.md § 4.2`. Usar
 - `Prenotazione` (non `Booking`, `Reservation`)
 - `Zona` con i sottotipi: `ZonaOperativa`, `ZonaParcheggio`, `ZonaLimitata`, `ZonaVietata` — nel codice Python l'enum `TipoZona` usa valori lowercase (`"operativa"`, `"parcheggio"`, `"limitata"`, `"vietata"`) per allineamento con i tipi PostgreSQL
 - `Segnalazione` (non `Report`, `Issue`, `Ticket`)
+- `Recensione` (non `Review`, `Rating`, `Feedback`)
+- `Suggerimento` (non `Suggestion`, `Tip`, `Hint`)
+- `Notifica` (non `Notification`, `Alert`, `Message`)
 - `Flotta`, `Tariffa`, `Promozione`, `Abbonamento`, `Bonus`
 
 ---
