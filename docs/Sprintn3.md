@@ -2,9 +2,9 @@
 
 **SMART MOBILITY**
 
-Versione 2.0
+Versione 3.0
 
-Data di rilascio: 24/05/2026
+Data di rilascio: 28/06/2026
 
 Ingegneria del Software a. A. 2025-2026\
 **Informatica e Tecnologie per la Produzione del Software**
@@ -35,63 +35,71 @@ Indice
 
 [1.2 Contesto di business [9](#contesto-di-business)](#contesto-di-business)
 
-[1.3 Stakeholder [11](#stakeholder)](#stakeholder)
+[1.3 Stakeholder [10](#stakeholder)](#stakeholder)
 
-[1.4 Item funzionali [12](#item-funzionali)](#item-funzionali)
+[1.4 Item funzionali [11](#item-funzionali)](#item-funzionali)
 
-[1.4.1 IF-UT.01 – Visualizza Mappa Utente [12](#if-ut.01-visualizza-mappa-utente)](#if-ut.01-visualizza-mappa-utente)
+[1.4.1 IF-UT.01 – Visualizza Mappa Utente [11](#if-ut.01-visualizza-mappa-utente)](#if-ut.01-visualizza-mappa-utente)
 
-[1.4.2 IF-UT.02 – Prenota mezzo [12](#if-ut.02-prenota-mezzo)](#if-ut.02-prenota-mezzo)
+[1.4.2 IF-UT.02 – Prenota mezzo [11](#if-ut.02-prenota-mezzo)](#if-ut.02-prenota-mezzo)
 
-[1.4.4 IF-UT.03 – Sblocca mezzo [12](#if-ut.03-sblocca-mezzo)](#if-ut.03-sblocca-mezzo)
+[1.4.4 IF-UT.03 – Sblocca mezzo [11](#if-ut.03-sblocca-mezzo)](#if-ut.03-sblocca-mezzo)
 
 [1.4.5 IF-UT.04 – Termina Corsa [12](#if-ut.04-termina-corsa)](#if-ut.04-termina-corsa)
 
 [1.4.6 IF-UT.05 – Effettua Pagamento [12](#if-ut.05-effettua-pagamento)](#if-ut.05-effettua-pagamento)
 
-[1.4.7 IF-UT.06 – Salva Metodi Pagamento [13](#if-ut.06-salva-metodi-pagamento)](#if-ut.06-salva-metodi-pagamento)
+[1.4.7 IF-UT.06 – Salva Metodi Pagamento [12](#if-ut.06-salva-metodi-pagamento)](#if-ut.06-salva-metodi-pagamento)
 
-[1.4.8 IF-UT.07 – Consulta tariffe [13](#if-ut.07-consulta-tariffe)](#if-ut.07-consulta-tariffe)
+[1.4.8 IF-UT.07 – Consulta tariffe [12](#if-ut.07-consulta-tariffe)](#if-ut.07-consulta-tariffe)
 
-[1.4.9 IF-UT.08 – Visualizza Riepilogo corsa [13](#if-ut.08-visualizza-riepilogo-corsa)](#if-ut.08-visualizza-riepilogo-corsa)
+[1.4.9 IF-UT.08 – Visualizza Riepilogo corsa [12](#if-ut.08-visualizza-riepilogo-corsa)](#if-ut.08-visualizza-riepilogo-corsa)
 
-[1.4.10 IF-UT.09 – Sospende Corsa [13](#if-ut.09-sospende-corsa)](#if-ut.09-sospende-corsa)
+[1.4.10 IF-UT.09 – Sospende Corsa [12](#if-ut.09-sospende-corsa)](#if-ut.09-sospende-corsa)
 
 [1.4.11 IF-UT.10 – Visualizza Promozioni [13](#if-ut.10-visualizza-promozioni)](#if-ut.10-visualizza-promozioni)
 
 [1.4.12 IF-UT.11 – Visualizza Storico Corsa [13](#if-ut.11-visualizza-storico-corsa)](#if-ut.11-visualizza-storico-corsa)
 
-[1.4.13 IF-UT.12 – Invia Segnalazione [14](#if-ut.12-invia-segnalazione)](#if-ut.12-invia-segnalazione)
+[1.4.13 IF-UT.12 – Invia Segnalazione [13](#if-ut.12-invia-segnalazione)](#if-ut.12-invia-segnalazione)
 
-[1.4.14 IF-UT.13 – Sottoscrive Abbonamento [14](#if-ut.13-sottoscrive-abbonamento)](#if-ut.13-sottoscrive-abbonamento)
+[1.4.14 IF-UT.13 – Sottoscrive Abbonamento [13](#if-ut.13-sottoscrive-abbonamento)](#if-ut.13-sottoscrive-abbonamento)
 
-[1.4.18 IF-AP.01 – Accede Report [14](#if-ut.15-scrive-una-recensione)](#if-ut.15-scrive-una-recensione)
+[1.4.15 IF-UT.14 – Visualizza Suggerimenti Intelligenti [13](#if-ut.14-visualizza-suggerimenti-intelligenti)](#if-ut.14-visualizza-suggerimenti-intelligenti)
 
-[1.4.15 IF-AP.02 – Esporta Report [14](#if-ap.02-esporta-report)](#if-ap.02-esporta-report)
+[1.4.16 IF-UT.15 – Scrive una recensione [13](#if-ut.15-scrive-una-recensione)](#if-ut.15-scrive-una-recensione)
 
-[1.4.16 IF-AP.03 – Visualizza Mappa Amministrazione Pubblica [14](#if-ap.03-visualizza-mappa-amministrazione-pubblica)](#if-ap.03-visualizza-mappa-amministrazione-pubblica)
+[1.4.17 IF-AP.01 – Accede Report [14](#if-ap.01-accede-report)](#if-ap.01-accede-report)
 
-[1.4.17 IF-OP.01 – Visualizza Mappa Operatore [14](#if-op.01-visualizza-mappa-operatore)](#if-op.01-visualizza-mappa-operatore)
+[1.4.18 IF-AP.02 – Esporta Report [14](#if-ap.02-esporta-report)](#if-ap.02-esporta-report)
 
-[1.4.18 IF-OP.02 – Aggiunge Mezzo [15](#if-op.02-aggiunge-mezzo)](#if-op.02-aggiunge-mezzo)
+[1.4.19 IF-AP.03 – Visualizza Mappa Amministrazione Pubblica [14](#if-ap.03-visualizza-mappa-amministrazione-pubblica)](#if-ap.03-visualizza-mappa-amministrazione-pubblica)
 
-[1.4.19 IF-OP.03 – Dismette Mezzo [15](#if-op.03-dismette-mezzo)](#if-op.03-dismette-mezzo)
+[1.4.20 IF-OP.01 – Visualizza Mappa Operatore [14](#if-op.01-visualizza-mappa-operatore)](#if-op.01-visualizza-mappa-operatore)
 
-[1.4.20 IF-OP.04 – Modifica Stato Mezzo [15](#if-op.04-modifica-stato-mezzo)](#if-op.04-modifica-stato-mezzo)
+[1.4.21 IF-OP.02 – Aggiunge Mezzo [14](#if-op.02-aggiunge-mezzo)](#if-op.02-aggiunge-mezzo)
 
-[1.4.21 IF-OP.05 – Definisce Tariffa [15](#if-op.05-definisce-tariffa)](#if-op.05-definisce-tariffa)
+[1.4.22 IF-OP.03 – Dismette Mezzo [14](#if-op.03-dismette-mezzo)](#if-op.03-dismette-mezzo)
 
-[1.4.22 IF-OP.06 – Definisce Regole Fine Corsa [15](#if-op.06-definisce-regole-fine-corsa)](#if-op.06-definisce-regole-fine-corsa)
+[1.4.23 IF-OP.04 – Modifica Stato Mezzo [15](#if-op.04-modifica-stato-mezzo)](#if-op.04-modifica-stato-mezzo)
 
-[1.4.23 IF-OP.07 - Definisce Zone [15](#if-op.07---definisce-zone)](#if-op.07---definisce-zone)
+[1.4.24 IF-OP.05 – Definisce Tariffa [15](#if-op.05-definisce-tariffa)](#if-op.05-definisce-tariffa)
 
-[1.4.24 IF-OP.08 – Gestisce Segnalazioni [16](#if-op.08-gestisce-segnalazioni)](#if-op.08-gestisce-segnalazioni)
+[1.4.25 IF-OP.06 – Definisce Regole Fine Corsa [15](#if-op.06-definisce-regole-fine-corsa)](#if-op.06-definisce-regole-fine-corsa)
 
-[1.4.25 IF-OP.09– Sospende Account Utente [16](#if-op.09-sospende-account-utente)](#if-op.09-sospende-account-utente)
+[1.4.26 IF-OP.07 - Definisce Zona [15](#if-op.07---definisce-zona)](#if-op.07---definisce-zona)
 
-[1.4.26 IF-OP.10– Definisce Offerte [16](#if-op.10-definisce-offerte)](#if-op.10-definisce-offerte)
+[1.4.27 IF-OP.08 – Gestisce Segnalazioni [15](#if-op.08-gestisce-segnalazioni)](#if-op.08-gestisce-segnalazioni)
 
-[1.4.27 IF-OP.11 – Configura Parametri Sistema [16](#if-op.11-configura-parametri-sistema)](#if-op.11-configura-parametri-sistema)
+[1.4.28 IF-OP.09 – Sospende Account Utente [15](#if-op.09-sospende-account-utente)](#if-op.09-sospende-account-utente)
+
+[1.4.29 IF-OP.10– Definisce Offerte [16](#if-op.10-definisce-offerte)](#if-op.10-definisce-offerte)
+
+[1.4.30 IF-OP.11 – Configura Parametri Numerici di Sistema [16](#if-op.11-configura-parametri-numerici-di-sistema)](#if-op.11-configura-parametri-numerici-di-sistema)
+
+[1.4.31 IF-OP.12 – Visualizza Recensioni [16](#if-op.12-visualizza-recensioni)](#if-op.12-visualizza-recensioni)
+
+[1.4.32 IF-OP.13 – Mostra Storico Modifiche [16](#if-op.13-mostra-storico-modifiche)](#if-op.13-mostra-storico-modifiche)
 
 [1.5 Item non funzionali [16](#item-non-funzionali)](#item-non-funzionali)
 
@@ -109,17 +117,17 @@ Indice
 
 [1.5.1.6 Conformità [17](#conformità)](#conformità)
 
-[1.5.2 Item di interfaccia [17](#item-di-interfaccia)](#item-di-interfaccia)
+[1.5.2 Item di interfaccia [18](#item-di-interfaccia)](#item-di-interfaccia)
 
 [1.5.2.1 IUI-1 - Schermata di Login Utente [18](#iui-1---schermata-di-login-utente)](#iui-1---schermata-di-login-utente)
 
 [1.5.2.2 IUI-2 – Homepage Utente [18](#map-screenshot-showing-a-section-of-bari-italy-with-colored-markers-indicating-different-transportation-options-around-politecnico-di-bari-and-università-degli-studi-di-bari.-blue-markers-represent-bicycles-green-markers-indicate-scooters-and-purple-markers-show-cars-with-a-red-shaded-area-highlighting-politecnico-di-bari-and-a-red-location-pin-marking-a-specific-point-nearby.iui-2-homepage-utente)](#map-screenshot-showing-a-section-of-bari-italy-with-colored-markers-indicating-different-transportation-options-around-politecnico-di-bari-and-università-degli-studi-di-bari.-blue-markers-represent-bicycles-green-markers-indicate-scooters-and-purple-markers-show-cars-with-a-red-shaded-area-highlighting-politecnico-di-bari-and-a-red-location-pin-marking-a-specific-point-nearby.iui-2-homepage-utente)
 
-[1.5.2.3 IUI-3 – Menu Laterale Utente [18](#screenshot-of-a-mobile-app-menu-for-a-smart-mobility-service-displaying-options-in-italian-such-as-profile-pricing-plan-bonuses-and-promotions-history-settings-wallet-and-guide-with-corresponding-icons.-the-menu-overlays-a-partial-map-showing-bike-icons-near-via-giuseppe-re-indicating-bike-sharing-locations.iui-3-menu-laterale-utente)](#screenshot-of-a-mobile-app-menu-for-a-smart-mobility-service-displaying-options-in-italian-such-as-profile-pricing-plan-bonuses-and-promotions-history-settings-wallet-and-guide-with-corresponding-icons.-the-menu-overlays-a-partial-map-showing-bike-icons-near-via-giuseppe-re-indicating-bike-sharing-locations.iui-3-menu-laterale-utente)
+[1.5.2.3 IUI-3 – Menu Laterale Utente [19](#screenshot-of-a-mobile-app-menu-for-a-smart-mobility-service-displaying-options-in-italian-such-as-profile-pricing-plan-bonuses-and-promotions-history-settings-wallet-and-guide-with-corresponding-icons.-the-menu-overlays-a-partial-map-showing-bike-icons-near-via-giuseppe-re-indicating-bike-sharing-locations.iui-3-menu-laterale-utente)](#screenshot-of-a-mobile-app-menu-for-a-smart-mobility-service-displaying-options-in-italian-such-as-profile-pricing-plan-bonuses-and-promotions-history-settings-wallet-and-guide-with-corresponding-icons.-the-menu-overlays-a-partial-map-showing-bike-icons-near-via-giuseppe-re-indicating-bike-sharing-locations.iui-3-menu-laterale-utente)
 
 [1.5.2.4 IUI-4 – Corsa di Gruppo [19](#iui-4-corsa-di-gruppo)](#iui-4-corsa-di-gruppo)
 
-[1.5.2.5 IUI-5 – Prenotazione Mezzo [19](#screenshot-of-a-scooter-rental-app-interface-showing-a-map-with-a-green-location-pin-indicating-scooter-availability-near-politecnico-di-bari.-the-booking-panel-displays-scooter-id-bz234vf-a-full-battery-icon-and-a-countdown-timer-until-1647-to-unlock-the-scooter-with-a-green-prenota-button-for-reservation.iui-5-prenotazione-mezzo)](#screenshot-of-a-scooter-rental-app-interface-showing-a-map-with-a-green-location-pin-indicating-scooter-availability-near-politecnico-di-bari.-the-booking-panel-displays-scooter-id-bz234vf-a-full-battery-icon-and-a-countdown-timer-until-1647-to-unlock-the-scooter-with-a-green-prenota-button-for-reservation.iui-5-prenotazione-mezzo)
+[1.5.2.5 IUI-5 – Prenotazione Mezzo [20](#screenshot-of-a-scooter-rental-app-interface-showing-a-map-with-a-green-location-pin-indicating-scooter-availability-near-politecnico-di-bari.-the-booking-panel-displays-scooter-id-bz234vf-a-full-battery-icon-and-a-countdown-timer-until-1647-to-unlock-the-scooter-with-a-green-prenota-button-for-reservation.iui-5-prenotazione-mezzo)](#screenshot-of-a-scooter-rental-app-interface-showing-a-map-with-a-green-location-pin-indicating-scooter-availability-near-politecnico-di-bari.-the-booking-panel-displays-scooter-id-bz234vf-a-full-battery-icon-and-a-countdown-timer-until-1647-to-unlock-the-scooter-with-a-green-prenota-button-for-reservation.iui-5-prenotazione-mezzo)
 
 [1.5.2.6 IUI-6 – Visualizzazione del Piano Tariffario [20](#screenshot-of-a-tariff-pricing-chart-for-different-transportation-modes-showing-costs-per-kilometer-for-electric-scooter-0.20km-bicycle-0.30km-and-automobile-0.50km.-the-chart-uses-black-icons-for-each-vehicle-type-alongside-green-text-for-labels-and-prices-with-a-smart-mobility-logo-below-and-navigation-icons-at-the-bottom.iui-6-visualizzazione-del-piano-tariffario)](#screenshot-of-a-tariff-pricing-chart-for-different-transportation-modes-showing-costs-per-kilometer-for-electric-scooter-0.20km-bicycle-0.30km-and-automobile-0.50km.-the-chart-uses-black-icons-for-each-vehicle-type-alongside-green-text-for-labels-and-prices-with-a-smart-mobility-logo-below-and-navigation-icons-at-the-bottom.iui-6-visualizzazione-del-piano-tariffario)
 
@@ -129,7 +137,7 @@ Indice
 
 [1.5.2.9 IUI-9 – Visualizzazione della Cronologia Corse [21](#screenshot-of-a-transportation-log-displaying-four-entries-with-icons-for-electric-scooter-bicycle-car-and-another-electric-scooter.-each-entry-includes-id-bz345tr-elapsed-time-1021-distance-traveled-4.98-km-and-date-04052026-with-teal-text-and-icons-on-a-white-background.iui-9-visualizzazione-della-cronologia-corse)](#screenshot-of-a-transportation-log-displaying-four-entries-with-icons-for-electric-scooter-bicycle-car-and-another-electric-scooter.-each-entry-includes-id-bz345tr-elapsed-time-1021-distance-traveled-4.98-km-and-date-04052026-with-teal-text-and-icons-on-a-white-background.iui-9-visualizzazione-della-cronologia-corse)
 
-[1.5.2.10 IUI-10 – Schermata Login Operatore/Amministrazione Pubblica [21](#iui-10-schermata-login-operatoreamministrazione-pubblica)](#iui-10-schermata-login-operatoreamministrazione-pubblica)
+[1.5.2.10 IUI-10 – Schermata Login Operatore/Amministrazione Pubblica [22](#iui-10-schermata-login-operatoreamministrazione-pubblica)](#iui-10-schermata-login-operatoreamministrazione-pubblica)
 
 [1.5.2.11 IUI-11 – Dashboard Amministrazione Pubblica [22](#iui-11-dashboard-amministrazione-pubblica)](#iui-11-dashboard-amministrazione-pubblica)
 
@@ -139,25 +147,15 @@ Indice
 
 [1.5.2.14 IUI-14 – Definizione Zone di Parcheggio [23](#iui-14-definizione-zone-di-parcheggio)](#iui-14-definizione-zone-di-parcheggio)
 
-[1.5.2.15 IUI-15 – Visualizzazione dei Report [23](#bar-chart-and-pie-chart-displaying-weekly-and-overall-distribution-of-three-categories-monopattini-green-automobili-pink-and-biciclette-blue.-bar-chart-shows-daily-counts-with-monopattini-highest-on-monday-and-decreasing-through-the-week-while-pie-chart-highlights-monopattini-as-majority-at-55.8-followed-by-biciclette-at-31.3-and-automobili-at-11.4.iui-15-visualizzazione-dei-report)](#bar-chart-and-pie-chart-displaying-weekly-and-overall-distribution-of-three-categories-monopattini-green-automobili-pink-and-biciclette-blue.-bar-chart-shows-daily-counts-with-monopattini-highest-on-monday-and-decreasing-through-the-week-while-pie-chart-highlights-monopattini-as-majority-at-55.8-followed-by-biciclette-at-31.3-and-automobili-at-11.4.iui-15-visualizzazione-dei-report)
+[1.5.2.15 IUI-15 – Visualizzazione dei Report [24](#bar-chart-and-pie-chart-displaying-weekly-and-overall-distribution-of-three-categories-monopattini-green-automobili-pink-and-biciclette-blue.-bar-chart-shows-daily-counts-with-monopattini-highest-on-monday-and-decreasing-through-the-week-while-pie-chart-highlights-monopattini-as-majority-at-55.8-followed-by-biciclette-at-31.3-and-automobili-at-11.4.iui-15-visualizzazione-dei-report)](#bar-chart-and-pie-chart-displaying-weekly-and-overall-distribution-of-three-categories-monopattini-green-automobili-pink-and-biciclette-blue.-bar-chart-shows-daily-counts-with-monopattini-highest-on-monday-and-decreasing-through-the-week-while-pie-chart-highlights-monopattini-as-majority-at-55.8-followed-by-biciclette-at-31.3-and-automobili-at-11.4.iui-15-visualizzazione-dei-report)
 
 [1.5.2.16 IUI-16 – Dashboard Operatore [24](#iui-16-dashboard-operatore)](#iui-16-dashboard-operatore)
 
 [1.5.2.17 IUI-17 – Gestione Segnalazioni [24](#iui-17-gestione-segnalazioni)](#iui-17-gestione-segnalazioni)
 
-[1.5.2.18 IUI-18 – Gestione Tariffe e Promozioni [24](#iui-18-gestione-tariffe-e-promozioni)](#iui-18-gestione-tariffe-e-promozioni)
+[1.5.2.18 IUI-18 – Gestione Tariffe e Promozioni [25](#iui-18-gestione-tariffe-e-promozioni)](#iui-18-gestione-tariffe-e-promozioni)
 
 [1.5.2.19 IUI-19 – Schermata di Impostazione Regole [25](#screenshot-of-a-settings-panel-titled-impostazioni-regole-displaying-configurable-rules-for-booking-and-business-operations.-it-includes-fields-with-numerical-values-for-maximum-booking-duration-30-min-grace-period-for-pause-10-min-maximum-concurrent-bookings-per-user-5-tariff-percentage-during-pause-100-and-a-dropdown-menu-with-options-related-to-business-rules-outside-parking-zones.iui-19-schermata-di-impostazione-regole)](#screenshot-of-a-settings-panel-titled-impostazioni-regole-displaying-configurable-rules-for-booking-and-business-operations.-it-includes-fields-with-numerical-values-for-maximum-booking-duration-30-min-grace-period-for-pause-10-min-maximum-concurrent-bookings-per-user-5-tariff-percentage-during-pause-100-and-a-dropdown-menu-with-options-related-to-business-rules-outside-parking-zones.iui-19-schermata-di-impostazione-regole)
-
-[1.5.3 Item Qualitativi [25](#item-qualitativi)](#item-qualitativi)
-
-[1.5.3.1 IQ-1 [25](#iq-1)](#iq-1)
-
-[1.5.3.2 IQ-2 [25](#iq-2)](#iq-2)
-
-[1.5.3.3 IQ-n [25](#iq-n)](#iq-n)
-
-[1.5.4 Altri Item [25](#altri-item)](#altri-item)
 
 [2. Sprint Report [27](#sprint-report)](#sprint-report)
 
@@ -169,211 +167,229 @@ Indice
 
 [2.2.2 Specifiche dei Casi d’uso [30](#specifiche-dei-casi-duso)](#specifiche-dei-casi-duso)
 
-[2.2.2.1 UT – 01 Visualizza Mappa utente [30](#ut-01-visualizza-mappa-utente)](#ut-01-visualizza-mappa-utente)
+[2.2.2.1 UT – 01 Visualizza Mappa Utente [30](#ut-01-visualizza-mappa-utente)](#ut-01-visualizza-mappa-utente)
 
-[2.2.2.2 UT – 02 Prenota Mezzo [30](#ut-02-prenota-mezzo)](#ut-02-prenota-mezzo)
+[2.2.2.2 UT – 02 Prenota Mezzo [32](#ut-02-prenota-mezzo)](#ut-02-prenota-mezzo)
 
-[2.2.2.3 UT – 03 Sblocca Mezzo [33](#ut-03-sblocca-mezzo)](#ut-03-sblocca-mezzo)
+[2.2.2.3 UT – 03 Sblocca Mezzo [34](#ut-03-sblocca-mezzo)](#ut-03-sblocca-mezzo)
 
-[2.2.2.4 UT – 04 Termina corsa [34](#ut-04-termina-corsa)](#ut-04-termina-corsa)
+[2.2.2.4 UT – 04 Termina corsa [36](#ut-04-termina-corsa)](#ut-04-termina-corsa)
 
-[2.2.2.5 UT – 05 Effettua Pagamento [36](#ut-05-effettua-pagamento)](#ut-05-effettua-pagamento)
+[2.2.2.5 UT – 05 Effettua Pagamento [38](#ut-05-effettua-pagamento)](#ut-05-effettua-pagamento)
 
-[2.2.2.6 UT - 06 Salva Metodo di Pagamento [37](#ut---06-salva-metodo-di-pagamento)](#ut---06-salva-metodo-di-pagamento)
+[2.2.2.6 UT - 06 Salva Metodo di Pagamento [40](#ut---06-salva-metodo-di-pagamento)](#ut---06-salva-metodo-di-pagamento)
 
-[2.2.2.1 UT – 07 Consulta Tariffe [39](#ut-07-consulta-tariffe)](#ut-07-consulta-tariffe)
+[2.2.2.1 UT – 07 Consulta Tariffe [42](#ut-07-consulta-tariffe)](#ut-07-consulta-tariffe)
 
-[2.2.2.2 UT – 08 Visualizza Riepilogo Corsa [40](#ut-08-visualizza-riepilogo-corsa)](#ut-08-visualizza-riepilogo-corsa)
+[2.2.2.2 UT – 08 Visualizza Riepilogo Corsa [44](#ut-08-visualizza-riepilogo-corsa)](#ut-08-visualizza-riepilogo-corsa)
 
-[2.2.2.3 UT – 09 Sospende Corsa [41](#ut-09-sospende-corsa)](#ut-09-sospende-corsa)
+[2.2.2.3 UT – 09 Sospende Corsa [44](#ut-09-sospende-corsa)](#ut-09-sospende-corsa)
 
-[2.2.2.4 UT – 10 Visualizza Promozioni [43](#ut-10-visualizza-promozioni)](#ut-10-visualizza-promozioni)
+[2.2.2.4 UT – 10 Visualizza Promozioni [46](#ut-10-visualizza-promozioni)](#ut-10-visualizza-promozioni)
 
-[2.2.2.5 UT – 11 Visualizza Storico Corse [44](#ut-11-visualizza-storico-corse)](#ut-11-visualizza-storico-corse)
+[2.2.2.5 UT – 11 Visualizza Storico Corse [48](#ut-11-visualizza-storico-corse)](#ut-11-visualizza-storico-corse)
 
-[2.2.2.6 UT – 12 Invia Segnalazione [45](#ut-12-invia-segnalazione)](#ut-12-invia-segnalazione)
+[2.2.2.6 UT – 12 Invia Segnalazione [49](#ut-12-invia-segnalazione)](#ut-12-invia-segnalazione)
 
-[2.2.2.7 UT – 13 Sottoscrive Abbonamento [46](#ut-13-sottoscrive-abbonamento)](#ut-13-sottoscrive-abbonamento)
+[2.2.2.7 UT – 13 Sottoscrive Abbonamento [50](#ut-13-sottoscrive-abbonamento)](#ut-13-sottoscrive-abbonamento)
 
-[2.2.2.8 AP – 01 Accede Report [47](#ap-01-accede-report)](#ap-01-accede-report)
+[2.2.2.8 UT – 14 Visualizza Suggerimenti Intelligenti [51](#ut-14-visualizza-suggerimenti-intelligenti)](#ut-14-visualizza-suggerimenti-intelligenti)
 
-[2.2.2.9 AP - 02 Esporta Report [49](#ap---02-esporta-report)](#ap---02-esporta-report)
+[2.2.2.9 UT – 15 Scrive Recensione [53](#ut-15-scrive-recensione)](#ut-15-scrive-recensione)
 
-[2.2.2.10 AP – 03 Visualizza Mappa Amministrazione Pubblica [51](#ap-03-visualizza-mappa-amministrazione-pubblica)](#ap-03-visualizza-mappa-amministrazione-pubblica)
+[2.2.2.10 AP – 01 Accede Report [55](#ap-01-accede-report)](#ap-01-accede-report)
 
-[2.2.2.11 OP – 01 Visualizza Mappa Operatore [53](#op-01-visualizza-mappa-operatore)](#op-01-visualizza-mappa-operatore)
+[2.2.2.11 AP - 02 Esporta Report [56](#ap---02-esporta-report)](#ap---02-esporta-report)
 
-[2.2.2.12 OP – 02 Aggiunge Mezzo [54](#op-02-aggiunge-mezzo)](#op-02-aggiunge-mezzo)
+[2.2.2.12 AP – 03 Visualizza Mappa Amministrazione Pubblica [58](#ap-03-visualizza-mappa-amministrazione-pubblica)](#ap-03-visualizza-mappa-amministrazione-pubblica)
 
-[2.2.2.13 OP – 03 Dismette Mezzo [55](#op-03-dismette-mezzo)](#op-03-dismette-mezzo)
+[2.2.2.13 OP – 01 Visualizza Mappa Operatore [60](#op-01-visualizza-mappa-operatore)](#op-01-visualizza-mappa-operatore)
 
-[2.2.2.14 OP – 04 Modifica stato mezzo [57](#op-04-modifica-stato-mezzo)](#op-04-modifica-stato-mezzo)
+[2.2.2.14 OP – 02 Aggiunge Mezzo [61](#op-02-aggiunge-mezzo)](#op-02-aggiunge-mezzo)
 
-[2.2.2.15 OP – 05 Definisce tariffa [58](#op-05-definisce-tariffa)](#op-05-definisce-tariffa)
+[2.2.2.15 OP – 03 Dismette Mezzo [63](#op-03-dismette-mezzo)](#op-03-dismette-mezzo)
 
-[2.2.2.16 OP-06 Definisce Regole Fine Corsa [59](#op-06-definisce-regole-fine-corsa)](#op-06-definisce-regole-fine-corsa)
+[2.2.2.16 OP – 04 Modifica stato mezzo [65](#op-04-modifica-stato-mezzo)](#op-04-modifica-stato-mezzo)
 
-[2.2.2.17 OP-07 Definisce Zona [61](#op-07-definisce-zona)](#op-07-definisce-zona)
+[2.2.2.17 OP – 05 Definisce tariffa [66](#op-05-definisce-tariffa)](#op-05-definisce-tariffa)
 
-[2.2.2.18 OP-08 Gestisce Segnalazione [62](#op-08-gestisce-segnalazione)](#op-08-gestisce-segnalazione)
+[2.2.2.18 OP-06 Definisce Regole Fine Corsa [68](#op-06-definisce-regole-fine-corsa)](#op-06-definisce-regole-fine-corsa)
 
-[2.2.2.19 OP-09 Sospende Account Utente [63](#op-09-sospende-account-utente)](#op-09-sospende-account-utente)
+[2.2.2.19 OP-07 Definisce Zona [69](#op-07-definisce-zona)](#op-07-definisce-zona)
 
-[2.2.2.20 OP-10 Definisce Offerta [64](#op-10-definisce-offerta)](#op-10-definisce-offerta)
+[2.2.2.20 OP-08 Gestisce Segnalazione [70](#op-08-gestisce-segnalazione)](#op-08-gestisce-segnalazione)
 
-[2.2.2.21 OP-11 Configura parametri di sistema [65](#op-11-configura-parametri-di-sistema)](#op-11-configura-parametri-di-sistema)
+[2.2.2.21 OP-09 Sospende Account Utente [71](#op-09-sospende-account-utente)](#op-09-sospende-account-utente)
 
-[2.3 System Architecture [68](#system-architecture)](#system-architecture)
+[2.2.2.22 OP-10 Definisce Offerta [73](#op-10-definisce-offerta)](#op-10-definisce-offerta)
 
-[2.3.1 Diagramma delle Componenti – Diagramma Generale [68](#diagramma-delle-componenti-diagramma-generale)](#diagramma-delle-componenti-diagramma-generale)
+[2.2.2.23 OP-11 Configura parametri numerici di sistema [74](#op-11-configura-parametri-numerici-di-sistema)](#op-11-configura-parametri-numerici-di-sistema)
 
-[2.3.1.1 Client [69](#client)](#client)
+[2.2.2.24 OP-12 Visualizza Recensioni [75](#op-12-visualizza-recensioni)](#op-12-visualizza-recensioni)
 
-[2.3.1.2 Server [70](#server)](#server)
+[2.2.2.25 OP-13 Mostra storico modifiche [77](#op-13-mostra-storico-modifiche)](#op-13-mostra-storico-modifiche)
 
-[2.3.2 Specifica delle componenti [70](#specifica-delle-componenti)](#specifica-delle-componenti)
+[2.3 System Architecture [78](#system-architecture)](#system-architecture)
 
-[2.3.2.1 Specifica delle componenti client [70](#specifica-delle-componenti-client)](#specifica-delle-componenti-client)
+[2.3.1 Diagramma delle Componenti – Diagramma Generale [78](#diagramma-delle-componenti-diagramma-generale)](#diagramma-delle-componenti-diagramma-generale)
 
-[2.3.2.2 Specifica delle componenti server [73](#specifica-delle-componenti-server)](#specifica-delle-componenti-server)
+[2.3.1.1 Client [79](#client)](#client)
 
-[2.3.2.3 Specifica delle componenti Servizi Esterni [76](#specifica-delle-componenti-servizi-esterni)](#specifica-delle-componenti-servizi-esterni)
+[2.3.1.2 Server [79](#server)](#server)
 
-[2.3.2.4 Specifica delle componenti Persistenza [76](#specifica-delle-componenti-persistenza)](#specifica-delle-componenti-persistenza)
+[2.3.2 Specifica delle componenti [79](#specifica-delle-componenti)](#specifica-delle-componenti)
 
-[2.4 Detailed Product Design [77](#detailed-product-design)](#detailed-product-design)
+[Specifica delle componenti client [80](#specifica-delle-componenti-client)](#specifica-delle-componenti-client)
 
-[2.4.1 Diagramma delle Classi – Diagramma Generale [77](#diagramma-delle-classi-diagramma-generale)](#diagramma-delle-classi-diagramma-generale)
+[2.3.2.1 Specifica delle componenti server [80](#specifica-delle-componenti-server)](#specifica-delle-componenti-server)
 
-[2.4.1.1 Diagramma delle Classi – Client [78](#diagramma-delle-classi-client)](#diagramma-delle-classi-client)
+[2.3.2.2 Specifica delle componenti Servizi Esterni [81](#specifica-delle-componenti-servizi-esterni)](#specifica-delle-componenti-servizi-esterni)
 
-[2.4.1.2 Diagramma delle Classi – Server [79](#diagramma-delle-classi-server)](#diagramma-delle-classi-server)
+[2.3.2.3 Specifica delle interfacce e del flusso di comunicazione [81](#specifica-delle-interfacce-e-del-flusso-di-comunicazione)](#specifica-delle-interfacce-e-del-flusso-di-comunicazione)
 
-[2.4.1.3 Diagramma delle Classi – View [80](#diagramma-delle-classi-view)](#diagramma-delle-classi-view)
+[2.4 Detailed Product Design [82](#detailed-product-design)](#detailed-product-design)
 
-[2.4.1.4 Diagramma delle Classi – APIService [81](#diagramma-delle-classi-apiservice)](#diagramma-delle-classi-apiservice)
+[2.4.1 Diagramma delle Classi – Diagramma Generale [82](#diagramma-delle-classi-diagramma-generale)](#diagramma-delle-classi-diagramma-generale)
 
-[2.4.1.5 Diagramma delle Classi – interfacce Client/Server [82](#diagramma-delle-classi-interfacce-clientserver)](#diagramma-delle-classi-interfacce-clientserver)
+[2.4.1.1 Diagramma delle Classi – Client [82](#diagramma-delle-classi-client)](#diagramma-delle-classi-client)
 
-[2.4.1.6 Diagramma delle Classi – Controller [83](#diagramma-delle-classi-controller)](#diagramma-delle-classi-controller)
+[2.4.1.2 Diagramma delle Classi – Server [83](#diagramma-delle-classi-server)](#diagramma-delle-classi-server)
 
-[2.4.1.7 Diagramma delle Classi – Business Logic Layer [83](#diagramma-delle-classi-business-logic-layer)](#diagramma-delle-classi-business-logic-layer)
+[2.4.1.3 Diagramma delle Classi – View [83](#diagramma-delle-classi-view)](#diagramma-delle-classi-view)
+
+[2.4.1.4 Diagramma delle Classi – APIService [83](#diagramma-delle-classi-apiservice)](#diagramma-delle-classi-apiservice)
+
+[2.4.1.5 Diagramma delle Classi – Controller [83](#diagramma-delle-classi-controller)](#diagramma-delle-classi-controller)
+
+[2.4.1.6 Diagramma delle Classi – Business Logic Layer [84](#diagramma-delle-classi-business-logic-layer)](#diagramma-delle-classi-business-logic-layer)
+
+[2.4.1.7 Diagramma delle Classi – Data Access Layer [84](#diagramma-delle-classi-data-access-layer)](#diagramma-delle-classi-data-access-layer)
 
 [2.4.1.8 Diagramma delle Classi – Model [84](#diagramma-delle-classi-model)](#diagramma-delle-classi-model)
 
-[2.4.1.9 Diagramma delle Classi – Data Access Layer [85](#diagramma-delle-classi-data-access-layer)](#diagramma-delle-classi-data-access-layer)
+[2.4.1.9 Diagramma delle Classi – Servizi Esterni [85](#diagramma-delle-classi-servizi-esterni)](#diagramma-delle-classi-servizi-esterni)
 
 [2.4.2 Specifiche delle Classi [86](#specifiche-delle-classi)](#specifiche-delle-classi)
 
 [2.4.2.1 Specifica delle Classi – Client [86](#specifica-delle-classi-client)](#specifica-delle-classi-client)
 
-[2.4.2.1.1 Panoramica architetturale [86](#panoramica-architetturale)](#panoramica-architetturale)
+[2.4.2.1.1 View — Presentation Layer [86](#view-presentation-layer)](#view-presentation-layer)
 
-[2.4.2.1.2 Interfacce [86](#interfacce)](#interfacce)
-
-[2.4.2.1.3 Livello API Service [87](#livello-api-service)](#livello-api-service)
-
-[2.4.2.1.4 Livello View [89](#livello-view)](#livello-view)
-
-[2.4.2.1.4.1 UTENTE [89](#utente)](#utente)
-
-[2.4.2.1.4.2 Amministratore Pubblica [89](#amministratore-pubblica)](#amministratore-pubblica)
-
-[2.4.2.1.4.3 Operatore [89](#operatore)](#operatore)
-
-[2.4.2.1.5 Relazioni tra le classi [90](#relazioni-tra-le-classi)](#relazioni-tra-le-classi)
+[2.4.2.1.2 API Service [89](#api-service)](#api-service)
 
 [2.4.2.2 Specifica delle Classi – Server [91](#specifica-delle-classi-server)](#specifica-delle-classi-server)
 
-[2.4.2.2.1 Panoramica architetturale [91](#panoramica-architetturale-1)](#panoramica-architetturale-1)
+[2.4.2.2.1 Controller [91](#controller)](#controller)
 
-[2.4.2.2.2 Interfacce [92](#interfacce-1)](#interfacce-1)
+[2.4.2.2.2 BLL – Business Logic Layer [92](#bll-business-logic-layer)](#bll-business-logic-layer)
 
-[2.4.2.2.3 Livello Controller [93](#livello-controller)](#livello-controller)
+[2.4.2.2.3 DAL – Data Acces Layer [94](#dal-data-acces-layer)](#dal-data-acces-layer)
 
-[2.4.2.2.4 Livello Business Logic Layer [94](#livello-business-logic-layer)](#livello-business-logic-layer)
+[2.4.2.2.4 Model [96](#model)](#model)
 
-[2.4.2.2.5 Livello Model [96](#livello-model)](#livello-model)
+[2.4.2.3 Interfacce e comunicazione tra componenti [98](#interfacce-e-comunicazione-tra-componenti)](#interfacce-e-comunicazione-tra-componenti)
 
-[2.4.2.2.6 Livello Data Access Layer [97](#livello-data-access-layer)](#livello-data-access-layer)
+[2.4.2.3.1 Client → Server: API Service → Controller [98](#client-server-api-service-controller)](#client-server-api-service-controller)
 
-[2.4.2.2.7 Relazioni tra le classi [99](#relazioni-tra-le-classi-1)](#relazioni-tra-le-classi-1)
+[2.4.2.3.2 Controller → BLL: [98](#controller-bll)](#controller-bll)
 
-[2.4.3 Diagrammi di Sequenza [100](#diagrammi-di-sequenza)](#diagrammi-di-sequenza)
+[2.4.2.3.3 BLL →DAL: [99](#bll-dal)](#bll-dal)
 
-[2.4.3.1 UT - 01 Visualizza Mappa Utente [100](#ut---01-visualizza-mappa-utente)](#ut---01-visualizza-mappa-utente)
+[2.4.2.3.4 Model: [99](#model-1)](#model-1)
 
-[2.4.3.2 UT - 02 Prenota Mezzo [101](#ut---02-prenota-mezzo)](#ut---02-prenota-mezzo)
+[2.4.2.3.5 Integrazione con i sistemi esterni: [99](#integrazione-con-i-sistemi-esterni)](#integrazione-con-i-sistemi-esterni)
 
-[2.4.3.3 UT – 03 Sblocca Mezzo [102](#ut-03-sblocca-mezzo-1)](#ut-03-sblocca-mezzo-1)
+[2.4.2.3.6 DBMS: [100](#dbms)](#dbms)
 
-[2.4.3.4 UT – 04 Termina Corsa [103](#ut-04-termina-corsa-1)](#ut-04-termina-corsa-1)
+[2.4.3 Diagrammi di Sequenza [101](#diagrammi-di-sequenza)](#diagrammi-di-sequenza)
 
-[2.4.3.5 UT – 05 Effettua Pagamento [104](#ut-05-effettua-pagamento-1)](#ut-05-effettua-pagamento-1)
+[2.4.3.1 UT - 01 Visualizza Mappa Utente [101](#ut---01-visualizza-mappa-utente)](#ut---01-visualizza-mappa-utente)
 
-[2.4.3.6 UT – 06 Salva Metodo di Pagamento [105](#ut-06-salva-metodo-di-pagamento)](#ut-06-salva-metodo-di-pagamento)
+[2.4.3.2 UT - 02 Prenota Mezzo [102](#ut---02-prenota-mezzo)](#ut---02-prenota-mezzo)
 
-[2.4.3.7 UT – 07 Consulta Tariffe [106](#ut-07-consulta-tariffe-1)](#ut-07-consulta-tariffe-1)
+[2.4.3.3 UT – 03 Sblocca Mezzo [103](#ut-03-sblocca-mezzo-1)](#ut-03-sblocca-mezzo-1)
 
-[2.4.3.8 UT – 08 Visualizza Riepilogo Corsa [107](#ut-08-visualizza-riepilogo-corsa-1)](#ut-08-visualizza-riepilogo-corsa-1)
+[2.4.3.4 UT – 04 Termina Corsa [104](#ut-04-termina-corsa-1)](#ut-04-termina-corsa-1)
 
-[2.4.3.9 UT - 09 Sospende Corsa [108](#ut---09-sospende-corsa)](#ut---09-sospende-corsa)
+[2.4.3.5 UT – 05 Effettua Pagamento [105](#ut-05-effettua-pagamento-1)](#ut-05-effettua-pagamento-1)
 
-[2.4.3.10 UT – 10 Visualizza Promozioni [109](#ut-10-visualizza-promozioni-1)](#ut-10-visualizza-promozioni-1)
+[2.4.3.6 UT – 06 Salva Metodo di Pagamento [106](#ut-06-salva-metodo-di-pagamento)](#ut-06-salva-metodo-di-pagamento)
 
-[2.4.3.11 UT – 11 Visualizza Storico Corsa [110](#ut-11-visualizza-storico-corsa)](#ut-11-visualizza-storico-corsa)
+[2.4.3.7 UT – 07 Consulta Tariffe [108](#ut-07-consulta-tariffe-1)](#ut-07-consulta-tariffe-1)
 
-[2.4.3.12 UT – 12 Invia Segnalazione [111](#ut-12-invia-segnalazione-1)](#ut-12-invia-segnalazione-1)
+[2.4.3.8 UT – 08 Visualizza Riepilogo Corsa [108](#ut-08-visualizza-riepilogo-corsa-1)](#ut-08-visualizza-riepilogo-corsa-1)
 
-[2.4.3.13 UT – 13 Sottoscrive Abbonamento [112](#ut-13-sottoscrive-abbonamento-1)](#ut-13-sottoscrive-abbonamento-1)
+[2.4.3.9 UT - 09 Sospende Corsa [109](#ut---09-sospende-corsa)](#ut---09-sospende-corsa)
 
-[2.4.3.14 AP – 01 Accede Report [113](#ap-01-accede-report-1)](#ap-01-accede-report-1)
+[2.4.3.10 UT – 10 Visualizza Promozioni [110](#ut-10-visualizza-promozioni-1)](#ut-10-visualizza-promozioni-1)
 
-[2.4.3.15 AP – 02 Esporta Report [114](#ap-02-esporta-report)](#ap-02-esporta-report)
+[2.4.3.11 UT – 11 Visualizza Storico Corse [111](#ut-11-visualizza-storico-corse-1)](#ut-11-visualizza-storico-corse-1)
 
-[2.4.3.16 AP – 03 Visualizza Mappa Amministrazione Pubblica [115](#ap-03-visualizza-mappa-amministrazione-pubblica-1)](#ap-03-visualizza-mappa-amministrazione-pubblica-1)
+[2.4.3.12 UT – 12 Invia Segnalazione [112](#ut-12-invia-segnalazione-1)](#ut-12-invia-segnalazione-1)
 
-[2.4.3.17 OP-01 Visualizza Mappa Operatore [115](#op-01-visualizza-mappa-operatore-1)](#op-01-visualizza-mappa-operatore-1)
+[2.4.3.13 UT – 13 Sottoscrive Abbonamento [113](#ut-13-sottoscrive-abbonamento-1)](#ut-13-sottoscrive-abbonamento-1)
 
-[2.4.3.18 OP – 02 Aggiunge Mezzo [116](#op-02-aggiunge-mezzo-1)](#op-02-aggiunge-mezzo-1)
+[2.4.3.14 UT – 14 Visualizza Suggerimenti Intelligenti [114](#ut-14-visualizza-suggerimenti-intelligenti-1)](#ut-14-visualizza-suggerimenti-intelligenti-1)
 
-[2.4.3.19 OP – 03 Dismette Mezzo [116](#op-03-dismette-mezzo-1)](#op-03-dismette-mezzo-1)
+[2.4.3.15 UT – 15 Scrive Recensione [115](#ut-15-scrive-recensione-1)](#ut-15-scrive-recensione-1)
 
-[2.4.3.20 OP – 04 Modifica Stato Mezzo [117](#op-04-modifica-stato-mezzo-1)](#op-04-modifica-stato-mezzo-1)
+[2.4.3.16 AP – 01 Accede Report [116](#ap-01-accede-report-1)](#ap-01-accede-report-1)
 
-[2.4.3.21 OP – 05 Definisce Tariffa [118](#op-05-definisce-tariffa-1)](#op-05-definisce-tariffa-1)
+[2.4.3.17 AP – 02 Esporta Report [116](#ap-02-esporta-report)](#ap-02-esporta-report)
 
-[2.4.3.22 OP – 06 Definisce Regole fine corsa [119](#op-06-definisce-regole-fine-corsa-1)](#op-06-definisce-regole-fine-corsa-1)
+[2.4.3.18 AP – 03 Visualizza Mappa Amministrazione Pubblica [117](#ap-03-visualizza-mappa-amministrazione-pubblica-1)](#ap-03-visualizza-mappa-amministrazione-pubblica-1)
 
-[2.4.3.23 OP – 07 Definisce Zona [120](#op-07-definisce-zona-1)](#op-07-definisce-zona-1)
+[2.4.3.19 OP-01 Visualizza Mappa Operatore [117](#op-01-visualizza-mappa-operatore-1)](#op-01-visualizza-mappa-operatore-1)
 
-[2.4.3.24 OP – 08 Gestisce Segnalazione [121](#op-08-gestisce-segnalazione-1)](#op-08-gestisce-segnalazione-1)
+[2.4.3.20 OP – 02 Aggiunge Mezzo [118](#op-02-aggiunge-mezzo-1)](#op-02-aggiunge-mezzo-1)
 
-[2.4.3.25 OP – 09 Sospende account utente [122](#op-09-sospende-account-utente-1)](#op-09-sospende-account-utente-1)
+[2.4.3.21 OP – 03 Dismette Mezzo [119](#op-03-dismette-mezzo-1)](#op-03-dismette-mezzo-1)
 
-[2.4.3.26 OP – 10 Definisce Offerta [123](#op-10-definisce-offerta-1)](#op-10-definisce-offerta-1)
+[2.4.3.22 OP – 04 Modifica Stato Mezzo [120](#op-04-modifica-stato-mezzo-1)](#op-04-modifica-stato-mezzo-1)
 
-[2.4.3.27 OP – 11 Configura parametri numerici di sistema [124](#op-11-configura-parametri-numerici-sistema)](#op-11-configura-parametri-numerici-sistema)
+[2.4.3.23 OP – 05 Definisce Tariffa [121](#op-05-definisce-tariffa-1)](#op-05-definisce-tariffa-1)
 
-[2.5 Data modeling and design [124](#data-modeling-and-design)](#data-modeling-and-design)
+[2.4.3.24 OP – 06 Definisce Regole fine corsa [122](#op-06-definisce-regole-fine-corsa-1)](#op-06-definisce-regole-fine-corsa-1)
 
-[2.5.1 Modello logico del Database [125](#modello-logico-del-database)](#modello-logico-del-database)
+[2.4.3.25 OP – 07 Definisce Zona [123](#op-07-definisce-zona-1)](#op-07-definisce-zona-1)
 
-[2.5.2 Struttura fisica del Database [125](#struttura-fisica-del-database)](#struttura-fisica-del-database)
+[2.4.3.26 OP – 08 Gestisce Segnalazione [124](#op-08-gestisce-segnalazione-1)](#op-08-gestisce-segnalazione-1)
 
-[3. Prompt [126](#prompt)](#prompt)
+[2.4.3.27 OP – 09 Sospende account utente [125](#op-09-sospende-account-utente-1)](#op-09-sospende-account-utente-1)
 
-[3.1 Qualità dei requisiti [126](#qualità-dei-requisiti)](#qualità-dei-requisiti)
+[2.4.3.28 OP – 10 Definisce Offerta [126](#op-10-definisce-offerta-1)](#op-10-definisce-offerta-1)
 
-[3.2 Output Prompt Requisiti [134](#_Toc231754872)](#_Toc231754872)
+[2.4.3.29 OP – 11 Configura Parametri Numerici Sistema [127](#op-11-configura-parametri-numerici-sistema)](#op-11-configura-parametri-numerici-sistema)
 
-[3.3 Definizioni [135](#_Toc231754873)](#_Toc231754873)
+[2.4.3.30 OP – 12 Visualizza Recensioni [128](#op-12-visualizza-recensioni-1)](#op-12-visualizza-recensioni-1)
 
-[4. Glossario [136](#glossario)](#glossario)
+[2.4.3.31 OP – 13 Mostra Storico Modifiche [128](#op-13-mostra-storico-modifiche-1)](#op-13-mostra-storico-modifiche-1)
 
-[4.1 Acronimi [136](#acronimi)](#acronimi)
+[2.5 Data modeling and design [129](#data-modeling-and-design)](#data-modeling-and-design)
 
-[4.2 Definizioni [136](#definizioni)](#definizioni)
+[2.5.1 Modello logico del Database [129](#modello-logico-del-database)](#modello-logico-del-database)
+
+[2.5.2 Struttura fisica del Database [130](#struttura-fisica-del-database)](#struttura-fisica-del-database)
+
+[Prompt [131](#prompt)](#prompt)
+
+[2.6 Qualità dei requisiti [131](#qualità-dei-requisiti)](#qualità-dei-requisiti)
+
+[2.7 Diagrammi UML [138](#diagrammi-uml)](#diagrammi-uml)
+
+[2.7.1 Diagramma delle componenti [138](#diagramma-delle-componenti)](#diagramma-delle-componenti)
+
+[2.7.2 Diagramma delle classi [139](#diagramma-delle-classi)](#diagramma-delle-classi)
+
+[2.7.3 Diagrammi di Sequenza [141](#diagrammi-di-sequenza-1)](#diagrammi-di-sequenza-1)
+
+[2.7.4 Codifica [141](#codifica)](#codifica)
+
+[3. Glossario [145](#glossario)](#glossario)
+
+[3.1 Acronimi [145](#acronimi)](#acronimi)
+
+[3.2 Definizioni [145](#definizioni)](#definizioni)
 
 Product Backlog
 
@@ -385,91 +401,85 @@ Product Backlog
 
 ## Introduzione 
 
-SMART MOBILITY è un sistema software progettato per supportare il Comune di Zootropolis nell'introduzione di un servizio integrato di mobilità urbana sostenibile, che mette a fattor comune diversi servizi di sharing (bike sharing, car sharing, e-scooter sharing e altri) in un'unica piattaforma accessibile a cittadini, operatori e amministrazione pubblica.
+**SMART MOBILITY** è un sistema software progettato per supportare l'introduzione di un servizio integrato di mobilità urbana sostenibile, che mette a fattor comune diversi servizi di sharing (bike sharing, car sharing, e-scooter sharing) in un'unica piattaforma accessibile a cittadini, operatori e amministrazione pubblica.
 
 Il Sistema si pone tre obiettivi macroscopici:
 
 - Offrire ai cittadini un accesso rapido, sicuro e trasparente ai mezzi di sharing disponibili sul territorio
 
-- Permettere agli operatori del servizio di gestire in modo efficiente la flotta, ridurre costi e fenomeni di vandalismo
+- Permettere agli Operatori del Servizio di gestire in modo efficiente la flotta, riducendo costi operativi e fenomeni di vandalismo
 
-- Consentire all'Amministrazione Pubblica di monitorare la mobilità urbana e assumere decisioni strategiche basate su dati
+- Consentire all'Amministrazione Pubblica di monitorare la mobilità urbana e supportare la pianificazione territoriale con dati aggregati
 
-Tali obiettivi si traducono in un insieme di funzionalità che coprono l'intero ciclo di utilizzo del servizio per soddisfare le esigenze delle tre categorie di utenti destinatari del sistema SMART MOBILITY — Utenti finali, Operatori del Servizio e Amministrazione Pubblica.
+Tali obiettivi si traducono in un insieme di funzionalità che coprono l'intero ciclo di utilizzo del servizio, rispondendo alle esigenze delle tre categorie di utenti destinatari del sistema: Utenti, Operatori del Servizio e Amministrazione Pubblica.
 
-Per quanto riguarda gli Utenti, SMART MOBILITY offre:
+Per gli **Utenti**, SMART MOBILITY offre:
 
 - Visualizzazione dei mezzi disponibili nelle vicinanze e del loro stato
 
 - Prenotazione di uno o più mezzi e sblocco tramite dispositivo personale
 
-- Pagamenti veloci e sicuri
+- Pagamenti veloci e sicuri, con meccanismi di prevenzione di frodi ed errori
 
-- Garanzia di affidabilità del sistema, con meccanismi di prevenzione di frodi ed errori
+- Promozioni, abbonamenti, pausa della corsa e gestione del profilo di pagamento
 
-- Promozioni, pausa della corsa e gestione del profilo di pagamento
+Per gli **Operatori del Servizio**, SMART MOBILITY offre:
 
-Per quanto riguarda gli Operatori del Servizio, SMART MOBILITY offre:
+- Visualizzazione della distribuzione della flotta sul territorio per ottimizzare il riposizionamento dei mezzi
 
-- Visualizzazione della distribuzione della flotta e notifiche sulle aree con bassa disponibilità, per ottimizzare la redistribuzione dei mezzi sul territorio
+- Monitoraggio di malfunzionamenti, pianificazione della manutenzione e tracciamento della posizione dei mezzi a fine corsa, per contenere furti e vandalismo
 
-- Monitoraggio di malfunzionamenti, manutenzione pianificata e posizione dei mezzi a fine corsa, per ridurre i costi operativi e contenere i fenomeni di furto e vandalismo
+- Bonus per parcheggio corretto, sospensione dell'account in caso di frode.
 
-- Bonus per parcheggio corretto, sospensione account in caso di frode e blocco automatico dei mezzi fuori dalle zone consentite
+- Definizione di Zone Vietate, Zone Limitate, Zone di Parcheggio e del confine operativo della flotta
 
-- Selezione di zone sensibili con divieto o limitazione del transito e definizione delle zone di parcheggio e del confine operativo
+Per l'Amministrazione Pubblica, SMART MOBILITY offre:
 
-Per quanto riguarda l'Amministrazione Pubblica, SMART MOBILITY offre:
+- Monitoraggio della frequenza di utilizzo delle diverse tipologie di mezzo, con ripartizione per giorno della settimana e per tipologia
 
-- Monitoraggio della frequenza di utilizzo delle diverse tipologie di mezzo e dei pattern di mobilità urbana, a supporto delle decisioni strategiche di pianificazione
+- Accesso a report aggregati settimanali (corse totali, durata media, distanza totale), esportabili in formato CSV e PDF, a supporto della pianificazione strategica
 
-- Accesso a report aggregati per supportare decisioni strategiche sulla mobilità
+- Monitoraggio dello stato della flotta (mezzi disponibili, in uso, in manutenzione) per una visione d'insieme dell'operatività del servizio
 
-- Analisi dello stato dei mezzi e delle tratte più utilizzate per pianificare manutenzioni e interventi urbani, contribuendo alla garanzia della sicurezza urbana
-
-- Visualizzazione cartografica del territorio operativo per il monitoraggio del servizio sulla città
+- Visualizzazione cartografica del territorio operativo, con vista a pin, cluster o heatmap dei mezzi e delle zone, per il monitoraggio complessivo del servizio
 
 ## Contesto di business
 
-Nel panorama urbano contemporaneo, caratterizzato da un'emergenza climatica sempre più pressante, dalla necessità di decongestionare i centri storici e dalla transizione verso modelli di "Smart City", emerge con forza l'esigenza di soluzioni integrate per la mobilità dolce e condivisa. SMART Mobility nasce per rispondere a questa sfida, superando la frammentazione degli attuali servizi di sharing e offrendo una piattaforma unica che connette cittadini, operatori privati e pubblica amministrazione. Il software è pensato per essere usato nei seguenti ambiti:
+Nel panorama urbano contemporaneo — segnato dall'emergenza climatica, dalla necessità di decongestionare i centri storici e dalla transizione verso modelli di "Smart City" — emerge con forza l'esigenza di soluzioni integrate per la mobilità condivisa.
 
-- **Contesto di mobilità per i cittadini:** in un ambiente urbano dove possedere un mezzo privato è sempre più costoso e inefficiente, i cittadini necessitano di strumenti che permettano di pianificare spostamenti intermodali in tempo reale. SMART Mobility offre un ecosistema che permette all'utente di localizzare, prenotare e pagare diversi tipi di mezzi (bici, monopattini, auto elettriche) tramite un'unica interfaccia, garantendo trasparenza sulle tariffe e sulla disponibilità, oltre a incentivare comportamenti virtuosi tramite bonus per il parcheggio corretto.
+SMART Mobility nasce per rispondere a questa esigenza, superando la frammentazione degli attuali servizi di sharing e offrendo una piattaforma unica che connette cittadini, operatori privati e pubblica amministrazione.
 
-- **Contesto operativo degli operatori di flotta:** la gestione di una flotta di mezzi condivisi comporta sfide logistiche enormi, dal recupero dei mezzi scarichi alla manutenzione per atti vandalici. Gli operatori necessitano di strumenti avanzati per il monitoraggio costante della flotta, la gestione delle zone operative e l'ottimizzazione dei flussi di ridistribuzione. A questo scopo SMART Mobility mette a disposizione una "dashboard di controllo" che consente agli operatori di definire le zone vietate, le zone a circolazione limitata, le aree di parcheggio e il confine operativo della flotta, regolando in tempo reale la circolazione dei mezzi sul territorio. Il sistema permette inoltre ai gestori di massimizzare il tempo di attività dei mezzi, ridurre i costi di recupero e analizzare le zone a maggior rendimento.
+Il software è pensato per i seguenti ambiti applicativi:
 
-- **Contesto di governance dell'Amministrazione Pubblica:** i comuni si trovano spesso a subire l'invasione di mezzi di sharing senza avere gli strumenti per monitorarli efficacemente. SMART Mobility offre alle amministrazioni una dashboard di monitoraggio che consente di osservare in tempo reale la distribuzione dei mezzi e lo stato del servizio sul territorio. Il sistema consente di raccogliere dati granulari sui flussi di traffico e di accedere a report aggregati, permettendo di pianificare infrastrutture ciclabili e pedonali basandosi su evidenze reali anziché su stime.
+- **Mobilità dei cittadini.** In un contesto urbano dove possedere un mezzo privato è sempre più costoso e inefficiente, i cittadini necessitano di strumenti che permettano di pianificare spostamenti intermodali in tempo reale. SMART Mobility offre un ecosistema che permette di localizzare, prenotare e pagare diversi tipi di mezzo (biciclette, monopattini, auto elettriche) tramite un'unica interfaccia, con piena trasparenza su tariffe e disponibilità e con incentivi (bonus) per comportamenti corretti, come il parcheggio nelle aree designate.
 
-- **Contesto di sostenibilità e monitoraggio ambientale:** in un'epoca di obiettivi stringenti per la riduzione della CO2, cresce il bisogno di monitorare l'impatto ambientale dei trasporti. SMART Mobility risponde a questa esigenza fornendo statistiche aggregate sui chilometri percorsi con mezzi elettrici e sul risparmio di emissioni, permettendo sia all'utente che al Comune di visualizzare il proprio contributo concreto alla transizione ecologica.
+- **Gestione operativa della flotta.** La gestione di una flotta di mezzi condivisi comporta sfide logistiche significative: dal recupero dei mezzi scarichi alla manutenzione dopo atti vandalici. Gli Operatori del Servizio necessitano di strumenti per il monitoraggio costante della flotta, la gestione delle zone operative e l'ottimizzazione del riposizionamento dei mezzi. SMART Mobility fornisce una dashboard che consente di definire Zone Vietate, Zone Limitate, Zone di Parcheggio e il confine operativo, regolando in tempo reale la circolazione sul territorio e riducendo i costi di recupero.
 
-In questo scenario, SMART Mobility si propone come piattaforma integrata che supera i limiti dei singoli servizi proprietari, offrendo un'esperienza fluida e centralizzata che risponde alle esigenze di tutti gli attori della mobilità urbana.
+- **Governance dell'Amministrazione Pubblica**. I comuni si trovano spesso a subire la proliferazione di servizi di sharing senza disporre di strumenti adeguati per monitorarli. SMART Mobility offre una dashboard che consente di osservare in tempo reale la distribuzione dei mezzi e lo stato della flotta sul territorio (mezzi disponibili, in uso, in manutenzione), con vista a pin, cluster o heatmap, e rendendo disponibili report aggregati settimanali, esportabili in CSV e PDF, a supporto della pianificazione strategica della mobilità urbana.
+
+> In questo scenario, SMART Mobility si propone come piattaforma integrata che supera i limiti dei singoli servizi proprietari, offrendo un'esperienza fluida e centralizzata alle esigenze di tutti gli attori della mobilità urbana.
 
 ## Stakeholder
 
-Il sistema SMART Mobility coinvolge diversi stakeholder che interagiscono con la piattaforma con ruoli e obiettivi specifici. Di seguito sono descritti i principali attori del sistema:
+Il sistema SMART Mobility coinvolge diversi stakeholder che interagiscono con la piattaforma con ruoli e obiettivi specifici:
 
-**<u>1. Utente:</u>**
+**1. Utente** È l'utente che usufruisce dei mezzi di mobilità condivisa. Deve essere registrato per visualizzare la mappa, localizzare i mezzi, prenotarli e pagarli. Le tipologie di Utente sono:
 
-È l'utente che usufruisce dei mezzi di mobilità condivisa. Deve essere registrato per utilizzare la mappa, per localizzare i mezzi, per noleggiare e pagare. Le tipologie di Utente sono:
+- *Pendolare Urbano*: utilizza regolarmente il servizio per coprire l'ultimo miglio (es. da stazione a ufficio) e cerca affidabilità e abbonamenti convenienti.
 
-- **Pendolare Urbano:** Persona che utilizza regolarmente il servizio per coprire l'ultimo miglio (es. da stazione a ufficio) e cerca affidabilità e abbonamenti convenienti.
+- *Utente Occasionale*: residente che utilizza il servizio saltuariamente, per necessità impreviste o svago.
 
-- **Utente Occasionale:** Residente che utilizza il servizio saltuariamente per necessità impreviste o svago.
+- *Turista*: visitatore che necessita di un accesso rapido e senza frizioni per esplorare la città in modo sostenibile.
 
-- **Turista:** Visitatore che necessita di un accesso rapido e senza frizioni per esplorare la città in modo sostenibile.
+**2. Operatore del Servizio** Rappresenta l'azienda che immette i mezzi sul territorio e ne gestisce il business e la manutenzione. Le figure interne all'Operatore sono:
 
-**<u>2. Operatore del Servizio:</u>**
+- *Manager del Servizio*: definisce piani tariffari, promozioni, zone operative e zone soggette a restrizione, per massimizzare il profitto e regolare la circolazione dei mezzi.
 
-Rappresenta l'azienda che immette i mezzi sulla strada. Gestisce il business e la manutenzione. Le tipologie di figure interne all'Operatore sono:
+- *Team Logistico e Manutentori*: personale sul campo che si occupa della ricarica delle batterie, della riparazione dei guasti e del riposizionamento fisico dei mezzi nelle zone ad alta richiesta.
 
-- Manager del Servizio: Definisce i piani tariffari, le promozioni, le zone operative e le zone soggette a restrizioni per massimizzare il profitto e regolare la circolazione dei mezzi.
+**3. Amministrazione Pubblica** Ente che supervisione l’utilizzo dei mezzi nel suolo pubblico. La figura coinvolta è:
 
-- Team Logistico e Manutentori: Personale sul campo che si occupa della ricarica delle batterie, della riparazione dei guasti e dello spostamento fisico dei mezzi nelle zone ad alta richiesta.
-
-**<u>3. Amministrazione Pubblica:</u>**
-
-Ente che detiene la sovranità sul suolo pubblico e definisce le regole del gioco. Le figure coinvolte sono:
-
-- Pianificatore Urbano/Mobility Manager: Utilizza i dati e i report aggregati della piattaforma per analizzare i flussi di mobilità, studiare nuovi percorsi ciclabili e supportare le decisioni strategiche di pianificazione urbana.
+- *Pianificatore Urbano / Mobility Manager*: utilizza i dati e i report aggregati della piattaforma per analizzare i flussi di mobilità, studiare nuovi percorsi ciclabili e supportare le decisioni di pianificazione urbana.
 
 ## Item funzionali
 
@@ -479,7 +489,7 @@ Contiene l’elenco e la specifica di tutti i requisiti funzionali espressi attr
 
 *Come* utente,
 
-*Voglio* visualizzare la Mappa Utente,
+*Voglio* visualizzare la “Mappa Utente”,
 
 *Così da* poter scegliere un mezzo.
 
@@ -589,11 +599,11 @@ Contiene l’elenco e la specifica di tutti i requisiti funzionali espressi attr
 
 ### IF-UT.15 – Scrive una recensione 
 
-### *Come* utente, 
+*Come* utente,
 
-### *Voglio* lasciare una recensione,
+*Voglio* lasciare una recensione,
 
-### *Così da* aiutare a migliorare il servizio.
+*Così da* aiutare a migliorare il servizio.
 
 ###  IF-AP.01 – Accede Report
 
@@ -615,15 +625,15 @@ Contiene l’elenco e la specifica di tutti i requisiti funzionali espressi attr
 
 *Come* amministrazione pubblica,
 
-*Voglio* visualizza la mappa,
+*Voglio* visualizzare la “Mappa Amministrazione Pubblica”,
 
-*Così* *da* monitorare il servizio sulla citta.
+*Così* *da* monitorare il servizio sulla città.
 
 ### IF-OP.01 – Visualizza Mappa Operatore
 
 *Come* operatore,
 
-*Voglio* visualizzare la Mappa Operatore,
+*Voglio* visualizzare la “Mappa Operatore”,
 
 *Così* *da* pianificare operazioni di redistribuzione.
 
@@ -661,13 +671,13 @@ Contiene l’elenco e la specifica di tutti i requisiti funzionali espressi attr
 
 ### IF-OP.06 – Definisce Regole Fine Corsa
 
-*Come* Operatore
+*Come* Operatore,
 
-*Voglio* Definire regole sanzionatorie per i rilasci dei mezzi al di fuori delle aree di parcheggio consentite
+*Voglio* definire le regole che si applicano al rilascio dei mezzi a fine corsa,
 
-**Così da** garantire il decoro urbano
+*Così da* incentivare un comportamento corretto degli utenti e garantire il decoro urbano.
 
-### IF-OP.07 - Definisce Zone 
+### IF-OP.07 - Definisce Zona
 
 *Come* operatore,
 
@@ -683,9 +693,7 @@ Contiene l’elenco e la specifica di tutti i requisiti funzionali espressi attr
 
 *Così* *da* pianificare gli interventi di manutenzione.
 
-**Nota di implementazione (Sprint 3):** il flusso di gestione segue le transizioni di stato `aperta → in_carico → risolta`. L'operatore prende in carico una segnalazione (`PATCH /operatore/segnalazioni/{id}/prendi-in-carico`) e solo da `in_carico` può segnarla come risolta (`PATCH /operatore/segnalazioni/{id}/risolvi`); un tentativo di risolvere una segnalazione ancora `aperta` viene rifiutato con HTTP 422. Lo stato `risolta` è visibile anche lato utente nello storico delle proprie segnalazioni (`VistaSegnalazione.tsx`), senza notifica push dedicata — l'utente lo vede ricaricando/rivisitando la pagina.
-
-### IF-OP.09– Sospende Account Utente
+### IF-OP.09 – Sospende Account Utente
 
 *Come* operatore,
 
@@ -701,13 +709,21 @@ Contiene l’elenco e la specifica di tutti i requisiti funzionali espressi attr
 
 *Così* *da* incentivare l'utilizzo del sistema con politiche commerciali flessibili.
 
-### IF-OP.11 – Configura Parametri Sistema 
+### IF-OP.11 – Configura Parametri Numerici di Sistema 
 
 *Come* operatore,
 
-*Voglio* configurare i parametri relativa al sistema,
+*Voglio* configurare i parametri relativi al sistema,
 
 *Così* da stabilire dei limiti di utilizzo.
+
+### IF-OP.12 – Visualizza Recensioni 
+
+*Come* operatore,
+
+*Voglio* visualizzare le recensioni lasciate dagli utenti,
+
+*così da* avere un riscontro sulle migliorie da apportare al sistema
 
 ### IF-OP.13 – Mostra Storico Modifiche
 
@@ -716,16 +732,6 @@ Contiene l’elenco e la specifica di tutti i requisiti funzionali espressi attr
 *Voglio* consultare un registro cronologico delle modifiche apportate al sistema,
 
 *Così da* poter ricostruire l'evoluzione delle configurazioni del servizio.
-
-**Nota di implementazione (Sprint 3):** la registrazione nello storico modifiche è stata estesa oltre a `parametri_sistema`, `regole_fine_corsa`, `zona_creata` e `zona_eliminata` per includere anche `tariffa_creata`, `tariffa_modificata`, `offerta_creata`, `offerta_modificata` e `offerta_eliminata` — loggate da `ServizioTariffa` e `ServizioOfferta` con la stessa convenzione testuale `"campo1=valore1, campo2=valore2"` per `valore_precedente`/`valore_nuovo`. L'interfaccia `VistaStoricoModifiche.tsx` è stata riorganizzata da un elenco cronologico piatto a un accordion con una sezione collassabile per categoria (Parametri di sistema, Regole di fine corsa, Zone, Tariffe, Offerte); ogni voce calcola un diff campo-per-campo e mostra solo i campi effettivamente cambiati, con etichette in italiano, unità di misura (€, %, minuti) e freccia "prima → dopo".
-
-### IF-OP.12 – Visualizza Recensioni 
-
-*Come* operatore,
-
-*Voglio* visualizzare le recensioni lasciate dagli utenti,
-
-cosi da avere un riscontro sulle migliorie da apportare al sistema
 
 ## Item non funzionali
 
@@ -737,11 +743,9 @@ Contiene l’elenco e la specifica di tutti gli eventuali requisiti non funziona
 
 #### IIN-1 Prestazioni 
 
-- Il sistema deve aggiornare la posizione dei mezzi sulla Mappa Utente entro x secondi dall'ultimo rilevamento GPS (da testare)
+- Il sistema deve aggiornare la posizione dei mezzi sulla Mappa Utente entro 10 secondi
 
-- Il sistema deve completare l'operazione di prenotazione di un mezzo entro x secondi dalla richiesta dell'utente (da testare)
-
-- Il sistema deve mantenere la coerenza dei dati temporali in modo proattivo: le prenotazioni scadute (IF-UT.02) e gli abbonamenti scaduti (IF-UT.13) vengono aggiornati automaticamente tramite job schedulati nel database (pg_cron), senza dipendere dall'interazione dell'utente. I mezzi con prenotazioni scadute vengono riportati a stato `Disponibile`. Gli utenti interessati ricevono una notifica persistita nella tabella `notifiche` (entità `Notifica` già presente nel Diagramma Classi). Migrazione di riferimento: `016_cleanup_scadenze.sql`.
+- Il sistema deve completare l'operazione di prenotazione/sblocco di un mezzo entro 15 secondi dalla richiesta dell'utente
 
 #### IIN-2 Sicurezza
 
@@ -757,7 +761,7 @@ Contiene l’elenco e la specifica di tutti gli eventuali requisiti non funziona
 
 - L'interfaccia deve essere accessibile secondo le linee guida WCAG (es. per utenti con disabilità visive)
 
-- L’interfaccia deve essere facile da usare e comprensibile in meno di x minuti
+- L’interfaccia deve essere facile da usare e comprensibile in meno di 5 minuti
 
 #### IIN-4 Scalabilità 
 
@@ -767,9 +771,13 @@ Contiene l’elenco e la specifica di tutti gli eventuali requisiti non funziona
 
 - Il sistema deve essere accessibile tramite browser web su dispositivi desktop e mobile, senza necessità di installazione
 
+  - L'Utente (UT) accede principalmente da dispositivo mobile (smartphone)
+
+  - L'Operatore (OP) e l'Amministrazione Pubblica (AP) accedono da desktop, data la natura delle operazioni di gestione (mappe, dashboard, report)
+
 #### Conformità
 
-- I report esportabili in CSV/PDF (AP.06) devono rispettare eventuali standard di formato richiesti dalla pubblica amministrazione
+- I report esportabili in CSV/PDF (AP.02) devono rispettare eventuali standard di formato richiesti dalla pubblica amministrazione
 
 ### Item di interfaccia
 
@@ -851,17 +859,7 @@ Il mockup illustra il pannello di configurazione economica del servizio, con lay
 
 Il mockup illustra il pannello amministrativo per la configurazione delle *business rules* di sistema. L'interfaccia adotta una singola e ampia *card* strutturata a lista, dove i parametri operativi sono linearmente modificabili tramite campi di input numerici (es. durata massima della prenotazione, tolleranza della pausa, limiti di prenotazione simultanea per utente e percentuali tariffarie). L'ultima riga mostra un menu a tendina (*dropdown*), qui raffigurato nel suo stato espanso, progettato per selezionare la politica sanzionatoria in caso di sosta fuori zona (penale, divieto o semplice avviso).
 
-### Item Qualitativi
-
-Contiene l’elenco e la specifica di tutti gli eventuali requisiti non funzionali di tipo qualitativo.
-
-#### IQ-1
-
-#### IQ-2
-
-#### IQ-n
-
-### Altri Item\
+### \
 
 Sprint Report N. 3
 
@@ -873,9 +871,7 @@ Sprint Report N. 3
 
 ## Sprint Backlog
 
-Tabella di riepilogo che indica, per ognuno degli Sprint successivi allo Sprint n.0, la lista degli item del Product Backlog, evidenziando quelli che verranno implementati nell’ambito dello sprint corrente unitamente ad una descrizione esplicativa.
-
-Per semplificare l’esposizione e salvaguardare la tracciabilità tra semilavorati si è proceduto alle seguenti assunzioni:
+Tabella di riepilogo che indica, per ognuno degli Sprint successivi allo Sprint n.0, la lista degli item del Product Backlog, evidenziando quelli che verranno implementati nell’ambito dello sprint corrente unitamente ad una descrizione esplicativa. Per semplificare l’esposizione e salvaguardare la tracciabilità tra semilavorati si è proceduto alle seguenti assunzioni:
 
 - All’interno di uno Sprint sono implementati un sottoinsieme di item tra quelli specificati nel Product Backlog
 
@@ -909,7 +905,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 | UT.08 | Sprint 2 | Visualizza Riepilogo Corsa |
 | UT.09 | Sprint 2 | Sospende Corsa |
 | UT.10 | Sprint 2 | Visualizza Promozioni |
-| UT.11 | Sprint 2 | Visualizza Storico Corsa |
+| UT.11 | Sprint 2 | Visualizza Storico Corse |
 | UT.12 | Sprint 2 | Invia Segnalazione |
 | UT.13 | Sprint 2 | Sottoscrive Abbonamento |
 | AP.02 | Sprint 2 | Esporta Report |
@@ -920,18 +916,18 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 | OP.11 | Sprint 2 | Configura parametri numerici di sistema |
 | UT.14 | Sprint 3 | Visualizza Suggerimenti Intelligenti |
 | UT.15 | Sprint 3 | Scrive Recensione |
-| OP.13 | Sprint 3 | Mostra storico modifiche |
 | OP.12 | Sprint 3 | Visualizza Recensioni |
+| OP.13 | Sprint 3 | Mostra storico modifiche |
 
 ## Product Requirement Specification 
 
 ### Diagramma dei Casi d’uso
 
-<img src="media/image20.png" style="width:5.21296in;height:8.16667in" />
+<img src="media/image20.png" style="width:4.87531in;height:7.64216in" />
 
 ### Specifiche dei Casi d’uso
 
-#### UT – 01 Visualizza Mappa utente
+#### UT – 01 Visualizza Mappa Utente
 
 <table style="width:100%;">
 <colgroup>
@@ -951,7 +947,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td><strong>Breve descrizione</strong></td>
-<td>Il sistema mostra all'Utente autenticato la mappa interattiva con i mezzi disponibili nelle vicinanze, le zone con restrizioni e le zone di parcheggio, così da poter scegliere un mezzo da prenotare o sbloccare.</td>
+<td>Il sistema mostra all'Utente autenticato la mappa interattiva con i mezzi disponibili nelle vicinanze, le varie zone, così da poter scegliere un mezzo da prenotare o sbloccare.</td>
 </tr>
 <tr>
 <td><strong>Attori Primari</strong></td>
@@ -959,7 +955,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td><strong>Attori Secondari</strong></td>
-<td>ServizioMappa</td>
+<td>ProviderMappa</td>
 </tr>
 <tr>
 <td><strong>Precondizioni</strong></td>
@@ -968,11 +964,10 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <tr>
 <td><strong>Sequenza principale degli eventi</strong></td>
 <td><ol type="1">
-<li><p>Il caso d'uso inizia quando l'Utente accede alla schermata principale della piattaforma.</p></li>
-<li><p>Il sistema rileva la posizione geografica corrente dell'Utente tramite il dispositivo.</p></li>
-<li><p>Il sistema interroga il ServizioMappa per recuperare i dati geografici.</p></li>
-<li><p>Il sistema recupera le zone con restrizioni e le zone di parcheggio.</p></li>
-<li><p>Il sistema visualizza la mappa con i soli mezzi disponibili per tipologia, le aree con restrizioni, le zone di parcheggio e il marker della posizione corrente.</p></li>
+<li><p>Il caso d'uso inizia quando l'Utente accede alla schermata principale della piattaforma. </p></li>
+<li><p>Il sistema rileva la posizione geografica corrente dell'Utente tramite il dispositivo, interrogando ProviderMappa. </p></li>
+<li><p>Il sistema recupera i mezzi disponibili e le varie zone (operative, limitate, vietate, parcheggio). </p></li>
+<li><p>Il sistema visualizza la mappa con i soli mezzi disponibili per tipologia, le zone, e il marker della posizione corrente.</p></li>
 </ol></td>
 </tr>
 <tr>
@@ -981,7 +976,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td><strong>Sequenza alternativa degli eventi</strong></td>
-<td>PosizioneNonDisponibile, ServizioMappa non raggiungibile</td>
+<td>PosizioneNonDisponibile, DatiMappaNonRecuperabili</td>
 </tr>
 </tbody>
 </table>
@@ -994,39 +989,39 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <thead>
 <tr>
 <th><strong>Nome</strong></th>
-<th><strong>Visualizza MappaUtente:</strong> PosizioneNonDisponibile</th>
+<th><strong>Visualizza MappaUtente: PosizioneNonDisponibile</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>UT-01.1</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il dispositivo non supporta la geolocalizzazione o l'Utente nega il permesso; il sistema mostra comunque la mappa centrata su una posizione di default.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Utente</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
-<td>ServizioMappa</td>
+<td><strong>Attori Secondari</strong></td>
+<td>ProviderMappa</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>il dispositivo non supporta la geolocalizzazione o l'Utente nega il permesso.</td>
 </tr>
 <tr>
-<td>Post-Condizioni</td>
+<td><strong>Post-Condizioni</strong></td>
 <td style="text-align: left;">La mappa è visualizzata con i dati aggiornati ma senza il marker di posizione; l'Utente può navigare manualmente la mappa.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
-<td><p>2a. Il sistema rileva che la geolocalizzazione non è disponibile. </p>
-<p>2b. Il sistema centra la mappa sulla posizione di default (centro di Zootropolis). </p>
-<p>2c. Il sistema prosegue dal passo 3 senza visualizzare il marker della posizione corrente.</p></td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td><p>1. Il sistema rileva che la geolocalizzazione non è disponibile. </p>
+<p>2. Il sistema centra la mappa sulla posizione di default. </p>
+<p>3. Il sistema prosegue dal passo 3 senza visualizzare il marker della posizione corrente.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1039,40 +1034,40 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <thead>
 <tr>
 <th><strong>Nome</strong></th>
-<th><strong>Visualizza MappaUtente:</strong> ServizioMappa non raggiungibile</th>
+<th><strong>Visualizza MappaUtente: DatiMappaNonRecuperabili</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
-<td>UT-01.1</td>
+<td><strong>ID</strong></td>
+<td>UT-01.2</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
-<td>Il sistema non riesce a interrogare il ServizioMappa a causa di un timeout o errore di rete; la mappa non viene visualizzata e l'Utente può riprovare.</td>
+<td><strong>Breve descrizione</strong></td>
+<td>Il sistema non riesce a recuperare i dati necessari (mezzi, zone) a causa di un timeout o errore di rete; la mappa non viene visualizzata e l'Utente può riprovare.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Utente</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
-<td>ServizioMappa</td>
+<td><strong>Attori Secondari</strong></td>
+<td>ProviderMappa</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
-<td>Al passo 3: il sistema non riesce a interrogare il ServizioMappa (timeout o errore di rete).</td>
+<td><strong>Precondizioni</strong></td>
+<td>Al passo 3: il sistema non riesce a recuperare i dati di mezzi/zone (timeout o errore di rete).</td>
 </tr>
 <tr>
-<td>Post-Condizioni</td>
+<td><strong>Post-Condizioni</strong></td>
 <td style="text-align: left;">La mappa non viene visualizzata; il caso d'uso termina senza procedere con prenotazione o sblocco.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
-<td><p>3a. Il sistema rileva l'errore di comunicazione con il ServizioMappa.</p>
-<p>3b. Il sistema mostra un messaggio di errore ("Impossibile caricare i dati della mappa"). </p>
-<p>3c. Il sistema offre all'Utente la possibilità di riprovare. </p>
-<p>3d. Se l'Utente riprova, il caso d'uso riparte dal passo 3; altrimenti termina.</p></td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td><p>1. Il sistema rileva l'errore nel recupero dei dati. </p>
+<p>2. Il sistema mostra un messaggio di errore ("Impossibile caricare i dati della mappa"). </p>
+<p>3. Il sistema offre all'Utente la possibilità di riprovare. </p>
+<p>4. Se l'Utente riprova, il caso d'uso riparte dal passo 3; altrimenti termina.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1122,8 +1117,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <p>6.L'Utente conferma la selezione e avvia la prenotazione.</p>
 <p>7.Il sistema verifica che tutti i mezzi selezionati siano ancora disponibili.</p>
 <p>8.Per ogni mezzo selezionato, il sistema crea una prenotazione associando il mezzo all'Utente.</p>
-<p>Per ogni mezzo prenotato, il sistema aggiorna lo stato da "Disponibile" a "Prenotato" e avvia il timer di prenotazione.</p>
-<p>Il sistema notifica l'Utente con la conferma di tutte le prenotazioni e il tempo rimanente.</p></td>
+<p>9.Per ogni mezzo prenotato, il sistema aggiorna lo stato da "Disponibile" a "Prenotato" e avvia il timer di prenotazione.</p></td>
 </tr>
 <tr>
 <td><strong>Post-condizioni</strong></td>
@@ -1174,12 +1168,59 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td><strong>Sequenza alternativa degli eventi</strong></td>
-<td><p>Il caso d’uso inizia dopo il passo 7 della sequenza principale.</p>
-<p>Il sistema rimuove dalla selezione i mezzi non più disponibili e informa l'Utente.</p>
-<p>Il sistema mostra la lista aggiornata dei mezzi disponibili nelle vicinanze.</p>
-<p>L'Utente sceglie se aggiungere un mezzo sostitutivo (torna al passo 2 del flusso principale) oppure procedere con i mezzi rimanenti.</p>
-<p>Se rimane almeno un mezzo nella selezione, il sistema riprende dal passo 8 del flusso principale.</p>
-<p>Se la selezione è vuota, il caso d'uso termina senza prenotazioni attive.</p></td>
+<td><p>1.Il caso d’uso inizia dopo il passo 7 della sequenza principale.</p>
+<p>2.Il sistema rimuove dalla selezione i mezzi non più disponibili e informa l'Utente.</p>
+<p>3.Il sistema mostra la lista aggiornata dei mezzi disponibili nelle vicinanze.</p>
+<p>4.L'Utente sceglie se aggiungere un mezzo sostitutivo (torna al passo 2 del flusso principale) oppure procedere con i mezzi rimanenti.</p>
+<p>5.Se rimane almeno un mezzo nella selezione, il sistema riprende dal passo 8 del flusso principale.</p>
+<p>6.Se la selezione è vuota, il caso d'uso termina senza prenotazioni attive.</p></td>
+</tr>
+</tbody>
+</table>
+
+<table style="width:100%;">
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 73%" />
+</colgroup>
+<thead>
+<tr>
+<th><strong>Nome</strong></th>
+<th><strong>Prenota Mezzo: MezziFuoridalRaggio</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID</strong></td>
+<td>UT – 02.2</td>
+</tr>
+<tr>
+<td><strong>Breve descrizione</strong></td>
+<td>L'Utente tenta di aggiungere un mezzo che si trova oltre il raggio di selezione gruppo configurato dall'Operatore. Il sistema impedisce l'aggiunta e suggerisce mezzi alternativi entro il raggio.</td>
+</tr>
+<tr>
+<td><strong>Attori primari</strong></td>
+<td>Utente</td>
+</tr>
+<tr>
+<td><strong>Attori secondari</strong></td>
+<td>nessuno</td>
+</tr>
+<tr>
+<td><strong>Precondizioni</strong></td>
+<td>L'Utente ha già selezionato almeno un mezzo (N ≥ 1) e il raggio di selezione gruppo è stato configurato dall'Operatore.</td>
+</tr>
+<tr>
+<td><strong>Postcondizioni</strong></td>
+<td>La selezione corrente resta invariata; nessun mezzo fuori raggio viene aggiunto.</td>
+</tr>
+<tr>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td><p>1. Il caso d'uso inizia dopo il passo 4 della sequenza principale.</p>
+<p>2. L'Utente seleziona un mezzo che si trova oltre il raggio di selezione gruppo rispetto al primo mezzo selezionato.</p>
+<p>3. Il sistema rileva che la distanza del mezzo supera il raggio configurato e impedisce l'aggiunta alla selezione.</p>
+<p>4. Il sistema notifica l'Utente che il mezzo è fuori dal raggio consentito e mostra i mezzi disponibili entro il raggio.</p>
+<p>5. L'Utente sceglie se selezionare un mezzo alternativo tra quelli proposti (torna al passo 2 del flusso principale) oppure procedere con la selezione corrente (riprende dal passo 6 del flusso principale).</p></td>
 </tr>
 </tbody>
 </table>
@@ -1223,7 +1264,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <tr>
 <td><strong>Sequenza principale degli eventi</strong></td>
 <td><p>1.Il caso d'uso inizia quando l'Utente vuole sbloccare uno o più mezzi.</p>
-<p>2.Il sistema mostra all'Utente i mezzi sbloccabili: quelli con prenotazione attiva a suo nome e quelli disponibili nelle vicinanze.</p>
+<p>2.Il sistema mostra all'Utente i mezzi sbloccabili: quelli con prenotazione attiva a suo nome e quelli disponibili entro un determinato raggio.</p>
 <p>3.L'Utente seleziona i mezzi da sbloccare.</p>
 <p>4.Per ogni mezzo, il sistema invia il comando di sblocco.</p>
 <p>5.Ogni mezzo conferma l'avvenuto sblocco al sistema.</p>
@@ -1279,10 +1320,10 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td><strong>Sequenza alternativa degli eventi</strong></td>
-<td><p>Il caso d’uso inizia dopo il passo 5 della sequenza principale</p>
-<p>Il sistema rileva il timeout per uno o più mezzi e li rimuove dall'operazione di sblocco.</p>
-<p>Il sistema notifica l'Utente indicando quali mezzi non è stato possibile sbloccare.</p>
-<p>L'Utente può riprovare lo sblocco sui mezzi falliti o procedere con quelli già sbloccati.</p></td>
+<td><p>1.Il caso d’uso inizia dopo il passo 5 della sequenza principale</p>
+<p>2.Il sistema rileva il timeout per uno o più mezzi e li rimuove dall'operazione di sblocco.</p>
+<p>3.Il sistema notifica l'Utente indicando quali mezzi non è stato possibile sbloccare.</p>
+<p>4.L'Utente può riprovare lo sblocco sui mezzi falliti o procedere con quelli già sbloccati.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1302,41 +1343,39 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>UT-04</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
-<td>Il sistema consente all'utente autenticato di terminare la corsa in corso, verificando la posizione del mezzo e applicando le regole di fine corsa configurate dall'operatore, così da liberare il mezzo e addebitare il costo della sessione.</td>
+<td><strong>Breve descrizione</strong></td>
+<td>Il sistema consente all'utente autenticato di terminare uno o più mezzi della corsa in corso, verificando per ciascun mezzo la posizione e applicando le regole di fine corsa configurate dall'operatore, così da liberare i mezzi e addebitare il costo della sessione.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Utente</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
-<td>ServizioMappa</td>
+<td><strong>Attori Secondari</strong></td>
+<td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
-<td>L'utente è autenticato alla piattaforma e ha una corsa attiva.</td>
+<td><strong>Precondizioni</strong></td>
+<td>L'utente è autenticato alla piattaforma e ha una o più corse attive.</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
-<td style="text-align: left;"><p>1. Il caso d'uso inizia quando l'utente vuole terminare e pagare la corsa.</p>
-<p>2. Il sistema rileva la posizione corrente del mezzo tramite ServizioMappa.</p>
-<p><em>Punto di estensione: Errore</em>ServizioMappa</p>
-<p>3. Il sistema aggiorna lo stato del mezzo da "In Uso" a "Disponibile".</p>
-<p>4. Il sistema mostra all'utente il Riepilogo Corsa con le varie informazioni.</p>
-<p>5. <em>punto di inclusione (Visualizza Riepilogo Fine Corsa)</em></p>
-<p>6.<em>include (EffettuaPagamento).</em></p></td>
+<td><strong>Sequenza principale degli eventi</strong></td>
+<td style="text-align: left;"><p>1. Il caso d'uso inizia quando l'utente seleziona uno o più mezzi della corsa attiva e richiede di terminarli e pagare. </p>
+<p>2. Per ciascun mezzo selezionato, il sistema verifica se la sua posizione corrente è all'interno della Zona Operativa. </p>
+<p>3. Per ciascun mezzo selezionato, il sistema aggiorna lo stato del mezzo da "In Uso" a "Disponibile" e la corsa a "Terminata". </p>
+<p>4. include (EffettuaPagamento) — il pagamento viene elaborato per l'insieme dei mezzi terminati. </p>
+<p>5. include (Visualizza Riepilogo Fine Corsa) — il sistema mostra il riepilogo per ciascun mezzo e, se più di uno, il totale complessivo.</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
-<td>La corsa è terminata, il mezzo è liberato e reso disponibile, l'addebito è stato effettuato e il riepilogo è mostrato all'utente.</td>
+<td><strong>Post-condizioni</strong></td>
+<td>Le corse selezionate sono terminate, i mezzi sono liberati e resi disponibili, l'addebito è stato effettuato e il riepilogo è mostrato all'utente.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td style="text-align: left;">MezzoInZonaVietata</td>
 </tr>
 </tbody>
@@ -1355,35 +1394,35 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>UT-04.1</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
-<td>Il sistema informa l'utente che il mezzo si trova in una Zona Vietata e applica una penale obbligatoria prima di consentire la fine corsa.</td>
+<td><strong>Breve descrizione</strong></td>
+<td>Per uno o più dei mezzi selezionati, il sistema rileva che si trova fuori dalla Zona Operativa (Zona Vietata/Limitata) e applica una penale obbligatoria prima di consentire la fine corsa per quel mezzo.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Utente</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
-<td>ServizioMappa</td>
+<td><strong>Attori Secondari</strong></td>
+<td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
-<td>Il mezzo si trova in una Zona Vietata al momento della richiesta di fine corsa.</td>
+<td><strong>Precondizioni</strong></td>
+<td>Almeno uno dei mezzi selezionati si trova fuori dalla Zona Operativa al momento della richiesta di fine corsa.</td>
 </tr>
 <tr>
-<td>Post-Condizioni</td>
-<td style="text-align: left;">La corsa è terminata con applicazione della penale obbligatoria; il mezzo è liberato e l'addebito comprensivo di penale è stato effettuato.</td>
+<td><strong>Post-Condizioni</strong></td>
+<td style="text-align: left;">La corsa relativa al mezzo è terminata con applicazione della penale obbligatoria; il mezzo è liberato e l'addebito con la penale è stato effettuato.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
-<td><p>1. La sequenza alternativa inizia dopo il passo 2 della sequenza principale.</p>
-<p>2. Il sistema rileva che il mezzo si trova in una Zona Vietata.</p>
-<p>3. Il sistema notifica l'utente che il mezzo si trova in una Zona Vietata e che verrà applicata una penale obbligatoria.</p>
-<p>4. Il sistema prosegue dal passo 3 della sequenza principale applicando la penale al costo totale della corsa.</p></td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td><p>1. La sequenza alternativa inizia dopo il passo 2 della sequenza principale, per il singolo mezzo interessato. </p>
+<p>2. Il sistema rileva che il mezzo si trova fuori dalla Zona Operativa. </p>
+<p>3. Il sistema applica la penale obbligatoria al costo della corsa di quel mezzo. </p>
+<p>4. Il sistema prosegue dal passo 3 della sequenza principale per quel mezzo.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1403,41 +1442,41 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>UT-05</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema addebita un importo definito sul metodo di pagamento predefinito dell'Utente, a seguito di un'operazione che prevede un costo (es. sottoscrizione di abbonamento, termine di una corsa). L'operazione avviene senza richiedere alcuna azione manuale all'utente.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Sistema</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>ProviderPagamenti</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>È stata completata un'operazione soggetta a pagamento</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
-<td><p>1. Il caso d'uso inizia quando il sistema deve procedere all'addebito per un'operazione completata.</p>
-<p>2. Il sistema determina l'importo dovuto sulla base delle condizioni economiche applicabili all'operazione (tariffe, piano di abbonamento, ecc.).</p>
-<p>3. Il sistema recupera il metodo di pagamento predefinito dell'Utente.</p>
-<p>4. Il sistema trasmette la richiesta di addebito al ProviderPagamenti.</p>
-<p>5. Il ProviderPagamenti autorizza e completa la transazione.</p>
-<p>6. Il sistema genera e invia la ricevuta di pagamento all'Utente.</p></td>
+<td><strong>Sequenza principale degli eventi</strong></td>
+<td><p>1. Il caso d'uso inizia quando il sistema deve procedere all'addebito per un'operazione completata. </p>
+<p>2. Il sistema determina l'importo dovuto sulla base delle condizioni economiche applicabili all'operazione (tariffe, piano di abbonamento, eventuale penale, ecc.). </p>
+<p>3. Il sistema recupera il metodo di pagamento predefinito dell'Utente. </p>
+<p>4. Il sistema trasmette la richiesta di addebito al ProviderPagamenti. </p>
+<p>5. Il ProviderPagamenti autorizza e completa la transazione. </p>
+<p>6. Il sistema registra il pagamento come completato e restituisce l'esito all'Utente.</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
-<td>L'importo è stato addebitato; l'Utente riceve la ricevuta di pagamento.</td>
+<td><strong>Post-condizioni</strong></td>
+<td>L'importo è stato addebitato; l'esito del pagamento è mostrato all'Utente.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
-<td>PagamentoRifiutato</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td>PagamentoRifiutato, NessunMetodoPagamento</td>
 </tr>
 </tbody>
 </table>
@@ -1455,34 +1494,80 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>UT-05.1</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il ProviderPagamenti rifiuta la transazione.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Sistema</td>
 </tr>
 <tr>
-<td>Attori secondari</td>
+<td><strong>Attori secondari</strong></td>
 <td>ProviderPagamenti</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>Il ProviderPagamenti ha restituito un esito negativo per la transazione.</td>
 </tr>
 <tr>
-<td>Postcondizioni</td>
-<td>Il pagamento non è andato a buon fine; l'Utente è notificato del problema.</td>
+<td><strong>Postcondizioni</strong></td>
+<td>Il pagamento non è andato a buon fine; viene comunque registrato un addebito in sospeso associato all'operazione; l'Utente è notificato del problema e invitato ad aggiornare il metodo di pagamento.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
-<td><p>1. La sequenza alternativa inizia dopo il passo 4 della sequenza principale.</p>
-<p>2. Il sistema riceve l'esito negativo dal Sistema di Pagamento Esterno.</p>
-<p>3. Il sistema notifica l'Utente del fallimento e lo invita ad aggiornare il metodo di pagamento.</p></td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td><p>1. La sequenza alternativa inizia dopo il passo 4 della sequenza principale. </p>
+<p>2. Il sistema riceve l'esito negativo dal ProviderPagamenti. </p>
+<p>3. Il sistema registra il pagamento come rifiutato. </p>
+<p>4. Il sistema notifica l'Utente del fallimento e lo invita ad aggiornare il metodo di pagamento.</p></td>
+</tr>
+</tbody>
+</table>
+
+<table style="width:100%;">
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 73%" />
+</colgroup>
+<thead>
+<tr>
+<th>Nome</th>
+<th>EffettuaPagamento: <strong>NessunMetodoPagamento</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID</strong></td>
+<td>UT-05.2</td>
+</tr>
+<tr>
+<td><strong>Breve descrizione</strong></td>
+<td>L'Utente non ha alcun metodo di pagamento salvato (o nessuno impostato come predefinito); l'addebito non può essere tentato.</td>
+</tr>
+<tr>
+<td><strong>Attori Primari</strong></td>
+<td>Sistema</td>
+</tr>
+<tr>
+<td><strong>Attori secondari</strong></td>
+<td>Nessuno</td>
+</tr>
+<tr>
+<td><strong>Precondizioni</strong></td>
+<td>L'Utente non ha un metodo di pagamento predefinito disponibile al momento dell'addebito.</td>
+</tr>
+<tr>
+<td><strong>Postcondizioni</strong></td>
+<td>Il pagamento non viene tentato; l'Utente è invitato ad aggiungere un metodo di pagamento.</td>
+</tr>
+<tr>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td><p>1. La sequenza alternativa sostituisce i passi 3-6 della sequenza principale. </p>
+<p>2. Il sistema rileva che l'Utente non ha un metodo di pagamento predefinito. </p>
+<p>3. Il sistema notifica l'Utente che deve aggiungere un metodo di pagamento per completare l'operazione.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1502,46 +1587,136 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>UT-06</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema consente all'utente autenticato di salvare uno o più metodi di pagamento sul proprio account, così da ricevere l'addebito automatico al termine di ogni corsa senza reinserire i dati.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Utente</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>ProviderPagamenti</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>L'utente è autenticato alla piattaforma.</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
-<td style="text-align: left;"><p>1. Il caso d'uso inizia quando l'utente accede alla sezione "Portafoglio" dal menu laterale.</p>
-<p>2. Il sistema mostra i metodi di pagamento attualmente associati all'account utente e l'opzione per aggiungerne uno nuovo.</p>
-<p>3. L'utente seleziona l'opzione per aggiungere un nuovo metodo di pagamento.</p>
-<p>4. Il sistema mostra le tipologie di metodo di pagamento disponibili (Google Pay, Apple Pay, PayPal, carta di credito).</p>
-<p>5. L'utente seleziona la tipologia desiderata e inserisce i dati richiesti.</p>
-<p>6. Il sistema valida i dati inseriti tramite ProviderPagamenti. Se ProviderPagamenti restituisce un errore di validazione, il sistema informa l'utente che i dati inseriti non sono validi e torna al passo 5.</p>
-<p>7. Il sistema verifica che il metodo di pagamento non sia già associato all'account. Se è già presente, il sistema informa l'utente e non procede al salvataggio.<br />
-8. Il sistema salva il nuovo metodo di pagamento sull'account utente.</p>
-<p>9. Se il metodo appena salvato è il primo associato all'account, il sistema lo imposta automaticamente come predefinito. Altrimenti, il sistema chiede all'utente se desidera impostarlo come nuovo metodo predefinito.</p>
-<p>10. Se l'utente conferma, il sistema aggiorna il metodo predefinito con quello appena salvato.<br />
-11. Il sistema mostra un messaggio di conferma all'utente.</p></td>
+<td><strong>Sequenza principale degli eventi</strong></td>
+<td style="text-align: left;"><p>1. Il caso d'uso inizia quando l'utente accede alla sezione dedicata ai metodi di pagamento dal menu laterale. </p>
+<p>2. Il sistema mostra i metodi di pagamento attualmente associati all'account utente e l'opzione per aggiungerne uno nuovo. </p>
+<p>3. L'utente seleziona l'opzione per aggiungere un nuovo metodo di pagamento. </p>
+<p>4. Il sistema mostra le tipologie di metodo di pagamento disponibili (carta di credito, PayPal, Google Pay, Apple Pay). </p>
+<p>5. L'utente seleziona la tipologia desiderata e inserisce i dati richiesti. </p>
+<p>6. Il sistema valida i dati inseriti tramite ProviderPagamenti. </p>
+<p>7. Il sistema salva il nuovo metodo di pagamento sull'account utente. </p>
+<p>8. Se l'utente ha un solo metodo salvato, il sistema lo utilizzerà automaticamente per i futuri addebiti, senza richiedere di impostarlo esplicitamente come predefinito. </p>
+<p>9. Se l'utente ha già altri metodi salvati e nessuno è impostato come predefinito, il sistema mostra un avviso nel Portafoglio che invita a impostarne uno come predefinito prima di poter effettuare un pagamento. </p>
+<p>10. Il sistema mostra un messaggio di conferma del salvataggio</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
-<td>Il nuovo metodo di pagamento è stato salvato sull'account utente. Il metodo predefinito è quello scelto dall'utente, o il primo salvato se non è stata effettuata alcuna scelta esplicita.</td>
+<td><strong>Post-condizioni</strong></td>
+<td>Il nuovo metodo di pagamento è stato salvato sull'account utente. Se è l'unico metodo presente viene utilizzato automaticamente per gli addebiti; altrimenti l'Utente dovrà impostare esplicitamente un metodo predefinito prima di poter effettuare un pagamento.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
-<td style="text-align: left;">Nessuna</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td style="text-align: left;">DatiNonValidi, MetodoGiaPresente</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th><strong>Nome</strong></th>
+<th><strong>SalvaMetodoDiPagamento: DatiNonValidi</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID</strong></td>
+<td>UT-06.1</td>
+</tr>
+<tr>
+<td><strong>Breve descrizione</strong></td>
+<td>I dati del metodo di pagamento inseriti dall'Utente non superano la validazione di ProviderPagamenti.</td>
+</tr>
+<tr>
+<td><strong>Attori Primari</strong></td>
+<td>Utente</td>
+</tr>
+<tr>
+<td><strong>Attori Secondari</strong></td>
+<td>ProviderPagamenti</td>
+</tr>
+<tr>
+<td><strong>Precondizioni</strong></td>
+<td>ProviderPagamenti ha restituito un esito negativo sulla validazione dei dati inseriti.</td>
+</tr>
+<tr>
+<td><strong>Post-condizioni</strong></td>
+<td>Il metodo di pagamento non viene salvato; l'Utente può correggere i dati e riprovare.</td>
+</tr>
+<tr>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td><p>1. La sequenza alternativa inizia dopo il passo 6 della sequenza principale. </p>
+<p>2. Il sistema rileva l'esito negativo della validazione. </p>
+<p>3. Il sistema informa l'Utente che i dati inseriti non sono validi. </p>
+<p>4. Il flusso riprende dal passo 5 della sequenza principale.</p></td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr>
+<th><strong>Nome</strong></th>
+<th><strong>SalvaMetodoDiPagamento: MetodoGiaPresente</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID</strong></td>
+<td>UT-06.2</td>
+</tr>
+<tr>
+<td><strong>Breve descrizione</strong></td>
+<td>Il metodo di pagamento che l'Utente vuole salvare è già associato al proprio account.</td>
+</tr>
+<tr>
+<td><strong>Attori Primari</strong></td>
+<td>Utente</td>
+</tr>
+<tr>
+<td><strong>Attori Secondari</strong></td>
+<td>ProviderPagamenti</td>
+</tr>
+<tr>
+<td><strong>Precondizioni</strong></td>
+<td>Il metodo di pagamento validato risulta già presente tra quelli salvati dall'Utente.</td>
+</tr>
+<tr>
+<td><strong>Post-condizioni</strong></td>
+<td>Il metodo di pagamento non viene salvato nuovamente; l'Utente è informato della duplicazione.</td>
+</tr>
+<tr>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td><p>1. La sequenza alternativa inizia dopo il passo 6 della sequenza principale. </p>
+<p>2. Il sistema rileva che il metodo è già associato all'account.</p>
+<p>3. Il sistema informa l'Utente che il metodo è già presente e non procede al salvataggio.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1555,44 +1730,44 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>Consulta Tariffe</th>
+<th><strong>Nome</strong></th>
+<th><strong>Consulta Tariffe</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
-<td>UT.07</td>
+<td><strong>ID</strong></td>
+<td>UT-07</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
-<td>Il sistema mostra all'Utente autenticato il tariffario attivo per ciascuna tipologia di mezzo disponibile (Monopattino, Bicicletta, Automobile), indicando il costo al minuto e il costo al chilometro, così da consentirgli di confrontare i costi prima di effettuare una prenotazione.</td>
+<td><strong>Breve descrizione</strong></td>
+<td>Il sistema mostra all'Utente autenticato il tariffario attivo per ciascuna tipologia di mezzo disponibile (Monopattino, Bicicletta, Automobile), indicando il costo al minuto o il costo al chilometro, così da consentirgli di confrontare i costi prima di effettuare una prenotazione.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Utente</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>L'Utente è autenticato alla piattaforma.</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
+<td><strong>Sequenza principale degli eventi</strong></td>
 <td><p>1. Il caso d'uso inizia quando l'Utente accede alla sezione "Piano Tariffario" dal menu laterale.</p>
 <p>2. Il sistema recupera le tariffe attualmente definite dall'Operatore per ciascuna tipologia di mezzo.</p>
-<p>3. Il sistema presenta il tariffario con una card per tipologia di mezzo (Monopattino, Bicicletta, Automobile), indicando per ciascuna il costo al minuto e il costo al chilometro.</p>
+<p>3. Il sistema presenta il tariffario con una card per tipologia di mezzo (Monopattino, Bicicletta, Automobile), indicando per ciascuna il costo al minuto o il costo al chilometro.</p>
 <p>4. L'Utente consulta le tariffe visualizzate.</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
+<td><strong>Post-condizioni</strong></td>
 <td>L'Utente ha visualizzato il tariffario aggiornato e può procedere con la scelta del mezzo più adatto alle proprie esigenze.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td>TariffeNonDefinite</td>
 </tr>
 </tbody>
@@ -1605,37 +1780,37 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>ConsultaTariffe: TariffeNonDefinite</th>
+<th><strong>Nome</strong></th>
+<th><strong>ConsultaTariffe: TariffeNonDefinite</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>UT-07.01</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>L'Operatore non ha ancora definito le tariffe per una o più tipologie di mezzo.</td>
 </tr>
 <tr>
-<td>Attori primari</td>
+<td><strong>Attori primari</strong></td>
 <td>Utente</td>
 </tr>
 <tr>
-<td>Attori secondari</td>
+<td><strong>Attori secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>Non sono presenti tariffe definite dall'Operatore per almeno una tipologia di mezzo.</td>
 </tr>
 <tr>
-<td>Postcondizioni</td>
+<td><strong>Postcondizioni</strong></td>
 <td>Il tariffario non viene mostrato completamente; l'Utente è informato che le tariffe non sono ancora disponibili.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td><p>1. La sequenza alternativa sostituisce i passi 2 e 3 della sequenza principale.</p>
 <p>2. Il sistema verifica che non siano presenti tariffe definite per una o più tipologie di mezzo.</p>
 <p>3. Il sistema notifica all'Utente che le tariffe non sono al momento disponibili.</p></td>
@@ -1652,8 +1827,8 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>Visualizza Riepilogo Fine Corsa</th>
+<th><strong>Nome</strong></th>
+<th><strong>Visualizza Riepilogo Fine Corsa</strong></th>
 </tr>
 </thead>
 <tbody>
@@ -1679,10 +1854,10 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td><strong>Sequenza principale degli eventi</strong></td>
-<td><p>Il sistema presenta all'Utente il riepilogo per ogni mezzo.</p>
-<p>Se la corsa coinvolgeva più di un mezzo:</p>
+<td><p>1.Il sistema presenta all'Utente il riepilogo per ogni mezzo.</p>
+<p>2.Se la corsa coinvolgeva più di un mezzo:</p>
 <p>2.1 il sistema mostra il costo totale complessivo della sessione di gruppo.</p>
-<p>L'Utente prende visione del riepilogo e lo chiude.</p></td>
+<p>3.L'Utente prende visione del riepilogo e lo chiude.</p></td>
 </tr>
 <tr>
 <td><strong>Post-condizioni</strong></td>
@@ -1690,54 +1865,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td><strong>Sequenza alternativa degli eventi</strong></td>
-<td>RiepilogoDaFallBack</td>
-</tr>
-</tbody>
-</table>
-
-<table style="width:99%;">
-<colgroup>
-<col style="width: 26%" />
-<col style="width: 72%" />
-</colgroup>
-<thead>
-<tr>
-<th>Nome</th>
-<th>VisualizzaRiepilogoFineCorsa: RiepilogoDaFallBack</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ID</td>
-<td>UT-08.1</td>
-</tr>
-<tr>
-<td>Breve descrizione</td>
-<td>Il sistema non riesce a recuperare dal backend il riepilogo della corsa appena conclusa (es. corsa non trovata o errore di comunicazione). Per garantire che il riepilogo sia sempre disponibile, il sistema lo ricostruisce dai dati già presenti sul client (corse terminate e pagamenti effettuati) e lo presenta comunque all'Utente.</td>
-</tr>
-<tr>
-<td>Attori primari</td>
-<td>Utente</td>
-</tr>
-<tr>
-<td>Attori secondari</td>
-<td>Nessuno</td>
-</tr>
-<tr>
-<td>Precondizioni</td>
-<td>La procedura Termina Corsa si è conclusa con successo, ma il recupero del riepilogo dal backend non va a buon fine.</td>
-</tr>
-<tr>
-<td>Postcondizioni</td>
-<td>Il riepilogo viene comunque visualizzato all'Utente, costruito dai dati locali (costo totale, durata, mezzi della sessione); l'esperienza dell'Utente non cambia.</td>
-</tr>
-<tr>
-<td>Sequenza alternativa degli eventi</td>
-<td><p>1. La sequenza alternativa si attiva al passo 1 della sequenza principale, quando il recupero del riepilogo dal backend fallisce.</p>
-<p>2. Il sistema rileva l'esito negativo della richiesta</p>
-<p>3. Il sistema ricostruisce il riepilogo a partire dai dati della sessione già disponibili sul client.</p>
-<p>4. Il sistema presenta all'Utente il riepilogo ricostruito.</p>
-<p>5. Il flusso prosegue dal passo 3 della sequenza principale.</p></td>
+<td>Nessuna</td>
 </tr>
 </tbody>
 </table>
@@ -1751,33 +1879,33 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>Sospende corsa</th>
+<th><strong>Nome</strong></th>
+<th><strong>Sospende corsa</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>UT-09</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema consente all'utente autenticato con una corsa attiva di mettere temporaneamente in pausa la corsa, bloccando il mezzo senza terminare la sessione, così da effettuare soste mantenendo il possesso del mezzo. La pausa è gratuita entro il periodo di grazia configurato dall'operatore; al suo termine viene applicata la politica di addebito configurata.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Utente</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>L’utente è autenticato e ha una corsa attiva</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
+<td><strong>Sequenza principale degli eventi</strong></td>
 <td><p>1. Il caso d'uso inizia quando l'utente vuole mettere in pausa la corsa in corso.</p>
 <p>2. Il sistema invia il comando di blocco temporaneo al mezzo.</p>
 <p>3. Il mezzo conferma l'avvenuto blocco al sistema.</p>
@@ -1786,11 +1914,11 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <p>6. Il sistema notifica all'utente che la corsa è stata sospesa, indicando il tempo di pausa gratuita residuo e l'eventuale politica di addebito successiva.</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
+<td><strong>Post-condizioni</strong></td>
 <td>La corsa non è terminata; il mezzo è bloccato e resta riservato all'utente nello stato "In Pausa"; il sistema mantiene attiva la sessione e traccia la durata della pausa</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td>Superamento Periodo di Grazia</td>
 </tr>
 </tbody>
@@ -1803,37 +1931,37 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>SospendeCorsa: Superamento Periodo di Grazia</th>
+<th><strong>Nome</strong></th>
+<th><strong>SospendeCorsa: Superamento Periodo di Grazia</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>UT-09.1</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>La pausa si protrae oltre il periodo di grazia e il sistema applica la politica di addebito per pausa configurata dall'operatore.</td>
 </tr>
 <tr>
-<td>Attori primari</td>
+<td><strong>Attori primari</strong></td>
 <td>Utente</td>
 </tr>
 <tr>
-<td>Attori secondari</td>
+<td><strong>Attori secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>La durata della pausa ha raggiunto il periodo di grazia configurato dall'operatore.</td>
 </tr>
 <tr>
-<td>Postcondizioni</td>
+<td><strong>Postcondizioni</strong></td>
 <td>La corsa resta sospesa con applicazione dell'addebito per pausa secondo la politica configurata; la sessione rimane attiva</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td><p>1. La sequenza alternativa inizia dopo il passo 5 della sequenza principale.</p>
 <p>2. Il sistema rileva che la durata della pausa ha raggiunto il periodo di grazia.</p>
 <p>3. Il sistema notifica all'utente la fine del periodo di pausa gratuita e l'avvio dell'addebito secondo la politica configurata.</p>
@@ -1851,44 +1979,44 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>Visualizza Promozioni</th>
+<th><strong>Nome</strong></th>
+<th><strong>Visualizza Promozioni</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>UT.10</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema mostra all'Utente autenticato l'elenco delle promozioni attive pubblicate dall'Operatore, con le relative condizioni e vantaggi, così da consentirgli di ridurre i costi di utilizzo del servizio.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Utente</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>L'Utente è autenticato alla piattaforma.</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
+<td><strong>Sequenza principale degli eventi</strong></td>
 <td><p>1. Il caso d'uso inizia quando l'Utente accede alla sezione "Bonus e Promozioni" dal menu laterale.</p>
 <p>2. Il sistema recupera l'elenco delle promozioni attive pubblicate dall'Operatore.</p>
 <p>3. Il sistema presenta l'elenco delle promozioni disponibili, indicando per ciascuna: tipologia, descrizione, condizioni di applicazione e data di scadenza.</p>
 <p>4. L'Utente consulta le promozioni disponibili.</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
+<td><strong>Post-condizioni</strong></td>
 <td>L'Utente ha visualizzato l'elenco delle promozioni attive e può scegliere di usufruirne nelle corse successive.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td>NessunPromozioneAttiva</td>
 </tr>
 </tbody>
@@ -1901,37 +2029,37 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>VisualizzaPromozioni: NessunPromozioneAttiva</th>
+<th><strong>Nome</strong></th>
+<th><strong>VisualizzaPromozioni: NessunPromozioneAttiva</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>UT-10.01</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Non vi sono promozioni attive pubblicate dall'Operatore al momento della richiesta.</td>
 </tr>
 <tr>
-<td>Attori primari</td>
+<td><strong>Attori primari</strong></td>
 <td>Utente</td>
 </tr>
 <tr>
-<td>Attori secondari</td>
+<td><strong>Attori secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>Non vi sono promozioni attive pubblicate dall'Operatore.</td>
 </tr>
 <tr>
-<td>Postcondizioni</td>
+<td><strong>Postcondizioni</strong></td>
 <td>L'elenco delle promozioni non viene mostrato; l'Utente è informato dell'assenza di promozioni attive.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td><p>1. La sequenza alternativa sostituisce i passi 2 e 3 della sequenza principale.</p>
 <p>2. Il sistema verifica che non vi siano promozioni attive.</p>
 <p>3. Il sistema notifica all'Utente che non sono disponibili promozioni attive al momento.</p></td>
@@ -1948,8 +2076,8 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>Visualizza Storico Corse</th>
+<th><strong>Nome</strong></th>
+<th><strong>Visualizza Storico Corse</strong></th>
 </tr>
 </thead>
 <tbody>
@@ -1998,8 +2126,8 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>Visualizza Storico Corse: DatiNonDisponibili</th>
+<th><strong>Nome</strong></th>
+<th><strong>Visualizza Storico Corse: DatiNonDisponibili</strong></th>
 </tr>
 </thead>
 <tbody>
@@ -2044,33 +2172,33 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>Invia segnalazione</th>
+<th><strong>Nome</strong></th>
+<th><strong>Invia segnalazione</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>UT-12</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema consente all'Utente autenticato di inviare una segnalazione relativa a un mezzo o a una situazione anomala, così da informare l'Operatore affinché possa intervenire tempestivamente.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Utente</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>L'utente è autenticato alla piattaforma.</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
+<td><strong>Sequenza principale degli eventi</strong></td>
 <td><p>1. Il caso d'uso inizia quando l'Utente accede alla sezione dedicata alle segnalazioni.</p>
 <p>2. Il sistema mostra il form di segnalazione con i campi richiesti.</p>
 <p>3. L'Utente seleziona la tipologia di segnalazione.</p>
@@ -2079,11 +2207,11 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <p>6. Il sistema notifica l'Utente dell'avvenuto invio della segnalazione.</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
+<td><strong>Post-condizioni</strong></td>
 <td>La segnalazione è registrata nel sistema e resa disponibile all'Operatore per la presa in carico.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td>Nessuno</td>
 </tr>
 </tbody>
@@ -2098,58 +2226,104 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>Sottoscrive Abbonamento</th>
+<th><strong>Nome</strong></th>
+<th><strong>Sottoscrive Abbonamento</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>UT-13</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema consente all'Utente autenticato di scegliere e sottoscrivere un piano di abbonamento attivo, così da usufruire di condizioni tariffarie agevolate per un periodo determinato.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Utente</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td><p>1. L'utente è autenticato alla piattaforma;</p>
 <p>2. esistono piani di abbonamento attivi pubblicati dall'operatore</p>
 <p>3. l'utente ha un metodo di pagamento valido.</p></td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
+<td><strong>Sequenza principale degli eventi</strong></td>
 <td><p>1. Il caso d'uso inizia quando l'Utente accede alla sezione dedicata agli abbonamenti.</p>
 <p>2. Il sistema recupera e mostra i piani di abbonamento disponibili, con durata, costo e benefici di ciascuno.</p>
 <p>3. L'utente seleziona il piano desiderato.</p>
 <p>4. Il sistema mostra il riepilogo del piano selezionato e richiede conferma.</p>
 <p>5. L'utente conferma la sottoscrizione.</p>
-<p>6. Include (EffettuaPagamento).</p>
-<p>7. Il sistema attiva l'abbonamento sull'account dell'utente a partire dalla data corrente.</p>
+<p>6. Include (EffettuaPagamento)</p>
+<p>7. Se il pagamento va a buon fine, il sistema crea e attiva l'abbonamento sull'account dell'utente a partire dalla data corrente. </p>
 <p>8. Il sistema notifica l'utente dell'avvenuta attivazione.</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
-<td>L'abbonamento è attivo sull'account dell'utente; le condizioni tariffarie agevolate sono applicate a partire dalla data di attivazione.</td>
+<td><strong>Post-condizioni</strong></td>
+<td>L'abbonamento è attivo sull'account dell'utente; le condizioni tariffarie agevolate sono applicate a partire dalla data di attivazione. l'addebito del costo del piano è stato effettuato.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td>AbbonamentoGiaAttivo</td>
+</tr>
+</tbody>
+</table>
+
+<table style="width:99%;">
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th><strong>Nome</strong></th>
+<th><strong>Sottoscrive Abbonamento: AbbonamentoGiaAttivo</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID</strong></td>
+<td>UT-13.1</td>
+</tr>
+<tr>
+<td><strong>Breve descrizione</strong></td>
+<td>L'Utente tenta di sottoscrivere un nuovo piano mentre ha già un abbonamento attivo; il sistema rifiuta l'operazione.</td>
+</tr>
+<tr>
+<td><strong>Attori primari</strong></td>
+<td>Utente</td>
+</tr>
+<tr>
+<td><strong>Attori secondari</strong></td>
 <td>Nessuno</td>
+</tr>
+<tr>
+<td><strong>Precondizioni</strong></td>
+<td>l'Utente ha già un abbonamento attivo</td>
+</tr>
+<tr>
+<td><strong>Postcondizioni</strong></td>
+<td>Nessun nuovo abbonamento viene creato; l'abbonamento corrente resta invariato; l'Utente è informato dell'errore.</td>
+</tr>
+<tr>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td><p>1. La sequenza alternativa sostituisce i passi 6-8 della sequenza principale. </p>
+<p>2. Il sistema rileva che l'Utente ha già un abbonamento attivo. </p>
+<p>3. Il sistema rifiuta la richiesta. </p>
+<p>4. Il sistema mostra all'Utente il messaggio "Hai già un abbonamento attivo".</p></td>
 </tr>
 </tbody>
 </table>
 
 #### UT – 14 Visualizza Suggerimenti Intelligenti
 
-<table style="width:100%;">
+<table>
 <colgroup>
 <col style="width: 22%" />
 <col style="width: 77%" />
@@ -2208,37 +2382,37 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>Visualizza Suggerimenti Intelligenti: DatiInsufficienti</th>
+<th><strong>Nome</strong></th>
+<th><strong>Visualizza Suggerimenti Intelligenti: DatiInsufficienti</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>UT-14.01</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il ServizioAI valuta che i dati storici dell'Utente non sono ancora sufficienti per produrre suggerimenti significativi e restituisce una lista vuota con segnale esplicito.</td>
 </tr>
 <tr>
-<td>Attori primari</td>
+<td><strong>Attori primari</strong></td>
 <td>Utente</td>
 </tr>
 <tr>
-<td>Attori secondari</td>
+<td><strong>Attori secondari</strong></td>
 <td>ServizioAI</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>Il ServizioAI ha ricevuto i dati dell'Utente e ha determinato autonomamente che non sono sufficienti per generare suggerimenti utili.</td>
 </tr>
 <tr>
-<td>Postcondizioni</td>
+<td><strong>Postcondizioni</strong></td>
 <td>Nessun suggerimento viene mostrato; l'Utente è informato della necessità di continuare a utilizzare il servizio.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td><p>1. La sequenza alternativa sostituisce i passi 5–6 della sequenza principale.</p>
 <p>2. Il ServizioAI restituisce al sistema una lista vuota con un messaggio che indica l’insufficienza dei dati.</p>
 <p>3. Il sistema notifica l'Utente che non è ancora possibile generare suggerimenti personalizzati e lo invita a continuare a utilizzare il servizio.</p></td>
@@ -2248,10 +2422,10 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 
 #### UT – 15 Scrive Recensione
 
-<table style="width:100%;">
+<table>
 <colgroup>
-<col style="width: 24%" />
-<col style="width: 75%" />
+<col style="width: 23%" />
+<col style="width: 76%" />
 </colgroup>
 <thead>
 <tr>
@@ -2297,7 +2471,53 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td><strong>Sequenza alternativa degli eventi</strong></td>
+<td><strong>CorsaNonConclusa</strong></td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 73%" />
+</colgroup>
+<thead>
+<tr>
+<th><strong>Nome</strong></th>
+<th><strong>Scrive Recensione: CorsaNonConclusa</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID</strong></td>
+<td>UT-15.1</td>
+</tr>
+<tr>
+<td><strong>Breve descrizione</strong></td>
+<td>L'Utente tenta di inviare una recensione senza aver mai concluso una corsa; il sistema rifiuta l'operazione.</td>
+</tr>
+<tr>
+<td><strong>Attori Primari</strong></td>
+<td>Utente</td>
+</tr>
+<tr>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
+</tr>
+<tr>
+<td><strong>Precondizioni</strong></td>
+<td>Al passo 6: l'Utente non ha alcuna corsa conclusa.</td>
+</tr>
+<tr>
+<td><strong>Post-condizioni</strong></td>
+<td>La recensione non viene salvata; l'Utente è informato che deve concludere almeno una corsa prima di poter recensire.</td>
+</tr>
+<tr>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td><p>1. La sequenza alternativa inizia al passo 6 della sequenza principale. </p>
+<p>2. Il sistema rileva che l'Utente non ha concluso alcuna corsa. </p>
+<p>3. Il sistema rifiuta il salvataggio della recensione. </p>
+<p>4. Il sistema mostra all'Utente il messaggio "Devi aver concluso almeno una corsa per lasciare una recensione".</p></td>
 </tr>
 </tbody>
 </table>
@@ -2311,33 +2531,33 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>Accede Report</th>
+<th><strong>Nome</strong></th>
+<th><strong>Accede Report</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>AP-01</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema consente all'Amministrazione Pubblica autenticata di consultare la dashboard di reportistica aggregata sull'utilizzo del servizio di mobilità condivisa, visualizzando statistiche su corse effettuate, chilometri percorsi e distribuzione per tipologia di mezzo, così da supportare decisioni strategiche di pianificazione urbana.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Amministrazione Pubblica</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>L'Amministrazione Pubblica è autenticata alla piattaforma con il ruolo AP.</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
+<td><strong>Sequenza principale degli eventi</strong></td>
 <td><p>1. Il caso d'uso inizia quando l'Amministrazione Pubblica seleziona l'opzione "Visualizza Report" dalla propria dashboard.</p>
 <p>2. Il sistema recupera le statistiche aggregate sull'utilizzo del servizio relative all'intervallo temporale configurato.</p>
 <p>3. Il sistema presenta la dashboard di reportistica con un istogramma a barre impilate che analizza il volume dei noleggi su base settimanale e un grafico a torta che illustra la quota di mercato per tipologia di mezzo.</p>
@@ -2345,11 +2565,11 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <p>5. Punto di estensione: EsportaReport (si attiva se l'Amministrazione Pubblica seleziona una delle opzioni di esportazione disponibili).</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
+<td><strong>Post-condizioni</strong></td>
 <td>La dashboard di reportistica è visualizzata con i dati aggregati aggiornati; l'Amministrazione Pubblica ha consultato le statistiche sull'utilizzo del servizio.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td>DatiNonDisponibili</td>
 </tr>
 </tbody>
@@ -2362,37 +2582,37 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>AccedeReport: DatiNonDisponibili</th>
+<th><strong>Nome</strong></th>
+<th><strong>AccedeReport: DatiNonDisponibili</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>AP-01.1</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema non riesce a recuperare le statistiche aggregate a causa di un errore nel sistema di elaborazione dati.</td>
 </tr>
 <tr>
-<td>Attori primari</td>
+<td><strong>Attori primari</strong></td>
 <td>Amministrazione Pubblica</td>
 </tr>
 <tr>
-<td>Attori secondari</td>
+<td><strong>Attori secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>Il sistema non è in grado di accedere o elaborare i dati aggregati del report.</td>
 </tr>
 <tr>
-<td>Postcondizioni</td>
+<td><strong>Postcondizioni</strong></td>
 <td>La dashboard di reportistica non viene mostrata; l'Amministrazione Pubblica è informata del problema temporaneo.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td><p>1. La sequenza alternativa sostituisce i passi 2 e 3 della sequenza principale.</p>
 <p>2. Il sistema rileva un errore nel recupero dei dati aggregati.</p>
 <p>3. Il sistema notifica all'Amministrazione Pubblica che le statistiche non sono al momento disponibili e la invita a riprovare.</p></td>
@@ -2409,35 +2629,36 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>Esporta Report</th>
+<th><strong>Nome</strong></th>
+<th><strong>Esporta Report</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>AP-02</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema consente all'Amministrazione Pubblica di esportare il report aggregato correntemente visualizzato in uno dei formati disponibili (CSV o PDF), così da poterlo utilizzare in analisi esterne e documentazione ufficiale. Questo caso d'uso estende AccedeReport.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Amministrazione Pubblica</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
-<td><p>L'Amministrazione Pubblica ha acceduto alla dashboard di reportistica (CS-14).</p>
+<td><strong>Precondizioni</strong></td>
+<td><p>L'Amministrazione Pubblica ha acceduto alla dashboard di reportistica.</p>
 <p>I dati del report sono disponibili e visualizzati correttamente.</p></td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
-<td><p>1. Il caso d'uso inizia dal Punto di estensione EsportaReport di AccedeReport, quando l'Amministrazione 2. Pubblica seleziona una delle opzioni di esportazione disponibili.</p>
+<td><strong>Sequenza principale degli eventi</strong></td>
+<td><p>1. Il caso d'uso inizia dal Punto di estensione EsportaReport di AccedeReport, quando l'Amministrazione</p>
+<p>2. Pubblica seleziona una delle opzioni di esportazione disponibili.</p>
 <p>3. Il sistema presenta le opzioni di formato disponibili: CSV e PDF.</p>
 <p>4. L'Amministrazione Pubblica seleziona il formato desiderato.</p>
 <p>5. Il sistema genera il file nel formato selezionato contenente i dati del report aggregato correntemente visualizzato.</p>
@@ -2445,11 +2666,11 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <p>7. Il sistema notifica l'Amministrazione Pubblica del completamento dell'esportazione.</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
+<td><strong>Post-condizioni</strong></td>
 <td>Il file del report aggregato è stato generato e scaricato nel formato selezionato; i dati esportati corrispondono alle statistiche visualizzate nella dashboard.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td>ErroreGenerazioneFile</td>
 </tr>
 </tbody>
@@ -2462,37 +2683,37 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>EsportaReport: ErroreGenerazioneFile</th>
+<th><strong>Nome</strong></th>
+<th><strong>EsportaReport: ErroreGenerazioneFile</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>AP-02.1</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema non riesce a generare il file di esportazione nel formato selezionato.</td>
 </tr>
 <tr>
-<td>Attori primari</td>
+<td><strong>Attori primari</strong></td>
 <td>Amministrazione Pubblica</td>
 </tr>
 <tr>
-<td>Attori secondari</td>
+<td><strong>Attori secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>Il sistema ha incontrato un errore durante la generazione del file nel formato selezionato.</td>
 </tr>
 <tr>
-<td>Postcondizioni</td>
+<td><strong>Postcondizioni</strong></td>
 <td>Il file non viene generato; l'Amministrazione Pubblica è informata del problema e può ritentare l'operazione.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td><p>1. La sequenza alternativa inizia dopo il passo 4 della sequenza principale.</p>
 <p>2. Il sistema rileva un errore nella generazione del file.</p>
 <p>3. Il sistema notifica all'Amministrazione Pubblica che l'esportazione non è andata a buon fine.</p>
@@ -2510,49 +2731,49 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>Visualizza Mappa Amministrazione Pubblica</th>
+<th><strong>Nome</strong></th>
+<th><strong>Visualizza Mappa Amministrazione Pubblica</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>AP-03</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema mostra all'Amministrazione Pubblica autenticata la mappa interattiva dell'area urbana di competenza, arricchita da layer statistici sovrapposti — tra cui la heatmap della distribuzione dei mezzi, l'intensità d'uso per zona e le aree a bassa disponibilità — così da supportare decisioni strategiche di pianificazione e monitoraggio del servizio sul territorio.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Amministrazione Pubblica</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
-<td>ServizioMappa</td>
+<td><strong>Attori Secondari</strong></td>
+<td>ProviderMappa</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>L'Amministrazione Pubblica è autenticata alla piattaforma con il ruolo AP.</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
-<td><p>1. Il caso d'uso inizia quando l'Amministrazione Pubblica accede alla schermata principale della propria dashboard.</p>
-<p>2. Il sistema interroga il ServizioMappa per recuperare i dati geografici aggiornati relativi all'area urbana di competenza.</p>
-<p>3. Il sistema carica la mappa interattiva e sovrappone il layer predefinito: la heatmap della distribuzione dei mezzi, che evidenzia con gradiente cromatico le aree ad alta e bassa densità di mezzi disponibili.</p>
-<p>4. Il sistema visualizza sulla mappa le zone definite (Operativa, Vietata, Limitata, di Parcheggio) con la rispettiva colorazione semantica.</p>
-<p>5. Il sistema mostra nel pannello laterale i layer statistici selezionabili: distribuzione mezzi per tipologia, intensità d'uso per zona e fasce orarie di picco.</p>
+<td><strong>Sequenza principale degli eventi</strong></td>
+<td><p>1. Il caso d'uso inizia quando l'Amministrazione Pubblica accede alla schermata principale della propria dashboard. </p>
+<p>2. Il sistema recupera i dati geografici di base tramite ProviderMappa e le statistiche aggregate (mezzi, zone, intensità d'uso) relative all'area urbana di competenza. </p>
+<p>3. Il sistema carica la mappa interattiva, tramite ProviderMappa, e sovrappone il layer predefinito: la heatmap della distribuzione dei mezzi, che evidenzia con gradiente cromatico le aree ad alta e bassa densità di mezzi disponibili. </p>
+<p>4. Il sistema visualizza sulla mappa le zone definite (Operativa, Vietata, Limitata, di Parcheggio) con la rispettiva colorazione semantica. </p>
+<p>5. Il sistema mostra nel pannello laterale i layer statistici selezionabili: distribuzione mezzi per tipologia, intensità d'uso per zona e fasce orarie di picco. </p>
 <p>6. L'Amministrazione Pubblica seleziona i layer statistici di interesse da visualizzare sulla mappa.</p>
-<p>7. Il sistema aggiorna la mappa mostrando i layer selezionati.</p>
+<p>7. Il sistema aggiorna la mappa mostrando i layer selezionati. </p>
 <p>8. L'Amministrazione Pubblica consulta i dati territoriali visualizzati.</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
+<td><strong>Post-condizioni</strong></td>
 <td>La mappa è visualizzata con i layer statistici selezionati e aggiornati; l'Amministrazione Pubblica può monitorare la distribuzione dei mezzi sul territorio e procedere con decisioni strategiche di pianificazione urbana.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
-<td>DatiGISNonDisponibili</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td>DatiNonDisponibili</td>
 </tr>
 </tbody>
 </table>
@@ -2564,39 +2785,39 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>VisualizzaMappaAP: DatiGISNonDisponibili</th>
+<th><strong>Nome</strong></th>
+<th><strong>VisualizzaMappaAP: DatiNonDisponibili</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>AP-03.1</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
-<td>Il ServizioMappa non riesce a fornire i dati geografici o statistici necessari al caricamento della mappa.</td>
+<td><strong>Breve descrizione</strong></td>
+<td>Il sistema non riesce a recuperare i dati geografici (da ProviderMappa) o le statistiche aggregate necessari al caricamento della mappa.</td>
 </tr>
 <tr>
-<td>Attori primari</td>
+<td><strong>Attori primari</strong></td>
 <td>Amministrazione Pubblica</td>
 </tr>
 <tr>
-<td>Attori secondari</td>
-<td>ServizioMappa</td>
+<td><strong>Attori secondari</strong></td>
+<td>ProviderMappa</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
-<td>Il ServizioMappa ha restituito un errore o non è raggiungibile al momento della richiesta.</td>
+<td><strong>Precondizioni</strong></td>
+<td>Il ProviderMappa ha restituito un errore o non è raggiungibile al momento della richiesta.</td>
 </tr>
 <tr>
-<td>Postcondizioni</td>
+<td><strong>Postcondizioni</strong></td>
 <td>La mappa non viene caricata; l'Amministrazione Pubblica è informata dell'indisponibilità temporanea del servizio cartografico.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
-<td><p>1. La sequenza alternativa inizia dopo il passo 2 della sequenza principale.</p>
-<p>2. Il sistema rileva che il ServizioMappa non ha restituito dati validi.</p>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td><p>1. La sequenza alternativa inizia dopo il passo 2 della sequenza principale. </p>
+<p>2. Il sistema rileva che non è stato possibile recuperare i dati necessari. </p>
 <p>3. Il sistema notifica all'Amministrazione Pubblica che la mappa non è al momento disponibile e la invita a riprovare.</p></td>
 </tr>
 </tbody>
@@ -2630,7 +2851,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </tr>
 <tr>
 <td><strong>Attori Secondari</strong></td>
-<td>ServizioMappa</td>
+<td>ProviderMappa</td>
 </tr>
 <tr>
 <td><strong>Precondizioni</strong></td>
@@ -2640,7 +2861,7 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <td><strong>Sequenza principale degli eventi</strong></td>
 <td><ol type="1">
 <li><p>Il caso d'uso inizia quando l'Operatore accede alla schermata principale della piattaforma.</p></li>
-<li><p>Il sistema interroga il ServizioMappa per recuperare i dati geografici.</p></li>
+<li><p>Il sistema interroga il ProviderMappa per recuperare i dati geografici.</p></li>
 <li><p>Il sistema recupera le zone con restrizioni, le zone di parcheggio e lo stato aggiornato di tutti i mezzi della flotta.</p></li>
 <li><p>Il sistema visualizza la mappa con tutti i mezzi, lo stato di ciascuno, le aree con restrizioni e il marker della posizione corrente.</p></li>
 </ol></td>
@@ -2671,45 +2892,91 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>OP – 02</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema consente all'operatore autenticato di aggiungere un nuovo mezzo alla flotta, specificando tipologia, identificativo, posizione iniziale e stato, così da renderlo disponibile per il noleggio da parte degli utenti.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Operatore</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
-<td>ServizioMappa</td>
+<td><strong>Attori Secondari</strong></td>
+<td>ProviderMappa</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>L'operatore è autenticato alla piattaforma e si trova nella Dashboard Operatore.</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
-<td>1. Il caso d'uso inizia quando l'operatore accede alla sezione dedicata ai mezzi.</td>
-</tr>
-<tr>
-<td><p>2. Il sistema mostra la lista dei mezzi attualmente presenti nella flotta.</p>
+<td><strong>Sequenza principale</strong></td>
+<td><p>1. Il caso d'uso inizia quando l'operatore accede alla sezione dedicata ai mezzi.</p>
+<p>2. Il sistema mostra la lista dei mezzi attualmente presenti nella flotta.</p>
 <p>3. L'operatore seleziona la funzione che permette di aggiungere un nuovo mezzo.</p>
 <p>4. Il sistema permette di inserire i campi: tipologia (monopattino, bicicletta, automobile), identificativo, posizione iniziale e stato iniziale.</p>
 <p>5. L'operatore inserisce i dati richiesti e seleziona la posizione iniziale sulla mappa.</p>
 <p>6. L'operatore conferma i dati inseriti.</p>
 <p>7. Il sistema valida i dati verificando che i campi obbligatori siano compilati e che l'identificativo sia univoco. Se uno o più campi non sono validi, il sistema informa l'operatore specificando i campi non validi e torna al passo 5.</p>
-<p>8. Il sistema verifica tramite ServizioMappa che la posizione selezionata ricada all'interno di una zona operativa.</p>
+<p>8. Il sistema verifica tramite ProviderMappa che la posizione selezionata ricada all'interno di una zona operativa.</p>
 <p>9. Il sistema salva il nuovo mezzo associandolo alla flotta.</p>
-<p>10. Il sistema mostra un messaggio di conferma all'operatore.</p>
-<p>Post-condizioni</p></td>
+<p>10. Il sistema mostra un messaggio di conferma all'operatore.</p></td>
+</tr>
+<tr>
+<td><strong>Post-condizioni</strong></td>
 <td>Il nuovo mezzo è stato salvato nel sistema e risulta disponibile sulla Mappa Utente in base allo stato impostato.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
-<td>IdentificativoEsistentePosizioneNonOperativa</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td>IdentificativoEsistente</td>
+</tr>
+</tbody>
+</table>
+
+<table style="width:100%;">
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 73%" />
+</colgroup>
+<thead>
+<tr>
+<th><strong>Nome</strong></th>
+<th><strong>Aggiunge Mezzo: IdentificativoEsistente</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID</strong></td>
+<td>OP – 02.01</td>
+</tr>
+<tr>
+<td><strong>Breve descrizione</strong></td>
+<td>Il sistema rileva che l'identificativo inserito è già associato ad un altro mezzo e segnala l’errore, impedendo il salvataggio.</td>
+</tr>
+<tr>
+<td><strong>Attori Primari</strong></td>
+<td>Operatore</td>
+</tr>
+<tr>
+<td><strong>Attori Secondari</strong></td>
+<td>Nessuno</td>
+</tr>
+<tr>
+<td><strong>Precondizioni</strong></td>
+<td>L'identificativo inserito dall'operatore esiste già.</td>
+</tr>
+<tr>
+<td><strong>Post-condizioni</strong></td>
+<td>Il nuovo mezzo non viene salvato; l'operatore rimane sulla schermata di inserimento per correggere i dati.</td>
+</tr>
+<tr>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td><p>1. La sequenza alternativa inizia al passo 7 della sequenza principale.</p>
+<p>2. Il sistema verifica l'unicità dell'identificativo.</p>
+<p>3. Il sistema rileva che l'identificativo è già presente.</p>
+<p>4. Il sistema informa l'operatore dell'errore e torna al passo 5.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2729,27 +2996,27 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>OP – 03</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema consente all'operatore autenticato di dismettere un mezzo precedentemente censito, rimuovendone la disponibilità per l'assegnazione a nuove missioni e mantenendone lo storico ai fini di consultazione.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Operatore</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>L'operatore deve essere autenticato nel sistema e il mezzo da dismettere deve essere già censito e non assegnato ad alcuna missione attiva.</td>
 </tr>
 <tr>
-<td>Sequenza principale</td>
+<td><strong>Sequenza principale</strong></td>
 <td><p>1. Il caso d'uso inizia quando l'operatore accede alla sezione dedicata ai mezzi.</p>
 <p>2. Il sistema mostra la lista dei mezzi presenti nella flotta con il loro stato corrente.</p>
 <p>3. L'operatore seleziona il mezzo da dismettere.</p>
@@ -2760,11 +3027,11 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <p>8. Il sistema mostra un messaggio di conferma all'operatore.</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
+<td><strong>Post-condizioni</strong></td>
 <td>Il mezzo è registrato come dismesso nel sistema, non risulta più disponibile per l'assegnazione a nuove corse e i dati storici relativi al mezzo rimangono consultabili.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td>MezzoInUso</td>
 </tr>
 </tbody>
@@ -2783,32 +3050,32 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>OP-03.1</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema informa l'operatore che il mezzo selezionato è attualmente impegnato in una missione e non può essere dismesso.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Operatore</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
-<td>ServizioMappa</td>
+<td><strong>Attori Secondari</strong></td>
+<td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>L'operatore deve essere autenticato nel sistema e il mezzo selezionato risulta assegnato a una corsa attiva.</td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
+<td><strong>Post-condizioni</strong></td>
 <td>Lo stato del mezzo resta invariato e l'operatore rimane nella sezione di gestione dei mezzi.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
-<td><p>1. Il sistema, tramite il ServizioMappa, rileva che il mezzo selezionato è impegnato in una corsa.</p>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td><p>1. Il sistema, tramite il ProviderMappa, rileva che il mezzo selezionato è impegnato in una corsa.</p>
 <p>2. Il sistema notifica all'operatore l'impossibilità di dismettere il mezzo, indicandone la causa.</p>
 <p>3. L'operatore prende visione del messaggio e ritorna alla sezione di gestione dei mezzi.</p></td>
 </tr>
@@ -2830,27 +3097,27 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>OP-04</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema consente all'operatore autenticato di modificare lo stato di un mezzo della flotta, così da nasconderlo o mostrarlo sulla Mappa Utente e gestire il ciclo operativo del veicolo.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Operatore</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>L'operatore è autenticato alla piattaforma e il mezzo selezionato esiste nella flotta.</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
+<td><strong>Sequenza principale degli eventi</strong></td>
 <td style="text-align: left;"><p>1. Il caso d'uso inizia quando l'operatore accede alla sezione dedicata ai mezzi.</p>
 <p>2. Il sistema mostra la Mappa Operatore con la lista dei mezzi della flotta e il loro stato corrente.</p>
 <p>3. L'operatore seleziona il mezzo di cui intende modificare lo stato.</p>
@@ -2861,12 +3128,12 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <p>8. Il sistema mostra un messaggio di conferma all'operatore.</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
+<td><strong>Post-condizioni</strong></td>
 <td>Lo stato del mezzo è stato aggiornato. Se il nuovo stato è "In manutenzione" o "Fuori servizio" il mezzo non è più visibile sulla Mappa Utente; se il nuovo stato è "Disponibile" il mezzo è nuovamente visibile sulla Mappa Utente</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
-<td>MezzoInUso</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td>MezzoImpegnato</td>
 </tr>
 </tbody>
 </table>
@@ -2879,39 +3146,39 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <thead>
 <tr>
 <th><strong>Nome</strong></th>
-<th><strong>Modifica Stato Mezzo: MezzoInUso</strong></th>
+<th><strong>Modifica Stato Mezzo: MezzoImpegnato</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>OP-04.1</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
-<td>Il sistema informa l'operatore che il mezzo selezionato è attualmente in uso da un utente e non può essere modificato.</td>
+<td><strong>Breve descrizione</strong></td>
+<td>Il sistema informa l'operatore che il mezzo selezionato è attualmente impegnato in una corsa (in uso o in pausa) e non può essere modificato.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Operatore</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
-<td>Il mezzo selezionato ha stato "In uso" o "Prenotato" al momento della richiesta di modifica.</td>
+<td><strong>Precondizioni</strong></td>
+<td>Il mezzo selezionato ha stato "In uso" o "In pausa" al momento della richiesta di modifica.</td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
+<td><strong>Post-condizioni</strong></td>
 <td>Nessuna. Lo stato del mezzo non viene modificato.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
-<td><p>1. La sequenza alternativa inizia dopo il passo 6 della sequenza principale.</p>
-<p>2. Il sistema rileva che il mezzo è attualmente in uso o prenotato da un utente.</p>
-<p>3. Il sistema informa l'operatore che non è possibile modificare lo stato del mezzo mentre è in uso o prenotato</p></td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td><p>1. La sequenza alternativa inizia dopo il passo 6 della sequenza principale. </p>
+<p>2. Il sistema rileva che il mezzo è impegnato in una corsa attiva. </p>
+<p>3. Il sistema informa l'operatore che non è possibile modificare lo stato del mezzo mentre è impegnato</p></td>
 </tr>
 </tbody>
 </table>
@@ -2931,48 +3198,48 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>OP-05</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema consente all'operatore autenticato di definire una nuova tariffa per una specifica tipologia di mezzo, scegliendo se applicare un costo al minuto oppure un costo al chilometro, così da permettere la configurazione del modello di costo del servizio.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Operatore</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>L'operatore è autenticato alla piattaforma e non esiste già una tariffa definita per la tipologia di mezzo selezionata.</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
-<td style="text-align: left;"><p>1. Il caso d'uso inizia quando l'operatore accede alla sezione dedicata alle tariffe.</p>
-<p>2. Il sistema mostra le tariffe attualmente definite per ciascuna tipologia di mezzo disponibile.</p>
-<p>3. L'operatore seleziona la tipologia di mezzo per cui intende definire una nuova tariffa (monopattino, bicicletta, automobile).</p>
-<p>4. Il sistema mostra il form di inserimento, chiedendo all'operatore di scegliere il tipo di tariffa: costo al minuto o costo al chilometro.</p>
-<p>5. L'operatore seleziona il tipo di tariffa e inserisce il valore del costo richiesto.</p>
-<p>6. Il sistema valida il dato inserito verificando che il valore sia numerico e maggiore di zero.</p>
-<p>7. Il sistema salva la nuova tariffa, associandola alla tipologia di mezzo selezionata e al tipo di costo scelto.</p>
-<p>8. Il sistema mostra un messaggio di conferma all'operatore.</p></td>
+<td><strong>Sequenza principale degli eventi</strong></td>
+<td><ol type="1">
+<li><p>Il caso d'uso inizia quando l'operatore accede alla sezione dedicata alle tariffe.</p></li>
+<li><p>Il sistema mostra le tariffe attualmente definite per ciascuna tipologia di mezzo disponibile.</p></li>
+<li><p>L'operatore seleziona la tipologia di mezzo per cui intende definire una nuova tariffa (monopattino, bicicletta, automobile).</p></li>
+<li><p>Il sistema mostra il form di inserimento, chiedendo all'operatore di scegliere il tipo di tariffa: costo al minuto o costo al chilometro.</p></li>
+<li><p>L'operatore seleziona il tipo di tariffa e inserisce il valore del costo richiesto.</p></li>
+<li><p>Il sistema valida il dato inserito verificando che il valore sia numerico e maggiore di zero.</p></li>
+<li><p>Il sistema salva la nuova tariffa, associandola alla tipologia di mezzo selezionata e al tipo di costo scelto.</p></li>
+<li><p>Il sistema mostra un messaggio di conferma all'operatore.</p></li>
+</ol></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
+<td><strong>Post-condizioni</strong></td>
 <td>La nuova tariffa è stata salvata nel sistema, con il tipo di costo scelto dall'operatore, e sarà applicata alle corse successive effettuate con la tipologia di mezzo selezionata.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td>TariffaGiaEsistente</td>
 </tr>
 </tbody>
 </table>
-
-#### OP-05.1 Definisce Tariffa: TariffaGiaEsistente
 
 <table style="width:100%;">
 <colgroup>
@@ -2987,34 +3254,34 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>OP-05.1</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
-<td>L'Operatore tenta di definire una tariffa per una tipologia di mezzo che ne ha già una attiva; il sistema rifiuta l'operazione.</td>
+<td><strong>Breve descrizione</strong></td>
+<td>L'Operatore tenta di definire una tariffa per una tipologia di mezzo che ne ha già una attiva; il sistema rifiuta l'operazione</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Operatore</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
-<td>Al passo 6 (validazione) della sequenza principale di OP-05: esiste già una tariffa definita per la tipologia di mezzo selezionata.</td>
+<td><strong>Precondizioni</strong></td>
+<td>Al passo 6 (validazione): esiste già una tariffa definita per la tipologia di mezzo selezionata</td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
-<td>Nessuna nuova tariffa viene salvata; la tariffa esistente resta invariata; l'Operatore è informato dell'errore.</td>
+<td><strong>Post-condizioni</strong></td>
+<td>Nessuna nuova tariffa viene salvata; la tariffa esistente resta invariata; l'Operatore è informato dell'errore</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
-<td style="text-align: left;"><p>6a. Il sistema rileva che esiste già una tariffa per la tipologia selezionata.</p>
-<p>6b. Il sistema rifiuta la richiesta.</p>
-<p>6c. Il sistema informa l'Operatore che la tariffa esiste già e lo invita a usare la funzione di modifica.</p></td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td><p>6a. Il sistema rileva che esiste già una tariffa per la tipologia selezionata.</p>
+<p>6b. Il sistema rifiuta la richiesta</p>
+<p>6c. Il sistema informa l'Operatore che la tariffa esiste già.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3028,54 +3295,48 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <tbody>
 <tr>
-<td>Nome</td>
-<td>Definisce Regole Fine Corsa</td>
+<td><strong>Nome</strong></td>
+<td><strong>Definisce Regole Fine Corsa</strong></td>
 </tr>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>OP-06</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>L'operatore definisce le regole sanzionatorie e incentivanti che governano la corretta conclusione di una corsa, specificando la politica sanzionatoria applicata al rilascio del mezzo al di fuori delle zone di parcheggio e un eventuale bonus riconosciuto all'utente al raggiungimento di un numero prestabilito di parcheggi corretti, così da garantire il decoro urbano.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Operatore</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>L'operatore è autenticato nel sistema ed esiste almeno una zona di parcheggio già definita.</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
-<td><ol type="1">
-<li><p>Il caso d'uso inizia quando l'operatore accede alla sezione dedicata alle Regole Fine Corsa.</p></li>
-<li><p>Il sistema mostra i parametri configurabili correnti.</p></li>
-<li><p>L'operatore configura le regole:</p></li>
-</ol>
-<blockquote>
-<p>3.1 stabilisce la politica sanzionatoria applicata al rilascio del mezzo fuori dalle zone di parcheggio (penale, blocco fine corsa o avviso);</p>
-<p>3.1.2 se la politica prevede una penale, inserisce l'importo da addebitare in aggiunta al costo della corsa;</p>
-<p>3.2 se intende attivare un incentivo, configura il bonus indicando il numero di parcheggi corretti necessari e il valore del bonus.</p>
-</blockquote>
-<ol start="4" type="1">
-<li><p>L'operatore conferma le regole definite.</p></li>
-<li><p>Se i parametri non rientrano negli intervalli ammessi, il sistema informa l'operatore specificando i campi non validi e torna al passo 3.</p></li>
-<li><p>Il sistema salva la nuova configurazione.</p></li>
-<li><p>Il sistema notifica all'operatore l'avvenuta definizione delle regole.</p></li>
-</ol></td>
+<td><strong>Sequenza principale degli eventi</strong></td>
+<td style="text-align: left;"><p>1. Il caso d'uso inizia quando l'operatore accede alla sezione dedicata alle Regole Fine Corsa. </p>
+<p>2. Il sistema mostra i parametri configurabili correnti. </p>
+<p>3. L'operatore configura le regole: </p>
+<p>  3.1 stabilisce la politica sanzionatoria applicata al rilascio del mezzo fuori dalle zone di parcheggio (penale, blocco fine corsa o avviso); </p>
+<p> 3.1.2 se la politica prevede una penale, inserisce l'importo da addebitare in aggiunta al costo della corsa; </p>
+<p>3.2 se intende attivare un incentivo, configura il bonus indicando il numero di parcheggi corretti necessari e il valore del bonus. </p>
+<p>4. L'operatore conferma le regole definite. </p>
+<p>5. Se i parametri non rientrano negli intervalli ammessi, il sistema informa l'operatore specificando i campi non validi e torna al passo 3. </p>
+<p>6. Il sistema salva la nuova configurazione. </p>
+<p>7. Il sistema notifica all'operatore l'avvenuta definizione delle regole.</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
+<td><strong>Post-condizioni</strong></td>
 <td>Le nuove regole di fine corsa sono memorizzate nel sistema e vengono applicate a tutte le corse successive.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td>Nessuna</td>
 </tr>
 </tbody>
@@ -3096,43 +3357,45 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>OP - 07</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
-<td>L’operatore definisce i confini geografici di una Zona caratteristica (Vietata, Limitata, di Parcheggio, Confine Operativo); il sistema memorizza la zona e la applica attivamente.</td>
+<td><strong>Breve descrizione</strong></td>
+<td>L'operatore definisce i confini geografici di una Zona caratteristica (Vietata, Limitata, di Parcheggio, Confine Operativo); il sistema memorizza la zona e la applica attivamente.</td>
 </tr>
 <tr>
-<td>Attori primari</td>
+<td><strong>Attori primari</strong></td>
 <td>Operatore</td>
 </tr>
 <tr>
-<td>Attori secondari</td>
+<td><strong>Attori secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
-<td>L’operatore è autenticato con il ruolo appropriato nel sistema</td>
+<td><strong>Precondizioni</strong></td>
+<td>L’operatore è autenticato con il ruolo OP nel sistema</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
-<td style="text-align: left;"><p>1. Il caso d'uso inizia quando l’operatore intende definire una zona caratteristica all’interno del sistema.</p>
-<p>2. Il sistema visualizza la mappa interattiva dell'area di competenza con le zone esistenti.</p>
-<p>3. L’operatore disegna il perimetro della zona sulla mappa definendo i vertici del poligono.</p>
-<p>4. L’operatore conferma la creazione della zona.</p>
-<p>5. Fintantoché il perimetro non è valido:</p>
-<p>5.1 Il sistema notifica l’operatore del problema rilevato.</p>
-<p>5.2 l’operatore corregge il perimetro (torna al passo 3).</p>
+<td><strong>Sequenza principale degli eventi</strong></td>
+<td><ol type="1">
+<li><p>Il caso d'uso inizia quando l'operatore intende definire una zona caratteristica all'interno del sistema.</p></li>
+<li><p>Il sistema visualizza la mappa interattiva dell'area di competenza con le zone esistenti</p></li>
+<li><p>L'operatore disegna il perimetro della zona sulla mappa definendo i vertici del poligono;</p></li>
+<li><p>L'operatore conferma la creazione della zona.</p></li>
+<li><p>Fintantoché il perimetro non è valido:</p></li>
+</ol>
+<p>5.1 Il sistema notifica l'operatore del problema rilevato.</p>
+<p>5.2 l'operatore corregge il perimetro (torna al passo 3).</p>
 <p>6. Il sistema salva la Zona e la rende attiva.</p>
 <p>7. Il sistema aggiorna la mappa visibile agli Utenti evidenziando la nuova zona.</p></td>
 </tr>
 <tr>
-<td>Postcondizioni</td>
+<td><strong>Postcondizioni</strong></td>
 <td>La nuova Zona creata è persistita nel sistema con il perimetro definito; il sistema la applica alla flotta.</td>
 </tr>
 <tr>
-<td>Sequenze alternative</td>
+<td><strong>Sequenze alternative</strong></td>
 <td>Nessuna</td>
 </tr>
 </tbody>
@@ -3147,48 +3410,50 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>Gestisce segnalazione</th>
+<th><strong>Nome</strong></th>
+<th><strong>Gestisce segnalazione</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>OP-08</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema consente all'Operatore autenticato di consultare le segnalazioni inviate dagli Utenti così da pianificare gli opportuni interventi a fronte delle problematiche riscontrate (relative ai mezzi, alle zone di parcheggio o ad altri aspetti del servizio)</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Operatore</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>L'operatore è autenticato alla piattaforma.</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
-<td><p>1. Il caso d'uso inizia quando l'Operatore accede alla sezione dedicata alle segnalazioni.</p>
+<td><strong>Sequenza principale degli eventi</strong></td>
+<td><p>1. Il caso d'uso inizia quando l'Operatore accede alla sezione dedicata alle segnalazioni</p>
 <p>2. Il sistema recupera l'elenco delle segnalazioni inviate dagli Utenti.</p>
 <p>3. Il sistema presenta l'elenco delle segnalazioni in ordine cronologico, indicando per ciascuna: tipologia, descrizione e data di invio.</p>
 <p>4. L'Operatore consulta le segnalazioni visualizzate.</p>
 <p>5. L'Operatore seleziona una segnalazione per visualizzarne il dettaglio.</p>
 <p>6. Il sistema mostra il dettaglio completo della segnalazione selezionata.</p>
 <p>7. L'Operatore prende in carico la segnalazione.</p>
-<p>8. Il sistema aggiorna lo stato della segnalazione e notifica l'Utente della presa in carico.</p></td>
+<p>8. Il sistema aggiorna lo stato della segnalazione a "in carico"; l'Utente, consultando la segnalazione, visualizza lo stato aggiornato.</p>
+<p>9. L'Operatore, dopo aver gestito la problematica segnalata, segna la segnalazione come risolta.</p>
+<p>10. Il sistema verifica che la segnalazione sia nello stato "in carico" e ne aggiorna lo stato a "risolta".</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
-<td>La segnalazione è stata presa in carico dall'Operatore; l'Utente è informato dell'aggiornamento di stato.</td>
+<td><strong>Post-condizioni</strong></td>
+<td>La segnalazione è stata presa in carico e successivamente risolta dall'Operatore. L'Utente può consultare lo stato aggiornato ("Risolta") nel proprio storico segnalazioni.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td>Nessuno</td>
 </tr>
 </tbody>
@@ -3203,38 +3468,38 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>Sospende account utente</th>
+<th><strong>Nome</strong></th>
+<th><strong>Sospende account utente</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>OP-09</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema consente all'Operatore autenticato di sospendere l'account di un Utente, così da tutelare l'integrità del servizio in caso di comportamenti scorretti o violazioni delle condizioni d'uso.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Operatore</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td><p>1. L'Operatore è autenticato alla piattaforma.</p>
 <p>2. L'account dell'Utente da sospendere è attivo.</p></td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
+<td><strong>Sequenza principale degli eventi</strong></td>
 <td><p>1. Il caso d'uso inizia quando l'Operatore accede alla sezione per la gestione degli utenti.</p>
 <p>2. Il sistema presenta l'elenco degli utenti registrati. 3. L'Operatore seleziona l'Utente di cui intende sospendere l'account.</p>
 <p>4. Il sistema mostra il dettaglio del profilo dell'Utente selezionato.</p>
-<p>5. L'Operatore aggiunge una descrizione sulla motivazione della sospensione dell'account e seleziona la durata della sospensione (in giorni).</p>
+<p>5. L'Operatore aggiunge una descrizione sulla motivazione della sospensione dell'account e seleziona la durata della sospensione</p>
 <p>6. L'Operatore seleziona l'opzione per sospendere Account.</p>
 <p>7. Il sistema richiede conferma dell'operazione.</p>
 <p>8. L'Operatore conferma la sospensione.</p>
@@ -3243,11 +3508,11 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <p>11. Allo scadere della durata, il sistema riattiva automaticamente l'account e notifica l'Utente della riattivazione.</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
+<td><strong>Post-condizioni</strong></td>
 <td>L'account dell'Utente è sospeso fino alla data di fine sospensione; l'Utente non può più accedere alla piattaforma finché la sospensione è attiva; l'Utente è stato notificato dell'avvenuta sospensione. Allo scadere della durata l'account torna automaticamente attivo.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td>Nessuno</td>
 </tr>
 </tbody>
@@ -3262,34 +3527,34 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <thead>
 <tr>
-<th>Nome</th>
-<th>Definisce Offerta</th>
+<th><strong>Nome</strong></th>
+<th><strong>Definisce Offerta</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>OP-10</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>Il sistema consente all'Operatore autenticato di creare e pubblicare offerte commerciali (promozioni e piani di abbonamento) con condizioni e scadenza configurabili, così da incentivare l'utilizzo del servizio con politiche commerciali flessibili.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Operatore</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>L'operatore è autenticato alla piattaforma.</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
-<td><p>1. Il caso d'uso inizia quando l'Operatore accede alla sezione delle Tariffe e Promozioni.</p>
+<td><strong>Sequenza principale degli eventi</strong></td>
+<td><p>1. Il caso d'uso inizia quando l'Operatore accede alla sezione delle Offerte.</p>
 <p>2. Il sistema mostra le offerte attualmente definite (promozioni e piani di abbonamento) con il rispettivo stato (attiva, scaduta, in bozza).</p>
 <p>3. L'Operatore seleziona l'opzione per creare una nuova offerta.</p>
 <p>4. Il sistema chiede all'Operatore di scegliere la tipologia di offerta da creare: Promozione o Abbonamento.</p>
@@ -3301,17 +3566,17 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <p>10. Il sistema mostra un messaggio di conferma all'Operatore.</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
+<td><strong>Post-condizioni</strong></td>
 <td>L'offerta è salvata nel sistema e resa visibile agli utenti nelle sezioni dedicate</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td>Nessuno</td>
 </tr>
 </tbody>
 </table>
 
-#### OP-11 Configura parametri di sistema
+#### OP-11 Configura parametri numerici di sistema
 
 <table style="width:99%;">
 <colgroup>
@@ -3320,31 +3585,31 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <tbody>
 <tr>
-<td>Nome</td>
-<td>Configura Parametri Numerici di Sistema</td>
+<td><strong>Nome</strong></td>
+<td><strong>Configura Parametri Numerici di Sistema</strong></td>
 </tr>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>OP-11</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
+<td><strong>Breve descrizione</strong></td>
 <td>L'operatore configura i parametri numerici operativi del sistema.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Operatore</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>L’operatore è autenticato nel sistema</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
+<td><strong>Sequenza principale degli eventi</strong></td>
 <td><p>1. Il caso d’uso inizia quando l’operatore accede alla sezione di configurazione dei parametri di sistema.</p>
 <p>2. Il sistema recupera e mostra i valori correnti dei parametri.</p>
 <p>3. L’operatore inserisce i nuovi valori dei parametri che intende modificare.</p>
@@ -3354,11 +3619,11 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 <p>7. Il sistema mostra un messaggio di conferma all’operatore.</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
+<td><strong>Post-condizioni</strong></td>
 <td>I nuovi parametri numerici sono salvati nel sistema e applicati a tutte le operazioni successive.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td>Nessuna</td>
 </tr>
 </tbody>
@@ -3373,50 +3638,42 @@ Ogni sprint deve necessariamente produrre in output del codice funzionante. L’
 </colgroup>
 <tbody>
 <tr>
-<td>Nome</td>
-<td>Visualizza Recensioni</td>
+<td><strong>Nome</strong></td>
+<td><strong>Visualizza Recensioni</strong></td>
 </tr>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>OP-12</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
-<td>Il sistema consente all'Operatore autenticato di consultare l'elenco
-delle recensioni lasciate dagli utenti (voto da 1 a 5, commento testuale
-e data di creazione), insieme al voto medio aggregato, così da avere un
-riscontro sulle migliorie da apportare al servizio.</td>
+<td><strong>Breve descrizione</strong></td>
+<td>Il sistema consente all'Operatore autenticato di consultare l'elenco delle recensioni lasciate dagli utenti (voto da 1 a 5, commento testuale e data di creazione), insieme al voto medio aggregato, così da avere un riscontro sulle migliorie da apportare al servizio.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Operatore</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>L'Operatore è autenticato alla piattaforma con il ruolo OP.</td>
 </tr>
 <tr>
-<td>Sequenza principale degli eventi</td>
-<td><p>1. Il caso d'uso inizia quando l'Operatore accede alla sezione
-"Recensioni".</p>
-<p>2. Il sistema recupera l'elenco delle recensioni pubblicate dagli
-utenti e calcola il voto medio aggregato.</p>
-<p>3. Il sistema presenta l'elenco delle recensioni, indicando per
-ciascuna il voto, il commento e la data, insieme al voto medio
-complessivo.</p>
+<td><strong>Sequenza principale degli eventi</strong></td>
+<td><p>1. Il caso d'uso inizia quando l'Operatore accede alla sezione "Recensioni".</p>
+<p>2. Il sistema recupera l'elenco delle recensioni pubblicate dagli utenti e calcola il voto medio aggregato.</p>
+<p>3. Il sistema presenta l'elenco delle recensioni, indicando per ciascuna il voto, il commento e la data, insieme al voto medio complessivo.</p>
 <p>4. L'Operatore consulta le recensioni visualizzate.</p></td>
 </tr>
 <tr>
-<td>Post-condizioni</td>
-<td>L'elenco delle recensioni e il voto medio sono visualizzati;
-l'Operatore ha consultato i feedback degli utenti.</td>
+<td><strong>Post-condizioni</strong></td>
+<td>L'elenco delle recensioni e il voto medio sono visualizzati; l'Operatore ha consultato i feedback degli utenti.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
 <td>NessunaRecensione</td>
 </tr>
 </tbody>
@@ -3429,42 +3686,90 @@ l'Operatore ha consultato i feedback degli utenti.</td>
 </colgroup>
 <tbody>
 <tr>
-<td>Nome</td>
-<td>Visualizza Recensioni: NessunaRecensione</td>
+<td><strong>Nome</strong></td>
+<td><strong>Visualizza Recensioni: NessunaRecensione</strong></td>
 </tr>
 <tr>
-<td>ID</td>
+<td><strong>ID</strong></td>
 <td>OP-12.01</td>
 </tr>
 <tr>
-<td>Breve descrizione</td>
-<td>Non è presente alcuna recensione pubblicata dagli utenti al momento
-della richiesta.</td>
+<td><strong>Breve descrizione</strong></td>
+<td>Non è presente alcuna recensione pubblicata dagli utenti al momento della richiesta.</td>
 </tr>
 <tr>
-<td>Attori Primari</td>
+<td><strong>Attori Primari</strong></td>
 <td>Operatore</td>
 </tr>
 <tr>
-<td>Attori Secondari</td>
+<td><strong>Attori Secondari</strong></td>
 <td>Nessuno</td>
 </tr>
 <tr>
-<td>Precondizioni</td>
+<td><strong>Precondizioni</strong></td>
 <td>Non sono presenti recensioni nel sistema.</td>
 </tr>
 <tr>
-<td>Postcondizioni</td>
-<td>L'elenco delle recensioni non viene mostrato; l'Operatore è informato
-che non sono ancora presenti recensioni.</td>
+<td><strong>Post-condizioni</strong></td>
+<td>L'elenco delle recensioni non viene mostrato; l'Operatore è informato che non sono ancora presenti recensioni.</td>
 </tr>
 <tr>
-<td>Sequenza alternativa degli eventi</td>
-<td><p>1. La sequenza alternativa sostituisce i passi 2 e 3 della sequenza
-principale.</p>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td><p>1. La sequenza alternativa sostituisce i passi 2 e 3 della sequenza principale.</p>
 <p>2. Il sistema verifica che non sia presente alcuna recensione.</p>
-<p>3. Il sistema notifica all'Operatore che non sono ancora disponibili
-recensioni.</p></td>
+<p>3. Il sistema notifica all'Operatore che non sono ancora disponibili recensioni</p></td>
+</tr>
+</tbody>
+</table>
+
+#### OP-13 Mostra storico modifiche
+
+<table style="width:99%;">
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 70%" />
+</colgroup>
+<tbody>
+<tr>
+<td><strong>Nome</strong></td>
+<td><strong>Mostra Storico Modifiche</strong></td>
+</tr>
+<tr>
+<td><strong>ID</strong></td>
+<td>OP-13</td>
+</tr>
+<tr>
+<td><strong>Breve descrizione</strong></td>
+<td>Il sistema consente all'operatore autenticato di consultare un registro cronologico delle modifiche apportate alle configurazioni del servizio (ad esempio parametri numerici di sistema, regole di fine corsa, zone operative), così da poter ricostruire l'evoluzione di tali configurazioni nel tempo.</td>
+</tr>
+<tr>
+<td><strong>Attori Primari</strong></td>
+<td>Operatore</td>
+</tr>
+<tr>
+<td><strong>Attori Secondari</strong></td>
+<td>Nessuno</td>
+</tr>
+<tr>
+<td><strong>Precondizioni</strong></td>
+<td>L'Operatore è autenticato alla piattaforma con il ruolo OP e si trova nella DashBoard Operatore.</td>
+</tr>
+<tr>
+<td><strong>Sequenza principale degli eventi</strong></td>
+<td><ol type="1">
+<li><p>Il caso d'uso inizia quando l'operatore accede alla sezione dedicata allo storico delle modifiche.</p></li>
+<li><p>Il sistema recupera l'elenco delle modifiche registrate alle configurazioni del servizio, ordinato dalla più recente alla meno recente.</p></li>
+<li><p>Il sistema presenta l'elenco indicando per ciascuna voce: data e ora della modifica, tipo di configurazione interessata, operatore autore e descrizione sintetica del cambiamento (valore precedente e nuovo valore, dove applicabile).</p></li>
+<li><p>L'operatore consulta lo storico per ricostruire l'evoluzione delle configurazioni.</p></li>
+</ol></td>
+</tr>
+<tr>
+<td><strong>Post-condizioni</strong></td>
+<td>Lo stato del sistema non viene modificato; l'operatore ha consultato il registro cronologico delle modifiche.</td>
+</tr>
+<tr>
+<td><strong>Sequenza alternativa degli eventi</strong></td>
+<td>Nessuna</td>
 </tr>
 </tbody>
 </table>
@@ -3473,730 +3778,547 @@ recensioni.</p></td>
 
 ### Diagramma delle Componenti – Diagramma Generale
 
-<img src="media/image21.png" style="width:6.26806in;height:4.59653in" />
+<img src="media/image21.png" style="width:6.26806in;height:6.38194in" />
 
 #### Client
 
-<img src="media/image22.png" style="width:4.41119in;height:8.15833in" />
+<img src="media/image22.png" style="width:6.26806in;height:3.38472in" />
 
 #### Server
 
-<img src="media/image23.png" style="width:6.26806in;height:4.81181in" />
+<img src="media/image23.png" style="width:6.26806in;height:3.82847in" />
 
 ### Specifica delle componenti
 
-L’architettura portante del sistema segue il modello Client-Server, arricchito dall'integrazione del pattern logico MVC (Model-View-Controller), da un'estensione su più livelli e dalla comunicazione con servizi esterni.
+Il diagramma delle componenti del sistema SmartMobility rappresenta l'architettura software a un livello di astrazione superiore rispetto al diagramma delle classi. Invece di descrivere singole classi con attributi e metodi, mostra i macro-blocchi funzionali del sistema, le interfacce attraverso cui comunicano e il flusso unidirezionale delle dipendenze. L'architettura segue il pattern Client-Server distribuito a livelli (MVC a tre tier) e si compone di due macro-componenti — Client e Server — più quattro sistemi esterni rappresentati come componenti black-box.
 
-#### Specifica delle componenti client
+### Specifica delle componenti client
 
-Il blocco Client gestisce l'interfaccia utente (Frontend) e la comunicazione iniziale con il server tramite le API.
+Il Client è la Single Page Application che gira nel browser. Non contiene logica di business: presenta dati e raccoglie azioni dell'utente, delegando tutto al server. È suddiviso in due sotto-componenti.
 
-**<u>VIEW</u>**: Gestisce l'interfaccia grafica e l'interazione con le diverse tipologie di utenti del sistema
+Il componente **View** (24 classi) raccoglie tutte le schermate dell'applicazione, organizzate per ruolo: viste per l'Utente (homepage con mappa, corsa, storico, pagamenti, abbonamenti, segnalazioni, recensioni, profilo), per l'Operatore (gestione flotta, zone, tariffe, offerte, regole, parametri, segnalazioni, utenti, storico modifiche) e per l'Amministrazione Pubblica (dashboard e report). Ogni Vista delega le operazioni al livello sottostante senza mai comunicare direttamente col server.
 
-- **VistaAuth:** Gestisce l'autenticazione. Contiene la classe:
-
-  - **VistaLogin:** Schermata per l'inserimento delle credenziali (username e password) e l'accesso al sistema.
-
-- **VistaUtente:** Interfaccia per il cliente finale. Contiene le classi:
-
-  - VistaHomePageUtente: Schermata principale per l'utente, mostra la mappa geografica con la posizione in tempo reale dei mezzi disponibili.
-
-  - VistaCorsa: Schermata attiva durante il noleggio, mostra i dati in tempo reale (tempo trascorso, costo stimato, pulsante per terminare la corsa).
-
-  - VistaSegnalazioneUtente: Schermata che permette all’utente di inviare una segnalazione.
-
-  - VistaPagamento: Schermata dedicata ai pagamenti.
-
-  - VistaAbbonamenti: Schermata che permette di mostrare all’utente gli abbonamenti offerti dalla piattaforma.
-
-- **VistaOperatore:** Interfaccia per il personale di gestione sul campo. Contiene le classi:
-
-  - VistaDashBoardOperatore: È la schermata principale di controllo per l'operatore. Fornisce una panoramica dello stato del servizio, notifiche in tempo reale su eventuali anomalie dei mezzi, segnalazioni degli utenti o task di manutenzione da completare.
-
-  - VistaDefinisciZona: Interfaccia grafica che permette all'operatore di tracciare e definire nuove aree operative sulla mappa o di modificare quelle esistenti. Viene utilizzata per impostare aree di geofencing, come zone di parcheggio obbligatorio, zone in cui è vietata la sosta o aree a velocità limitata.
-
-  - VistaTariffePromozioni: Schermata per la gestione e la configurazione economica del servizio. Permette all'operatore di inserire nuovi piani tariffari (es. costo di sblocco e costo al minuto) o di creare e attivare codici promozionali e sconti per gli utenti.
-
-  - VistaMezziOperatore: Pannello tecnico focalizzato sulla gestione fisica della flotta. Consente di visualizzare l'elenco completo dei veicoli, filtrandoli per stato (es. carica bassa, in manutenzione, disponibile), e include le funzionalità per registrare un nuovo mezzo nel sistema o forzare la chiusura di una corsa.
-
-  - VistaImpostazioniRegole: Schermata di configurazione aziendale e sistemistica in cui l'operatore definisce i parametri generali di funzionamento e le regole di fine corsa (ad esempio, l'obbligo per l'utente di scattare una foto al mezzo parcheggiato prima di poter chiudere il noleggio).
-
-  - VistaSegnalazioneOP: Schermata per la gestione e le risposte alle segnalazioni utente. L’operatore può prendere in carico la segnalazione.
-
-  - VistaParametriSistema: Schermata di configurazione dei parametri di sistema tra cui: il numero massimo di mezzi prenotabili da un utente, i minuti del periodo di pausa e il relativo addebito e i minuti massimi per la prenotazione di un mezzo.
-
-- VistaAmministrazionePubblica**:** Interfaccia dedicata agli enti pubblici per il monitoraggio. Contiene la classe
-
-  - VistaDashboardAP: Interfaccia di monitoraggio riservata alla Pubblica Amministrazione per visionare dati aggregati sul traffico e sull'uso del servizio.
-
-**<u>API SERVICE LAYER</u>**: Funge da intermediario tra le Viste (interfaccia) e il Server, esponendo o consumando i servizi di rete tramite l'interfaccia **APIToView**. **Le classi** incluse:
-
-- ApiService: Classe di base per la gestione delle richieste HTTP (GET, POST, ecc.) e per la cattura e visualizzazione degli errori di rete.
-
-- AuthService: Gestisce le chiamate API relative ai token di accesso, login e logout.
-
-- PaymentService: Invia le richieste di transazione finanziaria e salvataggio dei metodi di pagamento.
-
-- ReportService: Richiede al server i dati analitici per la generazione dei report.
-
-- MapService: Interroga il server per ottenere le coordinate dei mezzi da mostrare sulla mappa.
-
-- ZonaService: Gestisce il recupero delle informazioni sulle aree operative.
-
-- FlottaService: Invia i comandi di aggiornamento dello stato della flotta
-
-- CorsaService: Invia le richieste di blocco temporaneo o sblocco del veicolo.
-
-- ConfigurazioneService: Richiede al server i parametri di sistema
-
-- RegoleFineCorsaService: Richiede al server quali sono le regole fine corsa e eventuali modifiche.
-
-- SegnalazioneService: Richiede al server la lista delle segnalazioni
-
-- AbbonamentoService: Richiede al server gli abbonamenti disponibili
-
-- OffertaService: richiede al server le offerte del sistema
+Il componente **ApiService** (19 classi) funge da gateway tra le viste e il backend. La classe ApiService agisce come Facade centralizzata: gestisce tutte le chiamate HTTP, il token JWT e gli errori. I 18 Service di dominio (AuthService, CorsaService, MapService, PaymentService, ecc.) traducono le operazioni del proprio ambito in chiamate ad ApiService.
 
 #### Specifica delle componenti server
 
-Il Server elabora la logica di business, coordina i dati e interagisce con il database. È diviso in 4 strati principali staccati e comunicanti tramite interfacce dedicate.
+Il Server ospita la logica di controllo, la logica applicativa, l'accesso ai dati e il modello di dominio. È organizzato in quattro sotto-componenti con una gerarchia rigorosa in cui ogni livello comunica solo con quello adiacente.
 
-**<u>CONTROLLER</u>**: Riceve le richieste dal Client tramite l'interfaccia **ClientToServer** e coordina il flusso applicativo verso la Business Logic.
+Il componente **Controller** (19 classi) è il punto d'ingresso delle richieste HTTP. Il FrontController intercetta ogni richiesta, valida l'autenticazione e la instrada. I 18 controller di dominio si limitano a validare l'input e smistare verso la BLL, senza contenere logica applicativa.
 
-- **AuthController:** Gestisce la sicurezza e l'accesso
+Il componente **BLL(Business Logic Layer)** (16 servizi) è il cuore logico del sistema. Contiene tutta la logica di business, le validazioni di dominio e l'orchestrazione dei flussi. Tra i servizi principali: ServizioMobilita governa il ciclo di vita della mobilità ed è l'unico autorizzato a modificare lo stato di un mezzo; ServizioPricing gestisce il calcolo economico con logica di precedenza abbonamento-promozione-tariffa.
 
-  - LoginController: Riceve le credenziali dal client e avvia la procedura di controllo dell'identità.
+Il componente **DAL (Data Access Layer)** (20 classi) isola la BLL dai dettagli di persistenza. Ogni repository gestisce le operazioni CRUD per una singola entità. È l'unico livello che conosce le entità del Model.
 
-- **UtenteController:** Coordina le azioni degli utenti standard
-
-  - CorsaController: Riceve le richieste di prenotazione o sblocco del mezzo fatte dall'utente.
-
-  - PagamentoController: Intercetta le richieste di pagamento a fine corsa o all'aggiunta di una carta.
-
-  - HomePageUtenteController: Smista le richieste iniziali dell'utente all'apertura dell'app.
-
-  - AbbonamentoController: Riceve le richieste di sottoscrivere un nuovo abbonamento
-
-  - SegnalazioneUtController: riceve e gestisce le segnalazioni
-
-- **OperatoreController:** Gestisce le operazioni sui mezzi e il territorio
-
-  - MezzoOperatoreController: Gestisce i flussi di inserimento o modifica dello stato dei veicoli inviati dal personale sul campo.
-
-  - ZonaOperatoreController: Gestisce le richieste di creazione e modifica delle zone geografiche e delle relative tariffe/regole.
-
-  - OffertaController: gestisce le richieste di creazione e modifica di offerte e tariffe.
-
-  - DashBoardOPController: gestisce le richieste di estrazione dei dati riguardanti la dashboard
-
-  - ConfigurazioneController: gestisce la richiesta di modifica dei parametri di sistema
-
-  - segnalazioneOPController: gestisce il flusso di visualizzazione e presa in carico delle segnalazioni
-
-  - RegoleFineCorsaController: gestisce le richiesta di modifica delle regole fine corsa
-
-- **AmministrazionePubblicaController:** Gestisce la reportistica istituzionale
-
-  - APController: Gestisce le richieste di estrazione dati e statistiche da parte dei sistemi dell'Amministrazione Pubblica.
-
-**<u>BUSINESS LOGIC LAYER</u>**: Rappresenta il cuore del sistema, dove risiedono le regole di business del software. Comunica con i controller tramite **l'interfaccia BLLToController.**
-
-- ServizioMobilità: Applica le regole per l'avvio e la terminazione di una corsa, lo sblocco fisico del mezzo e il cambio di stato del veicolo.
-
-- ServizioMappa: Elabora i calcoli geografici, verifica se un mezzo si trova all'interno di una determinata area e definisce i confini dei perimetri operativi.
-
-- ServizioUtenti: Contiene la logica per validare le registrazioni, verificare i documenti di guida e modificare i profili.
-
-- ServizioPricing: Calcola la tariffa finale del noleggio in base al tempo, alla distanza e ad eventuali promozioni attive.
-
-- ServizioReport: Aggrega i dati di utilizzo del sistema e genera i file (es. CSV) per il monitoraggio.
-
-- ServizioPrenotazione: Verifica se un mezzo è effettivamente opzionabile e ne gestisce il timer di scadenza della prenotazione.
-
-- ServizioSegnalazione: Contiene la logica per inviare e gestire le segnalazioni
-
-- ServizioOfferta: contiene la logica per la creazione e modifica delle offerte
-
-- ServizioAbbonamento: contiene la logica per la creazione e modifica degli abboanmenti
-
-- ServizioParametri: contiene la logica per impostare i parametri
-
-- ServizioRegoleFineCorsa: contiene la logica per impostare regole fine corsa
-
-**<u>MODEL</u>**: Rappresenta le entità di business del dominio "Smart Mobility". Comunica con la BLL tramite l'interfaccia ModelToBLL.
-
-- Utente: Rappresenta il cliente finale.
-
-- Operatore: Rappresenta il dipendente aziendale con privilegi di gestione flotta.
-
-- RegoleFineCorsa: Contiene i vincoli normativi o aziendali da rispettare per poter chiudere un noleggio (es. foto del parcheggio, zone consentite).
-
-- Mezzo: Rappresenta il singolo veicolo (monopattino, bici, scooter) con targa, ID hardware, livello batteria e coordinate.
-
-- Corsa: Rappresenta la transazione del noleggio (ora inizio, ora fine, mezzo usato, utente, percorso effettuato).
-
-- Zona: Rappresenta un'area geografica poligonale sulla mappa dotata di specifiche regole (es. zona a velocità ridotta, zona di sosta vietata).
-
-- Prenotazione: Rappresenta il blocco temporaneo di un mezzo da parte di un utente prima di iniziare la corsa.
-
-- AmministrazionePubblica: Rappresenta l'ente esterno abilitato alla consultazione dei dati aggregati.
-
-- Pagamento: Rappresenta la ricevuta della transazione economica associata a una corsa o a una penale.
-
-- Tariffa: Modella i costi del servizio (costo al minuto, costo di sblocco, tariffe orarie).
-
-- Promozione: sconto percentuale applicabile a una corsa, con data di scadenza. È un tipo di Offerta — l'utente la seleziona prima del pagamento e riduce l'importo finale.
-
-- Abbonamento: piano a prezzo fisso con durata in giorni (es. mensile), opzionalmente limitato a un tipo di mezzo. Se attivo, azzera il costo di ogni corsa. È anch'esso un tipo di Offerta, sottoscritto dall'utente tramite AbbonamentoUtente.
-
-- ParametriSistema: contiene i valori operativi configurabili del sistema: durata massima prenotazione, periodo di grazia, numero massimo di mezzi per utente, e addebito al minuto durante la pausa corsa.
-
-**<u>DATA ACCESS LAYER</u>**: Fornisce un'astrazione per l'accesso ai dati persistenti, isolando i modelli dal database reale. Comunica con i Modelli tramite l'interfaccia DALToModel. Implementa il pattern Repository
-
-- AttoriRepository: Interroga e salva i dati di Utenti e Operatori.
-
-- MezzoRepository: Gestisce la persistenza e l'aggiornamento dei dati fisici e di stato dei veicoli.
-
-- CorsaRepository: Salva e recupera i dati storici e attivi dei noleggi.
-
-- PrenotazioneRepository: Gestisce il salvataggio sul database delle prenotazioni attive o scadute.
-
-- PagamentoRepository: Registra nel database lo stato delle transazioni (es. pagato, fallito).
-
-- ZonaRepository: Mantiene persistenti le coordinate poligonali delle zone operative.
-
-- TariffaRepository: Gestisce il salvataggio e la storicizzazione dei piani tariffari.
-
-- RegoleFineCorsaRepository: Mantiene persistenti le regole e i vincoli di chiusura corsa nel database.
+Il componente **Model** (22 classi) definisce le entità del dominio come classi ORM pure. Comprende la gerarchia degli attori (Persona → Utente, Operatore, AmministrazionePubblica), le entità operative (Mezzo, Corsa, Prenotazione, Zona), quelle economiche (Tariffa, Pagamento, Offerta, Promozione, Abbonamento), di configurazione (ParametriSistema, RegolaFineCorsa) e di interazione (Segnalazione, Recensione, Notifica, Suggerimento).
 
 #### Specifica delle componenti Servizi Esterni
 
-**<u>SERVIZI ESTERNI</u>**: Sottosistema che raggruppa le API di terze parti, connesse tramite l'interfaccia ServiziEsterni.
+Quattro componenti black-box completano l'architettura: **Supabase PostgreSQL** (persistenza relazionale con PostGIS), **Google Maps** (geolocalizzazione e geofencing), **Provider Pagamenti** (autorizzazione transazioni) e **Servizio AI** (generazione suggerimenti personalizzati). L'integrazione avviene tramite il pattern Adapter, che consente la sostituzione di un provider senza impatti sulla BLL.
 
-- ProviderPagamenti: Gestisce la transazione monetaria in sicurezza
+#### Specifica delle interfacce e del flusso di comunicazione
 
-- GoogleMaps: Fornisce i servizi di geolocalizzazione, mappe e geofencing
+Ogni componente comunica con gli altri esclusivamente tramite interfacce formali. Le otto interfacce principali sono: ApiToView (ApiService → View), ClientToServer (Controller → ApiService, confine REST/HTTPS), BLLToController (BLL → Controller, realizzazione aggregata di tutte le IServizio\*), Repository (DAL → BLL), DALtoDBMS (DBMS → DAL), e le tre interfacce verso i sistemi esterni (BLLtoGoogleMaps, BLLtoProviderPagamenti, BLLtoServizioAI).
 
-#### Specifica delle componenti Persistenza
-
-Il livello finale di persistenza dei dati, collegato alla DAL tramite l'interfaccia **DALtoDBMS.**
-
-- DBMS: Il sistema di gestione del database che esegue materialmente i comandi.
+Il flusso delle dipendenze è strettamente unidirezionale: View → ApiService → Controller → BLL → DAL → Model, con diramazioni laterali dalla BLL verso i tre servizi esterni e dal DAL verso il DBMS. Nessun componente risale la catena: questa unidirezionalità è la garanzia architettonica fondamentale di manutenibilità e testabilità del sistema.
 
 ## Detailed Product Design
 
 ### Diagramma delle Classi – Diagramma Generale
 
-<img src="media/image24.png" style="width:6.26806in;height:5.80625in" />
+<img src="media/image24.png" style="width:6.26806in;height:5.40417in" />
 
 #### Diagramma delle Classi – Client
 
-<img src="media/image25.png" style="width:5.50085in;height:7.96667in" />
+<img src="media/image25.png" style="width:6.26806in;height:1.90903in" />
 
 #### Diagramma delle Classi – Server
 
-<img src="media/image26.png" style="width:3.98202in;height:8.65833in" />
+<img src="media/image26.png" style="width:6.26806in;height:3.50347in" />
 
 #### Diagramma delle Classi – View
 
-<img src="media/image27.png" style="width:6.26806in;height:3.21667in" />
+<img src="media/image27.png" style="width:6.26806in;height:0.70486in" />
 
 #### Diagramma delle Classi – APIService
 
-<img src="media/image28.png" style="width:6.26806in;height:6.36181in" />
-
-#### Diagramma delle Classi – interfacce Client/Server
-
-<img src="media/image29.png" style="width:4.33183in;height:7.29722in" />
+<img src="media/image28.png" style="width:6.26806in;height:0.94236in" />
 
 #### Diagramma delle Classi – Controller
 
-<img src="media/image30.png" style="width:6.26806in;height:1.77153in" />
+<img src="media/image29.png" style="width:6.26806in;height:0.82014in" />
 
 #### Diagramma delle Classi – Business Logic Layer
 
-<img src="media/image31.png" style="width:6.26806in;height:2.87083in" />
-
-#### Diagramma delle Classi – Model
-
-<img src="media/image32.png" style="width:6.26806in;height:5.575in" />
+<img src="media/image30.png" style="width:6.26806in;height:1.24236in" />
 
 #### Diagramma delle Classi – Data Access Layer
 
-<img src="media/image33.png" style="width:6.26806in;height:5.03819in" />
+<img src="media/image31.png" style="width:6.26806in;height:0.56389in" />
+
+#### Diagramma delle Classi – Model
+
+<img src="media/image32.png" style="width:6.26806in;height:0.85347in" />
+
+#### Diagramma delle Classi – Servizi Esterni
+
+<img src="media/image33.png" style="width:2.80958in;height:8.375in" />
 
 ### Specifiche delle Classi
 
+Il diagramma delle classi del sistema SmartMobility modella l'intera architettura software secondo un'organizzazione Client-Server a piu livelli, ispirata al pattern architetturale MVC (Model-View-Controller) e al principio di separazione delle responsabilita. Il sistema comprende complessivamente 144 elementi — tra classi, interfacce e adattatori — collegati da 208 relazioni, in prevalenza dipendenze d'uso.
+
+La struttura si articola in due macro-componenti: la componente **Client**, responsabile della presentazione e dell'interazione con l'utente, e la componente **Server**, che ospita la logica di controllo, la logica applicativa, il modello di dominio e l'accesso ai dati.
+
+Il diagramma include inoltre i sistemi esterni con cui la piattaforma si integra (Google Maps, Provider Pagamenti, Servizio AI), rappresentati tramite il pattern Adapter per garantire disaccoppiamento e sostituibilita. Tre ruoli distinti — Utente (UT), Operatore del Servizio (OP) e Amministrazione Pubblica (AP) — attraversano trasversalmente tutti i layer, e le viste, i controller e i servizi sono organizzati di conseguenza.
+
 #### Specifica delle Classi – Client
 
-L'architettura è articolata in tre macro-aree:
+La componente Client e suddivisa in due sotto-livelli: il livello **View**, che comprende 24 classi, e il livello **Service (API Service Layer)**, che ne comprende 19.
 
-- **View** — gestisce la presentazione e l'interazione con l'utente.
+##### **View — Presentation Layer**
 
-- **API Service** — gestisce la logica applicativa lato client e la comunicazione con il backend remoto.
+**Viste di Autenticazione e Profilo:**
 
-- **Interfacce** — definiscono i contratti di comunicazione tra i livelli interni e con il server.
+- **VistaLogin **— Gestisce il form di accesso con email e password, la registrazione di un nuovo account e il recupero delle credenziali. Mostra eventuali messaggi di errore in caso di autenticazione fallita.
 
-Il Client è esposto come componente unico, suddiviso internamente nei sotto-componenti View e API Service. Le interfacce ApiToView e ServerToClient definiscono rispettivamente il contratto tra View e API Service e tra Client e backend.
+- **CallbackOAuth **— Intercetta il ritorno dal provider OAuth (Google) al termine del flusso di autenticazione esterna e ne completa la gestione.
 
-##### Panoramica architetturale
+- **PrivacyPolicy **— Presenta all'utente l'informativa sulla privacy del servizio.
 
-Le classi View comunicano con il livello API Service esclusivamente tramite l'interfaccia ApiToView, realizzata dalla classe ApiService. Quest'ultima agisce come façade verso un insieme di service specializzati per dominio (autenticazione, mappa, zone, pagamenti, flotta, reportistica, prenotazioni) e instrada le richieste verso il backend realizzando l'interfaccia ServerToClient.
+- **VistaProfiloUtente** — Consente la visualizzazione e la modifica dei dati personali dell'account (nome, cognome, email), con conferma delle modifiche apportate.
 
-Questa organizzazione garantisce che:
+**Viste dell’Utente:**
 
-- le viste non abbiano alcuna conoscenza diretta dei service applicativi né dei dettagli di comunicazione di rete;
+- **VistaHomePageUtente **— Schermata principale dell'utente. Visualizza la mappa interattiva con i mezzi disponibili e le zone, consente la selezione di un mezzo, permette la consultazione delle tariffe e delle promozioni attive e mostra i suggerimenti personalizzati generati dal sistema.
 
-- ogni service abbia un perimetro di responsabilità ben definito sul proprio dominio;
+- **VistaCorsa** — Gestisce l'intero ciclo di vita della corsa dal punto di vista dell'interfaccia: sblocco del mezzo, visualizzazione delle informazioni della corsa in tempo reale, sospensione con indicazione del tempo gratuito residuo e dell'eventuale addebito pausa, terminazione e pagamento, riepilogo finale della sessione, e avviso in caso di ingresso in zona vietata.
 
-- il backend interagisca con il Client tramite un contratto unico e indipendente dalle viste.
+- **VistaStoricoCorse** — Mostra l'elenco cronologico delle corse concluse dall'utente, con il totale complessivo speso.
 
-##### Interfacce
+- **VistaPagamenti **— Gestisce il portafoglio digitale: elenca i metodi di pagamento salvati, permette di aggiungerne di nuovi, di impostarne uno come predefinito e di visualizzare il riepilogo di un pagamento.
 
-**1 Interfaccia ClientToServer**
+- **VistaAbbonamenti **— Presenta i piani di abbonamento disponibili, consente di selezionarne uno, ne mostra il riepilogo prima della conferma e visualizza l'eventuale abbonamento attivo.
 
-- **Stereotipo:** «interface»
+- **VistaSegnalazioneUtente** — Offre il form per inviare una segnalazione, permettendo di selezionare la tipologia e di inserire una descrizione testuale, con conferma dell'avvenuto invio.
 
-- **Ruolo:** definisce il contratto delle operazioni che il Server espone verso il Client. È realizzata da ApiService lato Client e dal Server lato backend.
+- **VistaRecensione** — Permette all'utente di scrivere una recensione con voto e commento dopo una corsa conclusa, e di consultare lo storico delle proprie recensioni.
 
-- **Ambito funzionale:** autenticazione e gestione del profilo utente, ciclo di vita della corsa (prenotazione, sblocco, terminazione), gestione dei pagamenti, ricerca dei mezzi e caricamento mappa, gestione della flotta, definizione di zone e regole di fine corsa, tariffazione e reportistica.
+**Viste dell’Operatore:**
 
-**2 Interfaccia ApiToView**
+- **VistaMezziOperatore** — Cruscotto di gestione della flotta. L'operatore può visualizzare l'elenco dei mezzi, selezionarne uno per modificarne lo stato, aggiungere un nuovo mezzo alla flotta o richiederne la dismissione.
 
-- **Stereotipo:** «interface»
+- **VistaDashboardOperatore** — Schermata principale dell'operatore. Costituisce il punto di accesso alla mappa operativa con la visualizzazione della flotta dei mezzi gestiti e delle zone operative. Consente all'operatore di selezionare e aprire la mappa operativa, dalla quale può poi navigare verso le altre funzionalità di gestione (mezzi, zone, tariffe, offerte, regole, parametri, segnalazioni, utenti).
 
-- **Ruolo:** definisce il contratto tra View e API Service. È realizzata da ApiService e costituisce il punto di ingresso unico utilizzato dalle viste per richiedere operazioni applicative o aggiornamenti di stato.
+- **VistaDefinisciZona** — Presenta l'editor cartografico per disegnare una nuova zona sulla mappa, specificandone nome, tipo (operativa, parcheggio, limitata, vietata), coordinate del perimetro ed eventuale limite di velocità.
 
-- **Ambito funzionale:** autenticazione, prenotazione e gestione della corsa, pagamenti, gestione operativa e amministrativa di mezzi, zone e tariffe, presentazione dei form di accesso e caricamento della mappa.
+- **VistaOfferte** — Gestisce il catalogo delle offerte commerciali: l'operatore può visualizzare la lista, creare una nuova offerta scegliendo tra promozione e abbonamento, modificarne i dati o eliminarla.
 
-##### Livello API Service
+- **VistaTariffe** — Permette la consultazione delle tariffe correnti e la definizione di nuove tariffe per tipologia di mezzo, specificando costo al minuto e costo al chilometro.
 
-- **Classe ApiService (Stereotipi:** «Facade», «Singleton»)**:** punto di ingresso unico del livello API Service. Realizza l'interfaccia ApiToView orchestrando le chiamate verso i service specializzati e instrada le richieste verso il Server realizzando l'interfaccia ServerToClient. Si occupa inoltre dell'invio delle richieste HTTP, della gestione delle risposte e della propagazione degli errori alle viste, oltre che della ricezione di notifiche asincrone dal server. Essendo Singleton, garantisce un'unica istanza condivisa tra tutte le viste per l'intera sessione utente.
+- **VistaImpostazioniRegole** — Consente la configurazione delle regole di fine corsa, inclusa la politica di vincolo, l'importo della penale e i parametri del bonus per parcheggio corretto.
 
-- **Classe AuthService:** gestisce l'autenticazione dell'utente, la registrazione, la modifica dei dati di account e il mantenimento dello stato di sessione. Espone inoltre la verifica della presenza di una sessione attiva.
+- **VistaParametriSistema** — Mostra i parametri globali del sistema (durata massima prenotazione, periodo di grazia, numero massimo di mezzi per utente, addebito pausa) e permette all'operatore di modificarli.
 
-- **Classe MapService:** gestisce il caricamento della mappa, l'aggiornamento periodico della posizione dell'utente e la ricerca dei mezzi disponibili nelle vicinanze a partire dalle coordinate correnti.
+- **VistaStoricoModifiche** — Visualizza il log cronologico di tutte le modifiche apportate alle configurazioni di sistema.
 
-- **Classe ZonaService**: gestisce la creazione delle zone (operative, vietate, parcheggio) e ne mantiene una cache locale a supporto delle viste cartografiche.
+- **VistaSegnalazioniOperatore** — Elenca le segnalazioni ricevute dagli utenti, consente di selezionarne una per visualizzarne il dettaglio e di prenderla in carico.
 
-- **Classe PaymentService**: gestisce il portafoglio dell'utente, i metodi di pagamento salvati (incluso il metodo predefinito) e l'esecuzione delle transazioni di pagamento associate alle corse.
+- **VistaGestioneUtentiOperatore** — Mostra l'elenco degli utenti registrati, permette di visualizzare il dettaglio di un account e di avviare la procedura di sospensione con motivazione.
 
-- **Classe FlottaService**: gestisce la flotta di mezzi sul lato operatore e amministratore. Si occupa dell'aggiunta di nuovi mezzi, della modifica del loro stato operativo, della dismissione, della verifica di disponibilità, oltre che della gestione delle tariffe e delle regole di fine corsa e del recupero della configurazione corrente di parcheggi e zone.
+- **VistaRecensioniOperatore** — Presenta le recensioni ricevute dagli utenti con il voto medio complessivo.
 
-- **Classe ReportService**: recupera dal backend i dati statistici e i report aggregati a supporto della dashboard dell'amministratore di piattaforma.
+**Viste dell’Amministrazione Pubblica:**
 
-- **Classe CorsaService**: gestisce l'intero ciclo di vita della prenotazione, dalla creazione della stessa allo sblocco del mezzo con conseguente avvio della corsa, fino alla terminazione e produzione del riepilogo finale.
+- **VistaDashboardAP** — Schermata di governance. Visualizza la dashboard con i report aggregati, consente di selezionare il periodo di riferimento e di esportare i dati in formato CSV o PDF.
 
-- SegnalazioneService: Gestione dell'invio delle segnalazioni di anomalia su un mezzo da parte dell'utente (lato utente). Recupero e gestione dell'elenco delle segnalazioni ricevute a supporto della dashboard operatore (lato operatore).
+- **VistaReportAP** — Mostra i dettagli del report, inclusa la quota dominante tra le tipologie di mezzo e il numero totale di corse nel periodo selezionato.
 
-- AbbonamentoService: Recupero dei piani di abbonamento disponibili pubblicati dall'operatore. Gestione della sottoscrizione di un abbonamento da parte dell'utente e verifica dello stato di sottoscrizione attiva.
+##### **API Service**
 
-- Offerta Service: Recupero delle promozioni/offerte attive a supporto delle viste utente (visualizza promozioni). Gestione della creazione e configurazione di offerte commerciali con condizioni e scadenza (lato operatore).
+Il livello Service lato client funge da gateway tra le viste e il backend. Ogni classe Service incapsula le chiamate HTTP verso i corrispondenti endpoint del server, gestisce la serializzazione/deserializzazione dei dati e restituisce alle viste oggetti di dominio pronti per la visualizzazione. Tutte le classi di questo livello dipendono da ApiService, il componente centrale che gestisce la comunicazione HTTP.
 
-- ConfigurazoneService: Recupero e impostazione dei parametri numerici di sistema configurabili dall'operatore (durata prenotazione, durata periodo di grazia, numero massimo mezzi per prenotazione di gruppo, addebito pausa corsa, importo bonus).
+- **ApiService** è il cuore dell'infrastruttura di comunicazione lato client. Mantiene il baseUrl del backend e il token JWT di autenticazione, espone il metodo generico inviaRichiesta per effettuare chiamate verso qualsiasi endpoint, gestisce le risposte HTTP e gli errori, e si occupa di aggiungere automaticamente gli header di autenticazione a ogni richiesta in uscita.
 
-##### Livello View
+- **AuthService** gestisce il ciclo di vita dell'autenticazione: login con email e password, logout, registrazione di un nuovo utente, modifica dei dati dell'account e verifica dello stato di autenticazione corrente. Mantiene internamente il token JWT e il riferimento all'utente autenticato.
 
-Le classi View rappresentano le schermate dell'applicazione. Tutte dialogano con il livello API tramite l'interfaccia ApiToView e sono raggruppate per profilo utente: Utente finale, Operatore e Amministratore pubblica.
+- **MapService** fornisce i dati cartografici differenziati per ruolo: espone metodi separati per ottenere mezzi e zone nella prospettiva dell'utente, dell'operatore e dell'amministrazione pubblica, ciascuno con il livello di dettaglio e i filtri appropriati al ruolo.
 
-###### UTENTE
+- **CorsaService** gestisce le operazioni relative alla corsa: sblocco di uno o più mezzi, terminazione, sospensione, recupero del riepilogo e dello storico corse, e ottenimento della lista dei mezzi sbloccabili in base alla posizione corrente.
 
-- VistaAccount: gestisce login, registrazione e recupero credenziali. Costituisce la vista radice dell'applicazione, da cui dipendono funzionalmente tutte le altre viste.
+- **PrenotazioneService** incapsula le operazioni di prenotazione: creazione (anche multipla), annullamento e recupero delle prenotazioni attive per un utente.
 
-- VistaHomepageUtente: rappresenta la schermata principale dell'utente e visualizza la mappa con i mezzi disponibili nelle vicinanze e le zone definite sul territorio.
+- **PaymentService** gestisce il portafoglio e i pagamenti: elenca e aggiunge metodi di pagamento, imposta quello predefinito, esegue il pagamento di una corsa, e recupera tariffe e promozioni attive per permettere all'utente di valutare le opzioni prima del pagamento.
 
-- VistaCorsa: gestisce la corsa attiva, dallo sblocco del mezzo alla terminazione. Visualizza informazioni quali durata, distanza e costo, segnala l'ingresso in zone vietate e mostra il riepilogo finale al termine della corsa.
+- **FlottaService** offre all'operatore le funzionalità di gestione della flotta: elenco dei mezzi, aggiunta di un nuovo mezzo con posizione iniziale, modifica dello stato, dismissione, verifica della disponibilità e recupero delle zone di parcheggio con la configurazione associata.
 
-- VistaPrenotazioneMezzo: gestisce la selezione e la prenotazione di un mezzo dalla mappa, mostrando le conferme di prenotazione e segnalando eventuali errori di disponibilità.
+- **ZonaService** espone le operazioni di creazione ed eliminazione di una zona, specificando nome, tipo, coordinate del perimetro e limite di velocita.
 
-- VistaPagamento: gestisce il portafoglio dell'utente, l'aggiunta di nuovi metodi di pagamento e l'esecuzione del pagamento al termine della corsa, mostrando i relativi riepiloghi e conferme.
+- **AbbonamentoService** gestisce la consultazione dei piani di abbonamento disponibili, la sottoscrizione di un abbonamento e il recupero dell'abbonamento attualmente attivo.
 
-- VistaSegnalazione: invio di una segnalazione su un mezzo (selezione tipo anomalia, descrizione) con conferma di invio.
+- **OffertaService** permette all'operatore di gestire le offerte commerciali: elenco, creazione, modifica ed eliminazione.
 
-- VistaAbbonamenti: consultazione dei piani disponibili e sottoscrizione di un abbonamento, con riepilogo e conferma.
+- **TariffaService** consente il recupero delle tariffe correnti e la creazione di una nuova tariffa per tipologia di mezzo.
 
-- VistaPromozioni: consultazione delle promozioni/offerte attive applicabili
+- **SegnalazioneService** copre entrambi i lati del flusso segnalazioni: l'invio e la consultazione da parte dell'utente, e il recupero, il dettaglio e la presa in carico da parte dell'operatore.
 
-###### Amministratore Pubblica
+- **RecensioneService** gestisce la scrittura di una recensione, il recupero delle proprie recensioni e la visualizzazione aggregata di tutte le recensioni (per l'operatore).
 
-- VistaDashboardAP: fornisce la dashboard di reportistica e analisi statistica per l'amministratore, con la possibilità di esportare i dati in formato CSV e PDF.
+- **GestioneUtentiService** fornisce all'operatore l'elenco degli utenti, il dettaglio di un singolo account e la funzionalità di sospensione.
 
-###### Operatore
+- **ReportService** permette all'amministrazione pubblica di recuperare un report aggregato per un dato periodo e di esportarlo in formato CSV.
 
-- VistaDashboardOperatore: rappresenta la dashboard principale dell'operatore e costituisce il punto di accesso alla mappa operativa con i mezzi gestiti.
+- **SuggerimentiService** gestisce il recupero dei suggerimenti personalizzati per l'utente e la marcatura come "visto" di un suggerimento già consultato.
 
-- VistaMezziOperatore: consente la gestione completa dei mezzi della flotta, comprendendo la visualizzazione della lista, la modifica dello stato di un mezzo, l'aggiunta di nuovi mezzi e la richiesta di dismissione, con relative conferme e notifiche di esito.
+- **RegoleFineCorsaService** espone la lettura della configurazione corrente delle regole di fine corsa e il salvataggio di una nuova configurazione.
 
-- VistaDefinisciZona: fornisce un editor cartografico per la definizione di nuove zone (parcheggio, operative, vietate), con conferma del perimetro disegnato e possibilità di ritornare in editing in caso di errore.
+- **ConfigurazioneService** permette il recupero e l'aggiornamento dei parametri globali del sistema.
 
-- VistaImpostazioniRegole: consente la configurazione delle regole di fine corsa, come ad esempio l'obbligo di sosta in determinate zone parcheggio, con relativa conferma di salvataggio.
-
-- VistaTariffePromozioni: gestisce le tariffe e le promozioni applicate ai mezzi, consentendone la visualizzazione e la creazione di nuove tariffe.
-
-- VistaGestioneSegnalazioni: lista delle segnalazioni ricevute, consultazione del dettaglio e pianificazione interventi (integrata o accessibile dalla VistaDashboardOperatore).
-
-- VistaConfigurazioneParametri: configurazione dei parametri numerici di sistema (durata prenotazione, periodo di grazia, numero massimo mezzi, addebito pausa, bonus), con validazione e conferma di salvataggio.
-
-- VistaGestioneUtenti (Operatore): consultazione della lista utenti e sospensione/riattivazione di un account, con conferma e notifica di esito.
-
-##### Relazioni tra le classi
-
-- **Realizzazioni di interfaccia:**
-
-  - ApiService realizza ApiToView (verso il livello View).
-
-  - ApiService realizza ServerToClient lato Client; il Server la usa lato backend.
-
-- **Dipendenze «use»:**
-
-  - AuthService, MapService, ZonaService, PaymentService, FlottaService, ReportService e PrenotazioneService utilizzano ApiService.
-
-  - Tutte le classi Vista\* utilizzano ApiToView.
-
-- **Associazioni tra viste:**
-
-  - VistaAccount è la vista radice; sono ad essa associate VistaHomepageUtente, VistaCorsa, VistaPrenotazioneMezzo, VistaPagamento, VistaMezziOperatore, VistaDashboardOperatore, VistaDashboardAP, VistaDefinisciZona, VistaTariffePromozioni e VistaImpostazioniRegole.
+- **StoricoModificheService** fornisce l'accesso in lettura al log delle modifiche alle configurazioni di sistema.
 
 #### Specifica delle Classi – Server
 
-L'architettura server è articolata in quattro macro-aree:
+La componente Server e organizzata in quattro sotto-livelli che seguono una gerarchia rigorosa: **Controller** (19 classi), **Business Logic Layer** (16 classi), **Data Access Layer** (20 classi) e **Model** (22 classi). Ogni livello comunica esclusivamente con quello immediatamente adiacente, senza salti.
 
-- **Controller** — gestisce la ricezione delle richieste HTTP e la restituzione delle risposte al client.
+##### **Controller**
 
-- **Business Logic Layer (BLL)** — contiene la logica applicativa e di dominio.
+Il livello Controller riceve le richieste HTTP dal client, ne valida la struttura e le smista verso il servizio di business logic appropriato. I controller non contengono logica applicativa: il loro unico compito e la validazione dell'input e la formattazione della risposta. Tutti i controller dipendono dal FrontController e accedono alla BLL esclusivamente tramite le interfacce di contratto.
 
-- **Model** — rappresenta le entità di dominio del sistema e incapsula lo stato e il comportamento degli oggetti di business.
+- **FrontController** è il punto d'ingresso unico di tutte le richieste: le intercetta, valida l'autenticazione, le instrada verso il controller specifico e gestisce centralmente gli errori non previsti.
 
-- **Data Access Layer (DAL)** — gestisce la persistenza e l'accesso ai dati tramite repository.
+- **AccountController** gestisce gli endpoint di autenticazione: login con credenziali, registrazione, accesso OAuth e recupero del profilo corrente.
 
-Il Server è esposto come componente unico, suddiviso internamente nei sotto-componenti Controller, BLL e Model. Le interfacce BLLToController e ModelToBLL definiscono rispettivamente il contratto tra Controller e BLL e tra BLL e Model. L'interfaccia DALtoModel definisce il contratto tra Model e Data Access Layer.
+- **CorsaController** raggruppa gli endpoint del ciclo di vita della corsa e della prenotazione: creazione prenotazione, sblocco, terminazione, pausa, storico, riepilogo e dettaglio di un singolo mezzo.
 
-##### Panoramica architetturale
+- **PagamentoController** espone gli endpoint per la gestione del portafoglio (elenco metodi, creazione, impostazione predefinito, rimozione) e per l'elaborazione del pagamento di una corsa.
 
-I Controller ricevono le richieste HTTP dal Client e delegano l'elaborazione al livello BLL esclusivamente tramite l'interfaccia BLLToController, realizzata dai service del Business Logic Layer. I service della BLL operano sui modelli di dominio tramite l'interfaccia ModelToBLL e accedono alla persistenza tramite i Repository del Data Access Layer, che realizzano l'interfaccia DALtoModel.
+- **MezzoOperatoreController** gestisce gli endpoint destinati all'operatore per la gestione della flotta: elenco e mappa dei mezzi, aggiunta, verifica e conferma dismissione, modifica stato, e configurazione delle regole di fine corsa.
 
-Questa organizzazione garantisce che:
+- **ZoneController** espone la lista, la creazione e l'eliminazione delle zone operative.
 
-- i Controller non abbiano alcuna conoscenza diretta della logica di business né dei dettagli di accesso ai dati;
+- **TariffaController** gestisce la consultazione, la creazione e l'aggiornamento delle tariffe.
 
-- ogni service BLL abbia un perimetro di responsabilità ben definito sul proprio dominio applicativo;
+- **AbbonamentoController** espone la lista dei piani disponibili, l'abbonamento corrente dell'utente e la sottoscrizione di un nuovo abbonamento.
 
-- i Repository costituiscano l'unico punto di accesso al database, isolando il resto del sistema dai dettagli di persistenza.
+- **OffertaController** gestisce il CRUD completo delle offerte commerciali: lista, creazione, modifica ed eliminazione.
 
-##### Interfacce
+- **ConfigurazioneController** espone il recupero e la modifica dei parametri di sistema.
 
-- **Interfaccia ServerToClient**
+- **RegoleFineCorsaController** gestisce la lettura e la definizione delle regole di fine corsa.
 
-  - Stereotipo: «interface»
+- **SegnalazioneUtenteController** espone gli endpoint lato utente per le segnalazioni: elenco delle proprie segnalazioni e invio di una nuova segnalazione.
 
-  - Ruolo: Definisce il contratto per l'invio delle richieste dal Client verso il Server. È invocata dall'API Service Layer del client e implementata dai Controller del backend per gestire i dati di input.
+- **SegnalazioneOPController** espone gli endpoint lato operatore: lista di tutte le segnalazioni, dettaglio e presa in carico.
 
-  - Ambito funzionale: Inoltro credenziali di accesso, invio comandi del ciclo di corsa (prenotazione, sblocchi, chiusure), trasmissione dati di pagamento, richieste di coordinate per mappe/mezzi, e invio di comandi gestionali dell'operatore (modifica flotta, tariffe, regole e geofencing).
+- **UtentiOPController** gestisce gli endpoint di gestione utenti da parte dell'operatore: elenco, dettaglio e sospensione.
 
-<!-- -->
+- **RecensioneController** espone la scrittura di una recensione, il recupero delle proprie e la visualizzazione aggregata.
 
-- **Interfaccia BLLToController**
+- **AmministrazionePubblicaController** raccoglie gli endpoint dell'AP: generazione ed esportazione report, mappa mezzi e mappa zone nella prospettiva amministrativa.
 
-  - Stereotipo: «interface»
+- **SuggerimentoController** espone il recupero dei suggerimenti e la marcatura come visto.
 
-  - Ruolo: definisce il contratto delle operazioni che il livello BLL espone verso i Controller. È realizzata da ServizioMobilità e dagli altri service della BLL.
+- **StoricoModificheController** espone il recupero dello storico delle modifiche.
 
-  - Ambito funzionale: autenticazione e gestione del profilo utente, ciclo di vita della prenotazione e della corsa, gestione dei pagamenti, gestione della flotta di mezzi, definizione di zone e regole di fine corsa, tariffazione e reportistica.
+- **HomePageUtenteController** gestisce gli endpoint della homepage utente per la mappa e i mezzi.
 
-<!-- -->
+##### **BLL – Business Logic Layer**
 
-- **Interfaccia ModelToBLL**
+Il BLL contiene tutta la logica applicativa del sistema. Ogni servizio riceve le richieste dal controller attraverso la propria interfaccia di contratto, applica le regole di business e delega l'accesso ai dati ai repository del DAL. Nessun servizio accede direttamente al database.
 
-  - Stereotipo: «interface»
+- **ServizioUtenti** gestisce la logica di registrazione, autenticazione (incluso **OAuth**), recupero profilo, esportazione dati, cancellazione account, e le operazioni operative di elenco utenti, dettaglio e sospensione
 
-  - Ruolo: definisce il contratto tra le entità del Model e il livello BLL. È realizzata dalle classi del Model (Utente, Corsa, Mezzo, Prenotazione, Pagamento, Tariffa, Zona, RegolaFineCorsa).
+- **ServizioMobilita** è il servizio più complesso del sistema: governa l'intero ciclo di vita della mobilità. Gestisce lo sblocco di uno o più mezzi (assegnando un gruppoCorsaId condiviso in caso di sblocco multiplo), la terminazione della corsa, la sospensione e la ripresa, il recupero dei mezzi sbloccabili in base alla posizione, la gestione della flotta (elenco, aggiunta, verifica e conferma dismissione, modifica stato), il salvataggio delle regole di fine corsa, il recupero dello storico e il calcolo del riepilogo di sessione.
 
-  - Ambito funzionale: creazione e aggiornamento delle entità di dominio, accesso agli attributi e alle operazioni di business delle singole entità.
+- **ServizioPrenotazione** gestisce la logica di creazione delle prenotazioni (anche multiple), l'annullamento, il recupero delle prenotazioni attive e le caratteristiche del mezzo prenotato.
 
-<!-- -->
+- **ServizioPricing** è responsabile del calcolo economico: elabora il pagamento di una corsa applicando la logica di precedenza (abbonamento attivo, poi promozione, poi tariffa piena), calcola l'importo in base a tariffa, durata e distanza, gestisce i metodi di pagamento dell'utente e recupera le promozioni attive.
 
-- **Interfaccia DALtoModel**
+- **ServizioMappa** gestisce la logica di visualizzazione cartografica: restituisce le zone e i mezzi differenziati per ruolo (utente o operatore), crea ed elimina zone e verifica se una posizione ricade all'interno di una zona operativa.
 
-  - Stereotipo: «interface»
+- **ServizioAbbonamento** gestisce la logica degli abbonamenti: recupero dei piani disponibili, verifica dell'abbonamento attivo e sottoscrizione di un nuovo abbonamento con il vincolo che non possano coesistere due abbonamenti attivi contemporaneamente.
 
-  - Ruolo: definisce il contratto che i Repository devono rispettare per l'accesso al database. È realizzata da tutti i Repository del Data Access Layer.
+- **ServizioOfferta** governa il ciclo di vita delle offerte commerciali: lista, creazione con validazione dei dati, modifica ed eliminazione.
 
-  - Ambito funzionale: esecuzione di query, aggiornamenti, ricerca per identificatore, ricerca per coordinate e per email.
+- **ServizioTariffa** gestisce la logica tariffaria: elenco delle tariffe correnti, creazione di una nuova tariffa e aggiornamento di una esistente per tipologia di mezzo.
 
-- **Interfaccia DBMS**
+- **ServizioSegnalazione** gestisce l'intero ciclo delle segnalazioni: registrazione di una nuova segnalazione da parte dell'utente, elenco delle proprie segnalazioni, elenco completo per l'operatore, dettaglio e presa in carico.
 
-  - Stereotipo: «interface»
+- **ServizioRecensione** gestisce la scrittura di recensioni con validazione del voto e verifica che l'utente abbia almeno una corsa conclusa, il recupero delle proprie recensioni e la visualizzazione aggregata.
 
-  - Ruolo: definisce il contratto di accesso al database relazionale. Espone executeQuery(sql): ResultSet, executeUpdate(sql): int e connettDB().
+- **ServizioReport** è il servizio dedicato all'Amministrazione Pubblica: genera report aggregati su un periodo, ne consente l'esportazione CSV e la consultazione dello storico. Internamente aggrega le statistiche sulle corse e le serializza.
 
-##### Livello Controller
+- **ServizioSuggerimenti** genera suggerimenti personalizzati per l'utente sulla base del suo storico di utilizzo. Raccoglie dati da più repository (corse, abbonamenti, pagamenti), li invia al servizio AI tramite l'interfaccia **IServizioAI**, e gestisce la persistenza e la marcatura dei suggerimenti.
 
-- **AccountController: Stereotipi:** «FrontController»: è il punto di ingresso unico delle richieste HTTP in ingresso. Gestisce il routing verso i controller specializzati, la gestione centralizzata delle eccezioni e il reindirizzamento in caso di errore.
+- **ServizioRegoleFineCorsa** gestisce la lettura e il salvataggio delle regole di fine corsa (tipo vincolo, penale, bonus parcheggio).
 
-- **HomePageUtenteController:** gestisce le richieste relative alla homepage dell'utente, tra cui il caricamento della mappa e la visualizzazione dei mezzi disponibili nelle vicinanze.
+- **ServizioParametri** gestisce la lettura e l'aggiornamento dei parametri globali del sistema.
 
-- **CorsaController:** gestisce il ciclo di vita della prenotazione lato server, dalla creazione della prenotazione allo sblocco del mezzo fino alla terminazione della corsa.
+- **ServizioStoricoModifiche** registra ogni modifica apportata alle configurazioni (tipo, descrizione, valore precedente, valore nuovo, operatore) e ne consente il recupero cronologico.
 
-- **PagamentoController:** gestisce le operazioni relative ai metodi di pagamento, tra cui il recupero dei metodi salvati, la creazione di nuovi metodi, la validazione del profilo di pagamento e il calcolo dell'importo finale.
+- **ServizioNotifica** è un servizio trasversale utilizzato da altri servizi della BLL per inviare notifiche agli utenti.
 
-- **DashboardOPController:** gestisce le richieste della dashboard dell'amministratore di piattaforma, fornendo i dati statistici aggregati e la risposta con le informazioni di mappa e reportistica.
+##### **DAL – Data Acces Layer**
 
-- **TariffeController:** gestisce le operazioni CRUD sulle tariffe applicate ai mezzi, esponendo gli endpoint per la creazione, il recupero e la modifica delle tariffe.
+Il livello DAL isola completamente la logica applicativa dai dettagli di persistenza. Ogni repository è responsabile delle operazioni CRUD e delle query specifiche per una singola entità del dominio, e comunica direttamente con il DBMS tramite l'ORM SQLAlchemy.
 
-- **MezziOperatoreController:** gestisce le operazioni sulla flotta di mezzi lato operatore, tra cui l'aggiunta di nuovi mezzi, la modifica dello stato operativo, la dismissione e la modifica dello stato di un mezzo.
+- **IRepository** è l'interfaccia generica che definisce il contratto base per tutti i repository: save, update, delete e findById. Ogni repository concreto può estendere questo contratto con metodi specifici per la propria entità.
 
-- **ZoneController:** gestisce la creazione, la modifica e il recupero delle zone geografiche (operative, vietate, parcheggio) e delle relative configurazioni cartografiche.
+- **AttoreRepository** gestisce l'accesso al sottosistema degli attori: ricerca per id o email (restituendo la coppia Persona-ruolo), creazione di un nuovo utente, elenco di tutti gli utenti, ricerca puntuale e sospensione di un account**.**
 
-- **AmministrazionePubblicaController:** gestisce le richieste provenienti dall'amministrazione pubblica, in particolare il recupero dei report periodici aggregati.
+- **UtenteRepository** espone la ricerca puntuale di un utente per id.
 
-- SegnalazioneController — gestione delle richieste relative alle segnalazioni: ricezione di una nuova segnalazione (lato utente) e recupero dell'elenco delle segnalazioni (lato operatore).
+- **OperatoreRepository** gestisce le impostazioni specifiche dell'operatore: recupero e aggiornamento di durata massima prenotazione, periodo di grazia e numero massimo mezzi.
 
-- AbbonamentoController — gestione delle richieste relative agli abbonamenti: recupero dei piani disponibili, sottoscrizione di un abbonamento e creazione/modifica dei piani (lato operatore).
+- **MezzoRepository** è uno dei repository più ricchi: offre la ricerca puntuale, il filtraggio per mappa (con opzione solo-disponibili), la ricerca dei mezzi sbloccabili in base alla posizione, il filtraggio da una lista di id, l'elenco completo, la verifica di unicità del codice identificativo, la creazione, l'aggiornamento di stato, il blocco e la verifica di corse attive associate.
 
-- OffertaController — operazioni CRUD sulle offerte/promozioni (creazione, recupero, modifica) con condizioni e scadenza configurabili.
+- **CorsaRepository** gestisce la persistenza delle corse: creazione con associazione a utente, mezzo, prenotazione e gruppo corsa, aggiornamento stato, ricerca del riepilogo, elenco per utente ordinato per data e filtraggio per periodo temporale.
 
-- ConfigurazioneController — gestione delle richieste di lettura e aggiornamento dei parametri numerici di sistema.
+- **PrenotazioneRepository** gestisce le prenotazioni: creazione con durata, aggiornamento stato, e una serie di ricerche mirate — per utente e mezzo, tutte le attive di un utente, qualsiasi attiva per un mezzo, e per id e utente.
 
-- AccountUtenteController (Operatore): gestione delle richieste di sospensione e riattivazione dell'account di un utente.
+- **PagamentoRepository** gestisce i pagamenti e i metodi di pagamento: ricerca per corsa e per utente, salvataggio, elenco metodi per utente e salvataggio di un nuovo metodo.
 
-##### Livello Business Logic Layer
+- **TariffaRepository** gestisce le tariffe: elenco completo, verifica di esistenza per tipologia, creazione e aggiornamento.
 
-- **ServizioMobilità:** orchestratore principale della BLL. Gestisce l'intero ciclo di vita della corsa, la verifica della disponibilità dei mezzi, lo sblocco, la terminazione, il calcolo dell'importo e la gestione delle zone geografiche. Coordina le interazioni tra ServizioMappa, ServizioPagamenti, ServizioPrenotazione e i Repository.
+- **ZonaRepository** offre l'elenco delle zone (con filtro attive), la ricerca puntuale, la creazione, l'eliminazione e due verifiche geospaziali: se un punto ricade in una zona operativa e se un'area poligonale e contenuta in una zona operativa esistente.
 
-- ServizioMappa**:** gestisce le operazioni geografiche e cartografiche. Si occupa del recupero delle zone attive, della verifica della posizione del mezzo rispetto alle zone consentite e vietate, della validazione della posizione di fine corsa e del caricamento della mappa cartografica.
+- **AbbonamentoRepository** gestisce la creazione di una sottoscrizione e il recupero dell'abbonamento attivo per un utente.
 
-- **ServizioPagamenti:** gestisce l'autorizzazione dei pagamenti tramite il ProviderPagamenti, la creazione dei record di pagamento, la validazione dei metodi di pagamento e la gestione delle transazioni associate alle corse. Espone inoltre le operazioni di amministrazione degli account di pagamento.
+- **OffertaRepository** espone la lista, la ricerca puntuale, la verifica di unicità del nome, la creazione, l'aggiornamento e l'eliminazione di offerte.
 
-- **ServizioPrenotazione:** gestisce la logica di creazione delle prenotazioni, l'applicazione delle promozioni disponibili e la verifica della scalabilità in termini di disponibilità dei mezzi.
+- **PromozioneRepository** fornisce l'elenco delle promozioni attualmente attive.
 
-- **ServizioTariffe:** gestisce la logica di tariffazione. Si occupa del recupero delle tariffe applicabili per tipologia di mezzo, della validazione delle tariffe e della promozione delle promozioni attive.
+- **SegnalazioneRepository** gestisce la creazione, la ricerca per utente e globale, la ricerca puntuale e l'aggiornamento dello stato di una segnalazione.
 
-- **ServizioReport:** genera i report statistici aggregati per l'amministratore di piattaforma e per l'amministrazione pubblica, esportando i dati in formato CSV e fornendo le metriche di utilizzo della flotta e dei pagamenti.
+- **RecensioneRepository** gestisce il salvataggio di una recensione, la ricerca per utente e l'elenco completo.
 
-- ServizioSegnalazioni — logica di registrazione e recupero delle segnalazioni; associazione della segnalazione al mezzo e all'utente segnalante.
+- **NotificaRepository** gestisce la creazione di una notifica e il recupero delle notifiche per utente.
 
-- ServizioOfferte — logica di gestione di promozioni e abbonamenti: validazione delle condizioni e delle scadenze, applicazione delle promozioni attive in fase di tariffazione, gestione della sottoscrizione e del calcolo del bonus.
+- **SuggerimentoRepository è** il repository più articolato: ricerca per utente, salvataggio singolo e batch, ricerca dei suggerimenti recenti, aggiornamento dello stato e eliminazione massiva per utente.
 
-- ServizioConfigurazione — logica di gestione dei parametri di sistema: validazione dei valori rispetto agli intervalli ammessi e persistenza della configurazione corrente.
+- **RegoleFineCorsaRepository** gestisce il recupero della regola corrente, il salvataggio, l'elenco completo, l'eliminazione massiva e la creazione di una regola.
 
-- ServizioGestioneUtenti: logica di sospensione e riattivazione dell'account utente, con verifica delle precondizioni e aggiornamento dello stato. Coordinato da Servizio Mobilità.
+- **ParametriSistemaRepository** espone il recupero e il salvataggio dei parametri globali (durata massima prenotazione, periodo di grazia, numero massimo mezzi, addebito pausa).
 
-##### Livello Model
+- **StoricoModificheRepository** gestisce la creazione di un record di modifica e il recupero dell'elenco completo.
 
-- **Persona:** classe base astratta per tutti gli attori del sistema. Contiene gli attributi comuni di anagrafica (id, nome, cognome, email) e il metodo di login.
+##### **Model**
 
-- **Utente:** rappresenta l'utente finale del sistema. Estende Persona e mantiene le associazioni con le prenotazioni, i metodi di pagamento e le corse effettuate. Espone le operazioni di modifica del profilo.
+Il livello Model definisce le entità del dominio come classi ORM pure, prive di logica di business. Le relazioni di ereditarietà e composizione tra le entità riflettono la struttura concettuale del dominio di mobilità condivisa.
 
-- **Operatore:** rappresenta l'operatore di flotta. Estende Persona e ha responsabilità sulla gestione dei mezzi assegnati, sulla modifica dello stato operativo e sulla gestione delle tariffe.
+- **Gerarchia degli attori. Persona** è la classe base astratta che modella un qualsiasi attore del sistema con id, email, nome e cognome. Da essa derivano tre specializzazioni:
 
-- **AmministrazionePubblica:** rappresenta l'ente pubblico che accede ai report aggregati del sistema. Estende Persona ed espone il metodo di recupero dei report periodici.
+  - **Utente**, che aggiunge lo stato dell'account (attivo, sospeso);
 
-- **Mezzo:** rappresenta un mezzo della flotta. Mantiene lo stato operativo (StatoMezzo), le coordinate geografiche correnti, la lunghezza e la StatoDisponibilità. Espone le operazioni di blocco/sblocco e aggiornamento della posizione.
+  - **Operatore**, che aggiunge matricola e azienda di appartenenza;
 
-- **Prenotazione:** rappresenta la prenotazione di un mezzo da parte di un utente. Mantiene lo stato della prenotazione (StatoPrenotazione), l'associazione con il mezzo, l'utente e la corsa. Espone il metodo getBiglietto().
+  - **AmministrazionePubblica**, che aggiunge il codice ente.
 
-- **Corsa:** rappresenta una corsa effettuata da un utente. Mantiene lo stato (StatoCorsa), le date di inizio e fine, il costo calcolato e il percorso. Espone le operazioni getDatiCorsa(), setStato() e creaCorsa(), oltre al metodo di calcolo del costo finale.
+> Questa gerarchia consente al sistema di gestire in modo uniforme l'identità degli attori, differenziandone il comportamento in base al ruolo.
 
-- **Pagamento:** rappresenta una transazione di pagamento associata a una corsa. Mantiene l'importo, la data, lo stato (StatoPagamento) e il transactionId. Espone il metodo valida() e crea().
+- **Entità della mobilità.**
 
-- **MetodoPagamento:** rappresenta un metodo di pagamento salvato dall'utente. Mantiene il tipo (TipoMetodo), il token_esterno e il flag risposta Predefinita. Ha molteplicità 0..\* rispetto all'utente.
+  - **Mezzo** rappresenta un veicolo della flotta (bici, auto, monopattino elettrico) con la sua posizione geografica (latitudine e longitudine), la tipologia e lo stato corrente (Disponibile, Prenotato, In uso, In pausa, In manutenzione, Fuori servizio).
 
-- **Tariffa:** rappresenta la struttura tariffaria applicata a un mezzo. Mantiene il tipo di tariffa (TipoTariffa), il costo al minuto, il costo al km e lo stato (StatoTariffa). Espone le operazioni calcolaTariffe() e modificaTariffa().
+  - **Prenotazione** modella la riserva temporanea di un mezzo, con data di creazione, scadenza, stato e un flag che indica se fa parte di un gruppo.
 
-- **Zona:** rappresenta una zona geografica del sistema (operativa, vietata, parcheggio). Mantiene le coordinate del perimetro, il nome e il tipo (TipoZona). Espone le operazioni di creazione e recupero delle zone figlie.
+  - **Corsa** rappresenta una sessione di utilizzo di un mezzo: traccia ora di inizio e fine, costo totale, stato, distanza percorsa, eventuale gruppo corsa (per sblocchi multipli) e la durata accumulata di pausa in secondi.
 
-- **RegolaFineCorsa:** rappresenta una regola che vincola la terminazione della corsa (es. obbligo di sosta in una zona parcheggio). Mantiene l'associazione con la tariffa e la policy applicata. Espone il metodo crea().
+  - **Zona** definisce un'area geografica con nome, perimetro (array di coordinate) e tipo (operativa, parcheggio, limitata, vietata).
 
-- Segnalazione: rappresenta una comunicazione inviata dall'utente all'operatore per notificare un'anomalia su un mezzo (danno, guasto, posizione anomala). Mantiene il tipo di anomalia (TipoAnomalia), la descrizione, la data e lo stato (StatoSegnalazione), ed è associata al mezzo segnalato e all'utente segnalante. Espone il metodo crea().
+- **Entità economiche.**
 
-- Offerta: classe base che rappresenta una politica commerciale configurata e pubblicata dall'operatore. Mantiene nome, descrizione, condizioni, data di scadenza e stato (StatoOfferta). Espone i metodi crea() e verificaValidità().
+  - **Tariffa** associa a ogni tipologia di mezzo un costo al minuto o un costo al chilometro, con la data dell'ultimo aggiornamento.
 
-- Promozione: estende Offerta e rappresenta un'offerta che riduce la tariffa standard (es. sconto percentuale, prime N corse gratis). Mantiene il tipo e il valore dello sconto e viene applicata in fase di tariffazione.
+  - **Pagamento** registra una transazione con importo effettivo, importo pieno (prima degli sconti), data, stato e l'eventuale riferimento all'offerta applicata.
 
-- Abbonamento: estende Offerta e rappresenta un contratto a tempo determinato che garantisce all'utente condizioni tariffarie agevolate o un numero di corse incluse. Mantiene la durata, le corse incluse e la tariffa agevolata, ed è associato agli utenti sottoscrittori.
+  - **MetodoPagamento** rappresenta uno strumento di pagamento salvato dall'utente, con tipo e flag predefinito.
 
-- ParametriSistema: rappresenta l'insieme dei parametri numerici di configurazione del sistema impostati dall'operatore (durata massima prenotazione, durata periodo di grazia, numero massimo mezzi, addebito pausa, valore bonus). Espone le operazioni di validazione e aggiornamento ed è estendibile con ulteriori parametri.
+  - **Offerta** è la classe base delle offerte commerciali, con nome, descrizione, tipologia (promozione o abbonamento), stato e date di creazione e scadenza.
 
-##### Livello Data Access Layer
+    - **Promozione** specializza **Offerta** aggiungendo la percentuale di sconto.
 
-- **Repository (Stereotipo:** «Data Access Object») classe base per tutti i repository. Espone le operazioni comuni save(id) e delete(id).
+    - **Abbonamento** specializza **Offerta** aggiungendo la tipologia di mezzo coperta, il prezzo e la durata in giorni. **AbbonamentoUtente** rappresenta la sottoscrizione concreta di un utente a un piano, con date di inizio e fine.
 
-- **UtenteRepository:** gestisce la persistenza degli utenti. Espone le operazioni di ricerca per email, per id e per coordinate, oltre alle operazioni di aggiornamento e cancellazione.
+- **Entità di configurazione e governance.**
 
-- **MezzoRepository:** gestisce la persistenza dei mezzi. Espone le operazioni di ricerca per tipologia, per stato, per identificativo e per operatore, oltre alle operazioni di aggiornamento e cancellazione.
+  - **ParametriSistema** contiene i parametri globali del sistema: durata massima della prenotazione, periodo di grazia, numero massimo di mezzi contemporanei per utente e costo dell'addebito in pausa.
 
-- **CorsaRepository:** gestisce la persistenza delle corse. Espone le operazioni findById(), findByCorsaId(), update() e delete().
+  - **RegolaFineCorsa** definisce la politica applicata al termine di una corsa: tipo di vincolo, importo della penale per rilascio fuori zona, numero di parcheggi corretti necessari per il bonus e valore del bonus stesso.
 
-- **PrenotazioneRepository:** gestisce la persistenza delle prenotazioni. Espone le operazioni di ricerca per utente, per mezzo e per stato, oltre alle operazioni di aggiornamento.
+  - **StoricoModifiche** registra ogni modifica a una configurazione con tipo, descrizione, valore precedente, valore nuovo, operatore responsabile e data.
 
-- **PagamentoRepository:** gestisce la persistenza dei pagamenti. Espone le operazioni findByCorsaCorsa(), findByElencoId(), update(), save() e delete().
+- **Entità di interazione e feedback.**
 
-- **TariffeRepository:** gestisce la persistenza delle tariffe. Espone le operazioni di ricerca per tipologia, validazione della configurazione e aggiornamento.
+  - **Segnalazione** registra una segnalazione inviata da un utente con tipologia, descrizione, stato (aperta, in carico, risolta) e data.
 
-- **ZoneRepository:** gestisce la persistenza delle zone geografiche. Espone le operazioni di ricerca per tipo, per coordinate, per nome e per zona padre, oltre all'aggiornamento.
+  - **Recensione** memorizza il feedback dell'utente con voto numerico, commento testuale e data di creazione.
 
-- **RegolaFineCorsa Repository:** gestisce la persistenza delle regole di fine corsa. Espone le operazioni save(), find(), update() e delete().
+  - **Notifica** modella un messaggio indirizzato a un utente con testo, flag di lettura e data.
 
-- SegnalazioneRepository: gestisce la persistenza delle segnalazioni. Espone le operazioni di ricerca per mezzo, per utente e per stato, oltre alle operazioni di aggiornamento.
+  - **Suggerimento** rappresenta un suggerimento personalizzato generato dal sistema AI, con tipo, testo, dati di contesto, stato (nuovo, visto) e data di creazione.
 
-- OffertaRepository: gestisce la persistenza delle offerte commerciali (promozioni e abbonamenti). Espone le operazioni di ricerca per tipo, per stato e per scadenza, la validazione della configurazione e l'aggiornamento.
+#### Interfacce e comunicazione tra componenti
 
-- BonusRepository: gestisce la persistenza dei bonus assegnati agli utenti. Espone le operazioni di ricerca per utente, oltre a save(), update() e delete().
+La comunicazione tra le componenti del sistema segue un flusso unidirezionale strettamente gerarchico, in cui ogni livello interagisce solo con quello immediatamente adiacente.
 
-- ParametriSistemaRepository: gestisce la persistenza dei parametri numerici di configurazione del sistema. Espone le operazioni di recupero della configurazione corrente e di aggiornamento.
+##### **Client → Server: API Service → Controller**
 
-##### Relazioni tra le classi
+Le viste del client delegano ogni operazione ai rispettivi Service del livello **API Service**. Questi Service, a loro volta, comunicano con il server attraverso chiamate **HTTP/REST** gestite centralmente da **ApiService**. Ogni richiesta include automaticamente il token **JWT** di autenticazione. La comunicazione client-server avviene quindi come una catena: la Vista invoca il proprio Service, il Service compone la richiesta HTTP e la invia tramite **ApiService**, il **FrontController** sul server la riceve, ne valida l'autenticazione e la instrada verso il Controller specifico. Le 22 dipendenze tra il livello View e il livello Service, e la singola dipendenza tra Service e Controller, riflettono questa struttura.
 
-**Realizzazioni di interfaccia:**
+##### **Controller → BLL:**
 
-- ServizioMobilità e i service BLL realizzano BLLToController (verso il livello Controller).
+La comunicazione tra il livello Controller e il livello BLL e mediata da 15 interfacce di contratto: **IServizioUtenti, IServizioRecensione, IServizioSegnalazione, IServizioSuggerimenti, IServizioReport, IServizioRegoleFineCorsa, IServizioParametri, IServizioAbbonamento, IServizioStoricoModifiche, IServizioOfferta, IServizioTariffa, IServizioPrenotazione, IServizioMobilita, IServizioPricing e IServizioMappa.** Ogni interfaccia dichiara i metodi che il servizio di business logic deve esporre, senza specificarne l'implementazione. I controller dipendono unicamente da queste interfacce (19 dipendenze) e non conoscono le classi concrete della BLL. Simmetricamente, ogni servizio della BLL implementa la propria interfaccia (14 dipendenze di realizzazione). Questo disaccoppiamento consente di sostituire l'implementazione di un servizio senza modificare alcun controller, e rende il sistema aperto all'estensione ma chiuso alla modifica, nel rispetto del principio Open-Closed.
 
-- Le classi del Model realizzano ModelToBLL (verso il livello BLL).
+##### **BLL →DAL:**
 
-- Tutti i Repository realizzano DALtoModel (verso il Model).
+I servizi della **BLL** accedono ai dati esclusivamente attraverso i repository del **DAL**. Con 30 dipendenze — il numero più alto dell'intero diagramma — questo e il canale di comunicazione più trafficato del sistema. Servizi complessi come **ServizioMobilita** dipendono da sei repository distinti, mentre servizi più focalizzati come **ServizioParametri** ne utilizzano uno solo. L'interfaccia generica **IRepository** definisce il contratto CRUD base; ogni repository concreto la specializza con query specifiche per la propria entità. I repository dipendono a loro volta dalle entità del Model (17 dipendenze) per costruire e restituire gli oggetti di dominio.
 
-**Dipendenze «use»:**
+##### **Model:**
 
-- Tutti i Controller utilizzano BLLToController.
+Il livello Model presenta 22 relazioni interne — ereditarietà, composizione e associazione — che modellano la struttura del dominio. Le principali sono la gerarchia **Persona → Utente / Operatore / AmministrazionePubblica**, la specializzazione **Offerta → Promozione / Abbonamento**, e le associazioni tra **Corsa, Mezzo, Prenotazione e Pagamento** che rappresentano il nucleo operativo della mobilita condivisa.
 
-- ServizioMobilità utilizza ServizioMappa, ServizioPagamenti, ServizioPrenotazione, ServizioTariffe e ServizioReport.
+##### **Integrazione con i sistemi esterni:**
 
-- Tutti i service BLL utilizzano i rispettivi Repository del DAL.
+Il sistema si integra con tre servizi esterni attraverso il pattern **Adapter**, che disaccoppia la logica applicativa dalle API di terze parti.
 
-**Associazioni tra classi del Model:**
+- **GoogleMapsAdapter** implementa l'interfaccia **GoogleMaps** e traduce le chiamate interne in richieste verso le API di **Google Maps** per la geolocalizzazione e la verifica delle zone.
 
-- Utente ha associazione 0..\* con Prenotazione, MetodoPagamento e Corsa.
+- **ProviderPagamentiAdapter** implementa l'interfaccia **Pagamenti** e gestisce la comunicazione con il gateway di pagamento esterno per l'autorizzazione delle transazioni e la validazione dei dati di pagamento.
 
-- Prenotazione ha associazione 1 con Mezzo e 0..1 con Corsa.
+- **ServizioAIAdapter** implementa l'interfaccia **IServizioAI** e si occupa di comunicare con il modello di intelligenza artificiale per la generazione dei suggerimenti personalizzati, includendo la valutazione della sufficienza dei dati prima dell'invocazione.
 
-- Corsa ha associazione 1 con Pagamento e 0..1 con RegolaFineCorsa.
+> Grazie a questo pattern, la sostituzione di un provider esterno (ad esempio il passaggio da Google Maps a un diverso servizio cartografico) richiede la sola modifica dell'Adapter corrispondente, senza impatti sulla **BLL** né sul resto del sistema.
 
-- Tariffa ha associazione 0..\* con Mezzo e 1 con RegolaFineCorsa.
+##### **DBMS:**
 
-- Zona ha associazione 0..\* con Mezzo tramite la verifica della posizione.
+**DBMS — Supabase PostgreSQL** è il servizio esterno di persistenza che si occupa di memorizzare e restituire tutti i dati del sistema: profili degli attori, mezzi, prenotazioni, corse, pagamenti, zone geografiche, offerte e configurazioni operative. Tutti i repository del **Data Access Layer** comunicano esclusivamente con questo servizio per le operazioni di lettura e scrittura dei dati.
 
 ### Diagrammi di Sequenza
 
 #### UT - 01 Visualizza Mappa Utente
 
-<img src="media/image34.png" style="width:6.26806in;height:5.52222in" />
+<img src="media/image34.png" style="width:6.80481in;height:5.3in" />
 
 #### UT - 02 Prenota Mezzo
 
+<img src="media/image35.png" style="width:6.26806in;height:6.58542in" />
+
 #### UT – 03 Sblocca Mezzo
+
+<img src="media/image36.png" style="width:6.26806in;height:7.3875in" />
 
 #### UT – 04 Termina Corsa
 
+<img src="media/image37.png" style="width:6.26806in;height:6.24167in" />
+
 #### UT – 05 Effettua Pagamento
 
-<img src="media/image35.png" style="width:6.26806in;height:5.50694in" />
+<img src="media/image38.png" style="width:6.26806in;height:5.97708in" />
 
 #### UT – 06 Salva Metodo di Pagamento
 
+<img src="media/image39.png" style="width:6.26806in;height:9.00694in" />
+
 #### UT – 07 Consulta Tariffe
 
-<img src="media/image36.png" style="width:6.26806in;height:3.55903in" />
+<img src="media/image40.png" style="width:6.26806in;height:3.80903in" />
 
 #### UT – 08 Visualizza Riepilogo Corsa
 
+<img src="media/image41.png" style="width:6.26806in;height:4.25625in" />
+
 #### UT - 09 Sospende Corsa
+
+<img src="media/image42.png" style="width:6.26806in;height:4.91042in" />
 
 #### UT – 10 Visualizza Promozioni
 
-<img src="media/image37.png" style="width:6.26806in;height:3.49375in" />
+<img src="media/image43.png" style="width:6.26806in;height:3.74444in" />
 
-#### UT – 11 Visualizza Storico Corsa
+#### UT – 11 Visualizza Storico Corse
+
+<img src="media/image44.png" style="width:6.26806in;height:5.34097in" />
 
 #### UT – 12 Invia Segnalazione
 
+<img src="media/image45.png" style="width:6.26806in;height:3.66111in" />
+
 #### UT – 13 Sottoscrive Abbonamento
 
-<img src="media/image38.png" style="width:6.26806in;height:6.68125in" />
+<img src="media/image46.png" style="width:5.47985in;height:8.67708in" />
 
-#### UT – 14 
+#### UT – 14 Visualizza Suggerimenti Intelligenti
+
+<img src="media/image47.png" style="width:6.75317in;height:4.8797in" />
 
 #### UT – 15 Scrive Recensione
 
-<img src="media/image39.png" style="width:6.26806in;height:4.40208in" />
+<img src="media/image48.png" style="width:6.26806in;height:5.41528in" />
 
 #### AP – 01 Accede Report
 
-<img src="media/image40.png" style="width:6.26806in;height:3.64444in" />
+<img src="media/image49.png" style="width:6.26806in;height:3.85972in" />
 
 #### AP – 02 Esporta Report
 
-<img src="media/image41.png" style="width:6.26806in;height:4.08056in" />
+<img src="media/image50.png" style="width:6.26806in;height:4.21181in" />
 
 #### AP – 03 Visualizza Mappa Amministrazione Pubblica
 
-<img src="media/image42.png" style="width:6.26806in;height:4.17639in" />
+<img src="media/image51.png" style="width:6.26806in;height:3.83472in" />
 
 #### OP-01 Visualizza Mappa Operatore\
-<img src="media/image43.png" style="width:6.26806in;height:3.33125in" />
+
+<img src="media/image52.png" style="width:6.26806in;height:3.31597in" />
 
 #### OP – 02 Aggiunge Mezzo
 
-<img src="media/image44.png" style="width:6.26806in;height:4.72292in" />
+<img src="media/image53.png" style="width:6.26806in;height:4.93819in" />
 
 #### OP – 03 Dismette Mezzo
 
-<img src="media/image45.png" style="width:6.26806in;height:5.13611in" />
+<img src="media/image54.png" style="width:6.26806in;height:5.39306in" />
 
 #### OP – 04 Modifica Stato Mezzo
 
+<img src="media/image55.png" style="width:6.26806in;height:5.03611in" />
+
 #### OP – 05 Definisce Tariffa
 
-<img src="media/image46.png" style="width:6.26806in;height:7.49028in" />
+<img src="media/image56.png" style="width:6.26806in;height:7.61806in" />
 
 #### OP – 06 Definisce Regole fine corsa
 
-<img src="media/image47.png" style="width:6.26806in;height:5.83125in" />
+<img src="media/image57.png" style="width:6.26806in;height:5.98472in" />
 
 #### OP – 07 Definisce Zona
 
-<img src="media/image48.png" style="width:6.26806in;height:4.94444in" />
+<img src="media/image58.png" style="width:6.26806in;height:4.89722in" />
 
 #### OP – 08 Gestisce Segnalazione
 
-<img src="media/image49.png" style="width:6.26806in;height:6.14167in" />
+<img src="media/image59.png" style="width:4.49862in;height:8.53333in" />
 
 #### OP – 09 Sospende account utente
 
-<img src="media/image50.png" style="width:6.26806in;height:6.51458in" />
+<img src="media/image60.png" style="width:6.26806in;height:7.57708in" />
 
 #### OP – 10 Definisce Offerta
 
-<img src="media/image51.png" style="width:5.46989in;height:8.80769in" />
+<img src="media/image61.png" style="width:5.46989in;height:8.80769in" />
 
 #### OP – 11 Configura Parametri Numerici Sistema
 
-<img src="media/image52.png" style="width:6.26806in;height:4.86875in" />
+<img src="media/image62.png" style="width:6.26806in;height:4.8625in" />
 
-### Note di implementazione — Demo movimento mezzi
+#### OP – 12 Visualizza Recensioni
 
-- Demo movimento mezzi (helper di presentazione, account demo): `ServizioMappa.aggiornaPosizioneMezzo`
-  + endpoint `PATCH /utente/corse/{id}/demo/posizione`, geofencing client-side (`geoUtils.zonaCorrente`),
-  mappa operatore in polling. Tracciabilità IF-OP.01 / IF-UT.01 / IF-UT.08.
-- Penale fuori zona/vietata nel costo finale: `ServizioPricing.effettua_pagamento(..., penale_fuori_zona)`
-  somma `regole_fine_corsa.penale_fuori_zona` all'importo se la corsa transita in zona vietata/fuori
-  operativa. Tracciabilità IF-OP.06 (Definisce Regole Fine Corsa) / caso d'uso UT-04.
+<img src="media/image63.png" style="width:6.26806in;height:3.51736in" />
 
-### Consumo batteria mezzo (comportamento di sistema)
+#### OP – 13 Mostra Storico Modifiche
 
-Il livello di batteria (`Mezzo.batteria`) cala con l'uso del mezzo. Implementazione su due livelli,
-senza nuove classi (riusa `Mezzo`, `ServizioMobilità`, `ServizioMappa`, repository esistenti):
-- **A fine corsa (reale, tutte le corse):** `ServizioMobilità.termina_corsa` decrementa la batteria in
-  proporzione alla durata di guida effettiva (`CONSUMO_BATTERIA_PER_MIN = 1.0` punti/min, da
-  `CorsaRepository.durata_effettiva_sec`) tramite `MezzoRepository.aggiorna_batteria`. Se la carica scende
-  sotto la soglia fissa `ServizioMobilità.BATTERIA_MINIMA_MANUTENZIONE` (non configurabile dall'Operatore)
-  il mezzo va `In manutenzione` invece di `Disponibile` (necessita ricarica), altrimenti torna `Disponibile`.
-- **Durante la demo (live, visivo):** il calo per-movimento è calcolato dal frontend in base ai km percorsi
-  e persistito dall'endpoint demo (campo `batteria` opzionale su `aggiornaPosizioneMezzo`), così cala in
-  tempo reale anche sulla mappa Operatore.
-
-Lo stato del mezzo è modificato solo da `ServizioMobilità`. Comportamento di sistema indipendente dalle
-regole di fine corsa (IF-OP.06), che riguardano esclusivamente la politica sanzionatoria/incentivante sul
-parcheggio.
+<img src="media/image64.png" style="width:6.26806in;height:3.0125in" />
 
 ## Data modeling and design
 
@@ -4204,9 +4326,11 @@ Qui va fornita la specifica di tutti i dati e le informazioni scambiate dal sist
 
 ### Modello logico del Database
 
-<img src="media/image53.png" style="width:6.26806in;height:3.23194in" />
+<img src="media/image65.png" style="width:6.26806in;height:3.22847in" />
 
 ### Struttura fisica del Database
+
+<img src="media/image66.png" style="width:6.26806in;height:5.49722in" />
 
 # Prompt 
 
@@ -4477,6 +4601,52 @@ La seguente sezione riporta i prompt utilizzati per I vari diagrammi UML:
 
 ### Diagramma delle classi
 
+> **Ruolo:** Sei un Senior Software Engineer.
+>
+> **Obiettivo:** Analizzare, validare la correttezza concettuale e ottimizzare la resa grafica del diagramma delle classi preesistente per il sistema "SMART MOBILITY" (docs/Diagrammi/Diagramma Classi.drawio), trasformandolo in un diagramma professionale, ordinato e visivamente impeccabile in formato .drawio.
+>
+> **Input che ti fornirò a breve:**
+
+- Il diagramma delle classi attuale (in formato XML .drawio).
+
+- Product Backlog, casi d'uso e glossario di dominio, come riferimento per i nomi e le responsabilità delle classi.
+
+> **Istruzioni Passo-Passo:**
+
+- **Step 1: Analisi di Correttezza e Coerenza semantica.** Verifica che le classi, gli attributi, i metodi, le relazioni (associazione, aggregazione, composizione, generalizzazione/ereditarietà, dipendenza) e le molteplicità siano tecnicamente corretti e completi. In particolare:
+
+  - I nomi delle classi devono corrispondere esattamente al glossario di dominio (Corsa, Mezzo, Prenotazione, Zona con sottotipi ZonaOperativa/ZonaParcheggio/ZonaLimitata/ZonaVietata, Segnalazione, Flotta, Tariffa, Promozione, Abbonamento, Bonus) — non Ride, Booking, Vehicle, ecc.
+
+  - Verifica che ogni relazione abbia un senso architetturale reale (es. niente associazioni bidirezionali ridondanti, niente ereditarietà usata al posto di composizione).
+
+  - Verifica la coerenza tra le classi del diagramma e gli ID del Product Backlog (IF-UT.xx, IF-OP.xx, IF-AP.xx) citati in Sprintn3.md § 1.4 — segnala eventuali ID errati, mancanti o riusati in modo inconsistente.
+
+  - Se noti errori architetturali, ridondanze o discrepanze gravi (classi mancanti, relazioni sbagliate, molteplicità incoerenti), **fermati immediatamente e segnalameli prima di procedere** con il restyling.
+
+- **Step 2: Ottimizzazione del Layout e Restyling Grafico.** Se l'architettura è corretta (o dopo aver risolto le discrepanze segnalate), riorganizza il layout visivo del diagramma:
+
+  - Allinea geometricamente le classi su una griglia pulita, raggruppando per macro-area di dominio (es. Utenti/Attori, Mobilità/Mezzi, Prenotazioni/Corse, Pagamenti/Tariffe/Promozioni/Abbonamenti, Zone, Segnalazioni).
+
+  - Evita incroci caotici delle linee di relazione; preferisci percorsi ortogonali puliti.
+
+  - Uniforma stile e posizione delle molteplicità, dei nomi dei ruoli e degli stereotipi.
+
+  - Usa una palette di colori coerente e sobria per distinguere le macro-aree, mantenendo leggibilità di font e icone.
+
+- **Step 3: Generazione Output.** Genera il codice XML ottimizzato, pronto per essere importato direttamente in .drawio.
+
+> **Requisiti Grafici e UML:**
+
+- Allineamento millimetrico delle classi (griglia pulita).
+
+- Relazioni (associazione/aggregazione/composizione/generalizzazione) chiare, senza sovrapposizioni di testo o linee spezzate in modo bizzarro.
+
+- Gerarchia visiva chiara che rifletta i raggruppamenti di dominio (es. Attori in alto, Mobilità/Corse al centro, Pagamenti/Tariffe in basso, o secondo il raggruppamento più naturale per il progetto).
+
+- Uso di colori di riempimento tenui e codificati per distinguere le diverse macro-aree del sistema.
+
+- Non rinominare o inventare classi/attributi non presenti nel diagramma o nel backlog senza segnalarlo esplicitamente — la fonte di verità resta Diagramma Classi.drawio validato rispetto al backlog, non un'interpretazione libera.
+
 ### Diagrammi di Sequenza
 
 Ruolo: Sei un Senior Software Engineer ed esperto di modellazione UML.
@@ -4503,13 +4673,115 @@ Caso d'uso da analizzare: \[NOME CASO D’USO\]
 
 > Conferma di aver compreso e chiedimi di fornirti gli input per iniziare. genera il file .drawio nella cartella Diagrammi/Diagrammi di Sequenza/\[nome\]
 
+### Codifica
+
+RUOLO
+
+Sei un ingegnere del software senior del team Smart Mobility. Conosci a fondo l'architettura Client-Server + MVC del progetto e le sue regole definite nel file .claude/CLAUDE.md. Il tuo compito è produrre la codifica completa di un caso d'uso già specificato, in modo tracciabile, conforme ai diagrammi e testato.
+
+OBIETTIVO
+
+Implementa il caso d'uso \[ID, es. IF-OP.08\] — "\[nome esatto dell'item dal backlog\]".
+
+FONTI DI VERITÀ (consultale prima di scrivere codice, in quest'ordine)
+
+1.  Specifica del caso d'uso — file docs/Sprintn3.md (§ 1.4 backlog, più scenario base e scenari alternativi). Verifica sempre la corrispondenza nome–ID nel backlog. Non fidarti di ID trovati in commenti, nomi di file o altri diagrammi: vanno riverificati nel backlog.
+
+2.  Diagramma di sequenza — file \[percorso. drawio\]. Definisce il flusso esatto delle chiamate tra i layer e i tipi di ritorno. È vincolante.
+
+3.  Diagramma delle classi — file docs/Diagrammi/Diagramma Classi.drawio (export testuale: docs/Diagrammi/DiagrammaClassi.md). Definisce classi, attributi e relazioni. Non inventare classi o interfacce che non esistono qui. I nomi devono corrispondere esattamente.
+
+4.  Diagramma delle componenti — file docs/Diagrammi/Diagramma Componenti.drawio (export: docs/Diagrammi/diagrammaComponenti.md). Definisce in quale componente o layer collocare ogni responsabilità.
+
+PROCEDIMENTO (ragiona passo-passo prima di scrivere; mostra il ragionamento)
+
+1.  Estrai dallo scenario base e dagli scenari alternativi: attore (UT/OP/AP), pre e post-condizioni, flusso principale, errori ed eccezioni.
+
+2.  Dal diagramma di sequenza, elenca la catena di chiamate attesa: View → ApiService → Controller → BLL (Servizio…) → DAL (Repository…) → DB, con firme di metodo e tipi di ritorno.
+
+3.  Verifica nel diagramma delle classi che ogni entità e metodo che intendi usare esista già. Se manca qualcosa di necessario, fermati e chiedi invece di inventarlo.
+
+4.  Dal diagramma delle componenti, conferma in quale file di ogni layer va collocato il codice.
+
+5.  Solo dopo, scrivi prima i test e poi l'implementazione.
+
+VINCOLI ARCHITETTURALI (obbligatori — vedi CLAUDE.md)
+
+• Controller: solo validazione HTTP e smistamento. Zero logica di business. • BLL (backend/bll/Servizio…): tutta la logica applicativa. Nessun accesso diretto al DB. • DAL (backend/dal/…Repository): solo accesso ai dati. Nessuna logica di business. • model/: ORM SQLAlchemy 2.0 puri (Mapped e mapped_column), con CheckConstraint in **table_args** e create_type=False sui SAEnum. Nessuna logica, nessun Pydantic.
+
+• Frontend (frontend/src/services/…Service.ts e views/…): nessuna logica di business lato client.
+
+• Lo stato del mezzo si modifica solo tramite ServizioMobilità, rispettando le transizioni valide.
+
+• Usa sempre i termini del glossario (Corsa, Mezzo, Prenotazione, Zona, Segnalazione, ecc.): nomi di classi, metodi e variabili coerenti con il diagramma, non sinonimi.
+
+• Rispetta i requisiti non funzionali pertinenti: IIN-2 sicurezza e ruoli, IIN-3 WCAG, IIN-4 estendibilità, IIN-5 portabilità.
+
+TRACCIABILITÀ
+
+Inserisci un commento di tracciabilità nel formato // \[ID\] azione (oppure \# \[ID\] azione in Python) solo nei punti architetturalmente rilevanti, dove il legame al requisito non è ovvio. Non ovunque.
+
+TEST (Definition of Done)
+
+• Almeno un test per lo scenario base e uno per ogni scenario alternativo documentato. • Test indipendenti dall'ordine di esecuzione. Per il comportamento persistente usa il DB di test (vedi conftest.py), non mock.
+
+DOCUMENTAZIONE (parte della Definition of Done)
+
+Aggiorna docs/Sprintn3.md con eventuali rifiniture allo scenario o al diagramma di sequenza.
+
+OUTPUT ATTESO (in quest'ordine)
+
+1.  Analisi: tabella dei layer coinvolti, con i file da creare o modificare e la corrispondenza metodo–ID.
+
+2.  Discrepanze trovate (se presenti): annotale invece di assumere; per gli ID inesistenti nel backlog, segnalali in docs/CoerenzaDiagrammaClassi.md.
+
+3.  Codice per ciascun layer, nell'ordine DAL → BLL → Controller → Service frontend → View, nei file corretti.
+
+4.  Test.
+
+5.  Checklist di auto-verifica (rispondi Sì o No con prova):
+
+> • ID verificato in Sprintn3.md § 1.4
+>
+> • Flusso conforme al diagramma di sequenza
+>
+> • Nessuna classe o interfaccia inventata fuori dal diagramma delle classi
+>
+> • Responsabilità nel layer corretto (no logica in Controller o DAL)
+>
+> • Stato mezzo gestito solo da ServizioMobilità (se applicabile)
+>
+> • Termini del glossario rispettati
+>
+> • Test base e alternativi presenti e superati
+>
+> • Documentazione aggiornata
+
+COSA NON FARE
+
+• Non aggiungere funzionalità fuori dal Product Backlog.
+
+• Non inventare classi o schemi non presenti nel diagramma delle classi: in caso di dubbio, chiedi.
+
+• Non riusare un ID visto in un commento o nome di file senza riverificarlo nel backlog.
+
+• Non committare codice non testato.
+
 # Glossario
 
 ## Acronimi
 
 - **AP**: Amministrazione Pubblica
 
+- **API**: Application Programming Interface
+
+- **BLL**: Business Logic Layer
+
 - **CSV**: Comma-Separated Values
+
+- **DAL**: Data Access Layer
+
+- **DBMS**: Database Management System
 
 - **NFC**: Near Field Communication
 
@@ -4517,19 +4789,21 @@ Caso d'uso da analizzare: \[NOME CASO D’USO\]
 
 - **PDF**: Portable Document Format
 
-- **QR**: Quick Response (code)
-
 - **UT**: Utente
 
 - **HTTP**: HyperText Transfer Protocol
 
-- **API**: Application Programming Interface
+- **GPS**: Global Positioning System
 
-- **BLL**: Business Logic Layer
+- **GDPR**: General Data Protection Regulation
 
-- **DAL**: Data Access Layer
+- **WCAG**: Web Content Accessibility Guidelines
 
-- **DBMS**: Database Management System
+- **MVC**: Model-View-Controller
+
+- **CRUD**: Create, Read, Update, Delete
+
+- **JWT**: JSON Web Token
 
 ## Definizioni
 
@@ -4537,11 +4811,15 @@ Caso d'uso da analizzare: \[NOME CASO D’USO\]
 
 - **Addebito**: Importo economico calcolato al termine di una corsa o di un evento tariffabile e prelevato dal metodo di pagamento associato all'account utente.
 
-- **Amministrazione Pubblica**: Ente locale (comune o equivalente) che monitora l'andamento del servizio di sharing sul territorio e ne analizza i dati aggregati a supporto delle decisioni di pianificazione urbana. Nel sistema è un ruolo distinto da Utente e Operatore, privo di poteri di configurazione diretta della flotta o delle zone.
+- **Amministrazione Pubblica:** Ente locale (comune o equivalente) che monitora l'andamento del servizio di sharing sul territorio e ne analizza i dati aggregati a supporto delle decisioni di pianificazione urbana. Nel sistema è un ruolo distinto da Utente e Operatore, privo di poteri di configurazione diretta della flotta o delle zone. Interagisce con il sistema tramite desktop.
 
-- **Autonomia residua**: Valore numerico indicante la carica rimasta nella batteria di un mezzo elettrico (e-bike, e-scooter). Espresso in percentuale (%) o in chilometri stimati; l'unità di misura adottata è configurabile dalla piattaforma.
+- **Autonomia residua**: Valore numerico indicante la carica rimasta nella batteria di un mezzo elettrico (e-bike, e-scooter). Espresso in percentuale (%) o in chilometri stimati;
 
 - **Corsa**: Sessione di utilizzo attivo di un mezzo sharing, che inizia con lo sblocco del veicolo e termina con la chiusura della sessione da parte dell'utente. Al termine viene calcolato e addebitato il costo. Sinonimo: Sessione.
+
+- **Definisce Zona**: Il perimetro di una zona è valido solo se chiuso su almeno tre vertici distinti: lo strumento di disegno sulla mappa non permette di confermare un poligono aperto o con meno di tre vertici. Una zona non operativa (Vietata, Limitata, di Parcheggio) è inoltre valida solo se interamente contenuta in una Zona Operativa esistente; in caso contrario il sistema rifiuta la creazione e notifica l'operatore.
+
+- **Dismissione (mezzo)**: Operazione con cui l'operatore rimuove definitivamente un mezzo dalla flotta, rendendolo non più disponibile per prenotazioni o corse. Non è consentita se il mezzo è impegnato in una missione attiva.
 
 - **Fine corsa**: Evento che conclude una corsa; l'esito (valido, penalizzato, rifiutato) dipende dalla posizione del mezzo rispetto a Zona Operativa e Zona di parcheggio.
 
@@ -4549,19 +4827,27 @@ Caso d'uso da analizzare: \[NOME CASO D’USO\]
 
 - **Flotta**: Insieme di tutti i mezzi gestiti da un operatore nell'ambito del servizio di sharing su un determinato territorio.
 
-- **Mappa Operatore**: Visualizzazione cartografica accessibile agli operatori del servizio, che mostra negli ultimi x minuti la posizione e lo stato di tutti i mezzi della flotta, inclusi quelli nascosti alla Mappa Utente. Distinta dalla Mappa Utente per contenuto e permessi di accesso.
+- **Mappa Amministrazione Pubblica**: Visualizzazione cartografica accessibile all'Amministrazione Pubblica, che mostra l'area urbana di competenza con le zone definite (operativa, vietata, limitata, parcheggio) e layer statistici sovrapponibili — heatmap della distribuzione dei mezzi e intensità d'uso per zona. A supporto di decisioni di pianificazione e monitoraggio, non della gestione operativa della flotta.
+
+- **Mappa Operatore**: Visualizzazione cartografica accessibile agli operatori del servizio, che mostra ogni 2 secondi la posizione e lo stato di tutti i mezzi della flotta, inclusi quelli nascosti alla Mappa Utente. Distinta dalla Mappa Utente per contenuto e permessi di accesso.
 
 - **Mappa Utente**: Visualizzazione cartografica accessibile agli utenti, che mostra i mezzi disponibili con il relativo stato, le varie zone: vietata, limitata, parcheggio e confine operativo. Non mostra i mezzi rimossi dall'operatore.
 
 - **Metodo di pagamento**: Strumento associato all'account utente (carta, wallet, ecc.) utilizzato per regolare gli addebiti.
 
-- **Mezzo**: Qualsiasi veicolo messo a disposizione degli utenti nell'ambito del servizio: bicicletta tradizionale, bicicletta a pedalata assistita (e-bike), monopattino elettrico (e-scooter) e macchina elettrica.
+- **Mezzo**: Qualsiasi veicolo messo a disposizione degli utenti nell'ambito del servizio: bicicletta a pedalata assistita (e-bike), monopattino elettrico (e-scooter) e macchina elettrica.
 
 - **Mezzo disponibile:** Mezzo il cui stato (definito nel glossario) è Disponibile, ossia prenotabile da un utente. Gli unici visualizzabili nella Mappa Utente.
 
-- **Operatore del Servizio: Soggetto (azienda privata o consorzio)** responsabile della gestione operativa della flotta e della configurazione della piattaforma: definisce tariffe, promozioni, zone operative, zone soggette a restrizioni e zone di parcheggio parametri di prenotazione e pausa corsa.
+- **Offerta:** Politica commerciale definita e pubblicata dall'Operatore allo scopo di incentivare l'utilizzo del servizio. È caratterizzata da una denominazione, una data di scadenza, uno stato (attiva, scaduta o in bozza) e da un insieme di condizioni di applicazione. Si specializza nelle seguenti tipologie:
 
-- Parametri di sistema: Insieme dei valori numerici configurabili che regolano il funzionamento operativo della piattaforma. Comprendono:
+  - **Promozione**: riduce la tariffa standard o introduce condizioni agevolate (ad esempio parcheggi corretti o uno sconto percentuale).
+
+  - **Abbonamento**: contratto a tempo determinato (mensile o annuale) che garantisce all'utente condizioni tariffarie agevolate o un numero di corse incluse.
+
+- **Operatore del Servizio:** Soggetto (azienda privata o consorzio) responsabile della gestione operativa della flotta e della configurazione della piattaforma: definisce tariffe, promozioni, zone operative, zone soggette a restrizioni e zone di parcheggio parametri di prenotazione e pausa corsa. Interagisce con il sistema tramite desktop.
+
+- **Parametri di sistema**: Insieme dei valori numerici configurabili che regolano il funzionamento operativo della piattaforma. Comprendono:
 
   - la durata massima di una prenotazione,
 
@@ -4571,25 +4857,19 @@ Caso d'uso da analizzare: \[NOME CASO D’USO\]
 
   - l'importo di addebito al minuto applicato durante la pausa corsa al termine del periodo di grazia.
 
-  - Il raggio entro il quale è possibile sbloccare uno o più mezzo
-
-  - Il raggio entro il quale è possibile prenotare più mezzi (il punto di riferimento è il primo mezzo selezionato)
-
-> Tali parametri sono modificabili dall'Operatore tramite l'apposita sezione di configurazione) e si applicano a tutte le operazioni successive alla modifica. *L'insieme dei parametri è aperto a future estensioni: nuovi parametri numerici operativi potranno essere aggiunti senza alterare la struttura del caso d'uso, in quanto condividono la stessa logica di configurazione, validazione e salvataggio.*
+> *L'insieme dei parametri è aperto a future estensioni: nuovi parametri numerici operativi potranno essere aggiunti senza alterare la struttura del caso d'uso, in quanto condividono la stessa logica di configurazione, validazione e salvataggio.*
 
 - **Pausa corsa**: Stato intermedio di una sessione in cui l'utente blocca temporaneamente il mezzo senza terminare la corsa.
 
 - **Periodo di grazia**: Durata massima configurabile dall'operatore entro cui una pausa corsa non comporta addebiti aggiuntivi o la perdita del mezzo. Se impostato a zero, la funzionalità di pausa gratuita è disabilitata.
 
-- **Prenotazione**: Riserva temporanea di un mezzo specifico effettuata dall'utente prima di raggiungerne fisicamente la posizione. Ha una durata massima configurabile dall'operatore; alla scadenza il mezzo viene automaticamente rilasciato e reso disponibile ad altri utenti.
+- **Prenotazione**: Operazione con cui un Utente riserva temporaneamente uno o più Mezzi disponibili per un utilizzo futuro. Il sistema verifica che i mezzi selezionati siano effettivamente disponibili e che il numero non superi il limite massimo di mezzi contemporanei per utente, definito nei Parametri di Sistema. In caso di **prenotazione di gruppo**, tutti i mezzi successivi al primo devono trovarsi entro un raggio limite dal primo selezionato (vincolo di prossimità del gruppo). Superati i controlli, lo stato di ciascun mezzo passa da Disponibile a Prenotato e viene creato un record di Prenotazione con una scadenza calcolata sulla base della durata massima configurata nei Parametri di Sistema. Se la prenotazione non viene convertita in Sblocco entro tale scadenza, viene automaticamente marcata come scaduta e il mezzo torna Disponibile. L'utente può in qualsiasi momento annullare una prenotazione attiva, riportando il mezzo a Disponibile.
 
 - **Prenotazione di gruppo**: Prenotazione effettuata da un singolo utente per un numero di mezzi fino al massimo configurato dall'operatore (può anche essere uno).
 
-- **Offerta:** Politica commerciale definita e pubblicata dall'Operatore allo scopo di incentivare l'utilizzo del servizio. È caratterizzata da una denominazione, una data di scadenza, uno stato (attiva, scaduta o in bozza) e da un insieme di condizioni di applicazione. Si specializza nelle seguenti tipologie:
+- **ProviderMappa** — Attore secondario esterno (a livello di caso d'uso) che fornisce dati geografici e di geolocalizzazione al sistema (posizione utente, dati mappa, verifica zona). Nel diagramma delle classi è rappresentato concretamente dalla classe GoogleMaps, esposta tramite GoogleMapsAdapter per permettere la sostituzione del provider esterno senza modifiche strutturali al sistema.
 
-  - **Promozione**: riduce la tariffa standard o introduce condizioni agevolate (ad esempio le prime N corse gratuite o uno sconto percentuale).
-
-  - **Abbonamento**: contratto a tempo determinato (mensile o annuale) che garantisce all'utente condizioni tariffarie agevolate o un numero di corse incluse.
+- **Posizione di default**: Punto geografico su cui viene centrata la Mappa Utente quando la geolocalizzazione non è disponibile o l'utente nega il permesso di accesso alla posizione.
 
 - **Recensione**: Valutazione espressa da un Utente a seguito di almeno una corsa effettuata, accessibile dalla voce "Lascia Recensione" nel menu principale. È composta da un voto numerico (da 1 a 5 stelle) e da un commento testuale facoltativo. Ha lo scopo di raccogliere feedback sull'esperienza d'uso del servizio. Un Utente può lasciare più recensioni nel tempo; non è vincolata a una singola corsa specifica.
 
@@ -4597,23 +4877,23 @@ Caso d'uso da analizzare: \[NOME CASO D’USO\]
 
 - **Redistribuzione**: Operazione logistica di spostamento fisico dei mezzi da aree con eccesso di offerta verso aree con carenza, eseguita dal personale operativo sulla base dei dati della Mappa Operatore.
 
-- **Report aggregato**: Documento che consolida statistiche anonime sull'utilizzo del servizio (corse, km, fasce orarie, zone) su un intervallo temporale configurabile. Destinato all'operatore e all'amministrazione pubblica.
+- **Report aggregato**: Documento che consolida statistiche anonime sull'utilizzo del servizio (corse, km, fasce orarie, zone) su un intervallo temporale configurabile. Destinato all'amministrazione pubblica.
 
 - **Riepilogo corsa**: Sintesi presentata all'utente al termine di una corsa, che riporta i dati principali della sessione: durata complessiva, distanza percorsa, costo finale calcolato sulla base della tariffa applicata ed eventuali sconti o bonus. Disponibile anche nello storico corse del profilo utente.
 
-- **Sblocco**: Operazione che disabilita il blocco fisico/elettronico del mezzo, consentendo all'utente di iniziare la corsa. Il metodo di sblocco (QR code, Bluetooth, NFC) è una scelta implementativa.
+- **Sblocco**: Operazione con cui un Utente attiva uno o più Mezzi prenotati (o disponibili) per iniziare una Corsa. Il sistema verifica che l'utente si trovi entro un raggio limite dal mezzo: se la posizione dell'utente supera questa soglia, lo sblocco viene rifiutato. Superato il controllo di prossimità, il sistema verifica la disponibilità di ciascun mezzo e la sua posizione rispetto alle zone operative, crea una Corsa per ogni mezzo sbloccato e ne aggiorna lo stato da Prenotato (o Disponibile) a In uso. In caso di sblocco multiplo, tutte le corse generate condividono lo stesso gruppoCorsaId che le raggruppa come sessione unica. Lo sblocco è il passaggio che trasforma una prenotazione (o una selezione diretta) in un utilizzo effettivo del mezzo.
 
-- **Segnalazione**: Comunicazione inviata dall'utente all'operatore per notificare anomalie su un mezzo (danno fisico, guasto, posizione anomala). Visibile nella Dashboard operatore.
+- **Segnalazione**: Comunicazione inviata dall'utente all'operatore per notificare anomalie su un mezzo (danno fisico, guasto, posizione anomala). Visibile nella Dashboard operatore. L’operatore aggiorna lo stato in “presa in carica” e “risolta” e all’utente viene mostrato tale cambiamento.
 
 - **Sessione**: Sinonimo di Corsa. Periodo di utilizzo attivo di un mezzo, tracciato dal sistema con marcatura temporale di inizio e fine.
 
-- **Stato (mezzo)**: Condizione operativa corrente di un mezzo. Valori possibili: Disponibile (prenotabile), Prenotato (riservato a un utente), In uso (corsa attiva), In pausa (pausa corsa attiva), In manutenzione (rimosso dalla Mappa Utente), Fuori servizio (bloccato o irrecuperabile).
+- **Sospensione account Utente**: Stato dell'account che ne disabilita l'accesso alle funzionalità della piattaforma, impostato dall'Operatore. Il tempo di sospensione è configurato dall’operatore: alla scadenza, l’account viene riattivato al primo accesso. Motivi tipici: danneggiamento ripetuto dei mezzi, uso fraudolento del servizio, violazioni ripetute delle Zone.
+
+- **Stato (mezzo)**: Condizione operativa corrente di un mezzo. Valori possibili: Disponibile (prenotabile), Prenotato (riservato a un utente), In uso (corsa attiva), In pausa (pausa corsa attiva), In manutenzione (rimosso dalla Mappa Utente), Fuori servizio (bloccato o irrecuperabile), Dismesso.
 
 - **Storico corsa**: L’insieme delle corse effettuate da un Utente.
 
-- **Storico Modifiche**: Registro cronologico delle modifiche apportate dall'Operatore alle configurazioni del servizio, che consente di ricostruirne l'evoluzione nel tempo. Comprende le variazioni a: parametri numerici di sistema, regole di fine corsa, zone operative, tariffe e offerte.
-
-  > *L'insieme delle configurazioni tracciate è aperto a future estensioni: il caso d'uso non cambia, cambia solo a livello implementativo quando una nuova categoria di configurazione viene aggiunta al registro.*
+- **Storico Modifiche:** Registro cronologico delle modifiche apportate dall'Operatore alle configurazioni del servizio, che consente di ricostruirne l'evoluzione nel tempo. Comprende le variazioni a: parametri numerici di sistema, regole di fine corsa, zone operative, tariffe e offerte. L'insieme delle configurazioni tracciate è aperto a future estensioni: il caso d'uso non cambia, cambia solo a livello implementativo quando una nuova categoria di configurazione viene aggiunta al registro.
 
 - **Suggerimenti Intelligenti:** Insieme di indicazioni personalizzate prodotte da un servizio esterno di intelligenza artificiale (ServizioAI) a partire dai dati di utilizzo dell'Utente: storico corse, abitudini orarie, zone frequentate, prenotazioni effettuate, abbonamenti attivi e pagamenti. Il ServizioAI valuta autonomamente se i dati disponibili sono sufficienti a produrre indicazioni significative; in caso contrario non genera alcun suggerimento. I suggerimenti possono riguardare l'orario ottimale di prenotazione, la convenienza di un abbonamento rispetto alla tariffa ordinaria, o l'esistenza di promozioni compatibili con le abitudini dell'Utente. La generazione dei suggerimenti non modifica alcuno stato del sistema.
 
@@ -4621,11 +4901,11 @@ Caso d'uso da analizzare: \[NOME CASO D’USO\]
 
 - **Tariffario**: Elenco pubblicato dall'operatore delle tariffe applicate per ciascuna tipologia di mezzo e modalità di utilizzo. Distinto da Tariffa (struttura applicata alla singola corsa).
 
-- **Utente**: Persona fisica registrata alla piattaforma che utilizza i mezzi di sharing per spostarsi nel contesto urbano. Interagisce con il sistema tramite dispositivo mobile.
+- **Utente:** Persona fisica registrata alla piattaforma che utilizza i mezzi di sharing per spostarsi nel contesto urbano. Interagisce con il sistema tramite dispositivo mobile.
 
 - **Zona**:
 
-  - **Zona Operativa**: Perimetro geografico definito dall'operatore entro cui i mezzi della flotta possono circolare e fermarsi. Un mezzo che esce dalla zona operativa può attivare allarmi automatici o bloccarsi. La Zona Limitata e la Zona Vietata hanno sempre la precedenza sulla Zona Operativa.
+  - **Zona Operativa**: Perimetro geografico definito dall'operatore entro cui i mezzi della flotta possono circolare e fermarsi. Un mezzo che esce dalla zona operativa riceve una notifica. La Zona Limitata e la Zona Vietata hanno sempre la precedenza sulla Zona Operativa.
 
   - **Zona di parcheggio**: Area geografica designata esclusivamente dall'operatore in cui è consigliato — ma non imposto — parcheggiare il mezzo al termine della corsa. Visibile sulla Mappa Utente. La definizione della zona riguarda esclusivamente il suo perimetro geografico; gli eventuali incentivi associati al parcheggio corretto sono configurati separatamente tramite le Regole Fine Corsa.
 
