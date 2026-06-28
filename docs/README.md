@@ -164,13 +164,28 @@ L'applicazione è deployata e accessibile senza avviare nulla in locale:
 
 | Servizio | URL |
 |---|---|
-| **Frontend** | `https://smart-mobility-git-main-francesco-giannulo-s-projects.vercel.app` |
+| **Frontend** | https://smart-mobility-git-main-francesco-giannulo-s-projects.vercel.app |
 | **Backend API** | `https://smartmobility-backend.onrender.com` |
 | **API Docs** | `https://smartmobility-backend.onrender.com/docs` |
 
 > Il piano free di Render ha un cold start di ~60 secondi dopo periodi di inattività. Il frontend su Vercel è sempre istantaneo.
 
 Ogni push su `main` aggiorna automaticamente sia frontend che backend. Per la guida completa al deploy: [Deploy.md](Deploy.md).
+
+### Come usarlo
+
+1. Apri [smart-mobility-git-main-francesco-giannulo-s-projects.vercel.app](https://smart-mobility-git-main-francesco-giannulo-s-projects.vercel.app)
+2. Registrati con email e password, oppure accedi con uno dei tre account predefiniti:
+
+| Ruolo | Email | Password |
+|---|---|---|
+| Utente (demo) | `demo@smartmobility.it` | `DemoEsame2026!` |
+| Operatore | `operatore@smartmobility.test` | `Operatore123!` |
+| Amministrazione Pubblica | `admin@smartmobility.test` | `Admin123!` |
+
+3. Da **Utente**: esplora la mappa, prenota un mezzo, avvia una corsa e usa il pulsante **"Avvia demo movimento"** per simulare lo spostamento sulla mappa.
+4. Da **Operatore**: monitora la flotta in tempo reale sulla mappa, gestisci mezzi, tariffe, zone e segnalazioni.
+5. Da **Amministrazione Pubblica**: visualizza la dashboard con heatmap degli utilizzi ed esporta report CSV.
 
 ---
 
