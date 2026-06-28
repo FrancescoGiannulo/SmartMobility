@@ -1,5 +1,7 @@
 # Smart Mobility
 
+[![GitHub](https://img.shields.io/badge/GitHub-SmartMobility-blue?logo=github)](https://github.com/FrancescoGiannulo/SmartMobility)
+
 Sistema software per il Comune di Zootropolis che integra bike, car e e-scooter sharing in un'unica piattaforma.
 
 ---
