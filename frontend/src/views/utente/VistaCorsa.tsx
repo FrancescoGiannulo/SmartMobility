@@ -206,7 +206,7 @@ export default function VistaCorsa() {
       // [IF-UT.20] Per corse di gruppo ogni mezzo ha il proprio pagamento; somma i totali
       let totaleImporto = 0
       for (const corsa of da) {
-        const res = await effettuaPagamento(corsa.corsa_id, corsa.mezzo?.tipo ?? '', elapsed / 60, 0, offertaId, penaleRef.current)
+        const res = await effettuaPagamento(corsa.corsa_id, corsa.mezzo?.tipo ?? '', 0, offertaId, penaleRef.current)
         totaleImporto += res.importo
       }
       setImportoPagato(totaleImporto)

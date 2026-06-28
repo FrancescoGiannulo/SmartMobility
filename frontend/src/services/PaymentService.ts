@@ -62,7 +62,6 @@ export const rimuoviMetodo = async (id: string): Promise<void> => {
 export const effettuaPagamento = async (
   corsa_id: string,
   tipo_mezzo: string,
-  durata_min: number,
   distanza_km: number,
   offerta_id?: string,
   penale_fuori_zona?: boolean,
@@ -70,7 +69,6 @@ export const effettuaPagamento = async (
   const r = await api.post<RispostaPagamento>('/utente/pagamenti/', {
     corsa_id,
     tipo_mezzo,
-    durata_min,
     distanza_km,
     offerta_id: offerta_id ?? null,
     penale_fuori_zona: penale_fuori_zona ?? false,

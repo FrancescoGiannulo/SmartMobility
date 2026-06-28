@@ -172,7 +172,6 @@ class ServizioPricing:
         corsa_id: uuid.UUID,
         utente_id: uuid.UUID,
         tipo_mezzo: str,
-        durata_min: float,
         distanza_km: float,
         offerta_id: uuid.UUID | None = None,
         penale_fuori_zona: bool = False,
@@ -186,6 +185,15 @@ class ServizioPricing:
             parametri = ParametriSistemaRepository().get(s)
             grazia_sec = int(parametri.durata_periodo_grazia_min) * 60
             addebito_per_min = Decimal(str(parametri.addebito_pausa_min))
+
+            # [IF-UT.20] La durata addebitata viene calcolata dai timestamp server
+            # (inizio_at/fine_at), non da un timer lato client: un timer client
+            # desincronizzato non deve poter azzerare l'importo di una corsa.
+            row_durata = s.execute(
+                text("SELECT EXTRACT(EPOCH FROM (fine_at - inizio_at)) / 60 AS durata_min FROM corse WHERE id = :id"),
+                {"id": str(corsa_id)},
+            ).fetchone()
+        durata_min = float(row_durata.durata_min) if row_durata and row_durata.durata_min is not None else 0.0
 
         # Tempo pausa oltre il periodo di grazia → addebito_pausa_min al minuto
         pausa_oltre_grazia_sec = max(0, pausa_accumulata_sec - grazia_sec)

@@ -37,7 +37,6 @@ class AggiungiMetodoRequest(BaseModel):
 class EffettuaPagamentoRequest(BaseModel):
     corsa_id: str
     tipo_mezzo: str
-    durata_min: float
     distanza_km: float
     offerta_id: str | None = None
     penale_fuori_zona: bool = False  # [IF-OP.06 / UT-04] corsa transitata in zona vietata/fuori operativa

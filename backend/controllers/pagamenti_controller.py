@@ -77,7 +77,6 @@ def effettua_pagamento(
             corsa_id=UUID(body.corsa_id),
             utente_id=UUID(str(utente["id"])),
             tipo_mezzo=body.tipo_mezzo,
-            durata_min=body.durata_min,
             distanza_km=body.distanza_km,
             offerta_id=UUID(body.offerta_id) if body.offerta_id else None,
             penale_fuori_zona=body.penale_fuori_zona,

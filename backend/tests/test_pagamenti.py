@@ -164,7 +164,7 @@ def test_effettua_pagamento_ok():
          patch("bll.servizio_pricing.ParametriSistemaRepository", mock_pr):
         svc = _servizio(repo=repo)
         svc.calcola_importo = MagicMock(return_value=Decimal("5.00"))
-        result = svc.effettua_pagamento(corsa_id, uid, "bicicletta", 10.0, 2.0)
+        result = svc.effettua_pagamento(corsa_id, uid, "bicicletta", 2.0)
 
     assert result["stato"] == StatoPagamento.completato
     assert "transazione_id" in result
@@ -180,7 +180,7 @@ def test_effettua_pagamento_nessun_predefinito():
          patch("bll.servizio_pricing.ParametriSistemaRepository", mock_pr):
         svc = _servizio(repo=repo)
         with pytest.raises(NessunMetodoPredefinito):
-            svc.effettua_pagamento(uuid.uuid4(), uuid.uuid4(), "bicicletta", 10.0, 2.0)
+            svc.effettua_pagamento(uuid.uuid4(), uuid.uuid4(), "bicicletta", 2.0)
     repo.crea_pagamento.assert_not_called()
 
 
@@ -201,7 +201,7 @@ def test_effettua_pagamento_rifiutato():
         svc = ServizioPricing(repo=repo, provider=provider)
         svc.calcola_importo = MagicMock(return_value=Decimal("5.00"))
         with pytest.raises(PagamentoRifiutato):
-            svc.effettua_pagamento(corsa_id, uid, "bicicletta", 10.0, 2.0)
+            svc.effettua_pagamento(corsa_id, uid, "bicicletta", 2.0)
 
     # il pagamento viene comunque registrato come rifiutato
     repo.crea_pagamento.assert_called_once()
