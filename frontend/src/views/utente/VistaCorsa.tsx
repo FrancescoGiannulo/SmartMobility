@@ -137,6 +137,8 @@ export default function VistaCorsa() {
   const terminatiRef = useRef<Set<string>>(new Set())
   const routesLib = useMapsLibrary('routes')
   const [kmDemo, setKmDemo] = useState(0)
+  // Mirror in ref: handlePaga è una useCallback e leggerebbe un kmDemo stale dalla closure.
+  const kmDemoRef = useRef(0)
   const demoAttivo = statoZonaDemo !== null
   const emailDemo = import.meta.env.VITE_DEMO_EMAIL as string | undefined
   const isAccountDemo = !!emailDemo && utenteCorrente()?.profilo.email === emailDemo
@@ -206,7 +208,7 @@ export default function VistaCorsa() {
       // [IF-UT.20] Per corse di gruppo ogni mezzo ha il proprio pagamento; somma i totali
       let totaleImporto = 0
       for (const corsa of da) {
-        const res = await effettuaPagamento(corsa.corsa_id, corsa.mezzo?.tipo ?? '', 0, offertaId, penaleRef.current)
+        const res = await effettuaPagamento(corsa.corsa_id, corsa.mezzo?.tipo ?? '', kmDemoRef.current, offertaId, penaleRef.current)
         totaleImporto += res.importo
       }
       setImportoPagato(totaleImporto)
@@ -227,7 +229,7 @@ export default function VistaCorsa() {
             fine_at: new Date().toISOString(),
             costo_totale: totaleImporto,
             stato: 'terminata',
-            distanza_km: 0,
+            distanza_km: kmDemoRef.current,
             gruppo_corsa_id: da[0].gruppo_corsa_id ?? null,
             importo_pieno: null,
             tipo_mezzo: da[0].mezzo?.tipo ?? null,
@@ -405,6 +407,7 @@ export default function VistaCorsa() {
     terminatiRef.current = new Set()
     penaleRef.current = false
     setKmDemo(0)
+    kmDemoRef.current = 0
     let d = 0
     demoTimerRef.current = window.setInterval(() => {
       // Pausa: i mezzi si fermano finché la corsa è in pausa (come nell'app reale)
@@ -428,7 +431,8 @@ export default function VistaCorsa() {
       setCorse(prev => prev.map(c => c.corsa_id in nuoveBatt
         ? { ...c, mezzo: { ...c.mezzo, batteria: nuoveBatt[c.corsa_id] } } : c))
       setStatoZonaDemo(aggregato)
-      setKmDemo(Math.min(totale, d) / 1000)
+      kmDemoRef.current = Math.min(totale, d) / 1000
+      setKmDemo(kmDemoRef.current)
       d += passoM
       // Fine quando nessun mezzo (non terminato) è più in movimento: tutti arrivati o terminati.
       if (!qualcunoSiMuove && demoTimerRef.current !== null) {

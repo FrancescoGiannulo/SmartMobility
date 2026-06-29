@@ -171,6 +171,27 @@ def test_effettua_pagamento_ok():
     repo.crea_pagamento.assert_called_once()
 
 
+# [IF-UT.07] La distanza percorsa passata a effettua_pagamento deve essere
+# persistita sulla corsa, altrimenti riepilogo/storico/report la mostrano a 0.
+def test_effettua_pagamento_persiste_distanza():
+    repo = MagicMock()
+    uid = uuid.uuid4()
+    corsa_id = uuid.uuid4()
+    metodo = _make_metodo(utente_id=uid, predefinito=True, token_esterno="carta-tok-1")
+    pagamento = _make_pagamento(corsa_id=corsa_id, utente_id=uid, stato=StatoPagamento.completato)
+    repo.trova_predefinito.return_value = metodo
+    repo.crea_pagamento.return_value = pagamento
+
+    mock_cr, mock_pr = _mock_pausa_e_parametri()
+    with patch("bll.servizio_pricing.CorsaRepository", mock_cr), \
+         patch("bll.servizio_pricing.ParametriSistemaRepository", mock_pr):
+        svc = _servizio(repo=repo)
+        svc.calcola_importo = MagicMock(return_value=Decimal("5.00"))
+        svc.effettua_pagamento(corsa_id, uid, "bicicletta", 3.7)
+
+    mock_cr.return_value.aggiorna_distanza.assert_called_once_with(corsa_id, 3.7)
+
+
 # CS-12 — alternativo: nessun metodo predefinito
 def test_effettua_pagamento_nessun_predefinito():
     repo = MagicMock()
