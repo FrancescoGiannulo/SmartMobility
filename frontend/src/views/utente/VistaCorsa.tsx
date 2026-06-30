@@ -137,6 +137,8 @@ export default function VistaCorsa() {
   const terminatiRef = useRef<Set<string>>(new Set())
   const routesLib = useMapsLibrary('routes')
   const [kmDemo, setKmDemo] = useState(0)
+  // Mirror in ref: handlePaga è una useCallback e leggerebbe un kmDemo stale dalla closure.
+  const kmDemoRef = useRef(0)
   const demoAttivo = statoZonaDemo !== null
   const emailDemo = import.meta.env.VITE_DEMO_EMAIL as string | undefined
   const isAccountDemo = !!emailDemo && utenteCorrente()?.profilo.email === emailDemo
@@ -206,7 +208,7 @@ export default function VistaCorsa() {
       // [IF-UT.20] Per corse di gruppo ogni mezzo ha il proprio pagamento; somma i totali
       let totaleImporto = 0
       for (const corsa of da) {
-        const res = await effettuaPagamento(corsa.corsa_id, corsa.mezzo?.tipo ?? '', 0, offertaId, penaleRef.current)
+        const res = await effettuaPagamento(corsa.corsa_id, corsa.mezzo?.tipo ?? '', kmDemoRef.current, offertaId, penaleRef.current)
         totaleImporto += res.importo
       }
       setImportoPagato(totaleImporto)
@@ -227,7 +229,7 @@ export default function VistaCorsa() {
             fine_at: new Date().toISOString(),
             costo_totale: totaleImporto,
             stato: 'terminata',
-            distanza_km: 0,
+            distanza_km: kmDemoRef.current,
             gruppo_corsa_id: da[0].gruppo_corsa_id ?? null,
             importo_pieno: null,
             tipo_mezzo: da[0].mezzo?.tipo ?? null,
@@ -399,12 +401,17 @@ export default function VistaCorsa() {
     const passoM = Math.max(8, (totale / DURATA_TARGET_SEC) * TICK_SEC)
     const ordine: Record<TipoZonaCorrente, number> = { vietata: 0, fuori: 1, limitata: 2, operativa: 3 }
     const startBatt = corse.map(c => c.mezzo.batteria ?? 100)
-    const CONSUMO_DEMO_PER_KM = 15  // calo batteria ben visibile durante la demo
+    // Demo: una "tacca" di batteria vale 25% (4 barre). Il monopattino perde una tacca
+    // ogni 6 km; gli altri mezzi consumano in proporzione alla loro autonomia.
+    const TACCA_PCT = 25
+    const KM_PER_TACCA: Record<string, number> = { monopattino: 6, bicicletta: 12, automobile: 60 }
+    const consumoPerKm = (tipo: string) => TACCA_PCT / (KM_PER_TACCA[tipo] ?? 6)
 
     const avvioCorse = corse
     terminatiRef.current = new Set()
     penaleRef.current = false
     setKmDemo(0)
+    kmDemoRef.current = 0
     let d = 0
     demoTimerRef.current = window.setInterval(() => {
       // Pausa: i mezzi si fermano finché la corsa è in pausa (come nell'app reale)
@@ -420,7 +427,7 @@ export default function VistaCorsa() {
         const z = zonaCorrente(p.lat, p.lng, zoneTutte)
         if (z.tipo === 'vietata' || z.tipo === 'fuori') penaleRef.current = true
         if (ordine[z.tipo] < ordine[aggregato.tipo]) aggregato = z
-        const batt = Math.max(5, Math.round(startBatt[i] - CONSUMO_DEMO_PER_KM * (dm / 1000)))
+        const batt = Math.max(5, Math.round(startBatt[i] - consumoPerKm(c.mezzo.tipo) * (dm / 1000)))
         nuoveBatt[c.corsa_id] = batt
         aggiornaPosizioneDemo(c.corsa_id, p.lat, p.lng, batt).catch(() => {})
       })
@@ -428,7 +435,8 @@ export default function VistaCorsa() {
       setCorse(prev => prev.map(c => c.corsa_id in nuoveBatt
         ? { ...c, mezzo: { ...c.mezzo, batteria: nuoveBatt[c.corsa_id] } } : c))
       setStatoZonaDemo(aggregato)
-      setKmDemo(Math.min(totale, d) / 1000)
+      kmDemoRef.current = Math.min(totale, d) / 1000
+      setKmDemo(kmDemoRef.current)
       d += passoM
       // Fine quando nessun mezzo (non terminato) è più in movimento: tutti arrivati o terminati.
       if (!qualcunoSiMuove && demoTimerRef.current !== null) {

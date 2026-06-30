@@ -50,6 +50,14 @@ class CorsaRepository:
             s.execute(sql, {"id": str(corsa_id), "penale": penale_applicata, "avviso": avviso})
             s.commit()
 
+    # [IF-UT.07] Persiste la distanza percorsa (distanzaPercorsa nel Diagramma Classi)
+    # calcolata a fine corsa, così che riepilogo, storico e report non la mostrino a 0.
+    def aggiorna_distanza(self, corsa_id: UUID, distanza_km: float) -> None:
+        sql = text("UPDATE corse SET distanza_km = :distanza WHERE id = :id")
+        with self._sessione() as s:
+            s.execute(sql, {"distanza": distanza_km, "id": str(corsa_id)})
+            s.commit()
+
     # [IF-UT.15] Scrive Recensione — verifica precondizione "almeno una corsa conclusa"
     def ha_corsa_conclusa(self, utente_id: UUID) -> bool:
         sql = text("""

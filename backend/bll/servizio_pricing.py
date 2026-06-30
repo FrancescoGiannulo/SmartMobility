@@ -182,6 +182,9 @@ class ServizioPricing:
         with Session(engine) as s:
             corsa_repo = CorsaRepository(s)
             pausa_accumulata_sec = corsa_repo.get_pausa_accumulata_sec(corsa_id)
+            # [IF-UT.07] Persiste la distanza percorsa sulla corsa: senza questo,
+            # riepilogo, storico e report AP la leggono NULL e la mostrano a 0.
+            corsa_repo.aggiorna_distanza(corsa_id, distanza_km)
             parametri = ParametriSistemaRepository().get(s)
             grazia_sec = int(parametri.durata_periodo_grazia_min) * 60
             addebito_per_min = Decimal(str(parametri.addebito_pausa_min))
